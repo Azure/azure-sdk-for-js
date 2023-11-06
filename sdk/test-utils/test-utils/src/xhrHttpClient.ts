@@ -10,7 +10,6 @@ import {
   HttpHeaders,
   RestError,
   createHttpHeaders,
-  isMultipartRequestBody,
 } from "@azure/core-rest-pipeline";
 
 function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
@@ -83,9 +82,6 @@ class XhrHttpClient implements HttpClient {
     const body = typeof request.body === "function" ? request.body() : request.body;
     if (isNodeReadableStream(body) || isReadableStream(body)) {
       throw new Error("Streams are not supported by xhrHttpClient.");
-    }
-    if (isMultipartRequestBody(body)) {
-      throw new Error("Multipart request body must be handled by multipartPolicy");
     }
 
     xhr.send(body === undefined ? null : body);

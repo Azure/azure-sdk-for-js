@@ -3,15 +3,12 @@
 
 export {
   Agent,
-  BlobLike,
   BodyPart,
-  FileLike,
   FormDataMap,
   FormDataValue,
   HttpClient,
   HttpHeaders,
   HttpMethods,
-  InMemoryBlob,
   KeyObject,
   MultipartRequestBody,
   PipelineRequest,
@@ -23,7 +20,6 @@ export {
   RawHttpHeadersInput,
   RequestBodyType,
   SendRequest,
-  StreamableBlob,
   TlsSettings,
   TransferProgressEvent,
 } from "./interfaces";
@@ -100,3 +96,8 @@ export {
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy";
+export {
+  createFile,
+  CreateFileFromStreamOptions,
+  CreateFileFromUint8ArrayOptions,
+} from "./util/file";

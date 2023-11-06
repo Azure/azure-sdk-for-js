@@ -1,33 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobLike } from "../interfaces";
-import { isInMemoryBlob, isStreamableBlob, isWebReadableStream } from "./typeGuards";
-
-function uint8ArrayToStream(data: Uint8Array): ReadableStream {
-  return new ReadableStream({
-    start(controller) {
-      controller.enqueue(data);
-      controller.close();
-    },
-  });
-}
+import { isBlob, isWebReadableStream } from "./typeGuards";
 
 export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | BlobLike
-): ReadableStream | NodeJS.ReadableStream {
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+): ReadableStream<Uint8Array> | NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
-    return uint8ArrayToStream(source);
-  } else if (isStreamableBlob(source)) {
-    return typeof source.stream === "function" ? source.stream() : source.stream;
-  } else if (isInMemoryBlob(source)) {
-    return uint8ArrayToStream(source.content);
+    return new Blob([source]).stream();
   } else if (isWebReadableStream(source)) {
     return source;
+  } else if (isBlob(source)) {
+    return source.stream();
   } else {
     throw new Error(
       "Unsupported type. Only ReadableStream, Uint8Array and Blob are supported in browser"
     );
+  }
+}
+
+export function toWebStream(
+  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream
+): ReadableStream<Uint8Array> {
+  if (isWebReadableStream(stream)) {
+    return stream;
+  } else {
+    throw new Error("Did not expect a Node stream in browser environment");
   }
 }
 
@@ -50,9 +48,12 @@ export function concatenateStreams(
       ({ value, done } = await reader.read());
     } catch (e) {
       controller.error(e);
+      reader.releaseLock();
+      return;
     }
 
     if (done) {
+      reader.releaseLock();
       reader = remainingStreams.shift()?.getReader();
       await doPull(controller);
     } else {

@@ -76,11 +76,8 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
-export type BlobLike = StreamableBlob | InMemoryBlob;
-
-// @public
 export interface BodyPart {
-    body: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike;
+    body: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -95,6 +92,38 @@ export function createDefaultHttpClient(): HttpClient;
 
 // @public
 export function createEmptyPipeline(): Pipeline;
+
+// @public
+export function createFile(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, options?: CreateFileFromStreamOptions): File;
+
+// @public
+export function createFile(content: Uint8Array, options?: CreateFileFromUint8ArrayOptions): File;
+
+// @public (undocumented)
+export interface CreateFileFromStreamOptions {
+    // (undocumented)
+    lastModified?: number;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    size?: number;
+    // (undocumented)
+    type?: string;
+    // (undocumented)
+    webkitRelativePath?: string;
+}
+
+// @public (undocumented)
+export interface CreateFileFromUint8ArrayOptions {
+    // (undocumented)
+    lastModified?: number;
+    // (undocumented)
+    name?: string;
+    // (undocumented)
+    type?: string;
+    // (undocumented)
+    webkitRelativePath?: string;
+}
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
@@ -132,11 +161,6 @@ export interface ExponentialRetryPolicyOptions {
 }
 
 // @public
-export type FileLike = BlobLike & {
-    name?: string;
-};
-
-// @public
 export type FormDataMap = {
     [key: string]: FormDataValue | FormDataValue[];
 };
@@ -148,7 +172,7 @@ export function formDataPolicy(): PipelinePolicy;
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | FileLike;
+export type FormDataValue = string | Blob | File;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
@@ -171,12 +195,6 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 
 // @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
-
-// @public
-export interface InMemoryBlob {
-    content: Uint8Array;
-    type?: string;
-}
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
@@ -421,13 +439,6 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 
 // @public
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
-
-// @public
-export interface StreamableBlob {
-    size?: number;
-    stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
-    type?: string;
-}
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

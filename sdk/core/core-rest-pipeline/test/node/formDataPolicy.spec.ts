@@ -1,18 +1,19 @@
 import { assert } from "chai";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { MultipartRequestBody, StreamableBlob } from "../../src/interfaces";
-import { isBlobLike, isNodeReadableStream } from "../../src/util/typeGuards";
+import { MultipartRequestBody } from "../../src/interfaces";
+import { isBlob } from "../../src/util/typeGuards";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec";
+import { createFile } from "../../src/util/file";
+import { ReadableStream } from "stream/web";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
     const result = await performRequest({
-      file: {
-        stream: Readable.from(Buffer.from("aaa")),
+      file: createFile(Readable.from(Buffer.from("aaa")), {
         name: "file.bin",
         type: "text/plain",
-      },
+      }),
     });
 
     const parts = (result.request.multipartBody as MultipartRequestBody).parts;
@@ -24,11 +25,10 @@ describe("formDataPolicy (node-only)", function () {
         "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
       })
     );
-    assert.ok(isBlobLike(parts[0].body));
-    assert.ok(isNodeReadableStream((parts[0].body as StreamableBlob).stream));
+    assert.ok(isBlob(parts[0].body));
 
     const buffers: Buffer[] = [];
-    for await (const part of (parts[0].body as StreamableBlob).stream as NodeJS.ReadableStream) {
+    for await (const part of (parts[0].body as Blob).stream() as ReadableStream<Uint8Array>) {
       buffers.push(part as Buffer);
     }
 

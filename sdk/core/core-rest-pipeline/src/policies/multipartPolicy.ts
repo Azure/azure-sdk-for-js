@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BlobLike, BodyPart, HttpHeaders, PipelineRequest } from "../interfaces";
+import { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
-import { isInMemoryBlob, isStreamableBlob } from "../util/typeGuards";
+import { isBlob } from "../util/typeGuards";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -20,21 +20,20 @@ function encodeHeaders(headers: HttpHeaders): string {
 }
 
 function getLength(
-  source: Uint8Array | BlobLike | ReadableStream | NodeJS.ReadableStream
+  source: Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
-  } else if (isStreamableBlob(source)) {
-    return source.size;
-  } else if (isInMemoryBlob(source)) {
-    return source.content.byteLength;
+  } else if (isBlob(source)) {
+    // if was created using createFile then -1 means we have an unknown size
+    return source.size === -1 ? undefined : source.size;
   } else {
     return undefined;
   }
 }
 
 function getTotalLength(
-  sources: (Uint8Array | BlobLike | ReadableStream | NodeJS.ReadableStream)[]
+  sources: (Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream)[]
 ): number | undefined {
   let total = 0;
   for (const source of sources) {

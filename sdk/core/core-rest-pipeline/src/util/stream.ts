@@ -3,35 +3,34 @@
 
 import { Readable } from "stream";
 import { ReadableStream as AsyncIterableReadableStream } from "stream/web";
-import { BlobLike } from "../interfaces";
-import {
-  isInMemoryBlob,
-  isNodeReadableStream,
-  isStreamableBlob,
-  isWebReadableStream,
-} from "./typeGuards";
+import { isBlob, isNodeReadableStream, isWebReadableStream } from "./typeGuards";
 
-function assertAsyncIterable(webStream: any): asserts webStream is AsyncIterableReadableStream {
+function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterableReadableStream<T> {
   if (!(webStream as any)[Symbol.asyncIterator]) {
     throw new Error("Expected ReadableStream in Node to have @@asyncIterator");
   }
 }
 
 function nodeStreamFromWebStream(webStream: ReadableStream<Uint8Array>): NodeJS.ReadableStream {
-  assertAsyncIterable(webStream);
+  makeAsyncIterable<Uint8Array>(webStream);
   return Readable.fromWeb(webStream);
 }
 
+export function toWebStream(
+  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream
+): ReadableStream<Uint8Array> {
+  return isWebReadableStream(stream)
+    ? stream
+    : (Readable.toWeb(Readable.from(stream)) as ReadableStream<Uint8Array>);
+}
+
 export function toStream(
-  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike
+  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
 ): NodeJS.ReadableStream | ReadableStream {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
-  } else if (isInMemoryBlob(source)) {
-    return Readable.from(Buffer.from(source.content));
-  } else if (isStreamableBlob(source)) {
-    const stream = typeof source.stream === "function" ? source.stream() : source.stream;
-    return isNodeReadableStream(stream) ? stream : nodeStreamFromWebStream(stream);
+  } else if (isBlob(source)) {
+    return nodeStreamFromWebStream(source.stream());
   } else if (isNodeReadableStream(source)) {
     return source;
   } else {

@@ -10,8 +10,8 @@ import {
   createPipelineRequest,
   formDataPolicy,
 } from "../src";
-import { BodyPart, FormDataMap, InMemoryBlob, MultipartRequestBody } from "../src/interfaces";
-import { isBlobLike, isInMemoryBlob } from "../src/util/typeGuards";
+import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
+import { createFile } from "../src/util/file";
 
 export async function performRequest(formData: FormDataMap) {
   const request = createPipelineRequest({
@@ -169,7 +169,6 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
           })
         );
-        assert.ok(isBlobLike(parts[0].body));
         const buf = new Uint8Array(
           await new Response((parts[0].body as any).stream()).arrayBuffer()
         );
@@ -194,20 +193,18 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="blob"`,
           })
         );
-        assert.ok(isBlobLike(parts[0].body));
         const buf = new Uint8Array(
           await new Response((parts[0].body as any).stream()).arrayBuffer()
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
 
-      it("can upload a Uint8Array", async function () {
+      it("can upload a Uint8Array using createFile", async function () {
         const result = await performRequest({
-          file: {
-            content: new Uint8Array([0x01, 0x02, 0x03]),
+          file: createFile(new Uint8Array([0x01, 0x02, 0x03]), {
             name: "file.bin",
             type: "text/plain",
-          },
+          }),
         });
 
         const parts = (result.request.multipartBody as MultipartRequestBody).parts;
@@ -219,9 +216,8 @@ describe("formDataPolicy", function () {
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
           })
         );
-        assert.ok(isInMemoryBlob(parts[0].body));
 
-        const content = (parts[0].body as InMemoryBlob).content;
+        const content = new Uint8Array(await (parts[0].body as Blob).arrayBuffer());
         assert.deepEqual([...content], [0x01, 0x02, 0x03]);
       });
     });

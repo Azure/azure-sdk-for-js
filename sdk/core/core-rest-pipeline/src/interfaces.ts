@@ -48,63 +48,6 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
- * A blob that is streamable. `Blob` and `File` satisfy this interface.
- */
-export interface StreamableBlob {
-  /**
-   * A stream (or a function that returns a stream) representing the blob's contents.
-   */
-  stream: ReadableStream | NodeJS.ReadableStream | (() => ReadableStream | NodeJS.ReadableStream);
-
-  /**
-   * The MIME type of the blob.
-   */
-  type?: string;
-
-  /**
-   * The size of the blob, if known.
-   */
-  size?: number;
-}
-
-/**
- * Blob with content as a Uint8Array
- */
-export interface InMemoryBlob {
-  /**
-   * The content of the blob as a Uint8Array
-   */
-  content: Uint8Array;
-
-  /**
-   * The MIME type of the blob.
-   */
-  type?: string;
-}
-
-/**
- * A type representing a blob.
- *
- * `Blob` and `File` objects satisfy this, but a ReadableStream (web or Node) can be
- * used instead by creating an object with the `stream` property set to the stream.
- */
-export type BlobLike = StreamableBlob | InMemoryBlob;
-
-/**
- * A type representing a file to be uploaded.
- * The `File` class satisfies this type, allowing for instances to be passed directly. If the file to be
- * uploaded is not represented by a `File` or `Blob`, an object containing a stream or content buffer and optional file type and file name
- * can be used instead.
- */
-export type FileLike = BlobLike & {
-  /**
-   * The name of the file. If no file name is present, a placeholder name of 'blob' will be used when submitting a form
-   * containing the file.
-   */
-  name?: string;
-};
-
-/**
  * A part of the request body in a multipart request.
  */
 export interface BodyPart {
@@ -116,7 +59,7 @@ export interface BodyPart {
   /**
    * The body of this multipart request.
    */
-  body: ReadableStream | NodeJS.ReadableStream | Uint8Array | BlobLike;
+  body: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob;
 }
 
 /**
@@ -405,9 +348,10 @@ export interface ProxySettings {
 }
 
 /**
- * Each form data entry can be a string or a file-like object (includes Blob or File in the browser)
+ * Each form data entry can be a string, Blob, or a File. If you wish to pass a file with a name but do not have
+ * access to the File class, you can use the createFile helper to create one.
  */
-export type FormDataValue = string | FileLike;
+export type FormDataValue = string | Blob | File;
 
 /**
  * A simple object that provides form data, as if from a browser form.
