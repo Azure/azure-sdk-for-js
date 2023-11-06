@@ -118,7 +118,7 @@ export interface AzurePowerShellCredentialOptions extends MultiTenantTokenCreden
 
 // @public
 export interface BrokerAuthOptions {
-    brokerOptions: BrokerOptions;
+    brokerOptions?: BrokerOptions;
 }
 
 // @public
