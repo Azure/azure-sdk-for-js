@@ -10,7 +10,7 @@ import { Documents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchClient } from "../searchClient";
+import { SearchClientContext } from "../searchClientContext";
 import {
   DocumentsCountOptionalParams,
   DocumentsCountResponse,
@@ -36,15 +36,15 @@ import {
   DocumentsAutocompletePostResponse
 } from "../models";
 
-/** Class containing Documents operations. */
+/** Class representing a Documents. */
 export class DocumentsImpl implements Documents {
-  private readonly client: SearchClient;
+  private readonly client: SearchClientContext;
 
   /**
    * Initialize a new instance of the class Documents class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchClient) {
+  constructor(client: SearchClientContext) {
     this.client = client;
   }
 
@@ -224,23 +224,13 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.queryType,
     Parameters.scoringParameters,
     Parameters.scoringProfile,
-    Parameters.semanticQuery,
-    Parameters.semanticConfiguration,
-    Parameters.semanticErrorHandling,
-    Parameters.semanticMaxWaitInMilliseconds,
-    Parameters.debug,
     Parameters.searchFields,
-    Parameters.queryLanguage,
-    Parameters.speller,
-    Parameters.answers,
     Parameters.searchMode,
     Parameters.scoringStatistics,
     Parameters.sessionId,
     Parameters.select,
     Parameters.skip,
-    Parameters.top,
-    Parameters.captions,
-    Parameters.semanticFields
+    Parameters.top
   ],
   urlParameters: [Parameters.endpoint, Parameters.indexName],
   headerParameters: [Parameters.accept],
@@ -269,9 +259,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: {
-        type: { name: "Dictionary", value: { type: { name: "any" } } }
-      }
+      bodyMapper: { type: { name: "any" } }
     },
     default: {
       bodyMapper: Mappers.SearchError

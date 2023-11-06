@@ -33,26 +33,26 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         name: "hotelId",
         key: true,
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.String",
         name: "hotelName",
         searchable: true,
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.EnLucene
+        analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownAnalyzerNames.FrLucene
+        analyzerName: KnownAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -60,48 +60,48 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         searchable: true,
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Collection(Edm.String)",
         name: "tags",
         searchable: true,
         filterable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Boolean",
         name: "parkingIncluded",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Boolean",
         name: "smokingAllowed",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.DateTimeOffset",
         name: "lastRenovationDate",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.Double",
         name: "rating",
         filterable: true,
         sortable: true,
-        facetable: true
+        facetable: true,
       },
       {
         type: "Edm.GeographyPoint",
         name: "location",
         filterable: true,
-        sortable: true
+        sortable: true,
       },
       {
         type: "Edm.ComplexType",
@@ -110,7 +110,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
           {
             type: "Edm.String",
             name: "streetAddress",
-            searchable: true
+            searchable: true,
           },
           {
             type: "Edm.String",
@@ -118,7 +118,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -126,7 +126,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -134,7 +134,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
@@ -142,9 +142,9 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             searchable: true,
             filterable: true,
             sortable: true,
-            facetable: true
-          }
-        ]
+            facetable: true,
+          },
+        ],
       },
       {
         type: "Collection(Edm.ComplexType)",
@@ -154,62 +154,62 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.EnLucene
+            analyzerName: KnownAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownAnalyzerNames.FrLucene
+            analyzerName: KnownAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",
             name: "type",
             searchable: true,
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Double",
             name: "baseRate",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.String",
             name: "bedOptions",
             searchable: true,
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Int32",
             name: "sleepsCount",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Edm.Boolean",
             name: "smokingAllowed",
             filterable: true,
-            facetable: true
+            facetable: true,
           },
           {
             type: "Collection(Edm.String)",
             name: "tags",
             searchable: true,
             filterable: true,
-            facetable: true
-          }
-        ]
-      }
+            facetable: true,
+          },
+        ],
+      },
     ],
     suggesters: [
       {
         name: "sg",
         sourceFields: ["description", "hotelName"],
-        searchMode: "analyzingInfixMatching"
-      }
+        searchMode: "analyzingInfixMatching",
+      },
     ],
     scoringProfiles: [
       {
@@ -222,16 +222,16 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             boost: 2,
             parameters: {
               referencePointParameter: "myloc",
-              boostingDistance: 100
-            }
-          }
-        ]
-      }
+              boostingDistance: 100,
+            },
+          },
+        ],
+      },
     ],
     corsOptions: {
       // for browser tests
-      allowedOrigins: ["*"]
-    }
+      allowedOrigins: ["*"],
+    },
   };
   await client.createIndex(hotelIndex);
 }

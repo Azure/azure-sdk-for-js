@@ -12,17 +12,12 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIClient } from "@azure/openai";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndex(
-  client: SearchIndexClient,
-  name: string,
-  serviceVersion: string
-): Promise<void> {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
   const hotelIndex: SearchIndex = {
     name,
     fields: [
@@ -231,67 +226,11 @@ export async function createIndex(
       allowedOrigins: ["*"],
     },
   };
-
-  if (serviceVersion.includes("Preview")) {
-    const algorithm = "algorithm-configuration";
-    const vectorizer = "vectorizer";
-    const profile = "profile";
-
-    hotelIndex.fields.push({
-      type: "Collection(Edm.Single)",
-      name: "vectorDescription",
-      searchable: true,
-      vectorSearchDimensions: 1536,
-      hidden: true,
-      vectorSearchProfile: profile,
-    });
-
-    hotelIndex.vectorSearch = {
-      algorithms: [
-        {
-          name: algorithm,
-          kind: "exhaustiveKnn",
-          parameters: {
-            metric: "dotProduct",
-          },
-        },
-      ],
-      vectorizers: [
-        {
-          kind: "azureOpenAI",
-          name: vectorizer,
-          azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
-          },
-        },
-      ],
-      profiles: [{ name: profile, vectorizer, algorithm }],
-    };
-    hotelIndex.semanticSettings = {
-      configurations: [
-        {
-          name: "semantic-configuration-name",
-          prioritizedFields: {
-            titleField: { name: "hotelName" },
-            prioritizedContentFields: [{ name: "description" }],
-            prioritizedKeywordsFields: [{ name: "tags" }],
-          },
-        },
-      ],
-    };
-  }
-
   await client.createIndex(hotelIndex);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function populateIndex(
-  client: SearchClient<Hotel>,
-  openAIClient: OpenAIClient,
-  serviceVersion: string
-): Promise<void> {
+export async function populateIndex(client: SearchClient<Hotel>): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
     {
@@ -310,7 +249,7 @@ export async function populateIndex(
       tags: ["pool", "view", "wifi", "concierge"],
       parkingIncluded: false,
       smokingAllowed: false,
-      lastRenovationDate: new Date(Date.UTC(2010, 5, 27)),
+      lastRenovationDate: new Date(2010, 5, 27),
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -326,7 +265,7 @@ export async function populateIndex(
       tags: ["motel", "budget"],
       parkingIncluded: true,
       smokingAllowed: true,
-      lastRenovationDate: new Date(Date.UTC(1982, 3, 28)),
+      lastRenovationDate: new Date(1982, 3, 28),
       rating: 1,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -342,7 +281,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
+      lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -358,7 +297,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(Date.UTC(1995, 6, 1)),
+      lastRenovationDate: new Date(1995, 6, 1),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -374,7 +313,7 @@ export async function populateIndex(
       tags: ["wifi", "budget"],
       parkingIncluded: true,
       smokingAllowed: false,
-      lastRenovationDate: new Date(Date.UTC(2012, 7, 12)),
+      lastRenovationDate: new Date(2012, 7, 12),
       rating: 4,
       location: new GeographyPoint({
         longitude: -122.131577,
@@ -410,7 +349,7 @@ export async function populateIndex(
       tags: ["pool", "air conditioning", "concierge"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(Date.UTC(1970, 0, 18)),
+      lastRenovationDate: new Date(1970, 0, 18),
       rating: 4,
       location: new GeographyPoint({
         longitude: -73.975403,
@@ -457,7 +396,7 @@ export async function populateIndex(
       tags: ["24-hour front desk service", "coffee in lobby", "restaurant"],
       parkingIncluded: false,
       smokingAllowed: true,
-      lastRenovationDate: new Date(Date.UTC(1999, 8, 6)),
+      lastRenovationDate: new Date(1999, 8, 6),
       rating: 3,
       location: new GeographyPoint({
         longitude: -78.940483,
@@ -495,10 +434,6 @@ export async function populateIndex(
     },
   ];
 
-  if (serviceVersion.includes("Preview") && !isLiveMode()) {
-    await addVectorDescriptions(testDocuments, openAIClient);
-  }
-
   await client.uploadDocuments(testDocuments);
 
   let count = await client.getDocumentsCount();
@@ -508,35 +443,6 @@ export async function populateIndex(
   }
 
   await delay(WAIT_TIME);
-}
-
-async function addVectorDescriptions(
-  documents: Hotel[],
-  openAIClient: OpenAIClient
-): Promise<void> {
-  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
-
-  const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
-    map.set(i, document);
-    return map;
-  }, new Map<number, Hotel>());
-
-  const descriptions = documents
-    .filter(({ description }) => description)
-    .map(({ description }) => description!);
-
-  // OpenAI only supports one description at a time at the moment
-  const embeddingsArray = await Promise.all(
-    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description]))
-  );
-
-  embeddingsArray.forEach((embeddings, i) =>
-    embeddings.data.forEach((embeddingItem) => {
-      const { embedding, index: j } = embeddingItem;
-      const document = descriptionMap.get(i + j)!;
-      document.vectorDescription = embedding;
-    })
-  );
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters

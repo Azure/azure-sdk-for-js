@@ -10,18 +10,19 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d95c18e2d5fc678a1453c454d746fdce22d30122/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.0-alpha.20210527.9"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.4
+package-version: 11.3.4
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
 hide-clients: true
 use-core-v2: true
+openapi-type: data-plane
 ```
 
 ## Customizations for Track 2 Generator
@@ -97,24 +98,4 @@ directive:
     where: $.definitions.AnswerResult
     transform: >
       $.required = ['score', 'key', 'text'];
-```
-
-### Rename Vector property `K`
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.VectorQuery.properties.k
-    transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
-```
-
-### Rename QueryResultDocumentSemanticFieldState
-
-Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.QueryResultDocumentSemanticFieldState
-    transform: $["x-ms-enum"].name = "SemanticFieldState";
 ```

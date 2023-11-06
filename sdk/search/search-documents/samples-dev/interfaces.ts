@@ -11,11 +11,9 @@
 import { GeographyPoint } from "@azure/search-documents";
 
 export interface Hotel {
-  hotelId?: string;
+  hotelId: string;
   hotelName?: string | null;
   description?: string | null;
-  descriptionVectorEn?: number[] | null;
-  descriptionVectorFr?: number[] | null;
   descriptionFr?: string | null;
   category?: string | null;
   tags?: string[] | null;
