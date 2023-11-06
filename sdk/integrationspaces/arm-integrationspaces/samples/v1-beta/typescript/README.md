@@ -1,0 +1,129 @@
+# client library samples for TypeScript (Beta)
+
+These sample programs show how to use the TypeScript client libraries for in some common scenarios.
+
+| **File Name**                                                                                                                   | **Description**                                                                                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [applicationResourcesCreateOrUpdateSample.ts][applicationresourcescreateorupdatesample]                                         | Create a ApplicationResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/ApplicationResources_CreateOrUpdate.json                                                   |
+| [applicationResourcesDeleteSample.ts][applicationresourcesdeletesample]                                                         | Delete a ApplicationResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/ApplicationResources_Delete.json                                                           |
+| [applicationResourcesGetSample.ts][applicationresourcesgetsample]                                                               | Get a ApplicationResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/ApplicationResources_Get.json                                                                 |
+| [applicationResourcesListByApplicationSample.ts][applicationresourceslistbyapplicationsample]                                   | List ApplicationResource resources by Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/ApplicationResources_ListByApplication.json                           |
+| [applicationResourcesPatchSample.ts][applicationresourcespatchsample]                                                           | Update a ApplicationResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/ApplicationResources_Patch.json                                                            |
+| [applicationsCreateOrUpdateSample.ts][applicationscreateorupdatesample]                                                         | Create a Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_CreateOrUpdate.json                                                                   |
+| [applicationsDeleteBusinessProcessDevelopmentArtifactSample.ts][applicationsdeletebusinessprocessdevelopmentartifactsample]     | The delete business process development artifact action. x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_DeleteBusinessProcessDevelopmentArtifact.json     |
+| [applicationsDeleteSample.ts][applicationsdeletesample]                                                                         | Delete a Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_Delete.json                                                                           |
+| [applicationsGetBusinessProcessDevelopmentArtifactSample.ts][applicationsgetbusinessprocessdevelopmentartifactsample]           | The get business process development artifact action. x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_GetBusinessProcessDevelopmentArtifact.json           |
+| [applicationsGetSample.ts][applicationsgetsample]                                                                               | Get a Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_Get.json                                                                                 |
+| [applicationsListBusinessProcessDevelopmentArtifactsSample.ts][applicationslistbusinessprocessdevelopmentartifactssample]       | The list business process development artifacts action. x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_ListBusinessProcessDevelopmentArtifacts.json       |
+| [applicationsListBySpaceSample.ts][applicationslistbyspacesample]                                                               | List Application resources by Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_ListBySpace.json                                                       |
+| [applicationsPatchSample.ts][applicationspatchsample]                                                                           | Update a Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_Patch.json                                                                            |
+| [applicationsSaveBusinessProcessDevelopmentArtifactSample.ts][applicationssavebusinessprocessdevelopmentartifactsample]         | The save business process development artifact action. x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_SaveBusinessProcessDevelopmentArtifact.json         |
+| [applicationsValidateBusinessProcessDevelopmentArtifactSample.ts][applicationsvalidatebusinessprocessdevelopmentartifactsample] | The validate business process development artifact action. x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Applications_ValidateBusinessProcessDevelopmentArtifact.json |
+| [businessProcessVersionsGetSample.ts][businessprocessversionsgetsample]                                                         | Get a BusinessProcessVersion x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcessVersions_Get.json                                                           |
+| [businessProcessVersionsListByBusinessProcessSample.ts][businessprocessversionslistbybusinessprocesssample]                     | List BusinessProcessVersion resources by BusinessProcess x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcessVersions_ListByBusinessProcess.json             |
+| [businessProcessesCreateOrUpdateSample.ts][businessprocessescreateorupdatesample]                                               | Create a BusinessProcess x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcesses_CreateOrUpdate.json                                                          |
+| [businessProcessesDeleteSample.ts][businessprocessesdeletesample]                                                               | Delete a BusinessProcess x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcesses_Delete.json                                                                  |
+| [businessProcessesGetSample.ts][businessprocessesgetsample]                                                                     | Get a BusinessProcess x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcesses_Get.json                                                                        |
+| [businessProcessesListByApplicationSample.ts][businessprocesseslistbyapplicationsample]                                         | List BusinessProcess resources by Application x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcesses_ListByApplication.json                                  |
+| [businessProcessesPatchSample.ts][businessprocessespatchsample]                                                                 | Update a BusinessProcess x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/BusinessProcesses_Patch.json                                                                   |
+| [infrastructureResourcesCreateOrUpdateSample.ts][infrastructureresourcescreateorupdatesample]                                   | Create a InfrastructureResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/InfrastructureResources_CreateOrUpdate.json                                             |
+| [infrastructureResourcesDeleteSample.ts][infrastructureresourcesdeletesample]                                                   | Delete a InfrastructureResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/InfrastructureResources_Delete.json                                                     |
+| [infrastructureResourcesGetSample.ts][infrastructureresourcesgetsample]                                                         | Get a InfrastructureResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/InfrastructureResources_Get.json                                                           |
+| [infrastructureResourcesListBySpaceSample.ts][infrastructureresourceslistbyspacesample]                                         | List InfrastructureResource resources by Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/InfrastructureResources_ListBySpace.json                                 |
+| [infrastructureResourcesPatchSample.ts][infrastructureresourcespatchsample]                                                     | Update a InfrastructureResource x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/InfrastructureResources_Patch.json                                                      |
+| [operationsListSample.ts][operationslistsample]                                                                                 | List the operations for the provider x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Operations_List.json                                                               |
+| [spacesCreateOrUpdateSample.ts][spacescreateorupdatesample]                                                                     | Create a Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_CreateOrUpdate.json                                                                               |
+| [spacesDeleteSample.ts][spacesdeletesample]                                                                                     | Delete a Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_Delete.json                                                                                       |
+| [spacesGetSample.ts][spacesgetsample]                                                                                           | Get a Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_Get.json                                                                                             |
+| [spacesListByResourceGroupSample.ts][spaceslistbyresourcegroupsample]                                                           | List Space resources by resource group x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_ListByResourceGroup.json                                                  |
+| [spacesListBySubscriptionSample.ts][spaceslistbysubscriptionsample]                                                             | List Space resources by subscription ID x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_ListBySubscription.json                                                  |
+| [spacesPatchSample.ts][spacespatchsample]                                                                                       | Update a Space x-ms-original-file: specification/azureintegrationspaces/resource-manager/Microsoft.IntegrationSpaces/preview/2023-11-14-preview/examples/Spaces_Patch.json                                                                                        |
+
+## Prerequisites
+
+The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
+
+You need [an Azure subscription][freesub] to run these sample programs.
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Compile the samples:
+
+```bash
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/applicationResourcesCreateOrUpdateSample.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+npx cross-env INTEGRATIONSPACES_SUBSCRIPTION_ID="<integrationspaces subscription id>" INTEGRATIONSPACES_RESOURCE_GROUP="<integrationspaces resource group>" node dist/applicationResourcesCreateOrUpdateSample.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[applicationresourcescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationResourcesCreateOrUpdateSample.ts
+[applicationresourcesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationResourcesDeleteSample.ts
+[applicationresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationResourcesGetSample.ts
+[applicationresourceslistbyapplicationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationResourcesListByApplicationSample.ts
+[applicationresourcespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationResourcesPatchSample.ts
+[applicationscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsCreateOrUpdateSample.ts
+[applicationsdeletebusinessprocessdevelopmentartifactsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsDeleteBusinessProcessDevelopmentArtifactSample.ts
+[applicationsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsDeleteSample.ts
+[applicationsgetbusinessprocessdevelopmentartifactsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsGetBusinessProcessDevelopmentArtifactSample.ts
+[applicationsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsGetSample.ts
+[applicationslistbusinessprocessdevelopmentartifactssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsListBusinessProcessDevelopmentArtifactsSample.ts
+[applicationslistbyspacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsListBySpaceSample.ts
+[applicationspatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsPatchSample.ts
+[applicationssavebusinessprocessdevelopmentartifactsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsSaveBusinessProcessDevelopmentArtifactSample.ts
+[applicationsvalidatebusinessprocessdevelopmentartifactsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/applicationsValidateBusinessProcessDevelopmentArtifactSample.ts
+[businessprocessversionsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessVersionsGetSample.ts
+[businessprocessversionslistbybusinessprocesssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessVersionsListByBusinessProcessSample.ts
+[businessprocessescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessesCreateOrUpdateSample.ts
+[businessprocessesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessesDeleteSample.ts
+[businessprocessesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessesGetSample.ts
+[businessprocesseslistbyapplicationsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessesListByApplicationSample.ts
+[businessprocessespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/businessProcessesPatchSample.ts
+[infrastructureresourcescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/infrastructureResourcesCreateOrUpdateSample.ts
+[infrastructureresourcesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/infrastructureResourcesDeleteSample.ts
+[infrastructureresourcesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/infrastructureResourcesGetSample.ts
+[infrastructureresourceslistbyspacesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/infrastructureResourcesListBySpaceSample.ts
+[infrastructureresourcespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/infrastructureResourcesPatchSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/operationsListSample.ts
+[spacescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesCreateOrUpdateSample.ts
+[spacesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesDeleteSample.ts
+[spacesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesGetSample.ts
+[spaceslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesListByResourceGroupSample.ts
+[spaceslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesListBySubscriptionSample.ts
+[spacespatchsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/integrationspaces/arm-integrationspaces/samples/v1-beta/typescript/src/spacesPatchSample.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-integrationspaces?view=azure-node-preview
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/integrationspaces/arm-integrationspaces/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html
