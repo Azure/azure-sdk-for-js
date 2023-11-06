@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies?maxpagesize=20\u0026api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/distributionPolicies?maxpagesize=20\u0026api-version=2023-11-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,20 +9,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "4f37bfd7-6657-434d-910f-0309830583bd",
+        "x-ms-client-request-id": "e1ec5057-8cee-4184-a13a-469c10d384c6",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:09 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:42 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:06 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:40 GMT",
         "Request-Context": "appId=",
-        "trace-id": "4c7914e2-89ab-b9f0-499e-91caa82b4048",
+        "trace-id": "74211b0c-bfc3-214c-aa57-1d8f8c1f30a1",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0WzpIZQAAAABaPXLYC101QZYBEf6lah5SV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "03I5IZQAAAAACh/IYHo2VQ4aEMx0WxaynV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -36,7 +36,19 @@
               "maxConcurrentOffers": 5,
               "bypassSelectors": false
             },
-            "etag": "\u0022dd036f95-0000-0700-0000-65483a5b0000\u0022"
+            "etag": "\u0022df03e9bd-0000-0700-0000-65488edc0000\u0022"
+          },
+          {
+            "id": "distribution-policy-123",
+            "name": "distribution-policy-123",
+            "offerExpiresAfterSeconds": 120,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u0022de035d94-0000-0700-0000-654863b10000\u0022"
           },
           {
             "id": "test-d-policy-recorded-jobs",
@@ -73,18 +85,6 @@
               "bypassSelectors": false
             },
             "etag": "\u0022b2032cfe-0000-0700-0000-654573160000\u0022"
-          },
-          {
-            "id": "distribution-policy-123",
-            "name": "distribution-policy-123",
-            "offerExpiresAfterSeconds": 120,
-            "mode": {
-              "kind": "longest-idle",
-              "minConcurrentOffers": 1,
-              "maxConcurrentOffers": 5,
-              "bypassSelectors": false
-            },
-            "etag": "\u0022c402725e-0000-0700-0000-6541576f0000\u0022"
           },
           {
             "id": "472141c8-9185-46c4-9e58-c8b2c7779927",

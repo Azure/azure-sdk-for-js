@@ -39,7 +39,6 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
   return recorder;
 }
 
-
 export interface RecordedRouterClient {
   routerClient: AzureCommunicationRoutingServiceClient;
   recorder: Recorder;

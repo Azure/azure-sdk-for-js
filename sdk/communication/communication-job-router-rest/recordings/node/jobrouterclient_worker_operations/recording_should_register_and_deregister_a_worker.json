@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,9 +11,9 @@
         "Content-Length": "157",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "8bf4c38b-546a-434e-be24-62cb1bb5755d",
+        "x-ms-client-request-id": "cac9dadf-0e5c-480c-a9d6-338ffca99399",
         "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:21 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:53 GMT"
       },
       "RequestBody": {
         "name": "test-d-policy",
@@ -29,13 +29,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:18 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:51 GMT",
         "ETag": "\u0022b3035cb8-0000-0700-0000-6545772f0000\u0022",
         "Last-Modified": "Fri, 03 Nov 2023 22:41:51 GMT",
         "Request-Context": "appId=",
-        "trace-id": "6a3310f3-9004-35bf-ea8b-b63cd9dbba55",
+        "trace-id": "aa2837ef-452c-8261-3ba3-ea8a3bb59a1f",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ZzpIZQAAAADlVFRVRKy7SY5CaV/2CDOZV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0545IZQAAAAAQDLLOPLBWS4HEufs0mHBZV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -52,7 +52,7 @@
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -62,9 +62,9 @@
         "Content-Length": "201",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "374e4827-cb8d-43ff-97af-085aec1732e3",
+        "x-ms-client-request-id": "2fc9c9ae-9a5e-43f2-bbf4-0b39c1543d32",
         "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:21 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:53 GMT"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -88,13 +88,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:18 GMT",
-        "ETag": "\u00222d1bc36b-0000-0700-0000-65483a670000\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 00:59:19 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:51 GMT",
+        "ETag": "\u0022941bfc2a-0000-0700-0000-65488ee80000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 06:59:52 GMT",
         "Request-Context": "appId=",
-        "trace-id": "c6a878b0-a5f3-dfc2-b0ac-1f23909e86be",
+        "trace-id": "2475c640-6584-c779-c618-980266ff2e40",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ZzpIZQAAAAD5\u002BkZuBgy0SKX2VwwL5pqmV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0545IZQAAAADUYjk8HBHpRp1zN2JU9D9jV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -111,16 +111,16 @@
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "480c1ee7-e875-495b-ad5b-a132efd9a2e3"
+                "id": "1e765784-4bf8-438f-9fa5-1d39ed648da8"
               }
             ]
           }
         ],
-        "etag": "\u00222d1bc36b-0000-0700-0000-65483a670000\u0022"
+        "etag": "\u0022941bfc2a-0000-0700-0000-65488ee80000\u0022"
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/queues/test-a-queue-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/queues/test-a-queue-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -130,9 +130,9 @@
         "Content-Length": "181",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "31eed265-c7bf-44c4-a9af-7fe4c23bc91b",
+        "x-ms-client-request-id": "cf4ee25f-86fa-4c72-b458-305d88189e5f",
         "x-ms-content-sha256": "aTaO7w8QJi3buPGXcLIfMb4BN0kUNaNJHI2OoHl6w2I=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:21 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:54 GMT"
       },
       "RequestBody": {
         "id": "test-a-queue-recorded-workers",
@@ -145,13 +145,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:18 GMT",
-        "ETag": "\u00225d04d399-0000-0700-0000-65483a650000\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 00:59:17 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:51 GMT",
+        "ETag": "\u00226c040365-0000-0700-0000-65488ee60000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 06:59:50 GMT",
         "Request-Context": "appId=",
-        "trace-id": "1a2b6fb9-4231-75c5-61e7-211818a3a0e3",
+        "trace-id": "36128afe-fcbf-0a0d-4812-7acef020cb10",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ZzpIZQAAAAC9Wk9DVOYpRqVo8PlFAraEV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06I5IZQAAAACKg0cPwBQIR6kRzOst8/erV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -162,11 +162,11 @@
           "Id": "test-a-queue-recorded-workers"
         },
         "exceptionPolicyId": "test-e-policy-recorded-workers",
-        "etag": "\u00225d04d399-0000-0700-0000-65483a650000\u0022"
+        "etag": "\u00226c040365-0000-0700-0000-65488ee60000\u0022"
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/workers/test-worker-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/workers/test-worker-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -176,9 +176,9 @@
         "Content-Length": "196",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "6c7d1c00-c881-4081-a457-b3d1752f9cc7",
+        "x-ms-client-request-id": "4e31e3b8-a3e1-4fb0-9ded-b52c936cc784",
         "x-ms-content-sha256": "8zG4WBtnfgqdmm1brUF6xvPcKB4o7\u002B1SknnP1bo1BhA=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:21 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:54 GMT"
       },
       "RequestBody": {
         "id": "test-worker-recorded-workers",
@@ -199,13 +199,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:18 GMT",
-        "ETag": "\u002200000004-0000-0000-a766-999b63dedb08\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 00:59:19 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:52 GMT",
+        "ETag": "\u002200000004-0000-0000-e23f-94f995dedb08\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 06:59:52 GMT",
         "Request-Context": "appId=",
-        "trace-id": "89246e5f-3ba1-a45b-aae7-2fa26b7365b7",
+        "trace-id": "02c8a3ca-4b74-8f23-9067-b69212d7057a",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ZzpIZQAAAADcOMOVAgEcTJ0RuZrLAes5V1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06I5IZQAAAABEKC3\u002BEKuiSoMmKJcNCPj3V1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -230,11 +230,11 @@
         "assignedJobs": [],
         "loadRatio": 0,
         "availableForOffers": true,
-        "etag": "\u002200000004-0000-0000-a766-999b63dedb08\u0022"
+        "etag": "\u002200000004-0000-0000-e23f-94f995dedb08\u0022"
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/workers/test-worker-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/workers/test-worker-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -244,9 +244,9 @@
         "Content-Length": "197",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "3ee52c8b-52b0-410f-b1b4-d3397fddcaa5",
+        "x-ms-client-request-id": "7a40d3b5-fa9b-4040-a7ae-a783e5d71a0c",
         "x-ms-content-sha256": "RJHD2afeje2kcqwTS4IDn563RgRJFSmjAKuYv3H0Yi8=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:23 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:56 GMT"
       },
       "RequestBody": {
         "id": "test-worker-recorded-workers",
@@ -267,13 +267,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:20 GMT",
-        "ETag": "\u002200000007-0000-0000-6fc4-e49c63dedb08\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 00:59:21 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:54 GMT",
+        "ETag": "\u002200000007-0000-0000-d2f3-ddfa95dedb08\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 06:59:54 GMT",
         "Request-Context": "appId=",
-        "trace-id": "bf03b309-28b6-bc7a-9477-42b0b6135c45",
+        "trace-id": "3e28a739-4bf3-adde-dcf1-1f27eb4c7356",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0aTpIZQAAAAAX\u002B3GlBC5qQ62bs0aAhzW0V1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06o5IZQAAAABZgpIf/gXNQbX09swOMjRRV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -298,11 +298,11 @@
         "assignedJobs": [],
         "loadRatio": 0,
         "availableForOffers": false,
-        "etag": "\u002200000007-0000-0000-6fc4-e49c63dedb08\u0022"
+        "etag": "\u002200000007-0000-0000-d2f3-ddfa95dedb08\u0022"
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -310,20 +310,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f93e247a-5e16-4d8b-9db9-bd71ca6127ed",
+        "x-ms-client-request-id": "80a8e98e-cb1f-4af1-a622-1d1fc13b7b5a",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:23 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:56 GMT"
       },
       "RequestBody": null,
       "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:21 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:54 GMT",
         "Request-Context": "appId=",
-        "trace-id": "22b37a4a-1f91-3f17-71bf-f6df1a390437",
+        "trace-id": "13097f87-f1fb-7021-6374-00bae2e3dcb4",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0aTpIZQAAAACBidB\u002B41wWS5/jm/yCN/iFV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06o5IZQAAAADw3DugboKvRbEy\u002BFO3bl1WV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -341,7 +341,7 @@
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -349,20 +349,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "296672cd-2f06-468b-ac46-b88b2502561b",
+        "x-ms-client-request-id": "8cd22ea5-0e0f-4ee9-a556-e4738032af24",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:24 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:56 GMT"
       },
       "RequestBody": null,
       "StatusCode": 400,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:21 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:54 GMT",
         "Request-Context": "appId=",
-        "trace-id": "4f24850a-7072-6bd1-2078-2fd8e45c4f7e",
+        "trace-id": "7ce120ec-5852-8868-2dfb-05c30127adcf",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ajpIZQAAAABolJhVDrtKQKiczNPQmYLgV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06o5IZQAAAABaGErzql2vRZT7GgNorMSsV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -380,7 +380,7 @@
       }
     },
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/queues/test-a-queue-recorded-workers?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/queues/test-a-queue-recorded-workers?api-version=2023-11-01",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -388,20 +388,20 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "5a66b011-766b-4171-aad6-859e66d97d83",
+        "x-ms-client-request-id": "d4bdfec6-db83-4729-ae81-b6b14ab0398c",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:24 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:56 GMT"
       },
       "RequestBody": null,
       "StatusCode": 409,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:21 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:54 GMT",
         "Request-Context": "appId=",
-        "trace-id": "90e85427-978f-de43-bcb4-228694bec50f",
+        "trace-id": "365d4bdc-a079-5c47-4e2d-2d77d904eb36",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ajpIZQAAAADcZKrQ5/c9R5FHjGx2isafV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "06o5IZQAAAAAiUU39QH/NQJsNHwQ3x\u002BJMV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies/test-p-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-p-policy-recorded-d-policies?api-version=2023-11-01",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,9 +11,9 @@
         "Content-Length": "157",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e2f0aa50-c338-4bdb-aec6-4741ddada00d",
+        "x-ms-client-request-id": "2bbfb796-c625-46c1-94a1-becd98b42339",
         "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
-        "x-ms-date": "Mon, 06 Nov 2023 00:59:09 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 06:59:41 GMT"
       },
       "RequestBody": {
         "name": "test-d-policy",
@@ -29,13 +29,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 00:59:06 GMT",
-        "ETag": "\u0022dd036c95-0000-0700-0000-65483a5b0000\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "Date": "Mon, 06 Nov 2023 06:59:39 GMT",
+        "ETag": "\u0022df03e7bd-0000-0700-0000-65488edb0000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 06:59:39 GMT",
         "Request-Context": "appId=",
-        "trace-id": "4349f1c6-c90d-fb99-6009-edd59e70af7b",
+        "trace-id": "5a1390af-cb4f-c7a3-caef-fbed90443406",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0WzpIZQAAAADhw1zN/nvdT6WXfB8vCdWyV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0245IZQAAAAD0bc0OroVfRLIUbbT5PiTJV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -48,7 +48,7 @@
           "maxConcurrentOffers": 5,
           "bypassSelectors": false
         },
-        "etag": "\u0022dd036c95-0000-0700-0000-65483a5b0000\u0022"
+        "etag": "\u0022df03e7bd-0000-0700-0000-65488edb0000\u0022"
       }
     }
   ],
