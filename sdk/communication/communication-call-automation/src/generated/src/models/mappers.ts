@@ -1197,10 +1197,10 @@ export const MuteParticipantsResult: coreClient.CompositeMapper = {
   }
 };
 
-export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
+export const CancelAddParticipantOperationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CancelAddParticipantRequest",
+    className: "CancelAddParticipantOperationRequest",
     modelProperties: {
       invitationId: {
         serializedName: "invitationId",
@@ -1225,10 +1225,10 @@ export const CancelAddParticipantRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const CancelAddParticipantResponse: coreClient.CompositeMapper = {
+export const CancelAddParticipantOperationResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CancelAddParticipantResponse",
+    className: "CancelAddParticipantOperationResponse",
     modelProperties: {
       invitationId: {
         serializedName: "invitationId",

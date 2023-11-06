@@ -441,7 +441,7 @@ export interface MuteParticipantsResult {
 }
 
 /** Request payload for cancelling add participant request. */
-export interface CancelAddParticipantRequest {
+export interface CancelAddParticipantOperationRequest {
   /** Invitation ID used to add a participant. */
   invitationId: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
@@ -454,7 +454,7 @@ export interface CancelAddParticipantRequest {
 }
 
 /** Response payload for cancel add participant request. */
-export interface CancelAddParticipantResponse {
+export interface CancelAddParticipantOperationResponse {
   /** Invitation ID used to cancel the add participant action. */
   invitationId?: string;
   /** The operation context provided by client. */
@@ -1339,7 +1339,7 @@ export interface CallConnectionMuteOptionalParams
 export type CallConnectionMuteResponse = MuteParticipantsResult;
 
 /** Optional parameters. */
-export interface CallConnectionCancelAddParticipantOptionalParams
+export interface CallConnectionCancelAddParticipantOperationOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
   repeatabilityRequestID?: string;
@@ -1347,8 +1347,8 @@ export interface CallConnectionCancelAddParticipantOptionalParams
   repeatabilityFirstSent?: Date;
 }
 
-/** Contains response data for the cancelAddParticipant operation. */
-export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
+/** Contains response data for the cancelAddParticipantOperation operation. */
+export type CallConnectionCancelAddParticipantOperationResponse = CancelAddParticipantOperationResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams

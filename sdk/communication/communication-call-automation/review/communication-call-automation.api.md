@@ -96,7 +96,7 @@ export class CallConnection {
     // Warning: (ae-forgotten-export) The symbol "CallAutomationApiClientOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, options?: CallAutomationApiClientOptionalParams);
     addParticipant(targetParticipant: CallInvite, options?: AddParticipantOptions): Promise<AddParticipantResult>;
-    cancelAddParticipant(invitationId: string, options?: CancelAddParticipantOptions): Promise<CancelAddParticipantResult>;
+    cancelAddParticipantOperation(invitationId: string, options?: CancelAddParticipantOperationOptions): Promise<CancelAddParticipantOperationResult>;
     getCallConnectionProperties(options?: GetCallConnectionPropertiesOptions): Promise<CallConnectionProperties>;
     getCallMedia(): CallMedia;
     getParticipant(targetParticipant: CommunicationIdentifier, options?: GetParticipantOptions): Promise<CallParticipant>;
@@ -277,13 +277,13 @@ export interface CancelAddParticipantFailed extends Omit<RestCancelAddParticipan
 }
 
 // @public
-export interface CancelAddParticipantOptions extends OperationOptions {
+export interface CancelAddParticipantOperationOptions extends OperationOptions {
     operationCallbackUrl?: string;
     operationContext?: string;
 }
 
 // @public
-export interface CancelAddParticipantResult {
+export interface CancelAddParticipantOperationResult {
     invitationId?: string;
     operationContext?: string;
 }

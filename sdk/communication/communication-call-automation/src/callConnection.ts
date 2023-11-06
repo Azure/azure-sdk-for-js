@@ -18,7 +18,7 @@ import { CallConnectionImpl } from "./generated/src/operations";
 import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
 import {
   AddParticipantOptions,
-  CancelAddParticipantOptions,
+  CancelAddParticipantOperationOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
@@ -32,7 +32,7 @@ import {
   AddParticipantResult,
   RemoveParticipantResult,
   MuteParticipantResult,
-  CancelAddParticipantResult,
+  CancelAddParticipantOperationResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -321,20 +321,20 @@ export class CallConnection {
     return muteParticipantResult;
   }
 
-  /** Cancel add participant request.
+  /** Cancel add participant operation.
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
    */
-  public async cancelAddParticipant(
+  public async cancelAddParticipantOperation(
     invitationId: string,
-    options: CancelAddParticipantOptions = {}
-  ): Promise<CancelAddParticipantResult> {
+    options: CancelAddParticipantOperationOptions = {}
+  ): Promise<CancelAddParticipantOperationResult> {
     const {
       operationContext,
       operationCallbackUrl: operationCallbackUri,
       ...operationOptions
     } = options;
-    const cancelAddParticipantRequest = {
+    const cancelAddParticipantOperationRequest = {
       invitationId,
       operationContext: options.operationContext,
       operationCallbackUri,
@@ -345,10 +345,10 @@ export class CallConnection {
       repeatabilityRequestID: uuidv4(),
     };
 
-    return this.callConnection.cancelAddParticipant(
+    return this.callConnection.cancelAddParticipantOperation(
       this.callConnectionId,
-      cancelAddParticipantRequest,
+      cancelAddParticipantOperationRequest,
       optionsInternal
-    ) as Promise<CancelAddParticipantResult>;
+    ) as Promise<CancelAddParticipantOperationResult>;
   }
 }

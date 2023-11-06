@@ -26,9 +26,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
-  CancelAddParticipantRequest,
-  CallConnectionCancelAddParticipantOptionalParams,
-  CallConnectionCancelAddParticipantResponse,
+  CancelAddParticipantOperationRequest,
+  CallConnectionCancelAddParticipantOperationOptionalParams,
+  CallConnectionCancelAddParticipantOperationResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse
 } from "../models";
@@ -120,14 +120,14 @@ export interface CallConnection {
   /**
    * Cancel add participant operation.
    * @param callConnectionId The call connection Id
-   * @param cancelAddParticipantRequest Cancellation request.
+   * @param cancelAddParticipantOperationRequest Cancellation request.
    * @param options The options parameters.
    */
-  cancelAddParticipant(
+  cancelAddParticipantOperation(
     callConnectionId: string,
-    cancelAddParticipantRequest: CancelAddParticipantRequest,
-    options?: CallConnectionCancelAddParticipantOptionalParams
-  ): Promise<CallConnectionCancelAddParticipantResponse>;
+    cancelAddParticipantOperationRequest: CancelAddParticipantOperationRequest,
+    options?: CallConnectionCancelAddParticipantOperationOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantOperationResponse>;
   /**
    * Get participant from a call.
    * @param callConnectionId The call connection Id
