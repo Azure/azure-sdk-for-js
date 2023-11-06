@@ -11,17 +11,9 @@
 
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { wrapError } from "./util.js";
 
-export async function getSSEs(
-  response: StreamableMethod<unknown>
-): Promise<AsyncIterable<EventMessage>> {
-  const chunkIterator = await getStream(response);
-  return iterateSseStream(chunkIterator);
-}
-
-async function getStream<TResponse>(
+export async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
 ): Promise<AsyncIterable<Uint8Array>> {
   const { body, status } = await response.asNodeStream();

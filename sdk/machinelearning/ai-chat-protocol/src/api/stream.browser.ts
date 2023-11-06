@@ -10,19 +10,11 @@
  */
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { wrapError } from "./util.js";
 
-export async function getSSEs(
-  response: StreamableMethod<unknown>
-): Promise<AsyncIterable<EventMessage>> {
-  const iter = await getStream(response);
-  return iterateSseStream(iter);
-}
-
-async function getStream<TResponse>(
+export async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
-): Promise<ReadableStream<Uint8Array>> {
+): Promise<AsyncIterable<Uint8Array>> {
   const { body, status } = await response.asBrowserStream();
   if (status !== "200" && body !== undefined) {
     const text = await streamToText(body);
@@ -30,7 +22,22 @@ async function getStream<TResponse>(
   }
 
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
-  return body;
+  return toAsyncIterable(body);
+}
+
+async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
+  const reader = stream.getReader();
+  try {
+    while (true) {
+      const { value, done } = await reader.read();
+      if (done) {
+        return;
+      }
+      yield value;
+    }
+  } finally {
+    reader.releaseLock();
+  }
 }
 
 async function streamToText(stream: ReadableStream<Uint8Array>): Promise<string> {

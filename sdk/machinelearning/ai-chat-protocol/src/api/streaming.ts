@@ -10,29 +10,65 @@
  */
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { getSSEs } from "./getSSEs.js";
+import { getStream } from "./stream.js";
 import { wrapError } from "./util.js";
 
-export async function* streamSSEs<TEvent>(
+export async function* streamJSONLines<TModel>(
   response: StreamableMethod<unknown>,
-  toEvent: (obj: Record<string, any>) => TEvent
-): AsyncIterable<TEvent> {
-  const stream = await getSSEs(response);
-  let isDone = false;
-  for await (const event of stream) {
-    if (isDone) {
-      // handle a case where the service sends excess stream
-      // data after the [DONE] event
-      continue;
-    } else if (event.data === "[DONE]") {
-      isDone = true;
+  deserialize: (obj: any) => TModel
+): AsyncIterable<TModel> {
+  const stream = await getStream(response);
+  const lines = await toLines(stream);
+  const decoder = new TextDecoder();
+  for await (const line of lines) {
+    yield deserialize(
+      wrapError(
+        () => JSON.parse(decoder.decode(line)),
+        "Error parsing an event. See 'cause' for more details"
+      )
+    );
+  }
+}
+
+function concatBuffers(a: Uint8Array, b: Uint8Array): Uint8Array {
+  const res = new Uint8Array(a.length + b.length);
+  res.set(a);
+  res.set(b, a.length);
+  return res;
+}
+
+async function* toLines(chunks: AsyncIterable<Uint8Array>) {
+  let buff: Uint8Array | undefined = undefined;
+  for await (const chunk of chunks) {
+    if (buff === undefined) {
+      buff = chunk;
     } else {
-      yield toEvent(
-        wrapError(
-          () => JSON.parse(event.data),
-          "Error parsing an event. See 'cause' for more details"
-        )
-      );
+      buff = concatBuffers(buff, chunk);
+    }
+    let buffLen = buff.length;
+    let buffIdx = 0;
+    while (buffIdx < buffLen) {
+      for (; buffIdx < buffLen; buffIdx++) {
+        if (buff[buffIdx] === tokenNewLine) {
+          break;
+        }
+      }
+      if (buffIdx === buffLen) {
+        /* Didn't find a new line, so we need to read more data */
+        break;
+      }
+      yield buff.subarray(0, buffIdx);
+      const newLineStart = buffIdx + 1;
+      if (newLineStart === buffLen) {
+        buff = undefined;
+        break;
+      } else {
+        buff = buff.subarray(newLineStart);
+        buffIdx = 0;
+        buffLen = buff.length;
+      }
     }
   }
 }
+
+const tokenNewLine = "\n".charCodeAt(0);

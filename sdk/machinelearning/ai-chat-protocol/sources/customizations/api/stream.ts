@@ -2,18 +2,10 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, iterateSseStream } from "@azure/core-sse";
-import { RestError } from "@azure/core-rest-pipeline";
 import { wrapError } from "./util.js";
+import { RestError } from "@azure/core-rest-pipeline";
 
-export async function getSSEs(
-  response: StreamableMethod<unknown>
-): Promise<AsyncIterable<EventMessage>> {
-  const chunkIterator = await getStream(response);
-  return iterateSseStream(chunkIterator);
-}
-
-async function getStream<TResponse>(
+export async function getStream<TResponse>(
   response: StreamableMethod<TResponse>
 ): Promise<AsyncIterable<Uint8Array>> {
   const { body, status } = await response.asNodeStream();

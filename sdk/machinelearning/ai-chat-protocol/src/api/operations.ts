@@ -22,7 +22,7 @@ import {
   Create200Response,
   CreateStreaming200Response,
 } from "../rest/index.js";
-import { streamSSEs } from "./streaming.js";
+import { streamJSONLines } from "./streaming.js";
 
 export async function _createDeserialize(result: Create200Response): Promise<ChatCompletion> {
   if (result.status !== "200") {
@@ -58,7 +58,7 @@ export function createStreaming(
   options: CompletionOptions = { requestOptions: {} }
 ): AsyncIterable<ChatCompletionChunk> {
   const result = _createStreamingSend(context, messages, options);
-  return streamSSEs(result, _createStreamingDeserialize);
+  return streamJSONLines(result, _createStreamingDeserialize);
 }
 
 export function _createSend(

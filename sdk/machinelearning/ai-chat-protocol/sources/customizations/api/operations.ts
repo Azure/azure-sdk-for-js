@@ -9,7 +9,7 @@ import { _createDeserialize } from "../../generated/src/api/operations.js";
 
 import { CompletionOptions } from "../models/options.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { streamSSEs } from "./streaming.js";
+import { streamJSONLines } from "./streaming.js";
 import { ChatProtocolContext as Client } from "../rest/clientDefinitions.js";
 
 function _createStreamingSend(
@@ -51,7 +51,7 @@ export function createStreaming(
   options: CompletionOptions = { requestOptions: {} }
 ): AsyncIterable<ChatCompletionChunk> {
   const result = _createStreamingSend(context, messages, options);
-  return streamSSEs(result, _createStreamingDeserialize);
+  return streamJSONLines(result, _createStreamingDeserialize);
 }
 
 export function _createSend(
