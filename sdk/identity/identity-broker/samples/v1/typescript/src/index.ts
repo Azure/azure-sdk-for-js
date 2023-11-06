@@ -6,7 +6,7 @@
  * packages for WAM MSA support.
  */
 
-import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
+import { InteractiveBrowserCredential, InteractiveBrowserCredentialNodeOptions, useIdentityPlugin } from "@azure/identity";
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { setLogLevel } from "@azure/logger";
 
@@ -50,7 +50,7 @@ app.on("ready", async () => {
         parentWindowHandle: winHandle,
         legacyEnableMsaPassthrough: true,
       },
-    });
+    } as InteractiveBrowserCredentialNodeOptions);
 
     // This is the scope we will use to get a token from the Microsoft Entra token endpoint.
     // By default, we'll use the Microsoft Graph scope as an example, but when

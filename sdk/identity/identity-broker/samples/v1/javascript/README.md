@@ -1,20 +1,20 @@
 ---
 page_type: sample
 languages:
-  - typescript
+  - javascript
 products:
   - azure
   - azure-active-directory
-urlFragment: identity-broker-typescript-beta
+urlFragment: identity-broker-javascript-beta
 ---
 
-# Azure Identity Brokered Auth Plugin client library samples for TypeScript (Beta)
+# Azure Identity Brokered Auth Plugin client library samples for JavaScript (Beta)
 
-These sample programs show how to use the TypeScript client libraries for Azure Identity Brokered Auth Plugin in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Identity Brokered Auth Plugin in some common scenarios.
 
 | **File Name**     | **Description**       |
 | ----------------- | --------------------- |
-| [index.ts][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
+| [index.js][index] | Demonstrates [WAM broker authentication](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-acquire-token-wam) scenario on electron app with the usage of identity broker plugin package along with the InteractiveBrowserCredential from the identity package. |
 
 ## Prerequisites
 
@@ -39,15 +39,9 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Compile the sample:
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-```bash
-npm run build
-```
-
-3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
-
-4. Run the Electron Sample using the following command:
+3. Run the Electron Sample using the following command:
 
 ```bash
 npm run start
@@ -56,17 +50,16 @@ npm run start
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" electron ./dist/index.js
+npx cross-env AZURE_CLIENT_ID="<azure client id>" AZURE_AUTHORITY_HOST="<azure authority host>" AZURE_TENANT_ID="<azure tenant id>" AAD_TEST_SCOPE="<aad test scope>" electron index.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1-beta/typescript/src/index.ts
+[index]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity-broker/samples/v1/javascript/index.js
 [apiref]: https://learn.microsoft.com/javascript/api/@azure/identity
-[freesub]: https://azure.microsoft.com/free/nodejs
+[freesub]: https://azure.microsoft.com/free/
 [createinstance_azureactivedirectoryappregistration]: https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app
 [createinstance_azurekeyvault]: https://learn.microsoft.com/azure/key-vault/quick-create-portal
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker/README.md
-[typescript]: https://www.typescriptlang.org/docs/home.html
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker
