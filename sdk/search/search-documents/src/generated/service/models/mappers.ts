@@ -3156,7 +3156,7 @@ export const PIIDetectionSkill: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      mask: {
+      maskingCharacter: {
         constraints: {
           MaxLength: 1
         },

@@ -1253,7 +1253,7 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** A parameter that provides various ways to mask the personal information detected in the input text. Default is 'none'. */
   maskingMode?: PIIDetectionSkillMaskingMode;
   /** The character used to mask the text if the maskingMode parameter is set to replace. Default is `*`. */
-  mask?: string;
+  maskingCharacter?: string;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
   /** A list of PII entity categories that should be extracted and masked. */

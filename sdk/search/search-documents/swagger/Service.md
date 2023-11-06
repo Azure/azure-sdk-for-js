@@ -353,6 +353,13 @@ directive:
     transform: $["x-ms-client-name"] = "algorithmConfigurationName";
 ```
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PIIDetectionSkill.properties.maskingCharacter
+    transform: $["x-ms-client-name"] = undefined;
+```
+
 ### Deprecations
 
 ```yaml
@@ -375,4 +382,3 @@ directive:
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
   transform: $.description += "\n\n@deprecated";
 ```
-
