@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { InterfaceDeclaration, SourceFile } from "ts-morph";
+import { CallSignatureDeclaration, InterfaceDeclaration, SourceFile, Type } from "ts-morph";
 import { getAnnotation } from "./helpers/annotations";
 
 export function augmentInterfaces(
@@ -31,6 +31,12 @@ export function augmentInterface(
 
   // Merge the properties from the custom interface into the original interface
   mergeProperties(customInterface, originalInterface);
+
+  // Remove any call signatures marked with // @azsdk-remove
+  removeCallSignatures(customInterface, originalInterface);
+
+  // Merge the call signatures from the custom interface into the original interface
+  mergeCallSignatures(customInterface, originalInterface);
 }
 
 export function mergeProperties(
@@ -39,6 +45,10 @@ export function mergeProperties(
 ) {
   const customProperties = customInterface.getProperties();
   for (const customProperty of customProperties) {
+    if (getAnnotation(customProperty) === "Remove") {
+      /* If the property has a `// @azsdk-remove` comment, we don't need to re-add it */
+      continue;
+    }
     const propertyName = customProperty.getName();
     const originalProperty = originalInterface.getProperty(propertyName);
 
@@ -65,6 +75,70 @@ export function removeProperties(
     // Check if the property has a `// @azsdk-remove` comment
     if (getAnnotation(customProperty) === "Remove") {
       originalInterface.getProperty(propertyName)?.remove();
+    }
+  }
+}
+
+function findCallSignature(
+  interfaceDeclaration: InterfaceDeclaration,
+  callSignature: CallSignatureDeclaration
+): CallSignatureDeclaration | undefined {
+  function typeEquals(a: Type, b: Type) {
+    // Need to handle cases where the type is imported
+    const aStr = a?.getText()?.replace(/import\(\".+\"\)\./, "");
+    const bStr = b?.getText()?.replace(/import\(\".+\"\)\./, "");
+    return aStr && bStr && aStr === bStr;
+  }
+  return interfaceDeclaration.getCallSignature((signature) => {
+    if (signature.getParameters().length !== callSignature.getParameters().length) {
+      return false;
+    }
+    signature.getReturnTypeNode;
+    if (!typeEquals(signature.getReturnType(), callSignature.getReturnType())) {
+      return false;
+    }
+
+    for (let i = 0; i < signature.getParameters().length; i++) {
+      if (
+        !typeEquals(
+          signature.getParameters()[i].getType(),
+          callSignature.getParameters()[i].getType()
+        )
+      ) {
+        return false;
+      }
+    }
+    return true;
+  });
+}
+
+export function mergeCallSignatures(
+  customInterface: InterfaceDeclaration,
+  originalInterface: InterfaceDeclaration
+) {
+  const customCallSignatures = customInterface.getCallSignatures();
+  for (const customCallSignature of customCallSignatures) {
+    if (getAnnotation(customCallSignature) === "Remove") {
+      /* If the call signature has a `// @azsdk-remove` comment, we don't need to re-add it */
+      continue;
+    }
+    const originalCallSignature = findCallSignature(originalInterface, customCallSignature);
+    if (originalCallSignature) {
+      originalCallSignature.remove();
+    }
+    originalInterface.addCallSignature(customCallSignature.getStructure());
+  }
+}
+
+export function removeCallSignatures(
+  customInterface: InterfaceDeclaration,
+  originalInterface: InterfaceDeclaration
+) {
+  const customCallSignatures = customInterface.getCallSignatures();
+  for (const customCallSignature of customCallSignatures) {
+    // Check if the signature has a `// @azsdk-remove` comment
+    if (getAnnotation(customCallSignature) === "Remove") {
+      findCallSignature(originalInterface, customCallSignature)?.remove();
     }
   }
 }
