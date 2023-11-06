@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Recorder, isLiveMode, testPollingOptions } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, testPollingOptions } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
@@ -100,8 +100,9 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it("accepts  operation options", async function () {
-      if (!isLiveMode()) this.skip();
+    // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts  operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
           requestOptions: {
@@ -145,9 +146,8 @@ describe("AppConfigurationClient snapshot", () => {
       );
     });
 
-    it("accepts operation options", async function () {
-      if (!isLiveMode()) this.skip();
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+    it.skip("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -173,9 +173,8 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it("accepts operation options", async function () {
-      if (!isLiveMode()) this.skip();
-      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+    it.skip("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       await assertThrowsAbortError(async () => {
         await client.recoverSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -196,8 +195,9 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it("accepts operation options", async function () {
-      if (!isLiveMode()) this.skip();
+    // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
+    it.skip("accepts operation options", async function () {
+      if (isPlaybackMode()) this.skip();
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {
