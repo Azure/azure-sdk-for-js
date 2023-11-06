@@ -94,34 +94,20 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createFile(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, options?: CreateFileFromStreamOptions): File;
+export function createFile(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
 
 // @public
-export function createFile(content: Uint8Array, options?: CreateFileFromUint8ArrayOptions): File;
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
 
-// @public (undocumented)
-export interface CreateFileFromStreamOptions {
-    // (undocumented)
-    lastModified?: number;
-    // (undocumented)
-    name?: string;
-    // (undocumented)
+// @public
+export interface CreateFileFromStreamOptions extends CreateFileOptions {
     size?: number;
-    // (undocumented)
-    type?: string;
-    // (undocumented)
-    webkitRelativePath?: string;
 }
 
-// @public (undocumented)
-export interface CreateFileFromUint8ArrayOptions {
-    // (undocumented)
+// @public
+export interface CreateFileOptions {
     lastModified?: number;
-    // (undocumented)
-    name?: string;
-    // (undocumented)
     type?: string;
-    // (undocumented)
     webkitRelativePath?: string;
 }
 
