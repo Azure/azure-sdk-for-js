@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const logger = require("@azure/logger");
+import { createClientLogger } from "@azure/logger";
+
+export const logger = createClientLogger("communication-job-router");

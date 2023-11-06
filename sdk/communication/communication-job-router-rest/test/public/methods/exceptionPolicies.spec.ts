@@ -121,7 +121,7 @@ describe("JobRouterClient", function () {
         .path("/routing/exceptionPolicies")
         .get({ queryParameters: { maxpagesize: 20 } });
 
-      if (response.status == "200") {
+      if (response.status === "200") {
         // The paginate helper creates a paged async iterator using metadata from the first page.
         const items = paginate(routerClient, response);
 

@@ -277,7 +277,7 @@ function getExceptionPolicyRequestInternal(
 ): ExceptionPolicyRequest {
   const id = `${exceptionPolicyId}-${guid}`;
   const id2 = `${exceptionPolicyId2}-${guid}`;
-  let exceptionRules = getExceptionRules(guid, addReclassifyAction);
+  const exceptionRules = getExceptionRules(guid, addReclassifyAction);
   return {
     exceptionPolicyId: id,
     exceptionPolicyIdForCreationAndDeletionTest: id2,
@@ -289,7 +289,7 @@ function getExceptionPolicyRequestInternal(
 }
 
 function getExceptionRules(guid: string, addReclassifyAction: boolean): Array<ExceptionRule> {
-  let exceptionRules: Array<ExceptionRule> = [
+  const exceptionRules: Array<ExceptionRule> = [
     {
       id: "MaxWaitTimeExceededCancel",
       actions: [
