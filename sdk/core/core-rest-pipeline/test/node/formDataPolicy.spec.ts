@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { MultipartRequestBody } from "../../src/interfaces";

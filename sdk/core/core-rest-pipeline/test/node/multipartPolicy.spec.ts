@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { isNode, stringToUint8Array } from "@azure/core-util";
 import { Readable } from "stream";

@@ -32,7 +32,7 @@ export function toWebStream(
 export function concatenateStreams(
   streams: ReadableStream<Uint8Array>[]
 ): ReadableStream<Uint8Array> {
-  let remainingStreams = Array.from(streams);
+  const remainingStreams = Array.from(streams);
   let reader = remainingStreams.shift()?.getReader();
 
   async function doPull(controller: ReadableStreamDefaultController<Uint8Array>): Promise<void> {

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isReadableStream } from "./typeGuards";
 import { toWebStream } from "./stream";
 

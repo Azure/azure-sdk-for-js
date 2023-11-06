@@ -13,7 +13,7 @@ import {
 import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
 import { createFile } from "../src/util/file";
 
-export async function performRequest(formData: FormDataMap) {
+export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
     url: "https://bing.com",
     headers: createHttpHeaders({

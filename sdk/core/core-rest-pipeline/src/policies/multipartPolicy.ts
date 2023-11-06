@@ -105,7 +105,7 @@ export function multipartPolicy(): PipelinePolicy {
 
       let boundary = request.multipartBody.boundary;
 
-      let contentTypeHeader = request.headers.get("Content-Type") ?? "multipart/mixed";
+      const contentTypeHeader = request.headers.get("Content-Type") ?? "multipart/mixed";
       const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
       if (!parsedHeader) {
         throw new Error(
