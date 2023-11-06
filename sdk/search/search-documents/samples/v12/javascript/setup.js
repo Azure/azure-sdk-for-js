@@ -5,7 +5,7 @@
  * Defines the utility methods.
  */
 
-const { KnownLexicalAnalyzerNames } = require("@azure/search-documents");
+const { KnownAnalyzerNames } = require("@azure/search-documents");
 
 const WAIT_TIME = 4000;
 
@@ -45,7 +45,7 @@ async function createIndex(client, name) {
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+        analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
         type: "Collection(Edm.Single)",
@@ -65,7 +65,7 @@ async function createIndex(client, name) {
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+        analyzerName: KnownAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -167,13 +167,13 @@ async function createIndex(client, name) {
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+            analyzerName: KnownAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+            analyzerName: KnownAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",

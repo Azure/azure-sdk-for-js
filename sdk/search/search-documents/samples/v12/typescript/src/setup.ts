@@ -5,7 +5,7 @@
  * Defines the utility methods.
  */
 
-import { SearchIndexClient, SearchIndex, KnownLexicalAnalyzerNames } from "@azure/search-documents";
+import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
 import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
@@ -46,7 +46,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         type: "Edm.String",
         name: "description",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+        analyzerName: KnownAnalyzerNames.EnLucene,
       },
       {
         type: "Collection(Edm.Single)",
@@ -66,7 +66,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         type: "Edm.String",
         name: "descriptionFr",
         searchable: true,
-        analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+        analyzerName: KnownAnalyzerNames.FrLucene,
       },
       {
         type: "Edm.String",
@@ -168,13 +168,13 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
             type: "Edm.String",
             name: "description",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.EnLucene,
+            analyzerName: KnownAnalyzerNames.EnLucene,
           },
           {
             type: "Edm.String",
             name: "descriptionFr",
             searchable: true,
-            analyzerName: KnownLexicalAnalyzerNames.FrLucene,
+            analyzerName: KnownAnalyzerNames.FrLucene,
           },
           {
             type: "Edm.String",
