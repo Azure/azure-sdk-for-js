@@ -434,6 +434,9 @@
 /sdk/iothub/arm-iothub-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/integrationspaces/arm-integrationspaces/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/keyvault/arm-keyvault/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
