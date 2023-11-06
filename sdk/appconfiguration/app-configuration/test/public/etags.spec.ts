@@ -214,17 +214,17 @@ describe("etags", () => {
     const snapshot1 = {
       name: recorder.variable("snapshot", `snapshot${Math.floor(Math.random() * 1000)}`),
       retentionPeriodInSeconds: 2592000,
-      filters: [{keyFilter: key, valueFilter: "some value"}],
+      filters: [{ keyFilter: key, valueFilter: "some value" }],
     };
     const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
     await assertThrowsRestError(
-      () => client.archiveSnapshot(newSnapshot.name, { etag: "badEtag"}),
+      () => client.archiveSnapshot(newSnapshot.name, { etag: "badEtag" }),
       412
     );
     await client.archiveSnapshot(newSnapshot.name, { etag: newSnapshot.etag });
 
     await assertThrowsRestError(
-      () => client.recoverSnapshot(newSnapshot.name, { etag: "badEtag"}),
+      () => client.recoverSnapshot(newSnapshot.name, { etag: "badEtag" }),
       412
     );
   });
