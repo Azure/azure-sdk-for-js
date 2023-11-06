@@ -1,0 +1,389 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies/test-d-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "157",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6ab06c79-65e3-4a5e-b53c-36e0af9504e6",
+        "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": {
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "ETag": "\u0022b403bfda-0000-0700-0000-65457e960000\u0022",
+        "Last-Modified": "Fri, 03 Nov 2023 23:13:26 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "54a67f62-edf7-3e2c-e484-a1051106c9d8",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAAAdtEfiSursQbhezD77NtAsV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-d-policy-recorded-jobs",
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        },
+        "etag": "\u0022b403bfda-0000-0700-0000-65457e960000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-e-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "201",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "e255ebaf-0dda-4465-ad7c-3b6edac86df2",
+        "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": {
+        "name": "test-e-policy",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            ],
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            }
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "ETag": "\u00222d1ba065-0000-0700-0000-65483a5f0000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 00:59:11 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "0d3251d0-200b-a9e9-aae7-8daf18065e8d",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAABXgMuvvpblRKvRIh4ncCqUV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-e-policy-recorded-jobs",
+        "name": "test-e-policy",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling",
+                "id": "ec96d18c-82b7-424e-9bf4-ac2c5a98ef02"
+              }
+            ]
+          }
+        ],
+        "etag": "\u00222d1ba065-0000-0700-0000-65483a5f0000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/queues/test-a-queue-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "172",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "12ed57f3-4deb-425d-b2ae-ca8d0b1546b3",
+        "x-ms-content-sha256": "1FbWDlkYNs0PHIE8\u002BMhyPKGHh\u002BKztZc0cZwoX8Hhj8c=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": {
+        "id": "test-a-queue-recorded-jobs",
+        "name": "test-a-queue",
+        "exceptionPolicyId": "test-e-policy-recorded-jobs",
+        "distributionPolicyId": "test-d-policy-recorded-jobs",
+        "labels": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "ETag": "\u0022e2036717-0000-0700-0000-65457e970000\u0022",
+        "Last-Modified": "Fri, 03 Nov 2023 23:13:27 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "ab106086-a344-8775-b2a1-ae46c29545b5",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAAANaNZJ\u002BIYOTqi51eBT/17QV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-a-queue-recorded-jobs",
+        "name": "test-a-queue",
+        "distributionPolicyId": "test-d-policy-recorded-jobs",
+        "labels": {
+          "Id": "test-a-queue-recorded-jobs"
+        },
+        "exceptionPolicyId": "test-e-policy-recorded-jobs",
+        "etag": "\u0022e2036717-0000-0700-0000-65457e970000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/classificationPolicies/test-c-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "71",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ee756da9-3806-4d8f-859f-f83a0d224b04",
+        "x-ms-content-sha256": "OVJbBw7XtqDPGeuYZG8B54E7KeiWUptKurazKpEeB9E=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": {
+        "name": "test-c-policy",
+        "fallbackQueueId": "test-a-queue-recorded-jobs"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "ETag": "\u0022dc036143-0000-0700-0000-6545805f0000\u0022",
+        "Last-Modified": "Fri, 03 Nov 2023 23:21:03 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "1a62c8e2-4a37-735f-fb1a-cf9fa61d4a7c",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAADw9fZULVHzRoqnrGXGpLENV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-c-policy-recorded-jobs",
+        "name": "test-c-policy",
+        "fallbackQueueId": "test-a-queue-recorded-jobs",
+        "queueSelectorAttachments": [],
+        "workerSelectorAttachments": [],
+        "etag": "\u0022dc036143-0000-0700-0000-6545805f0000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/jobs/test-job-recorded-jobs:reclassify?api-version=2023-11-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5e779aaa-1cf2-401e-b5af-1a2fc2156aca",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "c4fdf2b7-de49-94fc-e352-feb7716ae39c",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAAAUvs2dy2qmSKzk9iW\u002BEFcoV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {}
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/classificationPolicies/test-c-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "1851e9ff-939f-476a-a826-e978715bb1c3",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:10 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "01757b25-a0b0-8ff4-20a8-c52045218b98",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAAB5K38LUEkBR4F56\u002BRpGHEfV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "BadRequest",
+          "message": "One or more validation errors occurred.",
+          "target": "/routing/classificationPolicies/test-c-policy-recorded-jobs",
+          "details": [
+            {
+              "code": "ActiveJobWithClassificationPolicyExist",
+              "message": "There is active job with this classification policy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/distributionPolicies/test-d-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "dec6ddf6-064e-4ae8-a9bc-58734c726f76",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:13 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:11 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "e03e3977-b38e-c4bd-1ca5-616749b31a0b",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAAAoDuxqGyWzSZGHFHrgUoMrV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "BadRequest",
+          "message": "One or more validation errors occurred.",
+          "target": "/routing/distributionPolicies/test-d-policy-recorded-jobs",
+          "details": [
+            {
+              "code": "QueueExistsWithDistributionPolicy",
+              "message": "There is a queue with this distribution policy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-e-policy-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cfa21185-f39d-40a4-8678-9772f2adf258",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:14 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:11 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "b4d7e470-874f-c6f9-3766-74abd55963e4",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XzpIZQAAAABnc4iwOpDdTIIiLsondOnlV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "BadRequest",
+          "message": "One or more validation errors occurred.",
+          "target": "/routing/exceptionPolicies/test-e-policy-recorded-jobs",
+          "details": [
+            {
+              "code": "QueueExistsWithExceptionPolicy",
+              "message": "There is a queue with this exception policy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/queues/test-a-queue-recorded-jobs?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d119613a-b4bb-4801-b5ef-02afa4e61487",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:14 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:11 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "36fbe5d3-df31-3fc7-00c5-82cc5ea7d169",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0YDpIZQAAAAAgr7BD0JbzTIiexeu2d3o1V1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "Conflict",
+          "message": "Validation failed: \r\n -- : There is active job with this queue\r\n -- : There is classification policy with this queue as fallback queue",
+          "target": "/routing/queues/test-a-queue-recorded-jobs"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

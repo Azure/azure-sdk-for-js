@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-h-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "94e3a2d9-bf7c-47be-8dfa-ac7e52f54d8d",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:09 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:06 GMT",
+        "ETag": "\u00222d1b6763-0000-0700-0000-65483a5b0000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "8b804185-fffe-04eb-b505-a5ec11f0cafc",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0WzpIZQAAAABVLRZh2BGcT5XeSuatvUVrV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-h-policy-recorded-d-policies",
+        "name": "test-e-policy",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling",
+                "id": "cd05a7b6-5c71-4c09-a235-a2bb7b689c7c"
+              }
+            ]
+          }
+        ],
+        "etag": "\u00222d1b6763-0000-0700-0000-65483a5b0000\u0022"
+      }
+    }
+  ],
+  "Variables": {}
+}

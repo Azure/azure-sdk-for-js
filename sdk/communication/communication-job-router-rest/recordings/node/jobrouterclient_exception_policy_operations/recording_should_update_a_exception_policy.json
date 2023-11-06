@@ -1,0 +1,140 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-h-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "196",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "cb17042e-e69f-409e-8c15-1ad7e8019014",
+        "x-ms-content-sha256": "T08Cc0oh0OCgjvQtVF3ifpaMYKKJJo7C9SWFC9tsPmk=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:09 GMT"
+      },
+      "RequestBody": {
+        "name": "new-name",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            ],
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            }
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "ETag": "\u00222d1b8863-0000-0700-0000-65483a5b0000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "452d7e5b-1590-04de-041c-1c83b3711870",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0WzpIZQAAAACX7PToF1HgR6/OrI8d4TGEV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-h-policy-recorded-d-policies",
+        "name": "new-name",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling",
+                "id": "cce263ca-5144-4a4e-b52f-26d5431c2071"
+              }
+            ]
+          }
+        ],
+        "etag": "\u00222d1b8863-0000-0700-0000-65483a5b0000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies/test-h-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "190",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f94fe8b9-81b4-4331-b639-ee77b9878148",
+        "x-ms-content-sha256": "/OT3Iv0syX7hJPWva/PQHBFSLi\u002BBjeu9AV6k0ZLeBSk=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:10 GMT"
+      },
+      "RequestBody": {
+        "name": null,
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            ],
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            }
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "ETag": "\u00222d1b9a63-0000-0700-0000-65483a5c0000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 00:59:08 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "dd1e3729-c3c9-bb8e-ab26-9d811eff96ba",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XDpIZQAAAABk/F02auP6RJ4bsJmtwxHfV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-h-policy-recorded-d-policies",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling",
+                "id": "d05d0957-4d61-4426-8583-85c466115a22"
+              }
+            ]
+          }
+        ],
+        "etag": "\u00222d1b9a63-0000-0700-0000-65483a5c0000\u0022"
+      }
+    }
+  ],
+  "Variables": {}
+}

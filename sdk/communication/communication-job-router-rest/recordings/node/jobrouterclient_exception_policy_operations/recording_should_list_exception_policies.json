@@ -1,0 +1,118 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://ccaap-test-marc.unitedstates.communication.azure.com/routing/exceptionPolicies?maxpagesize=20\u0026api-version=2023-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3b3d3fbf-0194-46e0-8a93-c5c16ac7f740",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Mon, 06 Nov 2023 00:59:10 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 06 Nov 2023 00:59:07 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "dc0cfb7e-d358-96ca-e3a1-8e01e2768334",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0XDpIZQAAAACRMz3RGQ7QT7iMsIBvSgjRV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "test-h-policy-recorded-d-policies",
+            "exceptionRules": [
+              {
+                "id": "MaxWaitTimeExceededCancel",
+                "trigger": {
+                  "kind": "wait-time",
+                  "thresholdSeconds": 10
+                },
+                "actions": [
+                  {
+                    "kind": "cancel",
+                    "note": "wait time exceeded; cancelling",
+                    "id": "d05d0957-4d61-4426-8583-85c466115a22"
+                  }
+                ]
+              }
+            ],
+            "etag": "\u00222d1b9a63-0000-0700-0000-65483a5c0000\u0022"
+          },
+          {
+            "id": "test-e-policy-recorded-jobs",
+            "name": "test-e-policy",
+            "exceptionRules": [
+              {
+                "id": "MaxWaitTimeExceededCancel",
+                "trigger": {
+                  "kind": "wait-time",
+                  "thresholdSeconds": 10
+                },
+                "actions": [
+                  {
+                    "kind": "cancel",
+                    "note": "wait time exceeded; cancelling",
+                    "id": "ebeb914e-854c-4827-b733-2803a70bfe8a"
+                  }
+                ]
+              }
+            ],
+            "etag": "\u00222b1bf098-0000-0700-0000-6548386a0000\u0022"
+          },
+          {
+            "id": "test-e-policy-recorded-workers",
+            "name": "test-e-policy",
+            "exceptionRules": [
+              {
+                "id": "MaxWaitTimeExceededCancel",
+                "trigger": {
+                  "kind": "wait-time",
+                  "thresholdSeconds": 10
+                },
+                "actions": [
+                  {
+                    "kind": "cancel",
+                    "note": "wait time exceeded; cancelling",
+                    "id": "fe7b94f2-8435-40a8-92bc-35369432bc3e"
+                  }
+                ]
+              }
+            ],
+            "etag": "\u00222b1b49a1-0000-0700-0000-654838730000\u0022"
+          },
+          {
+            "id": "test-e-policy-recorded-d-policies",
+            "name": "test-e-policy",
+            "exceptionRules": [
+              {
+                "id": "MaxWaitTimeExceededCancel",
+                "trigger": {
+                  "kind": "wait-time",
+                  "thresholdSeconds": 10
+                },
+                "actions": [
+                  {
+                    "kind": "cancel",
+                    "note": "wait time exceeded; cancelling",
+                    "id": "795e8055-d2ca-443b-bcac-c6f455fc082c"
+                  }
+                ]
+              }
+            ],
+            "etag": "\u00222d1b8362-0000-0700-0000-65483a5a0000\u0022"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
