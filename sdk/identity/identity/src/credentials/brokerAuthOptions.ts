@@ -12,5 +12,5 @@ export interface BrokerAuthOptions {
    * Options to allow broker authentication when using InteractiveBrowserCredential
    *
    */
-  brokerOptions: BrokerOptions;
+  brokerOptions?: BrokerOptions;
 }
