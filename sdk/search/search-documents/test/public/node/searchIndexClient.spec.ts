@@ -1,18 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isLiveMode, env } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
-import {
-  AzureOpenAIVectorizer,
-  SearchIndex,
-  SearchIndexClient,
-  SynonymMap,
-  VectorSearchAlgorithmConfiguration,
-  VectorSearchProfile,
-} from "../../../src";
+import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
@@ -230,65 +223,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         index = await indexClient.getIndex(TEST_INDEX_NAME);
         assert.equal(index.fields.length, 6);
       });
-    });
-  });
-  onVersions({ minVer: "2023-10-01-Preview" }).describe(
-    "SearchIndexClient",
-    function (this: Suite) {
-      let recorder: Recorder;
-      let indexClient: SearchIndexClient;
-      let TEST_INDEX_NAME: string;
 
-      this.timeout(99999);
-
-      beforeEach(async function (this: Context) {
-        recorder = new Recorder(this.currentTest);
-        TEST_INDEX_NAME = createRandomIndexName();
-        ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-          serviceVersion,
-          recorder,
-          TEST_INDEX_NAME
-        ));
-
-        await createSynonymMaps(indexClient);
-        await createSimpleIndex(indexClient, TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-      });
-
-      afterEach(async function () {
-        await indexClient.deleteIndex(TEST_INDEX_NAME);
-        await delay(WAIT_TIME);
-        await deleteSynonymMaps(indexClient);
-        if (recorder) {
-          await recorder.stop();
-        }
-      });
-
-      it("creates the index object vector fields", async function () {
-        const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
-
-        const algorithm: VectorSearchAlgorithmConfiguration = {
-          name: "algorithm-configuration",
-          kind: "hnsw",
-          parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
-        };
-        const vectorizer: AzureOpenAIVectorizer = {
-          kind: "azureOpenAI",
-          name: "vectorizer",
-          azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
-          },
-        };
-        const profile: VectorSearchProfile = {
-          name: "profile",
-          algorithm: algorithm.name,
-          vectorizer: vectorizer.name,
-        };
-
-        let index: SearchIndex = {
-          name: indexName,
+      it("correctly instantiates the index", async function () {
+        const index: SearchIndex = {
+          name: "hotel-live-test5",
           fields: [
             {
               type: "Edm.String",
@@ -296,29 +234,41 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               key: true,
             },
             {
-              type: "Collection(Edm.Single)",
-              name: "descriptionVector",
-              vectorSearchDimensions: 1536,
-              searchable: true,
-              vectorSearchProfile: profile.name,
+              type: "Edm.Double",
+              name: "awesomenessLevel",
+              sortable: true,
+              filterable: true,
+              facetable: true,
             },
           ],
-          vectorSearch: {
-            algorithms: [algorithm],
-            vectorizers: [vectorizer],
-            profiles: [profile],
-          },
+          analyzers: [
+            {
+              odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
+              name: "foo",
+              tokenizerName: "classic",
+              charFilters: ["foo"],
+              tokenFilters: [],
+            },
+          ],
+          charFilters: [
+            {
+              name: "foo",
+              odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter",
+              pattern: "bar",
+              replacement: "baz",
+            },
+          ],
         };
-        await indexClient.createOrUpdateIndex(index);
+
         try {
-          index = await indexClient.getIndex(indexName);
-          assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-          assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);
-          assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
+          const createdIndex = await indexClient.createIndex(index);
+          const test = createdIndex.analyzers![0];
+          const expect = index.analyzers![0];
+          assert.deepEqual(expect, test);
         } finally {
-          await indexClient.deleteIndex(index);
+          await indexClient.deleteIndex(index.name);
         }
       });
-    }
-  );
+    });
+  });
 });

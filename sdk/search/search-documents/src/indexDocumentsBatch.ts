@@ -7,13 +7,13 @@ import { IndexDocumentsAction } from "./indexModels";
  * Class used to perform batch operations
  * with multiple documents to the index.
  */
-export class IndexDocumentsBatch<T> {
+export class IndexDocumentsBatch<TModel> {
   /**
    * The set of actions taken in this batch.
    */
-  public readonly actions: IndexDocumentsAction<T>[];
+  public readonly actions: IndexDocumentsAction<TModel>[];
 
-  constructor(actions: IndexDocumentsAction<T>[] = []) {
+  constructor(actions: IndexDocumentsAction<TModel>[] = []) {
     this.actions = actions;
   }
 
@@ -21,8 +21,8 @@ export class IndexDocumentsBatch<T> {
    * Upload an array of documents to the index.
    * @param documents - The documents to upload.
    */
-  public upload(documents: T[]): void {
-    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
+  public upload(documents: TModel[]): void {
+    const batch = documents.map<IndexDocumentsAction<TModel>>((doc) => {
       return {
         ...doc,
         __actionType: "upload",
@@ -37,8 +37,8 @@ export class IndexDocumentsBatch<T> {
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The updated documents.
    */
-  public merge(documents: T[]): void {
-    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
+  public merge(documents: TModel[]): void {
+    const batch = documents.map<IndexDocumentsAction<TModel>>((doc) => {
       return {
         ...doc,
         __actionType: "merge",
@@ -53,8 +53,8 @@ export class IndexDocumentsBatch<T> {
    * For more details about how merging works, see https://docs.microsoft.com/en-us/rest/api/searchservice/AddUpdate-or-Delete-Documents
    * @param documents - The new/updated documents.
    */
-  public mergeOrUpload(documents: T[]): void {
-    const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
+  public mergeOrUpload(documents: TModel[]): void {
+    const batch = documents.map<IndexDocumentsAction<TModel>>((doc) => {
       return {
         ...doc,
         __actionType: "mergeOrUpload",
@@ -69,34 +69,34 @@ export class IndexDocumentsBatch<T> {
    * @param keyName - The name of their primary key in the index.
    * @param keyValues - The primary key values of documents to delete.
    */
-  public delete(keyName: keyof T, keyValues: string[]): void;
+  public delete(keyName: keyof TModel, keyValues: string[]): void;
 
   /**
    * Delete a set of documents.
    * @param documents - Documents to be deleted.
    */
-  public delete(documents: T[]): void;
+  public delete(documents: TModel[]): void;
 
-  public delete(keyNameOrDocuments: keyof T | T[], keyValues?: string[]): void {
+  public delete(keyNameOrDocuments: keyof TModel | TModel[], keyValues?: string[]): void {
     if (keyValues) {
-      const keyName = keyNameOrDocuments as keyof T;
+      const keyName = keyNameOrDocuments as keyof TModel;
 
-      const batch = keyValues.map<IndexDocumentsAction<T>>((keyValue) => {
+      const batch = keyValues.map<IndexDocumentsAction<TModel>>((keyValue) => {
         return {
           __actionType: "delete",
           [keyName]: keyValue,
-        } as IndexDocumentsAction<T>;
+        } as IndexDocumentsAction<TModel>;
       });
 
       this.actions.push(...batch);
     } else {
-      const documents = keyNameOrDocuments as T[];
+      const documents = keyNameOrDocuments as TModel[];
 
-      const batch = documents.map<IndexDocumentsAction<T>>((document) => {
+      const batch = documents.map<IndexDocumentsAction<TModel>>((document) => {
         return {
           __actionType: "delete",
           ...document,
-        } as IndexDocumentsAction<T>;
+        } as IndexDocumentsAction<TModel>;
       });
 
       this.actions.push(...batch);

@@ -23,7 +23,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 /**
  * Index Documents Client
  */
-export interface IndexDocumentsClient<T extends object> {
+export interface IndexDocumentsClient<TModel> {
   /**
    * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
    * for the given set of documents.
@@ -32,7 +32,7 @@ export interface IndexDocumentsClient<T extends object> {
    * @param options - Additional options.
    */
   indexDocuments(
-    batch: IndexDocumentsBatch<T>,
+    batch: IndexDocumentsBatch<TModel>,
     options: IndexDocumentsOptions
   ): Promise<IndexDocumentsResult>;
 }
@@ -62,7 +62,7 @@ export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
  * Class used to perform buffered operations against a search index,
  * including adding, updating, and removing them.
  */
-export class SearchIndexingBufferedSender<TModel extends object> {
+export class SearchIndexingBufferedSender<TModel> {
   /**
    * Search Client used to call the underlying IndexBatch operations.
    */

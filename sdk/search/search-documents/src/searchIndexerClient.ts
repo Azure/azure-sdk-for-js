@@ -3,7 +3,11 @@
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import {
+  LogPolicyOptions,
+  UserAgentPolicyOptions,
+  bearerTokenAuthenticationPolicy,
+} from "@azure/core-rest-pipeline";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
@@ -25,9 +29,7 @@ import {
   ListDataSourceConnectionsOptions,
   ListIndexersOptions,
   ListSkillsetsOptions,
-  ResetDocumentsOptions,
   ResetIndexerOptions,
-  ResetSkillsOptions,
   RunIndexerOptions,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
@@ -38,6 +40,7 @@ import { createSpan } from "./tracing";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { KnownSearchAudience } from "./searchAudience";
+import { SDK_VERSION } from "./constants";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -45,14 +48,8 @@ import { KnownSearchAudience } from "./searchAudience";
 export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions {
   /**
    * The API version to use when communicating with the service.
-   * @deprecated use {@Link serviceVersion} instead
    */
   apiVersion?: string;
-
-  /**
-   * The service version to use when communicating with the service.
-   */
-  serviceVersion?: string;
 
   /**
    * The Audience to use for authentication with Azure Active Directory (AAD). The
@@ -70,12 +67,6 @@ export interface SearchIndexerClientOptions extends ExtendedCommonClientOptions 
 export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
-   */
-  public readonly serviceVersion: string = utils.defaultServiceVersion;
-
-  /**
-   * The API version to use when communicating with the service.
-   * @deprecated use {@Link serviceVersion} instead
    */
   public readonly apiVersion: string = utils.defaultServiceVersion;
 
@@ -114,30 +105,37 @@ export class SearchIndexerClient {
   ) {
     this.endpoint = endpoint;
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...options,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          additionalAllowedHeaderNames: [
-            "elapsed-time",
-            "Location",
-            "OData-MaxVersion",
-            "OData-Version",
-            "Prefer",
-            "throttle-reason",
-          ],
-        },
-      },
+    const libInfo = `azsdk-js-search-documents/${SDK_VERSION}`;
+    const userAgentOptions: UserAgentPolicyOptions = {
+      ...options.userAgentOptions,
+      userAgentPrefix: options.userAgentOptions?.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${libInfo}`
+        : libInfo,
     };
 
-    this.serviceVersion =
-      options.serviceVersion ?? options.apiVersion ?? utils.defaultServiceVersion;
-    this.apiVersion = this.serviceVersion;
+    const loggingOptions: LogPolicyOptions = {
+      logger: logger.info,
+      additionalAllowedHeaderNames: [
+        "elapsed-time",
+        "Location",
+        "OData-MaxVersion",
+        "OData-Version",
+        "Prefer",
+        "throttle-reason",
+      ],
+    };
+
+    const internalClientPipelineOptions: InternalClientPipelineOptions = {
+      ...options,
+      userAgentOptions,
+      loggingOptions,
+    };
+
+    this.apiVersion = options.apiVersion ?? utils.defaultServiceVersion;
 
     this.client = new GeneratedClient(
       this.endpoint,
-      this.serviceVersion,
+      this.apiVersion,
       internalClientPipelineOptions
     );
 
@@ -478,8 +476,6 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         }
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
@@ -516,7 +512,6 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
         }
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -553,8 +548,6 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         }
       );
 
@@ -729,60 +722,6 @@ export class SearchIndexerClient {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-runIndexer", options);
     try {
       await this.client.indexers.run(indexerName, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Resets specific documents in the datasource to be selectively re-ingested by the indexer.
-   * @param indexerName - The name of the indexer to reset documents for.
-   * @param options - Additional optional arguments.
-   */
-  public async resetDocuments(
-    indexerName: string,
-    options: ResetDocumentsOptions = {}
-  ): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetDocs", options);
-    try {
-      await this.client.indexers.resetDocs(indexerName, {
-        ...updatedOptions,
-        keysOrIds: {
-          documentKeys: updatedOptions.documentKeys,
-          datasourceDocumentIds: updatedOptions.datasourceDocumentIds,
-        },
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Reset an existing skillset in a search service.
-   * @param skillsetName - The name of the skillset to reset.
-   * @param skillNames - The names of skills to reset.
-   * @param options - The options parameters.
-   */
-  public async resetSkills(skillsetName: string, options: ResetSkillsOptions = {}): Promise<void> {
-    const { span, updatedOptions } = createSpan("SearchIndexerClient-resetSkills", options);
-    try {
-      await this.client.skillsets.resetSkills(
-        skillsetName,
-        { skillNames: options.skillNames },
-        updatedOptions
-      );
     } catch (e: any) {
       span.setStatus({
         status: "error",

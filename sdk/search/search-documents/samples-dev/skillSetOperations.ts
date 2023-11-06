@@ -26,7 +26,7 @@ async function createSkillset(skillsetName: string, client: SearchIndexerClient)
     description: `Skillset description`,
     skills: [
       {
-        odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill",
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
         inputs: [
           {
             name: "text",
