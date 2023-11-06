@@ -43,8 +43,6 @@
   - `PIIDetectionSkill`
   - `SentimentSkillV3`
 
-### Bugs Fixed
-
 ### Other Changes
 
 - Deprecated `apiVersion` in favor of `serviceVersion` in clients:
