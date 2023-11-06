@@ -173,6 +173,7 @@ export {
   TextTranslationSkillLanguage,
   VisualFeature,
   SearchIndexerKnowledgeStore,
+  KnownAnalyzerNames
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -315,7 +316,6 @@ export {
   LexicalAnalyzerName,
   LexicalTokenizerName,
   TokenFilterName,
-  KnownLexicalAnalyzerName as KnownAnalyzerNames,
   KnownLexicalTokenizerName as KnownTokenizerNames,
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
