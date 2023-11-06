@@ -324,7 +324,7 @@ export interface DeleteDataSourceConnectionOptions extends OperationOptions {
 /**
  * Specifies some text and analysis components used to break that text into tokens.
  */
-export type AnalyzeRequest = {
+export interface AnalyzeRequest {
   /**
    * The text to break into tokens.
    */

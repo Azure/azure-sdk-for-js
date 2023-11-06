@@ -938,7 +938,7 @@ export type SuggestNarrowedModel<
  * Extracts answer candidates from the contents of the documents returned in response to a query
  * expressed as a question in natural language.
  */
-export type ExtractiveQueryAnswer = {
+export interface ExtractiveQueryAnswer {
   answerType: "extractive";
   /**
    * The number of answers returned. Default count is 1
@@ -958,7 +958,7 @@ export type ExtractiveQueryAnswer = {
 export type QueryAnswer = ExtractiveQueryAnswer;
 
 /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-export type ExtractiveQueryCaption = {
+export interface ExtractiveQueryCaption {
   captionType: "extractive";
   highlight?: boolean;
 };

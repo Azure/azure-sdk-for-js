@@ -23,13 +23,13 @@ export interface AnalyzedTokenInfo {
 }
 
 // @public
-export type AnalyzeRequest = {
-    text: string;
+export interface AnalyzeRequest {
     analyzerName?: LexicalAnalyzerName;
-    tokenizerName?: LexicalTokenizerName;
-    tokenFilters?: TokenFilterName[];
     charFilters?: CharFilterName[];
-};
+    text: string;
+    tokenFilters?: TokenFilterName[];
+    tokenizerName?: LexicalTokenizerName;
+}
 
 // @public
 export interface AnalyzeResult {
@@ -515,17 +515,20 @@ export type ExtractDocumentKey<TModel> = {
 };
 
 // @public
-export type ExtractiveQueryAnswer = {
+export interface ExtractiveQueryAnswer {
+    // (undocumented)
     answerType: "extractive";
     count?: number;
     threshold?: number;
-};
+}
 
 // @public
-export type ExtractiveQueryCaption = {
+export interface ExtractiveQueryCaption {
+    // (undocumented)
     captionType: "extractive";
+    // (undocumented)
     highlight?: boolean;
-};
+}
 
 // @public
 export interface FacetResult {
