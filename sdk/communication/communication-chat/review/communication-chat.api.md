@@ -38,17 +38,17 @@ export interface AddParticipantsRequest {
 }
 
 // @public
-export type AttachmentType = "image" | "unknown";
-
-// @public
 export interface ChatAttachment {
-    attachmentType: AttachmentType;
+    attachmentType: ChatAttachmentType;
     extension?: string;
     id: string;
     name?: string;
     previewUrl?: string;
     url?: string;
 }
+
+// @public
+export type ChatAttachmentType = "image" | "unknown";
 
 // @public
 export class ChatClient {

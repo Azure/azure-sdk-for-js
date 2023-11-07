@@ -48,12 +48,12 @@ directive:
     $["x-ms-enum"].modelAsString = false;
 ```
 
-### Set AttachmentType Model as string false
+### Set ChatAttachmentType Model as string false
 
 ```yaml
 directive:
   from: swagger-document
-  where: "$.definitions.AttachmentType"
+  where: "$.definitions.ChatAttachmentType"
   transform: >
     $["x-ms-enum"].modelAsString = false;
 ```

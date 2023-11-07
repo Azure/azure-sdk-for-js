@@ -109,14 +109,14 @@ export interface ListPageSettings {
 }
 
 /** Defines values for AttachmentType. */
-export type AttachmentType = "image" | "unknown";
+export type ChatAttachmentType = "image" | "unknown";
 
 /** An attachment in a chat message. */
 export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
   /** The type of attachment. */
-  attachmentType: AttachmentType;
+  attachmentType: ChatAttachmentType;
   /** The file extension of the attachment, if available */
   extension?: string;
   /** The name of the attachment content. */
