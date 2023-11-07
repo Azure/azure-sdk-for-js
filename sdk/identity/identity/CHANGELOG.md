@@ -1,5 +1,10 @@
 # Release History
 
+## 3.4.0 (2023-11-07)
+
+## Features Added
+- Upgraded version of @azure/msal-node to v2.5.0 to support all versions of Node.js - Node 16, Node 18 and Node 20.
+
 ## 3.3.2 (2023-10-17)
 
 ### Bugs Fixed
