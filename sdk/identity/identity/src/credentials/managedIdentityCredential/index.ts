@@ -247,7 +247,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         } else {
           const appTokenParameters: AppTokenProviderParameters = {
             correlationId: this.identityClient.getCorrelationId(),
-            tenantId: options?.tenantId || "organizations",
+            tenantId: options?.tenantId || "managed_identity",
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
