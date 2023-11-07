@@ -138,6 +138,7 @@ export default leafCommand(commandInfo, async (options) => {
         file: `dist-test/index.browser.js`,
         format: "umd",
         sourcemap: true,
+        inlineDynamicImports: true
       });
     } catch (error: any) {
       log.error(error);
