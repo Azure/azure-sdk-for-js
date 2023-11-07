@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a database.
  *
  * @summary Deletes a database.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/DatabaseDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/DatabaseDelete.json
  */
 async function deleteADatabase() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a PostgreSQL server firewall rule.
  *
  * @summary Deletes a PostgreSQL server firewall rule.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/FirewallRuleDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/FirewallRuleDelete.json
  */
 async function firewallRuleDelete() {
   const subscriptionId =
