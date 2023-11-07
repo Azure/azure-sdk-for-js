@@ -25,45 +25,46 @@ If you are the first time to prepare the SDK, please follow the Azure SDK guidan
 
 We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
 
-1. **Add TypeScript emitter dependency in package.json**  
+1. **Configure your tsp-location.yaml**  
    
-   In TypeSpec project, modify `package.json` to add dependency for TypeScript emitter, then run `npm install` again to install `@azure-tools/typespec-ts`.
-
-   ```json
-   "dependencies": {
-     ...
-     "@azure-tools/typespec-ts": "latest"
-   },
+   You can update `tsp-location.yaml` under project root folder to set the typespec project. You can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
+   
+   If this is the first time to generate code you need to create the project folder.
+   ```shell
+   mkdir -p sdk/agrifood/agrifood-farming-rest # create project folder
+   cd sdk/agrifood/agrifood-farming-rest # enter project folder
    ```
+   Then prepare the `tsp-location.yaml` and here is an example:
 
-2. **Configure TypeScript emitter in tspconfig.yaml**
-
-    In TypeSpec project, modify (or create) `tspconfig.yaml` and configure the SDK generated, using the emitter options on `@azure-tools/typespec-ts`
-    
-    ```yaml
-    emit:
-      - "@azure-tools/typespec-ts"
-    options:
-      "@azure-tools/typespec-ts":
-        title: Farmbeats
-        generateMetadata: true
-        generateTest: true
-        "emitter-output-dir": "{output-dir}"
-        packageDetails:
-          name: "@azure-rest/agrifood-farming"
-          description: "Farmbeats Client"
-          version: "1.0.0-beta.1"
-
-    ```
-
-    Here, we need to replace the value in `name`,`description`, `version` in `packageDetails` to **your own service's** package details. Also we have some other options, you could refer to [the link](https://github.com/Azure/autorest.typescript/tree/main/packages/typespec-ts#emitter-options) for more details.
-
-    ---  
+   ```yaml
+   directory: specification/agrifood/DataPlane
+   commit: b646a42aa3b7a0ce488d05f1724827ea41d12cf1 # the commit id you'd like to refer for generation
+   repo: Azure/azure-rest-api-specs
+   ```
+   ---  
     **NOTE**
 
-    After the first generation, you need to switch `generateMetadata: false` as we have some manual changes in this file and don't want them get overwrite by generated ones.
+    We only allow to release any SDKs in which their TypeSpecs are merged into `Azure/azure-rest-api-specs` main branch so please ensure your TypeSpec pr is merged.
 
-    --- 
+   --- 
+
+2. **Generate code**
+
+    Run the following two scripts from project directory (i.e sdk/agrifood/agrifood-farming-rest) to generate the code:
+
+
+    > NOTE: These scripts require PowerShell version 7 or higher
+    ```shell
+    pwsh ../../../eng/common/scripts/TypeSpec-Project-Sync.ps1 .
+    ```
+
+    followed by
+
+    ```shell
+    pwsh ../../../eng/common/scripts/TypeSpec-Project-Generate.ps1 .
+    ```
+
+    The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
 
 3. **Edit rush.json**  
     As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
@@ -85,22 +86,14 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-4. **Run command to generate the SDK**  
-
-    We need to configure `--output-dir` to put generated code. The output dir contains two parts: the {SDK_REPO_ROOT} and {PROJECT_ROOT}.
-    
-    Assume **{SDK_REPO_ROOT}** is `D:/azure-sdk-for-js` and **{PROJECT_ROOT}** is `sdk/agrifood/agrifood-farming-rest` then we could run this command in **your local TypeSpec project** to generate the SDK: 
-
-    ```shell
-    npx tsp compile . --emit=@azure-tools/typespec-ts --output-dir=D:/azure-sdk-for-js/sdk/agrifood/agrifood-farming-rest
-    ```
+4. **Build your project**  
 
     After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
-    After that, you can get a workable package, and run the following commands to get a artifact if you like.
+    To get a workable package, you can run the following commands to get a artifact if you like.
 
     ```shell
     rush update
-    rush build -t <your-package-name>
+    rush build -t <your-package-name> # e.g rush build -t @azure-rest/agrifood-farming
     cd <your-sdk-folder>
     rushx pack
     ```
@@ -113,7 +106,7 @@ A minimal README.md is generated by TypeScript emitter and you could improve REA
 
 # How to write test for RLC
 
-In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. But before we add the test, we need to enable the option `generateTest: true` to generate the necessary change in `package.json` and `tsconfig.json` so that test framework can work. Once the generation finished, you will see a `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which has an empty test and you could add/update test cases against your own services.
+In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. After generation you will see a `sampleTest.spec.ts` file in your `{PROJECT_ROOT}/test/public` folder, which has an empty test and you could add/update test cases against your own services.
 
 See the [Javascript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the Javascript SDK.
 
