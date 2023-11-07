@@ -3,7 +3,12 @@
 ## 5.11.3 (2023-11-07)
 
 ### Bugs Fixed
+
 - Improve event prefetching to not overload the internal queue.
+
+### Other Changes
+
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
 
 ## 5.11.2 (2023-09-25)
 
