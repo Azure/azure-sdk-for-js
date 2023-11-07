@@ -96,4 +96,9 @@ export {
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy";
-export { createFile, CreateFileOptions, CreateFileFromStreamOptions } from "./util/file";
+export {
+  createFile,
+  createFileFromStream,
+  CreateFileOptions,
+  CreateFileFromStreamOptions,
+} from "./util/file";

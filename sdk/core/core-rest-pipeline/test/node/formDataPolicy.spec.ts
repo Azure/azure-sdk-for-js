@@ -7,13 +7,13 @@ import { MultipartRequestBody } from "../../src/interfaces";
 import { isBlob } from "../../src/util/typeGuards";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec";
-import { createFile } from "../../src/util/file";
+import { createFileFromStream } from "../../src/util/file";
 import { ReadableStream } from "stream/web";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
     const result = await performRequest({
-      file: createFile(Readable.from(Buffer.from("aaa")), "file.bin", {
+      file: createFileFromStream(Readable.from(Buffer.from("aaa")), "file.bin", {
         type: "text/plain",
       }),
     });

@@ -94,10 +94,10 @@ export function createDefaultHttpClient(): HttpClient;
 export function createEmptyPipeline(): Pipeline;
 
 // @public
-export function createFile(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
 
 // @public
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
+export function createFileFromStream(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
 
 // @public
 export interface CreateFileFromStreamOptions extends CreateFileOptions {

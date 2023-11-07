@@ -5,6 +5,7 @@
 ### Features Added
 
 - Add `multipartPolicy` and `MultipartRequestBody` to allow for making multipart requests.
+- Add `createFile` and `createFileFromStream` to allow creation of `File` objects for `multipart/form-data` requests.
 
 ### Breaking Changes
 

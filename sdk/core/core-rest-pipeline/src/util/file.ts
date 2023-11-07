@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isReadableStream } from "./typeGuards";
 import { toWebStream } from "./stream";
 
 /**
@@ -38,6 +37,18 @@ export interface CreateFileFromStreamOptions extends CreateFileOptions {
   size?: number;
 }
 
+const unimplementedMethods = {
+  arrayBuffer: () => {
+    throw new Error("Not implemented");
+  },
+  slice: () => {
+    throw new Error("Not implemented");
+  },
+  text: () => {
+    throw new Error("Not implemented");
+  },
+};
+
 /**
  * Create an object that implements the File interface. This object is intended to be
  * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
@@ -54,11 +65,21 @@ export interface CreateFileFromStreamOptions extends CreateFileOptions {
  * @param name - the name of the file.
  * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
  */
-export function createFile(
+export function createFileFromStream(
   content: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
   name: string,
-  options?: CreateFileFromStreamOptions
-): File;
+  options: CreateFileFromStreamOptions = {}
+): File {
+  return {
+    ...unimplementedMethods,
+    type: options.type ?? "",
+    lastModified: options.lastModified ?? new Date().getTime(),
+    webkitRelativePath: options.webkitRelativePath ?? "",
+    size: options.size ?? -1,
+    name,
+    stream: () => toWebStream(content),
+  };
+}
 
 /**
  * Create an object that implements the File interface. This object is intended to be
@@ -71,41 +92,19 @@ export function createFile(
  * @param name - the name of the file.
  * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
  */
-export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
-
 export function createFile(
-  content: NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array,
+  content: Uint8Array,
   name: string,
-  options: CreateFileFromStreamOptions | CreateFileOptions = {}
+  options: CreateFileOptions = {}
 ): File {
-  const commonFields = {
+  return {
+    ...unimplementedMethods,
     type: options.type ?? "",
-    name,
     lastModified: options.lastModified ?? new Date().getTime(),
     webkitRelativePath: options.webkitRelativePath ?? "",
-    size: (options as CreateFileFromStreamOptions).size ?? -1, // don't actually know the size
-    arrayBuffer: async () => {
-      throw new Error("Not implemented");
-    },
-    slice: () => {
-      throw new Error("Not implemented");
-    },
-    text: async (): Promise<string> => {
-      throw new Error("Not implemented");
-    },
+    size: content.byteLength,
+    name,
+    arrayBuffer: async () => content.buffer,
+    stream: () => new Blob([content]).stream(),
   };
-
-  if (isReadableStream(content)) {
-    return {
-      ...commonFields,
-      stream: () => toWebStream(content),
-    };
-  } else {
-    return {
-      ...commonFields,
-      size: content.byteLength,
-      arrayBuffer: async () => content.buffer,
-      stream: () => new Blob([content]).stream(),
-    };
-  }
 }
