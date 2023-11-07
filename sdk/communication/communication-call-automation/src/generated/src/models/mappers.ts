@@ -454,17 +454,17 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
         serializedName: "customCallingContext",
         type: {
           name: "Composite",
-          className: "CustomCallingContext"
+          className: "CustomCallingContextInternal"
         }
       }
     }
   }
 };
 
-export const CustomCallingContext: coreClient.CompositeMapper = {
+export const CustomCallingContextInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomCallingContext",
+    className: "CustomCallingContextInternal",
     modelProperties: {
       voipHeaders: {
         serializedName: "voipHeaders",
@@ -1076,7 +1076,7 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
         serializedName: "customCallingContext",
         type: {
           name: "Composite",
-          className: "CustomCallingContext"
+          className: "CustomCallingContextInternal"
         }
       }
     }
