@@ -59,8 +59,8 @@
   "dependencies": {
     "@azure/core-auth": "^1.4.0",
     "@azure/identity": "^4.0.0",
-    "@azure/msal-node": "^2.3.0",
-    "@azure/msal-node-extensions": "^1.0.5",
+    "@azure/msal-node": "^2.5.1",
+    "@azure/msal-node-extensions": "^1.0.7",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
