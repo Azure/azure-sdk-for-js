@@ -226,6 +226,13 @@ export const VirtualNetworkConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      state: {
+        defaultValue: "Enabled",
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -298,6 +305,12 @@ export const LanguageExtension: coreClient.CompositeMapper = {
       },
       languageExtensionImageName: {
         serializedName: "languageExtensionImageName",
+        type: {
+          name: "String"
+        }
+      },
+      languageExtensionCustomImageName: {
+        serializedName: "languageExtensionCustomImageName",
         type: {
           name: "String"
         }
@@ -1425,6 +1438,57 @@ export const ScriptListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const SandboxCustomImagesListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SandboxCustomImagesListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SandboxCustomImage"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SandboxCustomImagesCheckNameRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SandboxCustomImagesCheckNameRequest",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        defaultValue: "Microsoft.Kusto/clusters/sandboxCustomImages",
+        isConstant: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedPrivateEndpointListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1553,6 +1617,12 @@ export const EndpointDetail: coreClient.CompositeMapper = {
         serializedName: "port",
         type: {
           name: "Number"
+        }
+      },
+      ipAddress: {
+        serializedName: "ipAddress",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1973,6 +2043,17 @@ export const ClusterUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureSku"
+        }
+      },
+      zones: {
+        serializedName: "zones",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       identity: {
@@ -2472,6 +2553,41 @@ export const Script: coreClient.CompositeMapper = {
         serializedName: "properties.continueOnErrors",
         type: {
           name: "Boolean"
+        }
+      },
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SandboxCustomImage: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SandboxCustomImage",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      language: {
+        serializedName: "properties.language",
+        type: {
+          name: "String"
+        }
+      },
+      languageVersion: {
+        serializedName: "properties.languageVersion",
+        type: {
+          name: "String"
+        }
+      },
+      requirementsFileContent: {
+        serializedName: "properties.requirementsFileContent",
+        type: {
+          name: "String"
         }
       },
       provisioningState: {
@@ -3411,6 +3527,12 @@ export const ClustersUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClustersUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3426,6 +3548,12 @@ export const ClustersDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClustersDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3441,6 +3569,12 @@ export const ClustersStopHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClustersStopHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3456,6 +3590,12 @@ export const ClustersStartHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClustersStartHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3471,6 +3611,12 @@ export const ClustersMigrateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ClustersMigrateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3486,6 +3632,12 @@ export const ClustersDetachFollowerDatabasesHeaders: coreClient.CompositeMapper 
     name: "Composite",
     className: "ClustersDetachFollowerDatabasesHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3501,6 +3653,12 @@ export const ClustersDiagnoseVirtualNetworkHeaders: coreClient.CompositeMapper =
     name: "Composite",
     className: "ClustersDiagnoseVirtualNetworkHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3516,6 +3674,12 @@ export const ClustersAddLanguageExtensionsHeaders: coreClient.CompositeMapper = 
     name: "Composite",
     className: "ClustersAddLanguageExtensionsHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3531,6 +3695,12 @@ export const ClustersRemoveLanguageExtensionsHeaders: coreClient.CompositeMapper
     name: "Composite",
     className: "ClustersRemoveLanguageExtensionsHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3546,6 +3716,12 @@ export const ClusterPrincipalAssignmentsDeleteHeaders: coreClient.CompositeMappe
     name: "Composite",
     className: "ClusterPrincipalAssignmentsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3576,6 +3752,12 @@ export const DatabasesUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DatabasesUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3591,6 +3773,12 @@ export const DatabasesDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DatabasesDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3621,6 +3809,12 @@ export const AttachedDatabaseConfigurationsDeleteHeaders: coreClient.CompositeMa
     name: "Composite",
     className: "AttachedDatabaseConfigurationsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3651,6 +3845,12 @@ export const ManagedPrivateEndpointsUpdateHeaders: coreClient.CompositeMapper = 
     name: "Composite",
     className: "ManagedPrivateEndpointsUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3666,6 +3866,12 @@ export const ManagedPrivateEndpointsDeleteHeaders: coreClient.CompositeMapper = 
     name: "Composite",
     className: "ManagedPrivateEndpointsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3681,6 +3887,12 @@ export const DatabasePrincipalAssignmentsDeleteHeaders: coreClient.CompositeMapp
     name: "Composite",
     className: "DatabasePrincipalAssignmentsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3711,6 +3923,12 @@ export const ScriptsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ScriptsUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3726,6 +3944,54 @@ export const ScriptsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ScriptsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SandboxCustomImagesUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SandboxCustomImagesUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SandboxCustomImagesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SandboxCustomImagesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3741,6 +4007,12 @@ export const PrivateEndpointConnectionsDeleteHeaders: coreClient.CompositeMapper
     name: "Composite",
     className: "PrivateEndpointConnectionsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3756,6 +4028,12 @@ export const DataConnectionsDataConnectionValidationHeaders: coreClient.Composit
     name: "Composite",
     className: "DataConnectionsDataConnectionValidationHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3786,6 +4064,12 @@ export const DataConnectionsUpdateHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DataConnectionsUpdateHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {
@@ -3801,6 +4085,12 @@ export const DataConnectionsDeleteHeaders: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DataConnectionsDeleteHeaders",
     modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       azureAsyncOperation: {
         serializedName: "azure-asyncoperation",
         type: {

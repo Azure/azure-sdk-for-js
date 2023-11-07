@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a custom certificate.
  *
  * @summary Get a custom certificate.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRCustomCertificates_Get.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRCustomCertificates_Get.json
  */
 async function signalRCustomCertificatesGet() {
   const subscriptionId =

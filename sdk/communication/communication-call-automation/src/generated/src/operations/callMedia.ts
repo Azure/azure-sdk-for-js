@@ -267,7 +267,7 @@ const startTranscriptionOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:StopTranscripition",
+  path: "/calling/callConnections/{callConnectionId}:StopTranscription",
   httpMethod: "POST",
   responses: {
     202: {},

@@ -23,7 +23,7 @@ stages:
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
-              NodeVersion: 16.x
+              NodeVersion: 18.x
 
           - task: PowerShell@2
             inputs:

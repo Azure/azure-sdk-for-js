@@ -1,15 +1,60 @@
 # Release History
+    
+## 19.0.0 (2023-09-25)
+    
+**Features**
 
-## 18.1.1 (Unreleased)
+  - Added operation NetAppResource.beginUpdateNetworkSiblingSet
+  - Added operation NetAppResource.beginUpdateNetworkSiblingSetAndWait
+  - Added operation NetAppResource.queryNetworkSiblingSet
+  - Added operation Volumes.beginPopulateAvailabilityZone
+  - Added operation Volumes.beginPopulateAvailabilityZoneAndWait
+  - Added Interface NetAppResourceQueryNetworkSiblingSetOptionalParams
+  - Added Interface NetAppResourceUpdateNetworkSiblingSetHeaders
+  - Added Interface NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  - Added Interface NetworkSiblingSet
+  - Added Interface NicInfo
+  - Added Interface QueryNetworkSiblingSetRequest
+  - Added Interface UpdateNetworkSiblingSetRequest
+  - Added Interface VolumesPopulateAvailabilityZoneHeaders
+  - Added Interface VolumesPopulateAvailabilityZoneOptionalParams
+  - Added Type Alias CoolAccessRetrievalPolicy
+  - Added Type Alias NetAppResourceQueryNetworkSiblingSetResponse
+  - Added Type Alias NetAppResourceUpdateNetworkSiblingSetResponse
+  - Added Type Alias NetworkSiblingSetProvisioningState
+  - Added Type Alias VolumesPopulateAvailabilityZoneResponse
+  - Interface Volume has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumeGroupVolumeProperties has a new optional parameter zones
+  - Interface VolumePatch has a new optional parameter coolAccessRetrievalPolicy
+  - Interface VolumePatch has a new optional parameter smbAccessBasedEnumeration
+  - Interface VolumePatch has a new optional parameter smbNonBrowsable
+  - Added Enum KnownCoolAccessRetrievalPolicy
+  - Added Enum KnownNetworkSiblingSetProvisioningState
+  - Enum KnownApplicationType has a new value Oracle
+  - Enum KnownNetworkFeatures has a new value BasicStandard
+  - Enum KnownNetworkFeatures has a new value StandardBasic
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AccountBackups
+  - Removed operation Backups.beginCreate
+  - Removed operation Backups.beginCreateAndWait
+  - Removed operation Backups.beginDelete
+  - Removed operation Backups.beginDeleteAndWait
+  - Removed operation Backups.beginRestoreFiles
+  - Removed operation Backups.beginRestoreFilesAndWait
+  - Removed operation Backups.beginUpdate
+  - Removed operation Backups.beginUpdateAndWait
+  - Removed operation Backups.get
+  - Removed operation Backups.getStatus
+  - Removed operation Backups.list
+  - Interface VolumePatchPropertiesDataProtection no longer has parameter backup
+  - Interface VolumePropertiesDataProtection no longer has parameter backup
+  - Class NetAppManagementClient no longer has parameter accountBackups
+  - Removed Enum KnownBackupType
+    
+    
 ## 18.1.0 (2023-07-03)
     
 **Features**

@@ -5,14 +5,16 @@ import { Paged } from "@azure/core-paging";
 
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicyOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** Unique identifier of this policy. */
   readonly id: string;
   /** Friendly name of this policy. */
   name?: string;
   /** The fallback queue to select if the queue selector doesn't find a match. */
   fallbackQueueId?: string;
-  /** The queue selectors to resolve a queue for a given job. */
-  queueSelectors?: Array<QueueSelectorAttachmentOutput>;
+  /** The queue selector attachments used to resolve a queue for a given job. */
+  queueSelectorAttachments?: Array<QueueSelectorAttachmentOutput>;
   /**
    * A rule of one of the following types:
    *
@@ -29,8 +31,8 @@ export interface ClassificationPolicyOutput {
    * OAuth2.0 authentication protocol.
    */
   prioritizationRule?: RouterRuleOutput;
-  /** The worker label selectors to attach to a given job. */
-  workerSelectors?: Array<WorkerSelectorAttachmentOutput>;
+  /** The worker selector attachments used to attach worker selectors to a given job. */
+  workerSelectorAttachments?: Array<WorkerSelectorAttachmentOutput>;
 }
 
 /**
@@ -159,7 +161,7 @@ export interface WebhookRouterRuleOutput extends RouterRuleOutputParent {
    * Reference:
    * https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
    */
-  clientCredential?: Oauth2ClientCredentialOutput;
+  clientCredential?: OAuth2WebhookClientCredentialOutput;
   /** Uri for Contoso's Web Server. */
   webhookUri?: string;
   /** The type discriminator describing a sub-type of Rule */
@@ -171,7 +173,7 @@ export interface WebhookRouterRuleOutput extends RouterRuleOutputParent {
  * Reference:
  * https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/
  */
-export interface Oauth2ClientCredentialOutput {
+export interface OAuth2WebhookClientCredentialOutput {
   /** ClientId for Contoso Authorization server. */
   clientId?: string;
   /** Client secret for Contoso Authorization server. */
@@ -238,8 +240,7 @@ export interface RuleEngineQueueSelectorAttachmentOutput
 }
 
 /** Describes a queue selector that will be attached to the job */
-export interface StaticQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /**
    * Describes a condition that must be met against a set of labels for queue
    * selection
@@ -382,8 +383,7 @@ export interface RuleEngineWorkerSelectorAttachmentOutput
 }
 
 /** Describes a worker selector that will be attached to the job */
-export interface StaticWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /**
    * Describes a condition that must be met against a set of labels for worker
    * selection
@@ -422,16 +422,10 @@ export interface WorkerWeightedAllocationOutput {
 /** Provides the 'If-*' headers to enable conditional (cached) responses for JobRouter. */
 export interface RouterConditionalRequestHeadersOutput {}
 
-/** Paged instance of ClassificationPolicy */
-export interface ClassificationPolicyItemOutput {
-  /** A container for the rules that govern how jobs are classified. */
-  classificationPolicy: ClassificationPolicyOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
-}
-
 /** Policy governing how jobs are distributed to workers */
 export interface DistributionPolicyOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** The unique identifier of the policy. */
   readonly id: string;
   /** The human readable name of the policy. */
@@ -522,7 +516,7 @@ export interface ScoringRuleOptionsOutput {
    * Note: If
    * enabled, use BatchSize to set batch size.
    */
-  allowScoringBatchOfWorkers?: boolean;
+  isBatchScoringEnabled?: boolean;
   /**
    * (Optional)
    * If false, will sort scores by ascending order. By default, set to
@@ -546,36 +540,26 @@ export interface RoundRobinModeOutput extends DistributionModeOutputParent {
   kind: "round-robin";
 }
 
-/** Paged instance of DistributionPolicy */
-export interface DistributionPolicyItemOutput {
-  /** Policy governing how jobs are distributed to workers */
-  distributionPolicy: DistributionPolicyOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
-}
-
 /** A policy that defines actions to execute when exception are triggered. */
 export interface ExceptionPolicyOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** The Id of the exception policy */
   readonly id: string;
   /** (Optional) The name of the exception policy. */
   name?: string;
-  /**
-   * (Optional) A dictionary collection of exception rules on the exception policy.
-   * Key is the Id of each exception rule.
-   */
-  exceptionRules?: Record<string, ExceptionRuleOutput>;
+  /** (Optional) A collection of exception rules on the exception policy. */
+  exceptionRules?: Array<ExceptionRuleOutput>;
 }
 
 /** A rule that defines actions to execute upon a specific trigger. */
 export interface ExceptionRuleOutput {
+  /** Id of the exception rule. */
+  id: string;
   /** The trigger for this exception rule */
   trigger: ExceptionTriggerOutput;
-  /**
-   * A dictionary collection of actions to perform once the exception is triggered.
-   * Key is the Id of each exception action.
-   */
-  actions: Record<string, ExceptionActionOutput>;
+  /** A collection of actions to perform once the exception is triggered. */
+  actions: Array<ExceptionActionOutput>;
 }
 
 /** The trigger for this exception rule */
@@ -584,8 +568,7 @@ export interface ExceptionTriggerOutputParent {
 }
 
 /** Trigger for an exception action on exceeding queue length */
-export interface QueueLengthExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
@@ -593,8 +576,7 @@ export interface QueueLengthExceptionTriggerOutput
 }
 
 /** Trigger for an exception action on exceeding wait time */
-export interface WaitTimeExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
@@ -603,12 +585,13 @@ export interface WaitTimeExceptionTriggerOutput
 
 /** The action to take when the exception is triggered */
 export interface ExceptionActionOutputParent {
+  /** Unique Id of the exception action */
+  readonly id?: string;
   kind: string;
 }
 
 /** An action that marks a job as cancelled */
-export interface CancelExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface CancelExceptionActionOutput extends ExceptionActionOutputParent {
   /**
    * (Optional) A note that will be appended to the jobs' Notes collection with the
    * current timestamp.
@@ -627,8 +610,7 @@ export interface CancelExceptionActionOutput
  * An action that manually reclassifies a job by providing the queue, priority and
  * worker selectors.
  */
-export interface ManualReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** Updated QueueId. */
   queueId?: string;
   /** Updated Priority. */
@@ -640,8 +622,7 @@ export interface ManualReclassifyExceptionActionOutput
 }
 
 /** An action that modifies labels on a job and then reclassifies it */
-export interface ReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /**
    * (optional) The new classification policy that will determine queue, priority
    * and worker selectors.
@@ -656,16 +637,10 @@ export interface ReclassifyExceptionActionOutput
   kind: "reclassify";
 }
 
-/** Paged instance of ExceptionPolicy */
-export interface ExceptionPolicyItemOutput {
-  /** A policy that defines actions to execute when exception are triggered. */
-  exceptionPolicy: ExceptionPolicyOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
-}
-
 /** A queue that can contain jobs to be routed. */
 export interface RouterQueueOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** The Id of this queue */
   readonly id: string;
   /** The name of this queue. */
@@ -687,16 +662,10 @@ export interface RouterQueueOutput {
   exceptionPolicyId?: string;
 }
 
-/** Paged instance of RouterQueue */
-export interface RouterQueueItemOutput {
-  /** A queue that can contain jobs to be routed. */
-  queue: RouterQueueOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
-}
-
 /** A unit of work to be routed */
 export interface RouterJobOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** The id of the job. */
   readonly id: string;
   /** Reference to an external parent context, eg. call ID. */
@@ -742,7 +711,7 @@ export interface RouterJobOutput {
   /** A set of non-identifying attributes attached to this job */
   tags?: Record<string, any>;
   /** Notes attached to a job, sorted by timestamp */
-  notes?: Record<string, string>;
+  notes?: Array<RouterJobNoteOutput>;
   /** If set, job will be scheduled to be enqueued at a given time */
   readonly scheduledAt?: string;
   /**
@@ -776,6 +745,14 @@ export interface RouterJobAssignmentOutput {
   closedAt?: string;
 }
 
+/** A note attached to a job. */
+export interface RouterJobNoteOutput {
+  /** The message contained in the note. */
+  message: string;
+  /** The time at which the note was added in UTC. If not provided, will default to the current time. */
+  addedAt?: string;
+}
+
 /**
  * The matching mode to be applied to this job.
  *
@@ -790,31 +767,9 @@ export interface RouterJobAssignmentOutput {
  * SuspendMode: Used when matching workers
  * to a job needs to be suspended.
  */
-export interface JobMatchingModeOutput {
-  /**
-   * Discriminator value used to differentiate between supported matching mode types.
-   *
-   * Possible values: queueAndMatchMode, scheduleAndSuspendMode, suspendMode
-   */
-  modeType?: string;
-  /**
-   * Describes a matching mode where matching worker to a job is automatically
-   * started after job is queued successfully.
-   */
-  queueAndMatchMode?: QueueAndMatchModeOutput;
-  /**
-   * Describes a matching mode used for scheduling jobs to be queued at a future
-   * time.
-   * At the specified time, matching worker to a job will not start
-   * automatically.
-   */
-  scheduleAndSuspendMode?: ScheduleAndSuspendModeOutput;
-  /** Describes a matching mode where matching worker to a job is suspended. */
-  suspendMode?: SuspendModeOutput;
+export interface JobMatchingModeOutputParent {
+  kind: string;
 }
-
-/** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
-export interface QueueAndMatchModeOutput {}
 
 /**
  * Describes a matching mode used for scheduling jobs to be queued at a future
@@ -822,20 +777,23 @@ export interface QueueAndMatchModeOutput {}
  * At the specified time, matching worker to a job will not start
  * automatically.
  */
-export interface ScheduleAndSuspendModeOutput {
+export interface ScheduleAndSuspendModeOutput extends JobMatchingModeOutputParent {
   /** Scheduled time. */
   scheduleAt: string;
+  /** The type discriminator describing ScheduleAndSuspendMode */
+  kind: "schedule-and-suspend";
+}
+
+/** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
+export interface QueueAndMatchModeOutput extends JobMatchingModeOutputParent {
+  /** The type discriminator describing QueueAndMatchMode */
+  kind: "queue-and-match";
 }
 
 /** Describes a matching mode where matching worker to a job is suspended. */
-export interface SuspendModeOutput {}
-
-/** Paged instance of RouterJob */
-export interface RouterJobItemOutput {
-  /** A unit of work to be routed */
-  job: RouterJobOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
+export interface SuspendModeOutput extends JobMatchingModeOutputParent {
+  /** The type discriminator describing SuspendMode */
+  kind: "suspend";
 }
 
 /** Position and estimated wait time for a job. */
@@ -890,6 +848,8 @@ export interface RouterQueueStatisticsOutput {
 
 /** An entity for jobs to be routed to */
 export interface RouterWorkerOutput {
+  /** Concurrency Token. */
+  readonly etag: string;
   /** Id of the worker. */
   readonly id: string;
   /**
@@ -899,9 +859,9 @@ export interface RouterWorkerOutput {
    */
   readonly state?: string;
   /** The queue(s) that this worker can receive work from. */
-  queueAssignments?: Record<string, RouterQueueAssignmentOutput>;
+  queues?: string[];
   /** The total capacity score this worker has to manage multiple concurrent jobs. */
-  totalCapacity?: number;
+  capacity?: number;
   /**
    * A set of key/value pairs that are identifying attributes used by the rules
    * engines to make decisions.
@@ -910,7 +870,7 @@ export interface RouterWorkerOutput {
   /** A set of non-identifying attributes attached to this worker. */
   tags?: Record<string, any>;
   /** The channel(s) this worker can handle and their impact on the workers capacity. */
-  channelConfigurations?: Record<string, ChannelConfigurationOutput>;
+  channels?: Array<RouterChannelOutput>;
   /** A list of active offers issued to this worker. */
   readonly offers?: Array<RouterJobOfferOutput>;
   /** A list of assigned jobs attached to this worker. */
@@ -924,11 +884,10 @@ export interface RouterWorkerOutput {
   availableForOffers?: boolean;
 }
 
-/** An assignment of a worker to a queue */
-export interface RouterQueueAssignmentOutput {}
-
 /** Represents the capacity a job in this channel will consume from a worker */
-export interface ChannelConfigurationOutput {
+export interface RouterChannelOutput {
+  /** Id of the channel. */
+  channelId: string;
   /**
    * The amount of capacity that an instance of a job of this channel will consume
    * of the total worker capacity.
@@ -962,14 +921,6 @@ export interface RouterWorkerAssignmentOutput {
   capacityCost: number;
   /** The assignment time of the job in UTC. */
   assignedAt: string;
-}
-
-/** Paged instance of RouterWorker */
-export interface RouterWorkerItemOutput {
-  /** An entity for jobs to be routed to */
-  worker: RouterWorkerOutput;
-  /** (Optional) The Concurrency Token. */
-  etag: string;
 }
 
 /**
@@ -1024,17 +975,33 @@ export type ExceptionActionOutput =
   | CancelExceptionActionOutput
   | ManualReclassifyExceptionActionOutput
   | ReclassifyExceptionActionOutput;
+/**
+ * The matching mode to be applied to this job.
+ *
+ * Supported types:
+ *
+ *
+ * QueueAndMatchMode: Used when matching worker to a job is required to be
+ * done right after job is queued.
+ * ScheduleAndSuspendMode: Used for scheduling
+ * jobs to be queued at a future time. At specified time, matching of a worker to
+ * the job will not start automatically.
+ * SuspendMode: Used when matching workers
+ * to a job needs to be suspended.
+ */
+export type JobMatchingModeOutput =
+  | ScheduleAndSuspendModeOutput
+  | QueueAndMatchModeOutput
+  | SuspendModeOutput;
 /** A paged collection of classification policies. */
-export type PagedClassificationPolicyItemOutput =
-  Paged<ClassificationPolicyItemOutput>;
+export type PagedClassificationPolicyOutput = Paged<ClassificationPolicyOutput>;
 /** A paged collection of distribution policies. */
-export type PagedDistributionPolicyItemOutput =
-  Paged<DistributionPolicyItemOutput>;
+export type PagedDistributionPolicyOutput = Paged<DistributionPolicyOutput>;
 /** A paged collection of exception policies. */
-export type PagedExceptionPolicyItemOutput = Paged<ExceptionPolicyItemOutput>;
+export type PagedExceptionPolicyOutput = Paged<ExceptionPolicyOutput>;
 /** A paged collection of queues. */
-export type PagedRouterQueueItemOutput = Paged<RouterQueueItemOutput>;
+export type PagedRouterQueueOutput = Paged<RouterQueueOutput>;
 /** A paged collection of jobs. */
-export type PagedRouterJobItemOutput = Paged<RouterJobItemOutput>;
+export type PagedRouterJobOutput = Paged<RouterJobOutput>;
 /** A paged collection of workers. */
-export type PagedRouterWorkerItemOutput = Paged<RouterWorkerItemOutput>;
+export type PagedRouterWorkerOutput = Paged<RouterWorkerOutput>;

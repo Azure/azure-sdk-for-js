@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "HealthInsightsClinicalmatching client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -35,8 +35,8 @@
     "@azure/core-auth": "^1.3.0"
   },
   "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "~5.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }

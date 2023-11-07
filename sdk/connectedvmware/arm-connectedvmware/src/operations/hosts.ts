@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureArcVMwareManagementServiceAPI } from "../azureArcVMwareManagementServiceAPI";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Host,
   HostsListNextOptionalParams,
@@ -181,7 +185,7 @@ export class HostsImpl implements Hosts {
     hostName: string,
     options?: HostsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<HostsCreateResponse>, HostsCreateResponse>
+    SimplePollerLike<OperationState<HostsCreateResponse>, HostsCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -189,7 +193,7 @@ export class HostsImpl implements Hosts {
     ): Promise<HostsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -222,15 +226,18 @@ export class HostsImpl implements Hosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostName, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostName, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      HostsCreateResponse,
+      OperationState<HostsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -295,14 +302,14 @@ export class HostsImpl implements Hosts {
     resourceGroupName: string,
     hostName: string,
     options?: HostsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -335,13 +342,13 @@ export class HostsImpl implements Hosts {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, hostName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -442,7 +449,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body6,
+  requestBody: Parameters.body3,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -488,7 +495,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
