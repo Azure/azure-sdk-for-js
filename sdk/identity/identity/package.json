@@ -114,7 +114,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/msal-browser": "^3.5.0",
     "@azure/msal-common": "^13.1.0",
-    "@azure/msal-node": "^2.5.0",
+    "@azure/msal-node": "^2.5.1",
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "open": "^8.0.0",
