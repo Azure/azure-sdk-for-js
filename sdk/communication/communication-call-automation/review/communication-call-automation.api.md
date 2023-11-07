@@ -360,15 +360,7 @@ export interface CreateCallOptions extends OperationOptions {
 export type CreateCallResult = CallResult;
 
 // @public
-export function createCustomCallingContext(): CustomCallingContext;
-
-// @public
-export interface CustomCallingContext {
-    // (undocumented)
-    add: (kind: "sipx" | "sipuui" | "voip", name: string, value: string) => void;
-    _sipHeaders?: Headers;
-    _voipHeaders?: Headers;
-}
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
 
 // @public
 export type DeleteRecordingOptions = OperationOptions;
@@ -883,6 +875,20 @@ export interface SendDtmfTonesResult {
     operationContext?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "CustomHeader" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface SipCustomHeader extends CustomHeader {
+    // (undocumented)
+    kind: "sipx";
+}
+
+// @public
+export interface SipUserToUserHeader extends CustomHeader {
+    // (undocumented)
+    kind: "sipuui";
+}
+
 // @public
 export interface SpeechResult {
     speech?: string;
@@ -948,6 +954,12 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 export enum VoiceKind {
     Female = "female",
     Male = "male"
+}
+
+// @public
+export interface VoipHeader extends CustomHeader {
+    // (undocumented)
+    kind: "voip";
 }
 
 // (No @packageDocumentation comment for this package)

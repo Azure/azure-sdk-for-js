@@ -186,33 +186,28 @@ export interface ChannelAffinity {
   targetParticipant: CommunicationIdentifier;
 }
 
-/** Custom Calling Context */
-export interface CustomCallingContext {
-  /** SIP headers. */
-  _sipHeaders?: Headers;
-  /** VOIP headers. */
-  _voipHeaders?: Headers;
-  add: (kind: "sipx" | "sipuui" | "voip", name: string, value: string) => void;
+interface CustomHeader {
+  key: string;
+  value: string;
 }
 
-/** Create a custom context and add sip or voip header. */
-export function createCustomCallingContext(): CustomCallingContext {
-  const _sipHeaders = new Headers();
-  const _voipHeaders = new Headers();
-  return {
-    add: (kind, name, value) => {
-      if (kind === "sipuui") {
-        _sipHeaders.append("User-To-User", value);
-      }
-      if (kind === "sipx") {
-        _sipHeaders.append("X-MS-Custom-" + name, value);
-      }
-      if (kind === "voip") {
-        _voipHeaders.append(name, value);
-      }
-    },
-  };
+/** VOIP header. */
+export interface VoipHeader extends CustomHeader {
+  kind: "voip";
 }
+
+/** SIP User To User header. */
+export interface SipUserToUserHeader extends CustomHeader {
+  kind: "sipuui";
+}
+
+/** SIP Custom header. */
+export interface SipCustomHeader extends CustomHeader {
+  kind: "sipx";
+}
+
+/** Custom Calling Context */
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
 
 /** AI options for the call. */
 export interface CallIntelligenceOptions {

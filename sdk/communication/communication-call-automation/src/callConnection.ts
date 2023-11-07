@@ -10,12 +10,18 @@ import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
+  CustomCallingContextInternal,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
-import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
+import {
+  CallConnectionProperties,
+  CallInvite,
+  CallParticipant,
+  CustomCallingContext,
+} from "./models/models";
 import {
   AddParticipantOptions,
   CancelAddParticipantOperationOptions,
@@ -167,14 +173,23 @@ export class CallConnection {
     return listParticipantResponse;
   }
 
-  private createHeadersDictonaryInternal(headers: Headers | undefined): { [key: string]: string } {
-    const dictionary: { [key: string]: string } = {};
-    if (headers) {
-      headers.forEach((value, key) => {
-        dictionary[key] = value;
-      });
+  private createCustomCallingContextInternal(
+    customCallingContext: CustomCallingContext
+  ): CustomCallingContextInternal {
+    const sipHeaders: { [key: string]: string } = {};
+    const voipHeaders: { [key: string]: string } = {};
+    if (customCallingContext) {
+      for (const header of customCallingContext) {
+        if (header.kind === "sipuui") {
+          sipHeaders[`User-To-User`] = header.value;
+        } else if (header.kind === "sipx") {
+          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+        } else if (header.kind === "voip") {
+          voipHeaders[`${header.key}`] = header.value;
+        }
+      }
     }
-    return dictionary;
+    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
   }
 
   /**
@@ -195,14 +210,9 @@ export class CallConnection {
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
-      customCallingContext: {
-        sipHeaders: this.createHeadersDictonaryInternal(
-          targetParticipant.customCallingContext?._sipHeaders
-        ),
-        voipHeaders: this.createHeadersDictonaryInternal(
-          targetParticipant.customCallingContext?._voipHeaders
-        ),
-      },
+      customCallingContext: this.createCustomCallingContextInternal(
+        targetParticipant.customCallingContext!
+      ),
     };
     const optionsInternal = {
       ...options,
@@ -240,12 +250,7 @@ export class CallConnection {
       operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
-      customCallingContext: {
-        sipHeaders: this.createHeadersDictonaryInternal(options.customCallingContext?._sipHeaders),
-        voipHeaders: this.createHeadersDictonaryInternal(
-          options.customCallingContext?._voipHeaders
-        ),
-      },
+      customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
     };
     const optionsInternal = {
       ...options,
