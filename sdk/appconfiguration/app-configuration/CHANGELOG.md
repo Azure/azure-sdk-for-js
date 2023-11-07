@@ -5,9 +5,13 @@
 ### Features Added
 
 - With the new API version `2023-10-01`, the configuration snapshot feature is generally available. 
-This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store. The filtered configuration settings are stored as a snapshot with the name provided during its creation.
+  
+  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store. 
+  
+  The filtered configuration settings are stored as a snapshot with the name provided during its creation.
 `AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
-See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/snapshot.ts) for more information now how to use snapshots.
+  
+  See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/snapshot.ts) for more information now how to use snapshots.
 
 ### Bugs Fixed
 
