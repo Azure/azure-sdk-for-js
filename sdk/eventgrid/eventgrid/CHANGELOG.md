@@ -1,14 +1,13 @@
 # Release History
 
-## 4.15.1 (Unreleased)
+## 4.16.0 (2023-11-07)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.ResourceNotifications.Resources.CreatedOrUpdated`
+  - `Microsoft.ResourceNotifications.Resources.Deleted`
 
 ## 4.15.0 (2023-10-12)
 
