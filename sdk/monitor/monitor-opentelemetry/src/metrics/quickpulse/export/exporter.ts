@@ -22,10 +22,6 @@ import { resourceMetricsToQuickpulseDataPoint } from "../utils";
  * Quickpulse Metric Exporter.
  */
 export class QuickpulseMetricExporter implements PushMetricExporter {
-  /**
-   * Flag to determine if Exporter is shutdown.
-   */
-  private isShutdown = false;
   private sender: QuickpulseSender;
   private postCallback: (response: PostResponse | undefined) => void;
   private getDocumentsFn: () => DocumentIngress[];
@@ -59,11 +55,6 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
     metrics: ResourceMetrics,
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
-    if (this.isShutdown) {
-      diag.info("Exporter shut down. Failed to export quickpulse.");
-      setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
-      return;
-    }
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
     let optionalParams: PostOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
@@ -90,7 +81,6 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    * Shutdown Exporter.
    */
   public async shutdown(): Promise<void> {
-    this.isShutdown = true;
     diag.info("QuickpulseMetricExporter shutting down");
     return Promise.resolve();
   }

@@ -8,18 +8,17 @@ import {
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../shared/config";
-import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import { Counter, Histogram, Meter, SpanKind, ValueType } from "@opentelemetry/api";
+import {
+  Histogram,
+  Meter,
+  ObservableGauge,
+  ObservableResult,
+  SpanKind,
+  ValueType,
+} from "@opentelemetry/api";
 import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
-import {
-  getDependencyDimensions,
-  getExceptionDimensions,
-  getRequestDimensions,
-  getTraceDimensions,
-  isExceptionTelemetry,
-  isTraceTelemetry,
-} from "../utils";
+import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
   ExceptionDocumentIngress,
@@ -43,6 +42,7 @@ import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickpulseExporterOptions } from "./types";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -57,13 +57,17 @@ const FALLBACK_INTERVAL = 60000;
 export class LiveMetrics {
   private config: InternalConfig;
   private meterProvider: MeterProvider | undefined;
-  private azureExporter: AzureMonitorMetricExporter | undefined;
   private metricReader: PeriodicExportingMetricReader | undefined;
   private meter: Meter | undefined;
-  private incomingRequestDurationHistogram: Histogram | undefined;
-  private outgoingRequestDurationHistogram: Histogram | undefined;
-  private exceptionsCounter: Counter | undefined;
-  private tracesCounter: Counter | undefined;
+  private requestDurationHistogram: Histogram | undefined;
+  private dependencyDurationHistogram: Histogram | undefined;
+  private requestRateGauge: ObservableGauge | undefined;
+  private requestFailedRateGauge: ObservableGauge | undefined;
+  private dependencyRateGauge: ObservableGauge | undefined;
+  private dependencyFailedRateGauge: ObservableGauge | undefined;
+  private memoryCommitedGauge: ObservableGauge | undefined;
+  private processorTimeGauge: ObservableGauge | undefined;
+  private exceptionsRateGauge: ObservableGauge | undefined;
 
   private documents: DocumentIngress[] = [];
   private pingInterval: number;
@@ -75,6 +79,21 @@ export class LiveMetrics {
   private handle: NodeJS.Timer;
   // Monitoring data point with common properties
   private baseMonitoringDataPoint: MonitoringDataPoint;
+  private totalRequestCount = 0;
+  private totalFailedRequestCount = 0;
+  private totalDependencyCount = 0;
+  private totalFailedDependencyCount = 0;
+  private totalExceptionCount = 0;
+  private lastRequestRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastFailedRequestRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastCpus: {
+    model: string;
+    speed: number;
+    times: { user: number; nice: number; sys: number; idle: number; irq: number };
+  }[] | undefined;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -115,7 +134,6 @@ export class LiveMetrics {
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
     this.postInterval = POST_INTERVAL;
-
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
   }
@@ -186,37 +204,95 @@ export class LiveMetrics {
 
   // Activate live metrics collection
   public activateMetrics(options?: { collectionInterval: number }) {
+    if (this.meterProvider) {
+      return;
+    }
+    this.lastCpus = os.cpus();
+    this.totalDependencyCount = 0;
+    this.totalExceptionCount = 0;
+    this.totalFailedDependencyCount = 0;
+    this.totalFailedRequestCount = 0;
+    this.totalRequestCount = 0;
+    this.lastRequestRate = { count: 0, time: 0 };
+    this.lastFailedRequestRate = { count: 0, time: 0 };
+    this.lastDependencyRate = { count: 0, time: 0 };
+    this.lastFailedDependencyRate = { count: 0, time: 0 };
+    this.lastExceptionRate = { count: 0, time: 0 };
+
     const meterProviderConfig: MeterProviderOptions = {
       resource: this.config.resource,
     };
     this.meterProvider = new MeterProvider(meterProviderConfig);
-    this.azureExporter = new AzureMonitorMetricExporter(this.config.azureMonitorExporterOptions);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
-      exporter: this.azureExporter as any,
+      exporter: this.quickpulseExporter,
       exportIntervalMillis: options?.collectionInterval,
     };
     this.metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
     this.meterProvider.addMetricReader(this.metricReader);
     this.meter = this.meterProvider.getMeter("AzureMonitorLiveMetricsMeter");
-    this.incomingRequestDurationHistogram = this.meter.createHistogram(
-      "azureMonitor.http.requestDuration",
+
+    this.requestDurationHistogram = this.meter.createHistogram(
+      "\\ApplicationInsights\\Request Duration",
       {
         valueType: ValueType.DOUBLE,
       }
     );
-    this.outgoingRequestDurationHistogram = this.meter.createHistogram(
-      "azureMonitor.http.dependencyDuration",
+    this.dependencyDurationHistogram = this.meter.createHistogram(
+      "\\ApplicationInsights\\Dependency Call Duration",
       {
         valueType: ValueType.DOUBLE,
       }
     );
 
-    this.exceptionsCounter = this.meter.createCounter("azureMonitor.exceptionCount", {
+    this.requestRateGauge = this.meter.createObservableGauge(
+      "\\ApplicationInsights\\Requests/Sec",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this.requestFailedRateGauge = this.meter.createObservableGauge(
+      "\\ApplicationInsights\\Requests Failed/Sec",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this.dependencyRateGauge = this.meter.createObservableGauge(
+      "\\ApplicationInsights\\Dependency Calls/Sec",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this.dependencyFailedRateGauge = this.meter.createObservableGauge(
+      "\\ApplicationInsights\\Dependency Calls Failed/Sec",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+
+    this.memoryCommitedGauge = this.meter.createObservableGauge("\\Memory\\Committed Bytes", {
       valueType: ValueType.INT,
     });
-    this.tracesCounter = this.meter.createCounter("azureMonitor.traceCount", {
-      valueType: ValueType.INT,
-    });
+
+    this.processorTimeGauge = this.meter.createObservableGauge(
+      "\\Processor(_Total)\\% Processor Time",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+    this.exceptionsRateGauge = this.meter.createObservableGauge(
+      "\\ApplicationInsights\\Exceptions/Sec",
+      {
+        valueType: ValueType.DOUBLE,
+      }
+    );
+
+    this.requestRateGauge.addCallback(this.getRequestRate.bind(this));
+    this.requestFailedRateGauge.addCallback(this.getRequestFailedRate.bind(this));
+    this.dependencyRateGauge.addCallback(this.getDependencyRate.bind(this));
+    this.dependencyFailedRateGauge.addCallback(this.getDependencyFailedRate.bind(this));
+    this.exceptionsRateGauge.addCallback(this.getExceptionRate.bind(this));
+    this.memoryCommitedGauge.addCallback(this.getCommitedMemory.bind(this));
+    this.processorTimeGauge.addCallback(this.getProcessorTime.bind(this));
   }
 
   /**
@@ -265,19 +341,33 @@ export class LiveMetrics {
       let document: RequestDocumentIngress | RemoteDependencyDocumentIngress =
         getSpanDocument(span);
       this.addDocument(document);
-      const durationMs = span.duration[0];
-      if (span.kind === SpanKind.SERVER) {
-        this.incomingRequestDurationHistogram?.record(durationMs, getRequestDimensions(span));
+      const durationMs = hrTimeToMilliseconds(span.duration);
+      const statusCode = String(span.attributes["http.status_code"]);
+      let success = statusCode === "200" ? true : false;
+
+      if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
+        if (success) {
+          this.totalRequestCount++;
+        }
+        else {
+          this.totalFailedRequestCount++;
+        }
+        this.requestDurationHistogram?.record(durationMs);
+
       } else {
-        this.outgoingRequestDurationHistogram?.record(durationMs, getDependencyDimensions(span));
+        if (success) {
+          this.totalDependencyCount++;
+        }
+        else {
+          this.totalFailedDependencyCount++;
+        }
+        this.dependencyDurationHistogram?.record(durationMs);
       }
       if (span.events) {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
-            this.exceptionsCounter?.add(1, getExceptionDimensions(span.resource));
-          } else {
-            this.tracesCounter?.add(1, getTraceDimensions(span.resource));
+            this.totalExceptionCount++;
           }
         });
       }
@@ -293,10 +383,146 @@ export class LiveMetrics {
       let document: TraceDocumentIngress | ExceptionDocumentIngress = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
-        this.exceptionsCounter?.add(1, getExceptionDimensions(logRecord.resource));
-      } else if (isTraceTelemetry(logRecord)) {
-        this.tracesCounter?.add(1, getTraceDimensions(logRecord.resource));
+        this.totalExceptionCount++;
       }
     }
+  }
+
+  private getRequestRate(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const intervalRequests = this.totalRequestCount - this.lastRequestRate.count || 0;
+    const elapsedMs = currentTime - this.lastRequestRate.time;
+    if (elapsedMs > 0) {
+      const elapsedSeconds = elapsedMs / 1000;
+      const dataPerSec = intervalRequests / elapsedSeconds;
+      observableResult.observe(dataPerSec);
+    }
+    this.lastRequestRate = {
+      count: this.totalRequestCount,
+      time: currentTime,
+    };
+  }
+
+  private getRequestFailedRate(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const intervalRequests = this.totalFailedRequestCount - this.lastFailedRequestRate.count || 0;
+    const elapsedMs = currentTime - this.lastFailedRequestRate.time;
+    if (elapsedMs > 0) {
+      const elapsedSeconds = elapsedMs / 1000;
+      const dataPerSec = intervalRequests / elapsedSeconds;
+      observableResult.observe(dataPerSec);
+    }
+    this.lastFailedRequestRate = {
+      count: this.totalFailedRequestCount,
+      time: currentTime,
+    };
+  }
+
+  private getDependencyRate(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const intervalData = this.totalDependencyCount - this.lastDependencyRate.count || 0;
+    const elapsedMs = currentTime - this.lastDependencyRate.time;
+    if (elapsedMs > 0) {
+      const elapsedSeconds = elapsedMs / 1000;
+      const dataPerSec = intervalData / elapsedSeconds;
+      observableResult.observe(dataPerSec);
+    }
+    this.lastDependencyRate = {
+      count: this.totalDependencyCount,
+      time: currentTime,
+    };
+  }
+
+  private getDependencyFailedRate(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const intervalData = this.totalFailedDependencyCount - this.lastFailedDependencyRate.count || 0;
+    const elapsedMs = currentTime - this.lastFailedDependencyRate.time;
+    if (elapsedMs > 0) {
+      const elapsedSeconds = elapsedMs / 1000;
+      const dataPerSec = intervalData / elapsedSeconds;
+      observableResult.observe(dataPerSec);
+    }
+    this.lastFailedDependencyRate = {
+      count: this.totalFailedDependencyCount,
+      time: currentTime,
+    };
+  }
+
+  private getExceptionRate(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const intervalData = this.totalExceptionCount - this.lastExceptionRate.count || 0;
+    const elapsedMs = currentTime - this.lastExceptionRate.time;
+    if (elapsedMs > 0) {
+      const elapsedSeconds = elapsedMs / 1000;
+      const dataPerSec = intervalData / elapsedSeconds;
+      observableResult.observe(dataPerSec);
+    }
+    this.lastExceptionRate = {
+      count: this.totalExceptionCount,
+      time: currentTime,
+    };
+  }
+
+
+  private getCommitedMemory(observableResult: ObservableResult) {
+    var freeMem = os.freemem();
+    var committedMemory = os.totalmem() - freeMem;
+    observableResult.observe(committedMemory);
+  }
+
+  private getTotalCombinedCpu(cpus: os.CpuInfo[], lastCpus: os.CpuInfo[]) {
+    let totalUser = 0;
+    let totalSys = 0;
+    let totalNice = 0;
+    let totalIdle = 0;
+    let totalIrq = 0;
+    for (let i = 0; !!cpus && i < cpus.length; i++) {
+      const cpu = cpus[i];
+      const lastCpu = lastCpus[i];
+      const times = cpu.times;
+      const lastTimes = lastCpu.times;
+      // user cpu time (or) % CPU time spent in user space
+      let user = times.user - lastTimes.user;
+      user = user > 0 ? user : 0; // Avoid negative values
+      totalUser += user;
+      // system cpu time (or) % CPU time spent in kernel space
+      let sys = times.sys - lastTimes.sys;
+      sys = sys > 0 ? sys : 0; // Avoid negative values
+      totalSys += sys;
+      // user nice cpu time (or) % CPU time spent on low priority processes
+      let nice = times.nice - lastTimes.nice;
+      nice = nice > 0 ? nice : 0; // Avoid negative values
+      totalNice += nice;
+      // idle cpu time (or) % CPU time spent idle
+      let idle = times.idle - lastTimes.idle;
+      idle = idle > 0 ? idle : 0; // Avoid negative values
+      totalIdle += idle;
+      // irq (or) % CPU time spent servicing/handling hardware interrupts
+      let irq = times.irq - lastTimes.irq;
+      irq = irq > 0 ? irq : 0; // Avoid negative values
+      totalIrq += irq;
+    }
+    const combinedTotal = totalUser + totalSys + totalNice + totalIdle + totalIrq;
+    return {
+      combinedTotal: combinedTotal,
+      totalUser: totalUser,
+      totalIdle: totalIdle,
+    };
+  }
+
+  private getProcessorTime(observableResult: ObservableResult) {
+    // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
+    // to find the delta since the last measurement
+    const cpus = os.cpus();
+    if (cpus && cpus.length && this.lastCpus && cpus.length === this.lastCpus.length) {
+      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpus);
+
+      const value =
+        cpuTotals.combinedTotal > 0
+          ? ((cpuTotals.combinedTotal - cpuTotals.totalIdle) / cpuTotals.combinedTotal) * 100
+          : 0;
+      observableResult.observe(value);
+    }
+    this.lastCpus = cpus;
   }
 }

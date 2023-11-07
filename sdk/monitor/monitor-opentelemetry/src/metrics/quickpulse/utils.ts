@@ -18,7 +18,6 @@ import {
   SemanticAttributes,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import { msToTimeSpan } from "../../utils/common";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { AZURE_MONITOR_OPENTELEMETRY_VERSION } from "../../types";
@@ -117,6 +116,7 @@ export function resourceMetricsToQuickpulseDataPoint(
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
           name: metric.descriptor.name,
+          weight: 1,
         };
         if (
           metric.dataPointType === DataPointType.SUM ||
@@ -163,7 +163,7 @@ export function getSpanDocument(
       name: span.name,
       url: url,
       responseCode: code,
-      duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+      duration: hrTimeToMilliseconds(span.duration).toString(),
     };
   } else {
     url = getUrl(span.attributes);
@@ -177,7 +177,7 @@ export function getSpanDocument(
       name: span.name,
       commandName: url,
       resultCode: code,
-      duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+      duration: hrTimeToMilliseconds(span.duration).toString(),
     };
   }
   return document;
