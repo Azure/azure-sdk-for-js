@@ -17,3 +17,8 @@ export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./deployments";
 export * from "./commitmentPlans";
+export * from "./encryptionScopes";
+export * from "./raiPolicies";
+export * from "./raiBlocklists";
+export * from "./raiBlocklistItems";
+export * from "./raiContentFilters";

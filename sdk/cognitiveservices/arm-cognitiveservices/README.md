@@ -6,7 +6,7 @@ Cognitive Services Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitiveservices/arm-cognitiveservices) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-cognitiveservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cognitiveservices) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-cognitiveservices?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

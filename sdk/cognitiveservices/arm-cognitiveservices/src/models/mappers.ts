@@ -251,6 +251,13 @@ export const AccountProperties: coreClient.CompositeMapper = {
           }
         }
       },
+      amlWorkspace: {
+        serializedName: "amlWorkspace",
+        type: {
+          name: "Composite",
+          className: "UserOwnedAmlWorkspace"
+        }
+      },
       privateEndpointConnections: {
         serializedName: "privateEndpointConnections",
         readOnly: true,
@@ -445,6 +452,12 @@ export const NetworkRuleSet: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      bypass: {
+        serializedName: "bypass",
+        type: {
+          name: "String"
+        }
+      },
       ipRules: {
         serializedName: "ipRules",
         type: {
@@ -577,6 +590,27 @@ export const UserOwnedStorage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UserOwnedStorage",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      identityClientId: {
+        serializedName: "identityClientId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserOwnedAmlWorkspace: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserOwnedAmlWorkspace",
     modelProperties: {
       resourceId: {
         serializedName: "resourceId",
@@ -1643,6 +1677,17 @@ export const CapacityConfig: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      allowedValues: {
+        serializedName: "allowedValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
       }
     }
   }
@@ -2313,6 +2358,26 @@ export const DeploymentProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      dynamicThrottlingEnabled: {
+        serializedName: "dynamicThrottlingEnabled",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      currentCapacity: {
+        serializedName: "currentCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      capacitySettings: {
+        serializedName: "capacitySettings",
+        type: {
+          name: "Composite",
+          className: "DeploymentCapacitySettings"
+        }
       }
     }
   }
@@ -2340,6 +2405,106 @@ export const DeploymentScaleSettings: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentCapacitySettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentCapacitySettings",
+    modelProperties: {
+      designatedCapacity: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "designatedCapacity",
+        type: {
+          name: "Number"
+        }
+      },
+      priority: {
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const PatchResourceTags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PatchResourceTags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentSkuListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentSkuListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SkuResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SkuResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SkuResource",
+    modelProperties: {
+      resourceType: {
+        serializedName: "resourceType",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Composite",
+          className: "CapacityConfig"
         }
       }
     }
@@ -2489,16 +2654,322 @@ export const CommitmentPeriod: coreClient.CompositeMapper = {
   }
 };
 
-export const PatchResourceTags: coreClient.CompositeMapper = {
+export const EncryptionScopeListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PatchResourceTags",
+    className: "EncryptionScopeListResult",
     modelProperties: {
-      tags: {
-        serializedName: "tags",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EncryptionScope"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiPolicyListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiPolicyListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiPolicy"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiPolicyProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiPolicyProperties",
+    modelProperties: {
+      policyType: {
+        serializedName: "policyType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      basePolicyName: {
+        serializedName: "basePolicyName",
+        type: {
+          name: "String"
+        }
+      },
+      promptBlocklists: {
+        serializedName: "promptBlocklists",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiBlocklistConfig"
+            }
+          }
+        }
+      },
+      completionBlocklists: {
+        serializedName: "completionBlocklists",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiBlocklistConfig"
+            }
+          }
+        }
+      },
+      contentFilters: {
+        serializedName: "contentFilters",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiPolicyContentFilter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistConfig: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistConfig",
+    modelProperties: {
+      blocklistName: {
+        serializedName: "blocklistName",
+        type: {
+          name: "String"
+        }
+      },
+      blocking: {
+        serializedName: "blocking",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RaiPolicyContentFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiPolicyContentFilter",
+    modelProperties: {
+      policyName: {
+        serializedName: "policyName",
+        type: {
+          name: "String"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      allowedContentLevel: {
+        serializedName: "allowedContentLevel",
+        type: {
+          name: "String"
+        }
+      },
+      blocking: {
+        serializedName: "blocking",
+        type: {
+          name: "Boolean"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlockListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlockListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiBlocklist"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistProperties",
+    modelProperties: {
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlockListItemsResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlockListItemsResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiBlocklistItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistItemProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistItemProperties",
+    modelProperties: {
+      pattern: {
+        serializedName: "pattern",
+        type: {
+          name: "String"
+        }
+      },
+      isRegex: {
+        serializedName: "isRegex",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const RaiContentFilterListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiContentFilterListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RaiContentFilter"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RaiContentFilter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiContentFilter",
+    modelProperties: {
+      policyName: {
+        serializedName: "policyName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      filterType: {
+        serializedName: "filterType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2527,6 +2998,29 @@ export const CommitmentPlanAccountAssociationListResult: coreClient.CompositeMap
               className: "CommitmentPlanAccountAssociation"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionScopeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionScopeProperties",
+    modelProperties: {
+      ...Encryption.type.modelProperties,
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2783,6 +3277,13 @@ export const Deployment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -2851,6 +3352,158 @@ export const CommitmentPlan: coreClient.CompositeMapper = {
   }
 };
 
+export const EncryptionScope: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionScope",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "EncryptionScopeProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RaiPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiPolicy",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RaiPolicyProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklist: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklist",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RaiBlocklistProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistItem",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RaiBlocklistItemProperties"
+        }
+      }
+    }
+  }
+};
+
 export const CommitmentPlanAccountAssociation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2871,8 +3524,30 @@ export const CommitmentPlanAccountAssociation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       accountId: {
         serializedName: "properties.accountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeploymentsUpdateHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeploymentsUpdateHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -2915,6 +3590,66 @@ export const CommitmentPlansDeleteAssociationHeaders: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "CommitmentPlansDeleteAssociationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionScopesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionScopesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RaiPoliciesDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiPoliciesDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RaiBlocklistItemsDeleteHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RaiBlocklistItemsDeleteHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

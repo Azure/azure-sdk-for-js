@@ -25,7 +25,12 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   DeploymentsImpl,
-  CommitmentPlansImpl
+  CommitmentPlansImpl,
+  EncryptionScopesImpl,
+  RaiPoliciesImpl,
+  RaiBlocklistsImpl,
+  RaiBlocklistItemsImpl,
+  RaiContentFiltersImpl
 } from "./operations";
 import {
   Accounts,
@@ -38,7 +43,12 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   Deployments,
-  CommitmentPlans
+  CommitmentPlans,
+  EncryptionScopes,
+  RaiPolicies,
+  RaiBlocklists,
+  RaiBlocklistItems,
+  RaiContentFilters
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -82,7 +92,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cognitiveservices/7.5.0`;
+    const packageDetails = `azsdk-js-arm-cognitiveservices/7.6.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -135,7 +145,7 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.accounts = new AccountsImpl(this);
     this.deletedAccounts = new DeletedAccountsImpl(this);
     this.resourceSkus = new ResourceSkusImpl(this);
@@ -147,6 +157,11 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.deployments = new DeploymentsImpl(this);
     this.commitmentPlans = new CommitmentPlansImpl(this);
+    this.encryptionScopes = new EncryptionScopesImpl(this);
+    this.raiPolicies = new RaiPoliciesImpl(this);
+    this.raiBlocklists = new RaiBlocklistsImpl(this);
+    this.raiBlocklistItems = new RaiBlocklistItemsImpl(this);
+    this.raiContentFilters = new RaiContentFiltersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -227,6 +242,11 @@ export class CognitiveServicesManagementClient extends coreClient.ServiceClient 
   privateLinkResources: PrivateLinkResources;
   deployments: Deployments;
   commitmentPlans: CommitmentPlans;
+  encryptionScopes: EncryptionScopes;
+  raiPolicies: RaiPolicies;
+  raiBlocklists: RaiBlocklists;
+  raiBlocklistItems: RaiBlocklistItems;
+  raiContentFilters: RaiContentFilters;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

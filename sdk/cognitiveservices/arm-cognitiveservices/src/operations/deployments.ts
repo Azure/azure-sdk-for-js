@@ -24,12 +24,20 @@ import {
   DeploymentsListNextOptionalParams,
   DeploymentsListOptionalParams,
   DeploymentsListResponse,
+  SkuResource,
+  DeploymentsListSkusNextOptionalParams,
+  DeploymentsListSkusOptionalParams,
+  DeploymentsListSkusResponse,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
+  PatchResourceTagsAndSku,
+  DeploymentsUpdateOptionalParams,
+  DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams,
-  DeploymentsListNextResponse
+  DeploymentsListNextResponse,
+  DeploymentsListSkusNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -115,6 +123,99 @@ export class DeploymentsImpl implements Deployments {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       accountName,
+      options
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  public listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams
+  ): PagedAsyncIterableIterator<SkuResource> {
+    const iter = this.listSkusPagingAll(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listSkusPagingPage(
+          resourceGroupName,
+          accountName,
+          deploymentName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listSkusPagingPage(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<SkuResource[]> {
+    let result: DeploymentsListSkusResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listSkus(
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listSkusNext(
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listSkusPagingAll(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams
+  ): AsyncIterableIterator<SkuResource> {
+    for await (const page of this.listSkusPagingPage(
+      resourceGroupName,
+      accountName,
+      deploymentName,
       options
     )) {
       yield* page;
@@ -265,6 +366,113 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DeploymentsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        deploymentName,
+        deployment,
+        options
+      },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeploymentsUpdateResponse,
+      OperationState<DeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams
+  ): Promise<DeploymentsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      accountName,
+      deploymentName,
+      deployment,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -352,6 +560,25 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  private _listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams
+  ): Promise<DeploymentsListSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, deploymentName, options },
+      listSkusOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -367,6 +594,27 @@ export class DeploymentsImpl implements Deployments {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
       listNextOperationSpec
+    );
+  }
+
+  /**
+   * ListSkusNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param nextLink The nextLink from the previous successful call to the ListSkus method.
+   * @param options The options parameters.
+   */
+  private _listSkusNext(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    nextLink: string,
+    options?: DeploymentsListSkusNextOptionalParams
+  ): Promise<DeploymentsListSkusNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, deploymentName, nextLink, options },
+      listSkusNextOperationSpec
     );
   }
 }
@@ -452,6 +700,40 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const updateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Deployment
+    },
+    201: {
+      bodyMapper: Mappers.Deployment
+    },
+    202: {
+      bodyMapper: Mappers.Deployment
+    },
+    204: {
+      bodyMapper: Mappers.Deployment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.deployment1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}",
@@ -461,6 +743,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.deploymentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/deployments/{deploymentName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentSkuListResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -493,6 +798,28 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.subscriptionId,
     Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSkusNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DeploymentSkuListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
+    Parameters.deploymentName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -18,9 +18,13 @@ import {
   CheckDomainAvailabilityParameter as CheckDomainAvailabilityParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   Deployment as DeploymentMapper,
-  CommitmentPlan as CommitmentPlanMapper,
   PatchResourceTagsAndSku as PatchResourceTagsAndSkuMapper,
-  CommitmentPlanAccountAssociation as CommitmentPlanAccountAssociationMapper
+  CommitmentPlan as CommitmentPlanMapper,
+  CommitmentPlanAccountAssociation as CommitmentPlanAccountAssociationMapper,
+  EncryptionScope as EncryptionScopeMapper,
+  RaiPolicy as RaiPolicyMapper,
+  RaiBlocklist as RaiBlocklistMapper,
+  RaiBlocklistItem as RaiBlocklistItemMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -98,7 +102,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01",
+    defaultValue: "2023-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -221,6 +225,11 @@ export const deployment: OperationParameter = {
   mapper: DeploymentMapper
 };
 
+export const deployment1: OperationParameter = {
+  parameterPath: "deployment",
+  mapper: PatchResourceTagsAndSkuMapper
+};
+
 export const commitmentPlanName: OperationURLParameter = {
   parameterPath: "commitmentPlanName",
   mapper: {
@@ -273,4 +282,80 @@ export const commitmentPlanAssociationName: OperationURLParameter = {
 export const association: OperationParameter = {
   parameterPath: "association",
   mapper: CommitmentPlanAccountAssociationMapper
+};
+
+export const encryptionScopeName: OperationURLParameter = {
+  parameterPath: "encryptionScopeName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "encryptionScopeName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const encryptionScope: OperationParameter = {
+  parameterPath: "encryptionScope",
+  mapper: EncryptionScopeMapper
+};
+
+export const raiPolicyName: OperationURLParameter = {
+  parameterPath: "raiPolicyName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "raiPolicyName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const raiPolicy: OperationParameter = {
+  parameterPath: "raiPolicy",
+  mapper: RaiPolicyMapper
+};
+
+export const raiBlocklistName: OperationURLParameter = {
+  parameterPath: "raiBlocklistName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "raiBlocklistName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const raiBlocklist: OperationParameter = {
+  parameterPath: "raiBlocklist",
+  mapper: RaiBlocklistMapper
+};
+
+export const raiBlocklistItemName: OperationURLParameter = {
+  parameterPath: "raiBlocklistItemName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9_.-]*$")
+    },
+    serializedName: "raiBlocklistItemName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const raiBlocklistItem: OperationParameter = {
+  parameterPath: "raiBlocklistItem",
+  mapper: RaiBlocklistItemMapper
 };

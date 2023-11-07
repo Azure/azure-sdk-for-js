@@ -1,5 +1,116 @@
 # Release History
     
+## 7.6.0-beta.1 (2023-11-07)
+    
+**Features**
+
+  - Added operation group EncryptionScopes
+  - Added operation group RaiBlocklistItems
+  - Added operation group RaiBlocklists
+  - Added operation group RaiContentFilters
+  - Added operation group RaiPolicies
+  - Added operation Deployments.beginUpdate
+  - Added operation Deployments.beginUpdateAndWait
+  - Added operation Deployments.listSkus
+  - Added Interface DeploymentCapacitySettings
+  - Added Interface DeploymentSkuListResult
+  - Added Interface DeploymentsListSkusNextOptionalParams
+  - Added Interface DeploymentsListSkusOptionalParams
+  - Added Interface DeploymentsUpdateHeaders
+  - Added Interface DeploymentsUpdateOptionalParams
+  - Added Interface EncryptionScope
+  - Added Interface EncryptionScopeListResult
+  - Added Interface EncryptionScopeProperties
+  - Added Interface EncryptionScopesCreateOrUpdateOptionalParams
+  - Added Interface EncryptionScopesDeleteHeaders
+  - Added Interface EncryptionScopesDeleteOptionalParams
+  - Added Interface EncryptionScopesGetOptionalParams
+  - Added Interface EncryptionScopesListNextOptionalParams
+  - Added Interface EncryptionScopesListOptionalParams
+  - Added Interface RaiBlocklist
+  - Added Interface RaiBlocklistConfig
+  - Added Interface RaiBlocklistItem
+  - Added Interface RaiBlocklistItemProperties
+  - Added Interface RaiBlocklistItemsCreateOrUpdateOptionalParams
+  - Added Interface RaiBlocklistItemsDeleteHeaders
+  - Added Interface RaiBlocklistItemsDeleteOptionalParams
+  - Added Interface RaiBlocklistItemsGetOptionalParams
+  - Added Interface RaiBlocklistItemsListNextOptionalParams
+  - Added Interface RaiBlocklistItemsListOptionalParams
+  - Added Interface RaiBlockListItemsResult
+  - Added Interface RaiBlocklistProperties
+  - Added Interface RaiBlockListResult
+  - Added Interface RaiBlocklistsCreateOrUpdateOptionalParams
+  - Added Interface RaiBlocklistsDeleteHeaders
+  - Added Interface RaiBlocklistsDeleteOptionalParams
+  - Added Interface RaiBlocklistsGetOptionalParams
+  - Added Interface RaiBlocklistsListNextOptionalParams
+  - Added Interface RaiBlocklistsListOptionalParams
+  - Added Interface RaiContentFilter
+  - Added Interface RaiContentFilterListResult
+  - Added Interface RaiContentFiltersListOptionalParams
+  - Added Interface RaiPoliciesCreateOrUpdateOptionalParams
+  - Added Interface RaiPoliciesDeleteHeaders
+  - Added Interface RaiPoliciesDeleteOptionalParams
+  - Added Interface RaiPoliciesGetOptionalParams
+  - Added Interface RaiPoliciesListNextOptionalParams
+  - Added Interface RaiPoliciesListOptionalParams
+  - Added Interface RaiPolicy
+  - Added Interface RaiPolicyContentFilter
+  - Added Interface RaiPolicyListResult
+  - Added Interface RaiPolicyProperties
+  - Added Interface SkuResource
+  - Added Interface UserOwnedAmlWorkspace
+  - Added Type Alias AllowedContentLevel
+  - Added Type Alias ByPassSelection
+  - Added Type Alias DeploymentsListSkusNextResponse
+  - Added Type Alias DeploymentsListSkusResponse
+  - Added Type Alias DeploymentsUpdateResponse
+  - Added Type Alias EncryptionScopeProvisioningState
+  - Added Type Alias EncryptionScopesCreateOrUpdateResponse
+  - Added Type Alias EncryptionScopesDeleteResponse
+  - Added Type Alias EncryptionScopesGetResponse
+  - Added Type Alias EncryptionScopesListNextResponse
+  - Added Type Alias EncryptionScopesListResponse
+  - Added Type Alias EncryptionScopeState
+  - Added Type Alias RaiBlocklistItemsCreateOrUpdateResponse
+  - Added Type Alias RaiBlocklistItemsDeleteResponse
+  - Added Type Alias RaiBlocklistItemsGetResponse
+  - Added Type Alias RaiBlocklistItemsListNextResponse
+  - Added Type Alias RaiBlocklistItemsListResponse
+  - Added Type Alias RaiBlocklistsCreateOrUpdateResponse
+  - Added Type Alias RaiBlocklistsDeleteResponse
+  - Added Type Alias RaiBlocklistsGetResponse
+  - Added Type Alias RaiBlocklistsListNextResponse
+  - Added Type Alias RaiBlocklistsListResponse
+  - Added Type Alias RaiContentFiltersListResponse
+  - Added Type Alias RaiContentFilterType
+  - Added Type Alias RaiPoliciesCreateOrUpdateResponse
+  - Added Type Alias RaiPoliciesDeleteResponse
+  - Added Type Alias RaiPoliciesGetResponse
+  - Added Type Alias RaiPoliciesListNextResponse
+  - Added Type Alias RaiPoliciesListResponse
+  - Added Type Alias RaiPolicyContentSource
+  - Added Type Alias RaiPolicyMode
+  - Added Type Alias RaiPolicyType
+  - Interface AccountProperties has a new optional parameter amlWorkspace
+  - Interface CapacityConfig has a new optional parameter allowedValues
+  - Interface CommitmentPlanAccountAssociation has a new optional parameter tags
+  - Interface Deployment has a new optional parameter tags
+  - Interface DeploymentProperties has a new optional parameter capacitySettings
+  - Interface DeploymentProperties has a new optional parameter currentCapacity
+  - Interface DeploymentProperties has a new optional parameter dynamicThrottlingEnabled
+  - Interface NetworkRuleSet has a new optional parameter bypass
+  - Added Enum KnownAllowedContentLevel
+  - Added Enum KnownByPassSelection
+  - Added Enum KnownEncryptionScopeProvisioningState
+  - Added Enum KnownEncryptionScopeState
+  - Added Enum KnownRaiContentFilterType
+  - Added Enum KnownRaiPolicyContentSource
+  - Added Enum KnownRaiPolicyMode
+  - Added Enum KnownRaiPolicyType
+    
+    
 ## 7.5.0 (2023-07-06)
     
 **Features**
@@ -169,4 +280,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

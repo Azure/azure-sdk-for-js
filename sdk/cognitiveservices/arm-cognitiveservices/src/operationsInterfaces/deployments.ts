@@ -11,10 +11,15 @@ import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Deployment,
   DeploymentsListOptionalParams,
+  SkuResource,
+  DeploymentsListSkusOptionalParams,
   DeploymentsGetOptionalParams,
   DeploymentsGetResponse,
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
+  PatchResourceTagsAndSku,
+  DeploymentsUpdateOptionalParams,
+  DeploymentsUpdateResponse,
   DeploymentsDeleteOptionalParams
 } from "../models";
 
@@ -32,6 +37,19 @@ export interface Deployments {
     accountName: string,
     options?: DeploymentsListOptionalParams
   ): PagedAsyncIterableIterator<Deployment>;
+  /**
+   * Lists the specified deployments skus associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param options The options parameters.
+   */
+  listSkus(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    options?: DeploymentsListSkusOptionalParams
+  ): PagedAsyncIterableIterator<SkuResource>;
   /**
    * Gets the specified deployments associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -80,6 +98,41 @@ export interface Deployments {
     deployment: Deployment,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<DeploymentsCreateOrUpdateResponse>;
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
+      DeploymentsUpdateResponse
+    >
+  >;
+  /**
+   * Update specified deployments associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param deploymentName The name of the deployment associated with the Cognitive Services Account
+   * @param deployment The deployment properties.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    deploymentName: string,
+    deployment: PatchResourceTagsAndSku,
+    options?: DeploymentsUpdateOptionalParams
+  ): Promise<DeploymentsUpdateResponse>;
   /**
    * Deletes the specified deployment associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
