@@ -1,6 +1,6 @@
 # Release History
 
-## 4.16.0 (2023-11-07)
+## 5.0.0 (2023-11-07)
 
 ### Features Added
 
@@ -8,6 +8,10 @@
 
   - `Microsoft.ResourceNotifications.Resources.CreatedOrUpdated`
   - `Microsoft.ResourceNotifications.Resources.Deleted`
+
+### Breaking Changes
+
+- In `ResourceNotificationsResourceUpdatedDetails` interface, the data type of property `tags` has been changed from `string` to object. Please refer [PR #27679](https://github.com/Azure/azure-sdk-for-js/pull/27679/) for further details.
 
 ## 4.15.0 (2023-10-12)
 
