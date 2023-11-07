@@ -8,15 +8,15 @@ import nodeBuiltins from "builtin-modules";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
+import sourcemaps from "rollup-plugin-sourcemaps";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
-import inject from "@rollup/plugin-inject";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
-import { makeOnWarnForTesting, sourcemaps } from "../../config/rollup.base.config";
+import { makeOnWarnForTesting, sourcemapsExtra } from "../../config/rollup.base.config";
 
 const log = createPrinter("bundle");
 
@@ -49,6 +49,11 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "ignore missing Node.js builtin modules",
     },
+    "inline-dynamic-imports-for-browser-test": {
+      kind: "boolean",
+      default: false,
+      description: "inline dynamic imports for browser test bundle",
+    },
   }
 );
 
@@ -57,6 +62,7 @@ export default leafCommand(commandInfo, async (options) => {
   const injectNodePolyfills = options["inject-node-polyfills"];
   const ignoreMissingNodeBuiltins = options["ignore-missing-node-builtins"];
   const polyfillNode = options["polyfill-node"];
+  const inlineDynamicImportsForBrowserTest = options["inline-dynamic-imports-for-browser-test"];
 
   if (injectNodePolyfills && polyfillNode) {
     throw new Error(
@@ -71,6 +77,11 @@ export default leafCommand(commandInfo, async (options) => {
   if (!browserTest && injectNodePolyfills) {
     log.warn(
       "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
+    );
+  }
+  if (!browserTest && inlineDynamicImportsForBrowserTest) {
+    log.warn(
+      "This is probably a mistake.  --inline-dynamic-imports-for-browser-test shouldn't be used if --browser-test is disabled."
     );
   }
 
@@ -120,7 +131,7 @@ export default leafCommand(commandInfo, async (options) => {
     log.success("Created production CommonJS bundle.");
   }
 
-  if (browserTest) {
+  if (options["browser-test"]) {
     const pnpmStore = path
       .relative(
         process.cwd(),
@@ -136,37 +147,25 @@ export default leafCommand(commandInfo, async (options) => {
       [pnpmStore, name.split("/").join("+"), "@*", "**/*.js"].join("/");
 
     const browserTestConfig = {
-      input: path.join(basePath, "test", "**", "*.spec.js"),
+      input: {
+        include: [[basePath, "test", "**", "*.spec.js"].join("/")],
+        exclude: [[basePath, "test", "**", "node", "**"].join("/")],
+      },
       preserveSymlinks: false,
       plugins: [
-        multiEntry({ exports: false, exclude: ["**/test/**/node/**/*.js"] }),
+        multiEntry({ exports: false }),
         nodeResolve({
           mainFields: ["module", "browser"],
           preferBuiltins: false,
-          browser: true,
         }),
+        ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
         }),
-
-        ...(injectNodePolyfills
-          ? [
-            inject({
-              modules: {
-                Buffer: ["buffer", "Buffer"],
-                Stream: ["stream", "Stream"],
-                process: "process",
-              },
-            }),
-          ]
-          : []),
-        ...(polyfillNode ? [nodePolyfills({ sourceMap: true })] : []),
         json(),
-        sourcemaps(),
+        sourcemapsExtra(),
       ],
-      onwarn: makeOnWarnForTesting({
-        ignoreMissingNodeBuiltins,
-      }),
+      onwarn: makeOnWarnForTesting(),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
       // rollup started respecting the "sideEffects" field in package.json.  Since
       // our package.json sets "sideEffects=false", this also applies to test
@@ -188,7 +187,7 @@ export default leafCommand(commandInfo, async (options) => {
         // execution order: A module that is only imported
         // dynamically will be executed immediately if the dynamic import is
         // inlined.
-        inlineDynamicImports: true,
+        inlineDynamicImports: inlineDynamicImportsForBrowserTest,
       });
     } catch (error: any) {
       log.error(error);
