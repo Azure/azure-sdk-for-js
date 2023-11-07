@@ -1,0 +1,325 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "47e34c53-7346-4415-accb-8f738a17c9d9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Nov 2023 01:09:50 GMT"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1:publish?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "ce-datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8",
+        "ce-id": "singleEventIdV210007",
+        "ce-source": "https://example.com",
+        "ce-specversion": "1.0",
+        "ce-time": "2023-11-07T01:09:50.000Z",
+        "ce-type": "example",
+        "Connection": "keep-alive",
+        "Content-Length": "369",
+        "Content-Type": "application/cloudevents\u002Bjson; charset=utf-8",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0b2f62fc-0e7e-44ac-b582-e047c7227adc"
+      },
+      "RequestBody": {
+        "id": "singleEventIdV210007",
+        "source": "https://example.com",
+        "data": {
+          "type": "Buffer",
+          "data": [
+            123,
+            34,
+            114,
+            101,
+            115,
+            111,
+            117,
+            114,
+            99,
+            101,
+            85,
+            114,
+            105,
+            34,
+            58,
+            34,
+            104,
+            116,
+            116,
+            112,
+            115,
+            58,
+            47,
+            47,
+            100,
+            117,
+            109,
+            109,
+            121,
+            117,
+            114,
+            108,
+            46,
+            99,
+            111,
+            109,
+            34,
+            125
+          ]
+        },
+        "type": "example",
+        "time": "2023-11-07T01:09:50.000Z",
+        "specversion": "1.0",
+        "datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "2",
+        "Content-Type": "application/json",
+        "Date": "Tue, 07 Nov 2023 01:09:50 GMT"
+      },
+      "ResponseBody": {}
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "71e469a8-56bd-4657-a805-bf7d4e29d5a4"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "521",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Nov 2023 01:09:50 GMT"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "brokerProperties": {
+              "lockToken": "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChAEb2vpyQJGeJ0R2JC\u002B151C",
+              "deliveryCount": 1
+            },
+            "event": {
+              "type": "example",
+              "source": "https://example.com",
+              "time": "2023-11-07T01:09:50Z",
+              "id": "singleEventIdV210007",
+              "datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8",
+              "specversion": "1.0",
+              "data": {
+                "data": [
+                  123,
+                  34,
+                  114,
+                  101,
+                  115,
+                  111,
+                  117,
+                  114,
+                  99,
+                  101,
+                  85,
+                  114,
+                  105,
+                  34,
+                  58,
+                  34,
+                  104,
+                  116,
+                  116,
+                  112,
+                  115,
+                  58,
+                  47,
+                  47,
+                  100,
+                  117,
+                  109,
+                  109,
+                  121,
+                  117,
+                  114,
+                  108,
+                  46,
+                  99,
+                  111,
+                  109,
+                  34,
+                  125
+                ],
+                "type": "Buffer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6bc32550-4e69-4b46-91f5-1b549d9534b5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "521",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Nov 2023 01:10:50 GMT"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "brokerProperties": {
+              "lockToken": "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChANggbXxLhKvJEzRnV0rKL8",
+              "deliveryCount": 2
+            },
+            "event": {
+              "type": "example",
+              "source": "https://example.com",
+              "time": "2023-11-07T01:09:50Z",
+              "id": "singleEventIdV210007",
+              "datacontenttype": "application/cloudevents\u002Bjson; charset=utf-8",
+              "specversion": "1.0",
+              "data": {
+                "data": [
+                  123,
+                  34,
+                  114,
+                  101,
+                  115,
+                  111,
+                  117,
+                  114,
+                  99,
+                  101,
+                  85,
+                  114,
+                  105,
+                  34,
+                  58,
+                  34,
+                  104,
+                  116,
+                  116,
+                  112,
+                  115,
+                  58,
+                  47,
+                  47,
+                  100,
+                  117,
+                  109,
+                  109,
+                  121,
+                  117,
+                  114,
+                  108,
+                  46,
+                  99,
+                  111,
+                  109,
+                  34,
+                  125
+                ],
+                "type": "Buffer"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:acknowledge?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "99",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "183334fd-de32-4366-bc7c-36ffb6043d00"
+      },
+      "RequestBody": {
+        "lockTokens": [
+          "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChANggbXxLhKvJEzRnV0rKL8"
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "130",
+        "Content-Type": "application/json",
+        "Date": "Tue, 07 Nov 2023 01:10:50 GMT"
+      },
+      "ResponseBody": {
+        "succeededLockTokens": [
+          "CiYKJEVEMjNGRjVGLUU0MDktNEE5Ni04NDYwLUYyMTA2M0NFNDg4NxISChANggbXxLhKvJEzRnV0rKL8"
+        ],
+        "failedLockTokens": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/topics/testtopic1/eventsubscriptions/testsubscription1:receive?api-version=2023-10-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "User-Agent": "azsdk-js-eventgrid-rest/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6323fec5-152f-4af7-966b-2f524d9da8c9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Nov 2023 01:11:51 GMT"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {
+    "singleEventDate": "Mon Nov 06 2023 17:09:50 GMT-0800 (Pacific Standard Time)",
+    "singleEventId": "singleEventIdV210007"
+  }
+}

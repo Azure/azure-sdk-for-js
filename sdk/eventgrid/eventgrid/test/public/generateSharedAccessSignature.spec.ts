@@ -6,6 +6,7 @@
 import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
 import { isNode } from "@azure/test-utils";
+import { Buffer } from "buffer";
 
 describe("generateSharedAccessSignature", function () {
   it("generates the correct signiture", async () => {

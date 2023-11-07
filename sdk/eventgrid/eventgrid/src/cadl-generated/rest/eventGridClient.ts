@@ -9,8 +9,8 @@ import { EventGridContext } from "./clientDefinitions";
 /**
  * Initialize a new instance of `EventGridContext`
  * @param endpoint - The host name of the namespace, e.g. namespaceName1.westus-1.eventgrid.azure.net
- * @param credentials - Uniquely identify client credential
- * @param options - optional parameters
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
  */
 export default function createClient(
   endpoint: string,
@@ -18,15 +18,16 @@ export default function createClient(
   options: ClientOptions = {}
 ): EventGridContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2023-06-01-preview";
+  options.apiVersion = options.apiVersion ?? "2023-10-01-preview";
   options = {
     ...options,
     credentials: {
+      scopes: options.credentials?.scopes ?? ["https://eventgrid.azure.net/.default"],
       apiKeyHeaderName: "Authorization",
     },
   };
 
-  const userAgentInfo = `azsdk-js-event-grid-modular-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-eventgrid-rest/4.13.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -43,5 +44,12 @@ export default function createClient(
 
   const client = getClient(baseUrl, credentials, options) as EventGridContext;
 
+  client.pipeline.addPolicy({
+    name: "customKeyCredentialPolicy",
+    async sendRequest(request, next) {
+      request.headers.set("Authorization", "SharedAccessKey " + credentials.key);
+      return next(request);
+    },
+  });
   return client;
 }

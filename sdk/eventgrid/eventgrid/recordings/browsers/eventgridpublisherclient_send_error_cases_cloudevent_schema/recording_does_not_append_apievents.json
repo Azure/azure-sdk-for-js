@@ -14,32 +14,32 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
-        "x-ms-client-request-id": "8bad06a1-fa1b-4d99-ad82-1acaeddbab9d",
-        "x-ms-useragent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "95fc771d-112e-4dcd-a1ba-646c568e8291",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 OS"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100199\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-05-11T00:24:51.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100530\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222023-11-07T01:12:02.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
       "StatusCode": 404,
       "ResponseHeaders": {
-        "Content-Length": "635",
+        "Content-Length": "633",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 11 May 2022 00:24:52 GMT",
+        "Date": "Tue, 07 Nov 2023 01:12:03 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "6ac5e28e-d324-411a-ab0c-7d2df747ab79"
+        "x-ms-request-id": "6a7c9101-9791-4738-af42-2ed729bd85ab"
       },
       "ResponseBody": {
         "error": {
           "code": "NotFound",
-          "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00276ac5e28e-d324-411a-ab0c-7d2df747ab79:5/11/2022 12:24:52 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
+          "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00276a7c9101-9791-4738-af42-2ed729bd85ab:11/7/2023 1:12:03 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
           "details": [
             {
               "code": "ResourceNotFound",
-              "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00276ac5e28e-d324-411a-ab0c-7d2df747ab79:5/11/2022 12:24:52 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
+              "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u00276a7c9101-9791-4738-af42-2ed729bd85ab:11/7/2023 1:12:03 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
             }
           ]
         }
@@ -47,7 +47,7 @@
     }
   ],
   "Variables": {
-    "cloudSingleEventDate": "Tue May 10 2022 17:24:51 GMT-0700 (Pacific Daylight Time)",
-    "cloudSingleEventId": "cloudSingleEventId100199"
+    "cloudSingleEventDate": "Mon Nov 06 2023 17:12:02 GMT-0800 (Pacific Standard Time)",
+    "cloudSingleEventId": "cloudSingleEventId100530"
   }
 }

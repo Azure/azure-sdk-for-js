@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure-rest/core-client";
+
 /**
  * The shape of the input for EventGridProducerClient#sendEventGridEvents
  */
@@ -178,3 +180,11 @@ export const cloudEventReservedPropertyNames = [
  * A function which provides custom logic to be used when decoding events.
  */
 export type CustomEventDataDeserializer = (o: any) => Promise<any>;
+
+export interface PublishCloudEventOptions extends OperationOptions {
+  /** binary mode */
+  binaryMode?: boolean;
+
+  /** content type */
+  contentType?: string;
+}

@@ -9,24 +9,24 @@
         "Connection": "keep-alive",
         "Content-Length": "170",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "7642dc8d-d801-4cde-96b3-ab5c509879df"
+        "User-Agent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d3c62884-9e1d-4287-b167-179a6d708c89"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100797\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:44:22.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100185\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222023-11-07T00:50:40.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:44:22 GMT",
+        "Date": "Tue, 07 Nov 2023 00:50:40 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "e456bbc6-afc0-41fa-ad9b-53e49baee258"
+        "x-ms-request-id": "dc62a54a-66bc-45b6-a269-277298fe6794"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "singleEventDate": "Wed Feb 09 2022 01:44:22 GMT\u002B0000 (Coordinated Universal Time)",
-    "singleEventId": "singleEventId100797"
+    "singleEventDate": "Mon Nov 06 2023 16:50:40 GMT-0800 (Pacific Standard Time)",
+    "singleEventId": "singleEventId100185"
   }
 }

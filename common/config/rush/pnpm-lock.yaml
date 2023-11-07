@@ -4837,7 +4837,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231026
+      typescript: 5.3.0-dev.20231101
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9800,8 +9800,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231026:
-    resolution: {integrity: sha512-TPCRnvIO1nKy3PLJwVyXwZJAQ3silk51ktcvvk1NzYoPtS9p3xX7LNodMA6DDDndhbeMkjMlxb/PmPur2Z+zUQ==}
+  /typescript@5.3.0-dev.20231101:
+    resolution: {integrity: sha512-yt5zz7L+TBfzeJhMA/tAEO1YU8J2DWsFN3LbeMslNPXL3S0lR3yvePdl6fXCk7QFjnfaRtXH0noNdWg2imHWXg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -19778,7 +19778,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-0ORJcn+QKnYzzMZh2vBlMmk4OB+Z0Dy+oIjUBxST3uD+Dai5+dWTy5lsKu6Cn3nzPCfL0G2AlJEbEH6r6mdWGw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-CDJ/ROV0vMGX9QF4vGqp57IrLAwdhXS0PWVqhAvmQeffm6jNcDm2ftyj2/gcN/8MBFOfEyFFcuGfxNAciiIX5Q==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -19789,6 +19789,7 @@ packages:
       '@types/node': 16.18.55
       '@types/sinon': 10.0.17
       '@types/uuid': 8.3.4
+      buffer: 6.0.3
       c8: 8.0.1
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)

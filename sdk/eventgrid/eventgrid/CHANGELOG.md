@@ -1,5 +1,20 @@
 # Release History
 
+## 4.13.0-beta.3 (2023-11-13)
+
+### Features Added
+
+- In the `EventGridClient` class, a new API `renewCloudEventLocks` has been added.
+- In the `EventGridClient` class, for the `publishCloudEvent` API, a new option `binaryMode` has been added. This enables the users to send in the binary encoded event.
+- For the `ReleaseCloudEventsOptions` interface, a new property `releaseDelayInSeconds` has been added.
+
+### Breaking Changes
+
+- The interfaces `RequestOptions`, `ReleaseOptions`, `RejectOptions`, `ClientOptions`, `AcknowledgeOptions` have been removed.
+- In the `FailedLockToken` interface, the properties `errorCode` & `errorDescription` have been removed and replaced with new property `error` of type `ErrorModel`.
+
+Please refer [PR #27666](https://github.com/Azure/azure-sdk-for-js/pull/27666) for further details.
+
 ## 4.13.0-beta.2 (2023-06-26)
 
 ### Bugs Fixed

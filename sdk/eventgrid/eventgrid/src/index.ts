@@ -250,25 +250,26 @@ export {
   ReceiveResult,
   ReceiveDetails,
   BrokerProperties,
-  AcknowledgeOptions,
   AcknowledgeResult,
   FailedLockToken,
-  ReleaseOptions,
   ReleaseResult,
-  RejectOptions,
   RejectResult,
-  PublishResultOutput,
-} from "./cadl-generated/api/models";
-
-export { EventGridClient } from "./eventGridClientV2";
-
-export { ClientOptions, RequestOptions } from "./cadl-generated/common/interfaces";
-
-export {
-  PublishCloudEventOptions,
   PublishCloudEventsOptions,
   ReceiveCloudEventsOptions,
   AcknowledgeCloudEventsOptions,
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
-} from "./cadl-generated/api/operations";
+  ReleaseDelay,
+  RenewCloudEventLocksOptions,
+  RenewCloudEventLocksResult,
+} from "./cadl-generated/models";
+
+export { EventGridClient } from "./eventGridClientV2";
+
+export { EventGridClientOptions } from "./cadl-generated";
+
+export { PublishResultOutput } from "./cadl-generated/rest";
+
+export { OperationOptions as OperationRestOptions } from "@azure-rest/core-client";
+
+export { PublishCloudEventOptions } from "./models";

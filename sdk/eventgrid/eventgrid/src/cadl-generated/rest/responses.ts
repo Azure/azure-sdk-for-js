@@ -9,6 +9,7 @@ import {
   AcknowledgeResultOutput,
   ReleaseResultOutput,
   RejectResultOutput,
+  RenewCloudEventLocksResultOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
@@ -111,4 +112,21 @@ export interface RejectCloudEventsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & RejectCloudEventsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface RenewCloudEventLocks200Response extends HttpResponse {
+  status: "200";
+  body: RenewCloudEventLocksResultOutput;
+}
+
+export interface RenewCloudEventLocksDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface RenewCloudEventLocksDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & RenewCloudEventLocksDefaultHeaders;
 }

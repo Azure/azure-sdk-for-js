@@ -8,6 +8,7 @@ import {
   AcknowledgeCloudEventsParameters,
   ReleaseCloudEventsParameters,
   RejectCloudEventsParameters,
+  RenewCloudEventLocksParameters,
 } from "./parameters";
 import {
   PublishCloudEvent200Response,
@@ -22,6 +23,8 @@ import {
   ReleaseCloudEventsDefaultResponse,
   RejectCloudEvents200Response,
   RejectCloudEventsDefaultResponse,
+  RenewCloudEventLocks200Response,
+  RenewCloudEventLocksDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -44,24 +47,31 @@ export interface ReceiveCloudEvents {
 }
 
 export interface AcknowledgeCloudEvents {
-  /** Acknowledge batch of Cloud Events. The server responds with an HTTP 200 status code if at least one event is successfully acknowledged. The response body will include the set of successfully acknowledged lockTokens, along with other failed lockTokens with their corresponding error information. Successfully acknowledged events will no longer be available to any consumer. */
+  /** Acknowledge batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully acknowledged lockTokens, along with other failed lockTokens with their corresponding error information. Successfully acknowledged events will no longer be available to any consumer. */
   post(
     options: AcknowledgeCloudEventsParameters
   ): StreamableMethod<AcknowledgeCloudEvents200Response | AcknowledgeCloudEventsDefaultResponse>;
 }
 
 export interface ReleaseCloudEvents {
-  /** Release batch of Cloud Events. The server responds with an HTTP 200 status code if at least one event is successfully released. The response body will include the set of successfully released lockTokens, along with other failed lockTokens with their corresponding error information. */
+  /** Release batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully released lockTokens, along with other failed lockTokens with their corresponding error information. */
   post(
     options: ReleaseCloudEventsParameters
   ): StreamableMethod<ReleaseCloudEvents200Response | ReleaseCloudEventsDefaultResponse>;
 }
 
 export interface RejectCloudEvents {
-  /** Reject batch of Cloud Events. */
+  /** Reject batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully rejected lockTokens, along with other failed lockTokens with their corresponding error information. */
   post(
     options: RejectCloudEventsParameters
   ): StreamableMethod<RejectCloudEvents200Response | RejectCloudEventsDefaultResponse>;
+}
+
+export interface RenewCloudEventLocks {
+  /** Renew lock for batch of Cloud Events. The server responds with an HTTP 200 status code if the request is successfully accepted. The response body will include the set of successfully renewed lockTokens, along with other failed lockTokens with their corresponding error information. */
+  post(
+    options: RenewCloudEventLocksParameters
+  ): StreamableMethod<RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse>;
 }
 
 export interface Routes {
@@ -91,6 +101,12 @@ export interface Routes {
     topicName: string,
     eventSubscriptionName: string
   ): RejectCloudEvents;
+  /** Resource for '/topics/\{topicName\}/eventsubscriptions/\{eventSubscriptionName\}:renewLock' has methods for the following verbs: post */
+  (
+    path: "/topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:renewLock",
+    topicName: string,
+    eventSubscriptionName: string
+  ): RenewCloudEventLocks;
 }
 
 export type EventGridContext = Client & {

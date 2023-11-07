@@ -2,24 +2,27 @@
 // Licensed under the MIT license.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { ClientOptions } from "./cadl-generated/common/interfaces";
 import {
   ReceiveResult,
   AcknowledgeResult,
   ReleaseResult,
   RejectResult,
-  PublishCloudEventOptions,
   PublishCloudEventsOptions,
   ReceiveCloudEventsOptions,
   AcknowledgeCloudEventsOptions,
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
-  PublishResultOutput,
-} from "./cadl-generated/api/index";
+  RenewCloudEventLocksOptions,
+  RenewCloudEventLocksResult,
+} from "./cadl-generated/models";
 import { CloudEvent, cloudEventReservedPropertyNames } from "./models";
 import { v4 as uuidv4 } from "uuid";
-import { CloudEvent as CloudEventWireModel } from "./cadl-generated/rest/index";
+import { CloudEvent as CloudEventWireModel } from "./cadl-generated/models/";
 import { EventGridClient as EventGridClientGenerated } from "./cadl-generated/EventGridClient";
+import { EventGridClientOptions } from "./cadl-generated/api";
+import { PublishResultOutput } from "./cadl-generated/rest";
+import { PublishCloudEventOptions } from "./models";
+import { publishCloudEventBinaryMode } from "./eventGridV2PublishBinaryMode";
 
 /**
  * Event Grid Client
@@ -28,8 +31,12 @@ export class EventGridClient {
   private _client: EventGridClientGenerated;
 
   /** Azure Messaging EventGrid Client */
-  constructor(endpoint: string, credential: AzureKeyCredential, options: ClientOptions = {}) {
-    credential.update(`SharedAccessKey ${credential.key}`);
+  constructor(
+    endpoint: string,
+    credential: AzureKeyCredential,
+    options: EventGridClientOptions = {}
+  ) {
+    // credential.update(`SharedAccessKey ${credential.key}`);
     this._client = new EventGridClientGenerated(endpoint, credential, options);
   }
 
@@ -50,7 +57,46 @@ export class EventGridClient {
     topicName: string,
     options: PublishCloudEventOptions = { requestOptions: {} }
   ): Promise<PublishResultOutput> {
-    return this._client.publishCloudEvent(convertCloudEventToModelType(event), topicName, options);
+    const cloudEventWireModel: CloudEventWireModel = convertCloudEventToModelType(event);
+
+    if (!options.binaryMode) {
+      return this._client.publishCloudEvent(
+        cloudEventWireModel.id,
+        cloudEventWireModel.source,
+        cloudEventWireModel.type,
+        cloudEventWireModel.specversion,
+        topicName,
+        {
+          time: cloudEventWireModel.time,
+          dataschema: cloudEventWireModel.dataschema,
+          datacontenttype: cloudEventWireModel.datacontenttype,
+          subject: cloudEventWireModel.subject,
+          contentType: options.contentType,
+          data: cloudEventWireModel.data,
+          dataBase64: cloudEventWireModel.dataBase64,
+          ...options,
+        }
+      );
+    } else {
+      return publishCloudEventBinaryMode(
+        this._client.getClient(),
+        cloudEventWireModel.id,
+        cloudEventWireModel.source,
+        cloudEventWireModel.type,
+        cloudEventWireModel.specversion,
+        topicName,
+        {
+          time: cloudEventWireModel.time,
+          dataschema: cloudEventWireModel.dataschema,
+          datacontenttype: cloudEventWireModel.datacontenttype,
+          subject: cloudEventWireModel.subject,
+          contentType: options.contentType,
+          data: cloudEventWireModel.data,
+          dataBase64: cloudEventWireModel.dataBase64,
+          ...options,
+        }
+      );
+    }
   }
 
   /**
@@ -156,6 +202,23 @@ export class EventGridClient {
   ): Promise<RejectResult> {
     return this._client.rejectCloudEvents(lockTokens, topicName, eventSubscriptionName, options);
   }
+
+  /**
+   * Renew lock for batch of Cloud Events.
+   *
+   * @param lockTokens - Lock Tokens
+   * @param topicName - Topic Name
+   * @param eventSubscriptionName - Name of the Event Subscription
+   * @param options - Options to renew
+   */
+  renewCloudEventLocks(
+    lockTokens: string[],
+    topicName: string,
+    eventSubscriptionName: string,
+    options: RenewCloudEventLocksOptions = { requestOptions: {} }
+  ): Promise<RenewCloudEventLocksResult> {
+    return this._client.renewCloudEventLocks(lockTokens, topicName, eventSubscriptionName, options);
+  }
 }
 
 export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEventWireModel {
@@ -192,9 +255,10 @@ export function convertCloudEventToModelType<T>(event: CloudEvent<T>): CloudEven
     }
 
     converted.datacontenttype = event.datacontenttype;
-    converted.data_base64 = event.data;
+    converted.dataBase64 = event.data;
   } else {
-    converted.datacontenttype = event.datacontenttype ?? "application/json";
+    converted.datacontenttype =
+      event.datacontenttype ?? "application/cloudevents+json; charset=utf-8";
     converted.data = event.data;
   }
 
