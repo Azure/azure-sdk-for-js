@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0 (2023-11-06)
+## 4.0.0 (2023-11-07)
 
 ### Features Added
 - All the features shipped as part of 4.0.0-beta.1 will be GA with this version. The most important feature being the support of brokered authentication on Windows OS, such as WAM.
