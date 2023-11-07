@@ -1060,6 +1060,14 @@ packages:
       tslib: 2.6.1
     dev: false
 
+  /@azure/core-util/1.6.1:
+    resolution: {integrity: sha512-h5taHeySlsV9qxuK64KZxy4iln1BtMYlNt5jbuEFN3UFSAd1EwKg/Gjl5a6tZ/W8t6li3xPnutOx7zbDyXnPmQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      tslib: 2.6.1
+    dev: false
+
   /@azure/functions/3.5.1:
     resolution: {integrity: sha512-6UltvJiuVpvHSwLcK/Zc6NfUwlkDLOFFx97BHCJzlWNsfiWwzwmTsxJXg4kE/LemKTHxPpfoPE+kOJ8hAdiKFQ==}
     dependencies:
@@ -17723,10 +17731,11 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-9VE4yGED7DYuBLHscSnSvuVCaIA8hqJbeabnJt13FI6qAeCRhYhixNvShr8hxgrg9pZgVlvLsGEFKnBhLIHWdQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-FTecKqhU4dc7LFYEaU2Oc7VlEMH8ITCeFOexg8YnFO+UIH2RGWmFI1saspB0MOr7Ka3eNChKfKxLtY170QWYDg==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
+      '@azure/core-util': 1.6.1
       '@azure/msal-browser': 3.5.0
       '@azure/msal-common': 14.4.0
       '@azure/msal-node': 2.5.0
