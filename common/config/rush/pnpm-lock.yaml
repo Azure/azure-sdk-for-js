@@ -731,7 +731,7 @@ packages:
     dependencies:
       '@azure/core-auth': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       tslib: 2.6.1
     transitivePeerDependencies:
       - supports-color
@@ -745,7 +745,7 @@ packages:
       '@azure/core-auth': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       tslib: 2.6.1
     transitivePeerDependencies:
       - supports-color
@@ -769,7 +769,7 @@ packages:
       '@azure/core-paging': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       tslib: 2.6.1
     transitivePeerDependencies:
@@ -788,7 +788,7 @@ packages:
       '@azure/core-paging': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       tslib: 2.6.1
     transitivePeerDependencies:
@@ -893,7 +893,7 @@ packages:
       '@azure/core-auth': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       events: 3.3.0
       jwt-decode: 3.1.2
       tslib: 2.6.1
@@ -920,7 +920,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.5.0
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       buffer: 6.0.3
       events: 3.3.0
@@ -939,7 +939,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       tslib: 2.6.1
     dev: false
 
@@ -951,7 +951,7 @@ packages:
       '@azure/core-auth': 1.5.0
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       tslib: 2.6.1
     transitivePeerDependencies:
@@ -987,7 +987,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.5.0
       '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       '@types/node-fetch': 2.6.4
       '@types/tunnel': 0.0.3
@@ -1008,7 +1008,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       tslib: 2.6.1
     dev: false
@@ -1027,7 +1027,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.5.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       form-data: 4.0.0
       http-proxy-agent: 5.0.0
@@ -1049,14 +1049,6 @@ packages:
     resolution: {integrity: sha512-I5CGMoLtX+pI17ZdiFJZgxMJApsK6jjfm85hpgp3oazCdq5Wxgh4wMr7ge/TTWW1B5WBuvIOI1fMU/FrOAMKrw==}
     engines: {node: '>=12.0.0'}
     dependencies:
-      tslib: 2.6.1
-    dev: false
-
-  /@azure/core-util/1.4.0:
-    resolution: {integrity: sha512-eGAyJpm3skVQoLiRqm/xPa+SXi/NPDdSHMxbRAz2lSprd+Zs+qrpQGQQ2VQ3Nttu+nSZR4XoYQC71LbEI7jsig==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
       tslib: 2.6.1
     dev: false
 
@@ -1085,7 +1077,7 @@ packages:
       '@azure/core-client': 1.7.3
       '@azure/core-rest-pipeline': 1.12.0
       '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       '@azure/msal-browser': 2.38.1
       '@azure/msal-common': 7.6.0
@@ -1275,7 +1267,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-util': 1.4.0
+      '@azure/core-util': 1.6.1
       '@azure/logger': 1.0.4
       buffer: 6.0.3
       tslib: 2.6.1
@@ -17731,13 +17723,13 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-FTecKqhU4dc7LFYEaU2Oc7VlEMH8ITCeFOexg8YnFO+UIH2RGWmFI1saspB0MOr7Ka3eNChKfKxLtY170QWYDg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-60/l24DHQiD6S1wmfT1yRXHu/q6W2JZIGAtabCnoqr2L6YBeY0nrjmQPCjFOFtH/050ihyhl6z8PFe7EiIqCmA==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/core-util': 1.6.1
       '@azure/msal-browser': 3.5.0
-      '@azure/msal-common': 14.4.0
+      '@azure/msal-common': 13.2.1
       '@azure/msal-node': 2.5.0
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/chai': 4.3.5
