@@ -11,6 +11,7 @@ import cjs from "@rollup/plugin-commonjs";
 import nodePolyfills from "rollup-plugin-polyfill-node";
 import json from "@rollup/plugin-json";
 import multiEntry from "@rollup/plugin-multi-entry";
+import inject from "@rollup/plugin-inject";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject, resolveRoot } from "../../util/resolveProject";
@@ -38,10 +39,41 @@ export const commandInfo = makeCommandInfo(
       default: true,
       description: "include a polyfill for Node.js builtin modules",
     },
+    "inject-node-polyfills": {
+      kind: "boolean",
+      default: false,
+      description: "inject imports for Node.js builtin polyfill modules",
+    },
+    "ignore-missing-node-builtins": {
+      kind: "boolean",
+      default: false,
+      description: "ignore missing Node.js builtin modules",
+    },
   }
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const browserTest = options["browser-test"];
+  const injectNodePolyfills = options["inject-node-polyfills"];
+  const ignoreMissingNodeBuiltins = options["ignore-missing-node-builtins"];
+  const polyfillNode = options["polyfill-node"];
+
+  if (injectNodePolyfills && polyfillNode) {
+    throw new Error(
+      "Cannot use both --inject-node-polyfills and --polyfill-node. Using --inject-node-polyfills is an advanced scenario when you want to have more control on which polyfill libraries to be used."
+    );
+  }
+  if (ignoreMissingNodeBuiltins && !injectNodePolyfills) {
+    log.warn(
+      "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
+    );
+  }
+  if (!browserTest && injectNodePolyfills) {
+    log.warn(
+      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
+    );
+  }
+
   const info = await resolveProject(process.cwd());
 
   if (!info.packageJson.module) {
@@ -78,6 +110,7 @@ export default leafCommand(commandInfo, async (options) => {
         format: "cjs",
         sourcemap: true,
         exports: "named",
+        esModule: true,
       });
     } catch (error: any) {
       log.error(error);
@@ -87,7 +120,7 @@ export default leafCommand(commandInfo, async (options) => {
     log.success("Created production CommonJS bundle.");
   }
 
-  if (options["browser-test"]) {
+  if (browserTest) {
     const pnpmStore = path
       .relative(
         process.cwd(),
@@ -112,14 +145,28 @@ export default leafCommand(commandInfo, async (options) => {
           preferBuiltins: false,
           browser: true,
         }),
-        ...(options["polyfill-node"] ? [nodePolyfills({ sourceMap: true })] : []),
         cjs({
           dynamicRequireTargets: [globFromStore("chai")],
         }),
+
+        ...(injectNodePolyfills
+          ? [
+              inject({
+                modules: {
+                  Buffer: ["buffer", "Buffer"],
+                  Stream: ["stream", "Stream"],
+                  process: "process",
+                },
+              }),
+            ]
+          : []),
+        ...(polyfillNode ? [nodePolyfills({ sourceMap: true })] : []),
         json(),
         sourcemaps(),
       ],
-      onwarn: makeOnWarnForTesting(),
+      onwarn: makeOnWarnForTesting({
+        ignoreMissingNodeBuiltins,
+      }),
       // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
       // rollup started respecting the "sideEffects" field in package.json.  Since
       // our package.json sets "sideEffects=false", this also applies to test
@@ -134,6 +181,14 @@ export default leafCommand(commandInfo, async (options) => {
         file: `dist-test/index.browser.js`,
         format: "umd",
         sourcemap: true,
+        // Dynamic imports are not supported in `umd` so we have to tell
+        // Rollup to inline it. This will inline dynamic imports instead of
+        // creating new chunks to create a single bundle. Only possible if a
+        // single input is provided. **Note that** this will change the
+        // execution order: A module that is only imported
+        // dynamically will be executed immediately if the dynamic import is
+        // inlined.
+        inlineDynamicImports: true,
       });
     } catch (error: any) {
       log.error(error);

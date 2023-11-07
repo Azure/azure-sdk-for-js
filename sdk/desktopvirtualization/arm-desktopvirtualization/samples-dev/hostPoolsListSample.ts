@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List hostPools in subscription.
  *
  * @summary List hostPools in subscription.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/HostPool_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_List.json
  */
 async function hostPoolList() {
   const subscriptionId =

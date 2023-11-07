@@ -10,7 +10,7 @@ import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialO
  */
 export interface OnBehalfOfCredentialSecretOptions {
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId: string;
   /**
@@ -32,7 +32,7 @@ export interface OnBehalfOfCredentialSecretOptions {
  */
 export interface OnBehalfOfCredentialCertificateOptions {
   /**
-   * The Azure Active Directory tenant (directory) ID.
+   * The Microsoft Entra tenant (directory) ID.
    */
   tenantId: string;
   /**

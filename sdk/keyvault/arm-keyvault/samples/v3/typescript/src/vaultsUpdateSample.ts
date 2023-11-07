@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a key vault in the specified subscription.
  *
  * @summary Update a key vault in the specified subscription.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/updateVault.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/updateVault.json
  */
 async function updateAnExistingVault() {
   const subscriptionId =

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AFDOrigin,
   AfdOriginsListByOriginGroupOptionalParams,
@@ -72,8 +72,8 @@ export interface AfdOrigins {
     origin: AFDOrigin,
     options?: AfdOriginsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginsCreateResponse>,
       AfdOriginsCreateResponse
     >
   >;
@@ -113,8 +113,8 @@ export interface AfdOrigins {
     originUpdateProperties: AFDOriginUpdateParameters,
     options?: AfdOriginsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginsUpdateResponse>,
       AfdOriginsUpdateResponse
     >
   >;
@@ -151,7 +151,7 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     options?: AfdOriginsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

@@ -1,14 +1,9 @@
 # Release History
 
-## 5.11.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 5.11.3 (2023-11-07)
 
 ### Bugs Fixed
-
-### Other Changes
+- Improve event prefetching to not overload the internal queue.
 
 ## 5.11.2 (2023-09-25)
 

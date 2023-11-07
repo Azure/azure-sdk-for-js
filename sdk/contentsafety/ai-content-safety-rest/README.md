@@ -119,6 +119,9 @@ The following section provides several code snippets covering some of the most c
 #### Analyze text without blocklists
 
 ```typescript
+import ContentSafetyClient, { AnalyzeTextOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -144,6 +147,9 @@ console.log("Violence severity: ", result.body.violenceResult?.severity);
 #### Analyze text with blocklists
 
 ```typescript
+import ContentSafetyClient, { AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -178,6 +184,9 @@ if (result.body.blocklistsMatchResults) {
 ### Analyze image
 
 ```typescript
+import ContentSafetyClient, { AnalyzeImageOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -208,6 +217,9 @@ console.log("Violence severity: ", result.body.violenceResult?.severity);
 #### Create or update text blocklist
 
 ```typescript
+import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -235,6 +247,9 @@ console.log("Blocklist created or updated: Name", result.body.blocklistName, ", 
 #### List text blocklists
 
 ```typescript
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -258,6 +273,9 @@ if (result.body.value) {
 #### Get text blocklist
 
 ```typescript
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -279,6 +297,9 @@ console.log("Name: ", result.body.blocklistName, ", Description: ", result.body.
 #### Delete text blocklist
 
 ```typescript
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -299,6 +320,9 @@ console.log("Deleted blocklist: ", blocklistName);
 #### Add blockItems
 
 ```typescript
+import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -340,6 +364,9 @@ if (result.body.value) {
 #### List blockItems
 
 ```typescript
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -365,6 +392,9 @@ if (result.body.value) {
 #### Get blockItem
 
 ```typescript
+import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -402,6 +432,9 @@ console.log("BlockItemId: ", blockItem.body.blockItemId, ", Text: ", blockItem.b
 #### Remove blockItems
 
 ```typescript
+import ContentSafetyClient, { RemoveBlockItemsParameters, AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
