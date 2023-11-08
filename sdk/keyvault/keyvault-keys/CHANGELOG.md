@@ -1,16 +1,10 @@
 # Release History
 
-## 4.8.0-beta.1 (Unreleased)
+## 4.8.0-beta.1 (2023-11-08)
 
 ### Features Added
 
 - Added `hsmPlatform` property to `KeyProperties`.
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 4.7.2 (2023-08-10)
 
