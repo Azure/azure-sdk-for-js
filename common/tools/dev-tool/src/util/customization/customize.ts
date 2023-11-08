@@ -40,7 +40,9 @@ export async function customize(originalDir: string, customDir: string, outDir: 
     return;
   }
 
-  _originalFolderName = originalDir.replace(commonPrefix(originalDir, customDir), "").replace(/\\/g, "/") ?? _originalFolderName;
+  _originalFolderName =
+    originalDir.replace(commonPrefix(originalDir, customDir), "").replace(/\\/g, "/") ??
+    _originalFolderName;
 
   // Bring files only present in custom into the output
   copyFilesInCustom(originalDir, customDir, outDir);
@@ -295,9 +297,9 @@ function isSelfImport(module: string, file: SourceFile): boolean {
     projectPath = projectPath.getParent() as Directory;
   }
   // e.g: ./sources/generated/src
-  const relativeOriginal = originalDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  const relativeOriginal = originalDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
   // e.g: ./sources/customizations
-  const relativeCustom = customDir.replace(/\\/g, '/').replace(projectPath.getPath(), ".");
+  const relativeCustom = customDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
   // e.g: ./sources/
   const prefix = commonPrefix(relativeOriginal, relativeCustom);
   // e.g generated/src
@@ -310,7 +312,7 @@ function isSelfImport(module: string, file: SourceFile): boolean {
     return false;
   }
   const moduleRelative = module.substring(index + originalSuffix.length);
-  const sanitizedPath = file.getFilePath().replace(/\\/g, '/').replace(/\.ts$/, ".js");
+  const sanitizedPath = file.getFilePath().replace(/\\/g, "/").replace(/\.ts$/, ".js");
   if (sanitizedPath.endsWith(moduleRelative)) {
     return true;
   }

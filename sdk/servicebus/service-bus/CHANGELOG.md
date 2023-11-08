@@ -1,12 +1,20 @@
 # Release History
 
-## 7.9.3 (Unreleased)
+## 7.9.4 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 7.9.3 (2023-11-07)
+
+### Bugs Fixed
+
+- Throw a retryable error when sending message and link is detached [PR #27557](https://github.com/Azure/azure-sdk-for-js/pull/27557)
 
 ### Other Changes
 

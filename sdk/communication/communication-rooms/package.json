@@ -5,7 +5,7 @@
   "description": "Azure client library for Azure Communication Rooms services",
   "version": "1.1.0-beta.1",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/communication-common": "^2.2.0",
@@ -45,7 +45,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "~4.3.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "@types/uuid": "^8.3.4",
     "chai": "^4.2.0",
@@ -59,7 +59,7 @@
     "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"

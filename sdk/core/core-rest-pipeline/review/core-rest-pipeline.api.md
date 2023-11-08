@@ -76,6 +76,12 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export interface BodyPart {
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    headers: HttpHeaders;
+}
+
+// @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
     authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
@@ -86,6 +92,24 @@ export function createDefaultHttpClient(): HttpClient;
 
 // @public
 export function createEmptyPipeline(): Pipeline;
+
+// @public
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
+
+// @public
+export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+
+// @public
+export interface CreateFileFromStreamOptions extends CreateFileOptions {
+    size?: number;
+}
+
+// @public
+export interface CreateFileOptions {
+    lastModified?: number;
+    type?: string;
+    webkitRelativePath?: string;
+}
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
@@ -128,15 +152,13 @@ export type FormDataMap = {
 };
 
 // @public
-export function formDataPolicy(options?: {
-    boundary?: string;
-}): PipelinePolicy;
+export function formDataPolicy(): PipelinePolicy;
 
 // @public
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | File;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
@@ -188,6 +210,18 @@ export interface LogPolicyOptions {
 }
 
 // @public
+export function multipartPolicy(): PipelinePolicy;
+
+// @public
+export const multipartPolicyName = "multipartPolicy";
+
+// @public
+export interface MultipartRequestBody {
+    boundary?: string;
+    parts: BodyPart[];
+}
+
+// @public
 export function ndJsonPolicy(): PipelinePolicy;
 
 // @public
@@ -235,6 +269,7 @@ export interface PipelineRequest {
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -257,6 +292,7 @@ export interface PipelineRequestOptions {
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;

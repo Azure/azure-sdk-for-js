@@ -36,7 +36,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -51,7 +51,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
