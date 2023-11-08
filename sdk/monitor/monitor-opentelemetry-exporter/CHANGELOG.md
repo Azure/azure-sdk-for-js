@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Capture WCF as an RPC dependency type.
+
 ### Breaking Changes
 
 ### Bugs Fixed
