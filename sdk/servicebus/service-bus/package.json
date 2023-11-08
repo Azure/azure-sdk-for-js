@@ -2,7 +2,7 @@
   "name": "@azure/service-bus",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "7.9.3",
+  "version": "7.9.4",
   "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
@@ -175,7 +175,7 @@
     "typescript": "~5.2.0",
     "uuid": "^8.3.0",
     "ws": "^8.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "@types/sinon": "^10.0.0",
     "events": "^3.0.0"
   }
