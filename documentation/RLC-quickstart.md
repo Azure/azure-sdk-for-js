@@ -5,17 +5,19 @@ Getting Started - Generate the RLC rest-level client libraries with TypeSpec
 
 :warning: Ensure that your TypeSpec definition has been merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs) before you begin.
 
+:warning: Note: if you’re still generating from Swagger with RLC, please read [this doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-Swagger-quickstart.md) for Swagger specific details.
+
 For an overview of the review and release process for new libraries, visit: https://aka.ms/azsdk/dpcodegen.
 
 If you have code generation queries, post them in the [TypeSpec Discussion](https://teams.microsoft.com/l/channel/19%3a906c1efbbec54dc8949ac736633e6bdf%40thread.skype/TypeSpec%2520Discussion%2520%25F0%259F%2590%25AE?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel. Tag `@DPG TypeScript` for JavaScript/TypeScript-specific inquiries.
 
 Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5f1322ee4303b02b5da9c5ff6137%40thread.skype/Language%2520-%2520JavaScript%2520-%2520Reviews?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel for assistance with the API review process.
 
-## Setting up your development environment
+# Set up your development environment
 
 Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
 
-## Identifying your project's service and package name
+# Identify your project's service and package name
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
 
@@ -24,7 +26,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 # Structure your project
 
 1. SDK Repo Root. 
-    The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+  The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
 1. Project Folder Structure.  
    The typical structure is `sdk/{servicename}/{servicename}-{modulename}-rest`, e.g., `sdk/agrifood/agrifood-farming-rest`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
@@ -32,7 +34,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 1. Package Name Convention.  
    Follow the format `@azure-rest/{service-name}-{module}`, like `@azure-rest/agrifood-farming`.
 
-# How to generate RLC
+# Steps to generate RLC
 
 1. **Configure tspconfig.yaml in spec repository** 
    
