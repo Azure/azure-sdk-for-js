@@ -444,7 +444,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (args: ProcessErrorArgs) => {
+    this._notifyError = async (args: ProcessErrorArgs) => {
       if (this._onError) {
         this._onError(args);
         logger.verbose(
