@@ -87,7 +87,7 @@ export function createFileFromStream(
  * passed into RequestBodyType.formData, and is not guaranteed to work as expected in
  * other situations.
  *
- * Use this function create a File object for use in RequestBodyType.formData in environments where the
+ * Use this function create a File object for use in RequestBodyType.formData in environments where the global File object is unavailable.
  *
  * @param content - the content of the file as a Uint8Array in memory.
  * @param name - the name of the file.
