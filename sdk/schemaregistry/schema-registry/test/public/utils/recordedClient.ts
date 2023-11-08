@@ -23,6 +23,7 @@ export const recorderOptions: RecorderStartOptions = {
     [getFQNSVarName(KnownSchemaFormats.Avro)]: "https://endpoint",
     [getFQNSVarName(KnownSchemaFormats.Json)]: "https://endpoint",
     [getFQNSVarName(KnownSchemaFormats.Custom)]: "https://endpoint",
+    [getFQNSVarName(KnownSchemaFormats.Protobuf)]: "https://endpoint",
     SCHEMA_REGISTRY_GROUP: "group-1",
   },
 };

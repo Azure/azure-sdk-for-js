@@ -117,6 +117,8 @@ function getDefinition(format: Format): string {
           },
         },
       });
+    case "Protobuf":
+      return 'syntax="proto3"; message SearchRequest{string query=1; int32 page_number=2; int32 results_per_page=3;}';
     case "Custom":
       // Parquet
       return `ID: int64
@@ -160,6 +162,16 @@ function getWhitespaceDefinition(format: Format): string {
         '  "properties": [{ "X": { "type": "string" } }]\n' +
         "}\n"
       );
+    case "Protobuf":
+      return (
+        "{\n" +
+        '  "syntax="proto3",\n' +
+        '  "message SearchRequest{\n' +
+        '  "string query=1;"\n' +
+        '  "int32 page_number=2;"\n' +
+        '  "int32 results_per_page=3;}"\n' +
+        "}\n"
+      );
     case "Custom":
       throw Error("Custom doesn't support normalization");
   }
@@ -177,7 +189,7 @@ function getSchema(inputs: { format: Format; groupName: string }): SchemaDescrip
 
 describe("SchemaRegistryClient", function () {
   matrix(
-    [[KnownSchemaFormats.Avro, KnownSchemaFormats.Json, KnownSchemaFormats.Custom]] as const,
+    [[KnownSchemaFormats.Avro, KnownSchemaFormats.Json, KnownSchemaFormats.Custom, KnownSchemaFormats.Protobuf]] as const,
     async function (format: Format) {
       describe(`Format: ${format}`, function () {
         let recorder: Recorder;
