@@ -1,12 +1,12 @@
 # Release History
 
-## 1.3.0-beta.2 (2023-11-08)
+## 1.4.0 (2024-03-01)
 
 ### Features Added
 
-- Update Number Lookup Preview
-- Add format fields to response
-- Add support for a format only search
+- Add support for number lookup
+  - Format only can be returned for no cost
+  - Additional number details can be returned for a cost
 
 ## 1.3.0-beta.1 (2023-07-21)
 
