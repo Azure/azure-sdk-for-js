@@ -108,7 +108,7 @@ describe("createWindowsBadgeNotification", () => {
     });
 
     assert.equal(notification.contentType, Constants.XML_CONTENT_TYPE);
-    assert.equal(notification.platform, "wns");
+    assert.equal(notification.platform, "windows");
     assert.equal(notification.body, `badge WNS Message`);
     assert.equal(notification.headers![Constants.WNS_TYPE_NAME], Constants.WNS_BADGE);
   });
@@ -121,7 +121,7 @@ describe("createWindowsTileNotification", () => {
     });
 
     assert.equal(notification.contentType, Constants.XML_CONTENT_TYPE);
-    assert.equal(notification.platform, "wns");
+    assert.equal(notification.platform, "windows");
     assert.equal(notification.body, `tile WNS Message`);
     assert.equal(notification.headers![Constants.WNS_TYPE_NAME], Constants.WNS_TITLE);
   });
@@ -134,7 +134,7 @@ describe("createWindowsToastNotification", () => {
     });
 
     assert.equal(notification.contentType, Constants.XML_CONTENT_TYPE);
-    assert.equal(notification.platform, "wns");
+    assert.equal(notification.platform, "windows");
     assert.equal(notification.body, `toast WNS Message`);
     assert.equal(notification.headers![Constants.WNS_TYPE_NAME], Constants.WNS_TOAST);
   });
@@ -147,7 +147,7 @@ describe("createWindowsRawNotification", () => {
     });
 
     assert.equal(notification.contentType, Constants.STREAM_CONTENT_TYPE);
-    assert.equal(notification.platform, "wns");
+    assert.equal(notification.platform, "windows");
     assert.equal(notification.body, `raw WNS Message`);
     assert.equal(notification.headers![Constants.WNS_TYPE_NAME], Constants.WNS_RAW);
   });
