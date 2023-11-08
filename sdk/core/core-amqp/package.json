@@ -1,12 +1,8 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-<<<<<<< HEAD
   "type": "module",
-  "version": "4.0.1",
-=======
   "version": "4.1.0",
->>>>>>> d51f8e1bde5a468b497e9509b50a50d913986ab7
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -24,7 +20,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --locals",
+    "build": "npm run clean && tshy && api-extractor run --locals",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf -G dist dist-* temp coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
     "execute:samples": "echo skipped",

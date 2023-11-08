@@ -12,14 +12,19 @@ export default defineConfig({
     browser: {
       enabled: true,
       headless: true,
-      name: "chrome",
-      provider: "webdriverio",
-      slowHijackESM: false,
+      name: "chromium",
+      provider: "playwright",
     },
     fakeTimers: {
       toFake: ["setTimeout"],
     },
     watch: false,
     include: ["./dist-test/browser/**/*.spec.js"],
+    coverage: {
+      include: ["dist-test/browser/**/*.js"],
+      provider: "istanbul",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "coverage",
+    },
   },
 });

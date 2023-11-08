@@ -9,6 +9,6 @@
     ".././src/log-browser.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/esm"
+    "outDir": "../.tshy-build/esm"
   }
 }

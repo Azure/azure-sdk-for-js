@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
   ProxySettings,
@@ -11,6 +10,7 @@ import {
   proxyPolicy,
 } from "../../src/index.js";
 import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
+import { describe, it, assert, afterEach } from "vitest";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {

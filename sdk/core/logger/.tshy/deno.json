@@ -9,6 +9,6 @@
     ".././src/log-browser.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/deno"
+    "outDir": "../.tshy-build/deno"
   }
 }

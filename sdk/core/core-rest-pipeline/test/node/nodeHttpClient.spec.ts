@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as td from "testdouble";
-import { assert } from "chai";
-import * as FakeTimers from "@sinonjs/fake-timers";
+import * as sinon from "sinon";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import https from "https";
+import http from "http";
 import { AbortController } from "@azure/abort-controller";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
-interface ReplaceEsmResponse {
-  default?: any;
-  [namedExport: string]: any;
-}
-/* eslint-enable @typescript-eslint/no-explicit-any */
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;
@@ -57,44 +52,37 @@ function createRequest(): ClientRequest {
 }
 
 describe("NodeHttpClient", function () {
-  let stubbedHttp: ReplaceEsmResponse;
-  let stubbedHttps: ReplaceEsmResponse;
-  let clock: FakeTimers.InstalledClock;
+  let stubbedHttpsRequest: sinon.SinonStub;
+  let stubbedHttpRequest: sinon.SinonStub;
+  let clock: sinon.SinonFakeTimers;
 
-  beforeEach(async function () {
-    stubbedHttps = await td.replaceEsm("https");
-    stubbedHttp = await td.replaceEsm("http");
-    clock = FakeTimers.install();
+  beforeEach(function () {
+    stubbedHttpsRequest = sinon.stub(https, "request");
+    stubbedHttpRequest = sinon.stub(http, "request");
+    clock = sinon.useFakeTimers();
   });
 
   afterEach(function () {
-    td.reset();
-    clock.uninstall();
+    clock.restore();
+    sinon.restore();
   });
 
   it("shouldn't throw on 404", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(404)))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({ url: "https://example.com" });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(404));
     const response = await promise;
     assert.strictEqual(response.status, 404);
   });
 
   it("should allow canceling of requests", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     const clientRequest = createRequest();
-    td.when(stubbedHttps.request(td.matchers.anything(), td.matchers.anything())).thenReturn(
-      clientRequest
-    );
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal,
@@ -110,34 +98,27 @@ describe("NodeHttpClient", function () {
   });
 
   it("shouldn't be affected by requests cancelled late", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal,
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     controller.abort();
     assert.strictEqual(response.status, 200);
   });
 
   it("should allow canceling of requests before the request is made", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const controller = new AbortController();
     controller.abort();
     const clientRequest = createRequest();
-    td.when(stubbedHttps.request(td.matchers.anything(), td.matchers.anything())).thenReturn(
-      clientRequest
-    );
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal,
@@ -152,15 +133,9 @@ describe("NodeHttpClient", function () {
   });
 
   it("should report upload and download progress", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-
-    const responseText = "An appropriate response.";
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200, responseText)))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     let downloadCalled = false;
     let uploadCalled = false;
     const request = createPipelineRequest({
@@ -176,7 +151,8 @@ describe("NodeHttpClient", function () {
       },
     });
     const promise = client.sendRequest(request);
-
+    const responseText = "An appropriate response.";
+    stubbedHttpsRequest.yield(createResponse(200, responseText));
     const response = await promise;
     assert.strictEqual(response.bodyAsText, responseText);
     assert.isTrue(downloadCalled, "no download progress");
@@ -184,15 +160,11 @@ describe("NodeHttpClient", function () {
   });
 
   it("should honor timeout", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
 
     const timeoutLength = 2000;
     const clientRequest = createRequest();
-    td.when(stubbedHttps.request(td.matchers.anything(), td.matchers.anything())).thenReturn(
-      clientRequest
-    );
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       timeout: timeoutLength,
@@ -208,62 +180,51 @@ describe("NodeHttpClient", function () {
   });
 
   it("should stream response body on matching status code", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200, "body")))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);
   });
 
   it("should stream response body on any status code", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(201, "body")))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([Number.POSITIVE_INFINITY]),
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(201, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, undefined);
     assert.ok(response.readableStreamBody);
   });
 
   it("should not stream response body on non-matching status code", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(400, "body")))
-    ).thenReturn(clientRequest);
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(400, "body"));
     const response = await promise;
     assert.equal(response.bodyAsText, "body");
     assert.strictEqual(response.readableStreamBody, undefined);
   });
 
   it("should throw when accessing HTTP and allowInsecureConnection is false", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const request = createPipelineRequest({
       url: "http://example.com",
@@ -278,27 +239,27 @@ describe("NodeHttpClient", function () {
   });
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
-    td.when(
-      stubbedHttp.request(td.matchers.anything(), td.callback(createResponse(200, "body")))
-    ).thenReturn(clientRequest);
+    stubbedHttpRequest.returns(clientRequest);
     const request = createPipelineRequest({
       allowInsecureConnection: true,
       url: "http://example.com",
     });
     const promise = client.sendRequest(request);
+    stubbedHttpRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
   it("Should decode chunked responses properly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
     const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
+    const request = createPipelineRequest({
+      url: "https://example.com",
+    });
+    const promise = client.sendRequest(request);
 
     const inputString = "€€€€";
     const streamResponse = new FakeResponse();
@@ -312,28 +273,15 @@ describe("NodeHttpClient", function () {
     buffer.copy(buffer2, 0, 4);
     streamResponse.write(buffer2);
     streamResponse.end();
-
-    td.when(stubbedHttps.request(td.matchers.anything(), td.callback(streamResponse))).thenReturn(
-      clientRequest
-    );
-
-    const request = createPipelineRequest({
-      url: "https://example.com",
-    });
-    const promise = client.sendRequest(request);
-
+    stubbedHttpsRequest.yield(streamResponse);
     const response = await promise;
     assert.strictEqual(response.status, 200);
     assert.strictEqual(response.bodyAsText, inputString);
   });
 
   it("should handle typed array bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(httpRequestChecker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
@@ -345,17 +293,14 @@ describe("NodeHttpClient", function () {
       body: data,
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
   it("should handle ArrayBuffer bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(httpRequestChecker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = new Uint8Array(10);
     for (let i = 0; i < 10; i++) {
@@ -367,17 +312,14 @@ describe("NodeHttpClient", function () {
       body: data.buffer,
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
   it("should handle Buffer bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(httpRequestChecker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const data = Buffer.from("example text");
 
@@ -386,27 +328,23 @@ describe("NodeHttpClient", function () {
       body: data,
     });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
   it("should handle string bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const client = createDefaultHttpClient();
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(httpRequestChecker);
+    stubbedHttpsRequest.returns(httpRequestChecker);
 
     const request = createPipelineRequest({ url: "https://example.com", body: "test data" });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     const response = await promise;
     assert.strictEqual(response.status, 200);
   });
 
   it("should handle NodeJS.ReadableStream bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
     let bodySent = false;
@@ -417,9 +355,7 @@ describe("NodeHttpClient", function () {
         next();
       },
     });
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(writable);
+    stubbedHttpsRequest.returns(writable);
 
     const stream = new PassThrough();
     stream.write(requestText);
@@ -427,13 +363,12 @@ describe("NodeHttpClient", function () {
     const body = stream;
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 
   it("should handle () => NodeJS.ReadableStream bodies correctly", async function () {
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
     const requestText = "testing resettable stream";
     const client = createDefaultHttpClient();
     let bodySent = false;
@@ -444,9 +379,7 @@ describe("NodeHttpClient", function () {
         next();
       },
     });
-    td.when(
-      stubbedHttps.request(td.matchers.anything(), td.callback(createResponse(200)))
-    ).thenReturn(writable);
+    stubbedHttpsRequest.returns(writable);
 
     const body = (): PassThrough => {
       const stream = new PassThrough();
@@ -456,22 +389,23 @@ describe("NodeHttpClient", function () {
     };
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
   });
 
   it("should return an AbortError when aborted while reading the HTTP response", async function () {
-    clock.uninstall();
-    const { createDefaultHttpClient, createPipelineRequest } = await import("../../src/index.js");
-
+    clock.restore();
     const client = createDefaultHttpClient();
     const controller = new AbortController();
 
     const clientRequest = createRequest();
+    stubbedHttpsRequest.returns(clientRequest);
     const request = createPipelineRequest({
       url: "https://example.com",
       abortSignal: controller.signal,
     });
+    const promise = client.sendRequest(request);
 
     const streamResponse = new FakeResponse();
 
@@ -486,13 +420,7 @@ describe("NodeHttpClient", function () {
     streamResponse.statusCode = 200;
     const buffer = Buffer.from("The start of an HTTP body");
     streamResponse.write(buffer);
-
-    td.when(stubbedHttps.request(td.matchers.anything(), td.callback(streamResponse))).thenReturn(
-      clientRequest
-    );
-
-    const promise = client.sendRequest(request);
-
+    stubbedHttpsRequest.yield(streamResponse);
     controller.abort();
 
     try {

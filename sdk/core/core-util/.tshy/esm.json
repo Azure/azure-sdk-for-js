@@ -12,6 +12,6 @@
     ".././src/uuidUtils-react-native.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/esm"
+    "outDir": "../.tshy-build/esm"
   }
 }

@@ -11,7 +11,7 @@ import {
 } from "../src/index.js";
 import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import { assert } from "chai";
+import { describe, it, assert, afterEach } from "vitest";
 import { makeTestLogger } from "./util.js";
 
 describe("retryPolicy", function () {

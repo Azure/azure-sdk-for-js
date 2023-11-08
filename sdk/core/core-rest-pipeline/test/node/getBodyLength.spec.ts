@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 import { getBodyLength } from "../../src/nodeHttpClient.js";
 
 describe("Get Body Length", function () {

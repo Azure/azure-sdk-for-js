@@ -60,6 +60,7 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "1.0.0-beta.3",
     "@vitest/coverage-v8": "1.0.0-beta.3",
+    "@vitest/coverage-istanbul": "^1.0.0-beta.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.52.0",
     "prettier": "^3.0.3",

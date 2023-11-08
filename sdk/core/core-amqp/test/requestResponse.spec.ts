@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
+import rheaPromise, {
+  Connection,
+  EventContext,
+  Message as RheaMessage,
+  generate_uuid,
+} from "rhea-promise";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -17,9 +22,8 @@ import {
   getCodeDescriptionAndError,
   onMessageReceived,
 } from "../src/requestResponseLink.js";
-import { SinonSpy, fake, stub } from "sinon";
 import EventEmitter from "events";
-import { assert } from "chai";
+import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
 
@@ -80,9 +84,35 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send a request and receive a response correctly", async function () {
-    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
+    const connectionStub = vi.spyOn(rheaPromise, "Connection").mockImplementation(() => {
+      const RheaConnection = vi.fn({
+        createSession: (): Promise<EventEmitter> => {
+          return Promise.resolve({
+            connection: {
+              id: "connection-1",
+            },
+            createSender: () => {
+              return Promise.resolve({
+                send: (request: any) => {
+                  req = request;
+                },
+                on: () => {
+                  /* no_op */
+                },
+              });
+            },
+            createReceiver: () => {
+              return Promise.resolve(rcvr);
+            },
+          });
+        },
+      });
+
+      return { RheaConnection };
+    });
+
     connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",

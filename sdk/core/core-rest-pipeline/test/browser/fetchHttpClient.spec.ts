@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";

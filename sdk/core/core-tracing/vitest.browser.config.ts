@@ -14,7 +14,6 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
-      slowHijackESM: false,
     },
     fakeTimers: {
       toFake: ["setTimeout"],
@@ -22,14 +21,8 @@ export default defineConfig({
     watch: false,
     include: ["./dist-test/browser/**/*.spec.js"],
     coverage: {
-      include: ["src/**/*.ts"],
-      exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
-        "vitest*.config.ts",
-        "samples-dev/**/*.ts",
-      ],
-      provider: "v8",
+      include: ["dist-test/browser/**/*.js"],
+      provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
     },

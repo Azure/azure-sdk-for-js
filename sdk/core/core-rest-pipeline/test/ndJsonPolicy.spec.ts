@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import * as sinon from "sinon";
 import {
   PipelineResponse,
@@ -10,6 +9,7 @@ import {
   createPipelineRequest,
   ndJsonPolicy,
 } from "../src/index.js";
+import { describe, it, assert, afterEach } from "vitest";
 
 describe("NdJsonPolicy", function () {
   afterEach(function () {
