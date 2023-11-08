@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * @packageDocumentation
- * JavaScript SDK for the Azure Communication Services Job Router Service.
- */
+import AzureCommunicationRoutingServiceClient from "./azureCommunicationRoutingServiceClient";
 
-export * from "./models";
-export * from "./options";
+export * from "./azureCommunicationRoutingServiceClient";
+export * from "./parameters";
 export * from "./responses";
-export * from "./clientUtils";
-export * from "./jobRouterClient";
-export * from "./jobRouterAdministrationClient";
+export * from "./clientDefinitions";
+export * from "./isUnexpected";
+export * from "./models";
+export * from "./outputModels";
+export * from "./paginateHelper";
+
+export default AzureCommunicationRoutingServiceClient;
