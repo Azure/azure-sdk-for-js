@@ -57,7 +57,7 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-05-01-preview";
+    this.apiVersion = options.apiVersion || "2024-03-01";
     this.phoneNumbers = new PhoneNumbersImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

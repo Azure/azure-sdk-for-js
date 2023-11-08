@@ -121,7 +121,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01-preview",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -261,6 +261,11 @@ export const top: OperationQueryParameter = {
 
 export const phoneNumbers: OperationParameter = {
   parameterPath: ["options", "phoneNumbers"],
+  mapper: OperatorInformationRequestMapper
+};
+
+export const options: OperationParameter = {
+  parameterPath: ["options", "options"],
   mapper: OperatorInformationRequestMapper
 };
 
