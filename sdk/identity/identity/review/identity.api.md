@@ -141,8 +141,8 @@ export type BrokerOptions = BrokerEnabledOptions | BrokerDisabledOptions;
 // @public
 export interface BrowserCustomizationOptions {
     browserCustomizationOptions?: {
-        errorMessage: string;
-        successMessage: string;
+        errorMessage?: string;
+        successMessage?: string;
     };
 }
 
