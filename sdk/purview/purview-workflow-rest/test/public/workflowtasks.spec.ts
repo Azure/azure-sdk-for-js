@@ -7,7 +7,7 @@ import { createClient } from "./utils/recordedClient";
 
 import { Context } from "mocha";
 import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { ApproveApprovalTaskParameters, RejectApprovalTaskParameters } from "../../src/parameters";
+import { ApprovalApproveParameters, ApprovalRejectParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
 
 describe("Operate the workflow task.", () => {
@@ -19,8 +19,8 @@ describe("Operate the workflow task.", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     client = await createClient(recorder);
-    workflowtaskId1 = "721716fa-13b0-4613-beb5-87ffb5a3ce63";
-    workflowtaskId2 = "f0d9bf80-9490-40f9-8bc4-ea70aef701de";
+    workflowtaskId1 = "05a55acb-7cb8-4b8e-83ad-4191c9b6f411";
+    workflowtaskId2 = "2bb8243e-f65e-4094-8dc7-8f01aae3e1b4";
   });
 
   afterEach(async function () {
@@ -28,7 +28,7 @@ describe("Operate the workflow task.", () => {
   });
 
   it("should approve a workflow task.", async function () {
-    const options: ApproveApprovalTaskParameters = {
+    const options: ApprovalApproveParameters = {
       body: { comment: "Thanks for raising this!" },
     };
     const result1 = await client
@@ -41,7 +41,7 @@ describe("Operate the workflow task.", () => {
   });
 
   it("should reject a workflow task.", async function () {
-    const options: RejectApprovalTaskParameters = {
+    const options: ApprovalRejectParameters = {
       body: { comment: "Thanks for raising this!" },
     };
     const result2 = await client

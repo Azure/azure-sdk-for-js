@@ -17,7 +17,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): PurviewWorkflowClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/workflow`;
-  options.apiVersion = options.apiVersion ?? "2022-05-01-preview";
+  options.apiVersion = options.apiVersion ?? "2023-10-01-preview";
   options = {
     ...options,
     credentials: {

@@ -76,6 +76,31 @@ export interface WorkflowOutput extends WorkflowMetadataOutput {
   actionDag: Record<string, unknown>;
 }
 
+export interface WorkflowValidationRuleViolationsListOutput {
+  /** The value of violated validation rule list. */
+  value: Array<WorkflowValidationRuleViolationOutput>;
+}
+
+/** The detail of validation rule violated in a workflow. */
+export interface WorkflowValidationRuleViolationOutput {
+  /** The severity of the validation rule. */
+  severity: "error" | "warning";
+  /** The location where the violation happens. */
+  location: WorkflowValidationRuleViolationLocationOutput;
+  /** The detail about how the validation rule is violated. */
+  message: string;
+}
+
+/** The location where the violation happens. */
+export interface WorkflowValidationRuleViolationLocationOutput {
+  /** The validation violation location type. */
+  type: "workflow" | "action" | "actionParameter";
+  /** The name of the action where the violation happens. */
+  actionName?: string;
+  /** The key of the action parameter where the violation happens. */
+  parameterKey?: string;
+}
+
 /** Describes user ask to do operation(s) on Purview. */
 export interface UserRequestResponseOutput {
   /**
@@ -354,28 +379,28 @@ export interface WorkflowTaskExpiryInfoExpirySettingsOutput {
   notifyOnExpiration?: Array<string>;
 }
 
-/** The workflow approval task properties. */
+/** The workflow approval properties. */
 export interface ApprovalOutput extends WorkflowTaskOutputParent {
-  /** The approval task details */
+  /** The approval details */
   approvalDetail?: ApprovalDetailOutput;
   type: "Approval";
 }
 
-/** The approval task details */
+/** The approval details */
 export interface ApprovalDetailOutput {
-  /** The approval type of an approval task. */
+  /** The approval type of an approval. */
   approvalType: "PendingOnAny" | "PendingOnAll";
-  /** The status of an approval task. */
+  /** The status of an approval. */
   status: "Pending" | "Approved" | "Rejected" | "Canceled";
   /** The list of approvers with reply. */
   approvers: Record<string, ApproverResponseOutput>;
 }
 
-/** The response of approvers for a workflow task. */
+/** The response of approvers for an approval type of workflow task. */
 export interface ApproverResponseOutput {
-  /** The response for an approval task. */
+  /** The response for an approval type of workflow task. */
   reply: "Approved" | "Rejected" | "Pending";
-  /** The comment of approving or rejecting an approval request. */
+  /** The comment of approving or rejecting an approval type of workflow task. */
   comment?: string;
   /** The reply time of approver to a workflow task. */
   responseTime?: string;

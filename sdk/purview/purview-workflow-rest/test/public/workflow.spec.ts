@@ -7,7 +7,7 @@ import { createClient } from "./utils/recordedClient";
 
 import { Context } from "mocha";
 import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { CreateOrReplaceWorkflowParameters } from "../../src/parameters";
+import { WorkflowCreateOrReplaceParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
 import { assert } from "chai";
 
@@ -27,7 +27,7 @@ describe("Get a workflow", () => {
   });
 
   it("should create a workflow", async function () {
-    const options: CreateOrReplaceWorkflowParameters = {
+    const options: WorkflowCreateOrReplaceParameters = {
       body: {
         name: "Create glossary term workflow",
         description: "",
@@ -42,8 +42,8 @@ describe("Get a workflow", () => {
                   inputs: {
                     parameters: {
                       emailMessage:
-                        "Your request for Glossary Term @{triggerBody()['request']['term']['name']} is approved.",
-                      emailRecipients: ["@{triggerBody()['request']['requestor']}"],
+                        "Your request for Glossary Term @{runInput()['term']['name']} is approved.",
+                      emailRecipients: ["@{runInput()['requestor']}"],
                       emailSubject: "Glossary Term Create - APPROVED",
                     },
                   },
@@ -57,8 +57,8 @@ describe("Get a workflow", () => {
                     inputs: {
                       parameters: {
                         emailMessage:
-                          "Your request for Glossary Term @{triggerBody()['request']['term']['name']} is rejected.",
-                        emailRecipients: ["@{triggerBody()['request']['requestor']}"],
+                          "Your request for Glossary Term @{runInput()['term']['name']} is rejected.",
+                        emailRecipients: ["@{runInput()['requestor']}"],
                         emailSubject: "Glossary Term Create - REJECTED",
                       },
                     },
@@ -69,10 +69,7 @@ describe("Get a workflow", () => {
               expression: {
                 and: [
                   {
-                    equals: [
-                      "@outputs('Start and wait for an approval')['body/outcome']",
-                      "Approved",
-                    ],
+                    equals: ["@{outputs('Start and wait for an approval')['outcome']}", "Approved"],
                   },
                 ],
               },

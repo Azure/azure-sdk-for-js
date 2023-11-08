@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  CreateOrReplaceWorkflowParameters,
+  WorkflowCreateOrReplaceParameters,
   PurviewWorkflowClient,
   isUnexpected,
   paginate,
@@ -23,7 +23,7 @@ dotenv.config();
  */
 async function workflowCreateOrUpdate(
   client: PurviewWorkflowClient,
-  workflow: CreateOrReplaceWorkflowParameters
+  workflow: WorkflowCreateOrReplaceParameters
 ) {
   const workflowId = randomUUID();
   const result = await client.path("/workflows/{workflowId}", workflowId).put(workflow);
@@ -93,7 +93,7 @@ async function main() {
 
   // ================================================== Create a workflow ==================================================
 
-  const workflowPayload: CreateOrReplaceWorkflowParameters = {
+  const workflowPayload: WorkflowCreateOrReplaceParameters = {
     body: {
       name: "Create glossary term workflow",
       description: "",

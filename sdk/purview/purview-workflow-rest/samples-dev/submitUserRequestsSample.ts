@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters,
+  UserRequestsSubmitParameters,
   isUnexpected,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
@@ -30,7 +30,7 @@ async function userRequestsSubmit() {
 
   // ================================================== Submit a user request ==================================================
 
-  const userRequestPayload: SubmitUserRequestsParameters = {
+  const userRequestPayload: UserRequestsSubmitParameters = {
     body: {
       comment: "Thanks!",
       operations: [

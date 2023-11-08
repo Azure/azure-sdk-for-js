@@ -7,7 +7,7 @@ import { createClient } from "./utils/recordedClient";
 
 import { Context } from "mocha";
 import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { SubmitUserRequestsParameters } from "../../src/parameters";
+import { UserRequestsSubmitParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
 import { assert } from "chai";
 
@@ -25,7 +25,7 @@ describe("Submit a user request", () => {
   });
 
   it("should submit a user request.", async function () {
-    const options: SubmitUserRequestsParameters = {
+    const options: UserRequestsSubmitParameters = {
       body: {
         comment: "Thanks!",
         operations: [

@@ -59,7 +59,7 @@ export interface WorkflowRunCancelRequest {
 }
 
 export interface ApprovalResponseComment {
-  /** The comment of approving or rejecting an approval request. */
+  /** The comment of approving or rejecting an approval type of workflow task. */
   comment?: string;
 }
 

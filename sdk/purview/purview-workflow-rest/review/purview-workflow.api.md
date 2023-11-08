@@ -13,6 +13,40 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export interface ApprovalApprove {
+    post(options: ApprovalApproveParameters): StreamableMethod<ApprovalApprove200Response | ApprovalApproveDefaultResponse>;
+}
+
+// @public
+export interface ApprovalApprove200Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ApprovalApproveBodyParam {
+    body: ApprovalResponseComment;
+}
+
+// @public
+export interface ApprovalApproveDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ApprovalApproveMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type ApprovalApproveParameters = ApprovalApproveMediaTypesParam & ApprovalApproveBodyParam & RequestParameters;
+
 // @public
 export interface ApprovalDetailOutput {
     approvalType: "PendingOnAny" | "PendingOnAll";
@@ -28,17 +62,12 @@ export interface ApprovalOutput extends WorkflowTaskOutputParent {
 }
 
 // @public (undocumented)
-export interface ApprovalResponseComment {
-    comment?: string;
-}
-
-// @public (undocumented)
-export interface ApproveApprovalTask {
-    post(options: ApproveApprovalTaskParameters): StreamableMethod<ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse>;
+export interface ApprovalReject {
+    post(options: ApprovalRejectParameters): StreamableMethod<ApprovalReject200Response | ApprovalRejectDefaultResponse>;
 }
 
 // @public
-export interface ApproveApprovalTask200Response extends HttpResponse {
+export interface ApprovalReject200Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
     // (undocumented)
@@ -46,12 +75,12 @@ export interface ApproveApprovalTask200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ApproveApprovalTaskBodyParam {
+export interface ApprovalRejectBodyParam {
     body: ApprovalResponseComment;
 }
 
 // @public
-export interface ApproveApprovalTaskDefaultResponse extends HttpResponse {
+export interface ApprovalRejectDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -59,12 +88,17 @@ export interface ApproveApprovalTaskDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ApproveApprovalTaskMediaTypesParam {
+export interface ApprovalRejectMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
-export type ApproveApprovalTaskParameters = ApproveApprovalTaskMediaTypesParam & ApproveApprovalTaskBodyParam & RequestParameters;
+export type ApprovalRejectParameters = ApprovalRejectMediaTypesParam & ApprovalRejectBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface ApprovalResponseComment {
+    comment?: string;
+}
 
 // @public
 export interface ApproverResponseOutput {
@@ -73,89 +107,9 @@ export interface ApproverResponseOutput {
     responseTime?: string;
 }
 
-// @public (undocumented)
-export interface CancelWorkflowRun {
-    post(options: CancelWorkflowRunParameters): StreamableMethod<CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse>;
-}
-
-// @public
-export interface CancelWorkflowRun200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CancelWorkflowRunBodyParam {
-    body: WorkflowRunCancelRequest;
-}
-
-// @public
-export interface CancelWorkflowRunDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CancelWorkflowRunMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type CancelWorkflowRunParameters = CancelWorkflowRunMediaTypesParam & CancelWorkflowRunBodyParam & RequestParameters;
-
 // @public
 function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewWorkflowClient;
 export default createClient;
-
-// @public
-export interface CreateOrReplaceWorkflow200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CreateOrReplaceWorkflowBodyParam {
-    body: WorkflowCreateOrUpdateCommand;
-}
-
-// @public
-export interface CreateOrReplaceWorkflowDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CreateOrReplaceWorkflowMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type CreateOrReplaceWorkflowParameters = CreateOrReplaceWorkflowMediaTypesParam & CreateOrReplaceWorkflowBodyParam & RequestParameters;
-
-// @public
-export interface DeleteWorkflow204Response extends HttpResponse {
-    // (undocumented)
-    status: "204";
-}
-
-// @public
-export interface DeleteWorkflowDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type DeleteWorkflowParameters = RequestParameters;
 
 // @public
 export interface ErrorModelOutput {
@@ -180,225 +134,49 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 }>;
 
 // @public (undocumented)
-export interface GetWorkflow {
-    delete(options?: DeleteWorkflowParameters): StreamableMethod<DeleteWorkflow204Response | DeleteWorkflowDefaultResponse>;
-    get(options?: GetWorkflowParameters): StreamableMethod<GetWorkflow200Response | GetWorkflowDefaultResponse>;
-    put(options: CreateOrReplaceWorkflowParameters): StreamableMethod<CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse>;
-}
-
-// @public
-export interface GetWorkflow200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface GetWorkflowDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
+export function isUnexpected(response: WorkflowsList200Response | WorkflowsListDefaultResponse): response is WorkflowsListDefaultResponse;
 
 // @public (undocumented)
-export type GetWorkflowParameters = RequestParameters;
+export function isUnexpected(response: WorkflowGet200Response | WorkflowGetDefaultResponse): response is WorkflowGetDefaultResponse;
 
 // @public (undocumented)
-export interface GetWorkflowRun {
-    get(options?: GetWorkflowRunParameters): StreamableMethod<GetWorkflowRun200Response | GetWorkflowRunDefaultResponse>;
-}
-
-// @public
-export interface GetWorkflowRun200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowRunOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface GetWorkflowRunDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
+export function isUnexpected(response: WorkflowCreateOrReplace200Response | WorkflowCreateOrReplaceDefaultResponse): response is WorkflowCreateOrReplaceDefaultResponse;
 
 // @public (undocumented)
-export type GetWorkflowRunParameters = RequestParameters;
+export function isUnexpected(response: WorkflowDelete204Response | WorkflowDeleteDefaultResponse): response is WorkflowDeleteDefaultResponse;
 
 // @public (undocumented)
-export interface GetWorkflowTask {
-    get(options?: GetWorkflowTaskParameters): StreamableMethod<GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse>;
-}
-
-// @public
-export interface GetWorkflowTask200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowTaskOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface GetWorkflowTaskDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
+export function isUnexpected(response: WorkflowValidate200Response | WorkflowValidateDefaultResponse): response is WorkflowValidateDefaultResponse;
 
 // @public (undocumented)
-export type GetWorkflowTaskParameters = RequestParameters;
+export function isUnexpected(response: UserRequestsSubmit200Response | UserRequestsSubmitDefaultResponse): response is UserRequestsSubmitDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ListWorkflows200Response | ListWorkflowsDefaultResponse): response is ListWorkflowsDefaultResponse;
+export function isUnexpected(response: WorkflowRunsList200Response | WorkflowRunsListDefaultResponse): response is WorkflowRunsListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetWorkflow200Response | GetWorkflowDefaultResponse): response is GetWorkflowDefaultResponse;
+export function isUnexpected(response: WorkflowRunGet200Response | WorkflowRunGetDefaultResponse): response is WorkflowRunGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse): response is CreateOrReplaceWorkflowDefaultResponse;
+export function isUnexpected(response: WorkflowRunCancel200Response | WorkflowRunCancelDefaultResponse): response is WorkflowRunCancelDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeleteWorkflow204Response | DeleteWorkflowDefaultResponse): response is DeleteWorkflowDefaultResponse;
+export function isUnexpected(response: WorkflowTasksList200Response | WorkflowTasksListDefaultResponse): response is WorkflowTasksListDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse): response is SubmitUserRequestsDefaultResponse;
+export function isUnexpected(response: WorkflowTaskGet200Response | WorkflowTaskGetDefaultResponse): response is WorkflowTaskGetDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse): response is ListWorkflowRunsDefaultResponse;
+export function isUnexpected(response: WorkflowTaskReassign200Response | WorkflowTaskReassignDefaultResponse): response is WorkflowTaskReassignDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetWorkflowRun200Response | GetWorkflowRunDefaultResponse): response is GetWorkflowRunDefaultResponse;
+export function isUnexpected(response: ApprovalApprove200Response | ApprovalApproveDefaultResponse): response is ApprovalApproveDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse): response is CancelWorkflowRunDefaultResponse;
+export function isUnexpected(response: ApprovalReject200Response | ApprovalRejectDefaultResponse): response is ApprovalRejectDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse): response is ListWorkflowTasksDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse): response is GetWorkflowTaskDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse): response is ApproveApprovalTaskDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse): response is RejectApprovalTaskDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse): response is ReassignWorkflowTaskDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse): response is UpdateTaskStatusDefaultResponse;
-
-// @public (undocumented)
-export interface ListWorkflowRuns {
-    get(options?: ListWorkflowRunsParameters): StreamableMethod<ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse>;
-}
-
-// @public
-export interface ListWorkflowRuns200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowRunListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface ListWorkflowRunsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListWorkflowRunsQueryParam {
-    // (undocumented)
-    queryParameters?: ListWorkflowRunsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListWorkflowRunsQueryParamProperties {
-    maxpagesize?: number;
-    orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
-    runStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history">;
-    timeWindow?: "1d" | "7d" | "30d" | "90d";
-    workflowIds?: Array<string>;
-}
-
-// @public (undocumented)
-export interface ListWorkflows {
-    get(options?: ListWorkflowsParameters): StreamableMethod<ListWorkflows200Response | ListWorkflowsDefaultResponse>;
-}
-
-// @public
-export interface ListWorkflows200Response extends HttpResponse {
-    // (undocumented)
-    body: WorkflowMetadataListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface ListWorkflowsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ListWorkflowsParameters = RequestParameters;
-
-// @public (undocumented)
-export interface ListWorkflowTasks {
-    get(options?: ListWorkflowTasksParameters): StreamableMethod<ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse>;
-}
-
-// @public
-export interface ListWorkflowTasks200Response extends HttpResponse {
-    // (undocumented)
-    body: TasksListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface ListWorkflowTasksDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface ListWorkflowTasksQueryParam {
-    // (undocumented)
-    queryParameters?: ListWorkflowTasksQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface ListWorkflowTasksQueryParamProperties {
-    maxpagesize?: number;
-    orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
-    taskStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history">;
-    taskTypes?: Array<"Approval" | "SimpleTask" | "approval" | "simpleTask">;
-    timeWindow?: "1d" | "7d" | "30d" | "90d";
-    viewMode?: string;
-    workflowIds?: Array<string>;
-    workflowNameKeyword?: string;
-}
+export function isUnexpected(response: TaskStatusUpdate200Response | TaskStatusUpdateDefaultResponse): response is TaskStatusUpdateDefaultResponse;
 
 // @public
 export interface Operation {
@@ -438,87 +216,20 @@ export interface ReassignCommandReassignmentsItem {
 }
 
 // @public (undocumented)
-export interface ReassignWorkflowTask {
-    post(options: ReassignWorkflowTaskParameters): StreamableMethod<ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse>;
-}
-
-// @public
-export interface ReassignWorkflowTask200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface ReassignWorkflowTaskBodyParam {
-    body: ReassignCommand;
-}
-
-// @public
-export interface ReassignWorkflowTaskDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface ReassignWorkflowTaskMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type ReassignWorkflowTaskParameters = ReassignWorkflowTaskMediaTypesParam & ReassignWorkflowTaskBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface RejectApprovalTask {
-    post(options: RejectApprovalTaskParameters): StreamableMethod<RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse>;
-}
-
-// @public
-export interface RejectApprovalTask200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface RejectApprovalTaskBodyParam {
-    body: ApprovalResponseComment;
-}
-
-// @public
-export interface RejectApprovalTaskDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface RejectApprovalTaskMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type RejectApprovalTaskParameters = RejectApprovalTaskMediaTypesParam & RejectApprovalTaskBodyParam & RequestParameters;
-
-// @public (undocumented)
 export interface Routes {
-    (path: "/workflows"): ListWorkflows;
-    (path: "/workflows/{workflowId}", workflowId: string): GetWorkflow;
-    (path: "/userrequests"): SubmitUserRequests;
-    (path: "/workflowruns"): ListWorkflowRuns;
-    (path: "/workflowruns/{workflowRunId}", workflowRunId: string): GetWorkflowRun;
-    (path: "/workflowruns/{workflowRunId}/cancel", workflowRunId: string): CancelWorkflowRun;
-    (path: "/workflowtasks"): ListWorkflowTasks;
-    (path: "/workflowtasks/{taskId}", taskId: string): GetWorkflowTask;
-    (path: "/workflowtasks/{taskId}/approve-approval", taskId: string): ApproveApprovalTask;
-    (path: "/workflowtasks/{taskId}/reject-approval", taskId: string): RejectApprovalTask;
-    (path: "/workflowtasks/{taskId}/reassign", taskId: string): ReassignWorkflowTask;
-    (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): UpdateTaskStatus;
+    (path: "/workflows"): WorkflowsList;
+    (path: "/workflows/{workflowId}", workflowId: string): WorkflowGet;
+    (path: "/workflows/{workflowId}/validate", workflowId: string): WorkflowValidate;
+    (path: "/userrequests"): UserRequestsSubmit;
+    (path: "/workflowruns"): WorkflowRunsList;
+    (path: "/workflowruns/{workflowRunId}", workflowRunId: string): WorkflowRunGet;
+    (path: "/workflowruns/{workflowRunId}/cancel", workflowRunId: string): WorkflowRunCancel;
+    (path: "/workflowtasks"): WorkflowTasksList;
+    (path: "/workflowtasks/{taskId}", taskId: string): WorkflowTaskGet;
+    (path: "/workflowtasks/{taskId}/reassign", taskId: string): WorkflowTaskReassign;
+    (path: "/workflowtasks/{taskId}/approve-approval", taskId: string): ApprovalApprove;
+    (path: "/workflowtasks/{taskId}/reject-approval", taskId: string): ApprovalReject;
+    (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): TaskStatusUpdate;
 }
 
 // @public
@@ -537,40 +248,6 @@ export interface SimpleTaskOutput extends WorkflowTaskOutputParent {
     type: "SimpleTask";
 }
 
-// @public (undocumented)
-export interface SubmitUserRequests {
-    post(options: SubmitUserRequestsParameters): StreamableMethod<SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse>;
-}
-
-// @public
-export interface SubmitUserRequests200Response extends HttpResponse {
-    // (undocumented)
-    body: UserRequestResponseOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SubmitUserRequestsBodyParam {
-    body: UserRequestPayload;
-}
-
-// @public
-export interface SubmitUserRequestsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SubmitUserRequestsMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SubmitUserRequestsParameters = SubmitUserRequestsMediaTypesParam & SubmitUserRequestsBodyParam & RequestParameters;
-
 // @public
 export interface TaskPayloadOutput {
     payload?: Record<string, unknown>;
@@ -583,6 +260,40 @@ export interface TasksListOutput {
     nextLink?: string;
     value: Array<WorkflowTaskOutput>;
 }
+
+// @public (undocumented)
+export interface TaskStatusUpdate {
+    post(options: TaskStatusUpdateParameters): StreamableMethod<TaskStatusUpdate200Response | TaskStatusUpdateDefaultResponse>;
+}
+
+// @public
+export interface TaskStatusUpdate200Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface TaskStatusUpdateBodyParam {
+    body: TaskUpdateCommand;
+}
+
+// @public
+export interface TaskStatusUpdateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface TaskStatusUpdateMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type TaskStatusUpdateParameters = TaskStatusUpdateMediaTypesParam & TaskStatusUpdateBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface TaskUpdateCommand {
@@ -609,40 +320,6 @@ export interface TriggerOutput {
 }
 
 // @public (undocumented)
-export interface UpdateTaskStatus {
-    post(options: UpdateTaskStatusParameters): StreamableMethod<UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse>;
-}
-
-// @public
-export interface UpdateTaskStatus200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface UpdateTaskStatusBodyParam {
-    body: TaskUpdateCommand;
-}
-
-// @public
-export interface UpdateTaskStatusDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface UpdateTaskStatusMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type UpdateTaskStatusParameters = UpdateTaskStatusMediaTypesParam & UpdateTaskStatusBodyParam & RequestParameters;
-
-// @public (undocumented)
 export interface UserRequestPayload {
     comment?: string;
     operations: Array<Operation>;
@@ -665,6 +342,69 @@ export interface UserRequestResponseOutput {
     status: "NotStarted" | "InProgress" | "Failed" | "Completed" | "Canceling" | "CancellationFailed" | "Canceled";
 }
 
+// @public (undocumented)
+export interface UserRequestsSubmit {
+    post(options: UserRequestsSubmitParameters): StreamableMethod<UserRequestsSubmit200Response | UserRequestsSubmitDefaultResponse>;
+}
+
+// @public
+export interface UserRequestsSubmit200Response extends HttpResponse {
+    // (undocumented)
+    body: UserRequestResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface UserRequestsSubmitBodyParam {
+    body: UserRequestPayload;
+}
+
+// @public
+export interface UserRequestsSubmitDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface UserRequestsSubmitMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type UserRequestsSubmitParameters = UserRequestsSubmitMediaTypesParam & UserRequestsSubmitBodyParam & RequestParameters;
+
+// @public
+export interface WorkflowCreateOrReplace200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WorkflowCreateOrReplaceBodyParam {
+    body: WorkflowCreateOrUpdateCommand;
+}
+
+// @public
+export interface WorkflowCreateOrReplaceDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface WorkflowCreateOrReplaceMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type WorkflowCreateOrReplaceParameters = WorkflowCreateOrReplaceMediaTypesParam & WorkflowCreateOrReplaceBodyParam & RequestParameters;
+
 // @public
 export interface WorkflowCreateOrUpdateCommand {
     actionDag?: Record<string, unknown>;
@@ -673,6 +413,51 @@ export interface WorkflowCreateOrUpdateCommand {
     name: string;
     triggers: Array<Trigger>;
 }
+
+// @public
+export interface WorkflowDelete204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface WorkflowDeleteDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowDeleteParameters = RequestParameters;
+
+// @public (undocumented)
+export interface WorkflowGet {
+    delete(options?: WorkflowDeleteParameters): StreamableMethod<WorkflowDelete204Response | WorkflowDeleteDefaultResponse>;
+    get(options?: WorkflowGetParameters): StreamableMethod<WorkflowGet200Response | WorkflowGetDefaultResponse>;
+    put(options: WorkflowCreateOrReplaceParameters): StreamableMethod<WorkflowCreateOrReplace200Response | WorkflowCreateOrReplaceDefaultResponse>;
+}
+
+// @public
+export interface WorkflowGet200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowGetParameters = RequestParameters;
 
 // @public
 export interface WorkflowMetadataListOutput {
@@ -699,6 +484,40 @@ export interface WorkflowOutput extends WorkflowMetadataOutput {
 }
 
 // @public (undocumented)
+export interface WorkflowRunCancel {
+    post(options: WorkflowRunCancelParameters): StreamableMethod<WorkflowRunCancel200Response | WorkflowRunCancelDefaultResponse>;
+}
+
+// @public
+export interface WorkflowRunCancel200Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WorkflowRunCancelBodyParam {
+    body: WorkflowRunCancelRequest;
+}
+
+// @public
+export interface WorkflowRunCancelDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface WorkflowRunCancelMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type WorkflowRunCancelParameters = WorkflowRunCancelMediaTypesParam & WorkflowRunCancelBodyParam & RequestParameters;
+
+// @public (undocumented)
 export interface WorkflowRunCancelRequest {
     comment?: string;
 }
@@ -708,6 +527,30 @@ export interface WorkflowRunDetailOutput {
     actions: Record<string, unknown>;
     runInput: Record<string, unknown>;
 }
+
+// @public (undocumented)
+export interface WorkflowRunGet {
+    get(options?: WorkflowRunGetParameters): StreamableMethod<WorkflowRunGet200Response | WorkflowRunGetDefaultResponse>;
+}
+
+// @public
+export interface WorkflowRunGet200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowRunOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowRunGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowRunGetParameters = RequestParameters;
 
 // @public (undocumented)
 export interface WorkflowRunListOutput {
@@ -759,6 +602,71 @@ export interface WorkflowRunRunPayloadOutput {
 }
 
 // @public (undocumented)
+export interface WorkflowRunsList {
+    get(options?: WorkflowRunsListParameters): StreamableMethod<WorkflowRunsList200Response | WorkflowRunsListDefaultResponse>;
+}
+
+// @public
+export interface WorkflowRunsList200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowRunListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowRunsListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowRunsListParameters = WorkflowRunsListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface WorkflowRunsListQueryParam {
+    // (undocumented)
+    queryParameters?: WorkflowRunsListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface WorkflowRunsListQueryParamProperties {
+    maxpagesize?: number;
+    orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
+    requestors?: Array<string>;
+    runStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history" | "mine" | "admin">;
+    timeWindow?: "1d" | "7d" | "30d" | "90d";
+    viewMode?: string;
+    workflowIds?: Array<string>;
+}
+
+// @public (undocumented)
+export interface WorkflowsList {
+    get(options?: WorkflowsListParameters): StreamableMethod<WorkflowsList200Response | WorkflowsListDefaultResponse>;
+}
+
+// @public
+export interface WorkflowsList200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowMetadataListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowsListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowsListParameters = RequestParameters;
+
+// @public (undocumented)
 export interface WorkflowTaskExpiryInfoExpirySettingsOutput {
     expireAfter: Record<string, unknown>;
     // (undocumented)
@@ -773,6 +681,30 @@ export interface WorkflowTaskExpiryInfoOutput {
     lastExpiryNotificationTime?: string;
     nextExpiryNotificationTime: string;
 }
+
+// @public (undocumented)
+export interface WorkflowTaskGet {
+    get(options?: WorkflowTaskGetParameters): StreamableMethod<WorkflowTaskGet200Response | WorkflowTaskGetDefaultResponse>;
+}
+
+// @public
+export interface WorkflowTaskGet200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowTaskOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowTaskGetDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowTaskGetParameters = RequestParameters;
 
 // @public
 export type WorkflowTaskOutput = ApprovalOutput | SimpleTaskOutput;
@@ -793,11 +725,142 @@ export interface WorkflowTaskOutputParent {
     workflowRunId: string;
 }
 
+// @public (undocumented)
+export interface WorkflowTaskReassign {
+    post(options: WorkflowTaskReassignParameters): StreamableMethod<WorkflowTaskReassign200Response | WorkflowTaskReassignDefaultResponse>;
+}
+
+// @public
+export interface WorkflowTaskReassign200Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WorkflowTaskReassignBodyParam {
+    body: ReassignCommand;
+}
+
+// @public
+export interface WorkflowTaskReassignDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface WorkflowTaskReassignMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type WorkflowTaskReassignParameters = WorkflowTaskReassignMediaTypesParam & WorkflowTaskReassignBodyParam & RequestParameters;
+
 // @public
 export interface WorkflowTaskReminderInfoOutput {
     lastRemindTime?: string;
     nextRemindTime: string;
     reminderSettings: Record<string, unknown>;
+}
+
+// @public (undocumented)
+export interface WorkflowTasksList {
+    get(options?: WorkflowTasksListParameters): StreamableMethod<WorkflowTasksList200Response | WorkflowTasksListDefaultResponse>;
+}
+
+// @public
+export interface WorkflowTasksList200Response extends HttpResponse {
+    // (undocumented)
+    body: TasksListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface WorkflowTasksListDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type WorkflowTasksListParameters = WorkflowTasksListQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface WorkflowTasksListQueryParam {
+    // (undocumented)
+    queryParameters?: WorkflowTasksListQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface WorkflowTasksListQueryParamProperties {
+    assignees?: Array<string>;
+    maxpagesize?: number;
+    orderby?: "status desc" | "status asc" | "requestor desc" | "requestor asc" | "startTime desc" | "startTime asc" | "createdTime desc" | "createdTime asc";
+    requestors?: Array<string>;
+    taskStatuses?: Array<"InProgress" | "Failed" | "Completed" | "NotStarted" | "Canceling" | "CancellationFailed" | "Canceled" | "Pending" | "Approved" | "Rejected" | "sent" | "received" | "history" | "mine" | "admin">;
+    taskTypes?: Array<"Approval" | "SimpleTask" | "approval" | "simpleTask">;
+    timeWindow?: "1d" | "7d" | "30d" | "90d";
+    viewMode?: string;
+    workflowIds?: Array<string>;
+    workflowNameKeyword?: string;
+}
+
+// @public (undocumented)
+export interface WorkflowValidate {
+    post(options: WorkflowValidateParameters): StreamableMethod<WorkflowValidate200Response | WorkflowValidateDefaultResponse>;
+}
+
+// @public
+export interface WorkflowValidate200Response extends HttpResponse {
+    // (undocumented)
+    body: WorkflowValidationRuleViolationsListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface WorkflowValidateBodyParam {
+    body: WorkflowCreateOrUpdateCommand;
+}
+
+// @public
+export interface WorkflowValidateDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface WorkflowValidateMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type WorkflowValidateParameters = WorkflowValidateMediaTypesParam & WorkflowValidateBodyParam & RequestParameters;
+
+// @public
+export interface WorkflowValidationRuleViolationLocationOutput {
+    actionName?: string;
+    parameterKey?: string;
+    type: "workflow" | "action" | "actionParameter";
+}
+
+// @public
+export interface WorkflowValidationRuleViolationOutput {
+    location: WorkflowValidationRuleViolationLocationOutput;
+    message: string;
+    severity: "error" | "warning";
+}
+
+// @public (undocumented)
+export interface WorkflowValidationRuleViolationsListOutput {
+    value: Array<WorkflowValidationRuleViolationOutput>;
 }
 
 // (No @packageDocumentation comment for this package)

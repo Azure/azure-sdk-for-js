@@ -6,44 +6,60 @@ import {
   WorkflowCreateOrUpdateCommand,
   UserRequestPayload,
   WorkflowRunCancelRequest,
-  ApprovalResponseComment,
   ReassignCommand,
+  ApprovalResponseComment,
   TaskUpdateCommand,
 } from "./models";
 
-export type ListWorkflowsParameters = RequestParameters;
-export type GetWorkflowParameters = RequestParameters;
+export type WorkflowsListParameters = RequestParameters;
+export type WorkflowGetParameters = RequestParameters;
 
-export interface CreateOrReplaceWorkflowBodyParam {
+export interface WorkflowCreateOrReplaceBodyParam {
   /** Create or update workflow payload. */
   body: WorkflowCreateOrUpdateCommand;
 }
 
-export interface CreateOrReplaceWorkflowMediaTypesParam {
+export interface WorkflowCreateOrReplaceMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type CreateOrReplaceWorkflowParameters = CreateOrReplaceWorkflowMediaTypesParam &
-  CreateOrReplaceWorkflowBodyParam &
+export type WorkflowCreateOrReplaceParameters = WorkflowCreateOrReplaceMediaTypesParam &
+  WorkflowCreateOrReplaceBodyParam &
   RequestParameters;
-export type DeleteWorkflowParameters = RequestParameters;
+export type WorkflowDeleteParameters = RequestParameters;
 
-export interface SubmitUserRequestsBodyParam {
+export interface WorkflowValidateBodyParam {
+  /** Check workflow payload. */
+  body: WorkflowCreateOrUpdateCommand;
+}
+
+export interface WorkflowValidateMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type WorkflowValidateParameters = WorkflowValidateMediaTypesParam &
+  WorkflowValidateBodyParam &
+  RequestParameters;
+
+export interface UserRequestsSubmitBodyParam {
   /** The payload of submitting a user request. */
   body: UserRequestPayload;
 }
 
-export interface SubmitUserRequestsMediaTypesParam {
+export interface UserRequestsSubmitMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type SubmitUserRequestsParameters = SubmitUserRequestsMediaTypesParam &
-  SubmitUserRequestsBodyParam &
+export type UserRequestsSubmitParameters = UserRequestsSubmitMediaTypesParam &
+  UserRequestsSubmitBodyParam &
   RequestParameters;
 
-export interface ListWorkflowRunsQueryParamProperties {
+export interface WorkflowRunsListQueryParamProperties {
+  /** To filter user's workflow runs or view as admin. */
+  viewMode?: string;
   /** Time window of filtering items. */
   timeWindow?: "1d" | "7d" | "30d" | "90d";
   /** The key word which used to sort the results. */
@@ -71,42 +87,46 @@ export interface ListWorkflowRunsQueryParamProperties {
     | "sent"
     | "received"
     | "history"
+    | "mine"
+    | "admin"
   >;
   /** Filter items by workflow id list. */
   workflowIds?: Array<string>;
-  /** The maximum page size to get the items at one time. */
+  /** Requestors' ids to filter. */
+  requestors?: Array<string>;
+  /** The maximum page size to get the items at one time. The default value is 100. */
   maxpagesize?: number;
 }
 
-export interface ListWorkflowRunsQueryParam {
-  queryParameters?: ListWorkflowRunsQueryParamProperties;
+export interface WorkflowRunsListQueryParam {
+  queryParameters?: WorkflowRunsListQueryParamProperties;
 }
 
-export type ListWorkflowRunsParameters = ListWorkflowRunsQueryParam & RequestParameters;
-export type GetWorkflowRunParameters = RequestParameters;
+export type WorkflowRunsListParameters = WorkflowRunsListQueryParam & RequestParameters;
+export type WorkflowRunGetParameters = RequestParameters;
 
-export interface CancelWorkflowRunBodyParam {
+export interface WorkflowRunCancelBodyParam {
   /** Reply of canceling a workflow run. */
   body: WorkflowRunCancelRequest;
 }
 
-export interface CancelWorkflowRunMediaTypesParam {
+export interface WorkflowRunCancelMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type CancelWorkflowRunParameters = CancelWorkflowRunMediaTypesParam &
-  CancelWorkflowRunBodyParam &
+export type WorkflowRunCancelParameters = WorkflowRunCancelMediaTypesParam &
+  WorkflowRunCancelBodyParam &
   RequestParameters;
 
-export interface ListWorkflowTasksQueryParamProperties {
+export interface WorkflowTasksListQueryParamProperties {
   /** To filter user's sent, received or history workflow tasks. */
   viewMode?: string;
   /** Filter items by workflow id list. */
   workflowIds?: Array<string>;
   /** Time window of filtering items. */
   timeWindow?: "1d" | "7d" | "30d" | "90d";
-  /** The maximum page size to get the items at one time. */
+  /** The maximum page size to get the items at one time. The default value is 100. */
   maxpagesize?: number;
   /** The key word which used to sort the results. */
   orderby?:
@@ -135,70 +155,76 @@ export interface ListWorkflowTasksQueryParamProperties {
     | "sent"
     | "received"
     | "history"
+    | "mine"
+    | "admin"
   >;
+  /** Requestors' ids to filter. */
+  requestors?: Array<string>;
+  /** Assignees' ids to filter. */
+  assignees?: Array<string>;
   /** The key word which could used to filter workflow item with related workflow. */
   workflowNameKeyword?: string;
 }
 
-export interface ListWorkflowTasksQueryParam {
-  queryParameters?: ListWorkflowTasksQueryParamProperties;
+export interface WorkflowTasksListQueryParam {
+  queryParameters?: WorkflowTasksListQueryParamProperties;
 }
 
-export type ListWorkflowTasksParameters = ListWorkflowTasksQueryParam & RequestParameters;
-export type GetWorkflowTaskParameters = RequestParameters;
+export type WorkflowTasksListParameters = WorkflowTasksListQueryParam & RequestParameters;
+export type WorkflowTaskGetParameters = RequestParameters;
 
-export interface ApproveApprovalTaskBodyParam {
-  /** The request body of approving an approval request. */
-  body: ApprovalResponseComment;
-}
-
-export interface ApproveApprovalTaskMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type ApproveApprovalTaskParameters = ApproveApprovalTaskMediaTypesParam &
-  ApproveApprovalTaskBodyParam &
-  RequestParameters;
-
-export interface RejectApprovalTaskBodyParam {
-  /** The request body of rejecting an approval request. */
-  body: ApprovalResponseComment;
-}
-
-export interface RejectApprovalTaskMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type RejectApprovalTaskParameters = RejectApprovalTaskMediaTypesParam &
-  RejectApprovalTaskBodyParam &
-  RequestParameters;
-
-export interface ReassignWorkflowTaskBodyParam {
+export interface WorkflowTaskReassignBodyParam {
   /** The request body of reassigning a workflow task. */
   body: ReassignCommand;
 }
 
-export interface ReassignWorkflowTaskMediaTypesParam {
+export interface WorkflowTaskReassignMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type ReassignWorkflowTaskParameters = ReassignWorkflowTaskMediaTypesParam &
-  ReassignWorkflowTaskBodyParam &
+export type WorkflowTaskReassignParameters = WorkflowTaskReassignMediaTypesParam &
+  WorkflowTaskReassignBodyParam &
   RequestParameters;
 
-export interface UpdateTaskStatusBodyParam {
+export interface ApprovalApproveBodyParam {
+  /** The request body of approving an approval type of workflow task. */
+  body: ApprovalResponseComment;
+}
+
+export interface ApprovalApproveMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type ApprovalApproveParameters = ApprovalApproveMediaTypesParam &
+  ApprovalApproveBodyParam &
+  RequestParameters;
+
+export interface ApprovalRejectBodyParam {
+  /** The request body of rejecting an approval type of workflow task. */
+  body: ApprovalResponseComment;
+}
+
+export interface ApprovalRejectMediaTypesParam {
+  /** Request content type */
+  contentType?: "application/json";
+}
+
+export type ApprovalRejectParameters = ApprovalRejectMediaTypesParam &
+  ApprovalRejectBodyParam &
+  RequestParameters;
+
+export interface TaskStatusUpdateBodyParam {
   /** Request body of updating workflow task request. */
   body: TaskUpdateCommand;
 }
 
-export interface UpdateTaskStatusMediaTypesParam {
+export interface TaskStatusUpdateMediaTypesParam {
   /** Request content type */
   contentType?: "application/json";
 }
 
-export type UpdateTaskStatusParameters = UpdateTaskStatusMediaTypesParam &
-  UpdateTaskStatusBodyParam &
+export type TaskStatusUpdateParameters = TaskStatusUpdateMediaTypesParam &
+  TaskStatusUpdateBodyParam &
   RequestParameters;

@@ -2,34 +2,36 @@
 // Licensed under the MIT license.
 
 import {
-  ListWorkflows200Response,
-  ListWorkflowsDefaultResponse,
-  GetWorkflow200Response,
-  GetWorkflowDefaultResponse,
-  CreateOrReplaceWorkflow200Response,
-  CreateOrReplaceWorkflowDefaultResponse,
-  DeleteWorkflow204Response,
-  DeleteWorkflowDefaultResponse,
-  SubmitUserRequests200Response,
-  SubmitUserRequestsDefaultResponse,
-  ListWorkflowRuns200Response,
-  ListWorkflowRunsDefaultResponse,
-  GetWorkflowRun200Response,
-  GetWorkflowRunDefaultResponse,
-  CancelWorkflowRun200Response,
-  CancelWorkflowRunDefaultResponse,
-  ListWorkflowTasks200Response,
-  ListWorkflowTasksDefaultResponse,
-  GetWorkflowTask200Response,
-  GetWorkflowTaskDefaultResponse,
-  ApproveApprovalTask200Response,
-  ApproveApprovalTaskDefaultResponse,
-  RejectApprovalTask200Response,
-  RejectApprovalTaskDefaultResponse,
-  ReassignWorkflowTask200Response,
-  ReassignWorkflowTaskDefaultResponse,
-  UpdateTaskStatus200Response,
-  UpdateTaskStatusDefaultResponse,
+  WorkflowsList200Response,
+  WorkflowsListDefaultResponse,
+  WorkflowGet200Response,
+  WorkflowGetDefaultResponse,
+  WorkflowCreateOrReplace200Response,
+  WorkflowCreateOrReplaceDefaultResponse,
+  WorkflowDelete204Response,
+  WorkflowDeleteDefaultResponse,
+  WorkflowValidate200Response,
+  WorkflowValidateDefaultResponse,
+  UserRequestsSubmit200Response,
+  UserRequestsSubmitDefaultResponse,
+  WorkflowRunsList200Response,
+  WorkflowRunsListDefaultResponse,
+  WorkflowRunGet200Response,
+  WorkflowRunGetDefaultResponse,
+  WorkflowRunCancel200Response,
+  WorkflowRunCancelDefaultResponse,
+  WorkflowTasksList200Response,
+  WorkflowTasksListDefaultResponse,
+  WorkflowTaskGet200Response,
+  WorkflowTaskGetDefaultResponse,
+  WorkflowTaskReassign200Response,
+  WorkflowTaskReassignDefaultResponse,
+  ApprovalApprove200Response,
+  ApprovalApproveDefaultResponse,
+  ApprovalReject200Response,
+  ApprovalRejectDefaultResponse,
+  TaskStatusUpdate200Response,
+  TaskStatusUpdateDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -37,105 +39,112 @@ const responseMap: Record<string, string[]> = {
   "GET /workflows/{workflowId}": ["200"],
   "PUT /workflows/{workflowId}": ["200"],
   "DELETE /workflows/{workflowId}": ["204"],
+  "POST /workflows/{workflowId}/validate": ["200"],
   "POST /userrequests": ["200"],
   "GET /workflowruns": ["200"],
   "GET /workflowruns/{workflowRunId}": ["200"],
   "POST /workflowruns/{workflowRunId}/cancel": ["200"],
   "GET /workflowtasks": ["200"],
   "GET /workflowtasks/{taskId}": ["200"],
+  "POST /workflowtasks/{taskId}/reassign": ["200"],
   "POST /workflowtasks/{taskId}/approve-approval": ["200"],
   "POST /workflowtasks/{taskId}/reject-approval": ["200"],
-  "POST /workflowtasks/{taskId}/reassign": ["200"],
   "POST /workflowtasks/{taskId}/change-task-status": ["200"],
 };
 
 export function isUnexpected(
-  response: ListWorkflows200Response | ListWorkflowsDefaultResponse
-): response is ListWorkflowsDefaultResponse;
+  response: WorkflowsList200Response | WorkflowsListDefaultResponse
+): response is WorkflowsListDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflow200Response | GetWorkflowDefaultResponse
-): response is GetWorkflowDefaultResponse;
+  response: WorkflowGet200Response | WorkflowGetDefaultResponse
+): response is WorkflowGetDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse
-): response is CreateOrReplaceWorkflowDefaultResponse;
+  response: WorkflowCreateOrReplace200Response | WorkflowCreateOrReplaceDefaultResponse
+): response is WorkflowCreateOrReplaceDefaultResponse;
 export function isUnexpected(
-  response: DeleteWorkflow204Response | DeleteWorkflowDefaultResponse
-): response is DeleteWorkflowDefaultResponse;
+  response: WorkflowDelete204Response | WorkflowDeleteDefaultResponse
+): response is WorkflowDeleteDefaultResponse;
 export function isUnexpected(
-  response: SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse
-): response is SubmitUserRequestsDefaultResponse;
+  response: WorkflowValidate200Response | WorkflowValidateDefaultResponse
+): response is WorkflowValidateDefaultResponse;
 export function isUnexpected(
-  response: ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse
-): response is ListWorkflowRunsDefaultResponse;
+  response: UserRequestsSubmit200Response | UserRequestsSubmitDefaultResponse
+): response is UserRequestsSubmitDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflowRun200Response | GetWorkflowRunDefaultResponse
-): response is GetWorkflowRunDefaultResponse;
+  response: WorkflowRunsList200Response | WorkflowRunsListDefaultResponse
+): response is WorkflowRunsListDefaultResponse;
 export function isUnexpected(
-  response: CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse
-): response is CancelWorkflowRunDefaultResponse;
+  response: WorkflowRunGet200Response | WorkflowRunGetDefaultResponse
+): response is WorkflowRunGetDefaultResponse;
 export function isUnexpected(
-  response: ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse
-): response is ListWorkflowTasksDefaultResponse;
+  response: WorkflowRunCancel200Response | WorkflowRunCancelDefaultResponse
+): response is WorkflowRunCancelDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse
-): response is GetWorkflowTaskDefaultResponse;
+  response: WorkflowTasksList200Response | WorkflowTasksListDefaultResponse
+): response is WorkflowTasksListDefaultResponse;
 export function isUnexpected(
-  response: ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse
-): response is ApproveApprovalTaskDefaultResponse;
+  response: WorkflowTaskGet200Response | WorkflowTaskGetDefaultResponse
+): response is WorkflowTaskGetDefaultResponse;
 export function isUnexpected(
-  response: RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse
-): response is RejectApprovalTaskDefaultResponse;
+  response: WorkflowTaskReassign200Response | WorkflowTaskReassignDefaultResponse
+): response is WorkflowTaskReassignDefaultResponse;
 export function isUnexpected(
-  response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse
-): response is ReassignWorkflowTaskDefaultResponse;
+  response: ApprovalApprove200Response | ApprovalApproveDefaultResponse
+): response is ApprovalApproveDefaultResponse;
 export function isUnexpected(
-  response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse
-): response is UpdateTaskStatusDefaultResponse;
+  response: ApprovalReject200Response | ApprovalRejectDefaultResponse
+): response is ApprovalRejectDefaultResponse;
+export function isUnexpected(
+  response: TaskStatusUpdate200Response | TaskStatusUpdateDefaultResponse
+): response is TaskStatusUpdateDefaultResponse;
 export function isUnexpected(
   response:
-    | ListWorkflows200Response
-    | ListWorkflowsDefaultResponse
-    | GetWorkflow200Response
-    | GetWorkflowDefaultResponse
-    | CreateOrReplaceWorkflow200Response
-    | CreateOrReplaceWorkflowDefaultResponse
-    | DeleteWorkflow204Response
-    | DeleteWorkflowDefaultResponse
-    | SubmitUserRequests200Response
-    | SubmitUserRequestsDefaultResponse
-    | ListWorkflowRuns200Response
-    | ListWorkflowRunsDefaultResponse
-    | GetWorkflowRun200Response
-    | GetWorkflowRunDefaultResponse
-    | CancelWorkflowRun200Response
-    | CancelWorkflowRunDefaultResponse
-    | ListWorkflowTasks200Response
-    | ListWorkflowTasksDefaultResponse
-    | GetWorkflowTask200Response
-    | GetWorkflowTaskDefaultResponse
-    | ApproveApprovalTask200Response
-    | ApproveApprovalTaskDefaultResponse
-    | RejectApprovalTask200Response
-    | RejectApprovalTaskDefaultResponse
-    | ReassignWorkflowTask200Response
-    | ReassignWorkflowTaskDefaultResponse
-    | UpdateTaskStatus200Response
-    | UpdateTaskStatusDefaultResponse
+    | WorkflowsList200Response
+    | WorkflowsListDefaultResponse
+    | WorkflowGet200Response
+    | WorkflowGetDefaultResponse
+    | WorkflowCreateOrReplace200Response
+    | WorkflowCreateOrReplaceDefaultResponse
+    | WorkflowDelete204Response
+    | WorkflowDeleteDefaultResponse
+    | WorkflowValidate200Response
+    | WorkflowValidateDefaultResponse
+    | UserRequestsSubmit200Response
+    | UserRequestsSubmitDefaultResponse
+    | WorkflowRunsList200Response
+    | WorkflowRunsListDefaultResponse
+    | WorkflowRunGet200Response
+    | WorkflowRunGetDefaultResponse
+    | WorkflowRunCancel200Response
+    | WorkflowRunCancelDefaultResponse
+    | WorkflowTasksList200Response
+    | WorkflowTasksListDefaultResponse
+    | WorkflowTaskGet200Response
+    | WorkflowTaskGetDefaultResponse
+    | WorkflowTaskReassign200Response
+    | WorkflowTaskReassignDefaultResponse
+    | ApprovalApprove200Response
+    | ApprovalApproveDefaultResponse
+    | ApprovalReject200Response
+    | ApprovalRejectDefaultResponse
+    | TaskStatusUpdate200Response
+    | TaskStatusUpdateDefaultResponse
 ): response is
-  | ListWorkflowsDefaultResponse
-  | GetWorkflowDefaultResponse
-  | CreateOrReplaceWorkflowDefaultResponse
-  | DeleteWorkflowDefaultResponse
-  | SubmitUserRequestsDefaultResponse
-  | ListWorkflowRunsDefaultResponse
-  | GetWorkflowRunDefaultResponse
-  | CancelWorkflowRunDefaultResponse
-  | ListWorkflowTasksDefaultResponse
-  | GetWorkflowTaskDefaultResponse
-  | ApproveApprovalTaskDefaultResponse
-  | RejectApprovalTaskDefaultResponse
-  | ReassignWorkflowTaskDefaultResponse
-  | UpdateTaskStatusDefaultResponse {
+  | WorkflowsListDefaultResponse
+  | WorkflowGetDefaultResponse
+  | WorkflowCreateOrReplaceDefaultResponse
+  | WorkflowDeleteDefaultResponse
+  | WorkflowValidateDefaultResponse
+  | UserRequestsSubmitDefaultResponse
+  | WorkflowRunsListDefaultResponse
+  | WorkflowRunGetDefaultResponse
+  | WorkflowRunCancelDefaultResponse
+  | WorkflowTasksListDefaultResponse
+  | WorkflowTaskGetDefaultResponse
+  | WorkflowTaskReassignDefaultResponse
+  | ApprovalApproveDefaultResponse
+  | ApprovalRejectDefaultResponse
+  | TaskStatusUpdateDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

@@ -2,170 +2,182 @@
 // Licensed under the MIT license.
 
 import {
-  ListWorkflowsParameters,
-  GetWorkflowParameters,
-  CreateOrReplaceWorkflowParameters,
-  DeleteWorkflowParameters,
-  SubmitUserRequestsParameters,
-  ListWorkflowRunsParameters,
-  GetWorkflowRunParameters,
-  CancelWorkflowRunParameters,
-  ListWorkflowTasksParameters,
-  GetWorkflowTaskParameters,
-  ApproveApprovalTaskParameters,
-  RejectApprovalTaskParameters,
-  ReassignWorkflowTaskParameters,
-  UpdateTaskStatusParameters,
+  WorkflowsListParameters,
+  WorkflowGetParameters,
+  WorkflowCreateOrReplaceParameters,
+  WorkflowDeleteParameters,
+  WorkflowValidateParameters,
+  UserRequestsSubmitParameters,
+  WorkflowRunsListParameters,
+  WorkflowRunGetParameters,
+  WorkflowRunCancelParameters,
+  WorkflowTasksListParameters,
+  WorkflowTaskGetParameters,
+  WorkflowTaskReassignParameters,
+  ApprovalApproveParameters,
+  ApprovalRejectParameters,
+  TaskStatusUpdateParameters,
 } from "./parameters";
 import {
-  ListWorkflows200Response,
-  ListWorkflowsDefaultResponse,
-  GetWorkflow200Response,
-  GetWorkflowDefaultResponse,
-  CreateOrReplaceWorkflow200Response,
-  CreateOrReplaceWorkflowDefaultResponse,
-  DeleteWorkflow204Response,
-  DeleteWorkflowDefaultResponse,
-  SubmitUserRequests200Response,
-  SubmitUserRequestsDefaultResponse,
-  ListWorkflowRuns200Response,
-  ListWorkflowRunsDefaultResponse,
-  GetWorkflowRun200Response,
-  GetWorkflowRunDefaultResponse,
-  CancelWorkflowRun200Response,
-  CancelWorkflowRunDefaultResponse,
-  ListWorkflowTasks200Response,
-  ListWorkflowTasksDefaultResponse,
-  GetWorkflowTask200Response,
-  GetWorkflowTaskDefaultResponse,
-  ApproveApprovalTask200Response,
-  ApproveApprovalTaskDefaultResponse,
-  RejectApprovalTask200Response,
-  RejectApprovalTaskDefaultResponse,
-  ReassignWorkflowTask200Response,
-  ReassignWorkflowTaskDefaultResponse,
-  UpdateTaskStatus200Response,
-  UpdateTaskStatusDefaultResponse,
+  WorkflowsList200Response,
+  WorkflowsListDefaultResponse,
+  WorkflowGet200Response,
+  WorkflowGetDefaultResponse,
+  WorkflowCreateOrReplace200Response,
+  WorkflowCreateOrReplaceDefaultResponse,
+  WorkflowDelete204Response,
+  WorkflowDeleteDefaultResponse,
+  WorkflowValidate200Response,
+  WorkflowValidateDefaultResponse,
+  UserRequestsSubmit200Response,
+  UserRequestsSubmitDefaultResponse,
+  WorkflowRunsList200Response,
+  WorkflowRunsListDefaultResponse,
+  WorkflowRunGet200Response,
+  WorkflowRunGetDefaultResponse,
+  WorkflowRunCancel200Response,
+  WorkflowRunCancelDefaultResponse,
+  WorkflowTasksList200Response,
+  WorkflowTasksListDefaultResponse,
+  WorkflowTaskGet200Response,
+  WorkflowTaskGetDefaultResponse,
+  WorkflowTaskReassign200Response,
+  WorkflowTaskReassignDefaultResponse,
+  ApprovalApprove200Response,
+  ApprovalApproveDefaultResponse,
+  ApprovalReject200Response,
+  ApprovalRejectDefaultResponse,
+  TaskStatusUpdate200Response,
+  TaskStatusUpdateDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface ListWorkflows {
+export interface WorkflowsList {
   /** List all workflows. */
   get(
-    options?: ListWorkflowsParameters
-  ): StreamableMethod<ListWorkflows200Response | ListWorkflowsDefaultResponse>;
+    options?: WorkflowsListParameters
+  ): StreamableMethod<WorkflowsList200Response | WorkflowsListDefaultResponse>;
 }
 
-export interface GetWorkflow {
+export interface WorkflowGet {
   /** Get a specific workflow. */
   get(
-    options?: GetWorkflowParameters
-  ): StreamableMethod<GetWorkflow200Response | GetWorkflowDefaultResponse>;
+    options?: WorkflowGetParameters
+  ): StreamableMethod<WorkflowGet200Response | WorkflowGetDefaultResponse>;
   /** Create or replace a workflow. */
   put(
-    options: CreateOrReplaceWorkflowParameters
-  ): StreamableMethod<CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse>;
+    options: WorkflowCreateOrReplaceParameters
+  ): StreamableMethod<WorkflowCreateOrReplace200Response | WorkflowCreateOrReplaceDefaultResponse>;
   /** Delete a workflow. */
   delete(
-    options?: DeleteWorkflowParameters
-  ): StreamableMethod<DeleteWorkflow204Response | DeleteWorkflowDefaultResponse>;
+    options?: WorkflowDeleteParameters
+  ): StreamableMethod<WorkflowDelete204Response | WorkflowDeleteDefaultResponse>;
 }
 
-export interface SubmitUserRequests {
+export interface WorkflowValidate {
+  /** Validate a workflow. */
+  post(
+    options: WorkflowValidateParameters
+  ): StreamableMethod<WorkflowValidate200Response | WorkflowValidateDefaultResponse>;
+}
+
+export interface UserRequestsSubmit {
   /** Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. */
   post(
-    options: SubmitUserRequestsParameters
-  ): StreamableMethod<SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse>;
+    options: UserRequestsSubmitParameters
+  ): StreamableMethod<UserRequestsSubmit200Response | UserRequestsSubmitDefaultResponse>;
 }
 
-export interface ListWorkflowRuns {
+export interface WorkflowRunsList {
   /** List workflow runs. */
   get(
-    options?: ListWorkflowRunsParameters
-  ): StreamableMethod<ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse>;
+    options?: WorkflowRunsListParameters
+  ): StreamableMethod<WorkflowRunsList200Response | WorkflowRunsListDefaultResponse>;
 }
 
-export interface GetWorkflowRun {
+export interface WorkflowRunGet {
   /** Get a workflow run. */
   get(
-    options?: GetWorkflowRunParameters
-  ): StreamableMethod<GetWorkflowRun200Response | GetWorkflowRunDefaultResponse>;
+    options?: WorkflowRunGetParameters
+  ): StreamableMethod<WorkflowRunGet200Response | WorkflowRunGetDefaultResponse>;
 }
 
-export interface CancelWorkflowRun {
+export interface WorkflowRunCancel {
   /** Cancel a workflow run. */
   post(
-    options: CancelWorkflowRunParameters
-  ): StreamableMethod<CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse>;
+    options: WorkflowRunCancelParameters
+  ): StreamableMethod<WorkflowRunCancel200Response | WorkflowRunCancelDefaultResponse>;
 }
 
-export interface ListWorkflowTasks {
+export interface WorkflowTasksList {
   /** Get all workflow tasks. */
   get(
-    options?: ListWorkflowTasksParameters
-  ): StreamableMethod<ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse>;
+    options?: WorkflowTasksListParameters
+  ): StreamableMethod<WorkflowTasksList200Response | WorkflowTasksListDefaultResponse>;
 }
 
-export interface GetWorkflowTask {
+export interface WorkflowTaskGet {
   /** Get a workflow task. */
   get(
-    options?: GetWorkflowTaskParameters
-  ): StreamableMethod<GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse>;
+    options?: WorkflowTaskGetParameters
+  ): StreamableMethod<WorkflowTaskGet200Response | WorkflowTaskGetDefaultResponse>;
 }
 
-export interface ApproveApprovalTask {
-  /** Approve an approval task. */
-  post(
-    options: ApproveApprovalTaskParameters
-  ): StreamableMethod<ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse>;
-}
-
-export interface RejectApprovalTask {
-  /** Reject an approval task. */
-  post(
-    options: RejectApprovalTaskParameters
-  ): StreamableMethod<RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse>;
-}
-
-export interface ReassignWorkflowTask {
+export interface WorkflowTaskReassign {
   /** Reassign a workflow task. */
   post(
-    options: ReassignWorkflowTaskParameters
-  ): StreamableMethod<ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse>;
+    options: WorkflowTaskReassignParameters
+  ): StreamableMethod<WorkflowTaskReassign200Response | WorkflowTaskReassignDefaultResponse>;
 }
 
-export interface UpdateTaskStatus {
+export interface ApprovalApprove {
+  /** Approve an approval. */
+  post(
+    options: ApprovalApproveParameters
+  ): StreamableMethod<ApprovalApprove200Response | ApprovalApproveDefaultResponse>;
+}
+
+export interface ApprovalReject {
+  /** Reject an approval. */
+  post(
+    options: ApprovalRejectParameters
+  ): StreamableMethod<ApprovalReject200Response | ApprovalRejectDefaultResponse>;
+}
+
+export interface TaskStatusUpdate {
   /** Update the status of a workflow task request. */
   post(
-    options: UpdateTaskStatusParameters
-  ): StreamableMethod<UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse>;
+    options: TaskStatusUpdateParameters
+  ): StreamableMethod<TaskStatusUpdate200Response | TaskStatusUpdateDefaultResponse>;
 }
 
 export interface Routes {
   /** Resource for '/workflows' has methods for the following verbs: get */
-  (path: "/workflows"): ListWorkflows;
+  (path: "/workflows"): WorkflowsList;
   /** Resource for '/workflows/\{workflowId\}' has methods for the following verbs: get, put, delete */
-  (path: "/workflows/{workflowId}", workflowId: string): GetWorkflow;
+  (path: "/workflows/{workflowId}", workflowId: string): WorkflowGet;
+  /** Resource for '/workflows/\{workflowId\}/validate' has methods for the following verbs: post */
+  (path: "/workflows/{workflowId}/validate", workflowId: string): WorkflowValidate;
   /** Resource for '/userrequests' has methods for the following verbs: post */
-  (path: "/userrequests"): SubmitUserRequests;
+  (path: "/userrequests"): UserRequestsSubmit;
   /** Resource for '/workflowruns' has methods for the following verbs: get */
-  (path: "/workflowruns"): ListWorkflowRuns;
+  (path: "/workflowruns"): WorkflowRunsList;
   /** Resource for '/workflowruns/\{workflowRunId\}' has methods for the following verbs: get */
-  (path: "/workflowruns/{workflowRunId}", workflowRunId: string): GetWorkflowRun;
+  (path: "/workflowruns/{workflowRunId}", workflowRunId: string): WorkflowRunGet;
   /** Resource for '/workflowruns/\{workflowRunId\}/cancel' has methods for the following verbs: post */
-  (path: "/workflowruns/{workflowRunId}/cancel", workflowRunId: string): CancelWorkflowRun;
+  (path: "/workflowruns/{workflowRunId}/cancel", workflowRunId: string): WorkflowRunCancel;
   /** Resource for '/workflowtasks' has methods for the following verbs: get */
-  (path: "/workflowtasks"): ListWorkflowTasks;
+  (path: "/workflowtasks"): WorkflowTasksList;
   /** Resource for '/workflowtasks/\{taskId\}' has methods for the following verbs: get */
-  (path: "/workflowtasks/{taskId}", taskId: string): GetWorkflowTask;
-  /** Resource for '/workflowtasks/\{taskId\}/approve-approval' has methods for the following verbs: post */
-  (path: "/workflowtasks/{taskId}/approve-approval", taskId: string): ApproveApprovalTask;
-  /** Resource for '/workflowtasks/\{taskId\}/reject-approval' has methods for the following verbs: post */
-  (path: "/workflowtasks/{taskId}/reject-approval", taskId: string): RejectApprovalTask;
+  (path: "/workflowtasks/{taskId}", taskId: string): WorkflowTaskGet;
   /** Resource for '/workflowtasks/\{taskId\}/reassign' has methods for the following verbs: post */
-  (path: "/workflowtasks/{taskId}/reassign", taskId: string): ReassignWorkflowTask;
+  (path: "/workflowtasks/{taskId}/reassign", taskId: string): WorkflowTaskReassign;
+  /** Resource for '/workflowtasks/\{taskId\}/approve-approval' has methods for the following verbs: post */
+  (path: "/workflowtasks/{taskId}/approve-approval", taskId: string): ApprovalApprove;
+  /** Resource for '/workflowtasks/\{taskId\}/reject-approval' has methods for the following verbs: post */
+  (path: "/workflowtasks/{taskId}/reject-approval", taskId: string): ApprovalReject;
   /** Resource for '/workflowtasks/\{taskId\}/change-task-status' has methods for the following verbs: post */
-  (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): UpdateTaskStatus;
+  (path: "/workflowtasks/{taskId}/change-task-status", taskId: string): TaskStatusUpdate;
 }
 
 export type PurviewWorkflowClient = Client & {

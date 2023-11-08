@@ -60,7 +60,7 @@ The following section provides several code snippets covering some of the most c
 
 ```typescript
 import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters
+  UserRequestsSubmitParameters
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -76,7 +76,7 @@ async function userRequestsSubmit() {
 
   const credential = new UsernamePasswordCredential(tenantId , clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
-  const options: SubmitUserRequestsParameters = {
+  const options: UserRequestsSubmitParameters = {
     body: {
       comment: "Thanks!",
       operations: [
@@ -109,7 +109,7 @@ userRequestsSubmit().catch(console.error);
 ```typescript
 // This taskId represents an existing workflow task. The id can be obtained by calling GET /workflowtasks API.
 import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters
+  UserRequestsSubmitParameters
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -124,7 +124,7 @@ async function approvalTaskApprove() {
   const credential = new UsernamePasswordCredential(tenantId, clientId, username, password);
   const client = createPurviewWorkflowClient(endpoint, credential);
   const taskId = "98d98e2c-23fa-4157-a3f8-ff8ce5cc095c";
-  const options: ApproveApprovalTaskParameters = {
+  const options: ApprovalApproveParameters = {
     body: { comment: "Thanks for raising this!" }
   };
   const result = await client

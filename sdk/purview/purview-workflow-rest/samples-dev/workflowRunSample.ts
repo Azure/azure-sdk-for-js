@@ -4,8 +4,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import createPurviewWorkflowClient, {
-  CancelWorkflowRunParameters,
-  ListWorkflowRunsParameters,
+  WorkflowRunCancelParameters,
+  WorkflowRunsListParameters,
   PurviewWorkflowClient,
   isUnexpected,
   paginate,
@@ -23,7 +23,7 @@ dotenv.config();
  */
 async function workflowRunsList(
   client: PurviewWorkflowClient,
-  queryParameter: ListWorkflowRunsParameters
+  queryParameter: WorkflowRunsListParameters
 ) {
   const initialResponse = await client.path("/workflowruns").get(queryParameter);
 
@@ -63,7 +63,7 @@ async function workflowRunGet(client: PurviewWorkflowClient, workflowRunId: stri
 async function workflowRunCancel(
   client: PurviewWorkflowClient,
   workflowRunId: string,
-  cancelReply: CancelWorkflowRunParameters
+  cancelReply: WorkflowRunCancelParameters
 ) {
   const result = await client
     .path("/workflowruns/{workflowRunId}/cancel", workflowRunId)
@@ -87,7 +87,7 @@ async function main() {
 
   // ================================================== List workflow runs ==================================================
 
-  const queryParameters: ListWorkflowRunsParameters = {
+  const queryParameters: WorkflowRunsListParameters = {
     queryParameters: {
       timeWindow: "30d",
       orderby: "startTime desc",
@@ -108,7 +108,7 @@ async function main() {
   // ================================================== Cancel a workflow run ==================================================
 
   const workflowRunId2 = "57f9d6d2-b41b-11ed-afa1-0242ac120002"; // This is an example workflow run id, user could get workflow run id from the response of list workflow runs api.
-  const cancelReply: CancelWorkflowRunParameters = { body: { comment: "Thanks!" } }; //This payload is an example payload, please replace the payload with real data.
+  const cancelReply: WorkflowRunCancelParameters = { body: { comment: "Thanks!" } }; //This payload is an example payload, please replace the payload with real data.
 
   workflowRunCancel(client, workflowRunId2, cancelReply);
 }
