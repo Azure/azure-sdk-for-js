@@ -39,9 +39,9 @@
     "lint:fix": "eslint package.json api-extractor.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src --ext .ts",
     "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "vitest -c vitest.browser.config.mts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
