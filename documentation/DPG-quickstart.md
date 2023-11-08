@@ -3,6 +3,16 @@ Getting Started - Generate the DPG libraries with TypeSpec for JavaScript
 
 # Before you start
 
+:warning: **Important**: Only proceed with DPG code generation for JavaScript/TypeScript if you have been explicitly instructed to do so by the AZSDK Architecture Board. Otherwise, please use the [RLC Quickstart Guide](https://aka.ms/azsdk/rlc/js).
+
+:warning: Ensure that your TypeSpec definition has been merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs) before you begin.
+
+For an overview of the review and release process for new libraries, visit: https://aka.ms/azsdk/dpcodegen.
+
+If you have code generation queries, post them in the [TypeSpec Discussion](https://teams.microsoft.com/l/channel/19%3a906c1efbbec54dc8949ac736633e6bdf%40thread.skype/TypeSpec%2520Discussion%2520%25F0%259F%2590%25AE?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel. Tag `@DPG TypeScript` for JavaScript/TypeScript-specific inquiries.
+
+Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5f1322ee4303b02b5da9c5ff6137%40thread.skype/Language%2520-%2520JavaScript%2520-%2520Reviews?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel for assistance with the API review process.
+
 Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
 
 
