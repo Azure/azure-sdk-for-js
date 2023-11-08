@@ -336,11 +336,10 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send custom event to server
+   * Send custom event to server fire and forget
    * @param eventName - The event name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -348,14 +347,22 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendEventOptionsFireAndForget
-  ): Promise<void>
+    options: SendEventOptionsFireAndForget
+  ): Promise<void>;
+  /**
+   * Send custom event to server with ack
+   * @param eventName - The event name
+   * @param content - The data content
+   * @param dataType - The data type
+   * @param options - The options
+   * @param abortSignal - The abort signal
+   */
   public async sendEvent(
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendEventOptionsAsync
-  ): Promise<WebPubSubResult>
+  ): Promise<WebPubSubResult>;
   public async sendEvent(
     eventName: string,
     content: JSONTypes | ArrayBuffer,
@@ -477,11 +484,10 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send message to group.
+   * Send message to group fire and forget.
    * @param groupName - The group name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -489,14 +495,22 @@ export class WebPubSubClient {
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptionsFireAndForget
-  ): Promise<void>
+    options: SendToGroupOptionsFireAndForget
+  ): Promise<void>;
+  /**
+   * Send message to group with ack.
+   * @param groupName - The group name
+   * @param content - The data content
+   * @param dataType - The data type
+   * @param options - The options
+   * @param abortSignal - The abort signal
+   */
   public sendToGroup(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendToGroupOptionsAsync
-  ): Promise<WebPubSubResult>
+  ): Promise<WebPubSubResult>;
   public async sendToGroup(
     groupName: string,
     content: JSONTypes | ArrayBuffer,

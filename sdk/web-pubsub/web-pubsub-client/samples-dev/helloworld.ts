@@ -8,7 +8,6 @@
 import {
   WebPubSubClient,
   WebPubSubClientCredential,
-  SendToGroupOptions,
   GetClientAccessUrlOptions,
 } from "@azure/web-pubsub-client";
 import { WebPubSubServiceClient } from "@azure/web-pubsub";

@@ -108,11 +108,11 @@ export interface SendToGroupOptions {
   /**
    * Whether the message needs to echo to sender
    */
-  noEcho: boolean;
+  noEcho?: boolean;
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: boolean | undefined;
+  fireAndForget?: boolean;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -130,7 +130,7 @@ export interface SendToGroupOptionsFireAndForget {
   /**
    * Whether the message needs to echo to sender
    */
-  noEcho: boolean;
+  noEcho?: boolean;
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
@@ -148,11 +148,11 @@ export interface SendToGroupOptionsAsync {
   /**
    * Whether the message needs to echo to sender
    */
-  noEcho: boolean;
+  noEcho?: boolean;
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: false | undefined;
+  fireAndForget?: false | undefined;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -170,7 +170,7 @@ export interface SendEventOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: boolean | undefined;
+  fireAndForget?: boolean;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -202,7 +202,7 @@ export interface SendEventOptionsAsync {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: false | undefined;
+  fireAndForget?: false | undefined;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
