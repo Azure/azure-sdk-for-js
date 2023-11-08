@@ -59,14 +59,15 @@ const unimplementedMethods = {
  *   global File object is unavailable.
  * - Create a File-like object from a readable stream without reading the stream into memory.
  *
- * @param content - the content of the file as a stream. When a File object made using createFile is
+ * @param stream - the content of the file as a callback returning a stream. When a File object made using createFile is
  *                  passed in a request's form data map, the stream will not be read into memory
- *                  and instead will be streamed when the request is made.
+ *                  and instead will be streamed when the request is made. In the event of a retry, the
+ *                  stream needs to be read again, so this callback SHOULD return a fresh stream if possible.
  * @param name - the name of the file.
  * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
  */
 export function createFileFromStream(
-  content: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+  stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
   name: string,
   options: CreateFileFromStreamOptions = {}
 ): File {
@@ -77,7 +78,7 @@ export function createFileFromStream(
     webkitRelativePath: options.webkitRelativePath ?? "",
     size: options.size ?? -1,
     name,
-    stream: () => toWebStream(content),
+    stream: () => toWebStream(stream()),
   };
 }
 

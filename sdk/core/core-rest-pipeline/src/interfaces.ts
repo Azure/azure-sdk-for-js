@@ -57,7 +57,7 @@ export interface BodyPart {
   headers: HttpHeaders;
 
   /**
-   * The body of this multipart request.
+   * The body of this part of the multipart request.
    */
   body: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob;
 }

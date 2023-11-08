@@ -13,7 +13,7 @@ import { ReadableStream } from "stream/web";
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
     const result = await performRequest({
-      file: createFileFromStream(Readable.from(Buffer.from("aaa")), "file.bin", {
+      file: createFileFromStream(() => Readable.from(Buffer.from("aaa")), "file.bin", {
         type: "text/plain",
       }),
     });

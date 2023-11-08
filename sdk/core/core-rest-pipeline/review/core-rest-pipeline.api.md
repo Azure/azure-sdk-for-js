@@ -97,7 +97,7 @@ export function createEmptyPipeline(): Pipeline;
 export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
 
 // @public
-export function createFileFromStream(content: ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
 
 // @public
 export interface CreateFileFromStreamOptions extends CreateFileOptions {
