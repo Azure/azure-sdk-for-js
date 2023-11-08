@@ -13,27 +13,54 @@ If you have code generation queries, post them in the [TypeSpec Discussion](http
 
 Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5f1322ee4303b02b5da9c5ff6137%40thread.skype/Language%2520-%2520JavaScript%2520-%2520Reviews?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel for assistance with the API review process.
 
-Please refer to this [link](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for the environment set up prerequisites in azure-sdk-for-js repository.
+## Prerequisites
 
+- Node.js 18 or later.
+- Install Rush with `npm install -g @microsoft/rush`.
 
-# Project folder structure and name convention
+## Setting up your development environment
 
-If you are the first time to prepare the SDK, please follow the Azure SDK guidance and discuss with architects to decide the project folder and name convention for DPG libraries.
+Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
+
+## Identifying your project's service and package names
+
+The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
+
+The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}` or `@azure/{service-name}-{module}` for services with multiple modules.
+
+# Structure your project
 
 1. SDK Repo Root.
-   The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+  The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
 1. Project Folder Structure.  
-   Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}`. For example, we have `sdk/agrifood/agrifood-farming` folder for Farmbeats account modules under {SDK_REPO_ROOT}. That folder will be your **${PROJECT_ROOT} folder**.  
-1. Package Name Convention.  
-   The package name for DPG is something like `@azure/{servicename}-{modulename}`. For example, the package name for Farmbeats module is `@azure/agrifood-farming`.
+   The typical structure is `sdk/{servicename}/{servicename}-{modulename}`, e.g., `sdk/storage/storage-blob`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
+2. Package Name Convention.  
+   Follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`..
 
 
 # How to generate DPG
 
-We are working on to automatically generate everything right now, but currently we still need some manual work to get a releasable package. Here're the steps of how to get the package.
+1. **Configure tspconfig.yaml in spec repository**
+   In your specs repository, update or create `tspconfig.yaml` to configure the TypeScript emitter. Replace `YOUR_SERVICE_DIRECTORY` and `YOUR_PACKAGE_NAME` with your specific details.
 
-1. **Configure your tsp-location.yaml**  
+   ```yaml
+   parameters:
+     "service-dir":
+       default: "YOUR_SERVICE_DIRECTORY"
+
+   emit: ["@azure-tools/typespec-ts"]
+
+   options:
+     "@azure-tools/typespec-ts":
+       isModularLibrary: true
+       packageDetails:
+         name: YOUR_PACKAGE_NAME
+         description: "SHORT_DESCRIPTION"
+         version: "1.0.0-beta.1"
+   ```
+
+2. **Configure tsp-location.yaml in SDK repository**  
    
    You can update `tsp-location.yaml` under project root folder to set the typespec project. You can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
    
@@ -56,7 +83,7 @@ We are working on to automatically generate everything right now, but currently 
 
    --- 
 
-2. **Generate code**
+3. **Generate code**
 
     Run the following two scripts from project directory (i.e sdk/agrifood/agrifood-farming) to generate the code:
 
@@ -73,7 +100,7 @@ We are working on to automatically generate everything right now, but currently 
 
     The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
 
-3. **Edit rush.json**  
+4. **Edit rush.json**  
     As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
@@ -93,7 +120,7 @@ We are working on to automatically generate everything right now, but currently 
 
     --- 
 
-4. **Build your project**  
+5. **Build your project**  
 
     After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
     To get a workable package, you can run the following commands to get a artifact if you like.
