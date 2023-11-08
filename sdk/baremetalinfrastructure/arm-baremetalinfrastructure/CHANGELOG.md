@@ -1,6 +1,6 @@
 # Release History
     
-## 1.0.0-beta.2 (2023-10-08)
+## 1.0.0-beta.2 (2023-11-07)
     
 **Features**
 
@@ -73,4 +73,4 @@
     
 ## 1.0.0-beta.1 (2023-05-23)
 
-The package of @azure/arm-baremetalinfrastructure is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+The package of @azure/arm-baremetalinfrastructure is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
