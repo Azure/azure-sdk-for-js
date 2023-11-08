@@ -35,11 +35,6 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
-export enum KnownOperatorInformationRequestOptions {
-    IncludeOperatorDetails = "IncludeOperatorDetails"
-}
-
-// @public
 export interface ListAvailableCountriesOptions extends OperationOptions {
 }
 
@@ -93,9 +88,6 @@ export interface OperatorInformation {
     operatorDetails?: OperatorDetails;
     phoneNumber?: string;
 }
-
-// @public
-export type OperatorInformationRequestOptions = string;
 
 // @public
 export interface OperatorInformationResult {
@@ -251,7 +243,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 // @public
 export interface SearchOperatorInformationOptions extends OperationOptions {
     // (undocumented)
-    options?: OperatorInformationRequestOptions[];
+    expand?: string[];
 }
 
 // @public

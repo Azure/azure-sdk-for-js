@@ -1404,13 +1404,10 @@ const operatorInformationSearchOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: {
-    parameterPath: {
-      phoneNumbers: ["options", "phoneNumbers"],
-      options: ["options", "options"]
-    },
+    parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
     mapper: { ...Mappers.OperatorInformationRequest, required: true }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

@@ -264,9 +264,20 @@ export const phoneNumbers: OperationParameter = {
   mapper: OperatorInformationRequestMapper
 };
 
-export const options: OperationParameter = {
-  parameterPath: ["options", "options"],
-  mapper: OperatorInformationRequestMapper
+export const expand: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "expand",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
 };
 
 export const nextLink: OperationURLParameter = {

@@ -231,8 +231,6 @@ export interface PurchasedPhoneNumbers {
 export interface OperatorInformationRequest {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
-  /** Options to modify the search to include additional properties in the response. Please note: use of options may affect the cost of the query. */
-  options?: OperatorInformationRequestOptions[];
 }
 
 /** Represents a search result containing format and operator information associated with the requested phone numbers */
@@ -320,20 +318,6 @@ export interface PhoneNumbersReleasePhoneNumberHeaders {
   releaseId?: string;
 }
 
-/** Known values of {@link OperatorInformationRequestOptions} that the service accepts. */
-export enum KnownOperatorInformationRequestOptions {
-  /** IncludeOperatorDetails */
-  IncludeOperatorDetails = "IncludeOperatorDetails"
-}
-
-/**
- * Defines values for OperatorInformationRequestOptions. \
- * {@link KnownOperatorInformationRequestOptions} can be used interchangeably with OperatorInformationRequestOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IncludeOperatorDetails**
- */
-export type OperatorInformationRequestOptions = string;
 /** Defines values for PhoneNumberType. */
 export type PhoneNumberType = "geographic" | "tollFree";
 /** Defines values for PhoneNumberAssignmentType. */
@@ -549,8 +533,8 @@ export interface PhoneNumbersOperatorInformationSearchOptionalParams
   extends coreClient.OperationOptions {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
-  /** Options to modify the search to include additional properties in the response. Please note: use of options may affect the cost of the query. */
-  options?: OperatorInformationRequestOptions[];
+  /** Option to expand returned values beyond the default fields. Please note: additional data requested may result in an increased cost for the query. */
+  expand?: string[];
 }
 
 /** Contains response data for the operatorInformationSearch operation. */

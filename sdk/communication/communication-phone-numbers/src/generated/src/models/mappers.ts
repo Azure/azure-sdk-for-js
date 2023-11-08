@@ -679,17 +679,6 @@ export const OperatorInformationRequest: coreClient.CompositeMapper = {
             }
           }
         }
-      },
-      options: {
-        serializedName: "options",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
       }
     }
   }
