@@ -20,9 +20,9 @@ async function main(): Promise<void> {
   const credential = new InteractiveBrowserCredential({
     clientId,
     tenantId,
-    browserCustomizationOptions:{
-      successMessage: "Authentication Completed. You can close the browser."
-    }
+    browserCustomizationOptions: {
+      successMessage: "Authentication Completed. You can close the browser.",
+    },
   } as InteractiveBrowserCredentialNodeOptions);
 
   const token = await credential.getToken("https://storage.azure.com/.default");
