@@ -6,6 +6,10 @@
 
 - Added `hsmPlatform` property to `KeyProperties`.
 
+### Other Changes
+
+- The default service version is now `7.5-preview.1`.
+
 ## 4.7.2 (2023-08-10)
 
 ### Bugs Fixed
