@@ -186,23 +186,23 @@ export interface ChannelAffinity {
   targetParticipant: CommunicationIdentifier;
 }
 
-interface CustomHeader {
+interface CustomCallingContextHeader {
   key: string;
   value: string;
 }
 
 /** VOIP header. */
-export interface VoipHeader extends CustomHeader {
+export interface VoipHeader extends CustomCallingContextHeader {
   kind: "voip";
 }
 
 /** SIP User To User header. */
-export interface SipUserToUserHeader extends CustomHeader {
+export interface SipUserToUserHeader extends CustomCallingContextHeader {
   kind: "sipuui";
 }
 
 /** SIP Custom header. */
-export interface SipCustomHeader extends CustomHeader {
+export interface SipCustomHeader extends CustomCallingContextHeader {
   kind: "sipx";
 }
 

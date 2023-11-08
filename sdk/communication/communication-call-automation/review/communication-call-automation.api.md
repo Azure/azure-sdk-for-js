@@ -868,16 +868,16 @@ export interface SendDtmfTonesResult {
     operationContext?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "CustomHeader" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "CustomCallingContextHeader" needs to be exported by the entry point index.d.ts
 //
 // @public
-export interface SipCustomHeader extends CustomHeader {
+export interface SipCustomHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipx";
 }
 
 // @public
-export interface SipUserToUserHeader extends CustomHeader {
+export interface SipUserToUserHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "sipuui";
 }
@@ -950,7 +950,7 @@ export enum VoiceKind {
 }
 
 // @public
-export interface VoipHeader extends CustomHeader {
+export interface VoipHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "voip";
 }
