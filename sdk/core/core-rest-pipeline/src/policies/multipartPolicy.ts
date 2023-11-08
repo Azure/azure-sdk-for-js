@@ -120,8 +120,12 @@ export function multipartPolicy(): PipelinePolicy {
         );
       }
 
-      boundary ??= parsedBoundary ?? generateBoundary();
-      assertValidBoundary(boundary);
+      boundary ??= parsedBoundary;
+      if (boundary) {
+        assertValidBoundary(boundary);
+      } else {
+        boundary = generateBoundary();
+      }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
       buildRequestBody(request, request.multipartBody.parts, boundary);
 
