@@ -43,7 +43,7 @@ async function main() {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(`Received message ${Buffer.from(e.message.data).toString("base64")}`);
     } else {
-      console.log(`Received message ${e.message.data}`);
+      console.log(`Received message ${JSON.stringify(e.message.data)}`);
     }
   });
 
@@ -53,7 +53,7 @@ async function main() {
         `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
       );
     } else {
-      console.log(`Received message from ${e.message.group} ${e.message.data}`);
+      console.log(`Received message from ${e.message.group} ${JSON.stringify(e.message.data)}`);
     }
   });
 

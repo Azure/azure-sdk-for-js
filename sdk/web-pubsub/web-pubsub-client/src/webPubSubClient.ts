@@ -609,7 +609,7 @@ export class WebPubSubClient {
         if (this._sequenceAckTask != null) {
           this._sequenceAckTask.abort();
         }
-        reject(new Error(e));
+        reject(e);
       });
 
       client.onclose((code: number, reason: string) => {
