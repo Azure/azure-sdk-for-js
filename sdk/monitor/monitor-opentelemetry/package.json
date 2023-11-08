@@ -87,7 +87,7 @@
   },
   "dependencies": {
     "@azure/functions": "^3.2.0",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.17",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.18",
     "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.5",
     "@opentelemetry/api": "^1.6.0",
     "@opentelemetry/api-logs": "^0.44.0",
