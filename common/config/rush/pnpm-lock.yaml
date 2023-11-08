@@ -1151,6 +1151,7 @@ packages:
   /@azure/msal-browser/2.38.1:
     resolution: {integrity: sha512-NROo7mLpw7aWtj8tWy9ZPz3WWiudwVAOIDZ1K3PPrjDAA4kFYayWlbZiJl1T1sD5Oqwa6FOtwzFSvuUj1CWp6Q==}
     engines: {node: '>=0.8.0'}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
     dependencies:
       '@azure/msal-common': 13.2.1
     dev: false
@@ -1177,23 +1178,20 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-node-extensions/1.0.7:
-    resolution: {integrity: sha512-RAit1BOmxB0lbCV0iQzS08g35NyoQ5/0gi3ALEqByNec5xrCTfAn5uwtA55ZQnvOwUUuxZ3714F9+AUWbA5wSA==}
-    engines: {node: 18 || 20}
-    dependencies:
-      '@azure/msal-common': 14.4.0
-      '@azure/msal-node-runtime': 0.13.6-alpha.0
-      keytar: 7.9.0
-    dev: false
-
-  /@azure/msal-node-runtime/0.13.6-alpha.0:
-    resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
+  /@azure/msal-node-extensions/1.0.0-alpha.25:
+    resolution: {integrity: sha512-7pOUdE2OZO2omA1DBAJhVGHJo8laqw+x5JgV/XLzyogapduAzps3lbM/G3VV+VuEb0KG1QHkpaOF/6eftPssKw==}
+    engines: {node: '>=10'}
     requiresBuild: true
+    dependencies:
+      '@azure/msal-common': 7.6.0
+      keytar: 7.9.0
+      node-addon-api: 5.0.0
     dev: false
 
   /@azure/msal-node/1.18.1:
     resolution: {integrity: sha512-B4kUOWJoN4vD8b3pGJ9Q9mIZhaDb8EnQM1aN0x1otlQgTfzDvEk6rWc6fy8uGdtXqcNddBtiXdc4oRiItroVkA==}
     engines: {node: 10 || 12 || 14 || 16 || 18}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
     dependencies:
       '@azure/msal-common': 13.2.1
       jsonwebtoken: 9.0.1
@@ -6798,6 +6796,10 @@ packages:
 
   /node-addon-api/4.3.0:
     resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
+    dev: false
+
+  /node-addon-api/5.0.0:
+    resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
     dev: false
 
   /node-environment-flags/1.0.6:
@@ -17655,12 +17657,12 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-sEL4zuzPYwXdtekr+31J4IF42zQl4MGDYzaNSYe5OuwxjUUn1NaQOmuRDwtxzVR43OAdlquRFUM4J1+TPqkFdA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-b/TpvLK+jcHCoL5w4FOvUkL8ze1X/qATer/yR0wESsS33pUaIe27SuMMn+8TCdIi8/5uVgkzCzrhaa86Mh2N3w==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure/msal-node': 2.5.1
-      '@azure/msal-node-extensions': 1.0.7
+      '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.36.4_@types+node@14.18.54
       '@types/jws': 3.2.5
       '@types/mocha': 7.0.2
