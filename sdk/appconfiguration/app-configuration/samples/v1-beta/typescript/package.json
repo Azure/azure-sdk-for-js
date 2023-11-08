@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure App Configuration client library samples for TypeScript (Beta)",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -33,12 +33,12 @@
     "@azure/app-configuration": "next",
     "dotenv": "latest",
     "@azure/keyvault-secrets": "^4.2.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/eventgrid": "^4.9.0"
   },
   "devDependencies": {
-    "@types/node": "^16.0.0",
-    "typescript": "~5.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }

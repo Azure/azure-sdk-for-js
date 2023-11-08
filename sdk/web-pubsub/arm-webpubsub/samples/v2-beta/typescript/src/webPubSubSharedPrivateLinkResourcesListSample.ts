@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List shared private link resources
  *
  * @summary List shared private link resources
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubSharedPrivateLinkResources_List.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubSharedPrivateLinkResources_List.json
  */
 async function webPubSubSharedPrivateLinkResourcesList() {
   const subscriptionId =

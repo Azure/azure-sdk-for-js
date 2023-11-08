@@ -1,5 +1,25 @@
 # Release History
 
+## 7.9.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.9.3 (2023-11-07)
+
+### Bugs Fixed
+
+- Throw a retryable error when sending message and link is detached [PR #27557](https://github.com/Azure/azure-sdk-for-js/pull/27557)
+
+### Other Changes
+
+- Add check to ensure argument to `scheduledEnqueueTimeUtc` of `scheduleMessages()` method is an instance of `Date` [PR #27396](https://github.com/Azure/azure-sdk-for-js/pull/27396)
+
 ## 7.9.2 (2023-10-10)
 
 ### Bugs Fixed

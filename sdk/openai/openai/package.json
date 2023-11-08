@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
@@ -75,7 +75,7 @@
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "node",
@@ -101,13 +101,13 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^3.3.0",
+    "@azure/abort-controller": "^1.1.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/core-rest-pipeline": "^1.12.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "builtin-modules": "^3.3.0",
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
@@ -127,22 +127,22 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.2",
-    "nyc": "^15.1.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   },
   "dependencies": {
     "@azure-rest/core-client": "^1.1.4",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-sse": "^1.0.0",
     "@azure/core-lro": "^2.5.3",
-    "@azure/core-rest-pipeline": "^1.10.2",
+    "@azure/core-rest-pipeline": "^1.12.2",
     "@azure/logger": "^1.0.3",
-    "formdata-node": "^5.0.0",
-    "form-data-encoder": "^3.0.0",
+    "formdata-node": "^6.0.0",
+    "form-data-encoder": "^4.0.0",
     "tslib": "^2.4.0"
   },
   "//sampleConfiguration": {

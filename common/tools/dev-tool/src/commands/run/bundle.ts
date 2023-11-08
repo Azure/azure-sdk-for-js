@@ -68,9 +68,9 @@ export default leafCommand(commandInfo, async (options) => {
       "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
     );
   }
-  if (!browserTest && (polyfillNode || injectNodePolyfills)) {
+  if (!browserTest && injectNodePolyfills) {
     log.warn(
-      "This is probably a mistake. --polyfill-node and --inject-node-polyfills should only be used with --browser-test."
+      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
     );
   }
 
@@ -110,6 +110,7 @@ export default leafCommand(commandInfo, async (options) => {
         format: "cjs",
         sourcemap: true,
         exports: "named",
+        esModule: true,
       });
     } catch (error: any) {
       log.error(error);
@@ -180,6 +181,14 @@ export default leafCommand(commandInfo, async (options) => {
         file: `dist-test/index.browser.js`,
         format: "umd",
         sourcemap: true,
+        // Dynamic imports are not supported in `umd` so we have to tell
+        // Rollup to inline it. This will inline dynamic imports instead of
+        // creating new chunks to create a single bundle. Only possible if a
+        // single input is provided. **Note that** this will change the
+        // execution order: A module that is only imported
+        // dynamically will be executed immediately if the dynamic import is
+        // inlined.
+        inlineDynamicImports: true,
       });
     } catch (error: any) {
       log.error(error);
