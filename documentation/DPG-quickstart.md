@@ -13,11 +13,6 @@ If you have code generation queries, post them in the [TypeSpec Discussion](http
 
 Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5f1322ee4303b02b5da9c5ff6137%40thread.skype/Language%2520-%2520JavaScript%2520-%2520Reviews?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel for assistance with the API review process.
 
-## Prerequisites
-
-- Node.js 18 or later.
-- Install Rush with `npm install -g @microsoft/rush`.
-
 ## Setting up your development environment
 
 Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
@@ -26,12 +21,12 @@ Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CON
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
 
-The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}` or `@azure/{service-name}-{module}` for services with multiple modules.
+The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}` or `@azure/{service-name}-{module}` for services with multiple modules.
 
 # Structure your project
 
 1. SDK Repo Root.
-  The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+    The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
 1. Project Folder Structure.  
    The typical structure is `sdk/{servicename}/{servicename}-{modulename}`, e.g., `sdk/storage/storage-blob`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
@@ -42,6 +37,7 @@ The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). I
 # How to generate DPG
 
 1. **Configure tspconfig.yaml in spec repository**
+   
    In your specs repository, update or create `tspconfig.yaml` to configure the TypeScript emitter. Replace `YOUR_SERVICE_DIRECTORY` and `YOUR_PACKAGE_NAME` with your specific details.
 
    ```yaml
@@ -76,12 +72,6 @@ The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). I
    commit: b646a42aa3b7a0ce488d05f1724827ea41d12cf1 # the commit id you'd like to refer for generation
    repo: Azure/azure-rest-api-specs
    ```
-   ---  
-    **NOTE**
-
-    We only allow to release any SDKs in which their TypeSpecs are merged into `Azure/azure-rest-api-specs` main branch so please ensure your TypeSpec pr is merged.
-
-   --- 
 
 3. **Generate code**
 
@@ -101,6 +91,7 @@ The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). I
     The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
 
 4. **Edit rush.json**  
+    
     As the libraries in azure-sdk-for-js repository are managed by rush, you need to add an entry in rush.json under projects section for the first time to make sure it works. For example:
 
     ```
@@ -112,13 +103,6 @@ The `package name` is used when publishing to [NPMJS](https://www.npmjs.com/). I
     ```
 
     Here you also need to replace the `packageName`, `projectFolder` into your own services'.
-
-    ---  
-    **NOTE**
-
-    About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
-
-    --- 
 
 5. **Build your project**  
 
