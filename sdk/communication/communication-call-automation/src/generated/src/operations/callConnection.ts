@@ -34,9 +34,9 @@ import {
   MuteParticipantsRequest,
   CallConnectionMuteOptionalParams,
   CallConnectionMuteResponse,
-  CancelAddParticipantOperationRequest,
-  CallConnectionCancelAddParticipantOperationOptionalParams,
-  CallConnectionCancelAddParticipantOperationResponse,
+  CancelAddParticipantRequest,
+  CallConnectionCancelAddParticipantOptionalParams,
+  CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
   CallConnectionGetParticipantsNextResponse
@@ -256,17 +256,17 @@ export class CallConnectionImpl implements CallConnection {
   /**
    * Cancel add participant operation.
    * @param callConnectionId The call connection Id
-   * @param cancelAddParticipantOperationRequest Cancellation request.
+   * @param cancelAddParticipantRequest Cancellation request.
    * @param options The options parameters.
    */
-  cancelAddParticipantOperation(
+  cancelAddParticipant(
     callConnectionId: string,
-    cancelAddParticipantOperationRequest: CancelAddParticipantOperationRequest,
-    options?: CallConnectionCancelAddParticipantOperationOptionalParams
-  ): Promise<CallConnectionCancelAddParticipantOperationResponse> {
+    cancelAddParticipantRequest: CancelAddParticipantRequest,
+    options?: CallConnectionCancelAddParticipantOptionalParams
+  ): Promise<CallConnectionCancelAddParticipantResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, cancelAddParticipantOperationRequest, options },
-      cancelAddParticipantOperationOperationSpec
+      { callConnectionId, cancelAddParticipantRequest, options },
+      cancelAddParticipantOperationSpec
     );
   }
 
@@ -463,19 +463,19 @@ const muteOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const cancelAddParticipantOperationOperationSpec: coreClient.OperationSpec = {
+const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
   path:
-    "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipantOperation",
+    "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipant",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.CancelAddParticipantOperationResponse
+      bodyMapper: Mappers.CancelAddParticipantResponse
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.cancelAddParticipantOperationRequest,
+  requestBody: Parameters.cancelAddParticipantRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [

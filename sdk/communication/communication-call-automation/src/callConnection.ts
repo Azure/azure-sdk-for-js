@@ -329,6 +329,7 @@ export class CallConnection {
   /** Cancel add participant operation.
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
+   * @param options - Additional attributes for cancel add participant operation.
    */
   public async cancelAddParticipantOperation(
     invitationId: string,
@@ -339,7 +340,7 @@ export class CallConnection {
       operationCallbackUrl: operationCallbackUri,
       ...operationOptions
     } = options;
-    const cancelAddParticipantOperationRequest = {
+    const cancelAddParticipantRequest = {
       invitationId,
       operationContext: options.operationContext,
       operationCallbackUri,
@@ -350,9 +351,9 @@ export class CallConnection {
       repeatabilityRequestID: uuidv4(),
     };
 
-    return this.callConnection.cancelAddParticipantOperation(
+    return this.callConnection.cancelAddParticipant(
       this.callConnectionId,
-      cancelAddParticipantOperationRequest,
+      cancelAddParticipantRequest,
       optionsInternal
     ) as Promise<CancelAddParticipantOperationResult>;
   }

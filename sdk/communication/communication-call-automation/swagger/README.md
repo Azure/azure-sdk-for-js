@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: V2023-10-15
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e69e5794832ca47f89b82907c1fe2bf80e39203f/specification/communication/data-plane/CallAutomation/stable/2023-10-15/communicationservicescallautomation.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1fe6a37e8e0dfb02a2184cf220d75ba9fe238108/specification/communication/data-plane/CallAutomation/stable/2023-10-15/communicationservicescallautomation.json
 package-version: 1.1.0
 model-date-time-as-string: false
 optional-response-headers: true
