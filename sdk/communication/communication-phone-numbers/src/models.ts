@@ -111,7 +111,8 @@ export {
   OperatorDetails,
   OperatorInformation,
   OperatorInformationResult,
-  OperatorNumberType
+  OperatorNumberType,
+  OperatorNumberDetails
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";

@@ -728,6 +728,22 @@ export const OperatorInformation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      numberDetails: {
+        serializedName: "numberDetails",
+        type: {
+          name: "Composite",
+          className: "OperatorNumberDetails"
+        }
+      }
+    }
+  }
+};
+
+export const OperatorNumberDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "OperatorNumberDetails",
+    modelProperties: {
       numberType: {
         serializedName: "numberType",
         type: {

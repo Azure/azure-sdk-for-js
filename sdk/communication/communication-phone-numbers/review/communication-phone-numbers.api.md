@@ -82,16 +82,21 @@ export interface OperatorDetails {
 // @public
 export interface OperatorInformation {
     internationalFormat?: string;
-    isoCountryCode?: string;
     nationalFormat?: string;
-    numberType?: OperatorNumberType;
-    operatorDetails?: OperatorDetails;
+    numberDetails?: OperatorNumberDetails;
     phoneNumber?: string;
 }
 
 // @public
 export interface OperatorInformationResult {
     values?: OperatorInformation[];
+}
+
+// @public
+export interface OperatorNumberDetails {
+    isoCountryCode?: string;
+    numberType?: OperatorNumberType;
+    operatorDetails?: OperatorDetails;
 }
 
 // @public

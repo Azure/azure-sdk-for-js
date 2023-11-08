@@ -250,6 +250,12 @@ export interface OperatorInformation {
   nationalFormat?: string;
   /** International format of the phone number */
   internationalFormat?: string;
+  /** Represents number specific details including information about the number operator */
+  numberDetails?: OperatorNumberDetails;
+}
+
+/** Represents number specific details including information about the number operator */
+export interface OperatorNumberDetails {
   /** Type of service associated with the phone number */
   numberType?: OperatorNumberType;
   /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */

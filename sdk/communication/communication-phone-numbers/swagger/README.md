@@ -11,7 +11,7 @@ package-version: 1.2.1
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-phonenumber-2024-03-01
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f06c540a71c151da105b8b41ef27cbfcfdce7a0f/specification/communication/data-plane/PhoneNumbers/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/cc40f64244f11888518300ca36eedd0e0f055237/specification/communication/data-plane/PhoneNumbers/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

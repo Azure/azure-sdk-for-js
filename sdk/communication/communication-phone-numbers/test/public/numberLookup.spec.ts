@@ -52,11 +52,9 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
     assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
     assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
-    assert.isNull(operatorInformation.values ? operatorInformation.values[0].isoCountryCode : null);
-    assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
-    assert.isNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
+    assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberDetails : null);
 
-    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "expand": [ "operatorDetails","isoCountryCode" ]});
+    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "expand": [ "numberDetails" ]});
 
     resultPhoneNumber = operatorInformation.values
       ? operatorInformation.values[0].phoneNumber
@@ -64,9 +62,10 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
     assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
     assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].isoCountryCode : null);
-    assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].numberDetails : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].numberDetails?.isoCountryCode : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].numberDetails?.numberType : null);
+    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].numberDetails?.operatorDetails : null);
 
   }).timeout(60000);
 });
