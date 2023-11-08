@@ -691,7 +691,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.logPrefix,
             bMessage.messageId
           );
-          this._onError!({
+          await this._onError!({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
@@ -816,7 +816,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  private processCreditError(err: any): void {
+  private async processCreditError(err: any): Promise<void> {
     if (err.name === "AbortError") {
       // if we fail to add credits because the user has asked us to stop
       // then this isn't an error - it's normal.
@@ -830,7 +830,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     // from the user's perspective this is a fatal link error and they should retry
     // opening the link.
-    this._onError!({
+    await this._onError!({
       error,
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
