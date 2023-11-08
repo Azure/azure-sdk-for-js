@@ -25,14 +25,11 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 # Structure your project
 
-1. SDK Repo Root. 
-  The generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
+1. **SDK Repo Root**: the generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
-1. Project Folder Structure.  
-   The typical structure is `sdk/{servicename}/{servicename}-{modulename}-rest`, e.g., `sdk/agrifood/agrifood-farming-rest`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
+1. **Project Folder Structure**: the typical structure is `sdk/{servicename}/{servicename}-{modulename}-rest`, e.g., `sdk/agrifood/agrifood-farming-rest`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
 
-1. Package Name Convention.  
-   Follow the format `@azure-rest/{service-name}-{module}`, like `@azure-rest/agrifood-farming`.
+1. **Package Name Convention**: follow the format `@azure-rest/{service-name}-{module}`, like `@azure-rest/agrifood-farming`.
 
 # Steps to generate RLC
 

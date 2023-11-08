@@ -1,5 +1,5 @@
-Getting Started - Generate the DPG libraries with TypeSpec for JavaScript
-========================================================================
+Getting Started: Generate JavaScript/TypeScript DPG Libraries with TypeSpec
+===========================================================================
 
 # Before you start
 
