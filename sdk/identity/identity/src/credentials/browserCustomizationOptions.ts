@@ -12,10 +12,10 @@ export interface BrowserCustomizationOptions {
     /**
      * Format for error messages for display in browser
      */
-    errorMessage: string;
+    errorMessage?: string;
     /**
      * Format for success messages for display in browser
      */
-    successMessage: string;
+    successMessage?: string;
   };
 }
