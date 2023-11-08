@@ -254,7 +254,7 @@ describe("Test Index metrics", function (this: Suite) {
 
 describe("Test RU Capping query", function (this: Suite) {
   beforeEach(async function () {
-    // await removeAllDatabases();
+    await removeAllDatabases();
   });
 
   it("For Single partition query", async function () {
@@ -305,6 +305,56 @@ describe("Test RU Capping query", function (this: Suite) {
     // Case 4: RU Cap not breached for fetchAll operation
     const { resources: results } = await queryiterator2.fetchAll({ ruCapPerOperation: 40 });
     assert.equal(results.length, 3);
+  });
+
+  it("For Multi partition query", async function () {
+    const collectionId = "testCollection5";
+    const createdContainerMultiPartition = await setupContainer(
+      "RU Capping test db for multi partition",
+      collectionId,
+      20000
+    );
+    createdContainerMultiPartition.items.create({ id: "myId1", pk: "pk1", name: "test1" });
+    createdContainerMultiPartition.items.create({ id: "myId2", pk: "pk2", name: "test2" });
+    createdContainerMultiPartition.items.create({ id: "myId3", pk: "pk2", name: "test2" });
+    createdContainerMultiPartition.items.create({ id: "myId4", pk: "pk3", name: "test3" });
+    createdContainerMultiPartition.items.create({ id: "myId5", pk: "pk3", name: "test3" });
+    createdContainerMultiPartition.items.create({ id: "myId6", pk: "pk3", name: "test3" });
+    createdContainerMultiPartition.items.create({ id: "myId7", pk: "pk3", name: "test4" });
+    createdContainerMultiPartition.items.create({ id: "myId8", pk: "pk3", name: "test4" }); 
+    
+
+    const query =
+      "SELECT count(" +
+      collectionId +
+      ".name) from " +
+      collectionId +
+      " GROUP BY " +
+      collectionId +
+      ".name";
+    const queryOptions: FeedOptions = { maxItemCount: 1 };
+    const queryIterator = createdContainerMultiPartition.items.query(query, queryOptions);
+    // Case 1: RU Cap breached for a single operation
+    // try {
+    //   await queryIterator.fetchNext({ ruCapPerOperation: 2 });
+    //   assert.fail("Must throw exception");
+    // } catch (err) {
+    //   console.log("Here goes the error", err);
+    //   assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+    //   assert.ok(err.body);
+    //   assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    // }
+
+    // Case 2: RU Cap breached(Entire data not fetched)
+    try {
+      await queryIterator.fetchNext({ ruCapPerOperation: 10 });
+      assert.fail("Must throw exception");
+    } catch (err) {
+      console.log("Here goes the error", err);
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.body);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    }
   });
 
   async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {

@@ -10,6 +10,7 @@ import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/Diagn
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import { RUCapPerOperationExceededError } from "../request/RUCapPerOperationExceededError";
+// import semaphore from "semaphore";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
@@ -61,6 +62,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.options = options || {};
     this.continuationToken = this.options.continuationToken || this.options.continuation || null;
     this.state = DefaultQueryExecutionContext.STATES.start;
+    // this.ruConsumedSemaphore = semaphore(1);
   }
 
   /**

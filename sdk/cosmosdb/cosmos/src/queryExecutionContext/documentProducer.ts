@@ -7,11 +7,12 @@ import {
   getIdFromLink,
   getPathFromLink,
   ResourceType,
+  RUConsumed,
   StatusCodes,
   SubStatusCodes,
 } from "../common";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions } from "../request";
+import { FeedOptions, OperationOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
@@ -156,14 +157,19 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results and executes the given callback
    */
-  public async bufferMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async bufferMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
     }
 
     try {
+      console.log("DocumentProducer.bufferMore");
       const { result: resources, headers: headerResponse } =
-        await this.internalExecutionContext.fetchMore(diagnosticNode);
+        await this.internalExecutionContext.fetchMore(diagnosticNode, operationOptions, ruConsumed);
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -217,14 +223,19 @@ export class DocumentProducer {
   /**
    * Fetches the next element in the DocumentProducer.
    */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
       throw this.err;
     }
 
     try {
-      const { result, headers } = await this.current(diagnosticNode);
+      console.log("DocumentProducer.nextItem");
+      const { result, headers } = await this.current(diagnosticNode, operationOptions, ruConsumed);
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -249,8 +260,13 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async current(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     // If something is buffered just give that
+    console.log("DocumentProducer.current");
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults[0];
       // Need to unwrap fetch results
@@ -280,11 +296,11 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore(diagnosticNode);
+    const { result, headers } = await this.bufferMore(diagnosticNode, operationOptions, ruConsumed);
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
       return { result: undefined, headers: this.respHeaders };
     }
-    return this.current(diagnosticNode);
+    return this.current(diagnosticNode, operationOptions, ruConsumed);
   }
 }

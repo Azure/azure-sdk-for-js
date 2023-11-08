@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions } from "../request";
+import { Response, FeedOptions, OperationOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -16,6 +16,8 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { RUConsumed } from "../common";
+import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -66,11 +68,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
     ) {
       if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
+        console.log("GroupByValueEndpointComponent");
         this.endpoint = new GroupByValueEndpointComponent(
           this.endpoint,
           partitionedQueryExecutionInfo.queryInfo
         );
       } else {
+        console.log("GroupByEndpointComponent");
         this.endpoint = new GroupByEndpointComponent(
           this.endpoint,
           partitionedQueryExecutionInfo.queryInfo
@@ -109,23 +113,35 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.endpoint.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
     if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore(diagnosticNode);
+      return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumed);
     } else {
+      console.log("fetchMore");
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
-      return this._fetchMoreImplementation(diagnosticNode);
+      return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumed);
     }
   }
 
   private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
+      console.log("fetchMoreImplementation");
+      const { result: item, headers } = await this.endpoint.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumed
+      );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -151,12 +167,19 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation(diagnosticNode);
+          return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumed);
         }
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
+      if (
+        err.code === RUCapPerOperationExceededErrorCode &&
+        err.body &&
+        err.body.fetchedSoFarResults
+      ) {
+        err.body.fetchedSoFarResults.push(...this.fetchBuffer);
+      }
       if (err) {
         throw err;
       }
