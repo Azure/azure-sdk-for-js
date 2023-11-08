@@ -47,8 +47,8 @@ export function toWebStream(
 }
 
 export function toStream(
-  source: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob
-): NodeJS.ReadableStream | ReadableStream {
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+): NodeJS.ReadableStream | ReadableStream<Uint8Array> {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
@@ -61,8 +61,8 @@ export function toStream(
 }
 
 export function concatenateStreams(
-  sources: (ReadableStream | NodeJS.ReadableStream)[]
-): ReadableStream | NodeJS.ReadableStream {
+  sources: (ReadableStream<Uint8Array> | NodeJS.ReadableStream)[]
+): ReadableStream<Uint8Array> | NodeJS.ReadableStream {
   if (sources.some(isWebReadableStream)) {
     throw new Error("Was not expecting a Web stream here");
   }

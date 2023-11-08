@@ -42,12 +42,14 @@ export function assertUint8ArraySame(
 }
 
 export async function assertBodyMatches(
-  actual: RequestBodyType | undefined,
+  resettableActual: RequestBodyType | undefined,
   expected: Uint8Array
 ): Promise<void> {
-  if (!actual) {
+  if (!resettableActual) {
     assert.fail("Expected a request body");
   }
+
+  const actual = typeof resettableActual === "function" ? resettableActual() : resettableActual;
 
   if (isWebReadableStream(actual)) {
     const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());

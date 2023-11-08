@@ -59,7 +59,12 @@ export interface BodyPart {
   /**
    * The body of this part of the multipart request.
    */
-  body: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob;
+  body:
+    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | Uint8Array
+    | Blob;
 }
 
 /**

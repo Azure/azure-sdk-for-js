@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces";
+import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
 import { isBlob } from "../util/typeGuards";
@@ -20,7 +20,13 @@ function encodeHeaders(headers: HttpHeaders): string {
 }
 
 function getLength(
-  source: Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream
+  source:
+    | (() => ReadableStream<Uint8Array>)
+    | (() => NodeJS.ReadableStream)
+    | Uint8Array
+    | Blob
+    | ReadableStream
+    | NodeJS.ReadableStream
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -33,7 +39,14 @@ function getLength(
 }
 
 function getTotalLength(
-  sources: (Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream)[]
+  sources: (
+    | (() => ReadableStream<Uint8Array>)
+    | (() => NodeJS.ReadableStream)
+    | Uint8Array
+    | Blob
+    | ReadableStream
+    | NodeJS.ReadableStream
+  )[]
 ): number | undefined {
   let total = 0;
   for (const source of sources) {
@@ -65,7 +78,10 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = concatenateStreams(sources.map(toStream));
+  request.body = (() =>
+    concatenateStreams(
+      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream)
+    )) as RequestBodyType;
 }
 
 /**

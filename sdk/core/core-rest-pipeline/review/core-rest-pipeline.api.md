@@ -77,7 +77,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface BodyPart {
-    body: ReadableStream | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
