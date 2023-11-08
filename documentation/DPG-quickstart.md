@@ -17,7 +17,7 @@ Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5
 
 Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
 
-## Identifying your project's service and package names
+## Identifying your project's service and package name
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
 
@@ -30,15 +30,16 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 1. Project Folder Structure.  
    The typical structure is `sdk/{servicename}/{servicename}-{modulename}`, e.g., `sdk/storage/storage-blob`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
-2. Package Name Convention.  
-   Follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`..
+
+1. Package Name Convention.  
+   Follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`.
 
 
 # How to generate DPG
 
 1. **Configure tspconfig.yaml in spec repository**
    
-   In your specs repository, update or create `tspconfig.yaml` to configure the TypeScript emitter. Replace `YOUR_SERVICE_DIRECTORY` and `YOUR_PACKAGE_NAME` with your specific details.
+   In your specs repository, update or create `tspconfig.yaml` to configure the TypeScript emitter. Replace `YOUR_SERVICE_DIRECTORY`, `YOUR_SERVICE_FOLDER` and `YOUR_PACKAGE_NAME` with your specific details.
 
    ```yaml
    parameters:
@@ -49,6 +50,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
    options:
      "@azure-tools/typespec-ts":
+       package-dir: "YOUR_SERVICE_FOLDER"
        isModularLibrary: true
        packageDetails:
          name: YOUR_PACKAGE_NAME
