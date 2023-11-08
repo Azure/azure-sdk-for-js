@@ -63,7 +63,7 @@ async function main() {
   await client.joinGroup(groupName);
   await client.sendToGroup(groupName, "hello world", "text", {
     fireAndForget: true,
-  } as SendToGroupOptions);
+  });
   await client.sendToGroup(groupName, { a: 12, b: "hello" }, "json");
   await client.sendToGroup(groupName, "hello json", "json");
   var buf = Buffer.from("aGVsbG9w", "base64");

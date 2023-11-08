@@ -112,7 +112,47 @@ export interface SendToGroupOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: boolean;
+  fireAndForget: boolean | undefined;
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send to group operation options for fire-and-forget
+ */
+export interface SendToGroupOptionsFireAndForget {
+  /**
+   * Whether the message needs to echo to sender
+   */
+  noEcho: boolean;
+  /**
+   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
+   */
+  fireAndForget: true;
+  /**
+   * The abort signal
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send to group operation options for non fire-and-forget
+ */
+export interface SendToGroupOptionsAsync {
+  /**
+   * Whether the message needs to echo to sender
+   */
+  noEcho: boolean;
+  /**
+   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
+   */
+  fireAndForget: false | undefined;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -130,7 +170,39 @@ export interface SendEventOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget: boolean;
+  fireAndForget: boolean | undefined;
+  /**
+   * The optional ackId. If not specified, client will generate one.
+   */
+  ackId?: number;
+  /**
+   * The abort signal
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send event operation options for fire-and-forget
+ */
+export interface SendEventOptionsFireAndForget {
+  /**
+   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
+   */
+  fireAndForget: true;
+  /**
+   * The abort signal
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
+ * Send event operation options for non fire-and-forget
+ */
+export interface SendEventOptionsAsync {
+  /**
+   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
+   */
+  fireAndForget: false | undefined;
   /**
    * The optional ackId. If not specified, client will generate one.
    */

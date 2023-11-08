@@ -22,6 +22,10 @@ import {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
+  SendToGroupOptionsFireAndForget,
+  SendToGroupOptionsAsync,
+  SendEventOptionsFireAndForget,
+  SendEventOptionsAsync,
 } from "./models";
 import {
   ConnectedMessage,
@@ -91,10 +95,10 @@ export class WebPubSubClient {
 
   /**
    * Create an instance of WebPubSubClient
-   * @param clientAccessUri - The uri to connect
+   * @param clientAccessUrl - The uri to connect
    * @param options - The client options
    */
-  constructor(clientAccessUri: string, options?: WebPubSubClientOptions);
+  constructor(clientAccessUrl: string, options?: WebPubSubClientOptions);
   /**
    * Create an instance of WebPubSubClient
    * @param credential - The credential to use when connecting
@@ -344,8 +348,20 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
+    options?: SendEventOptionsFireAndForget
+  ): Promise<void>
+  public async sendEvent(
+    eventName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    options?: SendEventOptionsAsync
+  ): Promise<WebPubSubResult>
+  public async sendEvent(
+    eventName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
     options?: SendEventOptions
-  ): Promise<WebPubSubResult> {
+  ): Promise<void | WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendEventAttempt(eventName, content, dataType, options),
       options?.abortSignal
@@ -357,7 +373,7 @@ export class WebPubSubClient {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendEventOptions
-  ): Promise<WebPubSubResult> {
+  ): Promise<void | WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     if (!fireAndForget) {
       return await this._sendMessageWithAckId(
@@ -383,7 +399,6 @@ export class WebPubSubClient {
     } as SendEventMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
   }
 
   /**
@@ -470,6 +485,18 @@ export class WebPubSubClient {
    * @param options - The options
    * @param abortSignal - The abort signal
    */
+  public sendToGroup(
+    groupName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    options?: SendToGroupOptionsFireAndForget
+  ): Promise<void>
+  public sendToGroup(
+    groupName: string,
+    content: JSONTypes | ArrayBuffer,
+    dataType: WebPubSubDataType,
+    options?: SendToGroupOptionsAsync
+  ): Promise<WebPubSubResult>
   public async sendToGroup(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
