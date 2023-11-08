@@ -21,7 +21,7 @@
   The filtered configuration settings are stored as a snapshot with the name provided during its creation.
 `AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
   
-  See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1-beta/typescript/src/snapshot.ts) for more information now how to use snapshots.
+  See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) for more information now how to use snapshots.
 
 ### Bugs Fixed
 
