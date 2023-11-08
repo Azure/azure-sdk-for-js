@@ -22,11 +22,11 @@ const OPERATION_NAME = "listRegistrationsByTag";
 export function listRegistrationsByTag(
   context: NotificationHubsClientContext,
   tag: string,
-  options: RegistrationQueryLimitOptions = {}
+  options: RegistrationQueryLimitOptions = {},
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
-    options
+    options,
   );
   try {
     const iter = listRegistrationsByTagAll(context, tag, updatedOptions);
@@ -52,7 +52,7 @@ export function listRegistrationsByTag(
 async function* listRegistrationsByTagAll(
   context: NotificationHubsClientContext,
   tag: string,
-  options: RegistrationQueryLimitOptions
+  options: RegistrationQueryLimitOptions,
 ): AsyncIterableIterator<RegistrationDescription> {
   for await (const page of listRegistrationsByTagPagingPage(context, tag, options)) {
     yield* page;
@@ -62,7 +62,7 @@ async function* listRegistrationsByTagAll(
 async function* listRegistrationsByTagPagingPage(
   context: NotificationHubsClientContext,
   tag: string,
-  options: RegistrationQueryLimitOptions
+  options: RegistrationQueryLimitOptions,
 ): AsyncIterableIterator<RegistrationDescription[]> {
   let result = await _listRegistrationsByTag(context, tag, options);
   yield result.registrations || [];
@@ -78,7 +78,7 @@ async function _listRegistrationsByTag(
   context: NotificationHubsClientContext,
   tag: string,
   options: RegistrationQueryLimitOptions,
-  continuationToken?: string
+  continuationToken?: string,
 ): Promise<RegistrationQueryResponse> {
   const endpoint = context.requestUrl();
   endpoint.pathname += `/tags/${tag}/registrations`;
@@ -95,7 +95,7 @@ async function _listRegistrationsByTag(
   const response = await sendRequest(context, request, 200);
 
   const registrations = await registrationDescriptionParser.parseRegistrationFeed(
-    response.bodyAsText!
+    response.bodyAsText!,
   );
   const nextToken = response.headers.get("x-ms-continuationtoken");
   return {
