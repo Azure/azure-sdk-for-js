@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
 import MapsSearch, { isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
@@ -7,9 +8,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to perform a fuzzy search for POIs along a specified route.
+ * @summary Demonstrate how to search the coordinates of an address (a.k.a. Geocoding).
  */
-async function main() {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
@@ -31,20 +32,9 @@ async function main() {
   // const client = MapsSearch(credential, mapsClientId);
 
   /** Make the request. */
-  const response = await client.path("/search/alongRoute/{format}", "json").post({
-    queryParameters: { query: "burger", maxDetourTime: 1000, limit: 2 },
-    body: {
-      route: {
-        coordinates: [
-          [-122.143035, 47.653536],
-          [-122.187164, 47.617556],
-          [-122.114981, 47.570599],
-          [-122.132756, 47.654009],
-        ],
-        type: "LineString",
-      },
-    },
-  });
+  const response = await client
+    .path("/geocode")
+    .get({ queryParameters: { query: "15127 NE 24th Street, Redmond, WA 98052" } });
 
   /** Handle error response */
   if (isUnexpected(response)) {
@@ -52,11 +42,15 @@ async function main() {
   }
 
   /** Log the response body. */
-  console.log(`"burger" search result along the route:\n`);
-  response.body.results.forEach((result) => {
-    console.log(`Address: ${result.address.freeformAddress}`);
-    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
-  });
+  if (!response.body.features) {
+    console.log(`No coordinates found for the address.`);
+  } else {
+    console.log(`The followings are the possible coordinates of the address:`);
+    response.body.features.forEach((result) => {
+      const [lon, lat] = result.geometry.coordinates;
+      console.log(`(${lat}, ${lon})`);
+    });
+  }
 }
 
 main().catch(console.error);

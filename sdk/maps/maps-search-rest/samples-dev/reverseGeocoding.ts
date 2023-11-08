@@ -8,9 +8,9 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * @summary Demonstrate how to search for POIs by category.
+ * @summary This sample demonstrates how to reverse a geocode to an address.
  */
-async function main() {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
@@ -30,29 +30,29 @@ async function main() {
   // const credential = new DefaultAzureCredential();
   // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
-  const response = await client.path("/search/poi/category/{format}", "json").get({
-    queryParameters: {
-      /** You can get the supported categories from the path /search/poi/category/tree/ here: https://learn.microsoft.com/en-us/azure/azure-maps/supported-search-categories */
-      query: "DENTIST",
-      limit: 3,
-      lat: 40.758953,
-      lon: -73.985263,
-      radius: 3200,
-    },
+
+  /** Make the request. */
+  const response = await client.path("/reverseGeocode").get({
+    queryParameters: { coordinates: [-121.89, 37.337] },
   });
 
-  /** Handle error response */
+  /** Handle error response. */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  /** Log response body */
-  response.body.results.forEach((result) => {
-    console.log(
-      `${result.poi ? result.poi.name + ":" : ""} ${result.address.freeformAddress}. (${
-        result.position.lat
-      }, ${result.position.lon})\n`
-    );
-  });
+
+  if (!response.body.features || response.body.features.length === 0) {
+    console.log("No results found.");
+  } else {
+    /** Log the response body. */
+    response.body.features.forEach((feature) => {
+      if (feature.properties?.address?.formattedAddress) {
+        console.log(feature.properties.address.formattedAddress);
+      } else {
+        console.log("No address found.");
+      }
+    });
+  }
 }
 
 main().catch(console.error);

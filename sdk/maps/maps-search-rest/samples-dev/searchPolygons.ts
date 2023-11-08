@@ -10,7 +10,7 @@ dotenv.config();
 /**
  * @summary Demonstrate how to  request the geometry data such as a city or country outline for a set of entities, previously retrieved from an Online Search request in GeoJSON format.
  */
-async function main() {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)
@@ -31,36 +31,19 @@ async function main() {
   // const mapsClientId = process.env.MAPS_RESOURCE_CLIENT_ID || "";
   // const client = MapsSearch(credential, mapsClientId);
 
-  /** We use this API with the response field geometry.id from either a search address of search fuzzy call.*/
-  /** Make a search fuzzy call and retrieve the geometry Ids */
-  const searchFuzzyRes = await client.path("/search/fuzzy/{format}", "json").get({
-    queryParameters: { query: "Seattle" },
-  });
-  if (isUnexpected(searchFuzzyRes)) {
-    throw searchFuzzyRes.body.error;
-  }
-  const geometryIds = searchFuzzyRes.body.results.reduce<string[]>((acc, cur) => {
-    if (cur.dataSources && cur.dataSources.geometry && cur.dataSources.geometry.id) {
-      acc.push(cur.dataSources.geometry.id);
-    }
-    return acc;
-  }, []);
-
-  /** Use the retrieved geometry Ids to request for more info. */
-  const response = await client.path("/search/polygon/{format}", "json").get({
+  const response = await client.path("/search/polygon").get({
     queryParameters: {
-      geometries: geometryIds,
+      coordinates: [-122.204141, 47.61256],
+      resultType: "locality",
+      resolution: "small"
     },
   });
+
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  if (!response.body.additionalData) {
-    throw Error("Unexpected response: additionalData is missing");
-  }
-  response.body.additionalData.forEach(({ geometryData }) => {
-    console.log(geometryData);
-  });
+
+  console.log(response.body.geometry);
 }
 
 main().catch(console.error);
