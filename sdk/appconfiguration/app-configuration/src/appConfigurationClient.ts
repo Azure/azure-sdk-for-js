@@ -8,7 +8,6 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
-  AppConfigurationApiVersion,
   AppConfigurationClientOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
@@ -80,6 +79,7 @@ import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { appConfigurationApiVersion } from "./internal/constants";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -179,7 +179,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigOptions?.apiVersion || AppConfigurationApiVersion.Latest,
+      appConfigurationApiVersion,
       internalClientPipelineOptions
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });

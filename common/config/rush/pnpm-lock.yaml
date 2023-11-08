@@ -1476,11 +1476,11 @@ packages:
       '@azure/msal-common': 13.3.1
     dev: false
 
-  /@azure/msal-browser@3.4.0:
-    resolution: {integrity: sha512-qJASyrSNEi5VdHZHg6z/VuPIegWkDvP2JLVXSnWIuTvuQP412kXFUUBI7OQBoDqE+jP3gnYLFN/4VFoI1glIyg==}
+  /@azure/msal-browser@3.5.0:
+    resolution: {integrity: sha512-2NtMuel4CI3UEelCPKkNRXgKzpWEX48fvxIvPz7s0/sTcCaI08r05IOkH2GkXW+czUOtuY6+oGafJCpumnjRLg==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 14.3.0
+      '@azure/msal-common': 14.4.0
     dev: false
 
   /@azure/msal-common@13.3.1:
@@ -1488,8 +1488,8 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-common@14.3.0:
-    resolution: {integrity: sha512-nKwhWW7QbiziXG8lcebCqbyxiuJAdBik7SBu3vPdJJ+rUr8M2uigAIi5OY7FwddRahlYzLMGG8U1oMeEOulNqQ==}
+  /@azure/msal-common@14.4.0:
+    resolution: {integrity: sha512-ffCymScQuMKVj+YVfwNI52A5Tu+uiZO2eTf+c+3TXxdAssks4nokJhtr+uOOMxH0zDi6d1OjFKFKeXODK0YLSg==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1508,11 +1508,11 @@ packages:
       node-addon-api: 5.0.0
     dev: false
 
-  /@azure/msal-node-extensions@1.0.6:
-    resolution: {integrity: sha512-ANe3Gi1kTzUhSUKPbvQBypxwt1b3fEn8sLjCDixmhQ7QB8gBogvnGIu9l2ZIKqgHZYKVnR2EjHAfF1p2QGBRkA==}
+  /@azure/msal-node-extensions@1.0.7:
+    resolution: {integrity: sha512-RAit1BOmxB0lbCV0iQzS08g35NyoQ5/0gi3ALEqByNec5xrCTfAn5uwtA55ZQnvOwUUuxZ3714F9+AUWbA5wSA==}
     engines: {node: 18 || 20}
     dependencies:
-      '@azure/msal-common': 14.3.0
+      '@azure/msal-common': 14.4.0
       '@azure/msal-node-runtime': 0.13.6-alpha.0
       keytar: 7.9.0
     dev: false
@@ -1531,11 +1531,11 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@azure/msal-node@2.4.0:
-    resolution: {integrity: sha512-Le2UhUs+RhEoEQ+/BZxqrDw74yq1jlqUeovo43IE4clHEbtWaX+KdUFrdWxLe4RQemA4jPEZwBiODvKhbOxafg==}
-    engines: {node: 18 || 20}
+  /@azure/msal-node@2.5.1:
+    resolution: {integrity: sha512-PsPRISqCG253HQk1cAS7eJW7NWTbnBGpG+vcGGz5z4JYRdnM2EIXlj1aBpXCdozenEPtXEVvHn2ELleW1w82nQ==}
+    engines: {node: 16|| 18 || 20}
     dependencies:
-      '@azure/msal-common': 14.3.0
+      '@azure/msal-common': 14.4.0
       jsonwebtoken: 9.0.2
       uuid: 8.3.2
     dev: false
@@ -18169,12 +18169,12 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-rKm8WtiyObv19zRMCxnj20z4JIrmnS7+BKqj6bGyXbQgOtW5tczPtPlTVbVyIyZETpp5liM8dNEbI5rSgan1cQ==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-N0w6nyS02AJnenEwSz1u9/2uHgEm9fPNsICiihIDcJzApx+zx5KHVveldh8IckQ9ISl7ju1+Yd1d3KjbFzGWgA==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 2.4.0
-      '@azure/msal-node-extensions': 1.0.6
+      '@azure/msal-node': 2.5.1
+      '@azure/msal-node-extensions': 1.0.7
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
@@ -18199,11 +18199,11 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-sGcAqSurcGC3dMscSsW4NopL+FVQU10vIswbxn+lSdUnTLkEjRevzKpHF1QBbbl9vRe91QBFY9JQFdDuPscWJg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-GP63w1jPmCkM8x4pJ549EuRdTF5mZcgexEvQy55VIS5xhb8j2QvLNQB10N2AhwdcYGLz8QR25rGdqwj5Xfz1ew==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
-      '@azure/msal-node': 2.4.0
+      '@azure/msal-node': 2.5.1
       '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/jws': 3.2.7
@@ -18273,13 +18273,13 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-P4Nb0qi/gi5Ng1ZH2uuvSP5K6yzV5IMPBjg77r8J0X0aXJvALrbTJHZm3RTGlkgaazm0dErY+gZMnhvabW03Xg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-AWERs+aqoEBCnTPaSIRpuwhuMM2ZxVVAySx0H/86muKBmRewArbnHbsWFgND4zSLbN2D+W1xRTPK8AN2Isbe+Q==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.7.2
-      '@azure/msal-browser': 3.4.0
-      '@azure/msal-node': 2.4.0
+      '@azure/msal-browser': 3.5.0
+      '@azure/msal-node': 2.5.1
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/jsonwebtoken': 9.0.4
