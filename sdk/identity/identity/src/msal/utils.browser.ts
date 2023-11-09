@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
+import * as msalBrowser from "@azure/msal-browser";
+
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
@@ -14,7 +15,7 @@ import { AzureLogLevel } from "@azure/logger";
 import { randomUUID } from "@azure/core-util";
 
 export interface ILoggerCallback {
-  (level: msalNode.LogLevel, message: string, containsPii: boolean): void;
+  (level: msalBrowser.LogLevel, message: string, containsPii: boolean): void;
 }
 
 /**
@@ -103,16 +104,16 @@ export const defaultLoggerCallback: (
       return;
     }
     switch (level) {
-      case msalNode.LogLevel.Error:
+      case msalBrowser.LogLevel.Error:
         logger.info(`MSAL ${platform} V2 error: ${message}`);
         return;
-      case msalNode.LogLevel.Info:
+      case msalBrowser.LogLevel.Info:
         logger.info(`MSAL ${platform} V2 info message: ${message}`);
         return;
-      case msalNode.LogLevel.Verbose:
+      case msalBrowser.LogLevel.Verbose:
         logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
         return;
-      case msalNode.LogLevel.Warning:
+      case msalBrowser.LogLevel.Warning:
         logger.info(`MSAL ${platform} V2 warning: ${message}`);
         return;
     }
@@ -121,19 +122,19 @@ export const defaultLoggerCallback: (
 /**
  * @internal
  */
-export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalNode.LogLevel {
+export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalBrowser.LogLevel {
   switch (logLevel) {
     case "error":
-      return msalNode.LogLevel.Error;
+      return msalBrowser.LogLevel.Error;
     case "info":
-      return msalNode.LogLevel.Info;
+      return msalBrowser.LogLevel.Info;
     case "verbose":
-      return msalNode.LogLevel.Verbose;
+      return msalBrowser.LogLevel.Verbose;
     case "warning":
-      return msalNode.LogLevel.Warning;
+      return msalBrowser.LogLevel.Warning;
     default:
       // default msal logging level should be Info
-      return msalNode.LogLevel.Info;
+      return msalBrowser.LogLevel.Info;
   }
 }
 
@@ -192,7 +193,7 @@ export class MsalBaseUtilities {
       error.name === "ClientAuthError" ||
       error.name === "BrowserAuthError"
     ) {
-      const msalError = error as msalNode.AuthError;
+      const msalError = error as msalBrowser.AuthError;
       switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
@@ -224,7 +225,7 @@ export class MsalBaseUtilities {
 
 // transformations.ts
 
-export function publicToMsal(account: AuthenticationRecord): msalNode.AccountInfo {
+export function publicToMsal(account: AuthenticationRecord): msalBrowser.AccountInfo {
   const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [""];
   return {
     ...account,

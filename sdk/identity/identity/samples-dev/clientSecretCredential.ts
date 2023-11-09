@@ -7,14 +7,15 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
+import dotenv from "dotenv";
 
 // Load the .env file if it exists
-require("dotenv").config();
+dotenv.config();
 
 export async function main(): Promise<void> {
   const credential = new ClientSecretCredential(
-    process.env.AZURE_TENANT_ID!, // The tenant ID in Azure Active Directory
-    process.env.AZURE_CLIENT_ID!, // The app registration client Id in the AAD tenant
+    process.env.AZURE_TENANT_ID!, // The tenant ID in Microsoft Entra ID
+    process.env.AZURE_CLIENT_ID!, // The app registration client Id in the Microsoft Entra tenant
     process.env.AZURE_CLIENT_SECRET! // The app registration secret for the registered application
   );
 
@@ -26,7 +27,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+  console.error("The sample encountered an error:", err);
 });

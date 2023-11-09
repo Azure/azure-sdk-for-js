@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
+import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
