@@ -102,28 +102,6 @@ export interface LeaveGroupOptions {
 }
 
 /**
- * Send to group operation options
- */
-export interface SendToGroupOptions {
-  /**
-   * Whether the message needs to echo to sender
-   */
-  noEcho?: boolean;
-  /**
-   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
-   */
-  fireAndForget?: boolean;
-  /**
-   * The optional ackId. If not specified, client will generate one.
-   */
-  ackId?: number;
-  /**
-   * The abort signal
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
  * Send to group operation options for fire-and-forget
  */
 export interface SendToGroupOptionsFireAndForget {
@@ -144,7 +122,7 @@ export interface SendToGroupOptionsFireAndForget {
 /**
  * Send to group operation options for non fire-and-forget
  */
-export interface SendToGroupOptionsAsync {
+export interface SendToGroupOptions {
   /**
    * Whether the message needs to echo to sender
    */
@@ -152,25 +130,7 @@ export interface SendToGroupOptionsAsync {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget?: false | undefined;
-  /**
-   * The optional ackId. If not specified, client will generate one.
-   */
-  ackId?: number;
-  /**
-   * The abort signal
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
- * Send event operation options
- */
-export interface SendEventOptions {
-  /**
-   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
-   */
-  fireAndForget?: boolean;
+  fireAndForget?: false;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -198,11 +158,11 @@ export interface SendEventOptionsFireAndForget {
 /**
  * Send event operation options for non fire-and-forget
  */
-export interface SendEventOptionsAsync {
+export interface SendEventOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget?: false | undefined;
+  fireAndForget?: false;
   /**
    * The optional ackId. If not specified, client will generate one.
    */

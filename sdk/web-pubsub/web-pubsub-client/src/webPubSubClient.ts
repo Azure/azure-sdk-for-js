@@ -16,16 +16,14 @@ import {
   OnServerDataMessageArgs,
   OnStoppedArgs,
   WebPubSubRetryOptions,
-  SendEventOptions,
-  SendToGroupOptions,
   WebPubSubClientOptions,
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
   SendToGroupOptionsFireAndForget,
-  SendToGroupOptionsAsync,
+  SendToGroupOptions,
   SendEventOptionsFireAndForget,
-  SendEventOptionsAsync,
+  SendEventOptions,
 } from "./models";
 import {
   ConnectedMessage,
@@ -54,6 +52,9 @@ enum WebPubSubClientState {
   Connected = "Connected",
   Recovering = "Recovering",
 }
+
+type SendToGroupOptionsInternal = SendToGroupOptions | SendToGroupOptionsFireAndForget;
+type SendEventOptionsInternal = SendEventOptions | SendEventOptionsFireAndForget;
 
 /**
  * Types which can be serialized and sent as JSON.
@@ -361,13 +362,13 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendEventOptionsAsync
+    options?: SendEventOptions
   ): Promise<WebPubSubResult>;
   public async sendEvent(
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendEventOptions
+    options?: SendEventOptionsInternal
   ): Promise<void | WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendEventAttempt(eventName, content, dataType, options),
@@ -379,10 +380,14 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendEventOptions
+    options?: SendEventOptionsInternal
   ): Promise<void | WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     if (!fireAndForget) {
+      let ackId = undefined;
+      if (options && "ackId" in options) {
+        ackId = options.ackId;
+      }
       return await this._sendMessageWithAckId(
         (id) => {
           return {
@@ -393,7 +398,7 @@ export class WebPubSubClient {
             event: eventName,
           } as SendEventMessage;
         },
-        options?.ackId,
+        ackId,
         options?.abortSignal
       );
     }
@@ -509,13 +514,13 @@ export class WebPubSubClient {
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptionsAsync
+    options?: SendToGroupOptions
   ): Promise<WebPubSubResult>;
   public async sendToGroup(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptions
+    options?: SendToGroupOptionsInternal
   ): Promise<void | WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendToGroupAttempt(groupName, content, dataType, options),
@@ -527,11 +532,15 @@ export class WebPubSubClient {
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptions
+    options?: SendToGroupOptionsInternal
   ): Promise<WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     const noEcho = options?.noEcho ?? false;
     if (!fireAndForget) {
+      let ackId = undefined;
+      if (options && "ackId" in options) {
+        ackId = options.ackId;
+      }
       return await this._sendMessageWithAckId(
         (id) => {
           return {
@@ -543,7 +552,7 @@ export class WebPubSubClient {
             noEcho: noEcho,
           } as SendToGroupMessage;
         },
-        options?.ackId,
+        ackId,
         options?.abortSignal
       );
     }
