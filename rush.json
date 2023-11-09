@@ -311,8 +311,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure-rest/document-intelligence",
-      "projectFolder": "sdk/documentintelligence/document-intelligence-rest",
+      "packageName": "@azure-rest/ai-document-intelligence",
+      "projectFolder": "sdk/documentintelligence/ai-document-intelligence-rest",
       "versionPolicyName": "client"
     },
     {
