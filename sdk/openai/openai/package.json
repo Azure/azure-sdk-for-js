@@ -1,13 +1,12 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-beta.8",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/api/getSSEs.js": "./dist-esm/src/api/getSSEs.browser.js",
-    "./dist-esm/src/api/policies/formDataPolicy.js": "./dist-esm/src/api/policies/formDataPolicy.browser.js",
     "./dist-esm/test/public/utils/getImageDimensions.js": "./dist-esm/test/public/utils/getImageDimensions.browser.js"
   },
   "type": "module",
@@ -105,7 +104,6 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
-    "@azure/core-rest-pipeline": "^1.12.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
@@ -140,10 +138,8 @@
     "@azure/core-auth": "^1.4.0",
     "@azure/core-sse": "^1.0.0",
     "@azure/core-lro": "^2.5.3",
-    "@azure/core-rest-pipeline": "^1.10.2",
+    "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/logger": "^1.0.3",
-    "formdata-node": "^5.0.0",
-    "form-data-encoder": "^3.0.0",
     "tslib": "^2.4.0"
   },
   "//sampleConfiguration": {

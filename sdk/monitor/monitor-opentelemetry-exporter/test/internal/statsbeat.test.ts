@@ -174,6 +174,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "Test Website/testhome");
             done();
           })
           .catch((error: Error) => {
@@ -191,6 +192,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "functions");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testhost");
             done();
           })
           .catch((error: Error) => {
@@ -210,6 +212,25 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "vm");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "undefined/undefined");
+            done();
+          })
+          .catch((error: Error) => {
+            done(error);
+          });
+      });
+
+      it("should determine if the rp is AKS", (done) => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        statsbeat["getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["resourceProvider"], "aks");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testaks");
             done();
           })
           .catch((error: Error) => {
@@ -368,6 +389,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics.length, 2, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
+        // Instrumentation statsbeat
+        assert.strictEqual(metrics[0].dataPoints[0].attributes.type, 1);
+        // Feature statsbeat
+        assert.strictEqual(metrics[0].dataPoints[1].attributes.type, 0);
 
         // Clean up env variables
         delete process.env.STATSBEAT_INSTRUMENTATIONS;

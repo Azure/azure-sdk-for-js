@@ -9,7 +9,7 @@ export interface LockRenewalOperationInfo extends OperationInfo {
   /**
    * key - id, value - next renewal timer meant for the message/session-receiver
    */
-  lockRenewalTimers: { [key: string]: NodeJS.Timer };
+  lockRenewalTimers: { [key: string]: NodeJS.Timeout };
   /**
    * key - id, value - number of renewals
    */

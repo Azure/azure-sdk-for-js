@@ -7,7 +7,10 @@
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { InteractiveBrowserCredential } from "../../../src";
+import {
+  InteractiveBrowserCredential,
+  InteractiveBrowserCredentialNodeOptions,
+} from "../../../src";
 
 import Sinon from "sinon";
 import { assert } from "chai";
@@ -56,7 +59,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
         redirectUri: "http://localhost:8081",
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      } as InteractiveBrowserCredentialNodeOptions)
     );
 
     let error: Error | undefined;
