@@ -10,29 +10,32 @@
         "Connection": "keep-alive",
         "Content-Length": "35",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "sanitized"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "calling": "none",
         "sms": "outbound"
       },
-      "StatusCode": 404,
+      "StatusCode": 403,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Fri, 06 Jan 2023 17:32:39 GMT",
-        "MS-CV": "ohcbgy4oJUScYe3s8dKC3g.0",
+        "Date": "Thu, 09 Nov 2023 14:06:11 GMT",
+        "MS-CV": "A8oK1PnFvkirOYlkYiPsBg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0N1u4YwAAAACBytQ4oQVSRJeMnOvohPcWTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20231109T140610Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000em52",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "212ms"
+        "X-Processing-Time": "528ms"
       },
       "ResponseBody": {
         "error": {
-          "code": "InternalError",
-          "message": "The server encountered an internal error."
+          "code": "InsufficientPermissions",
+          "message": "Phone number not owned by this resource.",
+          "target": "phonenumber"
         }
       }
     }
