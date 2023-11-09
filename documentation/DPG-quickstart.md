@@ -38,7 +38,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 1. **Package Name Convention**: follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`.
 
 
-# Steps to Generate DPG
+# Steps to generate DPG
 
 1. **Configure tspconfig.yaml in spec repository**
    
@@ -117,4 +117,4 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 # After SDK generation
 
-The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generation guide](https://github.com/Azure/azure-sdk-for-js/blob/update-get-started-doc/documentation/steps-after-generations.md) to check the code.
+The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generation guide](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/steps-after-generations.md) to check the code.
