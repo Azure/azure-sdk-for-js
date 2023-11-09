@@ -9,7 +9,6 @@ import { OpenAIClient } from "../../../src/index.js";
 import * as fs from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
 import { assertAudioResult } from "../utils/asserts.js";
-import { formDataPolicy, formDataPolicyName } from "@azure/core-rest-pipeline";
 
 function getModel(authMethod: AuthMethod): string {
   return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
@@ -29,8 +28,6 @@ describe("OpenAI", function () {
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
         client = createClient(authMethod, { recorder });
-        client["_client"].pipeline.removePolicy({ name: formDataPolicyName });
-        client["_client"].pipeline.addPolicy(formDataPolicy({ boundary: "6ceck6po4ai0tb2u" }));
       });
 
       afterEach(async function () {
