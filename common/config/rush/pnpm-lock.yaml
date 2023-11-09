@@ -4488,7 +4488,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231108
+      typescript: 5.4.0-dev.20231109
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4497,7 +4497,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231108
+      typescript: 5.4.0-dev.20231109
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9218,8 +9218,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231108:
-    resolution: {integrity: sha512-/DNtrqpbir9XaRxE6qwjhB94pCZzw/9R/PhB8309frJBEBGZ5qSDqstl7YYbhWbqs+zWpCCbwBjWDGlz8wn8GA==}
+  /typescript@5.4.0-dev.20231109:
+    resolution: {integrity: sha512-wX5CSyZbJ0xsgAe0Fyefs8eqEe7o7mp7Nv5EHydBYFpJI/FWZFc4rSF2mGNNZ/1D7JMQgwjCAkZd/2TTF3m/Uw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14026,20 +14026,22 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-39QX17Ub/nhHKFJMKCvjEYqYfVibWlUQ4vf/guUhlDu5Ll3NvTUkeodNedd+V8k1m44hoR1tZspFQhYSebiCMw==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-eAckBXGvgp6dftp38VGX3iP8mtCNC2EJyMrpc0mRBQRx65XQ6yFZNYrx0ojwJhTQqYNnUMJ7qMjJdYJQZKbvjg==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -19021,7 +19023,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-FGszKi9uEyS9W6kUbw3iCPcNsHCHSG8IrfzRnQGm+JiNntU/E2VMaMhDyj8kX6kAmyyYsvFkFPQ0coM4zPJQAg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-SdqvvFMi3xwm7UBoehJfdJ6bnnsQs6H6iBeFctfANjHCdModedU9yAt9BcC1jDf3uV5t/8AfUR7C3IydJRXCMw==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -19060,7 +19062,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-eR6zAW7Gyaz+lOpGnVvq5uLy+mw0yyXE66VraoE/mHoNYOdeLS0KeZpXy7KoQ7xXw3gzYh0/VqtlR7ybbpcZxg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-L6m3YZDJNNzBAmhwxSPAjxCS46TmAJLlRUHNcRIGDlOAymRieaDgjQ7XPXW/++SYhR2SQ/FUmECik+QC+1Ap4w==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19106,7 +19108,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-Sz0V1tkVZy3TLQqt1o4GttKE0unXoRq60Vf7kFaUmZj7/dWeitoilYWW8rt8aM1dyScbYLLRqzhzsu5ANMsIIA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-10qgCv4wOYoyBFnGLTJ6yNWylL/3S4PjNeHeTVzF+O4Sy576RBOQIT+hsks9ypVzUCWhHX/r2ZHlJiQMJxEX+A==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19246,7 +19248,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-s28MA3JOdaXxw8cSJh1ODS4Z9F/pojmw68YXc1q0agZRyB5i6MQinepnXKsSCLc3QV75uwokrBNP8WBgzNyqVQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-0J52WP0yVi6MN2r2IqnyUNWj9GLClFwvEGmDxEDOFaoswzmCPkCXtqg0r6gvOu1/2dAdACGsjikSOBcWLrrWiA==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
