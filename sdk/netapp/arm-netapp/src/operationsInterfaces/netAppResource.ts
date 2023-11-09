@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CheckNameResourceTypes,
   NetAppResourceCheckNameAvailabilityOptionalParams,
@@ -16,7 +17,12 @@ import {
   NetAppResourceCheckQuotaAvailabilityOptionalParams,
   NetAppResourceCheckQuotaAvailabilityResponse,
   NetAppResourceQueryRegionInfoOptionalParams,
-  NetAppResourceQueryRegionInfoResponse
+  NetAppResourceQueryRegionInfoResponse,
+  NetAppResourceQueryNetworkSiblingSetOptionalParams,
+  NetAppResourceQueryNetworkSiblingSetResponse,
+  NetworkFeatures,
+  NetAppResourceUpdateNetworkSiblingSetOptionalParams,
+  NetAppResourceUpdateNetworkSiblingSetResponse
 } from "../models";
 
 /** Interface representing a NetAppResource. */
@@ -74,4 +80,67 @@ export interface NetAppResource {
     location: string,
     options?: NetAppResourceQueryRegionInfoOptionalParams
   ): Promise<NetAppResourceQueryRegionInfoResponse>;
+  /**
+   * Get details of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param options The options parameters.
+   */
+  queryNetworkSiblingSet(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    options?: NetAppResourceQueryNetworkSiblingSetOptionalParams
+  ): Promise<NetAppResourceQueryNetworkSiblingSetResponse>;
+  /**
+   * Update the network features of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
+   *                                 sibling set.
+   * @param networkFeatures Network features available to the volume, some such
+   * @param options The options parameters.
+   */
+  beginUpdateNetworkSiblingSet(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    networkSiblingSetStateId: string,
+    networkFeatures: NetworkFeatures,
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetAppResourceUpdateNetworkSiblingSetResponse>,
+      NetAppResourceUpdateNetworkSiblingSetResponse
+    >
+  >;
+  /**
+   * Update the network features of the specified network sibling set.
+   * @param location The name of Azure region.
+   * @param networkSiblingSetId Network Sibling Set ID for a group of volumes sharing networking
+   *                            resources in a subnet.
+   * @param subnetId The Azure Resource URI for a delegated subnet. Must have the delegation
+   *                 Microsoft.NetApp/volumes. Example
+   *                 /subscriptions/subscriptionId/resourceGroups/resourceGroup/providers/Microsoft.Network/virtualNetworks/testVnet/subnets/{mySubnet}
+   * @param networkSiblingSetStateId Network sibling set state Id identifying the current state of the
+   *                                 sibling set.
+   * @param networkFeatures Network features available to the volume, some such
+   * @param options The options parameters.
+   */
+  beginUpdateNetworkSiblingSetAndWait(
+    location: string,
+    networkSiblingSetId: string,
+    subnetId: string,
+    networkSiblingSetStateId: string,
+    networkFeatures: NetworkFeatures,
+    options?: NetAppResourceUpdateNetworkSiblingSetOptionalParams
+  ): Promise<NetAppResourceUpdateNetworkSiblingSetResponse>;
 }

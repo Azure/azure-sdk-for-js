@@ -14,7 +14,7 @@ import { isBrowser } from "@azure/core-util";
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
   let client: ContentSafetyClient;
-  function sleep(time: number): Promise<NodeJS.Timer> {
+  function sleep(time: number): Promise<NodeJS.Timeout> {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   function uint8ArrayToBase64(binary: Uint8Array) {

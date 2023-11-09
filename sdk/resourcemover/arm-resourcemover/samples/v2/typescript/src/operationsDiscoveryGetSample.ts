@@ -10,19 +10,25 @@
 // Licensed under the MIT License.
 import { ResourceMoverServiceAPI } from "@azure/arm-resourcemover";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2021-08-01/examples/OperationsDiscovery_Get.json
+ * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/OperationsDiscovery_Get.json
  */
 async function operationsDiscoveryGet() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new ResourceMoverServiceAPI(credential, subscriptionId);
+  const client = new ResourceMoverServiceAPI(credential);
   const result = await client.operationsDiscoveryOperations.get();
   console.log(result);
 }
 
-operationsDiscoveryGet().catch(console.error);
+async function main() {
+  operationsDiscoveryGet();
+}
+
+main().catch(console.error);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a replica.
  *
  * @summary Operation to delete a replica.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubReplicas_Delete.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubReplicas_Delete.json
  */
 async function webPubSubReplicasDelete() {
   const subscriptionId =
