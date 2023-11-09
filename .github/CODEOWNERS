@@ -521,6 +521,9 @@
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/nginx/arm-nginx/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
