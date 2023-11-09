@@ -10,32 +10,24 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-async function testDefaultCredential() {
+async function testDefaultCredential(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
-  try {
-    const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
-  } catch (err) {
-    console.log("Error with DefaultAzureCredential:", err);
-  }
+  const { token } = await credential.getToken("https://storage.azure.com/.default");
+  console.log(`Token: ${token}`);
 }
 
-async function testWorkloadCredential() {
+async function testWorkloadCredential(): Promise<void> {
   const credential = new WorkloadIdentityCredential({
     tenantId: process.env.AZURE_TENANT_ID,
     clientId: process.env.AZURE_CLIENT_ID,
   });
 
-  try {
-    const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
-  } catch (err) {
-    console.log("Error with WorkloadIdentityCredential:", err);
-  }
+  const result = await credential.getToken("https://storage.azure.com/.default");
+  console.log(`Token: ${result?.token}`);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await testDefaultCredential();
   await testWorkloadCredential();
 }

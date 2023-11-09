@@ -7,9 +7,10 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "@azure/keyvault-keys";
+import dotenv from "dotenv";
 
 // Load the .env file if it exists
-require("dotenv").config();
+dotenv.config();
 
 export async function main(): Promise<void> {
   const credential = new ClientSecretCredential(
@@ -26,7 +27,5 @@ export async function main(): Promise<void> {
 }
 
 main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
+  console.error("The sample encountered an error:", err);
 });

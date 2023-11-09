@@ -22,7 +22,7 @@ async function main(): Promise<void> {
     tenantId,
   } as InteractiveBrowserCredentialNodeOptions);
 
-  const token = await credential.getToken("https://storage.azure.com/.default");
+  const { token } = await credential.getToken("https://storage.azure.com/.default");
   console.log(`Token: ${token}`);
 }
 
