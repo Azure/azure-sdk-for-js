@@ -53,14 +53,14 @@ describe("Analyze Tests", () => {
           queryParameters:
           {
             features: testFeatures,
-            smartCropsAspectRatios: [0.9, 1.33]
+            "smartCrops-aspect-ratios": [0.9, 1.33]
           },
           contentType: "application/json"
         }
       );
 
       assert.isNotNull(result);
-      assert.isTrue(result.status === "200");
+      assert.equal(result.status, "200");
       
       const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
 
@@ -89,7 +89,7 @@ describe("Analyze Tests", () => {
           body: new Uint8Array(fileStream),
           queryParameters: {
             features: testFeatures,
-            smartCropsAspectRatios: [0.9, 1.33],
+            "smartCrops-aspect-ratios": [0.9, 1.33],
           },
           contentType: "application/octet-stream"
         }
@@ -97,7 +97,7 @@ describe("Analyze Tests", () => {
 
       assert.isNotNull(result);
 
-      assert.isTrue(result.status === "200");
+      assert.equal(result.status, "200");
       
       const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
       
