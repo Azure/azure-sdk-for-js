@@ -78,7 +78,7 @@ export interface SendDtmfTonesResult {
 }
 
 /** The response payload for cancelling add participant request. */
-export interface CancelAddParticipantResult {
+export interface CancelAddParticipantOperationResult {
   /** the invitation ID used to cancel the add participant request. */
   invitationId?: string;
   /** The operation context provided by client. */

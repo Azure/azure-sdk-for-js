@@ -58,4 +58,7 @@ directive:
   - rename-model:
       from: CallIntelligenceOptions
       to: CallIntelligenceOptionsInternal
+  - rename-model:
+      from: CustomCallingContext
+      to: CustomCallingContextInternal
 ```

@@ -171,11 +171,11 @@ export interface TransferToParticipantRequest {
    */
   operationCallbackUri?: string;
   /** Used by customer to send custom calling context to targets */
-  customCallingContext?: CustomCallingContext;
+  customCallingContext?: CustomCallingContextInternal;
 }
 
 /** The custom calling context which will be sent to the target */
-export interface CustomCallingContext {
+export interface CustomCallingContextInternal {
   /** Custom calling context VoiP headers */
   voipHeaders?: { [propertyName: string]: string };
   /** Custom calling context SIP headers */
@@ -391,7 +391,7 @@ export interface AddParticipantRequest {
    */
   operationCallbackUri?: string;
   /** Used by customer to send custom calling context to targets */
-  customCallingContext?: CustomCallingContext;
+  customCallingContext?: CustomCallingContextInternal;
 }
 
 /** The response payload for adding participants to the call. */

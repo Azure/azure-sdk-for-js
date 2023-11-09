@@ -16,7 +16,7 @@ import {
   TransferCallResult,
   RemoveParticipantResult,
   MuteParticipantResult,
-  CancelAddParticipantResult,
+  CancelAddParticipantOperationResult,
   CancelAddParticipantSucceeded,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
@@ -274,21 +274,23 @@ describe("CallConnection Unit Tests", () => {
       .catch((error) => console.error(error));
   });
 
-  it("CancelAddParticipant", async () => {
+  it("cancelAddParticipantOperation", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantResult = { invitationId };
-    callConnection.cancelAddParticipant.returns(
+    const cancelAddParticipantOperationResultMock: CancelAddParticipantOperationResult = {
+      invitationId,
+    };
+    callConnection.cancelAddParticipantOperation.returns(
       new Promise((resolve) => {
-        resolve(cancelAddParticipantResultMock);
+        resolve(cancelAddParticipantOperationResultMock);
       })
     );
 
     callConnection
-      .cancelAddParticipant(invitationId)
-      .then((result: CancelAddParticipantResult) => {
+      .cancelAddParticipantOperation(invitationId)
+      .then((result: CancelAddParticipantOperationResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
-        assert.equal(result, cancelAddParticipantResultMock);
+        assert.isTrue(callConnection.cancelAddParticipantOperation.calledWith(invitationId));
+        assert.equal(result, cancelAddParticipantOperationResultMock);
         return;
       })
       .catch((error) => console.error(error));
@@ -532,8 +534,8 @@ describe("CallConnection Live Tests", function () {
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
 
     // cancel add participant
-    await callConnection.cancelAddParticipant(addResult.invitationId!, {
-      operationContext: "cancelAddParticipant_operationContext",
+    await callConnection.cancelAddParticipantOperation(addResult.invitationId!, {
+      operationContext: "cancelAddParticipantOperation_operationContext",
     });
 
     const cancelAddParticipantSucceededEvent = (await waitForEvent(

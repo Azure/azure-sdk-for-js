@@ -15,8 +15,8 @@ import {
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
-  CustomCallingContext,
   CallIntelligenceOptions,
+  CustomCallingContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -305,7 +305,7 @@ export interface SendDtmfTonesOptions extends OperationOptions {
 }
 
 /** Options for cancelling add participant request. */
-export interface CancelAddParticipantOptions extends OperationOptions {
+export interface CancelAddParticipantOperationOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
   /**
