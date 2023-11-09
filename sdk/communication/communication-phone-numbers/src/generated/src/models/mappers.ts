@@ -716,6 +716,18 @@ export const OperatorInformation: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      nationalFormat: {
+        serializedName: "nationalFormat",
+        type: {
+          name: "String"
+        }
+      },
+      internationalFormat: {
+        serializedName: "internationalFormat",
+        type: {
+          name: "String"
+        }
+      },
       numberType: {
         serializedName: "numberType",
         type: {

@@ -81,7 +81,9 @@ export interface OperatorDetails {
 
 // @public
 export interface OperatorInformation {
+    internationalFormat?: string;
     isoCountryCode?: string;
+    nationalFormat?: string;
     numberType?: OperatorNumberType;
     operatorDetails?: OperatorDetails;
     phoneNumber?: string;
@@ -240,6 +242,8 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 
 // @public
 export interface SearchOperatorInformationOptions extends OperationOptions {
+    // (undocumented)
+    formatOnly: boolean;
 }
 
 // @public

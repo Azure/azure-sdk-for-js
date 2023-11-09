@@ -550,7 +550,7 @@ export class PhoneNumbersClient {
    */
   public searchOperatorInformation(
     phoneNumbers: string[],
-    options: SearchOperatorInformationOptions = {}
+    options: SearchOperatorInformationOptions = { "formatOnly": false }
   ): Promise<OperatorInformationResult> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-searchOperatorInformation",
@@ -558,6 +558,9 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         const params: PhoneNumbersOperatorInformationSearchOptionalParams = updatedOptions;
         params.phoneNumbers = phoneNumbers;
+        if (options.formatOnly) {
+          params.options = "FormatOnly";
+        }
         return this.client.phoneNumbers.operatorInformationSearch(params);
       }
     );

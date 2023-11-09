@@ -264,6 +264,16 @@ export const phoneNumbers: OperationParameter = {
   mapper: OperatorInformationRequestMapper
 };
 
+export const options: OperationQueryParameter = {
+  parameterPath: ["options", "options"],
+  mapper: {
+    serializedName: "options",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {

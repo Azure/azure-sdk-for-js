@@ -69,7 +69,9 @@ export interface ListLocalitiesOptions extends OperationOptions {
 /**
  * Additional options for the search operator information request.
  */
-export interface SearchOperatorInformationOptions extends OperationOptions {}
+export interface SearchOperatorInformationOptions extends OperationOptions {
+  formatOnly: boolean;
+}
 
 /**
  * Additional options that can be passed to list SIP routes.
