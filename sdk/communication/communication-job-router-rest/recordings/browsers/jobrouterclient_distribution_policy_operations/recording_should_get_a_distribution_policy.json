@@ -17,9 +17,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "e94c071b-997d-48ed-9ace-b9b1919e251e",
+        "x-ms-client-request-id": "920dd546-cb2c-4067-8897-97320b5dee24",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 09 Nov 2023 19:04:14 GMT",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:59 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
@@ -27,13 +27,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 19:04:14 GMT",
-        "ETag": "\u002211041095-0000-0700-0000-654d2d2e0000\u0022",
-        "Last-Modified": "Thu, 09 Nov 2023 19:04:14 GMT",
+        "Date": "Thu, 09 Nov 2023 20:33:59 GMT",
+        "ETag": "\u00221204efcb-0000-0700-0000-654d42380000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:34:00 GMT",
         "Request-Context": "appId=",
-        "trace-id": "787a9dab-0f4d-ec90-8985-333c30269123",
+        "trace-id": "82de42da-fdc2-ab3d-2fc6-3c9f65eddc70",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Li1NZQAAAABhpH/iNljXQ4fduNuhqiiZV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0OEJNZQAAAAAJoZWKMUIQR7d5TVZYibAdV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -46,7 +46,7 @@
           "maxConcurrentOffers": 5,
           "bypassSelectors": false
         },
-        "etag": "\u002211041095-0000-0700-0000-654d2d2e0000\u0022"
+        "etag": "\u00221204efcb-0000-0700-0000-654d42380000\u0022"
       }
     }
   ],

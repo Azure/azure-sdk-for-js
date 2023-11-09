@@ -11,9 +11,9 @@
         "Content-Length": "201",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "fc8e4284-1c2b-4154-8650-6a88575db8a0",
+        "x-ms-client-request-id": "ec3643bc-4ece-4fa2-bfbd-8edc44a61c55",
         "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
-        "x-ms-date": "Mon, 06 Nov 2023 23:27:15 GMT"
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:08 GMT"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -37,13 +37,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 23:27:15 GMT",
-        "ETag": "\u0022a61c5b7d-0000-0700-0000-654976530000\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 23:27:15 GMT",
+        "Date": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "ETag": "\u00223d21fb31-0000-0700-0000-654d42050000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:33:09 GMT",
         "Request-Context": "appId=",
-        "trace-id": "cc3e369a-b117-dffc-2418-d8faa33fbd24",
+        "trace-id": "c526489a-4877-73f6-62f0-9562368039f8",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0U3ZJZQAAAADhpgsGYACGQKr5jAv4Oi/AV1NURURHRTAxMTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0BUJNZQAAAABGiaQtWzHiS7\u002BBZxvMvKI3V1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -60,12 +60,12 @@
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "c7838475-7172-49a2-8bc2-29c6ff4f3903"
+                "id": "cb8bfb6e-2bd8-4009-9471-7c7c98d0aff7"
               }
             ]
           }
         ],
-        "etag": "\u0022a61c5b7d-0000-0700-0000-654976530000\u0022"
+        "etag": "\u00223d21fb31-0000-0700-0000-654d42050000\u0022"
       }
     }
   ],

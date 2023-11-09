@@ -17,19 +17,19 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "f81bc74b-2746-4a6d-a4af-c4b31684095d",
+        "x-ms-client-request-id": "47651d26-89e0-436c-8e64-6174a8c4c0b8",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 09 Nov 2023 19:04:15 GMT",
+        "x-ms-date": "Thu, 09 Nov 2023 20:34:00 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
-        "Date": "Thu, 09 Nov 2023 19:04:15 GMT",
+        "Date": "Thu, 09 Nov 2023 20:34:00 GMT",
         "Request-Context": "appId=",
-        "trace-id": "3fb01d42-3d5e-d0cb-1c60-e5e3eff60764",
-        "X-Azure-Ref": "0MC1NZQAAAABBRIDVwuV6RreO1JWryywKV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "trace-id": "5bade1ea-f996-096c-4c47-ba4f76dc9729",
+        "X-Azure-Ref": "0OEJNZQAAAADZ2giuGkQJQrNFHVzxgExuV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null

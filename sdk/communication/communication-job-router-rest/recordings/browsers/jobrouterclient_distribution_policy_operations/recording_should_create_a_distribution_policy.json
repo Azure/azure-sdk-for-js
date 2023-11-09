@@ -19,9 +19,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "59b9d13c-d292-4dca-84d8-56d719293abd",
+        "x-ms-client-request-id": "68bae40e-d17d-4a27-8798-874a5d610ffc",
         "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
-        "x-ms-date": "Thu, 09 Nov 2023 19:04:13 GMT",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:58 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
@@ -38,13 +38,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 19:04:14 GMT",
-        "ETag": "\u002211041095-0000-0700-0000-654d2d2e0000\u0022",
-        "Last-Modified": "Thu, 09 Nov 2023 19:04:14 GMT",
+        "Date": "Thu, 09 Nov 2023 20:33:59 GMT",
+        "ETag": "\u00221204efcb-0000-0700-0000-654d42380000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:34:00 GMT",
         "Request-Context": "appId=",
-        "trace-id": "51a968c1-b9a5-e352-f6dc-3d23071082ad",
+        "trace-id": "d9164187-0173-b001-9f5d-c2c481a37107",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Li1NZQAAAABFHMe6ZdBGSI/Lk6w/sWuLV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0N0JNZQAAAAA8wZtfa29dTpWsa3ndYEhxV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -57,7 +57,7 @@
           "maxConcurrentOffers": 5,
           "bypassSelectors": false
         },
-        "etag": "\u002211041095-0000-0700-0000-654d2d2e0000\u0022"
+        "etag": "\u00221204efcb-0000-0700-0000-654d42380000\u0022"
       }
     }
   ],

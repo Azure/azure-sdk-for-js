@@ -17,9 +17,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "0aa6d8f1-6112-43b0-aa31-df1ab5e3be1a",
+        "x-ms-client-request-id": "aa63adf9-fc12-407e-b379-53cb55ef4da9",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 09 Nov 2023 19:04:16 GMT",
+        "x-ms-date": "Thu, 09 Nov 2023 20:34:03 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
@@ -27,11 +27,11 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 19:04:16 GMT",
+        "Date": "Thu, 09 Nov 2023 20:34:03 GMT",
         "Request-Context": "appId=",
-        "trace-id": "eaaff6a2-c8b9-d6c2-1f76-e4c61818aa29",
+        "trace-id": "e1b62bc0-fc6a-39db-15a6-01b9282581df",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0MS1NZQAAAABmnYy0Bx2cS4yFN\u002B6r1UyfV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0PEJNZQAAAADyqb1yToQfQZLr1hkBJ/NCV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -49,12 +49,12 @@
                   {
                     "kind": "cancel",
                     "note": "wait time exceeded; cancelling",
-                    "id": "ece216f1-1176-4aef-89f0-cdb71639a59f"
+                    "id": "3bed02b4-5dac-4081-aae0-b58e225ed52b"
                   }
                 ]
               }
             ],
-            "etag": "\u00222c21109d-0000-0700-0000-654d2d310000\u0022"
+            "etag": "\u00223d21746f-0000-0700-0000-654d423c0000\u0022"
           },
           {
             "id": "test-e-policy-recorded-jobs",
@@ -70,12 +70,12 @@
                   {
                     "kind": "cancel",
                     "note": "wait time exceeded; cancelling",
-                    "id": "a0929afe-6c1b-4d0e-aaba-c3c37e095188"
+                    "id": "42f63c86-1326-45f5-b827-4d9721f946f8"
                   }
                 ]
               }
             ],
-            "etag": "\u0022a61ce489-0000-0700-0000-6549765a0000\u0022"
+            "etag": "\u00223d210839-0000-0700-0000-654d420c0000\u0022"
           },
           {
             "id": "test-e-policy-recorded-workers",
@@ -91,12 +91,12 @@
                   {
                     "kind": "cancel",
                     "note": "wait time exceeded; cancelling",
-                    "id": "023db506-1b8c-4f57-9fc0-fac16ed7cd5e"
+                    "id": "caf60696-eed8-471a-b736-ef583f45b002"
                   }
                 ]
               }
             ],
-            "etag": "\u0022a61c4b99-0000-0700-0000-654976630000\u0022"
+            "etag": "\u00223d21f341-0000-0700-0000-654d42140000\u0022"
           },
           {
             "id": "test-e-policy-recorded-d-policies",
@@ -112,12 +112,12 @@
                   {
                     "kind": "cancel",
                     "note": "wait time exceeded; cancelling",
-                    "id": "16340965-81de-4929-9568-75b95a9f71cc"
+                    "id": "e619cadc-3241-4e94-9676-d053c3814bf5"
                   }
                 ]
               }
             ],
-            "etag": "\u00222c21049c-0000-0700-0000-654d2d2d0000\u0022"
+            "etag": "\u00223d21616e-0000-0700-0000-654d423b0000\u0022"
           }
         ]
       }

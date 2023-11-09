@@ -19,9 +19,9 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "932fabe4-2df8-45fe-8cd6-29777a94c369",
+        "x-ms-client-request-id": "b1837289-0331-4848-a005-3d02232446cf",
         "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
-        "x-ms-date": "Thu, 09 Nov 2023 19:04:15 GMT",
+        "x-ms-date": "Thu, 09 Nov 2023 20:34:02 GMT",
         "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
@@ -46,13 +46,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 19:04:15 GMT",
-        "ETag": "\u00222c21b79c-0000-0700-0000-654d2d300000\u0022",
-        "Last-Modified": "Thu, 09 Nov 2023 19:04:16 GMT",
+        "Date": "Thu, 09 Nov 2023 20:34:03 GMT",
+        "ETag": "\u00223d21026f-0000-0700-0000-654d423b0000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:34:03 GMT",
         "Request-Context": "appId=",
-        "trace-id": "516fd32b-9067-ee0b-5cad-af283fb19bb3",
+        "trace-id": "46ddb0f7-66b5-2c29-5301-4891e82ade0b",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0MC1NZQAAAACOTJ5OOPIeRpTcdPOVyWorV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0O0JNZQAAAAB8MgPM2yD0TKlU1qvqRsfkV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -69,12 +69,12 @@
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "a628170a-e42c-4148-8f24-2601dc4ffca9"
+                "id": "27c642fa-68f5-4a61-a5e9-4e579b2c11a6"
               }
             ]
           }
         ],
-        "etag": "\u00222c21b79c-0000-0700-0000-654d2d300000\u0022"
+        "etag": "\u00223d21026f-0000-0700-0000-654d423b0000\u0022"
       }
     }
   ],
