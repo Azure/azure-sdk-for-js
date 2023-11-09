@@ -32,6 +32,7 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "./models/audio.js";
+import { StreamBuilder } from "@azure/core-rest-pipeline";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -249,33 +250,33 @@ export class OpenAIClient {
   /**
    * Returns the transcription of an audio file in a simple JSON format.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param fileContent - The content of the audio file to transcribe.
+   * @param buildFileStream - A function to return a stream of the audio content to transcribe.
    * @param options - The options for this audio transcription request.
    * @returns The audio transcription result in a simple JSON format.
    */
   async getAudioTranscription(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the transcription of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param fileContent - The content of the audio file to transcribe.
+   * @param buildFileStream - A function to return a stream of the audio content to transcribe.
    * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
    * @param options - The options for this audio transcription request.
    * @returns The audio transcription result in a format of your choice.
    */
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     format: Format,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     formatOrOptions?: Format | GetAudioTranscriptionOptions,
     inputOptions?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>> {
@@ -284,14 +285,17 @@ export class OpenAIClient {
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
     if (response_format === undefined) {
-      return getAudioTranscription(this._client, deploymentName, fileContent, options) as Promise<
-        AudioResult<Format>
-      >;
+      return getAudioTranscription(
+        this._client,
+        deploymentName,
+        buildFileStream,
+        options
+      ) as Promise<AudioResult<Format>>;
     }
     return getAudioTranscription(
       this._client,
       deploymentName,
-      fileContent,
+      buildFileStream,
       response_format,
       options
     );
@@ -300,33 +304,33 @@ export class OpenAIClient {
   /**
    * Returns the translation of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param fileContent - The content of the audio file to translate.
+   * @param buildFileStream - A function to return a stream of the audio content to translate.
    * @param options - The options for this audio translation request.
    * @returns The audio translation result.
    */
   async getAudioTranslation(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the translation of an audio file.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-   * @param fileContent - The content of the audio file to translate.
+   * @param buildFileStream - A function to return a stream of the audio content to translate.
    * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
    * @param options - The options for this audio translation request.
    * @returns The audio translation result.
    */
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     format: Format,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
-    fileContent: Uint8Array,
+    buildFileStream: StreamBuilder,
     formatOrOptions?: Format | GetAudioTranslationOptions,
     inputOptions?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>> {
@@ -335,10 +339,16 @@ export class OpenAIClient {
     const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
     this.setModel(deploymentName, options);
     if (response_format === undefined) {
-      return getAudioTranslation(this._client, deploymentName, fileContent, options) as Promise<
+      return getAudioTranslation(this._client, deploymentName, buildFileStream, options) as Promise<
         AudioResult<Format>
       >;
     }
-    return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
+    return getAudioTranslation(
+      this._client,
+      deploymentName,
+      buildFileStream,
+      response_format,
+      options
+    );
   }
 }

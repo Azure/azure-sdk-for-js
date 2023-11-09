@@ -9,7 +9,7 @@
  */
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
-import { readFile } from "fs/promises";
+import { createReadStream } from "fs";
 
 // Load the .env file if it exists
 import dotenv from "dotenv";
@@ -24,8 +24,8 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper";
-  const audio = await readFile("./assets/audio/countdown.wav");
-  const result = await client.getAudioTranslation(deploymentName, audio);
+  const createAudioStream = () => createReadStream("./assets/audio/countdown.wav");
+  const result = await client.getAudioTranslation(deploymentName, createAudioStream);
 
   console.log(`Translation: ${result.text}`);
 }

@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- `getAudioTranscription` and `getAudioTranslation` now take a `StreamBuilder` as input instead of a `Uint8Array`. This allows for streaming audio files to the service instead of having to load the entire file into memory.
+
 ### Bugs Fixed
 
 ### Other Changes

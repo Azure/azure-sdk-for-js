@@ -48,6 +48,11 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 }
 
 /**
+ * A function that generates an identical stream each time it is invoked. This builder is useful when the request needs to be retried and the same stream needs to be resent again.
+ */
+export type StreamBuilder = () => ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+
+/**
  * A part of the request body in a multipart request.
  */
 export interface BodyPart {
@@ -59,12 +64,7 @@ export interface BodyPart {
   /**
    * The body of this part of the multipart request.
    */
-  body:
-    | ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream))
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | Uint8Array
-    | Blob;
+  body: StreamBuilder | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
 }
 
 /**
@@ -92,9 +92,8 @@ export interface MultipartRequestBody {
  */
 export type RequestBodyType =
   | NodeJS.ReadableStream
-  | (() => NodeJS.ReadableStream)
+  | StreamBuilder
   | ReadableStream<Uint8Array>
-  | (() => ReadableStream<Uint8Array>)
   | Blob
   | ArrayBuffer
   | ArrayBufferView

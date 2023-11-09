@@ -6,7 +6,7 @@ import { matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
-import * as fs from "fs/promises";
+import { createReadStream } from "fs";
 import { AudioResultFormat } from "../../../src/models/audio.js";
 import { assertAudioResult } from "../utils/asserts.js";
 
@@ -44,16 +44,26 @@ describe("OpenAI", function () {
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {
             it(`returns ${format} transcription for ${extension} files`, async function () {
-              const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranscription(getModel(authMethod), file, format);
+              const buildStream = (): NodeJS.ReadableStream =>
+                createReadStream(`./assets/audio/countdown.${extension}`);
+              const res = await client.getAudioTranscription(
+                getModel(authMethod),
+                buildStream,
+                format
+              );
               assertAudioResult(format, res);
             });
           });
 
           describe("getAudioTranslation", function () {
             it(`returns ${format} translation for ${extension} files`, async function () {
-              const file = await fs.readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranslation(getModel(authMethod), file, format);
+              const buildStream = (): NodeJS.ReadableStream =>
+                createReadStream(`./assets/audio/countdown.${extension}`);
+              const res = await client.getAudioTranslation(
+                getModel(authMethod),
+                buildStream,
+                format
+              );
               assertAudioResult(format, res);
             });
           });
