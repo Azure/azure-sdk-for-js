@@ -38,7 +38,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 1. **Package Name Convention**: follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`.
 
 
-# Steps to Generate DPG
+# Steps to generate DPG
 
 1. **Configure tspconfig.yaml in spec repository**
    
