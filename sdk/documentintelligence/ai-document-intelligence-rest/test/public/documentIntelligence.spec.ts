@@ -35,12 +35,12 @@ describe("DocumentIntelligenceClient", () => {
   });
 
   it("API Key works - getInfo", async function () {
-    const response = await client.path("/info").get()
+    const response = await client.path("/info").get();
     if (isUnexpected(response)) {
       throw response.body.error;
     }
     assert.strictEqual(
-      (response.body).customDocumentModels.limit,
+      response.body.customDocumentModels.limit,
       20000,
       "expected customDocumentModels limit should be 20000"
     );
@@ -52,7 +52,7 @@ describe("DocumentIntelligenceClient", () => {
       createTestCredential(),
       recorder.configureClientOptions(options)
     );
-    const response = await client.path("/info").get()
+    const response = await client.path("/info").get();
     if (isUnexpected(response)) {
       throw response.body.error;
     }
@@ -130,10 +130,10 @@ describe("DocumentIntelligenceClient", () => {
             azureBlobSource: {
               containerUrl: containerSasUrl(),
             },
-          }
-        }
-      }
-    })
+          },
+        },
+      },
+    });
 
     if (isUnexpected(initialResponse)) {
       throw initialResponse.body.error;
@@ -145,11 +145,7 @@ describe("DocumentIntelligenceClient", () => {
       recorder.variable("customClassifierId"),
       "expected classifierId to match"
     );
-    assert.strictEqual(
-      result.apiVersion,
-      options.apiVersion,
-      "expected apiVersion to match"
-    );
+    assert.strictEqual(result.apiVersion, options.apiVersion, "expected apiVersion to match");
   });
 
   // it("classify from PNG file URL", async function (this: Context) {

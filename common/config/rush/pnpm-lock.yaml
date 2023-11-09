@@ -9794,7 +9794,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-tAR3yZYukIghf87TikkGWyDbj/Ac7JwpFl5O6UsqSf2N+rDWrvy7velgP7E6kAar0lIr2o74Cd4l2o7Npw7ZsQ==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-y0vLgmHjZigP9ofVApBOBqCTpPupEIbrwjESMqa1RW+Fd7ucjrNHEnTLcoHvqm5iYcxYw2z/xdYrDAE7+8DN2w==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -9808,6 +9808,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.51.0
+      esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1

@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("document-intelligence");
+export const logger = createClientLogger("ai-document-intelligence");

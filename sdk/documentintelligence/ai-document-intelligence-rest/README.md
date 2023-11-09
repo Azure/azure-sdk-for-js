@@ -1,4 +1,4 @@
-# Azure DocumentIntelligence (formerly FormRecognizer) REST client library for JavaScript
+# Azure DocumentIntelligence(formerlyFormRecognizer) REST client library for JavaScript
 
 Extracts content, layout, and structured data from documents.
 
@@ -6,10 +6,10 @@ Extracts content, layout, and structured data from documents.
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/document-intelligence-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/document-intelligence)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/document-intelligence?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/document-intelligence-rest/samples)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest)
+- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-intelligence)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence?view=azure-node-preview)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples)
 
 ## Getting started
 
@@ -21,12 +21,12 @@ Key links:
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
-### Install the `@azure-rest/document-intelligence` package
+### Install the `@azure-rest/ai-document-intelligence` package
 
-Install the Azure DocumentIntelligence (formerly FormRecognizer) REST client REST client library for JavaScript with `npm`:
+Install the Azure DocumentIntelligence(formerlyFormRecognizer) REST client REST client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/document-intelligence
+npm install @azure-rest/ai-document-intelligence
 ```
 
 ### Create and authenticate a `DocumentIntelligenceClient`

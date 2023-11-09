@@ -3,7 +3,7 @@
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { DocumentIntelligenceClient } from "./clientDefinitions";
 
 /**
@@ -27,7 +27,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-document-intelligence-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -44,14 +44,5 @@ export default function createClient(
 
   const client = getClient(baseUrl, credentials, options) as DocumentIntelligenceClient;
 
-  if (!isTokenCredential(credentials)) {
-    client.pipeline.addPolicy({
-      name: "customKeyCredentialPolicy",
-      async sendRequest(request, next) {
-        request.headers.set("Authorization", "bearer " + credentials.key);
-        return next(request);
-      },
-    });
-  }
   return client;
 }

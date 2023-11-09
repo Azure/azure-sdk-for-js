@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/document-intelligence.d.ts"
+    "publicTrimmedFilePath": "./types/ai-document-intelligence.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
