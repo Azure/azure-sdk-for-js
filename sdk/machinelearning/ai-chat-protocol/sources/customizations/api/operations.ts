@@ -1,7 +1,6 @@
 import {
   ChatCompletionChunk,
   ChatCompletionOptions,
-  ChatMessage,
   CreateOptions,
 } from "../../generated/src/models/index.js";
 import { Create200Response, CreateStreaming200Response } from "../../generated/src/rest/index.js";
@@ -11,6 +10,7 @@ import { CompletionOptions } from "../models/options.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { streamJSONLines } from "./streaming.js";
 import { ChatProtocolContext as Client } from "../rest/clientDefinitions.js";
+import { ChatMessage } from "../models/models.js";
 
 function _createStreamingSend(
   context: Client,

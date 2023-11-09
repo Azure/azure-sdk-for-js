@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 /** A single, role-attributed message within a chat completion interaction. */
-export interface ChatMessageOutput {
-  /** The text associated with the message. */
-  content: string;
+export interface ChatMessageOutputParent {
   /**
    * The role associated with the message.
    *
@@ -18,6 +16,15 @@ export interface ChatMessageOutput {
    * conversations or user preferences.
    */
   sessionState?: any;
+  kind: string;
+}
+
+/** A single, role-attributed text message within a chat completion interaction. */
+export interface TextChatMessageOutput extends ChatMessageOutputParent {
+  /** The type of the message. */
+  kind: "text";
+  /** The text associated with the message. */
+  content: string;
 }
 
 /** A single response to a streaming completion request. */
@@ -53,9 +60,7 @@ export interface ChoiceDeltaOutput {
 }
 
 /** The representation of a delta message received in a streaming completion. */
-export interface ChatMessageDeltaOutput {
-  /** An incremental part of the text associated with the message. */
-  content?: string;
+export interface ChatMessageDeltaOutputParent {
   /**
    * The role associated with the message.
    *
@@ -69,6 +74,15 @@ export interface ChatMessageDeltaOutput {
    * conversations or user preferences.
    */
   sessionState?: any;
+  kind: string;
+}
+
+/** The representation of a delta text message received in a streaming completion. */
+export interface TextChatMessageDeltaOutput extends ChatMessageDeltaOutputParent {
+  /** The type of the message. */
+  kind: "text";
+  /** An incremental part of the text associated with the message. */
+  content?: string;
 }
 
 /** Representation of the response to a chat completion request. */
@@ -102,3 +116,8 @@ export interface ChatChoiceOutput {
    */
   finishReason: string;
 }
+
+/** A single, role-attributed message within a chat completion interaction. */
+export type ChatMessageOutput = TextChatMessageOutput;
+/** The representation of a delta message received in a streaming completion. */
+export type ChatMessageDeltaOutput = TextChatMessageDeltaOutput;

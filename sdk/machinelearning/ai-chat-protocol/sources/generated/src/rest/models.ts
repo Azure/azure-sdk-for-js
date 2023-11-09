@@ -22,9 +22,7 @@ export interface StreamingChatCompletionOptions {
 }
 
 /** A single, role-attributed message within a chat completion interaction. */
-export interface ChatMessage {
-  /** The text associated with the message. */
-  content: string;
+export interface ChatMessageParent {
   /**
    * The role associated with the message.
    *
@@ -38,6 +36,15 @@ export interface ChatMessage {
    * conversations or user preferences.
    */
   sessionState?: unknown;
+  kind: string;
+}
+
+/** A single, role-attributed text message within a chat completion interaction. */
+export interface TextChatMessage extends ChatMessageParent {
+  /** The type of the message. */
+  kind: "text";
+  /** The text associated with the message. */
+  content: string;
 }
 
 /** The configuration for a chat completion request. */
@@ -59,3 +66,6 @@ export interface ChatCompletionOptions {
    */
   context?: Record<string, unknown>;
 }
+
+/** A single, role-attributed message within a chat completion interaction. */
+export type ChatMessage = TextChatMessage;

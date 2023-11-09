@@ -23,8 +23,8 @@ export interface StreamingChatCompletionOptions {
 
 /** A single, role-attributed message within a chat completion interaction. */
 export interface ChatMessage {
-  /** The text associated with the message. */
-  content: string;
+  /** the discriminator possible values text */
+  kind: MessageKind;
   /** The role associated with the message. */
   role: ChatRole;
   /**
@@ -36,6 +36,9 @@ export interface ChatMessage {
   sessionState?: unknown;
 }
 
+/** Identifies the type of a message. */
+/** "text" */
+export type MessageKind = string;
 /** A representation of the intended purpose of a message. */
 /** "user", "system", "assistant" */
 export type ChatRole = string;
@@ -70,8 +73,8 @@ export interface ChoiceDelta {
 
 /** The representation of a delta message received in a streaming completion. */
 export interface ChatMessageDelta {
-  /** An incremental part of the text associated with the message. */
-  content?: string;
+  /** the discriminator possible values text */
+  kind: MessageKind;
   /** The role associated with the message. */
   role?: ChatRole;
   /**

@@ -13,6 +13,7 @@ export { ChatProtocolClient, ChatProtocolClientOptions } from "./ChatProtocolCli
 export {
   StreamingChatCompletionOptions,
   ChatMessage,
+  MessageKind,
   ChatRole,
   ChatCompletionChunk,
   ChoiceDelta,

@@ -12,6 +12,7 @@
 export {
   StreamingChatCompletionOptions,
   ChatMessage,
+  MessageKind,
   ChatRole,
   ChatCompletionChunk,
   ChoiceDelta,

@@ -37,16 +37,14 @@ export interface ChatCompletionOptions {
     stream: false;
 }
 
-// @public
-export interface ChatMessage {
-    content: string;
-    role: ChatRole;
-    sessionState?: unknown;
-}
+// Warning: (ae-forgotten-export) The symbol "TextChatMessage" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type ChatMessage = TextChatMessage;
 
 // @public
 export interface ChatMessageDelta {
-    content?: string;
+    kind: MessageKind;
     role?: ChatRole;
     sessionState?: unknown;
 }
@@ -92,6 +90,9 @@ export interface CreateStreamingOptions extends OperationOptions {
 
 // @public
 export type FinishReason = string;
+
+// @public
+export type MessageKind = string;
 
 // @public
 export interface StreamingChatCompletionOptions {
