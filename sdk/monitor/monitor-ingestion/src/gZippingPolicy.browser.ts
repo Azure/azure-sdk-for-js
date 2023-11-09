@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
-import * as pako from "pako";
+import pako from "pako";
 /**
  * Name of the {@link gZippingPolicy}
  */
