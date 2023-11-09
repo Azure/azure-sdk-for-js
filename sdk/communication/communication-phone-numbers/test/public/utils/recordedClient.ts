@@ -16,6 +16,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy"
 
 if (isNode) {
   dotenv.config();
@@ -90,7 +91,14 @@ export async function createRecordedClient(
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({
+      additionalPolicies: [
+        {
+          policy: createMSUserAgentPolicy(),
+          position: "perCall",
+        },
+      ],
+    })
   );
 
   // casting is a workaround to enable min-max testing
@@ -121,7 +129,14 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({
+    additionalPolicies: [
+      {
+        policy: createMSUserAgentPolicy(),
+        position: "perCall",
+      },
+    ],
+  }));
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };

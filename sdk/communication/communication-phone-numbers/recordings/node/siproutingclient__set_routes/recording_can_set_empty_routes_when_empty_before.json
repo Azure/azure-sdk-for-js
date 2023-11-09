@@ -10,29 +10,32 @@
         "Connection": "keep-alive",
         "Content-Length": "13",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "GKCOKmpk/o\u002BLF4RTkIST7scbYsElDUdzRGZzbJjGQx4=",
-        "x-ms-date": "Fri, 10 Mar 2023 08:33:11 GMT"
+        "x-ms-date": "Thu, 09 Nov 2023 14:07:45 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": []
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Connection": "keep-alive",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 08:33:10 GMT",
-        "MS-CV": "7EJhxoo3CUisWMB/4XAtQw.0",
+        "Date": "Thu, 09 Nov 2023 14:07:44 GMT",
+        "MS-CV": "YKw0tPa330egUcQ3OkVTNA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0RusKZAAAAAC/PibDfqJPSardW520I3IhUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20231109T140743Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000su5p",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "317ms"
+        "X-Processing-Time": "330ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test516d80fed67c43509bf7b0a18faacd2e.sanitized.sbc.test": {
+          "test90e08df7e649416a98fa64feec0a8e1b.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -49,29 +52,32 @@
         "Connection": "keep-alive",
         "Content-Length": "13",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "GKCOKmpk/o\u002BLF4RTkIST7scbYsElDUdzRGZzbJjGQx4=",
-        "x-ms-date": "Fri, 10 Mar 2023 08:33:11 GMT"
+        "x-ms-date": "Thu, 09 Nov 2023 14:07:45 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": []
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Connection": "keep-alive",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 08:33:10 GMT",
-        "MS-CV": "VLq1MPflLk657IAA9ernSw.0",
+        "Date": "Thu, 09 Nov 2023 14:07:44 GMT",
+        "MS-CV": "2xH/aKfN9UCU/4e5/ROK3g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0RusKZAAAAAC3NmMWnvm8TpAo9moMVNYaUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20231109T140744Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000su8c",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "323ms"
+        "X-Processing-Time": "343ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test516d80fed67c43509bf7b0a18faacd2e.sanitized.sbc.test": {
+          "test90e08df7e649416a98fa64feec0a8e1b.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -86,27 +92,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 10 Mar 2023 08:33:12 GMT"
+        "x-ms-date": "Thu, 09 Nov 2023 14:07:46 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "Accept-Ranges": "bytes",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Connection": "keep-alive",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 08:33:11 GMT",
-        "MS-CV": "JesNjh71hU6ppblv7jQeQA.0",
+        "Date": "Thu, 09 Nov 2023 14:07:45 GMT",
+        "MS-CV": "CJdGloQ6ykm4PtyCV3H/Rg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0R\u002BsKZAAAAAAETjXMjkCYRot75q3iCXrOUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20231109T140744Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000subf",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "168ms"
+        "X-Processing-Time": "228ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test516d80fed67c43509bf7b0a18faacd2e.sanitized.sbc.test": {
+          "test90e08df7e649416a98fa64feec0a8e1b.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -115,7 +124,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testa338ca52529741d5b82ec7e8a21ad2ec.sanitized.sbc.test",
-    "fqdn-2": "test974fcbe57d0e4f04b22c25207dfa35a2.sanitized.sbc.test"
+    "fqdn-1": "test0eb488c1ef2c4a558146626157c865f5.sanitized.sbc.test",
+    "fqdn-2": "testa4d18e79a4f04b889d51ce2c8cfd8951.sanitized.sbc.test"
   }
 }
