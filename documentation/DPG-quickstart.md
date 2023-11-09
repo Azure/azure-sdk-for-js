@@ -95,7 +95,11 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     tsp-client update
     ```
 
+    ---  
+    **NOTE**
     The version of typespec-ts is configured in [emitter-package.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package.json) and relevant lock file [emitter-package-lock.json](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/emitter-package-lock.json). Change them in local, if you would like to use a different version of typespec-ts.
+
+    --- 
 
 3. **Edit rush.json**  
     
