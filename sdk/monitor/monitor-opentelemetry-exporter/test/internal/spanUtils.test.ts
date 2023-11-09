@@ -20,6 +20,7 @@ import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 
 const context = getInstance();
 
@@ -249,7 +250,7 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "WCF",
+          [SemanticAttributes.RPC_SYSTEM]: DependencyTypes.Wcf,
         });
         span.setStatus({
           code: SpanStatusCode.OK,
@@ -268,7 +269,8 @@ describe("spanUtils.ts", () => {
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
-          type: "WCF",
+          type: "WCF Service",
+          target: "WCF Service",
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
