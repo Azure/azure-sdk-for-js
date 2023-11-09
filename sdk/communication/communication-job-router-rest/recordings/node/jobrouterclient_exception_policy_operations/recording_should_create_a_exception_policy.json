@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "201",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.2 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "8218857e-4fc1-4be9-b03c-b02ea9b74e0d",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "fc8e4284-1c2b-4154-8650-6a88575db8a0",
         "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
-        "x-ms-date": "Mon, 06 Nov 2023 06:59:42 GMT"
+        "x-ms-date": "Mon, 06 Nov 2023 23:27:15 GMT"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -37,13 +37,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 06 Nov 2023 06:59:40 GMT",
-        "ETag": "\u0022941bd51c-0000-0700-0000-65488edc0000\u0022",
-        "Last-Modified": "Mon, 06 Nov 2023 06:59:40 GMT",
+        "Date": "Mon, 06 Nov 2023 23:27:15 GMT",
+        "ETag": "\u0022a61c5b7d-0000-0700-0000-654976530000\u0022",
+        "Last-Modified": "Mon, 06 Nov 2023 23:27:15 GMT",
         "Request-Context": "appId=",
-        "trace-id": "0600e260-98e6-3bc2-3a9e-4e5329d1c076",
+        "trace-id": "cc3e369a-b117-dffc-2418-d8faa33fbd24",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "03I5IZQAAAACi\u002BBX7Ngz5QKhdrhJpflKfV1NURURHRTAxMTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0U3ZJZQAAAADhpgsGYACGQKr5jAv4Oi/AV1NURURHRTAxMTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -60,12 +60,12 @@
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "a6143504-0538-43aa-a1cb-ede0df1756ea"
+                "id": "c7838475-7172-49a2-8bc2-29c6ff4f3903"
               }
             ]
           }
         ],
-        "etag": "\u0022941bd51c-0000-0700-0000-65488edc0000\u0022"
+        "etag": "\u0022a61c5b7d-0000-0700-0000-654976530000\u0022"
       }
     }
   ],
