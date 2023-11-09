@@ -3,35 +3,264 @@
 
 import { ErrorModel } from "@azure-rest/core-client";
 
-/**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface Embeddings {
-  /** Embedding values for the prompts submitted in the request. */
-  data: EmbeddingItem[];
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsage;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItem {
+/** The configuration information for an audio transcription request. */
+export interface AudioTranscriptionOptions {
   /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
+   * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
+  file: Uint8Array;
+  /** The requested format of the transcription response data, which will influence the content and detail of the result. */
+  responseFormat?: AudioTranscriptionFormat;
+  /**
+   * The primary spoken language of the audio data to be transcribed, supplied as a two-letter ISO-639-1 language code
+   * such as 'en' or 'fr'.
+   * Providing this known input language is optional but may improve the accuracy and/or latency of transcription.
+   */
+  language?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this transcription request. */
+  model?: string;
 }
 
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsage {
-  /** Number of tokens sent in the original request. */
-  promptTokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  totalTokens: number;
+/** Defines available options for the underlying response format of output transcription information. */
+/** "json", "verbose_json", "text", "srt", "vtt" */
+export type AudioTranscriptionFormat = string;
+
+/** Result information for an operation that transcribed spoken audio into written text. */
+export interface AudioTranscription {
+  /** The transcribed text for the provided audio data. */
+  text: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabel;
+  /**
+   * The spoken language that was detected in the transcribed audio data.
+   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
+   */
+  language?: string;
+  /** The total duration of the audio processed to produce accompanying transcription information. */
+  duration?: number;
+  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
+  segments?: AudioTranscriptionSegment[];
+}
+
+/** Defines the possible descriptors for available audio operation responses. */
+/** "transcribe", "translate" */
+export type AudioTaskLabel = string;
+
+/**
+ * Extended information about a single segment of transcribed audio data.
+ * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
+ * necessarily sentences.
+ */
+export interface AudioTranscriptionSegment {
+  /** The 0-based index of this segment within a transcription. */
+  id: number;
+  /** The time at which this segment started relative to the beginning of the transcribed audio. */
+  start: number;
+  /** The time at which this segment ended relative to the beginning of the transcribed audio. */
+  end: number;
+  /** The transcribed text that was part of this audio segment. */
+  text: string;
+  /** The temperature score associated with this audio segment. */
+  temperature: number;
+  /** The average log probability associated with this audio segment. */
+  avgLogprob: number;
+  /** The compression ratio of this audio segment. */
+  compressionRatio: number;
+  /** The probability of no speech detection within this audio segment. */
+  noSpeechProb: number;
+  /** The token IDs matching the transcribed text in this audio segment. */
+  tokens: number[];
+  /**
+   * The seek position associated with the processing of this audio segment.
+   * Seek positions are expressed as hundredths of seconds.
+   * The model may process several segments from a single seek position, so while the seek position will never represent
+   * a later time than the segment's start, the segment's start may represent a significantly later time than the
+   * segment's associated seek position.
+   */
+  seek: number;
+}
+
+/** The configuration information for an audio translation request. */
+export interface AudioTranslationOptions {
+  /**
+   * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   */
+  file: Uint8Array;
+  /** The requested format of the translation response data, which will influence the content and detail of the result. */
+  responseFormat?: AudioTranslationFormat;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this translation request. */
+  model?: string;
+}
+
+/** Defines available options for the underlying response format of output translation information. */
+/** "json", "verbose_json", "text", "srt", "vtt" */
+export type AudioTranslationFormat = string;
+
+/** Result information for an operation that translated spoken audio into written text. */
+export interface AudioTranslation {
+  /** The translated text for the provided audio data. */
+  text: string;
+  /** The label that describes which operation type generated the accompanying response data. */
+  task?: AudioTaskLabel;
+  /**
+   * The spoken language that was detected in the translated audio data.
+   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
+   */
+  language?: string;
+  /** The total duration of the audio processed to produce accompanying translation information. */
+  duration?: number;
+  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
+  segments?: AudioTranslationSegment[];
+}
+
+/**
+ * Extended information about a single segment of translated audio data.
+ * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
+ * necessarily sentences.
+ */
+export interface AudioTranslationSegment {
+  /** The 0-based index of this segment within a translation. */
+  id: number;
+  /** The time at which this segment started relative to the beginning of the translated audio. */
+  start: number;
+  /** The time at which this segment ended relative to the beginning of the translated audio. */
+  end: number;
+  /** The translated text that was part of this audio segment. */
+  text: string;
+  /** The temperature score associated with this audio segment. */
+  temperature: number;
+  /** The average log probability associated with this audio segment. */
+  avgLogprob: number;
+  /** The compression ratio of this audio segment. */
+  compressionRatio: number;
+  /** The probability of no speech detection within this audio segment. */
+  noSpeechProb: number;
+  /** The token IDs matching the translated text in this audio segment. */
+  tokens: number[];
+  /**
+   * The seek position associated with the processing of this audio segment.
+   * Seek positions are expressed as hundredths of seconds.
+   * The model may process several segments from a single seek position, so while the seek position will never represent
+   * a later time than the segment's start, the segment's start may represent a significantly later time than the
+   * segment's associated seek position.
+   */
+  seek: number;
+}
+
+/**
+ * The configuration information for a completions request.
+ * Completions support a wide variety of tasks and generate text that continues from or "completes"
+ * provided prompt data.
+ */
+export interface CompletionsOptions {
+  /** The prompts to generate completions from. */
+  prompt: string[];
+  /** The maximum number of tokens to generate. */
+  maxTokens?: number;
+  /**
+   * The sampling temperature to use that controls the apparent creativity of generated completions.
+   * Higher values will make output more random while lower values will make results more focused
+   * and deterministic.
+   * It is not recommended to modify temperature and top_p for the same completions request as the
+   * interaction of these two settings is difficult to predict.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature called nucleus sampling. This value causes the
+   * model to consider the results of tokens with the provided probability mass. As an example, a
+   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
+   * considered.
+   * It is not recommended to modify temperature and top_p for the same completions request as the
+   * interaction of these two settings is difficult to predict.
+   */
+  topP?: number;
+  /**
+   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
+   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
+   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
+   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
+   * score varies by model.
+   */
+  logitBias?: Record<string, number>;
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The number of completions choices that should be generated per provided prompt as part of an
+   * overall completions response.
+   * Because this setting can generate many completions, it may quickly consume your token quota.
+   * Use carefully and ensure reasonable settings for max_tokens and stop.
+   */
+  n?: number;
+  /**
+   * A value that controls the emission of log probabilities for the provided number of most likely
+   * tokens within a completions response.
+   */
+  logprobs?: number;
+  /**
+   * A value specifying whether completions responses should include input prompts as prefixes to
+   * their generated output.
+   */
+  echo?: boolean;
+  /** A collection of textual sequences that will end completions generation. */
+  stop?: string[];
+  /**
+   * A value that influences the probability of generated tokens appearing based on their existing
+   * presence in generated text.
+   * Positive values will make tokens less likely to appear when they already exist and increase the
+   * model's likelihood to output new topics.
+   */
+  presencePenalty?: number;
+  /**
+   * A value that influences the probability of generated tokens appearing based on their cumulative
+   * frequency in generated text.
+   * Positive values will make tokens less likely to appear as their frequency increases and
+   * decrease the likelihood of the model repeating the same statements verbatim.
+   */
+  frequencyPenalty?: number;
+  /**
+   * A value that controls how many completions will be internally generated prior to response
+   * formulation.
+   * When used together with n, best_of controls the number of candidate completions and must be
+   * greater than n.
+   * Because this setting can generate many completions, it may quickly consume your token quota.
+   * Use carefully and ensure reasonable settings for max_tokens and stop.
+   */
+  bestOf?: number;
+  /** A value indicating whether chat completions should be streamed for this request. */
+  stream?: boolean;
+  /**
+   * The model name to provide as part of this completions request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
 }
 
 /**
@@ -97,6 +326,11 @@ export interface ContentFilterResults {
    * or damage one’s body, or kill oneself.
    */
   selfHarm?: ContentFilterResult;
+  /**
+   * Describes an error returned if the content filtering system is
+   * down or otherwise unable to complete the operation in time.
+   */
+  error?: ErrorModel;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -175,6 +409,98 @@ export interface CompletionsUsage {
   totalTokens: number;
 }
 
+/**
+ * The configuration information for a chat completions request.
+ * Completions support a wide variety of tasks and generate text that continues from or "completes"
+ * provided prompt data.
+ */
+export interface ChatCompletionsOptions {
+  /**
+   * The collection of context messages associated with this chat completions request.
+   * Typical usage begins with a chat message for the System role that provides instructions for
+   * the behavior of the assistant, followed by alternating messages between the User and
+   * Assistant roles.
+   */
+  messages: ChatMessage[];
+  /** A list of functions the model may generate JSON inputs for. */
+  functions?: FunctionDefinition[];
+  /**
+   * Controls how the model responds to function calls. "none" means the model does not call a function,
+   * and responds to the end-user. "auto" means the model can pick between an end-user or calling a function.
+   *  Specifying a particular function via `{"name": "my_function"}` forces the model to call that function.
+   *  "none" is the default when no functions are present. "auto" is the default if functions are present.
+   */
+  functionCall?: FunctionCallPreset | FunctionName;
+  /** The maximum number of tokens to generate. */
+  maxTokens?: number;
+  /**
+   * The sampling temperature to use that controls the apparent creativity of generated completions.
+   * Higher values will make output more random while lower values will make results more focused
+   * and deterministic.
+   * It is not recommended to modify temperature and top_p for the same completions request as the
+   * interaction of these two settings is difficult to predict.
+   */
+  temperature?: number;
+  /**
+   * An alternative to sampling with temperature called nucleus sampling. This value causes the
+   * model to consider the results of tokens with the provided probability mass. As an example, a
+   * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
+   * considered.
+   * It is not recommended to modify temperature and top_p for the same completions request as the
+   * interaction of these two settings is difficult to predict.
+   */
+  topP?: number;
+  /**
+   * A map between GPT token IDs and bias scores that influences the probability of specific tokens
+   * appearing in a completions response. Token IDs are computed via external tokenizer tools, while
+   * bias scores reside in the range of -100 to 100 with minimum and maximum values corresponding to
+   * a full ban or exclusive selection of a token, respectively. The exact behavior of a given bias
+   * score varies by model.
+   */
+  logitBias?: Record<string, number>;
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The number of chat completions choices that should be generated for a chat completions
+   * response.
+   * Because this setting can generate many completions, it may quickly consume your token quota.
+   * Use carefully and ensure reasonable settings for max_tokens and stop.
+   */
+  n?: number;
+  /** A collection of textual sequences that will end completions generation. */
+  stop?: string[];
+  /**
+   * A value that influences the probability of generated tokens appearing based on their existing
+   * presence in generated text.
+   * Positive values will make tokens less likely to appear when they already exist and increase the
+   * model's likelihood to output new topics.
+   */
+  presencePenalty?: number;
+  /**
+   * A value that influences the probability of generated tokens appearing based on their cumulative
+   * frequency in generated text.
+   * Positive values will make tokens less likely to appear as their frequency increases and
+   * decrease the likelihood of the model repeating the same statements verbatim.
+   */
+  frequencyPenalty?: number;
+  /** A value indicating whether chat completions should be streamed for this request. */
+  stream?: boolean;
+  /**
+   * The model name to provide as part of this completions request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   *   The configuration entries for Azure OpenAI chat extensions that use them.
+   *   This additional specification is only compatible with Azure OpenAI.
+   */
+  dataSources?: AzureChatExtensionConfiguration[];
+}
+
 /** A single, role-attributed message within a chat completion interaction. */
 export interface ChatMessage {
   /** The role associated with this message payload. */
@@ -240,7 +566,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the functions accepts, described as a JSON Schema object. */
-  parameters?: any;
+  parameters?: unknown;
 }
 
 /**
@@ -275,7 +601,7 @@ export interface AzureChatExtensionConfiguration {
    *   extension being configured.
    *   Azure chat extensions are only compatible with Azure OpenAI.
    */
-  parameters: any;
+  parameters: unknown;
 }
 
 /**
@@ -375,9 +701,85 @@ export interface ImagePayload {
 /** The state of a job or item. */
 /** "notRunning", "running", "succeeded", "canceled", "failed" */
 export type AzureOpenAIOperationState = string;
+
+/** Represents the request data used to generate images. */
+export interface ImageGenerationOptions {
+  /** A description of the desired images. */
+  prompt: string;
+  /** The number of images to generate (defaults to 1). */
+  n?: number;
+  /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024 (defaults to 1024x1024). */
+  size?: ImageSize;
+  /**
+   *   The format in which image generation response items should be presented.
+   *   Azure OpenAI only supports URL response items.
+   */
+  responseFormat?: ImageGenerationResponseFormat;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
+}
+
 /** The desired size of the generated images. Must be one of 256x256, 512x512, or 1024x1024. */
 /** "256x256", "512x512", "1024x1024" */
 export type ImageSize = string;
 /** The format in which the generated images are returned. */
 /** "url", "b64_json" */
 export type ImageGenerationResponseFormat = string;
+
+/**
+ * The configuration information for an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   * Input texts to get embeddings for, encoded as a an array of strings.
+   * Each input must not exceed 2048 tokens in length.
+   *
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * as we have observed inferior results when newlines are present.
+   */
+  input: string[];
+}
+
+/**
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface Embeddings {
+  /** Embedding values for the prompts submitted in the request. */
+  data: EmbeddingItem[];
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsage;
+}
+
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItem {
+  /**
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
+   */
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
+}
+
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsage {
+  /** Number of tokens sent in the original request. */
+  promptTokens: number;
+  /** Total number of tokens transacted in this request/response. */
+  totalTokens: number;
+}

@@ -2,37 +2,55 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 import {
-  Embeddings,
+  AudioTranscriptionOptions,
+  AudioTranscription,
+  AudioTranslationOptions,
+  AudioTranslation,
+  CompletionsOptions,
   Completions,
-  ChatMessage,
+  ChatCompletionsOptions,
   ChatCompletions,
   BatchImageGenerationOperationResponse,
+  ImageGenerationOptions,
+  EmbeddingsOptions,
+  Embeddings,
 } from "./models/models.js";
 import {
-  GetEmbeddingsOptions,
+  GetAudioTranscriptionAsPlainTextOptions,
+  GetAudioTranscriptionAsResponseObjectOptions,
+  GetAudioTranslationAsPlainTextOptions,
+  GetAudioTranslationAsResponseObjectOptions,
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
+  GetEmbeddingsOptions,
 } from "./models/options.js";
 import {
   createOpenAI,
   OpenAIClientOptions,
   OpenAIContext,
-  getEmbeddings,
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
+  getEmbeddings,
 } from "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
 export class OpenAIClient {
   private _client: OpenAIContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
   /** Azure OpenAI APIs for completions and search */
   constructor(
@@ -41,15 +59,71 @@ export class OpenAIClient {
     options: OpenAIClientOptions = {}
   ) {
     this._client = createOpenAI(endpoint, credential, options);
+    this.pipeline = this._client.pipeline;
   }
 
-  /** Return the embeddings for a given prompt. */
-  getEmbeddings(
-    input: string[],
+  /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsPlainText(
     deploymentId: string,
-    options: GetEmbeddingsOptions = { requestOptions: {} }
-  ): Promise<Embeddings> {
-    return getEmbeddings(this._client, input, deploymentId, options);
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranscriptionAsPlainText(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsResponseObject(
+    deploymentId: string,
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsResponseObjectOptions = {
+      requestOptions: {},
+    }
+  ): Promise<AudioTranscription> {
+    return getAudioTranscriptionAsResponseObject(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsPlainText(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranslationAsPlainText(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsResponseObject(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsResponseObjectOptions = { requestOptions: {} }
+  ): Promise<AudioTranslation> {
+    return getAudioTranslationAsResponseObject(
+      this._client,
+      deploymentId,
+      body,
+      options
+    );
   }
 
   /**
@@ -58,11 +132,11 @@ export class OpenAIClient {
    * provided prompt data.
    */
   getCompletions(
-    prompt: string[],
     deploymentId: string,
+    body: CompletionsOptions,
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
-    return getCompletions(this._client, prompt, deploymentId, options);
+    return getCompletions(this._client, deploymentId, body, options);
   }
 
   /**
@@ -71,11 +145,11 @@ export class OpenAIClient {
    * provided prompt data.
    */
   getChatCompletions(
-    messages: ChatMessage[],
     deploymentId: string,
+    body: ChatCompletionsOptions,
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
-    return getChatCompletions(this._client, messages, deploymentId, options);
+    return getChatCompletions(this._client, deploymentId, body, options);
   }
 
   /**
@@ -84,16 +158,16 @@ export class OpenAIClient {
    * other augmentations to the base chat completions capabilities.
    */
   getChatCompletionsWithAzureExtensions(
-    messages: ChatMessage[],
     deploymentId: string,
+    body: ChatCompletionsOptions,
     options: GetChatCompletionsWithAzureExtensionsOptions = {
       requestOptions: {},
     }
   ): Promise<ChatCompletions> {
     return getChatCompletionsWithAzureExtensions(
       this._client,
-      messages,
       deploymentId,
+      body,
       options
     );
   }
@@ -114,9 +188,18 @@ export class OpenAIClient {
 
   /** Starts the generation of a batch of images from a text caption */
   beginAzureBatchImageGeneration(
-    prompt: string,
+    body: ImageGenerationOptions,
     options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
   ): Promise<BatchImageGenerationOperationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
+    return beginAzureBatchImageGeneration(this._client, body, options);
+  }
+
+  /** Return the embeddings for a given prompt. */
+  getEmbeddings(
+    deploymentId: string,
+    body: EmbeddingsOptions,
+    options: GetEmbeddingsOptions = { requestOptions: {} }
+  ): Promise<Embeddings> {
+    return getEmbeddings(this._client, deploymentId, body, options);
   }
 }
