@@ -5,13 +5,11 @@ The generated code is not enough to release at once and you need to update it fo
 
 # Build your project
 
-After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**. To get a workable package, you can run the following commands to get a artifact if you like.
+After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**. Refer [the development workflows](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#development-workflows) for more details if you are interested in.
 
 ```shell
 rush update
 rush build -t <your-package-name>
-cd <your-sdk-folder>
-rushx pack
 ```
 
 # Improve README.md document
