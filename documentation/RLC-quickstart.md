@@ -120,4 +120,4 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 # After SDK generation
 
-The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generating](https://github.com/Azure/azure-sdk-for-js/blob/update-get-started-doc/documentation/steps-after-generations.md) to check the code.
+The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generation guide](https://github.com/Azure/azure-sdk-for-js/blob/update-get-started-doc/documentation/steps-after-generations.md) to check the code.
