@@ -115,20 +115,6 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
     Here you also need to replace the `packageName`, `projectFolder` into your own services'.
 
-4. **Build your project**  
-
-    After this finishes, you will see the generated code in `src` folder in your **{PROJECT_ROOT}**.  
-    To get a workable package, you can run the following commands to get a artifact if you like.
-
-    ```shell
-    rush update
-    rush build -t <your-package-name> # e.g rush build -t @azure/agrifood-farming
-    cd <your-sdk-folder>
-    rushx pack
-    ```
-
-    The generated code is not good enough to release yet and you need to update it for better usage experience.
-
 # After SDK generation
 
 The generated code is not enough to release at once and you need to update it for better usage experience. Please follow [steps after generating](https://github.com/Azure/azure-sdk-for-js/blob/update-get-started-doc/documentation/steps-after-generations.md) to check the code.
