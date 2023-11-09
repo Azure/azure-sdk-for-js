@@ -85,15 +85,14 @@ function findCallSignature(
 ): CallSignatureDeclaration | undefined {
   function typeEquals(a: Type, b: Type) {
     // Need to handle cases where the type is imported
-    const aStr = a?.getText()?.replace(/import\(\".+\"\)\./, "");
-    const bStr = b?.getText()?.replace(/import\(\".+\"\)\./, "");
+    const aStr = a?.getText()?.replace(/import\(".+"\)\./, "");
+    const bStr = b?.getText()?.replace(/import\(".+"\)\./, "");
     return aStr && bStr && aStr === bStr;
   }
   return interfaceDeclaration.getCallSignature((signature) => {
     if (signature.getParameters().length !== callSignature.getParameters().length) {
       return false;
     }
-    signature.getReturnTypeNode;
     if (!typeEquals(signature.getReturnType(), callSignature.getReturnType())) {
       return false;
     }
