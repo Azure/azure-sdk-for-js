@@ -13,6 +13,11 @@ If you have code generation queries, post them in the [TypeSpec Discussion](http
 
 Join the [JavaScript - Reviews](https://teams.microsoft.com/l/channel/19%3a408c5f1322ee4303b02b5da9c5ff6137%40thread.skype/Language%2520-%2520JavaScript%2520-%2520Reviews?groupId=3e17dcb0-4257-4a30-b843-77f47f1d4121&tenantId=72f988bf-86f1-41af-91ab-2d7cd011db47) channel for assistance with the API review process.
 
+## Prerequisites
+
+- Node.js 18 or later.
+- Install Rush with `npm install -g @microsoft/rush`.
+
 # Set up your development environment
 
 Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for environment prerequisites in the Azure SDK for JS repository.
