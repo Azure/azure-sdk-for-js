@@ -6,7 +6,7 @@ import pako from "pako";
 /**
  * Name of the {@link gZippingPolicy}
  */
-export const gZippingPolicyName = "GzippingPolicyForBrowser";
+export const gZippingPolicyName = "GzippingPolicy";
 
 export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
