@@ -6,7 +6,7 @@ export function wrapError<T>(f: () => T, message: string): T {
     const result = f();
     return result;
   } catch (cause) {
-    throw new Error(message, { cause });
+    throw new Error(`${message}: ${cause}`, { cause });
   }
 }
 

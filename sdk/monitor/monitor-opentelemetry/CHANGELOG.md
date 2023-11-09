@@ -1,5 +1,17 @@
 # Release History
 
+## 1.1.1 (2023-11-09)
+
+### Bugs Fixed
+
+- Add AKS resource provider in Statsbeat, add missing resource identifiers.
+- Handle issue of custom MeterReaders not being able to collect metrics for instrumentations.
+
+### Other Changes
+- Update OpenTelemetry dependencies.
+- Change JSON config values precedence.
+- Fix broken link in README.
+
 ## 1.1.0 (2023-10-09)
 
 ### Bugs Fixed

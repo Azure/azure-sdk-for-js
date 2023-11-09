@@ -1,18 +1,22 @@
 # Release History
 
-## 1.0.0-beta.18 ()
+## 1.0.0-beta.19 ()
 
 ### Features Added
 
 - Capture WCF as an RPC dependency type.
 
-### Breaking Changes
+## 1.0.0-beta.18 (2023-11-09)
 
 ### Bugs Fixed
 
 - Fix Feature and Instrumentation Statsbeat type value.
 
 ### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
 
 ## 1.0.0-beta.17 (2023-10-09)
 

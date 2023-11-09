@@ -1,7 +1,9 @@
-Getting Started: Generate JavaScript/TypeScript RLC (Rest Level Client) Libraries with TypeSpec
+Getting Started: Generate JavaScript/TypeScript DPG Libraries with TypeSpec
 ===========================================================================
 
 # Before you start
+
+:warning: **Important**: Only proceed with DPG code generation for JavaScript/TypeScript if you have been explicitly instructed to do so by the AZSDK Architecture Board. Otherwise, please use the [RLC Quickstart Guide](https://aka.ms/azsdk/rlc/js).
 
 :warning: Ensure that your TypeSpec definition has been merged into the main branch of the [Azure REST API specs repository](https://github.com/Azure/azure-rest-api-specs) before you begin.
 
@@ -25,19 +27,20 @@ Follow the [setup guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CON
 
 The `service name` is a concise identifier for the Azure service and should be consistent across all SDK languages. It's typically the name of the directory in the azure-rest-api-specs repository containing your service's REST API definition.
 
-The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}-rest` or `@azure/{service-name}-{module}-rest` for services with multiple modules.
+The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). It usually follows the format `@azure/{service-name}` or `@azure/{service-name}-{module}` for services with multiple modules.
 
 # Structure your project
 
 1. **SDK Repo Root**: the generated libraries should be in the [azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repo, so fork and clone it in your local then the absolute path is called **${SDK_REPO_ROOT} folder**.
 
-1. **Project Folder Structure**: the typical structure is `sdk/{servicename}/{servicename}-{modulename}-rest`, e.g., `sdk/agrifood/agrifood-farming-rest`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
+1. **Project Folder Structure**: the typical structure is `sdk/{servicename}/{servicename}-{modulename}`, e.g., `sdk/storage/storage-blob`. That folder is under {SDK_REPO_ROOT} and will be your **${PROJECT_ROOT} folder**. 
 
-1. **Package Name Convention**: follow the format `@azure-rest/{service-name}-{module}`, like `@azure-rest/agrifood-farming`.
+1. **Package Name Convention**: follow the format `@azure/{service-name}-{module}`, like `@azure/storage-blob`.
 
-# Steps to generate RLC
 
-1. **Configure tspconfig.yaml in spec repository** 
+# Steps to generate DPG
+
+1. **Configure tspconfig.yaml in spec repository**
    
    In your specs repository, update or create `tspconfig.yaml` to configure the TypeScript emitter. Replace `YOUR_SERVICE_DIRECTORY`, `YOUR_SERVICE_FOLDER` and `YOUR_PACKAGE_NAME` with your specific details.
 
@@ -50,7 +53,8 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
    options:
      "@azure-tools/typespec-ts":
-       package-dir: "YOUR_SERVICE_FOLDER-rest"
+       package-dir: "YOUR_SERVICE_FOLDER"
+       isModularLibrary: true
        packageDetails:
          name: YOUR_PACKAGE_NAME
          description: "SHORT_DESCRIPTION"
@@ -59,7 +63,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
 2. **Generate code**
     
-    **Initialize a new TypeScript RLC library**
+    **Initialize a new TypeScript DPG library**
     
     For initial set up, use the `tsp-client` CLI tool to initialize the generation process. From the root of your local `azure-sdk-for-js` repository clone, run the following command, replacing `YOUR_REMOTE_TSPCONFIG_URL` with the URL to your TypeSpec configuration file:
 
@@ -67,7 +71,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
     tsp-client init -c YOUR_REMOTE_TSPCONFIG_URL
     ```
 
-    If you are generating the RLC library for Azure Cognitive Services Content Safety, and your TypeSpec configuration file is located at `https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml`, you would initialize the library like this:
+    If you are generating the DPG library for Azure Cognitive Services Content Safety, and your TypeSpec configuration file is located at `https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml`, you would initialize the library like this:
 
     ```shell
     tsp-client init -c https://github.com/Azure/azure-rest-api-specs/blob/46ca83821edd120552403d4d11cf1dd22360c0b5/specification/cognitiveservices/ContentSafety/tspconfig.yaml
@@ -75,7 +79,7 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
     This command sets up your local SDK repository with the necessary structure and files based on your `tspconfig.yaml` file and then generate SDKs with given url typespec.
 
-    **Re-generate an existing TypeScript RLC library**
+    **Re-generate an existing TypeScript DPG library**
     
     If you'd like to update/regenerate an existing SDK, go to your SDK folder and then update `tsp-location.yaml`. You can refer to the [tsp-location.yaml](https://github.com/Azure/azure-sdk-tools/blob/main/doc/common/TypeSpec-Project-Scripts.md#tsp-locationyaml) which describes the supported properties in the file.
 
@@ -103,20 +107,13 @@ The `package name` is used when publishing to [npmjs](https://www.npmjs.com/). I
 
     ```
         {
-          "packageName": "@azure-rest/agrifood-farming",
-          "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+          "packageName": "@azure/agrifood-farming",
+          "projectFolder": "sdk/agrifood/agrifood-farming",
           "versionPolicyName": "client"
         },
     ```
 
     Here you also need to replace the `packageName`, `projectFolder` into your own services'.
-
-    ---  
-    **NOTE**
-
-    About the `versionPolicyName`, if the library you are working on is for data-plane, then it should be `client`, if the library you are working on is for control plane, then it should be `mgmt`.  
-
-    --- 
 
 # After SDK generation
 
