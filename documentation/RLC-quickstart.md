@@ -1,4 +1,4 @@
-Getting Started: Generate JavaScript/TypeScript RLC Libraries with TypeSpec
+Getting Started: Generate JavaScript/TypeScript RLC (Rest Level Client) Libraries with TypeSpec
 ===========================================================================
 
 # Before you start
