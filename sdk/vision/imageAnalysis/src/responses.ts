@@ -38,39 +38,3 @@ export interface AnalyzeFromUrlDefaultResponse extends HttpResponse {
   body: ErrorResponse;
   headers: RawHttpHeaders & AnalyzeFromUrlDefaultHeaders;
 }
-
-/** The request has succeeded. */
-export interface SegmentFromUrl200Response extends HttpResponse {
-  status: "200";
-  /** Value may contain any sequence of octets */
-  body: Uint8Array;
-}
-
-export interface SegmentFromUrlDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface SegmentFromUrlDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & SegmentFromUrlDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface SegmentFromStream200Response extends HttpResponse {
-  status: "200";
-  /** Value may contain any sequence of octets */
-  body: Uint8Array;
-}
-
-export interface SegmentFromStreamDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface SegmentFromStreamDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & SegmentFromStreamDefaultHeaders;
-}

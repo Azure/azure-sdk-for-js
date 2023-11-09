@@ -5,8 +5,6 @@
 export interface ImageAnalysisResultOutput {
   /** A CaptionResult for the image. */
   captionResult?: CaptionResultOutput;
-  /** A list of categories for the image. */
-  customModelResult?: CustomModelResultOutput;
   /** A denseCaptionsResult for the image. */
   denseCaptionsResult?: DenseCaptionsResultOutput;
   /** The model used for the analysis */
@@ -33,54 +31,6 @@ export interface CaptionResultOutput {
   text: string;
 }
 
-/** Describes the result of image analysis using a custom model. */
-export interface CustomModelResultOutput {
-  /** The list of predicted objects. */
-  objectsResult: ObjectsResultOutput;
-  /** The list of predicted tags. */
-  tagsResult: TagsResultOutput;
-}
-
-/** Describes detected objects in an image. */
-export interface ObjectsResultOutput {
-  /** An array of detected objects. */
-  values: Array<DetectedObjectOutput>;
-}
-
-/** Describes a detected object in an image. */
-export interface DetectedObjectOutput {
-  /** Gets a rectangular boundary within which the object was detected. */
-  boundingBox: BoundingBoxOutput;
-  /** Classification confidences of the detected object. */
-  tags: Array<DetectedTagOutput>;
-}
-
-/** A basic rectangle */
-export interface BoundingBoxOutput {
-  /** X coordinate */
-  x: number;
-  /** Y coordinate */
-  y: number;
-  /** Width of the box */
-  w: number;
-  /** Height of the box */
-  h: number;
-}
-
-/** An entity observation in the image, along with the confidence score. */
-export interface DetectedTagOutput {
-  /** The level of confidence that the entity was observed. */
-  confidence: number;
-  /** Name of the entity. */
-  name: string;
-}
-
-/** A list of tags with confidence level. */
-export interface TagsResultOutput {
-  /** A list of tags with confidence level. */
-  values: Array<DetectedTagOutput>;
-}
-
 /** A list of captions. */
 export interface DenseCaptionsResultOutput {
   /** The list of captions. */
@@ -94,7 +44,19 @@ export interface DenseCaptionOutput {
   /** The text of the caption. */
   text: string;
   /** The bounding box of the caption. */
-  boundingBox: BoundingBoxOutput;
+  boundingBox: ImageBoundingBoxOutput;
+}
+
+/** A basic rectangle specifying a sub-region of the image */
+export interface ImageBoundingBoxOutput {
+  /** X coordinate */
+  x: number;
+  /** Y coordinate */
+  y: number;
+  /** Width of the box */
+  w: number;
+  /** Height of the box */
+  h: number;
 }
 
 /** The image metadata information such as height and width. */
@@ -103,6 +65,28 @@ export interface ImageMetadataOutput {
   height: number;
   /** The width of the image in pixels. */
   width: number;
+}
+
+/** Describes detected objects in an image. */
+export interface ObjectsResultOutput {
+  /** An array of detected objects. */
+  values: Array<DetectedObjectOutput>;
+}
+
+/** Describes a detected object in an image. */
+export interface DetectedObjectOutput {
+  /** Gets a rectangular boundary within which the object was detected. */
+  boundingBox: ImageBoundingBoxOutput;
+  /** Classification confidences of the detected object. */
+  tags: Array<DetectedTagOutput>;
+}
+
+/** An entity observation in the image, along with the confidence score. */
+export interface DetectedTagOutput {
+  /** The level of confidence that the entity was observed. */
+  confidence: number;
+  /** Name of the entity. */
+  name: string;
 }
 
 /** An object describing whether the image contains people. */
@@ -114,7 +98,7 @@ export interface PeopleResultOutput {
 /** Represents a person detected in an image */
 export interface DetectedPersonOutput {
   /** Gets a rectangular boundary within which the person was detected. */
-  readonly boundingBox: BoundingBoxOutput;
+  readonly boundingBox: ImageBoundingBoxOutput;
   /** Gets the confidence value of the detected person. */
   readonly confidence: number;
 }
@@ -205,7 +189,13 @@ export interface CropRegionOutput {
   /** The aspect ratio of the crop region. */
   aspectRatio: number;
   /** The bounding box of the crop region. */
-  boundingBox: BoundingBoxOutput;
+  boundingBox: ImageBoundingBoxOutput;
+}
+
+/** A list of tags with confidence level. */
+export interface TagsResultOutput {
+  /** A list of tags with confidence level. */
+  values: Array<DetectedTagOutput>;
 }
 
 /** A JSON document with a URL pointing to the image that is to be analyzed. */

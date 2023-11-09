@@ -60,15 +60,15 @@ export type AnalyzeFromStreamParameters = AnalyzeFromStreamQueryParam & AnalyzeF
 // @public (undocumented)
 export interface AnalyzeFromStreamQueryParam {
     // (undocumented)
-    queryParameters?: AnalyzeFromStreamQueryParamProperties;
+    queryParameters: AnalyzeFromStreamQueryParamProperties;
 }
 
 // @public (undocumented)
 export interface AnalyzeFromStreamQueryParamProperties {
     "gender-neutral-caption"?: boolean;
-    "model-name"?: string;
+    "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features?: string[];
+    features: string[];
     language?: string;
 }
 
@@ -111,24 +111,16 @@ export type AnalyzeFromUrlParameters = AnalyzeFromUrlQueryParam & AnalyzeFromUrl
 // @public (undocumented)
 export interface AnalyzeFromUrlQueryParam {
     // (undocumented)
-    queryParameters?: AnalyzeFromUrlQueryParamProperties;
+    queryParameters: AnalyzeFromUrlQueryParamProperties;
 }
 
 // @public (undocumented)
 export interface AnalyzeFromUrlQueryParamProperties {
     "gender-neutral-caption"?: boolean;
-    "model-name"?: string;
+    "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
-    features?: string[];
+    features: string[];
     language?: string;
-}
-
-// @public
-export interface BoundingBoxOutput {
-    h: number;
-    w: number;
-    x: number;
-    y: number;
 }
 
 // @public
@@ -144,18 +136,12 @@ export default createClient;
 // @public
 export interface CropRegionOutput {
     aspectRatio: number;
-    boundingBox: BoundingBoxOutput;
-}
-
-// @public
-export interface CustomModelResultOutput {
-    objectsResult: ObjectsResultOutput;
-    tagsResult: TagsResultOutput;
+    boundingBox: ImageBoundingBoxOutput;
 }
 
 // @public
 export interface DenseCaptionOutput {
-    boundingBox: BoundingBoxOutput;
+    boundingBox: ImageBoundingBoxOutput;
     confidence: number;
     text: string;
 }
@@ -167,13 +153,13 @@ export interface DenseCaptionsResultOutput {
 
 // @public
 export interface DetectedObjectOutput {
-    boundingBox: BoundingBoxOutput;
+    boundingBox: ImageBoundingBoxOutput;
     tags: Array<DetectedTagOutput>;
 }
 
 // @public
 export interface DetectedPersonOutput {
-    readonly boundingBox: BoundingBoxOutput;
+    readonly boundingBox: ImageBoundingBoxOutput;
     readonly confidence: number;
 }
 
@@ -230,7 +216,6 @@ export type ImageAnalysisClient = Client & {
 // @public
 export interface ImageAnalysisResultOutput {
     captionResult?: CaptionResultOutput;
-    customModelResult?: CustomModelResultOutput;
     denseCaptionsResult?: DenseCaptionsResultOutput;
     metadata: ImageMetadataOutput;
     modelVersion: string;
@@ -239,6 +224,14 @@ export interface ImageAnalysisResultOutput {
     readResult?: ReadResultOutput;
     smartCropsResult?: SmartCropsResultOutput;
     tagsResult?: TagsResultOutput;
+}
+
+// @public
+export interface ImageBoundingBoxOutput {
+    h: number;
+    w: number;
+    x: number;
+    y: number;
 }
 
 // @public
@@ -259,9 +252,6 @@ export interface ImageUrlOutput {
 
 // @public (undocumented)
 export function isUnexpected(response: AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse): response is AnalyzeFromStreamDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SegmentFromUrl200Response | SegmentFromUrlDefaultResponse): response is SegmentFromUrlDefaultResponse;
 
 // @public
 export interface ObjectsResultOutput {
@@ -285,105 +275,6 @@ export interface ReadResultOutput {
 // @public (undocumented)
 export interface Routes {
     (path: "/imageanalysis:analyze"): AnalyzeFromStream;
-    (path: "/imageanalysis:segment"): SegmentFromUrl;
-}
-
-// @public
-export interface SegmentFromStream200Response extends HttpResponse {
-    body: Uint8Array;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SegmentFromStreamBodyParam {
-    body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
-}
-
-// @public (undocumented)
-export interface SegmentFromStreamDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface SegmentFromStreamDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & SegmentFromStreamDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SegmentFromStreamMediaTypesParam {
-    contentType: "application/octet-stream";
-}
-
-// @public (undocumented)
-export type SegmentFromStreamParameters = SegmentFromStreamQueryParam & SegmentFromStreamMediaTypesParam & SegmentFromStreamBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface SegmentFromStreamQueryParam {
-    // (undocumented)
-    queryParameters: SegmentFromStreamQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SegmentFromStreamQueryParamProperties {
-    mode: string;
-}
-
-// @public (undocumented)
-export interface SegmentFromUrl {
-    post(options: SegmentFromUrlParameters): StreamableMethod<SegmentFromUrl200Response | SegmentFromUrlDefaultResponse>;
-    post(options: SegmentFromStreamParameters): StreamableMethod<SegmentFromStream200Response | SegmentFromStreamDefaultResponse>;
-}
-
-// @public
-export interface SegmentFromUrl200Response extends HttpResponse {
-    body: Uint8Array;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SegmentFromUrlBodyParam {
-    body: ImageUrl;
-}
-
-// @public (undocumented)
-export interface SegmentFromUrlDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface SegmentFromUrlDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & SegmentFromUrlDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SegmentFromUrlMediaTypesParam {
-    contentType: "application/json";
-}
-
-// @public (undocumented)
-export type SegmentFromUrlParameters = SegmentFromUrlQueryParam & SegmentFromUrlMediaTypesParam & SegmentFromUrlBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface SegmentFromUrlQueryParam {
-    // (undocumented)
-    queryParameters: SegmentFromUrlQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SegmentFromUrlQueryParamProperties {
-    mode: string;
 }
 
 // @public

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/api-extractor/v7/api-extractor.schema.json",
   "mainEntryPointFilePath": "./types/src/index.d.ts",
-  "docModel": { "enabled": true,  "apiJsonFilePath": "./review/imageAnalsysis.api.json", },
+  "docModel": { "enabled": true },
   "apiReport": { "enabled": true, "reportFolder": "./review" },
   "dtsRollup": {
     "enabled": true,

@@ -4,30 +4,18 @@
 import {
   AnalyzeFromStream200Response,
   AnalyzeFromStreamDefaultResponse,
-  SegmentFromUrl200Response,
-  SegmentFromUrlDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "POST /imageanalysis:analyze": ["200"],
-  "POST /imageanalysis:segment": ["200"],
 };
 
 export function isUnexpected(
   response: AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse
 ): response is AnalyzeFromStreamDefaultResponse;
 export function isUnexpected(
-  response: SegmentFromUrl200Response | SegmentFromUrlDefaultResponse
-): response is SegmentFromUrlDefaultResponse;
-export function isUnexpected(
-  response:
-    | AnalyzeFromStream200Response
-    | AnalyzeFromStreamDefaultResponse
-    | SegmentFromUrl200Response
-    | SegmentFromUrlDefaultResponse
-): response is
-  | AnalyzeFromStreamDefaultResponse
-  | SegmentFromUrlDefaultResponse {
+  response: AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse
+): response is AnalyzeFromStreamDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
