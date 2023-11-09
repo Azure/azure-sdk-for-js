@@ -42,29 +42,6 @@ export default leafCommand(commandInfo, async () => {
   }
 
   let succeed = true;
-  // normal extraction
-  const config = ExtractorConfig.prepare({
-    configObject: extractorConfigObject,
-    configObjectFullPath: apiExtractorJsonPath,
-    packageJsonFullPath: packageJsonPath,
-  });
-
-  const extractorResult: ExtractorResult = Extractor.invoke(config, {
-    // Equivalent to the "--local" command-line parameter
-    localBuild: true,
-    // Equivalent to the "--verbose" command-line parameter
-    showVerboseMessages: true,
-  });
-  if (extractorResult.succeeded) {
-    log.debug(`API Extractor completed successfully`);
-  } else {
-    succeed = false;
-    log.error(
-      `API Extractor completed with ${extractorResult.errorCount} errors` +
-        ` and ${extractorResult.warningCount} warnings`
-    );
-  }
-
   // sub path exports extraction
   const exports = packageJson["exports"];
   if (exports) {
@@ -124,6 +101,29 @@ export default leafCommand(commandInfo, async () => {
             ` and ${extractorResult.warningCount} warnings`
         );
       }
+    }
+  } else {
+    // normal extraction
+    const config = ExtractorConfig.prepare({
+      configObject: extractorConfigObject,
+      configObjectFullPath: apiExtractorJsonPath,
+      packageJsonFullPath: packageJsonPath,
+    });
+
+    const extractorResult: ExtractorResult = Extractor.invoke(config, {
+      // Equivalent to the "--local" command-line parameter
+      localBuild: true,
+      // Equivalent to the "--verbose" command-line parameter
+      showVerboseMessages: true,
+    });
+    if (extractorResult.succeeded) {
+      log.debug(`API Extractor completed successfully`);
+    } else {
+      succeed = false;
+      log.error(
+        `API Extractor completed with ${extractorResult.errorCount} errors` +
+        ` and ${extractorResult.warningCount} warnings`
+      );
     }
   }
   return succeed;
