@@ -641,16 +641,16 @@ export const TrafficControllerInterfaceDeleteHeaders: coreClient.CompositeMapper
     name: "Composite",
     className: "TrafficControllerInterfaceDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

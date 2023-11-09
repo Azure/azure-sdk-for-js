@@ -292,10 +292,10 @@ export interface TrafficControllerInterfaceCreateOrUpdateHeaders {
 
 /** Defines headers for TrafficControllerInterface_delete operation. */
 export interface TrafficControllerInterfaceDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for AssociationsInterface_createOrUpdate operation. */
