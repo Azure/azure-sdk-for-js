@@ -730,7 +730,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError({
+              await this._notifyError({
                 error: translatedError,
                 errorSource: "abandon",
                 entityPath: this.entityPath,
@@ -772,7 +772,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError({
+            await this._notifyError({
               error: translatedError,
               errorSource: "complete",
               entityPath: this.entityPath,
@@ -878,7 +878,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     );
     try {
       // Notifying so that the streaming receiver knows about the error
-      this._notifyError({
+      await this._notifyError({
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),
