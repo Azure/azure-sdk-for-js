@@ -8,33 +8,26 @@
 import { AzureDeveloperCliCredential, DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
 
+// Load the .env file if it exists
 dotenv.config();
 
-async function testDefaultCredential() {
+async function testDefaultCredential(): Promise<void> {
   const credential = new DefaultAzureCredential();
 
-  try {
-    const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
-  } catch (err) {
-    console.log("Error with DefaultAzureCredential:", err);
-  }
+  const { token } = await credential.getToken("https://storage.azure.com/.default");
+  console.log(`Token: ${token}`);
 }
 
-async function testAzureDeveloperCliCredential() {
+async function testAzureDeveloperCliCredential(): Promise<void> {
   const credential = new AzureDeveloperCliCredential({
     tenantId: process.env.AZURE_TENANT_ID,
   });
 
-  try {
-    const token = await credential.getToken("https://storage.azure.com/.default");
-    console.log(token);
-  } catch (err) {
-    console.log("Error with Credential:", err);
-  }
+  const { token } = await credential.getToken("https://storage.azure.com/.default");
+  console.log(`Token: ${token}`);
 }
 
-async function main() {
+async function main(): Promise<void> {
   await testDefaultCredential();
   await testAzureDeveloperCliCredential();
 }
