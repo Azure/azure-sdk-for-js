@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Trim leading and trailing whitespace from header values.
+
 ## 3.0.3 (2023-08-31)
 
 ### Other Changes
