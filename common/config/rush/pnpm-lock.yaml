@@ -11345,17 +11345,19 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-gzQ6ikNbxOBBDo8TThS9oxAhv/XfLIk6VwP7SqdIcffjcndOq8cHHmmG+Li8+az9sera1n2jrggfwm6FNq/B5g==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-nSNHDm/hOHRFVip7hpIaaSN17PkDTM91vAasED/StYm4k3sSuRJk3r3qlU8uSzEgqKywusBBvKseUVN+nb5u4Q==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -19061,7 +19063,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-L6m3YZDJNNzBAmhwxSPAjxCS46TmAJLlRUHNcRIGDlOAymRieaDgjQ7XPXW/++SYhR2SQ/FUmECik+QC+1Ap4w==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-LkWSFJsiK9TdXvsDcFZ/6e/dWl/uPEZX1c27+YnRAsMcihEaoEkhOcAEkoVg4C/ovgPMOyUvt8XRVmtZ5L30zw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19107,7 +19109,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-10qgCv4wOYoyBFnGLTJ6yNWylL/3S4PjNeHeTVzF+O4Sy576RBOQIT+hsks9ypVzUCWhHX/r2ZHlJiQMJxEX+A==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-WqNvE429YwD6C/CF9tUrpHTsCzUhD/so6KBRhapoj9kKTWdp6BpeaPpZYirmKd8znNm/JH4SyodM5YnD3leWzA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19200,7 +19202,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-YhGh6Ic/Jz15mreOtnXciid+Q7k4gKTxZ3iYZLZLPI6Qwdr2I4mp54lH+gZ7sJYNV4Sfb9r4xKI6ZpVgpKOqaQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-+hm2mlm81E0xCtC7jt3u7Rsw8uFgLOhqkDR/ST6QcpGLFqTFBO9IJo4bNCfMQjNtkasEl2V/TkQ5Xxm9mw3NWg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
