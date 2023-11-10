@@ -45,11 +45,11 @@
     }
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf -G node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf --glob node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
-    "clean": "rimraf -G dist dist-* types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -159,8 +159,7 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.1",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
-    "util": "^0.12.1",
-    "uuid": "^8.3.2"
+    "typescript": "~5.2.0",
+    "util": "^0.12.1"
   }
 }
