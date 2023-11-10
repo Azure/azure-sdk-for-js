@@ -66,7 +66,8 @@ describe("OpenAI", function () {
       );
     });
   });
-  describe.only("Memory Usage", function () {
+
+  describe("Memory Usage", function () {
     let recorder: Recorder;
     let client: OpenAIClient;
     const authMethod = "OpenAIKey";
