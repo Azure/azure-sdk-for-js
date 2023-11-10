@@ -10,16 +10,20 @@
  */
 
 export {
-  StreamingChatCompletionOptions,
-  ChatMessage,
-  MessageKind,
-  ChatRole,
-  ChatCompletionChunk,
-  ChoiceDelta,
-  ChatMessageDelta,
-  FinishReason,
-  ChatCompletionOptions,
-  ChatCompletion,
   ChatChoice,
+  ChatCompletion,
+  ChatCompletionChunk,
+  ChatCompletionOptions,
+  ChatMessage,
+  ChatMessageDelta,
+  ChatMessageDeltaParent,
+  ChatMessageParent,
+  ChatRole,
+  ChoiceDelta,
+  FinishReason,
+  MessageKind,
+  StreamingChatCompletionOptions,
+  TextChatMessage,
+  TextChatMessageDelta,
 } from "./models.js";
-export { CreateStreamingOptions, CreateOptions } from "./options.js";
+export { CompletionOptions, CreateOptions, CreateStreamingOptions } from "./options.js";

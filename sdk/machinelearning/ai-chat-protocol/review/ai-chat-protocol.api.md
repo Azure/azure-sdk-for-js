@@ -37,15 +37,23 @@ export interface ChatCompletionOptions {
     stream: false;
 }
 
-// Warning: (ae-forgotten-export) The symbol "TextChatMessage" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export type ChatMessage = TextChatMessage;
 
 // @public
-export interface ChatMessageDelta {
+export type ChatMessageDelta = TextChatMessageDelta;
+
+// @public
+export interface ChatMessageDeltaParent {
     kind: MessageKind;
     role?: ChatRole;
+    sessionState?: unknown;
+}
+
+// @public
+export interface ChatMessageParent {
+    kind: MessageKind;
+    role: ChatRole;
     sessionState?: unknown;
 }
 
@@ -53,7 +61,6 @@ export interface ChatMessageDelta {
 export class ChatProtocolClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ChatProtocolClientOptions);
     create(messages: ChatMessage[], options?: CompletionOptions): Promise<ChatCompletion>;
-    // Warning: (ae-forgotten-export) The symbol "CompletionOptions" needs to be exported by the entry point index.d.ts
     createStreaming(messages: ChatMessage[], options?: CompletionOptions): AsyncIterable<ChatCompletionChunk>;
     readonly pipeline: Pipeline;
 }
@@ -80,6 +87,12 @@ export interface ChoiceDelta {
     sessionState?: unknown;
 }
 
+// @public
+export interface CompletionOptions extends OperationOptions {
+    context?: Record<string, any>;
+    sessionState?: any;
+}
+
 // @public (undocumented)
 export interface CreateOptions extends OperationOptions {
 }
@@ -100,6 +113,18 @@ export interface StreamingChatCompletionOptions {
     messages: ChatMessage[];
     sessionState?: unknown;
     stream: true;
+}
+
+// @public
+export interface TextChatMessage extends ChatMessageParent {
+    content: string;
+    kind: "text";
+}
+
+// @public
+export interface TextChatMessageDelta extends ChatMessageDeltaParent {
+    content?: string;
+    kind: "text";
 }
 
 // (No @packageDocumentation comment for this package)
