@@ -11,22 +11,21 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 09 Nov 2023 14:05:55 GMT",
+        "x-ms-date": "Fri, 10 Nov 2023 10:32:18 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:05:54 GMT",
-        "MS-CV": "b1MAQBz1K06A\u002BAb7f1O0pA.0",
+        "Date": "Fri, 10 Nov 2023 10:32:19 GMT",
+        "MS-CV": "Bpo\u002BExfPWkK1PqObzIZeHQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140554Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000ehaw",
+        "X-Azure-Ref": "0sgZOZQAAAAC/lWxsXbuORbuzRQWuMWaBUFJHMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "519ms"
+        "X-Processing-Time": "467ms"
       },
       "ResponseBody": {
         "error": {

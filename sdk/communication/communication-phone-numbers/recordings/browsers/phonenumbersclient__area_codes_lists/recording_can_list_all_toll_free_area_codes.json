@@ -12,28 +12,29 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/108.0.5351.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 06 Jan 2023 17:37:17 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 OS/Linuxx86_64"
+        "x-ms-date": "Fri, 10 Nov 2023 10:42:30 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-12-01",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "126",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 06 Jan 2023 17:37:22 GMT",
-        "MS-CV": "kLCDxwbZykCkTo6UBdEMpg.0",
+        "Date": "Fri, 10 Nov 2023 10:42:34 GMT",
+        "MS-CV": "mbmMNG4T1Eu24TYgkM6vVw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0S1y4YwAAAAC31hl84CcCTar/fKU/B5VnTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0FglOZQAAAABpMa5TRMbIRo7QxlucPxGvUFJHMDFFREdFMDkxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "7123ms"
+        "X-Processing-Time": "3881ms"
       },
       "ResponseBody": {
         "areaCodes": [
@@ -44,22 +45,13 @@
             "areaCode": "877"
           },
           {
-            "areaCode": "866"
-          },
-          {
             "areaCode": "855"
           },
           {
             "areaCode": "844"
           },
           {
-            "areaCode": "800"
-          },
-          {
             "areaCode": "833"
-          },
-          {
-            "areaCode": "88"
           }
         ],
         "nextLink": null
