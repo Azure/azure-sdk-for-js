@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Recorder } from "@azure-tools/test-recorder";
-import { matrix } from "@azure/test-utils";
+import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
@@ -19,11 +19,6 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
-      before(async function (this: Context) {
-        if (process.version.startsWith("v16")) {
-          this.skip();
-        }
-      });
 
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
@@ -69,6 +64,42 @@ describe("OpenAI", function () {
           });
         }
       );
+    });
+  });
+  describe.only("Memory Usage", function () {
+    let recorder: Recorder;
+    let client: OpenAIClient;
+    const authMethod = "OpenAIKey";
+    beforeEach(async function (this: Context) {
+      recorder = await startRecorder(this.currentTest);
+      client = createClient(authMethod, { recorder });
+    });
+
+    afterEach(async function () {
+      if (recorder) {
+        await recorder.stop();
+      }
+    });
+
+    it("stream 10MB file without loading it", async function () {
+      let curMem = -1;
+      const timer = setInterval(() => {
+        if (!global.gc) {
+          assert.fail("global.gc not available");
+        }
+        global.gc();
+        const mem = Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100;
+        if (curMem === -1) {
+          curMem = mem;
+        } else if (mem - curMem > 1) {
+          assert.fail(`Memory usage increased by ${mem - curMem} MB`);
+        }
+      }, 1000);
+      const buildStream = (): NodeJS.ReadableStream =>
+        createReadStream(`./assets/audio/1OMB_MP3.mp3`);
+      const res = await client.getAudioTranscription(getModel(authMethod), buildStream);
+      assertAudioResult("json", res);
+      clearInterval(timer);
     });
   });
 });
