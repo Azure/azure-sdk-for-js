@@ -18,7 +18,7 @@ clear-output-folder: false
 tracing-info:
   namespace: "Azure.Synapse.Artifacts"
   packagePrefix: "Microsoft.Synapse"
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1e56b6fbe36e2dcbaccd342f108b7c6efb175181/specification/synapse/data-plane/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/5ae522bc106bf8609c6cb379e584aa3e0e2639f3/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
 tag: package-artifacts-composite-v7
