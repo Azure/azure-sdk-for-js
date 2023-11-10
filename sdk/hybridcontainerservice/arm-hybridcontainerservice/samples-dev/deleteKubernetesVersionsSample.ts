@@ -15,24 +15,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes the hybrid identity metadata proxy resource.
+ * This sample demonstrates how to Delete the kubernetes versions resource type
  *
- * @summary Deletes the hybrid identity metadata proxy resource.
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/DeleteHybridIdentityMetadata.json
+ * @summary Delete the kubernetes versions resource type
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/DeleteKubernetesVersions.json
  */
-async function deleteHybridIdentityMetadata() {
-  const connectedClusterResourceUri =
-    "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster";
+async function deleteKubernetesVersions() {
+  const customLocationResourceUri =
+    "subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourceGroups/test-arcappliance-resgrp/providers/Microsoft.ExtendedLocation/customLocations/testcustomlocation";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential);
-  const result = await client.hybridIdentityMetadataOperations.beginDeleteAndWait(
-    connectedClusterResourceUri
+  const result = await client.beginDeleteKubernetesVersionsAndWait(
+    customLocationResourceUri
   );
   console.log(result);
 }
 
 async function main() {
-  deleteHybridIdentityMetadata();
+  deleteKubernetesVersions();
 }
 
 main().catch(console.error);
