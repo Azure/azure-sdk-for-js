@@ -4488,7 +4488,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231109
+      typescript: 5.4.0-dev.20231110
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4497,7 +4497,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231109
+      typescript: 5.4.0-dev.20231110
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9219,8 +9219,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231109:
-    resolution: {integrity: sha512-wX5CSyZbJ0xsgAe0Fyefs8eqEe7o7mp7Nv5EHydBYFpJI/FWZFc4rSF2mGNNZ/1D7JMQgwjCAkZd/2TTF3m/Uw==}
+  /typescript@5.4.0-dev.20231110:
+    resolution: {integrity: sha512-qjv4JVUYWbRy3e9lERotuHaowzq4ozFnip00m+8m4cPjCSZfPIf4svC9V20hrQMZSSTldDvf7O66CmAiZo1HNA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -11811,20 +11811,22 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-naHc7vwHg4yBIuDUDLB/vEp/yn/fcQhf7Lp3zEwxgFKlIqt+GhmNOLxcJkiicbBrI5ZLSz6tTAkK4H/ShZ298w==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-KvF6sIxXpnKk/26aCdeRmMabSsczYYFRsCIyV9F0fQpDx2cogagvAkXSAu4nMnYiP9RXRBZElBVQPdBPfT7ywQ==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.3.2
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16385,7 +16387,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-d4tzGan/0Q1BzOLnwGw9M5rdkyoebnyvfTzLKBpb3xLszXq7PMfA9HcJyaer3i3ezAdEcSW+NkCWDyrbwaZ5hg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-NKetDvWkiV30NXVsxSeqwUy+KNxIfvMcdDDaZvMK4BRzLcVkvitAOt+WIxA+oBfjxu1IEQzs1sKnJovaiz3+tg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -19061,7 +19063,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-L6m3YZDJNNzBAmhwxSPAjxCS46TmAJLlRUHNcRIGDlOAymRieaDgjQ7XPXW/++SYhR2SQ/FUmECik+QC+1Ap4w==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-LkWSFJsiK9TdXvsDcFZ/6e/dWl/uPEZX1c27+YnRAsMcihEaoEkhOcAEkoVg4C/ovgPMOyUvt8XRVmtZ5L30zw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19107,7 +19109,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-10qgCv4wOYoyBFnGLTJ6yNWylL/3S4PjNeHeTVzF+O4Sy576RBOQIT+hsks9ypVzUCWhHX/r2ZHlJiQMJxEX+A==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-WqNvE429YwD6C/CF9tUrpHTsCzUhD/so6KBRhapoj9kKTWdp6BpeaPpZYirmKd8znNm/JH4SyodM5YnD3leWzA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19200,7 +19202,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-YhGh6Ic/Jz15mreOtnXciid+Q7k4gKTxZ3iYZLZLPI6Qwdr2I4mp54lH+gZ7sJYNV4Sfb9r4xKI6ZpVgpKOqaQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-+hm2mlm81E0xCtC7jt3u7Rsw8uFgLOhqkDR/ST6QcpGLFqTFBO9IJo4bNCfMQjNtkasEl2V/TkQ5Xxm9mw3NWg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
