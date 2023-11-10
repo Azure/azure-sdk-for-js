@@ -19,7 +19,7 @@ const OPERATION_NAME = "deleteInstallation";
 export function deleteInstallation(
   context: NotificationHubsClientContext,
   installationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -33,6 +33,6 @@ export function deleteInstallation(
       const response = await sendRequest(context, request, 204);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }
