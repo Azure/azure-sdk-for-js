@@ -89,11 +89,13 @@ export class LiveMetrics {
   private lastDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
-  private lastCpus: {
-    model: string;
-    speed: number;
-    times: { user: number; nice: number; sys: number; idle: number; irq: number };
-  }[] | undefined;
+  private lastCpus:
+    | {
+        model: string;
+        speed: number;
+        times: { user: number; nice: number; sys: number; idle: number; irq: number };
+      }[]
+    | undefined;
 
   /**
    * Initializes a new instance of the StandardMetrics class.
@@ -348,17 +350,14 @@ export class LiveMetrics {
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         if (success) {
           this.totalRequestCount++;
-        }
-        else {
+        } else {
           this.totalFailedRequestCount++;
         }
         this.requestDurationHistogram?.record(durationMs);
-
       } else {
         if (success) {
           this.totalDependencyCount++;
-        }
-        else {
+        } else {
           this.totalFailedDependencyCount++;
         }
         this.dependencyDurationHistogram?.record(durationMs);
@@ -462,7 +461,6 @@ export class LiveMetrics {
       time: currentTime,
     };
   }
-
 
   private getCommitedMemory(observableResult: ObservableResult) {
     var freeMem = os.freemem();
