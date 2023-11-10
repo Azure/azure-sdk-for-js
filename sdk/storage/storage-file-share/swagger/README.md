@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.17.0
+package-version: 12.17.1
 ```
 
 ## Customizations for Track 2 Generator
