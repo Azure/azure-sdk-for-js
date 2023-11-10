@@ -2,13 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import {
-  BodyPart,
-  HttpHeaders,
-  PipelineRequest,
-  RequestBodyType,
-  StreamBuilder,
-} from "../interfaces";
+import { BodyPart, HttpHeaders, PipelineRequest, StreamBuilder } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
 import { isBlob } from "../util/typeGuards";
@@ -71,10 +65,10 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = (() =>
+  request.body = () =>
     concatenateStreams(
       sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream)
-    )) as RequestBodyType;
+    );
 }
 
 /**
