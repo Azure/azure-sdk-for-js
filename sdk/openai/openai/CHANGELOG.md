@@ -6,7 +6,13 @@
 
 ### Breaking Changes
 
-- `getAudioTranscription` and `getAudioTranslation` now take a `StreamProducer` as input instead of a `Uint8Array`. This allows for streaming audio files to the service instead of having to load the entire file into memory.
+- `getAudioTranscription` and `getAudioTranslation` now take a `StreamProducer` as input instead of a `Uint8Array`. This allows for streaming audio files to the service instead of having to load the entire file into memory. The input can now be created as follows:
+
+```js
+const { createReadStream } = require("fs");
+const createAudioStream = () => createReadStream("<Path to audio file>");
+const result = await client.getAudioTranslation(deploymentName, createAudioStream);
+```
 
 ### Bugs Fixed
 
