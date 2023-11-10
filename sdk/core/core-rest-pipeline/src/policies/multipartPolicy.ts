@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, PipelineRequest, StreamBuilder } from "../interfaces";
+import { BodyPart, HttpHeaders, PipelineRequest, StreamProducer } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
 import { isBlob } from "../util/typeGuards";
@@ -20,7 +20,7 @@ function encodeHeaders(headers: HttpHeaders): string {
 }
 
 function getLength(
-  source: StreamBuilder | Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream
+  source: StreamProducer | Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -33,7 +33,7 @@ function getLength(
 }
 
 function getTotalLength(
-  sources: (StreamBuilder | Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream)[]
+  sources: (StreamProducer | Uint8Array | Blob | ReadableStream | NodeJS.ReadableStream)[]
 ): number | undefined {
   let total = 0;
   for (const source of sources) {

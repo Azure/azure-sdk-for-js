@@ -32,7 +32,7 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "./models/audio.js";
-import { StreamBuilder } from "@azure/core-rest-pipeline";
+import { StreamProducer } from "@azure/core-rest-pipeline";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -256,7 +256,7 @@ export class OpenAIClient {
    */
   async getAudioTranscription(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResultSimpleJson>;
   /**
@@ -269,14 +269,14 @@ export class OpenAIClient {
    */
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     format: Format,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     formatOrOptions?: Format | GetAudioTranscriptionOptions,
     inputOptions?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>> {
@@ -310,7 +310,7 @@ export class OpenAIClient {
    */
   async getAudioTranslation(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResultSimpleJson>;
   /**
@@ -323,14 +323,14 @@ export class OpenAIClient {
    */
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     format: Format,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
-    buildFileStream: StreamBuilder,
+    buildFileStream: StreamProducer,
     formatOrOptions?: Format | GetAudioTranslationOptions,
     inputOptions?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>> {

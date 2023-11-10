@@ -77,7 +77,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface BodyPart {
-    body: StreamBuilder | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    body: StreamProducer | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
     headers: HttpHeaders;
 }
 
@@ -364,7 +364,7 @@ export interface RedirectPolicyOptions {
 }
 
 // @public
-export type RequestBodyType = NodeJS.ReadableStream | StreamBuilder | ReadableStream<Uint8Array> | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
+export type RequestBodyType = NodeJS.ReadableStream | StreamProducer | ReadableStream<Uint8Array> | Blob | ArrayBuffer | ArrayBufferView | FormData | string | null;
 
 // @public
 export class RestError extends Error {
@@ -427,7 +427,7 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
-export type StreamBuilder = () => ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+export type StreamProducer = () => ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

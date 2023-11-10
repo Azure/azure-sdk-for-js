@@ -9,7 +9,7 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { StreamBuilder } from '@azure/core-rest-pipeline';
+import { StreamProducer } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -329,10 +329,10 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    getAudioTranscription(deploymentName: string, buildFileStream: StreamBuilder, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamBuilder, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
-    getAudioTranslation(deploymentName: string, buildFileStream: StreamBuilder, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamBuilder, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+    getAudioTranscription(deploymentName: string, buildFileStream: StreamProducer, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamProducer, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, buildFileStream: StreamProducer, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamProducer, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;

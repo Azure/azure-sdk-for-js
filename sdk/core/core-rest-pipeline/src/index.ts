@@ -20,7 +20,7 @@ export {
   RawHttpHeadersInput,
   RequestBodyType,
   SendRequest,
-  StreamBuilder,
+  StreamProducer,
   TlsSettings,
   TransferProgressEvent,
 } from "./interfaces";

@@ -45,7 +45,7 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
-import { StreamBuilder, createFileFromStream } from "@azure/core-rest-pipeline";
+import { StreamProducer, createFileFromStream } from "@azure/core-rest-pipeline";
 
 export function listCompletions(
   context: Client,
@@ -177,7 +177,7 @@ export async function getChatCompletions(
 export async function getAudioTranslation(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   options?: GetAudioTranslationOptions
 ): Promise<AudioResultSimpleJson>;
 /**
@@ -192,7 +192,7 @@ export async function getAudioTranslation(
 export async function getAudioTranslation<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   format: Format,
   options?: GetAudioTranslationOptions
 ): Promise<AudioResult<Format>>;
@@ -200,7 +200,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
 export async function getAudioTranslation<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   formatOrOptions?: Format | GetAudioTranslationOptions,
   inputOptions?: GetAudioTranslationOptions
 ): Promise<AudioResult<Format>> {
@@ -240,7 +240,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
 export async function getAudioTranscription(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   options?: GetAudioTranscriptionOptions
 ): Promise<AudioResultSimpleJson>;
 /**
@@ -255,7 +255,7 @@ export async function getAudioTranscription(
 export async function getAudioTranscription<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   format: Format,
   options?: GetAudioTranscriptionOptions
 ): Promise<AudioResult<Format>>;
@@ -263,7 +263,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
 export async function getAudioTranscription<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
-  buildFileStream: StreamBuilder,
+  buildFileStream: StreamProducer,
   formatOrOptions?: Format | GetAudioTranscriptionOptions,
   inputOptions?: GetAudioTranscriptionOptions
 ): Promise<AudioResult<Format>> {
