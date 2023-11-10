@@ -9,19 +9,18 @@
         "Connection": "keep-alive",
         "Content-Length": "87",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "d8bfc82c-a7fc-4f88-a46e-75e4d3e7ac12"
+        "User-Agent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f4b3c596-5d7b-4eca-a3ce-2ead491a0971"
       },
       "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Single\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
-        "Connection": "close",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:44:24 GMT",
+        "Date": "Tue, 07 Nov 2023 00:50:42 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "93505e3a-2c4b-4885-baf9-b1e404902a14"
+        "x-ms-request-id": "73d39702-461f-4610-aed7-d2716c7df33d"
       },
       "ResponseBody": null
     }

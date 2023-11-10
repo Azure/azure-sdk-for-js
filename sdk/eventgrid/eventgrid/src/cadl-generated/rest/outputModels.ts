@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ErrorModel } from "@azure-rest/core-client";
+
 /** Properties of an event published to an Azure Messaging EventGrid Namespace topic using the CloudEvent 1.0 Schema. */
-export interface CloudEventOutput extends Record<string, unknown> {
+export interface CloudEventOutput {
   /** An identifier for the event. The combination of id and source must be unique for each distinct event. */
   id: string;
   /** Identifies the context in which an event happened. The combination of id and source must be unique for each distinct event. */
@@ -44,7 +46,7 @@ export interface ReceiveDetailsOutput {
 
 /** Properties of the Event Broker operation. */
 export interface BrokerPropertiesOutput {
-  /** The token used to lock the event. */
+  /** The token of the lock on the event. */
   lockToken: string;
   /** The attempt count for delivering the event. */
   deliveryCount: number;
@@ -52,34 +54,40 @@ export interface BrokerPropertiesOutput {
 
 /** The result of the Acknowledge operation. */
 export interface AcknowledgeResultOutput {
-  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
   failedLockTokens: Array<FailedLockTokenOutput>;
-  /** Array of lock tokens values for the successfully acknowledged cloud events. */
+  /** Array of lock tokens for the successfully acknowledged cloud events. */
   succeededLockTokens: string[];
 }
 
 /** Failed LockToken information. */
 export interface FailedLockTokenOutput {
-  /** LockToken value */
+  /** The lock token of an entry in the request. */
   lockToken: string;
-  /** Error code related to the token. Example of such error codes are BadToken: which indicates the Token is not formatted correctly, TokenLost: which indicates that token is not found, and InternalServerError: For any internal server errors. */
-  errorCode: string;
-  /** Description of the token error. */
-  errorDescription: string;
+  /** Error information of the failed operation result for the lock token in the request. */
+  error: ErrorModel;
 }
 
 /** The result of the Release operation. */
 export interface ReleaseResultOutput {
-  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
   failedLockTokens: Array<FailedLockTokenOutput>;
-  /** Array of lock tokens values for the successfully released cloud events. */
+  /** Array of lock tokens for the successfully released cloud events. */
   succeededLockTokens: string[];
 }
 
 /** The result of the Reject operation. */
 export interface RejectResultOutput {
-  /** Array of LockToken values for failed cloud events. Each LockToken includes the lock token value along with the related error information (namely, the error code and description). */
+  /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
   failedLockTokens: Array<FailedLockTokenOutput>;
-  /** Array of lock tokens values for the successfully rejected cloud events. */
+  /** Array of lock tokens for the successfully rejected cloud events. */
+  succeededLockTokens: string[];
+}
+
+/** The result of the RenewLock operation. */
+export interface RenewCloudEventLocksResultOutput {
+  /** Array of FailedLockToken for failed cloud events. Each FailedLockToken includes the lock token along with the related error information (namely, the error code and description). */
+  failedLockTokens: Array<FailedLockTokenOutput>;
+  /** Array of lock tokens for the successfully renewed locks. */
   succeededLockTokens: string[];
 }

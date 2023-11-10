@@ -9,26 +9,26 @@
         "Connection": "keep-alive",
         "Content-Length": "527",
         "Content-Type": "application/cloudevents-batch\u002Bjson; charset=utf-8",
-        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "44377582-f9b3-463f-a3f6-b54a50572dbe"
+        "User-Agent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "641cdd7d-b9c9-4463-90b4-ce6acea4fd0c"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudMultiEventId1100717\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-02-09T01:44:23.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022},{\u0022id\u0022:\u0022cloudMultiEventId2100674\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-02-09T01:44:23.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudMultiEventId1100561\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222023-11-07T00:50:41.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022},{\u0022id\u0022:\u0022cloudMultiEventId2100447\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222023-11-07T00:50:41.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:44:23 GMT",
+        "Date": "Tue, 07 Nov 2023 00:50:41 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "51125dca-55d6-4801-88b1-d36a208a15fa"
+        "x-ms-request-id": "de3430c1-c4cf-4db8-9082-78d782e2eaa9"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "cloudMultiEventDate1": "Wed Feb 09 2022 01:44:23 GMT\u002B0000 (Coordinated Universal Time)",
-    "cloudMultiEventDate2": "Wed Feb 09 2022 01:44:23 GMT\u002B0000 (Coordinated Universal Time)",
-    "cloudMultiEventId1": "cloudMultiEventId1100717",
-    "cloudMultiEventId2": "cloudMultiEventId2100674"
+    "cloudMultiEventDate1": "Mon Nov 06 2023 16:50:41 GMT-0800 (Pacific Standard Time)",
+    "cloudMultiEventDate2": "Mon Nov 06 2023 16:50:41 GMT-0800 (Pacific Standard Time)",
+    "cloudMultiEventId1": "cloudMultiEventId1100561",
+    "cloudMultiEventId2": "cloudMultiEventId2100447"
   }
 }

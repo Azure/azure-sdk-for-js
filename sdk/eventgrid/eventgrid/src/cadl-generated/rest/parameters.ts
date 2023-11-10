@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { CloudEvent, AcknowledgeOptions, ReleaseOptions, RejectOptions } from "./models";
+import {
+  CloudEvent,
+  AcknowledgeOptions,
+  ReleaseOptions,
+  RejectOptions,
+  RenewLockOptions,
+} from "./models";
 
 export interface PublishCloudEventBodyParam {
   /** Single Cloud Event being published. */
@@ -50,26 +56,27 @@ export interface AcknowledgeCloudEventsBodyParam {
   body: AcknowledgeOptions;
 }
 
-export interface AcknowledgeCloudEventsMediaTypesParam {
-  /** content type */
-  contentType: "application/json; charset=utf-8";
-}
-
-export type AcknowledgeCloudEventsParameters = AcknowledgeCloudEventsMediaTypesParam &
-  AcknowledgeCloudEventsBodyParam &
-  RequestParameters;
+export type AcknowledgeCloudEventsParameters = AcknowledgeCloudEventsBodyParam & RequestParameters;
 
 export interface ReleaseCloudEventsBodyParam {
   /** ReleaseOptions */
   body: ReleaseOptions;
 }
 
-export interface ReleaseCloudEventsMediaTypesParam {
-  /** content type */
-  contentType: "application/json; charset=utf-8";
+export interface ReleaseCloudEventsQueryParamProperties {
+  /**
+   * Release cloud events with the specified delay in seconds.
+   *
+   * Possible values: 0, 10, 60, 600, 3600
+   */
+  releaseDelayInSeconds?: string;
 }
 
-export type ReleaseCloudEventsParameters = ReleaseCloudEventsMediaTypesParam &
+export interface ReleaseCloudEventsQueryParam {
+  queryParameters?: ReleaseCloudEventsQueryParamProperties;
+}
+
+export type ReleaseCloudEventsParameters = ReleaseCloudEventsQueryParam &
   ReleaseCloudEventsBodyParam &
   RequestParameters;
 
@@ -78,11 +85,11 @@ export interface RejectCloudEventsBodyParam {
   body: RejectOptions;
 }
 
-export interface RejectCloudEventsMediaTypesParam {
-  /** content type */
-  contentType: "application/json; charset=utf-8";
+export type RejectCloudEventsParameters = RejectCloudEventsBodyParam & RequestParameters;
+
+export interface RenewCloudEventLocksBodyParam {
+  /** RenewLockOptions */
+  body: RenewLockOptions;
 }
 
-export type RejectCloudEventsParameters = RejectCloudEventsMediaTypesParam &
-  RejectCloudEventsBodyParam &
-  RequestParameters;
+export type RenewCloudEventLocksParameters = RenewCloudEventLocksBodyParam & RequestParameters;

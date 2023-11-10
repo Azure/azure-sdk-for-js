@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { EventGridClient, EventGridClientOptions } from "./EventGridClient";
 export {
   CloudEvent,
   ReceiveResult,
@@ -13,6 +12,8 @@ export {
   RejectResult,
   RenewCloudEventLocksResult,
   ReleaseDelay,
+} from "./models";
+export {
   PublishCloudEventOptions,
   PublishCloudEventsOptions,
   ReceiveCloudEventsOptions,
@@ -20,4 +21,4 @@ export {
   ReleaseCloudEventsOptions,
   RejectCloudEventsOptions,
   RenewCloudEventLocksOptions,
-} from "./models/index";
+} from "./options";

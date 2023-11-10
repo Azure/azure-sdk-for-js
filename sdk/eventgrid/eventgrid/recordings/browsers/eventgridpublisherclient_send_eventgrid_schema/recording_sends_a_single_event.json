@@ -14,29 +14,29 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "d67d2d81-2e74-4243-bb6c-8bc68893bd4e",
-        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "9ea6b0c3-6f7c-47b5-8d31-ed8c5c801b3f",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 OS"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100758\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:46:41.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100920\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222023-11-07T01:12:00.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:46:41 GMT",
+        "Date": "Tue, 07 Nov 2023 01:12:01 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "c9ed192f-4e0b-4fa2-b3eb-cb9310c0b1a5"
+        "x-ms-request-id": "8427689a-af87-4c70-82fa-bd80626e4833"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "singleEventDate": "Wed Feb 09 2022 01:46:41 GMT\u002B0000 (Coordinated Universal Time)",
-    "singleEventId": "singleEventId100758"
+    "singleEventDate": "Mon Nov 06 2023 17:12:00 GMT-0800 (Pacific Standard Time)",
+    "singleEventId": "singleEventId100920"
   }
 }

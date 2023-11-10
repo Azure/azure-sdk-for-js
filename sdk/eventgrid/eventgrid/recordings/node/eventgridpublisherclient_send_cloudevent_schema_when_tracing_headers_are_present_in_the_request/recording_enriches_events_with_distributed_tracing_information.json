@@ -11,24 +11,24 @@
         "Content-Type": "application/cloudevents-batch\u002Bjson; charset=utf-8",
         "traceparent": "00-00000000000000000000000000000001-0000000000000003-00",
         "tracestate": "00-123",
-        "User-Agent": "azsdk-js-eventgrid/4.9.0 core-rest-pipeline/1.8.1 Node/v16.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "68086a5b-f49a-45e2-be04-717e04bc09d3"
+        "User-Agent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "930fcb9f-e091-40e7-a912-ae267cf84a1c"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudTracingEventId100181\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-04-07T17:44:32.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Single with Trace Parent\u0022,\u0022traceparent\u0022:\u002200-00000000000000000000000000000001-0000000000000003-00\u0022,\u0022tracestate\u0022:\u002200-123\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudTracingEventId100954\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222023-11-07T00:50:41.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Single with Trace Parent\u0022,\u0022traceparent\u0022:\u002200-00000000000000000000000000000001-0000000000000003-00\u0022,\u0022tracestate\u0022:\u002200-123\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Thu, 07 Apr 2022 17:44:33 GMT",
+        "Date": "Tue, 07 Nov 2023 00:50:41 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "8887727f-59ee-48aa-8f28-f457fc45d1c9"
+        "x-ms-request-id": "3975947f-3397-4daa-a3ae-9ce301fb6c6f"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "cloudTracingEventDate": "Thu Apr 07 2022 10:44:32 GMT-0700 (Pacific Daylight Time)",
-    "cloudTracingEventId": "cloudTracingEventId100181"
+    "cloudTracingEventDate": "Mon Nov 06 2023 16:50:41 GMT-0800 (Pacific Standard Time)",
+    "cloudTracingEventId": "cloudTracingEventId100954"
   }
 }

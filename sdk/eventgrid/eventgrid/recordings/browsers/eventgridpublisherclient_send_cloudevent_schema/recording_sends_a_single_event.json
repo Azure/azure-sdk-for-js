@@ -10,33 +10,33 @@
         "aeg-sas-key": "api_key",
         "Connection": "keep-alive",
         "Content-Length": "241",
-        "Content-Type": "application/cloudevents-batch\u002Bjson; charset=UTF-8",
+        "Content-Type": "application/cloudevents-batch\u002Bjson; charset=utf-8",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "313d25c0-03aa-4f5a-ad67-e4775337306e",
-        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3c5b30fc-d0b1-418e-86e2-968ab097c202",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.13.0-beta.2 core-rest-pipeline/1.11.1 OS"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100406\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-02-09T01:46:42.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100537\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222023-11-07T01:12:02.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:46:41 GMT",
+        "Date": "Tue, 07 Nov 2023 01:12:02 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "b8dd700d-46aa-4577-81a1-e6a09599bd00"
+        "x-ms-request-id": "32c95f9d-0ad2-4bd6-abd9-29b3e0ea50b0"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "cloudSingleEventDate": "Wed Feb 09 2022 01:46:42 GMT\u002B0000 (Coordinated Universal Time)",
-    "cloudSingleEventId": "cloudSingleEventId100406"
+    "cloudSingleEventDate": "Mon Nov 06 2023 17:12:02 GMT-0800 (Pacific Standard Time)",
+    "cloudSingleEventId": "cloudSingleEventId100537"
   }
 }

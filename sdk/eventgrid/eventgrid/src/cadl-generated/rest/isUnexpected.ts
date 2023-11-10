@@ -12,6 +12,8 @@ import {
   ReleaseCloudEventsDefaultResponse,
   RejectCloudEvents200Response,
   RejectCloudEventsDefaultResponse,
+  RenewCloudEventLocks200Response,
+  RenewCloudEventLocksDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -20,6 +22,7 @@ const responseMap: Record<string, string[]> = {
   "POST /topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:acknowledge": ["200"],
   "POST /topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:release": ["200"],
   "POST /topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:reject": ["200"],
+  "POST /topics/{topicName}/eventsubscriptions/{eventSubscriptionName}:renewLock": ["200"],
 };
 
 export function isUnexpected(
@@ -38,6 +41,9 @@ export function isUnexpected(
   response: RejectCloudEvents200Response | RejectCloudEventsDefaultResponse
 ): response is RejectCloudEventsDefaultResponse;
 export function isUnexpected(
+  response: RenewCloudEventLocks200Response | RenewCloudEventLocksDefaultResponse
+): response is RenewCloudEventLocksDefaultResponse;
+export function isUnexpected(
   response:
     | PublishCloudEvent200Response
     | PublishCloudEventDefaultResponse
@@ -49,12 +55,15 @@ export function isUnexpected(
     | ReleaseCloudEventsDefaultResponse
     | RejectCloudEvents200Response
     | RejectCloudEventsDefaultResponse
+    | RenewCloudEventLocks200Response
+    | RenewCloudEventLocksDefaultResponse
 ): response is
   | PublishCloudEventDefaultResponse
   | ReceiveCloudEventsDefaultResponse
   | AcknowledgeCloudEventsDefaultResponse
   | ReleaseCloudEventsDefaultResponse
-  | RejectCloudEventsDefaultResponse {
+  | RejectCloudEventsDefaultResponse
+  | RenewCloudEventLocksDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
