@@ -189,7 +189,14 @@ function getSchema(inputs: { format: Format; groupName: string }): SchemaDescrip
 
 describe("SchemaRegistryClient", function () {
   matrix(
-    [[KnownSchemaFormats.Avro, KnownSchemaFormats.Json, KnownSchemaFormats.Custom, KnownSchemaFormats.Protobuf]] as const,
+    [
+      [
+        KnownSchemaFormats.Avro,
+        KnownSchemaFormats.Json,
+        KnownSchemaFormats.Custom,
+        KnownSchemaFormats.Protobuf,
+      ],
+    ] as const,
     async function (format: Format) {
       describe(`Format: ${format}`, function () {
         let recorder: Recorder;
