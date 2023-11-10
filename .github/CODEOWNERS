@@ -530,6 +530,9 @@
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

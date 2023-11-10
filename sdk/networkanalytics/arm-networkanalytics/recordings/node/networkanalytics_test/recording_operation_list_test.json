@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.NetworkAnalytics/operations?api-version=2023-11-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-networkanalytics/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "b4df4461-4edb-45b6-9b23-cb95a86296c2"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "231",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 10 Nov 2023 02:35:59 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "8b2d4e98-5bd6-4b73-b7cd-435b141cec22",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "8b2d4e98-5bd6-4b73-b7cd-435b141cec22",
+        "x-ms-routing-request-id": "JAPANEAST:20231110T023600Z:8b2d4e98-5bd6-4b73-b7cd-435b141cec22"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027Operations\u0027 could not be found in the namespace \u0027Microsoft.NetworkAnalytics\u0027 for api version \u00272023-11-15\u0027. The supported api-versions are \u00272022-11-15-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
