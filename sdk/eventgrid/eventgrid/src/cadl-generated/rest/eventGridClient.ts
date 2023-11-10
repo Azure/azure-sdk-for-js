@@ -27,7 +27,7 @@ export default function createClient(
     },
   };
 
-  const userAgentInfo = `azsdk-js-eventgrid-rest/4.13.0-beta.3`;
+  const userAgentInfo = `azsdk-js-eventgrid-rest/5.1.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
