@@ -16,11 +16,11 @@ import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_li
  */
 export function listRegistrations(
   context: NotificationHubsClientContext,
-  options: RegistrationQueryLimitOptions = {}
+  options: RegistrationQueryLimitOptions = {},
 ): PagedAsyncIterableIterator<RegistrationDescription> {
   const { span, updatedOptions } = tracingClient.startSpan(
     "NotificationHubsClientContext.listRegistrations",
-    options
+    options,
   );
   try {
     const iter = listRegistrationsAll(context, updatedOptions);
