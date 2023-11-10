@@ -98,9 +98,12 @@ describe("OpenAI", function () {
       }, 1000);
       const buildStream = (): NodeJS.ReadableStream =>
         createReadStream(`./assets/audio/1OMB_MP3.mp3`);
-      const res = await client.getAudioTranscription(getModel(authMethod), buildStream);
-      assertAudioResult("json", res);
-      clearInterval(timer);
+      try {
+        const res = await client.getAudioTranscription(getModel(authMethod), buildStream);
+        assertAudioResult("json", res);
+      } finally {
+        clearInterval(timer);
+      }
     });
   });
 });
