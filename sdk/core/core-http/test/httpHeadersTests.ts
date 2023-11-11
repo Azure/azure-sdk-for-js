@@ -66,4 +66,22 @@ describe("HttpHeaders", () => {
       assert.include(rawHeaders, { [pair.name]: pair.value });
     });
   });
+
+  it("should remove leading and trailing whitespace in values", () => {
+    const rawHeaders = {
+      withLeadingWhitespace: "  value1",
+      withTrailingWhitespace: "value2   ",
+      withLeadingAndTrialingWhitespace: " value3 ",
+    };
+    const headers = new HttpHeaders(rawHeaders);
+
+    const expected = {
+      withLeadingWhitespace: "value1",
+      withTrailingWhitespace: "value2",
+      withLeadingAndTrialingWhitespace: "value3",
+    };
+    for (const {name, value} of headers.headersArray()) {
+      assert.include(expected, { [name]: value });
+    }
+  });
 });

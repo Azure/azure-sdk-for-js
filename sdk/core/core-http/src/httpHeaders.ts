@@ -139,7 +139,7 @@ export class HttpHeaders implements HttpHeadersLike {
   public set(headerName: string, headerValue: string | number): void {
     this._headersMap[getHeaderKey(headerName)] = {
       name: headerName,
-      value: headerValue.toString(),
+      value: headerValue.toString().trim(),
     };
   }
 
