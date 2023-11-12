@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import PriorityQueue from "priorityqueuejs";
@@ -18,7 +19,10 @@ import { addDignosticChild } from "../utils/diagnostics";
 import { MetadataLookUpType } from "../CosmosDiagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import { RUConsumed } from "../common";
-import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
+import {
+  RUCapPerOperationExceededError,
+  RUCapPerOperationExceededErrorCode,
+} from "../request/RUCapPerOperationExceededError";
 
 /** @hidden */
 const logger: AzureLogger = createClientLogger("parallelQueryExecutionContextBase");
@@ -47,6 +51,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     diagnosticNode: DiagnosticNodeInternal;
   };
   private initializedPriorityQueue: boolean = false;
+  private ruCapExceededError: RUCapPerOperationExceededError = undefined;
   /**
    * Provides the ParallelQueryExecutionContextBase.
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
@@ -95,7 +100,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.orderByPQ = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
     );
-    // // Creating the documentProducers
+    // Creating the documentProducers
     // this.sem = semaphore(1);
     // // Creating callback for semaphore
     // // TODO: Code smell
@@ -616,47 +621,93 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       });
 
       // Fill up our priority queue with documentProducers
+      let inProgressPromises: Promise<void>[] = [];
+      for (const documentProducer of targetPartitionQueryExecutionContextList) {
+        // Don't enqueue any new promise if RU cap exceeded
+        inProgressPromises = [];
+        if (this.ruCapExceededError) {
+          console.log("RU cap exceeded, not enqueuing any new promises");
+          break;
+        }
+        const promise = this._processAndEnqueueDocumentProducer(
+          documentProducer,
+          inProgressPromises,
+          operationOptions,
+          ruConsumed
+        );
+        console.log("Pushing promise to inProgressPromises");
+        inProgressPromises.push(promise);
 
-      await Promise.all(
-        targetPartitionQueryExecutionContextList.map(async (documentProducer) => {
-          if (this.err) {
-            return;
-          }
-
-          try {
-            console.log("Fetching current from documentProducer inside fillUpPriorityQueue");
-            const { result: document, headers } = await documentProducer.current(
-              this.getDiagnosticNode(),
-              operationOptions,
-              ruConsumed
-            );
-            this._mergeWithActiveResponseHeaders(headers);
-
-            if (document !== undefined) {
-              try {
-                this.orderByPQ.enq(documentProducer);
-              } catch (e) {
-                this.err = e;
-              }
-            }
-          } catch (err) {
-            if (err.code === RUCapPerOperationExceededErrorCode) {
-              this.orderByPQ.forEach((dp) => {
-                const bufferedItems = dp.peekBufferedItems();
-                err.body.fetchedSoFarResults.push(...bufferedItems);
-              });
-            }
-            this._mergeWithActiveResponseHeaders(err.headers);
-            this.err = err;
-            throw err; // Propagate the error to stop the execution of other promises
-          }
-        })
-      );
+        // Limit concurrent executions
+        if (inProgressPromises.length >= maxDegreeOfParallelism) {
+          console.log("Reached max degree of parallelism, waiting for one to finish");
+          await Promise.race(inProgressPromises);
+        }
+      }
+      console.log("Waiting for all promises to complete");
+      // Wait for all promises to complete
+      await Promise.all(inProgressPromises);
+      if (this.err) {
+        if (this.ruCapExceededError) {
+          console.log("RU cap exceeded, throwing error");
+          throw this.ruCapExceededError;
+        }
+        throw this.err;
+      }
     } catch (err: any) {
       this.err = err;
       // release the lock
       // this.sem.leave();
       throw err;
+    }
+  }
+
+  private async _processAndEnqueueDocumentProducer(
+    documentProducer: DocumentProducer,
+    inProgressPromises: Promise<void>[],
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<void> {
+    try {
+      console.log("Fetching current from documentProducer inside fillUpPriorityQueue");
+      const { result: document, headers } = await documentProducer.current(
+        this.getDiagnosticNode(),
+        operationOptions,
+        ruConsumed
+      );
+      this._mergeWithActiveResponseHeaders(headers);
+
+      if (document !== undefined) {
+        this.orderByPQ.enq(documentProducer);
+      }
+    } catch (err) {
+      if (err.code === RUCapPerOperationExceededErrorCode) {
+        // would be halting further execution of other promises
+        if (!this.ruCapExceededError) {
+          this.ruCapExceededError = err;
+          console.log("RUCapPerOperationExceededErrorCode, setting ruCapExceededError");
+        } else {
+          // merge the buffered items
+          if (err.body.fetchedSoFarResults) {
+            this.ruCapExceededError.body.fetchedSoFarResults.push(...err.body.fetchedSoFarResults);
+          }
+        }
+        console.log(
+          "RUCapPerOperationExceededErrorCode, UPDATED ruCapExceededError, cleaning up inProgressPromises"
+        );
+        if (inProgressPromises.length === 0) {
+          console.log("Cleaned up inProgressPromises");
+          this.orderByPQ.forEach((dp) => {
+            const bufferedItems = dp.peekBufferedItems();
+            this.ruCapExceededError.body.fetchedSoFarResults.push(...bufferedItems);
+          });
+        }
+        this._mergeWithActiveResponseHeaders(err.headers);
+        this.err = err;
+        return;
+      }
+      this._mergeWithActiveResponseHeaders(err.headers);
+      this.err = err;
     }
   }
 }

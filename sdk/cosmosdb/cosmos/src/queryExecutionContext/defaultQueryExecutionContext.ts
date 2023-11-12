@@ -1,3 +1,4 @@
+/* eslint-disable no-return-await */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
@@ -140,9 +141,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     operationOptions?: OperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
-    return addDignosticChild(
+    return await  addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
+        console.log("Default Context, fetchMore");
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
+          console.log("Default Context, fetchMore, no more fetch functions: 1");
           return {
             headers: getInitialHeader(),
             result: undefined,
@@ -155,6 +158,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
         // Return undefined if there is no more results
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
+          console.log("Default context, fetchMore, no more fetch functions: 2")
           return {
             headers: getInitialHeader(),
             result: undefined,
@@ -173,7 +177,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             logger.verbose("using fresh fetch");
             p = this.fetchFunctions[this.currentPartitionIndex](childDiagnosticNode, this.options);
           }
+          const time = Date.now();
+          console.log("Default context, Start P: ", time);
           const response = await p;
+          console.log("Default context, End P: ", time);
           resources = response.result;
           childDiagnosticNode.recordQueryResult(resources, CosmosDbDiagnosticLevel.debugUnsafe);
           responseHeaders = response.headers;
@@ -192,6 +199,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               : undefined;
           }
         } catch (err: any) {
+          console.log("Default context, fetchMore, no more fetch functions: 5");
           this.state = DefaultQueryExecutionContext.STATES.ended;
           // return callback(err, undefined, responseHeaders);
           // TODO: Error and data being returned is an antipattern, this might broken
@@ -250,7 +258,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             );
           }
         }
-
+        console.log("Default context,Returning resources")
         return { result: resources, headers: responseHeaders };
       },
       diagnosticNode,

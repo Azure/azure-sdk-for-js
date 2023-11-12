@@ -1,3 +1,4 @@
+/* eslint-disable @azure/azure-sdk/ts-doc-internal */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Constants } from "../common/constants";
