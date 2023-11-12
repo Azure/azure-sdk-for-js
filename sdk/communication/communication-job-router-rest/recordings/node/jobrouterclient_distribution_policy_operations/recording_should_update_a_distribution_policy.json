@@ -1,4 +1,106 @@
 {
-  "Entries": [],
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-p-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "152",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "2cd351f2-febd-48f5-bd8b-d4942158d9bb",
+        "x-ms-content-sha256": "isLKoz8faephk6nbQDCy14uvchhugYUsksgKHsl9\u002BLM=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:08 GMT"
+      },
+      "RequestBody": {
+        "name": "new-name",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "ETag": "\u0022120450c9-0000-0700-0000-654d42050000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "0696b794-0584-5e78-a7ab-8d883c05283e",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0BUJNZQAAAABlO99nygP3TKBXmGhHiRevV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-p-policy-recorded-d-policies",
+        "name": "new-name",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        },
+        "etag": "\u0022120450c9-0000-0700-0000-654d42050000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-p-policy-recorded-d-policies?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "146",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a4709cca-80ab-4569-927b-5d4f8852b8eb",
+        "x-ms-content-sha256": "1pvCiWx9Z30r6deUsEVtqwXQX79/uggWmpLbCgPLPWE=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:08 GMT"
+      },
+      "RequestBody": {
+        "name": null,
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "ETag": "\u0022120451c9-0000-0700-0000-654d42050000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "014b621e-ec82-50a5-9cf2-5ae47c006555",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0BUJNZQAAAADe6aV8nLQQQYQk4P\u002BnIUubV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-p-policy-recorded-d-policies",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        },
+        "etag": "\u0022120451c9-0000-0700-0000-654d42050000\u0022"
+      }
+    }
+  ],
   "Variables": {}
 }

@@ -1,4 +1,350 @@
 {
-  "Entries": [],
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-queues?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "157",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3f0ba8ea-3e94-49dd-ae04-bca50bf4f4bf",
+        "x-ms-content-sha256": "iRU4FoF\u002BSHDyek4I2mTj9UxqfsCodrYA4ivTcF4xVFQ=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:17 GMT"
+      },
+      "RequestBody": {
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "ETag": "\u0022120499c9-0000-0700-0000-654d420c0000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:33:16 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "c3e2b34d-5243-5899-1db6-75af566dd307",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DkJNZQAAAADh\u002BC01nnAlS46rCJl8o65PV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-d-policy-recorded-queues",
+        "name": "test-d-policy",
+        "offerExpiresAfterSeconds": 60,
+        "mode": {
+          "kind": "longest-idle",
+          "minConcurrentOffers": 1,
+          "maxConcurrentOffers": 5,
+          "bypassSelectors": false
+        },
+        "etag": "\u0022120499c9-0000-0700-0000-654d420c0000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-queues?api-version=2023-11-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "201",
+        "Content-Type": "application/merge-patch\u002Bjson",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d0d2f2c3-705c-4068-8832-45d561c5535e",
+        "x-ms-content-sha256": "Cra0Om0ZqhFeDkbLieY\u002Bv\u002B7gXRaJ3OqYfEy3xRhld5Y=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:17 GMT"
+      },
+      "RequestBody": {
+        "name": "test-e-policy",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling"
+              }
+            ],
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            }
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "ETag": "\u00223d21263b-0000-0700-0000-654d420e0000\u0022",
+        "Last-Modified": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "144c1ff7-c071-1ac4-cd62-eb29cf597a21",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DkJNZQAAAABo22H4oix6To1kd0UUnnRPV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "id": "test-e-policy-recorded-queues",
+        "name": "test-e-policy",
+        "exceptionRules": [
+          {
+            "id": "MaxWaitTimeExceededCancel",
+            "trigger": {
+              "kind": "wait-time",
+              "thresholdSeconds": 10
+            },
+            "actions": [
+              {
+                "kind": "cancel",
+                "note": "wait time exceeded; cancelling",
+                "id": "196590da-c74f-4cfa-ab73-7fdca41b2c18"
+              }
+            ]
+          }
+        ],
+        "etag": "\u00223d21263b-0000-0700-0000-654d420e0000\u0022"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/queues?maxpagesize=20\u0026api-version=2023-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "c5706dde-43fb-4a91-a55c-9956cbf2418c",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:17 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "ea1cb4db-6b7c-4723-e4b6-e0aad3bdf7ba",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DkJNZQAAAACBl9jqdgWtRIBlhpdr39m8V1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "test-a-queue-recorded-queues",
+            "distributionPolicyId": "test-d-policy-recorded-queues",
+            "labels": {
+              "Id": "test-a-queue-recorded-queues"
+            },
+            "exceptionPolicyId": "test-e-policy-recorded-queues",
+            "etag": "\u00226b05f369-0000-0700-0000-654d420d0000\u0022"
+          },
+          {
+            "id": "queue-123",
+            "name": "Main",
+            "distributionPolicyId": "distribution-policy-123",
+            "labels": {
+              "Id": "queue-123"
+            },
+            "etag": "\u00226504107a-0000-0700-0000-654863b10000\u0022"
+          },
+          {
+            "id": "test-a-queue-recorded-jobs",
+            "name": "test-a-queue",
+            "distributionPolicyId": "test-d-policy-recorded-jobs",
+            "labels": {
+              "Id": "test-a-queue-recorded-jobs"
+            },
+            "exceptionPolicyId": "test-e-policy-recorded-jobs",
+            "etag": "\u0022e2036717-0000-0700-0000-65457e970000\u0022"
+          },
+          {
+            "id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-5",
+            "name": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-5",
+            "distributionPolicyId": "DP-383b50ca-e500-4582-a7e0-a492bb505c66-5",
+            "labels": {
+              "Id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-5"
+            },
+            "etag": "\u002254043079-0000-0700-0000-64260fed0000\u0022"
+          },
+          {
+            "id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-4",
+            "name": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-4",
+            "distributionPolicyId": "DP-383b50ca-e500-4582-a7e0-a492bb505c66-4",
+            "labels": {
+              "Id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-4"
+            },
+            "etag": "\u002254040b79-0000-0700-0000-64260fed0000\u0022"
+          },
+          {
+            "id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-3",
+            "name": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-3",
+            "distributionPolicyId": "DP-383b50ca-e500-4582-a7e0-a492bb505c66-3",
+            "labels": {
+              "Id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-3"
+            },
+            "etag": "\u00225404d278-0000-0700-0000-64260fec0000\u0022"
+          },
+          {
+            "id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-2",
+            "name": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-2",
+            "distributionPolicyId": "DP-383b50ca-e500-4582-a7e0-a492bb505c66-2",
+            "labels": {
+              "Id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-2"
+            },
+            "etag": "\u00225404a878-0000-0700-0000-64260feb0000\u0022"
+          },
+          {
+            "id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-1",
+            "name": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-1",
+            "distributionPolicyId": "DP-383b50ca-e500-4582-a7e0-a492bb505c66-1",
+            "labels": {
+              "Id": "queue-383b50ca-e500-4582-a7e0-a492bb505c66-1"
+            },
+            "etag": "\u002254047d78-0000-0700-0000-64260fea0000\u0022"
+          },
+          {
+            "id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-5",
+            "name": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-5",
+            "distributionPolicyId": "DP-d163fedf-d1c9-4392-9767-fc164282eda0-5",
+            "labels": {
+              "Id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-5"
+            },
+            "etag": "\u002254049b6e-0000-0700-0000-64260fb40000\u0022"
+          },
+          {
+            "id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-4",
+            "name": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-4",
+            "distributionPolicyId": "DP-d163fedf-d1c9-4392-9767-fc164282eda0-4",
+            "labels": {
+              "Id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-4"
+            },
+            "etag": "\u00225404736e-0000-0700-0000-64260fb40000\u0022"
+          },
+          {
+            "id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-3",
+            "name": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-3",
+            "distributionPolicyId": "DP-d163fedf-d1c9-4392-9767-fc164282eda0-3",
+            "labels": {
+              "Id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-3"
+            },
+            "etag": "\u002254044b6e-0000-0700-0000-64260fb30000\u0022"
+          },
+          {
+            "id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-2",
+            "name": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-2",
+            "distributionPolicyId": "DP-d163fedf-d1c9-4392-9767-fc164282eda0-2",
+            "labels": {
+              "Id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-2"
+            },
+            "etag": "\u00225404286e-0000-0700-0000-64260fb20000\u0022"
+          },
+          {
+            "id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-1",
+            "name": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-1",
+            "distributionPolicyId": "DP-d163fedf-d1c9-4392-9767-fc164282eda0-1",
+            "labels": {
+              "Id": "queue-d163fedf-d1c9-4392-9767-fc164282eda0-1"
+            },
+            "etag": "\u00225404fd6d-0000-0700-0000-64260fb10000\u0022"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies/test-d-policy-recorded-queues?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "14629e48-528b-4956-8ad0-6ad2c51962a4",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:17 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "8606a150-6fc5-1f66-53c1-51f2253d045f",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DkJNZQAAAABYHHlH3k5DQKDK\u002Bjj\u002BYOAJV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "BadRequest",
+          "message": "One or more validation errors occurred.",
+          "target": "/routing/distributionPolicies/test-d-policy-recorded-queues",
+          "details": [
+            {
+              "code": "QueueExistsWithDistributionPolicy",
+              "message": "There is a queue with this distribution policy"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/routing/exceptionPolicies/test-e-policy-recorded-queues?api-version=2023-11-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "dafea5b8-11d2-4fa6-990d-1facffc16d90",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:17 GMT"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:33:18 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "5a96f408-d6d6-d5e6-5c7b-790196bae82e",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0DkJNZQAAAAAxxIfJ//hBRIba1kZBiW\u002BWV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "communicationError": {
+          "code": "BadRequest",
+          "message": "One or more validation errors occurred.",
+          "target": "/routing/exceptionPolicies/test-e-policy-recorded-queues",
+          "details": [
+            {
+              "code": "QueueExistsWithExceptionPolicy",
+              "message": "There is a queue with this exception policy"
+            }
+          ]
+        }
+      }
+    }
+  ],
   "Variables": {}
 }
