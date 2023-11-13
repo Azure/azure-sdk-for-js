@@ -8,10 +8,6 @@ import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient
 import { OpenAIClient } from "../../../src/index.js";
 import * as fs from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
-import {
-  formDataPolicyName,
-  formDataWithFileUploadPolicy,
-} from "../../../src/api/policies/formDataPolicy.js";
 import { assertAudioResult } from "../utils/asserts.js";
 
 function getModel(authMethod: AuthMethod): string {
@@ -32,8 +28,6 @@ describe("OpenAI", function () {
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
         client = createClient(authMethod, { recorder });
-        client["_client"].pipeline.removePolicy({ name: formDataPolicyName });
-        client["_client"].pipeline.addPolicy(formDataWithFileUploadPolicy("6ceck6po4ai0tb2u"));
       });
 
       afterEach(async function () {

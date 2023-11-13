@@ -98,7 +98,7 @@ testWithServiceTypes((serviceVersion) => {
         it(`initialize supports cancellation (${caseType})`, async () => {
           const abortSignal = getSignal();
           try {
-            await client.connect({ abortSignal, timeoutInMs: 60000, prefetchCount: 1 });
+            await client.connect({ abortSignal, timeoutInMs: 60000 });
             throw new Error(TEST_FAILURE);
           } catch (err: any) {
             should.equal(err.name, "AbortError");
@@ -119,7 +119,7 @@ testWithServiceTypes((serviceVersion) => {
 
         it(`receiveBatch supports cancellation when connection already exists (${caseType})`, async () => {
           // Open the connection.
-          await client.connect({ abortSignal: undefined, timeoutInMs: 60000, prefetchCount: 1 });
+          await client.connect({ abortSignal: undefined, timeoutInMs: 60000 });
           try {
             const abortSignal = getSignal();
             await client.receiveBatch(10, undefined, abortSignal);

@@ -131,12 +131,10 @@ testWithServiceTypes((serviceVersion) => {
           await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
           await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
@@ -199,12 +197,10 @@ testWithServiceTypes((serviceVersion) => {
           await receiver1.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
           await receiver2.connect({
             abortSignal: undefined,
             timeoutInMs: 60000,
-            prefetchCount: 1,
           });
 
           // We are going to override sender1's close method so that it also invokes receiver2's close method.
