@@ -17,7 +17,7 @@ const OPERATION_NAME = "getFeedbackContainerUrl";
  */
 export function getFeedbackContainerUrl(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<string> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -33,6 +33,6 @@ export function getFeedbackContainerUrl(
       const response = await sendRequest(context, request, 200);
 
       return response.bodyAsText!;
-    }
+    },
   );
 }

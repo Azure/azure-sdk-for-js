@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { PropertySignature } from "ts-morph";
+import { CallSignatureDeclaration, PropertySignature } from "ts-morph";
 import { Declaration } from "../common";
 
 export type Annotation = "Remove";
 export function getAnnotation(
-  declaration: Declaration | PropertySignature
+  declaration: Declaration | PropertySignature | CallSignatureDeclaration
 ): Annotation | undefined {
   // Check if the property has a `// @azsdk-remove` comment
   const leadingCommentRanges = declaration.getLeadingCommentRanges();
@@ -21,8 +21,7 @@ export function getAnnotation(
       if (annotation === "@azsdk-remove") {
         return "Remove";
       }
-
-      return undefined;
     }
   }
+  return undefined;
 }
