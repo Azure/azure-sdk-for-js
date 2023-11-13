@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, testPollingOptions } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
@@ -208,5 +208,24 @@ describe("etags", () => {
 
     // and now the setting isn't found
     await assertThrowsRestError(() => client.getConfigurationSetting({ key }), 404);
+  });
+
+  it("archive and recover using etags", async () => {
+    const snapshot1 = {
+      name: recorder.variable("snapshot", `snapshot${Math.floor(Math.random() * 1000)}`),
+      retentionPeriodInSeconds: 2592000,
+      filters: [{ keyFilter: key, valueFilter: "some value" }],
+    };
+    const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+    await assertThrowsRestError(
+      () => client.archiveSnapshot(newSnapshot.name, { etag: "badEtag" }),
+      412
+    );
+    await client.archiveSnapshot(newSnapshot.name, { etag: newSnapshot.etag });
+
+    await assertThrowsRestError(
+      () => client.recoverSnapshot(newSnapshot.name, { etag: "badEtag" }),
+      412
+    );
   });
 });

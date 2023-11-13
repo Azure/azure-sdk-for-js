@@ -13,10 +13,15 @@ import {
   RouterQueueOutput,
   PagedRouterQueueOutput,
   RouterJobOutput,
+  ReclassifyJobResultOutput,
+  CancelJobResultOutput,
+  CompleteJobResultOutput,
+  CloseJobResultOutput,
   PagedRouterJobOutput,
   RouterJobPositionDetailsOutput,
   UnassignJobResultOutput,
   AcceptJobOfferResultOutput,
+  DeclineJobOfferResultOutput,
   RouterQueueStatisticsOutput,
   RouterWorkerOutput,
   PagedRouterWorkerOutput,
@@ -491,72 +496,71 @@ export interface DeleteJobDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface ReclassifyJobAction200Response extends HttpResponse {
+export interface Reclassify200Response extends HttpResponse {
   status: "200";
+  body: ReclassifyJobResultOutput;
 }
 
-export interface ReclassifyJobActionDefaultHeaders {
+export interface ReclassifyDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ReclassifyJobActionDefaultResponse extends HttpResponse {
+export interface ReclassifyDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ReclassifyJobActionDefaultHeaders;
+  headers: RawHttpHeaders & ReclassifyDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface CancelJobAction200Response extends HttpResponse {
+export interface Cancel200Response extends HttpResponse {
   status: "200";
+  body: CancelJobResultOutput;
 }
 
-export interface CancelJobActionDefaultHeaders {
+export interface CancelDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CancelJobActionDefaultResponse extends HttpResponse {
+export interface CancelDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CancelJobActionDefaultHeaders;
+  headers: RawHttpHeaders & CancelDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface CompleteJobAction200Response extends HttpResponse {
+export interface Complete200Response extends HttpResponse {
   status: "200";
+  body: CompleteJobResultOutput;
 }
 
-export interface CompleteJobActionDefaultHeaders {
+export interface CompleteDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CompleteJobActionDefaultResponse extends HttpResponse {
+export interface CompleteDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CompleteJobActionDefaultHeaders;
+  headers: RawHttpHeaders & CompleteDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface CloseJobAction200Response extends HttpResponse {
+export interface Close200Response extends HttpResponse {
   status: "200";
+  body: CloseJobResultOutput;
 }
 
-/** The request has been accepted for processing, but processing has not yet completed. */
-export interface CloseJobAction202Response extends HttpResponse {
-  status: "202";
-}
-
-export interface CloseJobActionDefaultHeaders {
+export interface CloseDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface CloseJobActionDefaultResponse extends HttpResponse {
+export interface CloseDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & CloseJobActionDefaultHeaders;
+  headers: RawHttpHeaders & CloseDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -594,53 +598,54 @@ export interface GetInQueuePositionDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface UnassignJobAction200Response extends HttpResponse {
+export interface Unassign200Response extends HttpResponse {
   status: "200";
   body: UnassignJobResultOutput;
 }
 
-export interface UnassignJobActionDefaultHeaders {
+export interface UnassignDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface UnassignJobActionDefaultResponse extends HttpResponse {
+export interface UnassignDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & UnassignJobActionDefaultHeaders;
+  headers: RawHttpHeaders & UnassignDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AcceptJobAction200Response extends HttpResponse {
+export interface Accept200Response extends HttpResponse {
   status: "200";
   body: AcceptJobOfferResultOutput;
 }
 
-export interface AcceptJobActionDefaultHeaders {
+export interface AcceptDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AcceptJobActionDefaultResponse extends HttpResponse {
+export interface AcceptDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AcceptJobActionDefaultHeaders;
+  headers: RawHttpHeaders & AcceptDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface DeclineJobAction200Response extends HttpResponse {
+export interface Decline200Response extends HttpResponse {
   status: "200";
+  body: DeclineJobOfferResultOutput;
 }
 
-export interface DeclineJobActionDefaultHeaders {
+export interface DeclineDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DeclineJobActionDefaultResponse extends HttpResponse {
+export interface DeclineDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DeclineJobActionDefaultHeaders;
+  headers: RawHttpHeaders & DeclineDefaultHeaders;
 }
 
 /** The request has succeeded. */
