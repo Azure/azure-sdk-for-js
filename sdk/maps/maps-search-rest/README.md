@@ -12,6 +12,11 @@ Key links:
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/samples)
 - [Product Information](https://docs.microsoft.com/rest/api/maps/search-v2)
 
+| Package Version | Service Version |
+| --------------- | --------------- |
+| ^1.0.0          | V1              |
+| ^2.0.0          | V2              |
+
 ## Getting started
 
 ### Currently supported environments
