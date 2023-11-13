@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0 (2023-11-07)
+## 12.0.0 (2023-11-13)
 
 ### Features Added
 
@@ -15,8 +15,8 @@
 ### Breaking Changes
 
 - Trivial type changes
-  - In multiple locations: All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
-  - In multiple locations: Some properties with `any` type have been narrowed. 
+  - All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
+  - Some properties with `any` type have been narrowed.
 - Narrowed some enum property types to the respective string literal union
   - `BlobIndexerDataToExtract`
   - `BlobIndexerImageAction`
