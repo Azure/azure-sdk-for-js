@@ -65,8 +65,6 @@ module.exports = function (config) {
       "AZURE_USERAGENT_OVERRIDE",
       "RECORDINGS_RELATIVE_PATH",
       "AZURE_TEST_DOMAIN",
-      "DEFAULT_AUTHORITY_HOST",
-      "AZURE_AUTHORITY_HOST",
       ...getPhoneNumberPoolEnvVars(),
     ],
 
