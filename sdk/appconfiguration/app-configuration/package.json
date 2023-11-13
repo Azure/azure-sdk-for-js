@@ -94,7 +94,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/eventgrid": "^4.9.0",
+    "@azure/eventgrid": "^5.0.0",
     "@azure/identity": "^3.3.0",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure-tools/test-credential": "^1.0.0",
