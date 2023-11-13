@@ -57,7 +57,7 @@ describe("Containers", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {
@@ -84,7 +84,7 @@ describe("Containers", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {
@@ -135,7 +135,7 @@ describe("Containers", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {
@@ -183,7 +183,7 @@ describe("Containers", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {
@@ -201,7 +201,7 @@ describe("Containers", function (this: Suite) {
           },
           {
             locationEndpointsContacted: 1,
-           //metadataCallCount: 2,
+            // metadataCallCount: 2,
             retryCount: 0,
             gatewayStatisticsTestSpec: [
               {
@@ -257,7 +257,7 @@ describe("Containers", function (this: Suite) {
             },
             {
               locationEndpointsContacted: 1,
-             //metadataCallCount: 2,
+              // metadataCallCount: 2,
               retryCount: 0,
             }
           );

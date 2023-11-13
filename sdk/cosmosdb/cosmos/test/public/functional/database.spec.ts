@@ -35,8 +35,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           return client.databases.readAll().fetchAll();
         },
         {
-          locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -52,8 +52,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           return client.databases.create(databaseDefinition);
         },
         {
-          locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -82,8 +82,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           return client.databases.query(querySpec).fetchAll();
         },
         {
-          locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -96,8 +96,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           return client.database(db.id).delete();
         },
         {
-          locationEndpointsContacted: 1,
-         //metadataCallCount: 2,
+          // locationEndpointsContacted: 1,
+          // metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -109,8 +109,8 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
             return client.database(db.id).read();
           },
           {
-            locationEndpointsContacted: 1,
-           //metadataCallCount: 2,
+            // locationEndpointsContacted: 1,
+            // metadataCallCount: 2,
             retryCount: 0,
           }
         );
