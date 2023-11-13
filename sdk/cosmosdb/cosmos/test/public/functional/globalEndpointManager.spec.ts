@@ -15,7 +15,7 @@ const headers = {
   "access-control-allow-credentials": "true",
   "access-control-allow-origin": "",
   "cache-control": "no-store, no-cache",
-  "content-location": "https://127.0.0.1:8081/",
+  "content-location": "https://localhost:8081/",
   "content-type": "application/json",
   date: "Mon, 19 Aug 2019 22:22:13 GMT",
   pragma: "no-cache",
