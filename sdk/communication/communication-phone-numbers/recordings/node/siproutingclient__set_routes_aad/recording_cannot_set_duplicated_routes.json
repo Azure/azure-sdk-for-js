@@ -28,15 +28,14 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:07:27 GMT",
-        "MS-CV": "u/WRX4WHi0uvqMCBLK/8Cw.0",
+        "Date": "Mon, 13 Nov 2023 13:13:51 GMT",
+        "MS-CV": "iKCQMSlpVkmN0NYpK9T0Iw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140726Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000sr66",
+        "X-Azure-Ref": "0DyFSZQAAAAA45RwKbrfJQqgydEpeVJyrUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "229ms"
+        "X-Processing-Time": "12ms"
       },
       "ResponseBody": {
         "error": {
@@ -64,21 +63,19 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:07:27 GMT",
-        "MS-CV": "00bV5W8xVkOcJXjLpSFcGg.0",
+        "Date": "Mon, 13 Nov 2023 13:13:51 GMT",
+        "MS-CV": "L52k4jvf0kSfXKyOD51I6g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140727Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000srcn",
+        "X-Azure-Ref": "0DyFSZQAAAABno7wjIWNuQrpUyTa9vyHCUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "460ms"
+        "X-Processing-Time": "203ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test101c75084b85454fa82c15292989990e.sanitized.sbc.test": {
+          "test18491f4dac4a416787c0950459931429.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -87,7 +84,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test4cb915a3a36b47dbb2b82615831f11df.sanitized.sbc.test",
-    "fqdn-2": "test358d8b08b8d2443fa6ccba6be4671cbb.sanitized.sbc.test"
+    "fqdn-1": "test02688da9a33943d5a3e56424be3cd4b1.sanitized.sbc.test",
+    "fqdn-2": "test8e840f604876446da1d4190cee2beb49.sanitized.sbc.test"
   }
 }

@@ -24,15 +24,14 @@
       },
       "StatusCode": 422,
       "ResponseHeaders": {
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:07:25 GMT",
-        "MS-CV": "bxYLIQpC8UesM9GrOeBIhA.0",
+        "Date": "Mon, 13 Nov 2023 13:13:50 GMT",
+        "MS-CV": "6\u002Bkn2\u002BylV0q2CiGeb5A8gQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140724Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000ev3m",
+        "X-Azure-Ref": "0DiFSZQAAAACxRxTg73qPQKnGESynkcQjUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "7ms"
+        "X-Processing-Time": "6ms"
       },
       "ResponseBody": {
         "error": {
@@ -60,21 +59,19 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "close",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:07:25 GMT",
-        "MS-CV": "fTPA0cTUe0CbdNHQlyORJw.0",
+        "Date": "Mon, 13 Nov 2023 13:13:51 GMT",
+        "MS-CV": "byn/z5lc\u002BUqkZX7xh40bKA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140725Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000ev4k",
+        "X-Azure-Ref": "0DyFSZQAAAAB8J8XljJ7ERJfJeCjfk/ScUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "200ms"
+        "X-Processing-Time": "211ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test101c75084b85454fa82c15292989990e.sanitized.sbc.test": {
+          "test18491f4dac4a416787c0950459931429.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -83,7 +80,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testeda71f8f442143df9806a234cbc84f77.sanitized.sbc.test",
-    "fqdn-2": "testbb61ccc648264295832d000cd52c5be6.sanitized.sbc.test"
+    "fqdn-1": "test92c14e12663846cdb26a61cd9eeeab2c.sanitized.sbc.test",
+    "fqdn-2": "test76ce261c71d447c1ab7d1e44aff2a843.sanitized.sbc.test"
   }
 }

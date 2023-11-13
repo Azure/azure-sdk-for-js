@@ -14,36 +14,36 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "trunks": {
-          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
+          "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "431",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 09:01:27 GMT",
-        "MS-CV": "jz8Zloo1\u002B0\u002BjUORWm0qC7g.0",
+        "Date": "Mon, 13 Nov 2023 13:22:34 GMT",
+        "MS-CV": "RTawngToM0uGEwK/aoPhNQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05vEKZAAAAAAXIxRjkYsoTas/RvHyc8MKUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0GSNSZQAAAAB9wRfVbsUYRLiwOcXpKJXeUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1297ms"
+        "X-Processing-Time": "868ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
+          "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -83,13 +83,13 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": [
@@ -98,26 +98,26 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test079ed0334fe54707a493596062af215b.sanitized.sbc.test"
+              "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test"
             ]
           }
         ]
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 09:01:28 GMT",
-        "MS-CV": "nBFtCtvBOkGmbnNmc0DJkw.0",
+        "Date": "Mon, 13 Nov 2023 13:22:34 GMT",
+        "MS-CV": "Dd4kHEggt0Gxc2m3W78uhQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "06PEKZAAAAABI3L7QIBnHRrY/8uhc3w0bUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0GiNSZQAAAABmr6ObV/AQQpn6QZ62wCilUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "349ms"
+        "X-Processing-Time": "353ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
+          "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -127,7 +127,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test079ed0334fe54707a493596062af215b.sanitized.sbc.test"
+              "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test"
             ]
           }
         ]
@@ -145,30 +145,30 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 09:01:28 GMT",
-        "MS-CV": "wwFKpKvtckm4Ic6nF9VJkw.0",
+        "Date": "Mon, 13 Nov 2023 13:22:34 GMT",
+        "MS-CV": "1c5zHVAa\u002Bk6SxdHdHv5Tew.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "06PEKZAAAAAAiVJNvUNVbToKT\u002BltVDfh6UFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0GyNSZQAAAACkG4RuDKJsR7p9VFNeYQm4UFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "164ms"
+        "X-Processing-Time": "192ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
+          "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -178,7 +178,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "test079ed0334fe54707a493596062af215b.sanitized.sbc.test"
+              "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test"
             ]
           }
         ]
@@ -186,7 +186,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test079ed0334fe54707a493596062af215b.sanitized.sbc.test",
-    "fqdn-2": "testc946c52cce474007b3724da8d7e687f7.sanitized.sbc.test"
+    "fqdn-1": "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test",
+    "fqdn-2": "testa6ddb46720ad43a39a23576550a10d1f.sanitized.sbc.test"
   }
 }

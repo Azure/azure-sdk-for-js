@@ -11,23 +11,21 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Thu, 09 Nov 2023 14:07:02 GMT",
+        "x-ms-date": "Mon, 13 Nov 2023 13:13:36 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:07:01 GMT",
-        "MS-CV": "qTwfnoWevE\u002Bfu40P1jY6Kg.0",
+        "Date": "Mon, 13 Nov 2023 13:13:36 GMT",
+        "MS-CV": "5kwasVoBD0y0wDKSAeqsHQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140701Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000essv",
+        "X-Azure-Ref": "0ASFSZQAAAADiAzptKd3cQ52AbrrYDSbuUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "187ms"
+        "X-Processing-Time": "182ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -36,9 +34,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test7c3a5a5d80234588bd8efdef582478c1.sanitized.sbc.test",
-    "fqdn-2": "testc42139dcda4745ccb6c15e8ec0a342c9.sanitized.sbc.test",
-    "fqdn-3": "test956637991d8f4cc88aa7462acaaca116.sanitized.sbc.test",
-    "fqdn-4": "test302a1a2d54d74eb592377bc8bb8097d9.sanitized.sbc.test"
+    "fqdn-1": "test50508ab41fb3456dab62c76bf3514a65.sanitized.sbc.test",
+    "fqdn-2": "test15066560e17f45b588c508b5011b707c.sanitized.sbc.test",
+    "fqdn-3": "testa497829c145b45ad81848112201569ef.sanitized.sbc.test",
+    "fqdn-4": "teste6f2bb7153894f91be9f903eeb41f6e1.sanitized.sbc.test"
   }
 }

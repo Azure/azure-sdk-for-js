@@ -14,13 +14,13 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": [
@@ -34,13 +34,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Fri, 10 Mar 2023 09:01:33 GMT",
-        "MS-CV": "AxT\u002Bvrcw4kiHzMyL1y7jFQ.0",
+        "Date": "Mon, 13 Nov 2023 13:22:37 GMT",
+        "MS-CV": "bwmWvt36Tk6RdA5nTpVMtQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "07vEKZAAAAAChDNw8sJE0QoqOXjik6RntUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0HSNSZQAAAACzf8wNUmJPQL0X8M5ps54sUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "54ms"
+        "X-Processing-Time": "74ms"
       },
       "ResponseBody": {
         "error": {
@@ -65,30 +65,30 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 OS/Win32"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 09:01:34 GMT",
-        "MS-CV": "NGR8Zd9/h0uahw8jT//U4w.0",
+        "Date": "Mon, 13 Nov 2023 13:22:37 GMT",
+        "MS-CV": "\u002BlaCdMxX8ke319vOA/nITQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07vEKZAAAAAAUda5IbmagSpWHuWOcFEVpUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0HiNSZQAAAAB/bNsmJiY\u002BR4kBE7sAHkc2UFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "175ms"
+        "X-Processing-Time": "194ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test079ed0334fe54707a493596062af215b.sanitized.sbc.test": {
+          "test8d6858452cc54e0fa043c4a6a68ec3fe.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -97,7 +97,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test5ab06e7f8ac245cb8fc9e240224e1a17.sanitized.sbc.test",
-    "fqdn-2": "testb51c7d6bebca43f29053db475a63769b.sanitized.sbc.test"
+    "fqdn-1": "test73352060e3d64bf7bc198bb962d61f9f.sanitized.sbc.test",
+    "fqdn-2": "test24dcef00b7d146c9844f7603a85242af.sanitized.sbc.test"
   }
 }

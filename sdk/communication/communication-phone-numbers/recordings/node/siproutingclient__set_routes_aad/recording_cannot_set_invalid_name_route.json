@@ -25,15 +25,14 @@
       },
       "StatusCode": 422,
       "ResponseHeaders": {
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:07:23 GMT",
-        "MS-CV": "UooeDNFPIU651Wc9VD10gA.0",
+        "Date": "Mon, 13 Nov 2023 13:13:50 GMT",
+        "MS-CV": "Y/PyCiYQh0\u002BEsG\u002Bdag4wNA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140723Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000euyq",
+        "X-Azure-Ref": "0DiFSZQAAAACIrIhq8y5/R6xh\u002BEYvzFEVUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "8ms"
+        "X-Processing-Time": "84ms"
       },
       "ResponseBody": {
         "error": {
@@ -61,21 +60,19 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:07:24 GMT",
-        "MS-CV": "gNvCXtpgA0WW39PTQ4D5pg.0",
+        "Date": "Mon, 13 Nov 2023 13:13:50 GMT",
+        "MS-CV": "8Zb04X4P6EaQHO\u002BeojQ\u002B1w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140723Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000euzg",
+        "X-Azure-Ref": "0DiFSZQAAAABuRy4gpMBYTLB2UdtVSYx8UFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "192ms"
+        "X-Processing-Time": "186ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test101c75084b85454fa82c15292989990e.sanitized.sbc.test": {
+          "test18491f4dac4a416787c0950459931429.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -84,7 +81,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testb58ade04eb1145c8b136e921a64169b7.sanitized.sbc.test",
-    "fqdn-2": "test0c5abf4397d84ebaaaf299f99e5207af.sanitized.sbc.test"
+    "fqdn-1": "testef841277a87f4cce84d7b8edafe33d6c.sanitized.sbc.test",
+    "fqdn-2": "testaa7bda0153544df3af6f5b3b5a598d12.sanitized.sbc.test"
   }
 }

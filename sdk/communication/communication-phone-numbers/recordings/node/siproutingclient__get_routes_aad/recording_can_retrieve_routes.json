@@ -15,17 +15,15 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:06:39 GMT",
-        "MS-CV": "/\u002BXcP48jvU25ZiIJqBOcgw.0",
+        "Date": "Mon, 13 Nov 2023 13:13:24 GMT",
+        "MS-CV": "oUfy1WbEc0eXRyyMHLat/w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140639Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000eqcw",
+        "X-Azure-Ref": "09CBSZQAAAAD\u002Bi55muBpSRbyC0Ux\u002BD79QUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "191ms"
+        "X-Processing-Time": "385ms"
       },
       "ResponseBody": {
         "trunks": {},

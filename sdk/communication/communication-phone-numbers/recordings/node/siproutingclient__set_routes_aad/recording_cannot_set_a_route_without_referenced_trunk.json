@@ -28,15 +28,14 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:07:32 GMT",
-        "MS-CV": "9R6kMdaLGkqNCYqM9RJmMQ.0",
+        "Date": "Mon, 13 Nov 2023 13:13:57 GMT",
+        "MS-CV": "0N/eysXT1EWHs0KiwzQwfQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140732Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000ssat",
+        "X-Azure-Ref": "0FSFSZQAAAAAYmuAEJvJQT7jmiE364WEkUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "250ms"
+        "X-Processing-Time": "321ms"
       },
       "ResponseBody": {
         "error": {
@@ -64,24 +63,22 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Connection": "keep-alive",
         "Content-Length": "192",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 14:07:33 GMT",
-        "MS-CV": "K0wIsUMXvEyqC0tdw0Ug6g.0",
+        "Date": "Mon, 13 Nov 2023 13:13:57 GMT",
+        "MS-CV": "NqUd0cNvHUCpB0JZa0bixw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20231109T140732Z-582sa68e796zpbcd5krtf3bwaw00000003m000000000sse1",
+        "X-Azure-Ref": "0FSFSZQAAAADmJBqJ1boDRqR7TKeTD1IJUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "212ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test0cf194258d6a4b93ba77e1632d641d09.sanitized.sbc.test": {
+          "testd76a43409e424178a54bc7cd29d6acda.sanitized.sbc.test": {
             "sipSignalingPort": 8239
           },
-          "test26e763692d8340bdaa35fc062740629e.sanitized.sbc.test": {
+          "test73dd1b8fa8184586a527747f0978e2b7.sanitized.sbc.test": {
             "sipSignalingPort": 7348
           }
         },
@@ -90,7 +87,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "tested7689acc321496ea2daa4bbacd414c7.sanitized.sbc.test",
-    "fqdn-2": "test052d17271d564b66b17650a0fe772a4a.sanitized.sbc.test"
+    "fqdn-1": "test24582a3723764fb3ab234ec1ee733662.sanitized.sbc.test",
+    "fqdn-2": "test6940ccb608414ebcad9f0858782be5e8.sanitized.sbc.test"
   }
 }
