@@ -130,6 +130,7 @@ export class ManagedIdentityCredential implements TokenCredential {
      */
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
+        authority: "https://login.microsoftonline.com/managed_identity",
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret",
         cloudDiscoveryMetadata:
