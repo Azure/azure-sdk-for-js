@@ -2199,6 +2199,8 @@ export interface AcsChatThreadParticipant {
   displayName: string;
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The metadata of the user */
+  metadata: { [propertyName: string]: string };
 }
 
 /** Schema for details of a delivery attempt */
@@ -2630,7 +2632,7 @@ export interface ResourceNotificationsResourceUpdatedDetails {
   /** the location of the resource for which the event is being emitted */
   location: string;
   /** the tags on the resource for which the event is being emitted */
-  tags: string;
+  tags: { [propertyName: string]: string };
   /** properties in the payload of the resource for which the event is being emitted */
   properties: { [propertyName: string]: any };
 }
@@ -2649,6 +2651,24 @@ export interface ResourceNotificationsResourceUpdatedEventData {
   operationalDetails: ResourceNotificationsOperationalDetails;
   /** api version of the resource properties bag */
   apiVersion: string;
+}
+
+/** Describes the schema of the properties under resource info which are common across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedDetails {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+}
+
+/** Describes the schema of the common properties across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedEventData {
+  /** resourceInfo details for delete event */
+  resourceDetails: ResourceNotificationsResourceDeletedDetails;
+  /** details about operational info */
+  operationalDetails: ResourceNotificationsOperationalDetails;
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
@@ -2910,6 +2930,12 @@ export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventDa
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated event. */
 export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event. */
+export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
+export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCancelled event */
 export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
   /** Router Job Note */
@@ -3136,6 +3162,8 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };
@@ -3154,6 +3182,8 @@ export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventB
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
   editTime: string;
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
 };
@@ -3228,6 +3258,8 @@ export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThread
   editTime: string;
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */

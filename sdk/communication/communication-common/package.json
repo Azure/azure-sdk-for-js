@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -68,7 +68,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.0.0",
     "events": "^3.0.0",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "^4.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -99,7 +99,7 @@
     "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "typescript": "~5.2.0",
     "util": "^0.12.1",
     "mockdate": "^3.0.5",

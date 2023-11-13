@@ -5,7 +5,7 @@ import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { logger } from "./logger";
 import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
-import { parseClientArguments } from "@azure/communication-common";
+import { createCommunicationAuthPolicy, parseClientArguments } from "@azure/communication-common";
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
  * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
@@ -36,7 +36,10 @@ export default function createClient(
     },
   };
 
-  const client = getClient(baseUrl, credential, options) as AzureCommunicationRoutingServiceClient;
+  const client = getClient(baseUrl, options) as AzureCommunicationRoutingServiceClient;
+
+  const authPolicy = createCommunicationAuthPolicy(credential);
+  client.pipeline.addPolicy(authPolicy);
 
   return client;
 }
