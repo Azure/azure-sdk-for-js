@@ -16,15 +16,14 @@
       "StatusCode": 404,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
-        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Thu, 09 Nov 2023 14:05:53 GMT",
-        "MS-CV": "S/eTqToZ0kmzxwDFlj80PA.0",
+        "Date": "Mon, 13 Nov 2023 09:32:53 GMT",
+        "MS-CV": "Dhmi6md8fkGkOF/ck4vO8Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20231109T140552Z-1deb4egv855q5a9uk8qqv75bz400000003cg00000000eh5n",
+        "X-Azure-Ref": "0Ru1RZQAAAAAxPlGKE6tBSYR4\u002BH/FU9ATUFJHMDFFREdFMDkxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "522ms"
+        "X-Processing-Time": "478ms"
       },
       "ResponseBody": {
         "error": {

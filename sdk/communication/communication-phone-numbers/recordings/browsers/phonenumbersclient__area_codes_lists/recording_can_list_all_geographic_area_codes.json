@@ -19,7 +19,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 10 Nov 2023 10:42:26 GMT",
+        "x-ms-date": "Mon, 13 Nov 2023 09:55:13 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
@@ -27,14 +27,14 @@
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10220",
+        "Content-Length": "10219",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Nov 2023 10:42:26 GMT",
-        "MS-CV": "\u002BxRasIDbZUOIbcj0KSKIVw.0",
+        "Date": "Mon, 13 Nov 2023 09:55:14 GMT",
+        "MS-CV": "FGyKGljgo0Gk1meIAquovA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0EglOZQAAAACmXhySIAWiRp62/qFr/ORFUFJHMDFFREdFMDkxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0gvJRZQAAAACUZaLtUxxZQYdsdgT5tlPcUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1003ms"
+        "X-Processing-Time": "744ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -102,13 +102,6 @@
             }
           },
           {
-            "localizedName": "Anaheim",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
-            }
-          },
-          {
             "localizedName": "Burbank",
             "administrativeDivision": {
               "localizedName": "CA",
@@ -131,13 +124,6 @@
           },
           {
             "localizedName": "Fresno",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
-            }
-          },
-          {
-            "localizedName": "Irvine",
             "administrativeDivision": {
               "localizedName": "CA",
               "abbreviatedName": "CA"
@@ -459,6 +445,13 @@
             }
           },
           {
+            "localizedName": "Big Rock",
+            "administrativeDivision": {
+              "localizedName": "IL",
+              "abbreviatedName": "IL"
+            }
+          },
+          {
             "localizedName": "Bloomington",
             "administrativeDivision": {
               "localizedName": "IL",
@@ -737,6 +730,13 @@
               "localizedName": "MI",
               "abbreviatedName": "MI"
             }
+          },
+          {
+            "localizedName": "Troy",
+            "administrativeDivision": {
+              "localizedName": "MI",
+              "abbreviatedName": "MI"
+            }
           }
         ],
         "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
@@ -761,7 +761,7 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 10 Nov 2023 10:42:27 GMT",
+        "x-ms-date": "Mon, 13 Nov 2023 09:55:13 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
@@ -771,12 +771,12 @@
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "50",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Nov 2023 10:42:30 GMT",
-        "MS-CV": "5E1jtcHswEux9nkrAHCYdQ.0",
+        "Date": "Mon, 13 Nov 2023 09:55:17 GMT",
+        "MS-CV": "0U5fjEwceEeIkqz8IGK6Fg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0EwlOZQAAAACr78NOWJccQoUChRvZq1crUFJHMDFFREdFMDkxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0gvJRZQAAAAD4d8GKtoOrR4KRiBr55lkrUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "3093ms"
+        "X-Processing-Time": "3039ms"
       },
       "ResponseBody": {
         "areaCodes": [

@@ -19,21 +19,21 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 10 Nov 2023 10:42:40 GMT",
+        "x-ms-date": "Mon, 13 Nov 2023 09:55:28 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
-        "Content-Length": "641",
+        "Content-Length": "629",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Nov 2023 10:42:41 GMT",
-        "MS-CV": "Kviss0x71k\u002B/vDpy8/v41Q.0",
+        "Date": "Mon, 13 Nov 2023 09:55:30 GMT",
+        "MS-CV": "jeHaOqKlbU68\u002B8Tf5qmkBQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0IAlOZQAAAAC6RAVtkCptT6v7Z\u002B1mZuzHUFJHMDFFREdFMDkxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kfJRZQAAAABuzz8HX/AbSI/rXXAoUFZVUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1616ms"
+        "X-Processing-Time": "1699ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -60,8 +60,8 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "outbound",
-              "sms": "inbound\u002Boutbound"
+              "calling": "none",
+              "sms": "outbound"
             },
             "assignmentType": "application",
             "purchaseDate": "2023-11-10T09:57:45.4485137\u002B00:00",
