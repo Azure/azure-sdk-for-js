@@ -18,7 +18,7 @@ import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { v4 as uuid } from "uuid";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy"
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
   dotenv.config();
@@ -122,14 +122,18 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new SipRoutingClient(endpoint, credential, recorder.configureClientOptions({
-    additionalPolicies: [
-      {
-        policy: createMSUserAgentPolicy(),
-        position: "perCall",
-      },
-    ],
-  }));
+  const client = new SipRoutingClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({
+      additionalPolicies: [
+        {
+          policy: createMSUserAgentPolicy(),
+          position: "perCall",
+        },
+      ],
+    })
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
