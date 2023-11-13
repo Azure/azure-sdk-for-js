@@ -32,10 +32,7 @@ export class LockRenewer {
    * A map of link names to individual maps for each
    * link that map a message ID to its auto-renewal timer.
    */
-  private _messageRenewLockTimers = new Map<
-    string,
-    Map<string, NodeJS.Timeout | undefined>
-  >();
+  private _messageRenewLockTimers = new Map<string, Map<string, NodeJS.Timeout | undefined>>();
 
   // just here for make unit testing a bit easier.
   private _calculateRenewAfterDuration: typeof calculateRenewAfterDuration;

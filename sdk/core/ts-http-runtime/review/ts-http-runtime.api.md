@@ -41,7 +41,6 @@ export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string,
 // @public
 export interface AddCredentialPipelinePolicyOptions {
     clientOptions?: ClientOptions;
-    // Warning: (ae-forgotten-export) The symbol "KeyCredential" needs to be exported by the entry point index.d.ts
     credential?: TokenCredential | KeyCredential;
 }
 
@@ -362,6 +361,11 @@ export function isRestError(e: unknown): e is RestError;
 
 // @public
 export const isWebWorker: boolean;
+
+// @public
+export interface KeyCredential {
+    readonly key: string;
+}
 
 // @public
 export interface KeyObject {

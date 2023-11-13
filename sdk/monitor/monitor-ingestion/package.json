@@ -9,6 +9,9 @@
     "./dist-esm/src/gZippingPolicy.js": "./dist-esm/src/gZippingPolicy.browser.js",
     "./dist-esm/src/utils/getBinarySize.js": "./dist-esm/src/utils/getBinarySize.browser.js"
   },
+  "react-native": {
+    "./dist-esm/src/gZippingPolicy.js": "./dist-esm/src/gZippingPolicy.browser.js"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -94,8 +97,8 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.0.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0",
-    "pako": "^2.0.4"
+    "pako": "^2.1.0",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "~1.0.0",
@@ -133,7 +136,7 @@
     "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.2.0",
     "util": "^0.12.1",

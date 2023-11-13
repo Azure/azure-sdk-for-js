@@ -21,15 +21,15 @@ import {
   UpsertJobParameters,
   GetJobParameters,
   DeleteJobParameters,
-  ReclassifyJobActionParameters,
-  CancelJobActionParameters,
-  CompleteJobActionParameters,
-  CloseJobActionParameters,
+  ReclassifyParameters,
+  CancelParameters,
+  CompleteParameters,
+  CloseParameters,
   ListJobsParameters,
   GetInQueuePositionParameters,
-  UnassignJobActionParameters,
-  AcceptJobActionParameters,
-  DeclineJobActionParameters,
+  UnassignParameters,
+  AcceptParameters,
+  DeclineParameters,
   GetQueueStatisticsParameters,
   UpsertWorkerParameters,
   GetWorkerParameters,
@@ -80,25 +80,24 @@ import {
   GetJobDefaultResponse,
   DeleteJob204Response,
   DeleteJobDefaultResponse,
-  ReclassifyJobAction200Response,
-  ReclassifyJobActionDefaultResponse,
-  CancelJobAction200Response,
-  CancelJobActionDefaultResponse,
-  CompleteJobAction200Response,
-  CompleteJobActionDefaultResponse,
-  CloseJobAction200Response,
-  CloseJobAction202Response,
-  CloseJobActionDefaultResponse,
+  Reclassify200Response,
+  ReclassifyDefaultResponse,
+  Cancel200Response,
+  CancelDefaultResponse,
+  Complete200Response,
+  CompleteDefaultResponse,
+  Close200Response,
+  CloseDefaultResponse,
   ListJobs200Response,
   ListJobsDefaultResponse,
   GetInQueuePosition200Response,
   GetInQueuePositionDefaultResponse,
-  UnassignJobAction200Response,
-  UnassignJobActionDefaultResponse,
-  AcceptJobAction200Response,
-  AcceptJobActionDefaultResponse,
-  DeclineJobAction200Response,
-  DeclineJobActionDefaultResponse,
+  Unassign200Response,
+  UnassignDefaultResponse,
+  Accept200Response,
+  AcceptDefaultResponse,
+  Decline200Response,
+  DeclineDefaultResponse,
   GetQueueStatistics200Response,
   GetQueueStatisticsDefaultResponse,
   UpsertWorker200Response,
@@ -234,37 +233,28 @@ export interface UpsertJob {
   ): StreamableMethod<DeleteJob204Response | DeleteJobDefaultResponse>;
 }
 
-export interface ReclassifyJobAction {
+export interface Reclassify {
   /** Reclassify a job. */
   post(
-    options?: ReclassifyJobActionParameters
-  ): StreamableMethod<ReclassifyJobAction200Response | ReclassifyJobActionDefaultResponse>;
+    options?: ReclassifyParameters
+  ): StreamableMethod<Reclassify200Response | ReclassifyDefaultResponse>;
 }
 
-export interface CancelJobAction {
-  /**
-   * Submits request to cancel an existing job by Id while supplying free-form
-   * cancellation reason.
-   */
-  post(
-    options?: CancelJobActionParameters
-  ): StreamableMethod<CancelJobAction200Response | CancelJobActionDefaultResponse>;
+export interface Cancel {
+  /** Submits request to cancel an existing job by Id while supplying free-form cancellation reason. */
+  post(options?: CancelParameters): StreamableMethod<Cancel200Response | CancelDefaultResponse>;
 }
 
-export interface CompleteJobAction {
+export interface Complete {
   /** Completes an assigned job. */
   post(
-    options: CompleteJobActionParameters
-  ): StreamableMethod<CompleteJobAction200Response | CompleteJobActionDefaultResponse>;
+    options?: CompleteParameters
+  ): StreamableMethod<Complete200Response | CompleteDefaultResponse>;
 }
 
-export interface CloseJobAction {
+export interface Close {
   /** Closes a completed job. */
-  post(
-    options: CloseJobActionParameters
-  ): StreamableMethod<
-    CloseJobAction200Response | CloseJobAction202Response | CloseJobActionDefaultResponse
-  >;
+  post(options?: CloseParameters): StreamableMethod<Close200Response | CloseDefaultResponse>;
 }
 
 export interface ListJobs {
@@ -281,28 +271,21 @@ export interface GetInQueuePosition {
   ): StreamableMethod<GetInQueuePosition200Response | GetInQueuePositionDefaultResponse>;
 }
 
-export interface UnassignJobAction {
+export interface Unassign {
   /** Un-assign a job. */
   post(
-    options?: UnassignJobActionParameters
-  ): StreamableMethod<UnassignJobAction200Response | UnassignJobActionDefaultResponse>;
+    options?: UnassignParameters
+  ): StreamableMethod<Unassign200Response | UnassignDefaultResponse>;
 }
 
-export interface AcceptJobAction {
-  /**
-   * Accepts an offer to work on a job and returns a 409/Conflict if another agent
-   * accepted the job already.
-   */
-  post(
-    options?: AcceptJobActionParameters
-  ): StreamableMethod<AcceptJobAction200Response | AcceptJobActionDefaultResponse>;
+export interface Accept {
+  /** Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job already. */
+  post(options?: AcceptParameters): StreamableMethod<Accept200Response | AcceptDefaultResponse>;
 }
 
-export interface DeclineJobAction {
+export interface Decline {
   /** Declines an offer to work on a job. */
-  post(
-    options?: DeclineJobActionParameters
-  ): StreamableMethod<DeclineJobAction200Response | DeclineJobActionDefaultResponse>;
+  post(options?: DeclineParameters): StreamableMethod<Decline200Response | DeclineDefaultResponse>;
 }
 
 export interface GetQueueStatistics {
@@ -365,13 +348,21 @@ export interface Routes {
   /** Resource for '/routing/jobs/\{jobId\}' has methods for the following verbs: patch, get, delete */
   (path: "/routing/jobs/{jobId}", jobId: string): UpsertJob;
   /** Resource for '/routing/jobs/\{jobId\}:reclassify' has methods for the following verbs: post */
-  (path: "/routing/jobs/{jobId}:reclassify", jobId: string): ReclassifyJobAction;
+  (path: "/routing/jobs/{jobId}:reclassify", jobId: string): Reclassify;
   /** Resource for '/routing/jobs/\{jobId\}:cancel' has methods for the following verbs: post */
-  (path: "/routing/jobs/{jobId}:cancel", jobId: string): CancelJobAction;
-  /** Resource for '/routing/jobs/\{jobId\}:complete' has methods for the following verbs: post */
-  (path: "/routing/jobs/{jobId}:complete", jobId: string): CompleteJobAction;
-  /** Resource for '/routing/jobs/\{jobId\}:close' has methods for the following verbs: post */
-  (path: "/routing/jobs/{jobId}:close", jobId: string): CloseJobAction;
+  (path: "/routing/jobs/{jobId}:cancel", jobId: string): Cancel;
+  /** Resource for '/routing/jobs/\{jobId\}/assignments/\{assignmentId\}:complete' has methods for the following verbs: post */
+  (
+    path: "/routing/jobs/{jobId}/assignments/{assignmentId}:complete",
+    jobId: string,
+    assignmentId: string
+  ): Complete;
+  /** Resource for '/routing/jobs/\{jobId\}/assignments/\{assignmentId\}:close' has methods for the following verbs: post */
+  (
+    path: "/routing/jobs/{jobId}/assignments/{assignmentId}:close",
+    jobId: string,
+    assignmentId: string
+  ): Close;
   /** Resource for '/routing/jobs' has methods for the following verbs: get */
   (path: "/routing/jobs"): ListJobs;
   /** Resource for '/routing/jobs/\{jobId\}/position' has methods for the following verbs: get */
@@ -381,19 +372,19 @@ export interface Routes {
     path: "/routing/jobs/{jobId}/assignments/{assignmentId}:unassign",
     jobId: string,
     assignmentId: string
-  ): UnassignJobAction;
+  ): Unassign;
   /** Resource for '/routing/workers/\{workerId\}/offers/\{offerId\}:accept' has methods for the following verbs: post */
   (
     path: "/routing/workers/{workerId}/offers/{offerId}:accept",
     workerId: string,
     offerId: string
-  ): AcceptJobAction;
+  ): Accept;
   /** Resource for '/routing/workers/\{workerId\}/offers/\{offerId\}:decline' has methods for the following verbs: post */
   (
     path: "/routing/workers/{workerId}/offers/{offerId}:decline",
     workerId: string,
     offerId: string
-  ): DeclineJobAction;
+  ): Decline;
   /** Resource for '/routing/queues/\{queueId\}/statistics' has methods for the following verbs: get */
   (path: "/routing/queues/{queueId}/statistics", queueId: string): GetQueueStatistics;
   /** Resource for '/routing/workers/\{workerId\}' has methods for the following verbs: patch, get, delete */
