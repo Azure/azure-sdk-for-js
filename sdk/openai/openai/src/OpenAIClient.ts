@@ -42,8 +42,6 @@ import {
   AudioResultSimpleJson,
 } from "./models/audio.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { formDataPolicyName } from "@azure/core-rest-pipeline";
-import { formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
 import { getAudioTranscription, getAudioTranslation } from "./api/operations.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
@@ -120,8 +118,6 @@ export class OpenAIClient {
             ],
           }),
     });
-    this._client.pipeline.removePolicy({ name: formDataPolicyName });
-    this._client.pipeline.addPolicy(formDataWithFileUploadPolicy());
   }
 
   /**
