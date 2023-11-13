@@ -19,12 +19,12 @@ import { submitNotificationHubJob } from "./submitNotificationHubJob.js";
 export async function beginSubmitNotificationHubJob(
   context: NotificationHubsClientContext,
   notificationHubJob: NotificationHubJob,
-  polledOperationOptions: PolledOperationOptions = {}
+  polledOperationOptions: PolledOperationOptions = {},
 ): Promise<NotificationHubJobPoller> {
   let submittedJob = await submitNotificationHubJob(
     context,
     notificationHubJob,
-    polledOperationOptions
+    polledOperationOptions,
   );
 
   type Handler = (state: OperationState<NotificationHubJob>) => void;

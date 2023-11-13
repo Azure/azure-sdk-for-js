@@ -21,7 +21,7 @@ const OPERATION_NAME = "createRegistration";
 export function createRegistration(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -34,6 +34,6 @@ export function createRegistration(
       }
 
       return createOrUpdateRegistrationDescription(context, registration, "create", updatedOptions);
-    }
+    },
   );
 }

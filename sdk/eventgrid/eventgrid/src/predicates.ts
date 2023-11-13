@@ -188,6 +188,8 @@ import {
   AcsRouterWorkerOfferExpiredEventData,
   AcsRouterWorkerOfferIssuedEventData,
   AcsRouterWorkerOfferRevokedEventData,
+  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
+  ResourceNotificationsResourceManagementDeletedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -574,6 +576,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
   /** An interface for the event data of a "Microsoft.Communication.RouterWorkerOfferRevoked" event. */
   "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated" event. */
+  "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.Deleted" event. */
+  "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
 }
 
 /**

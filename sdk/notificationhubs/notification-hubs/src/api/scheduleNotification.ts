@@ -22,7 +22,7 @@ export function scheduleNotification(
   context: NotificationHubsClientContext,
   scheduledTime: Date,
   notification: Notification,
-  options: ScheduleNotificationOptions = {}
+  options: ScheduleNotificationOptions = {},
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.scheduleNotification`,
@@ -33,7 +33,7 @@ export function scheduleNotification(
 
       const headers = await context.createHeaders(
         "scheduleNotification",
-        notification.headers as NonNullableRecord
+        notification.headers as NonNullableRecord,
       );
       headers.set("ServiceBusNotification-ScheduleTime", scheduledTime.toISOString());
       headers.set("Content-Type", notification.contentType);
@@ -49,6 +49,6 @@ export function scheduleNotification(
       const response = await sendRequest(context, request, 201);
 
       return parseNotificationSendResponse(response);
-    }
+    },
   );
 }

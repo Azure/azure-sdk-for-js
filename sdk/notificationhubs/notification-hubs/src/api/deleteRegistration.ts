@@ -20,7 +20,7 @@ const OPERATION_NAME = "deleteRegistration";
 export function deleteRegistration(
   context: NotificationHubsClientContext,
   registrationId: string,
-  options: EntityOperationOptions = {}
+  options: EntityOperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -37,6 +37,6 @@ export function deleteRegistration(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }
