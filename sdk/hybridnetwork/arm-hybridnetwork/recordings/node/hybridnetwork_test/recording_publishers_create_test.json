@@ -1,0 +1,46 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridNetwork/publishers/resourcetest?api-version=2023-09-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "53",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "992c59ff-1dd6-45ea-bba6-d74470ceea9d"
+      },
+      "RequestBody": {
+        "location": "eastus",
+        "properties": {
+          "scope": "Public"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "423",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Nov 2023 09:17:19 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ba0d14bb-b362-4750-8755-ceef4ccbead3",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "ba0d14bb-b362-4750-8755-ceef4ccbead3",
+        "x-ms-routing-request-id": "JAPANEAST:20231113T091720Z:ba0d14bb-b362-4750-8755-ceef4ccbead3"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NoRegisteredProviderFound",
+          "message": "No registered resource provider found for location \u0027eastus\u0027 and API version \u00272023-09-01\u0027 for type \u0027publishers\u0027. The supported api-versions are \u00272023-01-01, 2023-04-01-preview\u0027. The supported locations are \u0027westeurope, southeastasia, eastus, uksouth, westus3, southcentralus, australiaeast, canadacentral, westus, northeurope, uaenorth, centraluseuap, eastus2euap\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

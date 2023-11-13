@@ -419,6 +419,9 @@
 /sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

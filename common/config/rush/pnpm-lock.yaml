@@ -350,6 +350,9 @@ dependencies:
   '@rush-temp/arm-hybridkubernetes':
     specifier: file:./projects/arm-hybridkubernetes.tgz
     version: file:projects/arm-hybridkubernetes.tgz
+  '@rush-temp/arm-hybridnetwork':
+    specifier: file:./projects/arm-hybridnetwork.tgz
+    version: file:projects/arm-hybridnetwork.tgz
   '@rush-temp/arm-imagebuilder':
     specifier: file:./projects/arm-imagebuilder.tgz
     version: file:projects/arm-imagebuilder.tgz
@@ -4488,7 +4491,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231109
+      typescript: 5.4.0-dev.20231113
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4497,7 +4500,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231109
+      typescript: 5.4.0-dev.20231113
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9219,8 +9222,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231109:
-    resolution: {integrity: sha512-wX5CSyZbJ0xsgAe0Fyefs8eqEe7o7mp7Nv5EHydBYFpJI/FWZFc4rSF2mGNNZ/1D7JMQgwjCAkZd/2TTF3m/Uw==}
+  /typescript@5.4.0-dev.20231113:
+    resolution: {integrity: sha512-5K165L/tImARYZDKwwT2ER9qKt0n56E8jxldXfAVpq8qNqX5o2SvpoPrzCi+eddkHJHl1gPf26xiE+7R6//1Gg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10419,7 +10422,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-YraVuwbvY1frH5xysbmmmPcXw5LOrHioEVLhxEVtfBFH50PUZe0y1mRCryMh97uhZ218qD2YXFR3oHdDQ3Ve2g==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-g5XdpnD1zGM65ri/HPcH1SlhWjG3IDI5McFVbmyVpHX4TmuasGNLKwuZumNb/0k3WEFc0oivGQ0ZETcT5FTo8w==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -12958,6 +12961,33 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-hybridnetwork.tgz:
+    resolution: {integrity: sha512-o1W8z/CKI6hFvXBUlowOyRfODN9SJwUScV1TlkihkL/+6j7gMaAxA1skdCyfmkFbr6V7r7yYEP2dEdTuBIEE2g==, tarball: file:projects/arm-hybridnetwork.tgz}
+    name: '@rush-temp/arm-hybridnetwork'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.8
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -16385,7 +16415,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-d4tzGan/0Q1BzOLnwGw9M5rdkyoebnyvfTzLKBpb3xLszXq7PMfA9HcJyaer3i3ezAdEcSW+NkCWDyrbwaZ5hg==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-NKetDvWkiV30NXVsxSeqwUy+KNxIfvMcdDDaZvMK4BRzLcVkvitAOt+WIxA+oBfjxu1IEQzs1sKnJovaiz3+tg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -19061,7 +19091,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-L6m3YZDJNNzBAmhwxSPAjxCS46TmAJLlRUHNcRIGDlOAymRieaDgjQ7XPXW/++SYhR2SQ/FUmECik+QC+1Ap4w==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-LkWSFJsiK9TdXvsDcFZ/6e/dWl/uPEZX1c27+YnRAsMcihEaoEkhOcAEkoVg4C/ovgPMOyUvt8XRVmtZ5L30zw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19107,7 +19137,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-10qgCv4wOYoyBFnGLTJ6yNWylL/3S4PjNeHeTVzF+O4Sy576RBOQIT+hsks9ypVzUCWhHX/r2ZHlJiQMJxEX+A==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-WqNvE429YwD6C/CF9tUrpHTsCzUhD/so6KBRhapoj9kKTWdp6BpeaPpZYirmKd8znNm/JH4SyodM5YnD3leWzA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19200,7 +19230,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-YhGh6Ic/Jz15mreOtnXciid+Q7k4gKTxZ3iYZLZLPI6Qwdr2I4mp54lH+gZ7sJYNV4Sfb9r4xKI6ZpVgpKOqaQ==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-+hm2mlm81E0xCtC7jt3u7Rsw8uFgLOhqkDR/ST6QcpGLFqTFBO9IJo4bNCfMQjNtkasEl2V/TkQ5Xxm9mw3NWg==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -19484,7 +19514,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-oBI19OXzBnmRTkR/PVSKp3XqzW8+WGv/WXTUtKe7uOUm6bygAzRS0Jg1W3flMb/YPWz1bYB6sYiQIxAP+EK0jA==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-CspqxkKDhbIsF9oLIpgI7cBUjdZ5fZV8tbg29OWGHsg3U6s6TgRxgLp3IqjcUOxAFwNPI+YDY268jDMhfdONhg==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -21012,7 +21042,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-rw5cgkqjXrjang5ENAaRRwe4OmavDgMOCbKDRzo5gftQ4YaGvnnfj/+Hdl3vboai+Wx+HTD3QTxTVDc7StH9rw==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-09CxwiJnjwk3Gybg41W/yC9x6OQBhkbzGjlhq2s9qHpdGnow+fvGlBSrcqVXLr2RzeOPQCb7Wbs91uTtZxiuhw==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:

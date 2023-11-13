@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridNetwork/publishers?api-version=2023-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "43e196ca-dd0c-4f19-a4d0-9ff6359636ba"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "239",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Nov 2023 09:17:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "d62863b8-39dd-48c0-b468-ea9761b855c6",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "d62863b8-39dd-48c0-b468-ea9761b855c6",
+        "x-ms-routing-request-id": "JAPANEAST:20231113T091722Z:d62863b8-39dd-48c0-b468-ea9761b855c6"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027publishers\u0027 could not be found in the namespace \u0027Microsoft.HybridNetwork\u0027 for api version \u00272023-09-01\u0027. The supported api-versions are \u00272023-01-01,2023-04-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,66 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridNetwork/publishers/resourcetest?api-version=2023-09-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "f86081ab-1793-45cb-aed3-db92b77c4261"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Mon, 13 Nov 2023 09:17:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "58b68098-df3f-4b2a-9b25-54d7657887ca",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "58b68098-df3f-4b2a-9b25-54d7657887ca",
+        "x-ms-routing-request-id": "JAPANEAST:20231113T091723Z:58b68098-df3f-4b2a-9b25-54d7657887ca"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.HybridNetwork/publishers?api-version=2023-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0a08fbfd-69d5-4801-ad1f-c180ea625de8"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "239",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 13 Nov 2023 09:17:23 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94",
+        "x-ms-routing-request-id": "JAPANEAST:20231113T091723Z:bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027publishers\u0027 could not be found in the namespace \u0027Microsoft.HybridNetwork\u0027 for api version \u00272023-09-01\u0027. The supported api-versions are \u00272023-01-01,2023-04-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
