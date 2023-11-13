@@ -27,18 +27,18 @@ const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClientContext(
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<NotificationHubsClientContext> {
   await recorder.start(recorderOptions);
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
     throw new Error(
-      "Notificaiton Hub connection string and hub name must be specified. Make sure NOTIFICATION_HUB_CONNECTION_STRING and NOTIFICATION_HUB_NAME are defined"
+      "Notificaiton Hub connection string and hub name must be specified. Make sure NOTIFICATION_HUB_CONNECTION_STRING and NOTIFICATION_HUB_NAME are defined",
     );
   }
   return createClientContext(
     env.NOTIFICATION_HUB_CONNECTION_STRING,
     env.NOTIFICATION_HUB_NAME,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 }
