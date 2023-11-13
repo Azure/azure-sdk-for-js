@@ -154,7 +154,7 @@ describe("test batch operations", function () {
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 2, // One call for database account + data query call.
+          // metadataCallCount: 2, // One call for database account + data query call.
           locationEndpointsContacted: 1,
           gatewayStatisticsTestSpec: [
             {
