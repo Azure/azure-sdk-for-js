@@ -312,7 +312,7 @@
       "properties": {
         "schemaType": "custom"
       }
-    }
+    },
     {
       "type": "Microsoft.EventHub/namespaces/schemagroups",
       "apiVersion": "[variables('apiVersion')]",
@@ -320,7 +320,7 @@
       "location": "[parameters('location')]",
       "dependsOn": ["[resourceId('Microsoft.EventHub/namespaces', variables('baseNameProtobuf'))]"],
       "properties": {
-        "schemaType": "custom"
+        "schemaType": "protobuf"
       }
     }
   ],
@@ -349,6 +349,10 @@
       "type": "string",
       "value": "[variables('schemaRegistryEndpointCustom')]"
     },
+    "SCHEMAREGISTRY_PROTOBUF_FULLY_QUALIFIED_NAMESPACE": {
+      "type": "string",
+      "value": "[variables('schemaRegistryEndpointProtobuf')]"
+    },
     "EVENTHUB_AVRO_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('baseNameAvro'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
@@ -360,6 +364,10 @@
     "EVENTHUB_CUSTOM_CONNECTION_STRING": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('baseNameCustom'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
+    },
+    "EVENTHUB_PROTOBUF_CONNECTION_STRING": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.EventHub/namespaces/authorizationRules', variables('baseNameProtobuf'), 'RootManageSharedAccessKey'), variables('apiVersion')).primaryConnectionString]"
     },
     "EVENTHUB_NAME": {
       "type": "string",
