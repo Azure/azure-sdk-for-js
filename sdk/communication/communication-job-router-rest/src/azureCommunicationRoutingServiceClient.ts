@@ -51,7 +51,7 @@ export default function createClient(
     options = arg2 as ClientOptions;
   }
   if (options === undefined) {
-    options = {}
+    options = {};
   }
 
   // Rest of the function remains the same, using connectionStringOrUrl or endpoint as needed
