@@ -1,82 +1,91 @@
 # Release History
 
-## 3.4.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 3.4.1 (2023-11-13)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed regressions introduced by 3.4.0 [#27761](https://github.com/Azure/azure-sdk-for-js/pull/27761)
 
 ## 3.4.0 (2023-11-07)
 
 ## Features Added
+
 - Upgraded version of @azure/msal-node to v2.5.0 to support all versions of Node.js - Node 16, Node 18 and Node 20.
 
 ## 3.3.2 (2023-10-17)
 
 ### Bugs Fixed
-- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+
+- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile` and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
 - Fixed browser bundling for Azure Developer CLI credential. ([Identity] update mapping for browser for azd (#27097))
 - `ManagedIdentityCredential` will fall through to the next credential in the chain in the case that Docker Desktop returns a 403 response when attempting to access the IMDS endpoint.([#27050](https://github.com/Azure/azure-sdk-for-js/pull/27050)).
 
 ### Other Changes
+
 - The default IMDS probe request timeout in `ManagedIdentityCredential` has been increased to 1 second from 0.3 seconds to reduce the likelihood of false negatives.
 
 ### Other Changes
+
 - Fixed links to documentation.
 - Further improvements to tenant and scope validation.
 
 ## 3.3.1 (2023-10-10)
 
 ### Bug Fixes
-- Bug fixes for developer credentials
 
+- Bug fixes for developer credentials
 
 ## 3.3.0 (2023-08-14)
 
 ### Features Added
--  Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableUnsafeSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
+
+- Enabled support for logging [personally identifiable information](https://github.com/AzureAD/microsoft-authentication-library-for-dotnet/wiki/PII), required for customer support through the `enableUnsafeSupportLogging` option on `loggingOptions` under `TokenCredentialOptions`.
 - Continuous Access Evaluation (CAE) is now configurable per-request by setting the `enable_cae` keyword argument to `True` in `get_token`. This applies to user credentials and service principal credentials. ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
 
 ### Breaking Changes
-- CP1 client capabilities for CAE is no longer always-on by default for user credentials. This capability will now be configured as-needed in each `getToken` request by each SDK.  ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
+
+- CP1 client capabilities for CAE is no longer always-on by default for user credentials. This capability will now be configured as-needed in each `getToken` request by each SDK. ([#26614](https://github.com/Azure/azure-sdk-for-js/pull/26614))
   - Suffixes are now appended to persistent cache names to indicate whether CAE or non-CAE tokens are stored in the cache. This is to prevent CAE and non-CAE tokens from being mixed/overwritten in the same cache. This could potentially cause issues if you are trying to share the same cache between applications that are using different versions of the Azure Identity library as each application would be reading from a different cache file.
   - Since CAE is no longer always enabled for user-credentials, the `AZURE_IDENTITY_DISABLE_CP1` environment variable is no longer supported.
 
 ## 3.2.4 (2023-07-21)
 
 ### Bug Fixes
+
 - Fixed a bug related to [Managed Identity Credential intermixing wrong scopes](https://github.com/Azure/azure-sdk-for-js/pull/26566) for successive `getToken()` calls.
 
 ## 3.2.3 (2023-06-20)
 
 ### Bug Fixes
- - Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
+
+- Dependency Upgrades of MSAL libraries to the latest versions for incorporating underlying [bug fix](https://github.com/AzureAD/microsoft-authentication-library-for-js/issues/4879#issuecomment-1462949837) to resolve [this issue](https://github.com/Azure/azure-sdk-for-js/issues/23331).
+
 ### Other Changes
+
 #### Behavioral breaking change
+
 - Moved `AzureDeveloperCliCredential` to the end of the `DefaultAzureCredential` chain.
 
 ## 3.2.2 (2023-05-15)
 
 ### Bug Fixes
- - Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
+
+- Remove console logging in `processMultitenantRequest` for tenant id and resolved tenant.
 
 ## 3.2.1 (2023-05-10)
 
 ### Bug Fixes
- - Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check.
-   Related issue [#25827](https://github.com/Azure/azure-sdk-for-js/issues/25827) with the fix [#25829](https://github.com/Azure/azure-sdk-for-js/pull/25829).
+
+- Fixed a bug in `WorkloadIdentity Credential`, to incorporate the case where the options can be `undefined` in a conditional check.
+  Related issue [#25827](https://github.com/Azure/azure-sdk-for-js/issues/25827) with the fix [#25829](https://github.com/Azure/azure-sdk-for-js/pull/25829).
 
 ## 3.2.0 (2023-05-09)
 
 ### Breaking Changes
 
- - Renamed `developerCredentialTimeOutInMs` to `processTimeoutInMs` in `DefaultAzureCredentialOptions`.
- - Renamed `federatedTokenFilePath` to `tokenFilePath` under `WorkloadIdentityOptions`.
- 
+- Renamed `developerCredentialTimeOutInMs` to `processTimeoutInMs` in `DefaultAzureCredentialOptions`.
+- Renamed `federatedTokenFilePath` to `tokenFilePath` under `WorkloadIdentityOptions`.
+
 ## 3.2.0-beta.2 (2023-04-13)
 
 ### Features Added
@@ -91,6 +100,7 @@
 ## 3.1.4 (2023-04-11)
 
 ### Bugs Fixed
+
 - Added a workaround of fetching all accounts from token cache to fix the issue of silent authentication not taking place when authenticationRecord is passed. For reference, see [issue](https://github.com/Azure/azure-sdk-for-js/issues/24349).
 
 ## 3.2.0-beta.1 (2023-02-28)
@@ -112,6 +122,7 @@
 ### Bugs Fixed
 
 - Fixed bug in `ManagedIdentity Credential` where "expiresInSeconds" was taking the absolute timestamp instead of relative expiration time period in seconds.
+
 ### Other Changes
 
 - Enable msal logging based on log level specified by user for Azure SDK.
@@ -163,11 +174,12 @@
 
 ### Breaking Changes
 
-- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID.  See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
+- Credential types supporting multi-tenant authentication will now throw an error if the requested tenant ID doesn't match the credential's tenant ID, and is not included in the `additionallyAllowedTenants` option. Applications must now explicitly add additional tenants to the `additionallyAllowedTenants` list, or add `"*"` to list, to enable acquiring tokens from tenants other than the originally specified tenant ID. See [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md).
 
 ### Bugs Fixed
 
 - Changed the way token expiration for managed identity tokens is calculated to handle different server formats. See [PR #23232](https://github.com/Azure/azure-sdk-for-js/pull/23232)
+
 ## 3.0.0-beta.1 (2022-08-24)
 
 ### Features Added
