@@ -353,19 +353,21 @@ main().catch((err) => {
 
 ### Transcribe and translate audio files
 
-The speech to text and translation capabilities of Azure OpenAI can be used to transcribe and translate a wide variety of audio file formats. The following example shows how to use the `getAudioTranscription` method to transcribe audio into the language the audio is in. You can also translate and transcribe the audio into English using the `getAudioTranslation` method. The audio file will be streamed directly to the service.
+The speech to text and translation capabilities of Azure OpenAI can be used to transcribe and translate a wide variety of audio file formats. The following example shows how to use the `getAudioTranscription` method to transcribe audio into the language the audio is in. You can also translate and transcribe the audio into English using the `getAudioTranslation` method.
+
+The audio file can be loaded into memory using the NodeJS file system APIs. In the browser, the file can be loaded using the `FileReader` API and the output of `arrayBuffer` instance method can be passed to the `getAudioTranscription` method.
 
 ```js
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-const { createReadStream } = require("fs");
+const fs = require("fs/promises");
 
 async function main() {
   console.log("== Transcribe Audio Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper";
-  const createAudioStream = () => createReadStream("< path to an audio file >");
-  const result = await client.getAudioTranscription(deploymentName, createAudioStream);
+  const audio = await fs.readFile("< path to an audio file >");
+  const result = await client.getAudioTranscription(deploymentName, audio);
 
   console.log(`Transcription: ${result.text}`);
 }

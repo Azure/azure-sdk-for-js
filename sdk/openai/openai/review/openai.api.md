@@ -329,10 +329,14 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    getAudioTranscription(deploymentName: string, buildFileStream: StreamProducer, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamProducer, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
-    getAudioTranslation(deploymentName: string, buildFileStream: StreamProducer, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, buildFileStream: StreamProducer, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+    getAudioTranscription(deploymentName: string, createAudioStream: StreamProducer, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, createAudioStream: StreamProducer, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranscription(deploymentName: string, audioContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, audioContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, createAudioStream: StreamProducer, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, createAudioStream: StreamProducer, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, audioContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, audioContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
