@@ -153,6 +153,7 @@
   - Type of parameter encryptedCredential of interface HBaseLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface HdfsLinkedService is changed from any to string
   - Type of parameter enablePartitionDiscovery of interface HdfsReadSettings is changed from boolean to any
+  - Type of parameter variables of interface HDInsightHiveActivity is changed from any[] to {  [propertyName: string]: any;  }
   - Type of parameter encryptedCredential of interface HDInsightLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface HDInsightOnDemandLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface HiveLinkedService is changed from any to string
@@ -182,6 +183,8 @@
   - Type of parameter encryptedCredential of interface QuickbaseLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface QuickBooksLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface ResponsysLinkedService is changed from any to string
+  - Type of parameter additionalHeaders of interface RestResourceDataset is changed from any to {  [propertyName: string]: any;  }
+  - Type of parameter paginationRules of interface RestResourceDataset is changed from any to {  [propertyName: string]: any;  }
   - Type of parameter encryptedCredential of interface RestServiceLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface SalesforceLinkedService is changed from any to string
   - Type of parameter encryptedCredential of interface SalesforceMarketingCloudLinkedService is changed from any to string
