@@ -444,7 +444,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (args: ProcessErrorArgs) => {
+    this._notifyError = async (args: ProcessErrorArgs) => {
       if (this._onError) {
         this._onError(args);
         logger.verbose(
@@ -691,7 +691,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.logPrefix,
             bMessage.messageId
           );
-          this._onError!({
+          await this._onError!({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
@@ -730,7 +730,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError({
+              await this._notifyError({
                 error: translatedError,
                 errorSource: "abandon",
                 entityPath: this.entityPath,
@@ -772,7 +772,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            this._notifyError({
+            await this._notifyError({
               error: translatedError,
               errorSource: "complete",
               entityPath: this.entityPath,
@@ -816,7 +816,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  private processCreditError(err: any): void {
+  private async processCreditError(err: any): Promise<void> {
     if (err.name === "AbortError") {
       // if we fail to add credits because the user has asked us to stop
       // then this isn't an error - it's normal.
@@ -830,7 +830,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     // from the user's perspective this is a fatal link error and they should retry
     // opening the link.
-    this._onError!({
+    await this._onError!({
       error,
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
@@ -878,7 +878,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     );
     try {
       // Notifying so that the streaming receiver knows about the error
-      this._notifyError({
+      await this._notifyError({
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),

@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-client-protobuf",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Azure Web PubSub Client Protobuf",
   "sdk-type": "client",
   "main": "dist/index.js",

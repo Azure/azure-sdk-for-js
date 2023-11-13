@@ -1,0 +1,123 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/routing/distributionPolicies?maxpagesize=20\u0026api-version=2023-11-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-GB",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "151e3915-6d66-4619-9254-4341907b16d5",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Thu, 09 Nov 2023 20:33:59 GMT",
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 09 Nov 2023 20:34:00 GMT",
+        "Request-Context": "appId=",
+        "trace-id": "bfa52bfa-d543-21c5-c3b3-a305c7679357",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0OEJNZQAAAADC2gV/3d4ySapHYLorAp/DV1NURURHRTAxMjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "test-p-policy-recorded-d-policies",
+            "offerExpiresAfterSeconds": 60,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u00221204f2cb-0000-0700-0000-654d42380000\u0022"
+          },
+          {
+            "id": "distribution-policy-123",
+            "name": "distribution-policy-123",
+            "offerExpiresAfterSeconds": 120,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u0022de035d94-0000-0700-0000-654863b10000\u0022"
+          },
+          {
+            "id": "test-d-policy-recorded-jobs",
+            "name": "test-d-policy",
+            "offerExpiresAfterSeconds": 60,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u0022b403bfda-0000-0700-0000-65457e960000\u0022"
+          },
+          {
+            "id": "test-d-policy-recorded-workers",
+            "name": "test-d-policy",
+            "offerExpiresAfterSeconds": 60,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u0022b3035cb8-0000-0700-0000-6545772f0000\u0022"
+          },
+          {
+            "id": "test-d-policy-recorded-d-policies",
+            "name": "test-d-policy",
+            "offerExpiresAfterSeconds": 60,
+            "mode": {
+              "kind": "longest-idle",
+              "minConcurrentOffers": 1,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u0022b2032cfe-0000-0700-0000-654573160000\u0022"
+          },
+          {
+            "id": "472141c8-9185-46c4-9e58-c8b2c7779927",
+            "name": "some distribution policy",
+            "offerExpiresAfterSeconds": 55,
+            "mode": {
+              "kind": "best-worker",
+              "scoringRuleOptions": {
+                "scoringParameters": [
+                  "jobLabels",
+                  "workerSelectors"
+                ],
+                "isBatchScoringEnabled": false,
+                "descendingOrder": true
+              },
+              "minConcurrentOffers": 3,
+              "maxConcurrentOffers": 5,
+              "bypassSelectors": false
+            },
+            "etag": "\u002237014f0e-0000-0700-0000-65397ea10000\u0022"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -20,7 +20,7 @@ const OPERATION_NAME = "createOrUpdateInstallation";
 export function createOrUpdateInstallation(
   context: NotificationHubsClientContext,
   installation: Installation,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -38,6 +38,6 @@ export function createOrUpdateInstallation(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }
