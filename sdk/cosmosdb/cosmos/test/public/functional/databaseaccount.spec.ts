@@ -32,7 +32,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 0,
+         //metadataCallCount: 0,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {

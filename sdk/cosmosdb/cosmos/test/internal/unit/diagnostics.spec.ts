@@ -155,12 +155,12 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     });
     it("Check for endpoint", async function () {
       setDiagnosticLevel(CosmosDbDiagnosticLevel.debug);
-      const testEndpoint = "AccountEndpoint=https://localhost:8081/;AccountKey=key";
+      const testEndpoint = "AccountEndpoint=https://127.0.0.1:8081/;AccountKey=key";
       const client = new CosmosClient(testEndpoint);
       const clientContext: ClientContext = (client as any).clientContext;
       const clientConfigDiagnostic: ClientConfigDiagnostic = clientContext.getClientConfig();
 
-      expect(clientConfigDiagnostic.endpoint).to.eq("https://localhost:8081/");
+      expect(clientConfigDiagnostic.endpoint).to.eq("https://127.0.0.1:8081/");
       expect(clientContext.diagnosticLevel).to.eq(CosmosDbDiagnosticLevel.debug);
     });
     it("Check initilization of diagnostic level", async function () {
@@ -186,15 +186,15 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
     it("Check setting of diagnostic level", async function () {
       // Testing scope of diagnostic level is limited to an instance of CosmosDB client.
       const clientInfo = new CosmosClient({
-        endpoint: "https://localhost",
+        endpoint: "https://127.0.0.1",
         diagnosticLevel: CosmosDbDiagnosticLevel.info,
       });
       const clientDebug = new CosmosClient({
-        endpoint: "https://localhost",
+        endpoint: "https://127.0.0.1",
         diagnosticLevel: CosmosDbDiagnosticLevel.debug,
       });
       const clientDebugUnsafe = new CosmosClient({
-        endpoint: "https://localhost",
+        endpoint: "https://127.0.0.1",
         diagnosticLevel: CosmosDbDiagnosticLevel.debugUnsafe,
       });
 

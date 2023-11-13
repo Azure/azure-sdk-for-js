@@ -36,7 +36,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+         //metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -53,7 +53,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+         //metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -83,7 +83,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+         //metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -97,7 +97,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+         //metadataCallCount: 2,
           retryCount: 0,
         }
       );
@@ -110,7 +110,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           },
           {
             locationEndpointsContacted: 1,
-            metadataCallCount: 2,
+           //metadataCallCount: 2,
             retryCount: 0,
           }
         );

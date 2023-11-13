@@ -74,7 +74,7 @@ const testDataset = {
 
 describe("Testing Credentials integration for Client", function (this: Suite) {
   // endpoint for mock server, which doesn't conflict with emulator's endpoints.
-  const mockedEndpoint = "https://localhost:8082";
+  const mockedEndpoint = "https://127.0.0.1:8082";
   const aadToken = "aadToken";
   let sandbox: SinonSandbox;
   let spy: SinonSpy;
