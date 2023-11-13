@@ -94,7 +94,6 @@ export interface PartitionReceiver {
 interface ConnectOptions {
   abortSignal: AbortSignalLike | undefined;
   timeoutInMs: number;
-  prefetchCount: number;
 }
 
 interface ReceiverState {
@@ -156,7 +155,7 @@ export function createReceiver(
       logger.verbose(`is open? -> ${isOpen}`);
       return isOpen;
     },
-    async connect({ abortSignal, timeoutInMs, prefetchCount }: ConnectOptions): Promise<void> {
+    async connect({ abortSignal, timeoutInMs }: ConnectOptions): Promise<void> {
       if (state.isConnecting || obj.isOpen()) {
         return;
       }
@@ -174,7 +173,6 @@ export function createReceiver(
               obj,
               state,
               queue,
-              prefetchCount,
               eventPosition,
               logger,
               options,
@@ -203,6 +201,7 @@ export function createReceiver(
       maxWaitTimeInSeconds: number = 60,
       abortSignal?: AbortSignalLike
     ) => {
+      const prefetchCount = options.prefetchCount ?? maxMessageCount * 3;
       const cleanupBeforeAbort = (): Promise<void> => {
         logger.info(abortLogMessage);
         return obj.close();
@@ -224,10 +223,10 @@ export function createReceiver(
                 .connect({
                   abortSignal,
                   timeoutInMs: getRetryAttemptTimeoutInMs(options.retryOptions),
-                  prefetchCount: options.prefetchCount ?? maxMessageCount * 3,
                 })
                 .then(() => {
-                  logger.verbose(`setting the wait timer for ${maxWaitTimeInSeconds} seconds`);
+                  addCredits(state.link, Math.max(prefetchCount, maxMessageCount) - queue.length);
+                  logger.verbose(`setting the max wait time to ${maxWaitTimeInSeconds} seconds`);
                   return waitForEvents(
                     maxMessageCount,
                     maxWaitTimeInSeconds * 1000,
@@ -504,7 +503,6 @@ function createRheaOptions(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
-  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: PartitionReceiverOptions
@@ -516,7 +514,7 @@ function createRheaOptions(
     source: {
       address,
     },
-    credit_window: prefetchCount,
+    credit_window: 0,
     properties: {
       [receiverIdPropertyName]: consumerId,
     },
@@ -550,7 +548,6 @@ async function setupLink(
   obj: PartitionReceiver,
   state: ReceiverState,
   queue: ReceivedEventData[],
-  prefetchCount: number,
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: PartitionReceiverOptions,
@@ -563,7 +560,6 @@ async function setupLink(
     obj,
     state,
     queue,
-    prefetchCount,
     eventPosition,
     logger,
     options
@@ -576,4 +572,10 @@ async function setupLink(
   state.isConnecting = false;
   logger.verbose("is created successfully");
   ctx.receivers[name] = obj;
+}
+
+function addCredits(receiver: Link | undefined, creditsToAdd: number): void {
+  if (creditsToAdd > 0) {
+    receiver?.addCredit(creditsToAdd);
+  }
 }

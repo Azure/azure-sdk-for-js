@@ -90,7 +90,7 @@ export interface OnError {
    * NOTE: if this signature changes make sure you reflect those same changes in the
    * `OnErrorNoContext` definition below.
    */
-  (args: ProcessErrorArgs): void;
+  (args: ProcessErrorArgs): Promise<void>;
 }
 
 /**

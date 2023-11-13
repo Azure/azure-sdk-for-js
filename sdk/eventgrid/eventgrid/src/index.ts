@@ -302,4 +302,8 @@ export {
   AcsRouterWorkerOfferIssuedEventData,
   AcsRouterWorkerOfferRevokedEventData,
   AcsRouterChannelConfiguration,
+  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
+  ResourceNotificationsResourceManagementDeletedEventData,
+  ResourceNotificationsResourceDeletedEventData,
+  ResourceNotificationsResourceDeletedDetails,
 } from "./generated/models";

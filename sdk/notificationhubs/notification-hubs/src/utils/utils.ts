@@ -28,7 +28,7 @@ export function getString(value: unknown, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a string value and not undefined.`,
     );
   }
   return result;
@@ -56,7 +56,7 @@ export function getInteger(value: unknown, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`,
     );
   }
   return result;
@@ -85,7 +85,7 @@ export function getFloat(value: unknown, nameOfProperty: string): number {
   const result = getFloatOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a number value and not undefined.`,
     );
   }
   return result;
@@ -113,7 +113,7 @@ export function getDate(value: string, nameOfProperty: string): Date {
   const result = getDateOrUndefined(value);
   if (result === undefined) {
     throw new Error(
-      `"${nameOfProperty}" received from service expected to be a Date value and not undefined.`
+      `"${nameOfProperty}" received from service expected to be a Date value and not undefined.`,
     );
   }
   return result;

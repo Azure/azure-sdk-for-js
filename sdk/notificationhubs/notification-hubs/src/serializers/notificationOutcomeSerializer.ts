@@ -9,7 +9,7 @@ import { getInteger, getString, isDefined } from "../utils/utils.js";
 import { parseXML } from "@azure/core-xml";
 
 export async function parseNotificationOutcome(
-  bodyText: string
+  bodyText: string,
 ): Promise<NotificationHubsMessageResponse> {
   const xml = await parseXML(bodyText, { includeRoot: true });
   const outcome = xml.NotificationOutcome;

@@ -110,6 +110,7 @@ export default leafCommand(commandInfo, async (options) => {
         format: "cjs",
         sourcemap: true,
         exports: "named",
+        esModule: true,
       });
     } catch (error: any) {
       log.error(error);
