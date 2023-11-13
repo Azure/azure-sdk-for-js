@@ -6,7 +6,6 @@
  */
 
 const { KnownAnalyzerNames } = require("@azure/search-documents");
-const { env } = require("process");
 
 const WAIT_TIME = 4000;
 
@@ -53,14 +52,14 @@ async function createIndex(client, name) {
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfile: "vector-search-profile",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfile: "vector-search-profile",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Edm.String",
@@ -248,22 +247,10 @@ async function createIndex(client, name) {
     },
     vectorSearch: {
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
-      vectorizers: [
-        {
-          name: "vector-search-vectorizer",
-          kind: "azureOpenAI",
-          azureOpenAIParameters: {
-            resourceUri: env.AZURE_OPENAI_ENDPOINT,
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-          },
-        },
-      ],
       profiles: [
         {
           name: "vector-search-profile",
-          algorithm: "vector-search-algorithm",
-          vectorizer: "vector-search-vectorizer",
+          algorithmConfigurationName: "vector-search-algorithm",
         },
       ],
     },
