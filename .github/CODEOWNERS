@@ -734,6 +734,9 @@
 /sdk/securityinsight/arm-securityinsight/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/scvmm/arm-scvmm/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/oep/arm-oep/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
