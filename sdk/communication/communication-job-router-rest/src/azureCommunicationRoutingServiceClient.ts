@@ -50,7 +50,7 @@ export default function createClient(
   } else {
     options = arg2 as ClientOptions;
   }
-  if (options == undefined) {
+  if (options === undefined) {
     options = {}
   }
 

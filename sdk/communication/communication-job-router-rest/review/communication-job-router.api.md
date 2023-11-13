@@ -279,7 +279,7 @@ export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-function createClient(connectionStringOrUrl: string, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
+function createClient(connectionStringOrUrl: string, options: ClientOptions): AzureCommunicationRoutingServiceClient;
 
 // @public
 function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
