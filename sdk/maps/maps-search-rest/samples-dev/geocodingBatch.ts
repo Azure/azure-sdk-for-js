@@ -38,7 +38,7 @@ async function main(): Promise<void> {
         { query: "One, Microsoft Way, Redmond, WA 98052" },
         { query: "350 5th Ave, New York, NY 10118" },
         // This is an invalid query
-        { query: "" }
+        { query: "" },
       ],
     },
   });

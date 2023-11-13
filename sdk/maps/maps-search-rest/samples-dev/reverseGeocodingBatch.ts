@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import MapsSearch, {
-  GeocodingBatchResponseOutput,
-  isUnexpected,
-} from "@azure-rest/maps-search";
+import MapsSearch, { GeocodingBatchResponseOutput, isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -43,7 +40,7 @@ async function main(): Promise<void> {
           coordinates: [-122.34255, 47.6101],
         },
         { coordinates: [-122.33817, 47.6155] },
-      ]
+      ],
     },
   });
 
