@@ -416,6 +416,9 @@
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hybridcontainerservice/arm-hybridcontainerservice/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
