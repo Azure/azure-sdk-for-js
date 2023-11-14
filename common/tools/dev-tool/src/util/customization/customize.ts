@@ -26,6 +26,7 @@ import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
 import { format } from "../prettier";
+import { augmentExports } from "./exports";
 
 let outputProject = new Project();
 let _originalFolderName = "generated";
@@ -230,6 +231,8 @@ export function mergeModuleDeclarations(
   );
 
   augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
+
+  augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
   originalVirtualSourceFile.fixMissingImports();
   sortSourceFileContents(originalVirtualSourceFile);
