@@ -97,7 +97,7 @@ async function main() {
     const documents = getDocumentsArray(1001);
     bufferedClient.uploadDocuments(documents);
 
-    await WAIT_TIME;
+    await delay(WAIT_TIME);
 
     let count = await searchClient.getDocumentsCount();
     while (count !== documents.length) {
