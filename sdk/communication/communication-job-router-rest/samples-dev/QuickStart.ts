@@ -134,9 +134,8 @@ async function quickStart(): Promise<void> {
 
   // Completing a job
   // Once the worker is done with the job, the worker has to mark the job as `completed`.
-  const completeJob = await routerClient.path("/routing/jobs/{jobId}:complete", jobId).post({
+  const completeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, acceptJobOfferResult.assignmentId).post({
     body: {
-      assignmentId: acceptJobOfferResult.assignmentId,
       note: `Job has been completed by ${workerId} at ${new Date()}`
     }
   })
@@ -146,9 +145,8 @@ async function quickStart(): Promise<void> {
   // Closing a job
   // After a job has been completed, the worker can perform wrap up actions to the job before closing the job and finally
   // releasing its capacity to accept more incoming jobs
-  const closeJob = await routerClient.path("/routing/jobs/{jobId}:close", jobId).post({
+  const closeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, acceptJobOfferResult.assignmentId).post({
     body: {
-      assignmentId: acceptJobOfferResult.assignmentId,
       note: `Job has been closed by ${workerId} at ${new Date()}`
     }
   })
@@ -157,10 +155,9 @@ async function quickStart(): Promise<void> {
   // Optionally, a job can also be set up to be marked as closed in the future.
   const afterTwoSeconds = new Date();
   afterTwoSeconds.setSeconds(afterTwoSeconds.getSeconds() + 2);
-  const closeJobInFuture = await routerClient.path("/routing/jobs/{jobId}:close", jobId).post({
+  const closeJobInFuture = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, acceptJobOfferResult.assignmentId).post({
     body: {
       closeAt: afterTwoSeconds,
-      assignmentId: acceptJobOfferResult.assignmentId,
       note: `Job has been marked to close in the future by ${workerId} at ${afterTwoSeconds}`
     }
   })
