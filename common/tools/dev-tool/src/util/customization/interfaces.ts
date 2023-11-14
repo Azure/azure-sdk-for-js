@@ -10,7 +10,13 @@ export function augmentInterfaces(
   originalFile: SourceFile
 ) {
   for (const customInterface of customInterfaces) {
-    const originalInterface = originalInterfaces.get(customInterface.getName() ?? "");
+    const annotation = getAnnotation(customInterface);
+    const expectedInterfaceName =
+      annotation?.type === "rename" && annotation?.param
+        ? annotation.param
+        : customInterface.getName();
+
+    const originalInterface = originalInterfaces.get(expectedInterfaceName ?? "");
     augmentInterface(customInterface, originalInterface, originalFile);
   }
 }
@@ -20,6 +26,18 @@ export function augmentInterface(
   originalInterface: InterfaceDeclaration | undefined,
   originalFile: SourceFile
 ) {
+  const annotation = getAnnotation(customInterface);
+  /* If the interface is marked with `// @azsdk-remove`, we'll remove it from the original file */
+  if (annotation?.type === "remove") {
+    originalInterface?.remove();
+    return;
+  }
+
+  /* If the interface is marked with `// @azsdk-rename`, we'll rename the original interface */
+  if (annotation?.type === "rename" && annotation.param) {
+    originalInterface?.rename(customInterface.getName());
+  }
+
   // If there is no interface with the same name in the original file, we'll add it
   if (!originalInterface) {
     originalFile.addInterface(customInterface.getStructure());
@@ -45,20 +63,18 @@ export function mergeProperties(
 ) {
   const customProperties = customInterface.getProperties();
   for (const customProperty of customProperties) {
-    if (getAnnotation(customProperty) === "Remove") {
+    if (getAnnotation(customProperty)?.type === "remove") {
       /* If the property has a `// @azsdk-remove` comment, we don't need to re-add it */
       continue;
     }
     const propertyName = customProperty.getName();
     const originalProperty = originalInterface.getProperty(propertyName);
 
-    // If the property already exists in the original interface, we'll remove it
     if (originalProperty) {
-      originalProperty.remove();
-    }
-
-    // Add the custom property
-    if (getAnnotation(customProperty) !== "Remove") {
+      // If the property already exists we replace in place to preserve the order
+      originalProperty.set(customProperty.getStructure());
+    } else {
+      // Add the custom property
       originalInterface.addProperty(customProperty.getStructure());
     }
   }
@@ -73,7 +89,7 @@ export function removeProperties(
     const propertyName = customProperty.getName();
 
     // Check if the property has a `// @azsdk-remove` comment
-    if (getAnnotation(customProperty) === "Remove") {
+    if (getAnnotation(customProperty)?.type === "remove") {
       originalInterface.getProperty(propertyName)?.remove();
     }
   }
@@ -93,7 +109,6 @@ function findCallSignature(
     if (signature.getParameters().length !== callSignature.getParameters().length) {
       return false;
     }
-    signature.getReturnTypeNode;
     if (!typeEquals(signature.getReturnType(), callSignature.getReturnType())) {
       return false;
     }
@@ -118,7 +133,7 @@ export function mergeCallSignatures(
 ) {
   const customCallSignatures = customInterface.getCallSignatures();
   for (const customCallSignature of customCallSignatures) {
-    if (getAnnotation(customCallSignature) === "Remove") {
+    if (getAnnotation(customCallSignature)?.type === "remove") {
       /* If the call signature has a `// @azsdk-remove` comment, we don't need to re-add it */
       continue;
     }
@@ -137,7 +152,7 @@ export function removeCallSignatures(
   const customCallSignatures = customInterface.getCallSignatures();
   for (const customCallSignature of customCallSignatures) {
     // Check if the signature has a `// @azsdk-remove` comment
-    if (getAnnotation(customCallSignature) === "Remove") {
+    if (getAnnotation(customCallSignature)?.type === "remove") {
       findCallSignature(originalInterface, customCallSignature)?.remove();
     }
   }
