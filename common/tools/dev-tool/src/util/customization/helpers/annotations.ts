@@ -4,7 +4,12 @@
 import { CallSignatureDeclaration, PropertySignature } from "ts-morph";
 import { Declaration } from "../common";
 
-export type Annotation = "Remove";
+export type AnnotationType = "remove" | "rename";
+export interface Annotation {
+  type: AnnotationType;
+  param?: string;
+}
+
 export function getAnnotation(
   declaration: Declaration | PropertySignature | CallSignatureDeclaration
 ): Annotation | undefined {
@@ -14,12 +19,14 @@ export function getAnnotation(
     for (const commentRange of leadingCommentRanges) {
       const commentText = commentRange.getText();
 
-      const regex = /@azsdk-(\w+)/;
+      const regex = /@azsdk-(\w+)(?:\((\w+)\))?/;
       const match = commentText.match(regex);
-      const annotation = match ? match[0] : null;
 
-      if (annotation === "@azsdk-remove") {
-        return "Remove";
+      if (match) {
+        return {
+          type: match[1] as AnnotationType,
+          param: match[2],
+        };
       }
     }
   }
