@@ -14,9 +14,9 @@
 
 ### Breaking Changes
 
-- Trivial type changes
+- Minor type changes
   - All nullable optional properties can no longer be assigned `null`. Use `undefined` instead.
-  - Some properties with `any` type have been narrowed.
+  - Updated specific property types for enhanced precision, replacing `any` with more defined types.
 - Narrowed some enum property types to the respective string literal union
   - `BlobIndexerDataToExtract`
   - `BlobIndexerImageAction`
