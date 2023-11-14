@@ -80,7 +80,7 @@ describe("HttpHeaders", () => {
       withTrailingWhitespace: "value2",
       withLeadingAndTrialingWhitespace: "value3",
     };
-    for (const {name, value} of headers.headersArray()) {
+    for (const { name, value } of headers.headersArray()) {
       assert.include(expected, { [name]: value });
     }
   });
