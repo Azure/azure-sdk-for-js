@@ -14,9 +14,9 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js",
     "./dist-esm/src/util/sha256.js": "./dist-esm/src/util/sha256.browser.js",
     "./dist-esm/src/util/uuidUtils.js": "./dist-esm/src/util/uuidUtils.browser.js",
+    "./dist-esm/src/util/stream.js": "./dist-esm/src/util/stream.browser.js",
     "./dist-esm/src/util/bytesEncoding.js": "./dist-esm/src/util/bytesEncoding.browser.js",
     "./dist-esm/src/logger/log.js": "./dist-esm/src/logger/log.browser.js",
-    "./dist-esm/src/client/helpers/isReadableStream.js": "./dist-esm/src/client/helpers/isReadableStream.browser.js",
     "process": false
   },
   "react-native": {
