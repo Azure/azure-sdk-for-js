@@ -178,7 +178,7 @@ export const queryType: OperationQueryParameter = {
     serializedName: "queryType",
     type: {
       name: "Enum",
-      allowedValues: ["simple", "full"]
+      allowedValues: ["simple", "full", "semantic"]
     }
   }
 };
@@ -289,6 +289,59 @@ export const top: OperationQueryParameter = {
     serializedName: "$top",
     type: {
       name: "Number"
+    }
+  }
+};
+
+export const semanticConfiguration: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticConfiguration"],
+  mapper: {
+    serializedName: "semanticConfiguration",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticErrorHandling: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticErrorHandling"],
+  mapper: {
+    serializedName: "semanticErrorHandling",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const semanticMaxWaitInMilliseconds: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "semanticMaxWaitInMilliseconds"],
+  mapper: {
+    constraints: {
+      InclusiveMinimum: 700
+    },
+    serializedName: "semanticMaxWaitInMilliseconds",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const answers: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "answers"],
+  mapper: {
+    serializedName: "answers",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const captions: OperationQueryParameter = {
+  parameterPath: ["options", "searchOptions", "captions"],
+  mapper: {
+    serializedName: "captions",
+    type: {
+      name: "String"
     }
   }
 };

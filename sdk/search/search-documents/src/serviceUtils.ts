@@ -7,13 +7,13 @@ import {
   CognitiveServicesAccountKey,
   CognitiveServicesAccountUnion,
   ConditionalSkill,
-  CustomAnalyzer,
-  CustomEntityLookupSkill,
+  CustomAnalyzer as BaseCustomAnalyzer,
   DataChangeDetectionPolicyUnion,
   DataDeletionDetectionPolicyUnion,
   DefaultCognitiveServicesAccount,
   DocumentExtractionSkill,
-  EntityRecognitionSkill,
+  EntityLinkingSkill,
+  EntityRecognitionSkillV3,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   SearchField as GeneratedSearchField,
   SearchIndex as GeneratedSearchIndex,
@@ -23,35 +23,40 @@ import {
   SearchResourceEncryptionKey as GeneratedSearchResourceEncryptionKey,
   SynonymMap as GeneratedSynonymMap,
   HighWaterMarkChangeDetectionPolicy,
-  ImageAnalysisSkill,
-  KeyPhraseExtractionSkill,
   LanguageDetectionSkill,
-  LexicalAnalyzerName,
   LexicalAnalyzerUnion,
   LexicalTokenizerUnion,
   LuceneStandardAnalyzer,
   MergeSkill,
-  OcrSkill,
   PatternTokenizer,
-  RegexFlags,
+  SearchIndexerKnowledgeStore as BaseSearchIndexerKnowledgeStore,
   SearchIndexerSkillUnion,
-  SentimentSkill,
+  SentimentSkillV3,
   ShaperSkill,
   SimilarityUnion,
   SoftDeleteColumnDeletionDetectionPolicy,
-  SplitSkill,
   SqlIntegratedChangeTrackingPolicy,
   StopAnalyzer,
-  TextTranslationSkill,
   TokenFilterUnion,
-  WebApiSkill,
+  VectorSearch as GeneratedVectorSearch,
+  VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
+  HnswAlgorithmConfiguration as GeneratedHnswAlgorithmConfiguration,
+  ExhaustiveKnnAlgorithmConfiguration as GeneratedExhaustiveKnnAlgorithmConfiguration,
+  TokenFilterName,
 } from "./generated/service/models";
 import {
+  BlobIndexerDataToExtract,
+  BlobIndexerImageAction,
+  BlobIndexerPDFTextRotationAlgorithm,
+  BlobIndexerParsingMode,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
   DataChangeDetectionPolicy,
   DataDeletionDetectionPolicy,
+  IndexerExecutionEnvironment,
+  IndexingParameters,
+  IndexingParametersConfiguration,
   LexicalAnalyzer,
   LexicalTokenizer,
   PatternAnalyzer,
@@ -61,6 +66,8 @@ import {
   SearchIndex,
   SearchIndexer,
   SearchIndexerDataSourceConnection,
+  SearchIndexerDataSourceType,
+  SearchIndexerKnowledgeStore,
   SearchIndexerSkill,
   SearchIndexerSkillset,
   SearchResourceEncryptionKey,
@@ -68,9 +75,24 @@ import {
   SimpleField,
   SynonymMap,
   TokenFilter,
+  VectorSearch,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchAlgorithmMetric,
+  WebApiSkill,
+  KeyPhraseExtractionSkill,
+  OcrSkill,
+  ImageAnalysisSkill,
+  EntityRecognitionSkill,
+  SentimentSkill,
+  SplitSkill,
+  PIIDetectionSkill,
+  TextTranslationSkill,
+  CustomEntityLookupSkill,
   isComplexField,
+  RegexFlags,
+  CustomAnalyzer,
 } from "./serviceModels";
-import { SearchResult, SuggestDocumentsResult, SuggestResult } from "./indexModels";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
   SearchResult as GeneratedSearchResult,
   SuggestDocumentsResult as GeneratedSuggestDocumentsResult,
@@ -113,6 +135,18 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
         break;
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
+        break;
+      case "#Microsoft.Skills.Text.PIIDetectionSkill":
+        result.push(skill as PIIDetectionSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityRecognitionSkill":
+        result.push(skill as EntityRecognitionSkillV3);
+        break;
+      case "#Microsoft.Skills.Text.V3.EntityLinkingSkill":
+        result.push(skill as EntityLinkingSkill);
+        break;
+      case "#Microsoft.Skills.Text.V3.SentimentSkill":
+        result.push(skill as SentimentSkillV3);
         break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
@@ -226,10 +260,17 @@ export function convertAnalyzersToPublic(
         } as PatternAnalyzer);
         break;
       case "#Microsoft.Azure.Search.CustomAnalyzer":
-        result.push({
-          ...analyzer,
-          tokenizerName: (analyzer as CustomAnalyzer).tokenizerName,
-        } as CustomAnalyzer);
+        {
+          const customAnalyzer = analyzer as BaseCustomAnalyzer;
+          const { name, tokenizerName, tokenFilters } = customAnalyzer;
+          const publicAnalyzer: CustomAnalyzer = {
+            ...customAnalyzer,
+            name: name,
+            tokenizerName,
+            tokenFilters: tokenFilters as TokenFilterName[],
+          };
+          result.push(publicAnalyzer);
+        }
         break;
     }
   }
@@ -250,22 +291,20 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       };
       return result;
     } else {
-      const { synonymMaps, retrievable, ...restField } = field;
-
       const type: SearchFieldDataType = field.type as SearchFieldDataType;
+      const synonymMapNames: string[] | undefined = field.synonymMaps;
+
+      const { retrievable, analyzer, searchAnalyzer, indexAnalyzer, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
-      const analyzerName = field.analyzer as LexicalAnalyzerName | undefined;
-      const searchAnalyzerName = field.searchAnalyzer as LexicalAnalyzerName | undefined;
-      const indexAnalyzerName = field.indexAnalyzer as LexicalAnalyzerName | undefined;
 
       const result: SimpleField = {
         ...restField,
         type,
         hidden,
-        analyzerName,
-        searchAnalyzerName,
-        indexAnalyzerName,
-        synonymMapNames: synonymMaps,
+        analyzerName: analyzer,
+        searchAnalyzerName: searchAnalyzer,
+        indexAnalyzerName: indexAnalyzer,
+        synonymMapNames,
       };
       return result;
     }
@@ -331,11 +370,11 @@ export function convertTokenizersToPublic(
   const result: LexicalTokenizer[] = [];
   for (const tokenizer of tokenizers) {
     if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
+      const patternTokenizer = tokenizer as PatternTokenizer;
+      const flags = patternTokenizer.flags?.split("|") as RegexFlags[] | undefined;
       result.push({
         ...tokenizer,
-        flags: (tokenizer as PatternTokenizer).flags
-          ? ((tokenizer as PatternTokenizer).flags!.split("|") as RegexFlags[])
-          : undefined,
+        flags,
       });
     } else {
       result.push(tokenizer);
@@ -369,8 +408,8 @@ export function convertSimilarityToPublic(
 }
 
 export function convertEncryptionKeyToPublic(
-  encryptionKey?: GeneratedSearchResourceEncryptionKey | null
-): SearchResourceEncryptionKey | null | undefined {
+  encryptionKey?: GeneratedSearchResourceEncryptionKey
+): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -390,8 +429,8 @@ export function convertEncryptionKeyToPublic(
 }
 
 export function convertEncryptionKeyToGenerated(
-  encryptionKey?: SearchResourceEncryptionKey | null
-): GeneratedSearchResourceEncryptionKey | null | undefined {
+  encryptionKey?: SearchResourceEncryptionKey
+): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
     return encryptionKey;
   }
@@ -427,48 +466,93 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity),
+    semanticSearch: generatedIndex.semanticSearch,
+    vectorSearch: generatedVectorSearchToPublicVectorSearch(generatedIndex.vectorSearch),
   };
 }
 
-export function generatedSearchResultToPublicSearchResult<T>(
-  results: GeneratedSearchResult[]
-): SearchResult<T>[] {
-  const returnValues: SearchResult<T>[] = results.map<SearchResult<T>>((result) => {
-    const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
-    const doc: { [key: string]: any } = {
-      ...restProps,
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(): undefined;
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(
+  generatedAlgorithmConfiguration: GeneratedVectorSearchAlgorithmConfiguration
+): VectorSearchAlgorithmConfiguration;
+export function generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration(
+  generatedAlgorithmConfiguration?: GeneratedVectorSearchAlgorithmConfiguration
+): VectorSearchAlgorithmConfiguration | undefined {
+  if (!generatedAlgorithmConfiguration) {
+    return generatedAlgorithmConfiguration;
+  }
+
+  if (["hnsw", "exhaustiveKnn"].includes(generatedAlgorithmConfiguration.kind)) {
+    const algorithmConfiguration = generatedAlgorithmConfiguration as
+      | GeneratedHnswAlgorithmConfiguration
+      | GeneratedExhaustiveKnnAlgorithmConfiguration;
+    const metric = algorithmConfiguration.parameters?.metric as VectorSearchAlgorithmMetric;
+    return {
+      ...algorithmConfiguration,
+      parameters: { ...algorithmConfiguration.parameters, metric },
     };
-    const obj = {
-      score: _score,
-      highlights: _highlights,
-      rerankerScore,
-      captions,
-      document: doc,
-    };
-    return obj as unknown as SearchResult<T>;
-  });
+  }
+
+  throw Error("Unsupported algorithm configuration");
+}
+
+export function generatedVectorSearchToPublicVectorSearch(
+  vectorSearch?: GeneratedVectorSearch
+): VectorSearch | undefined {
+  if (!vectorSearch) {
+    return vectorSearch;
+  }
+
+  return {
+    ...vectorSearch,
+    algorithms: vectorSearch.algorithms?.map(
+      generatedVectorSearchAlgorithmConfigurationToPublicVectorSearchAlgorithmConfiguration
+    ),
+  };
+}
+
+export function generatedSearchResultToPublicSearchResult<
+  TModel extends object,
+  TFields extends SelectFields<TModel>
+>(results: GeneratedSearchResult[]): SearchResult<TModel, TFields>[] {
+  const returnValues: SearchResult<TModel, TFields>[] = results.map<SearchResult<TModel, TFields>>(
+    (result) => {
+      const {
+        _score: score,
+        _highlights: highlights,
+        _rerankerScore: rerankerScore,
+        _captions: captions,
+        ...restProps
+      } = result;
+      const obj = {
+        score,
+        highlights,
+        rerankerScore,
+        captions,
+        document: restProps, // todo: make this change in beta
+      };
+      return obj as SearchResult<TModel, TFields>;
+    }
+  );
   return returnValues;
 }
 
-export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>(
-  searchDocumentsResult: GeneratedSuggestDocumentsResult
-): SuggestDocumentsResult<T> {
-  const results = searchDocumentsResult.results.map<SuggestResult<T>>((element) => {
+export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<
+  TModel extends object,
+  TFields extends SelectFields<TModel>
+>(searchDocumentsResult: GeneratedSuggestDocumentsResult): SuggestDocumentsResult<TModel, TFields> {
+  const results = searchDocumentsResult.results.map<SuggestResult<TModel, TFields>>((element) => {
     const { _text, ...restProps } = element;
-
-    const doc: { [key: string]: any } = {
-      ...restProps,
-    };
 
     const obj = {
       text: _text,
-      document: doc,
+      document: restProps, // todo: make this change in beta
     };
 
-    return obj as SuggestResult<T>;
+    return obj as SuggestResult<TModel, TFields>;
   });
 
-  const result: SuggestDocumentsResult<T> = {
+  const result: SuggestDocumentsResult<TModel, TFields> = {
     results: results,
     coverage: searchDocumentsResult.coverage,
   };
@@ -477,11 +561,10 @@ export function generatedSuggestDocumentsResultToPublicSuggestDocumentsResult<T>
 }
 
 export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearchIndex {
-  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity, ...props } =
-    index;
+  const { encryptionKey, tokenFilters, analyzers, tokenizers, fields, similarity } = index;
 
   return {
-    ...props,
+    ...index,
     encryptionKey: convertEncryptionKeyToGenerated(encryptionKey),
     tokenFilters: convertTokenFiltersToGenerated(tokenFilters),
     analyzers: convertAnalyzersToGenerated(analyzers),
@@ -494,12 +577,13 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
 export function generatedSkillsetToPublicSkillset(
   generatedSkillset: GeneratedSearchIndexerSkillset
 ): SearchIndexerSkillset {
-  const { skills, cognitiveServicesAccount, encryptionKey, ...props } = generatedSkillset;
-
+  const { skills, cognitiveServicesAccount, knowledgeStore, encryptionKey, ...props } =
+    generatedSkillset;
   return {
     ...props,
     skills: convertSkillsToPublic(skills),
     cognitiveServicesAccount: convertCognitiveServicesAccountToPublic(cognitiveServicesAccount),
+    knowledgeStore: convertKnowledgeStoreToPublic(knowledgeStore),
     encryptionKey: convertEncryptionKeyToPublic(encryptionKey),
   };
 }
@@ -561,10 +645,33 @@ export function publicSearchIndexerToGeneratedSearchIndexer(
 export function generatedSearchIndexerToPublicSearchIndexer(
   indexer: GeneratedSearchIndexer
 ): SearchIndexer {
-  const { encryptionKey, ...props } = indexer;
+  const {
+    parsingMode,
+    dataToExtract,
+    imageAction,
+    pdfTextRotationAlgorithm,
+    executionEnvironment,
+  } = indexer.parameters?.configuration ?? {};
+
+  const configuration: IndexingParametersConfiguration | undefined = indexer.parameters
+    ?.configuration && {
+    ...indexer.parameters?.configuration,
+    parsingMode: parsingMode as BlobIndexerParsingMode | undefined,
+    dataToExtract: dataToExtract as BlobIndexerDataToExtract | undefined,
+    imageAction: imageAction as BlobIndexerImageAction | undefined,
+    pdfTextRotationAlgorithm: pdfTextRotationAlgorithm as
+      | BlobIndexerPDFTextRotationAlgorithm
+      | undefined,
+    executionEnvironment: executionEnvironment as IndexerExecutionEnvironment | undefined,
+  };
+  const parameters: IndexingParameters = {
+    ...indexer.parameters,
+    configuration,
+  };
 
   return {
-    ...props,
+    ...indexer,
+    parameters,
     encryptionKey: convertEncryptionKeyToPublic(indexer.encryptionKey),
   };
 }
@@ -593,7 +700,7 @@ export function generatedDataSourceToPublicDataSource(
   return {
     name: dataSource.name,
     description: dataSource.name,
-    type: dataSource.type,
+    type: dataSource.type as SearchIndexerDataSourceType,
     connectionString: dataSource.credentials.connectionString,
     container: dataSource.container,
     etag: dataSource.etag,
@@ -608,8 +715,8 @@ export function generatedDataSourceToPublicDataSource(
 }
 
 export function convertDataChangeDetectionPolicyToPublic(
-  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion | null
-): DataChangeDetectionPolicy | null | undefined {
+  dataChangeDetectionPolicy?: DataChangeDetectionPolicyUnion
+): DataChangeDetectionPolicy | undefined {
   if (!dataChangeDetectionPolicy) {
     return dataChangeDetectionPolicy;
   }
@@ -625,8 +732,8 @@ export function convertDataChangeDetectionPolicyToPublic(
 }
 
 export function convertDataDeletionDetectionPolicyToPublic(
-  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion | null
-): DataDeletionDetectionPolicy | null | undefined {
+  dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion
+): DataDeletionDetectionPolicy | undefined {
   if (!dataDeletionDetectionPolicy) {
     return dataDeletionDetectionPolicy;
   }
@@ -654,6 +761,12 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
-export const serviceVersions = ["2020-06-30"];
+export const serviceVersions = ["2023-11-01"];
 
-export const defaultServiceVersion = "2020-06-30";
+export const defaultServiceVersion = "2023-11-01";
+
+function convertKnowledgeStoreToPublic(
+  knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined
+): SearchIndexerKnowledgeStore | undefined {
+  return knowledgeStore;
+}

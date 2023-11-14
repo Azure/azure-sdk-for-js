@@ -29,7 +29,7 @@ const inputs = [
 
 async function main() {
   const client = new OpenAIClient(
-    process.env.OPENAI_ENDPOINT!,
+    process.env.AZURE_OPENAI_ENDPOINT!,
     new AzureKeyCredential(process.env.OPENAI_KEY!)
   );
 

@@ -5,7 +5,13 @@ import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
-import { SearchIndex, SearchIndexClient, SynonymMap } from "../../../src";
+import {
+  SearchIndex,
+  SearchIndexClient,
+  SynonymMap,
+  VectorSearchAlgorithmConfiguration,
+  VectorSearchProfile,
+} from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
@@ -19,7 +25,7 @@ import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { versionsToTest } from "@azure/test-utils";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
+  onVersions({ minVer: "2023-11-01" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
@@ -224,9 +230,21 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         assert.equal(index.fields.length, 6);
       });
 
-      it("correctly instantiates the index", async function () {
-        const index: SearchIndex = {
-          name: "hotel-live-test5",
+      it("creates the index object vector fields", async function () {
+        const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
+
+        const algorithm: VectorSearchAlgorithmConfiguration = {
+          name: "algorithm-configuration",
+          kind: "hnsw",
+          parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
+        };
+        const profile: VectorSearchProfile = {
+          name: "profile",
+          algorithmConfigurationName: algorithm.name,
+        };
+
+        let index: SearchIndex = {
+          name: indexName,
           fields: [
             {
               type: "Edm.String",
@@ -234,39 +252,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               key: true,
             },
             {
-              type: "Edm.Double",
-              name: "awesomenessLevel",
-              sortable: true,
-              filterable: true,
-              facetable: true,
+              type: "Collection(Edm.Single)",
+              name: "descriptionVector",
+              vectorSearchDimensions: 1536,
+              searchable: true,
+              vectorSearchProfileName: profile.name,
             },
           ],
-          analyzers: [
-            {
-              odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
-              name: "foo",
-              tokenizerName: "classic",
-              charFilters: ["foo"],
-              tokenFilters: [],
-            },
-          ],
-          charFilters: [
-            {
-              name: "foo",
-              odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter",
-              pattern: "bar",
-              replacement: "baz",
-            },
-          ],
+          vectorSearch: {
+            algorithms: [algorithm],
+            profiles: [profile],
+          },
         };
-
         try {
-          const createdIndex = await indexClient.createIndex(index);
-          const test = createdIndex.analyzers![0];
-          const expect = index.analyzers![0];
-          assert.deepEqual(expect, test);
+          await indexClient.createOrUpdateIndex(index);
+          index = await indexClient.getIndex(indexName);
+          assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
+          assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
         } finally {
-          await indexClient.deleteIndex(index.name);
+          await indexClient.deleteIndex(index);
         }
       });
     });
