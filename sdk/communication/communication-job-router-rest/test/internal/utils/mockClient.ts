@@ -53,7 +53,6 @@ export async function createRecordedRouterClientWithConnectionString(
   return {
     routerClient: JobRouter(
       env.COMMUNICATION_CONNECTION_STRING as string,
-      undefined,
       recorder.configureClientOptions({}) as ClientOptions
     ),
     recorder,
