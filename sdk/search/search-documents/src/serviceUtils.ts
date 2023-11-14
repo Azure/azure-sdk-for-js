@@ -371,9 +371,7 @@ export function convertTokenizersToPublic(
   for (const tokenizer of tokenizers) {
     if (tokenizer.odatatype === "#Microsoft.Azure.Search.PatternTokenizer") {
       const patternTokenizer = tokenizer as PatternTokenizer;
-      const flags: RegexFlags[] | undefined = patternTokenizer.flags
-        ? (patternTokenizer.flags.split("|") as RegexFlags[])
-        : undefined;
+      const flags = patternTokenizer.flags?.split("|") as RegexFlags[] | undefined;
       result.push({
         ...tokenizer,
         flags,
