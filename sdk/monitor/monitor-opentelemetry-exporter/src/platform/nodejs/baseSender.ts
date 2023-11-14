@@ -155,6 +155,9 @@ export abstract class BaseSender {
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         return this.persist(envelopes);
+        const invalidInstrumentationKeyError = new Error("Invalid instrumentation key");
+        this.incrementStatsbeatFailure();
+        return { code: ExportResultCode.FAILED, error: invalidInstrumentationKeyError };
       }
       if (this.isNetworkError(restError)) {
         if (restError.statusCode) {
