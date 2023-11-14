@@ -130,16 +130,16 @@
     "util": "^0.12.4"
   },
   "dependencies": {
-    "@azure/core-auth": "^1.4.1",
+    "@azure/core-auth": "^1.5.0",
     "@azure/abort-controller": "^1.1.0",
-    "@azure/core-lro": "^2.4.0",
-    "@azure/core-paging": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.8.1",
+    "@azure/core-lro": "^2.5.4",
+    "@azure/core-paging": "^1.5.0",
+    "@azure/core-rest-pipeline": "^1.12.2",
     "@azure/core-tracing": "^1.0.1",
-    "@azure/core-util": "^1.3.0",
-    "@azure/core-xml": "^1.3.1",
-    "@azure/logger": "^1.0.3",
-    "@azure-rest/core-client": "^1.1.5",
+    "@azure/core-util": "^1.6.1",
+    "@azure/core-xml": "^1.3.4",
+    "@azure/logger": "^1.0.4",
+    "@azure-rest/core-client": "^1.1.4",
     "tslib": "^2.6.2"
   }
 }
