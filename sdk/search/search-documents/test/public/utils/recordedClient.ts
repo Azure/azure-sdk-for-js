@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  env,
-  isLiveMode,
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
@@ -22,7 +16,7 @@ export interface Clients<IndexModel extends object> {
   indexClient: SearchIndexClient;
   indexerClient: SearchIndexerClient;
   indexName: string;
-  openAIClient?: OpenAIClient;
+  openAIClient: OpenAIClient;
 }
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -42,11 +36,13 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 
 const generalSanitizers = [];
 
-generalSanitizers.push({
-  regex: false,
-  value: "subdomain",
-  target: assertEnvironmentVariable("ENDPOINT").match(/:\/\/(.*).search.windows.net/)![1],
-});
+if (env.ENDPOINT) {
+  generalSanitizers.push({
+    regex: false,
+    value: "subdomain",
+    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
+  });
+}
 
 if (env.AZURE_OPENAI_ENDPOINT) {
   generalSanitizers.push({
@@ -71,8 +67,10 @@ export async function createClients<IndexModel extends object>(
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
+  const endPoint: string = env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
+  const openAIEndpoint = env.AZURE_OPENAI_ENDPOINT ?? "https://openai.endpoint";
+  const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,
@@ -95,24 +93,17 @@ export async function createClients<IndexModel extends object>(
       serviceVersion,
     })
   );
+  const openAIClient = new OpenAIClient(
+    openAIEndpoint,
+    openAIKey,
+    recorder.configureClientOptions({})
+  );
 
-  const clients = {
+  return {
     searchClient,
     indexClient,
     indexerClient,
     indexName,
+    openAIClient,
   };
-
-  if (!isLiveMode()) {
-    const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
-    const openAIKey = new AzureKeyCredential(assertEnvironmentVariable("OPENAI_KEY"));
-    const openAIClient = new OpenAIClient(
-      openAIEndpoint,
-      openAIKey,
-      recorder.configureClientOptions({})
-    );
-    return { ...clients, openAIClient };
-  }
-
-  return clients;
 }

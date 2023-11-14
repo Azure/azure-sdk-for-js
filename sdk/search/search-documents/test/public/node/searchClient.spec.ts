@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
@@ -27,7 +27,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient | undefined;
+    let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
 
     this.timeout(99999);
@@ -424,11 +424,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     it("search with vector", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode() || !openAIClient) {
+      if (isLiveMode()) {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        assertEnvironmentVariable("OPENAI_DEPLOYMENT_NAME"),
+        env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
         ["What are the most luxurious hotels?"]
       );
 
@@ -458,11 +458,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     it("multi-vector search", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode() || !openAIClient) {
+      if (isLiveMode()) {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        assertEnvironmentVariable("OPENAI_DEPLOYMENT_NAME"),
+        env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
         ["What are the most luxurious hotels?"]
       );
 
