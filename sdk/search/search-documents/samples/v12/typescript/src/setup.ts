@@ -5,13 +5,13 @@
  * Defines the utility methods.
  */
 
-const { KnownAnalyzerNames } = require("@azure/search-documents");
-const { env } = require("process");
+import { SearchIndexClient, SearchIndex, KnownAnalyzerNames } from "@azure/search-documents";
+import { Hotel } from "./interfaces";
 
-const WAIT_TIME = 4000;
+export const WAIT_TIME = 4000;
 
-const documentKeyRetriever = (document) => {
-  return document.hotelId;
+export const documentKeyRetriever: (document: Hotel) => string = (document: Hotel): string => {
+  return document.hotelId!;
 };
 
 /**
@@ -19,13 +19,13 @@ const documentKeyRetriever = (document) => {
  * @param timeInMs - The number of milliseconds to be delayed.
  * @returns Promise that is resolved after timeInMs
  */
-function delay(timeInMs) {
+export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, timeInMs));
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-async function createIndex(client, name) {
-  const hotelIndex = {
+export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
+  const hotelIndex: SearchIndex = {
     name,
     fields: [
       {
@@ -53,14 +53,14 @@ async function createIndex(client, name) {
         name: "descriptionVectorEn",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfile: "vector-search-profile",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Collection(Edm.Single)",
         name: "descriptionVectorFr",
         searchable: true,
         vectorSearchDimensions: 1536,
-        vectorSearchProfile: "vector-search-profile",
+        vectorSearchProfileName: "vector-search-profile",
       },
       {
         type: "Edm.String",
@@ -248,27 +248,13 @@ async function createIndex(client, name) {
     },
     vectorSearch: {
       algorithms: [{ name: "vector-search-algorithm", kind: "hnsw" }],
-      vectorizers: [
-        {
-          name: "vector-search-vectorizer",
-          kind: "azureOpenAI",
-          azureOpenAIParameters: {
-            resourceUri: env.AZURE_OPENAI_ENDPOINT,
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-          },
-        },
-      ],
       profiles: [
         {
           name: "vector-search-profile",
-          algorithm: "vector-search-algorithm",
-          vectorizer: "vector-search-vectorizer",
+          algorithmConfigurationName: "vector-search-algorithm",
         },
       ],
     },
   };
   await client.createIndex(hotelIndex);
 }
-
-module.exports = { WAIT_TIME, documentKeyRetriever, delay, createIndex };
