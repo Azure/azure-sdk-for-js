@@ -52,7 +52,7 @@ export interface RouterRuleOutputParent {
 /** A rule that return the same labels as the input labels. */
 export interface DirectMapRouterRuleOutput extends RouterRuleOutputParent {
   /** The type discriminator describing a sub-type of Rule */
-  kind: "direct-map-rule";
+  kind: "directMap";
 }
 
 /** A rule providing inline expression rules. */
@@ -66,7 +66,7 @@ export interface ExpressionRouterRuleOutput extends RouterRuleOutputParent {
   /** The string containing the expression to evaluate. Should contain return statement with calculated values. */
   expression: string;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "expression-rule";
+  kind: "expression";
 }
 
 /** A rule providing a binding to an HTTP Triggered Azure Function. */
@@ -76,7 +76,7 @@ export interface FunctionRouterRuleOutput extends RouterRuleOutputParent {
   /** Credentials used to access Azure function rule */
   credential?: FunctionRouterRuleCredentialOutput;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "azure-function-rule";
+  kind: "function";
 }
 
 /** Credentials used to access Azure function rule */
@@ -94,7 +94,7 @@ export interface StaticRouterRuleOutput extends RouterRuleOutputParent {
   /** The static value this rule always returns. Values must be primitive values - number, string, boolean. */
   value?: any;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "static-rule";
+  kind: "static";
 }
 
 /** A rule providing a binding to an external web server. */
@@ -106,7 +106,7 @@ export interface WebhookRouterRuleOutput extends RouterRuleOutputParent {
   /** Uri for Contoso's Web Server. */
   webhookUri?: string;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "webhook-rule";
+  kind: "webhook";
 }
 
 /** OAuth2.0 Credentials used to Contoso's Authorization server. Reference: https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/ */
@@ -143,7 +143,7 @@ export interface PassThroughQueueSelectorAttachmentOutput
    */
   labelOperator: string;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "pass-through";
+  kind: "passThrough";
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved */
@@ -152,11 +152,12 @@ export interface RuleEngineQueueSelectorAttachmentOutput
   /** A RouterRule that resolves a collection of queue selectors to attach */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "rule-engine";
+  kind: "ruleEngine";
 }
 
 /** Describes a queue selector that will be attached to the job */
-export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
+export interface StaticQueueSelectorAttachmentOutput
+  extends QueueSelectorAttachmentOutputParent {
   /** The queue selector to attach. */
   queueSelector: RouterQueueSelectorOutput;
   /** The type discriminator describing the type of queue selector attachment */
@@ -169,7 +170,7 @@ export interface WeightedAllocationQueueSelectorAttachmentOutput
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocationOutput>;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "weighted-allocation-queue-selector";
+  kind: "weightedAllocation";
 }
 
 /** Contains the weight percentage and queue selectors to be applied if selected for weighted distributions. */
@@ -236,7 +237,7 @@ export interface PassThroughWorkerSelectorAttachmentOutput
   /** Describes how long the attached label selector is valid in seconds. */
   expiresAfterSeconds?: number;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "pass-through";
+  kind: "passThrough";
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved */
@@ -245,11 +246,12 @@ export interface RuleEngineWorkerSelectorAttachmentOutput
   /** A RouterRule that resolves a collection of worker selectors to attach */
   rule: RouterRuleOutput;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "rule-engine";
+  kind: "ruleEngine";
 }
 
 /** Describes a worker selector that will be attached to the job */
-export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
+export interface StaticWorkerSelectorAttachmentOutput
+  extends WorkerSelectorAttachmentOutputParent {
   /** The worker selector to attach. */
   workerSelector: RouterWorkerSelectorOutput;
   /** The type discriminator describing the type of worker selector attachment */
@@ -262,7 +264,7 @@ export interface WeightedAllocationWorkerSelectorAttachmentOutput
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocationOutput>;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "weighted-allocation-worker-selector";
+  kind: "weightedAllocation";
 }
 
 /** Contains the weight percentage and worker selectors to be applied if selected for weighted distributions. */
@@ -308,7 +310,7 @@ export interface BestWorkerModeOutput extends DistributionModeOutputParent {
   /** Options to configure 'scoringRule'. If not set, default values are used. */
   scoringRuleOptions?: ScoringRuleOptionsOutput;
   /** The type discriminator describing a sub-type of Mode */
-  kind: "best-worker";
+  kind: "bestWorker";
 }
 
 /** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
@@ -326,13 +328,13 @@ export interface ScoringRuleOptionsOutput {
 /** Jobs are directed to the worker who has been idle longest. */
 export interface LongestIdleModeOutput extends DistributionModeOutputParent {
   /** The type discriminator describing a sub-type of Mode */
-  kind: "longest-idle";
+  kind: "longestIdle";
 }
 
 /** Jobs are distributed in order to workers, starting with the worker that is after the last worker to receive a job. */
 export interface RoundRobinModeOutput extends DistributionModeOutputParent {
   /** The type discriminator describing a sub-type of Mode */
-  kind: "round-robin";
+  kind: "roundRobin";
 }
 
 /** A policy that defines actions to execute when exception are triggered. */
@@ -363,19 +365,21 @@ export interface ExceptionTriggerOutputParent {
 }
 
 /** Trigger for an exception action on exceeding queue length */
-export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutputParent {
+export interface QueueLengthExceptionTriggerOutput
+  extends ExceptionTriggerOutputParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
-  kind: "queue-length";
+  kind: "queueLength";
 }
 
 /** Trigger for an exception action on exceeding wait time */
-export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputParent {
+export interface WaitTimeExceptionTriggerOutput
+  extends ExceptionTriggerOutputParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
-  kind: "wait-time";
+  kind: "waitTime";
 }
 
 /** The action to take when the exception is triggered */
@@ -386,7 +390,8 @@ export interface ExceptionActionOutputParent {
 }
 
 /** An action that marks a job as cancelled */
-export interface CancelExceptionActionOutput extends ExceptionActionOutputParent {
+export interface CancelExceptionActionOutput
+  extends ExceptionActionOutputParent {
   /** A note that will be appended to the jobs' Notes collection with the current timestamp. */
   note?: string;
   /** Indicates the outcome of the job, populate this field with your own custom values. */
@@ -396,7 +401,8 @@ export interface CancelExceptionActionOutput extends ExceptionActionOutputParent
 }
 
 /** An action that manually reclassifies a job by providing the queue, priority and worker selectors. */
-export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
+export interface ManualReclassifyExceptionActionOutput
+  extends ExceptionActionOutputParent {
   /** Updated QueueId. */
   queueId?: string;
   /** Updated Priority. */
@@ -404,11 +410,12 @@ export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOu
   /** Updated WorkerSelectors. */
   workerSelectors?: Array<RouterWorkerSelectorOutput>;
   /** The type discriminator describing a sub-type of ExceptionAction */
-  kind: "manual-reclassify";
+  kind: "manualReclassify";
 }
 
 /** An action that modifies labels on a job and then reclassifies it */
-export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
+export interface ReclassifyExceptionActionOutput
+  extends ExceptionActionOutputParent {
   /** The new classification policy that will determine queue, priority and worker selectors. */
   classificationPolicyId?: string;
   /** Dictionary containing the labels to update (or add if not existing) in key-value pairs.  Values must be primitive values - number, string, boolean. */
@@ -510,17 +517,18 @@ export interface JobMatchingModeOutputParent {
 }
 
 /** Describes a matching mode used for scheduling jobs to be queued at a future time. At the specified time, matching worker to a job will not start automatically. */
-export interface ScheduleAndSuspendModeOutput extends JobMatchingModeOutputParent {
+export interface ScheduleAndSuspendModeOutput
+  extends JobMatchingModeOutputParent {
   /** Scheduled time. */
   scheduleAt: string;
   /** The type discriminator describing ScheduleAndSuspendMode */
-  kind: "schedule-and-suspend";
+  kind: "scheduleAndSuspend";
 }
 
 /** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
 export interface QueueAndMatchModeOutput extends JobMatchingModeOutputParent {
   /** The type discriminator describing QueueAndMatchMode */
-  kind: "queue-and-match";
+  kind: "queueAndMatch";
 }
 
 /** Describes a matching mode where matching worker to a job is suspended. */
