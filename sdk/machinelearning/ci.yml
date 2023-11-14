@@ -1,0 +1,45 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/machinelearning/
+    exclude:
+      - sdk/machinelearning/ci.mgmt.yml
+      - sdk/machinelearning/arm-commitmentplans
+      - sdk/machinelearning/arm-webservices
+      - sdk/machinelearning/arm-workspaces
+      - sdk/machinelearning/arm-machinelearning
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/machinelearning/
+    exclude:
+      - sdk/machinelearning/ci.mgmt.yml
+      - sdk/machinelearning/arm-commitmentplans
+      - sdk/machinelearning/arm-webservices
+      - sdk/machinelearning/arm-workspaces
+      - sdk/machinelearning/arm-machinelearning
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: machinelearning
+    Artifacts:
+      - name: azure-ai-chat-protocol
+        safeName: azureaichatprotocol
