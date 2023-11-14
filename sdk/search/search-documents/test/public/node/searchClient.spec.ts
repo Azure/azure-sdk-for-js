@@ -27,7 +27,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
+    let openAIClient: OpenAIClient | undefined;
     let TEST_INDEX_NAME: string;
 
     this.timeout(99999);
@@ -424,7 +424,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     it("search with vector", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
+      if (isLiveMode() || !openAIClient) {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
@@ -458,7 +458,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
     it("multi-vector search", async function () {
       // This live test is disabled due to temporary limitations with the new OpenAI service
-      if (isLiveMode()) {
+      if (isLiveMode() || !openAIClient) {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(

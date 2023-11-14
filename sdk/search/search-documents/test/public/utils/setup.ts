@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -269,7 +269,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function populateIndex(
   client: SearchClient<Hotel>,
-  openAIClient: OpenAIClient
+  openAIClient?: OpenAIClient
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -474,7 +474,7 @@ export async function populateIndex(
     },
   ];
 
-  if (!isLiveMode()) {
+  if (openAIClient) {
     await addVectorDescriptions(testDocuments, openAIClient);
   }
 
@@ -493,7 +493,7 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient
 ): Promise<void> {
-  const deploymentName = assertEnvironmentVariable("env.OPENAI_DEPLOYMENT_NAME");
+  const deploymentName = assertEnvironmentVariable("OPENAI_DEPLOYMENT_NAME");
 
   const descriptions = documents
     .filter(({ description }) => description)
