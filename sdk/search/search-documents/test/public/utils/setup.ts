@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -493,7 +493,7 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient
 ): Promise<void> {
-  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+  const deploymentName = assertEnvironmentVariable("env.OPENAI_DEPLOYMENT_NAME");
 
   const descriptions = documents
     .filter(({ description }) => description)

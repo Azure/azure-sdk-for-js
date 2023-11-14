@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+  env,
+} from "@azure-tools/test-recorder";
 
 import {
   AzureKeyCredential,
@@ -36,21 +41,19 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 
 const generalSanitizers = [];
 
-if (env.ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
-  });
-}
+generalSanitizers.push({
+  regex: false,
+  value: "subdomain",
+  target: assertEnvironmentVariable("ENDPOINT").match(/:\/\/(.*).search.windows.net/)![1],
+});
 
-if (env.AZURE_OPENAI_ENDPOINT) {
-  generalSanitizers.push({
-    regex: false,
-    value: "subdomain",
-    target: env.AZURE_OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
-  });
-}
+generalSanitizers.push({
+  regex: false,
+  value: "subdomain",
+  target: assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT").match(
+    /:\/\/(.*).openai.azure.com/
+  )![1],
+});
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
@@ -67,10 +70,10 @@ export async function createClients<IndexModel extends object>(
   await recorder.start(recorderOptions);
 
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
-  const endPoint: string = env.ENDPOINT ?? "https://endpoint";
+  const endPoint: string = assertEnvironmentVariable("ENDPOINT");
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const openAIEndpoint = env.AZURE_OPENAI_ENDPOINT ?? "https://openai.endpoint";
-  const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
+  const openAIEndpoint = assertEnvironmentVariable("AZURE_OPENAI_ENDPOINT");
+  const openAIKey = new AzureKeyCredential(assertEnvironmentVariable("OPENAI_KEY"));
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,

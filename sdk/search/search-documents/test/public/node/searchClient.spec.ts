@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Suite } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isLiveMode } from "@azure-tools/test-recorder";
 
 import { createClients } from "../utils/recordedClient";
 import {
@@ -428,7 +428,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        assertEnvironmentVariable("OPENAI_DEPLOYMENT_NAME"),
         ["What are the most luxurious hotels?"]
       );
 
@@ -462,7 +462,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         this.skip();
       }
       const embeddings = await openAIClient.getEmbeddings(
-        env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+        assertEnvironmentVariable("OPENAI_DEPLOYMENT_NAME"),
         ["What are the most luxurious hotels?"]
       );
 
