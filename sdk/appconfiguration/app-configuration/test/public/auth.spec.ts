@@ -25,8 +25,7 @@ describe("Authentication", () => {
     await recorder.stop();
   });
 
-  it.skip("token authentication works", async function () {
-    // **TODO: Fail because of rest error**
+  it("token authentication works", async function () {
     if (!isNode) {
       this.skip();
     }

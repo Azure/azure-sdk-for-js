@@ -125,13 +125,13 @@ const result = await routerClient.path("/routing/classificationPolicies/{id}", c
   body: {
     name: "Default Classification Policy",
     fallbackQueueId: salesQueueId,
-    queueSelectors: [
+    queueSelectorAttachments: [
       {
         kind: "static",
         queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
       },
     ],
-    workerSelectors: [{
+    workerSelectorAttachments: [{
       kind: "static",
       workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
     }],
@@ -174,9 +174,9 @@ const workerAliceResponse = await routerClient.path("/routing/workers/{workerId}
   contentType: "application/merge-patch+json",
   body: {
     totalCapacity: 120,
-    queueAssignments: {
-      [salesQueueResponse.id]: {}
-    },
+    queueAssignments: 
+      [salesQueueResponse.id]
+    ,
     labels: {
       Xbox: 5,
       german: 4,
@@ -199,9 +199,9 @@ const workerBobResponse = await routerClient.path("/routing/workers/{workerId}",
   contentType: "application/merge-patch+json",
   body: {
     totalCapacity: 100,
-    queueAssignments: {
-      [salesQueueResponse.id]: {}
-    },
+    queues: 
+      [salesQueueResponse.id]
+    ,
     labels: {
       Xbox: 5,
       english: 3,

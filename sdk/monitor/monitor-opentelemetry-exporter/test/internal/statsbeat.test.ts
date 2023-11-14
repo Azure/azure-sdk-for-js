@@ -174,6 +174,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "Test Website/testhome");
             done();
           })
           .catch((error: Error) => {
@@ -191,6 +192,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "functions");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testhost");
             done();
           })
           .catch((error: Error) => {
@@ -210,6 +212,25 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "vm");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "undefined/undefined");
+            done();
+          })
+          .catch((error: Error) => {
+            done(error);
+          });
+      });
+
+      it("should determine if the rp is AKS", (done) => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        statsbeat["getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["resourceProvider"], "aks");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testaks");
             done();
           })
           .catch((error: Error) => {
