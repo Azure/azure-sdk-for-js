@@ -519,10 +519,16 @@ export function generatedSearchResultToPublicSearchResult<
 >(results: GeneratedSearchResult[]): SearchResult<TModel, TFields>[] {
   const returnValues: SearchResult<TModel, TFields>[] = results.map<SearchResult<TModel, TFields>>(
     (result) => {
-      const { _score, _highlights, rerankerScore, captions, ...restProps } = result;
+      const {
+        _score: score,
+        _highlights: highlights,
+        _rerankerScore: rerankerScore,
+        _captions: captions,
+        ...restProps
+      } = result;
       const obj = {
-        score: _score,
-        highlights: _highlights,
+        score,
+        highlights,
         rerankerScore,
         captions,
         document: restProps, // todo: make this change in beta

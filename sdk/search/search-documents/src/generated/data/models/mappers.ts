@@ -437,7 +437,7 @@ export const SearchResult: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      rerankerScore: {
+      _rerankerScore: {
         serializedName: "@search\\.rerankerScore",
         readOnly: true,
         nullable: true,
@@ -455,7 +455,7 @@ export const SearchResult: coreClient.CompositeMapper = {
           }
         }
       },
-      captions: {
+      _captions: {
         serializedName: "@search\\.captions",
         readOnly: true,
         nullable: true,

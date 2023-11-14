@@ -79,7 +79,7 @@ modelerfour:
       Text: $DO_NOT_NORMALIZE$_text
 ```
 
-### Change score to \_score & highlights to \_highlights in SuggestResult
+### Change score to \_score & highlights to \_highlights in result types
 
 ```yaml
 modelerfour:
@@ -87,6 +87,8 @@ modelerfour:
     override:
       Score: $DO_NOT_NORMALIZE$_score
       Highlights: $DO_NOT_NORMALIZE$_highlights
+      RerankerScore: $DO_NOT_NORMALIZE$_rerankerScore
+      Captions: $DO_NOT_NORMALIZE$_captions
 ```
 
 ### Mark score, key and text fields as required in AnswerResult Object
@@ -121,4 +123,3 @@ directive:
     where: $.definitions.RawVectorQuery
     transform: $["x-ms-client-name"] = "VectorizedQuery";
 ```
-
