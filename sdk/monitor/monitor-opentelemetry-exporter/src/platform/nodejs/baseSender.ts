@@ -158,6 +158,7 @@ export abstract class BaseSender {
       } else if (restError.statusCode === 400 && restError.message.includes("Invalid instrumentation key")) {
         const invalidInstrumentationKeyError = new Error("Invalid instrumentation key");
         this.incrementStatsbeatFailure();
+        diag.error(invalidInstrumentationKeyError.message);
         return { code: ExportResultCode.FAILED, error: invalidInstrumentationKeyError };
       }
       if (this.isNetworkError(restError)) {
