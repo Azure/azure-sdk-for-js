@@ -24,7 +24,7 @@ const envSetupForPlayback: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
   ENDPOINT: "https://endpoint",
   OPENAI_DEPLOYMENT_NAME: "deployment-name",
-  OPENAI_ENDPOINT: "https://openai.endpoint",
+  AZURE_OPENAI_ENDPOINT: "https://openai.endpoint",
   OPENAI_KEY: "openai-key",
 };
 
@@ -44,11 +44,11 @@ if (env.ENDPOINT) {
   });
 }
 
-if (env.OPENAI_ENDPOINT) {
+if (env.AZURE_OPENAI_ENDPOINT) {
   generalSanitizers.push({
     regex: false,
     value: "subdomain",
-    target: env.OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
+    target: env.AZURE_OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
   });
 }
 
@@ -69,7 +69,7 @@ export async function createClients<IndexModel extends object>(
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   const endPoint: string = env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const openAIEndpoint = env.OPENAI_ENDPOINT ?? "https://openai.endpoint";
+  const openAIEndpoint = env.AZURE_OPENAI_ENDPOINT ?? "https://openai.endpoint";
   const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
