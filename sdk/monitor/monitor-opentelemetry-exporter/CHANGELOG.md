@@ -2,9 +2,9 @@
 
 ## 1.0.0-beta.19 (Unreleased)
 
-### Bugs Fixed
+### Other Changes
 
-- Fix Statsbeat being exported when the user's iKey is invalid.
+- Statsbeat will stop being exported when user iKey is invalid.
 
 ## 1.0.0-beta.18 (2023-11-09)
 
