@@ -451,6 +451,9 @@ export interface BaseSearchRequestOptions<
    * Search request for the next page of results.
    */
   top?: number;
+  /**
+   * Defines options for vector search queries
+   */
   vectorSearchOptions?: VectorSearchOptions<TModel>;
 }
 
@@ -465,6 +468,9 @@ export type SearchRequestOptions<
 export type SearchRequestQueryTypeOptions =
   | {
       queryType: "semantic";
+      /**
+       * Defines options for semantic search queries
+       */
       semanticSearchOptions: SemanticSearchOptions;
     }
   | { queryType?: "simple" | "full" };
@@ -998,6 +1004,9 @@ export type SemanticSearchResultsType = "baseResults" | "rerankedResults";
  */
 export type SemanticErrorMode = "partial" | "fail";
 
+/**
+ * Defines options for semantic search queries
+ */
 export interface SemanticSearchOptions {
   /**
    * The name of a semantic configuration that will be used when processing documents for queries of
@@ -1026,6 +1035,9 @@ export interface SemanticSearchOptions {
   captions?: QueryCaption;
 }
 
+/**
+ * Defines options for vector search queries
+ */
 export interface VectorSearchOptions<TModel extends object> {
   /**
    * The query parameters for vector, hybrid, and multi-vector search queries.

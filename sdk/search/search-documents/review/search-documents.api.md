@@ -155,7 +155,6 @@ export interface BaseSearchRequestOptions<TModel extends object, TFields extends
     sessionId?: string;
     skip?: number;
     top?: number;
-    // (undocumented)
     vectorSearchOptions?: VectorSearchOptions<TModel>;
 }
 
@@ -2181,7 +2180,7 @@ export interface SemanticSearch {
     defaultConfigurationName?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface SemanticSearchOptions {
     answers?: QueryAnswer;
     captions?: QueryCaption;
@@ -2479,7 +2478,7 @@ export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
 // @public
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
 
-// @public (undocumented)
+// @public
 export interface VectorSearchOptions<TModel extends object> {
     filterMode?: VectorFilterMode;
     queries: VectorQuery<TModel>[];
