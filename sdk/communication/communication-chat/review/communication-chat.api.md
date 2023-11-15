@@ -40,7 +40,6 @@ export interface AddParticipantsRequest {
 // @public
 export interface ChatAttachment {
     attachmentType: ChatAttachmentType;
-    extension?: string;
     id: string;
     name?: string;
     previewUrl?: string;
