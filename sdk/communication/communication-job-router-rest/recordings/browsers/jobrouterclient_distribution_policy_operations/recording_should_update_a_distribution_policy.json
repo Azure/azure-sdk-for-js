@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "db85ff52-2b99-4b25-8154-af921a1cc46a",
         "x-ms-content-sha256": "RMvckE2cMkojUPfzQo9mtzcoG2A1IVmIkEZ36OlByA4=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "name": "new-name",
@@ -83,7 +83,7 @@
         "x-ms-client-request-id": "1a04d025-3ab3-409f-9196-055956339ede",
         "x-ms-content-sha256": "LbQwsP7ns0l7PNgrpQjcAdj2qTLnpHjMKpmDizG8sQc=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:43 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "name": null,
