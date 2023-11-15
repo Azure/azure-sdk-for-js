@@ -391,6 +391,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-assistants",
+      "projectFolder": "sdk/openai/openai-assistants",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
       "versionPolicyName": "client"
