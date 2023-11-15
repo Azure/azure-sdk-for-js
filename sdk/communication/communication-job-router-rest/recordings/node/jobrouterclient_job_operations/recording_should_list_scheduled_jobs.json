@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "156",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "48b79cf1-a09d-457c-8425-d74ed70a63f8",
         "x-ms-content-sha256": "xG1T22SpOFlCH4u\u002BZ1hH\u002BYh9ErqiPS\u002B0sXvekVfomxM=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -62,7 +62,7 @@
         "Connection": "keep-alive",
         "Content-Length": "200",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "f50bbcfe-a076-4390-be3b-17cd2d6bedd6",
         "x-ms-content-sha256": "A5ySZT3yD7WO66GsYhBfJY0Z6v1CuU2HTd2a\u002BAaoTPE=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -131,7 +131,7 @@
         "Connection": "keep-alive",
         "Content-Length": "172",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "de974f11-f0b5-4923-ac10-81dd1ae324d9",
         "x-ms-content-sha256": "1FbWDlkYNs0PHIE8\u002BMhyPKGHh\u002BKztZc0cZwoX8Hhj8c=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -178,7 +178,7 @@
         "Connection": "keep-alive",
         "Content-Length": "71",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "811d345c-245e-412f-b238-477732b6591c",
         "x-ms-content-sha256": "OVJbBw7XtqDPGeuYZG8B54E7KeiWUptKurazKpEeB9E=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -218,7 +218,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "22028878-6dec-447d-9752-0ace82e37d2f",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -248,7 +248,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "89e39694-c368-48da-a735-c4deed5cf1f3",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:02 GMT"
@@ -288,7 +288,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "48ee207d-e19d-4b38-b2e5-bbafafea9b6e",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:03 GMT"
@@ -328,7 +328,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "4f28b9eb-3557-450b-9996-5ea6750b8bf6",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:03 GMT"
@@ -368,7 +368,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "11b2d371-c8ab-4485-ab9f-705cdb4d14bf",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 00:04:03 GMT"

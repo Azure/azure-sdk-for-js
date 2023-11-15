@@ -22,7 +22,7 @@
         "x-ms-client-request-id": "b217ea12-ac51-48a0-b860-6d2abae207a9",
         "x-ms-content-sha256": "xG1T22SpOFlCH4u\u002BZ1hH\u002BYh9ErqiPS\u002B0sXvekVfomxM=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "name": "test-d-policy",
@@ -83,7 +83,7 @@
         "x-ms-client-request-id": "b5a45026-7d12-4622-8b29-912449f0ede9",
         "x-ms-content-sha256": "A5ySZT3yD7WO66GsYhBfJY0Z6v1CuU2HTd2a\u002BAaoTPE=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "name": "test-e-policy",
@@ -159,7 +159,7 @@
         "x-ms-client-request-id": "69e73be9-7f35-4cf8-9efa-93e2efd9c095",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -208,7 +208,7 @@
         "x-ms-client-request-id": "54e9d6dc-4f2d-406e-8e89-6882300aa22f",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 400,
@@ -257,7 +257,7 @@
         "x-ms-client-request-id": "21417b0d-3bf4-4488-8036-2a1388ad772c",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 15 Nov 2023 01:00:52 GMT",
-        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 400,
