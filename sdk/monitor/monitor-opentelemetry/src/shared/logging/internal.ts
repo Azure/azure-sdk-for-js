@@ -18,7 +18,7 @@ import {
 export class InternalAzureLogger {
   private _TAG = "InternalLogger:";
   private _cleanupTimeOut = 60 * 30 * 1000; // 30 minutes;
-  private _fileCleanupTimer: NodeJS.Timer | null = null;
+  private _fileCleanupTimer: NodeJS.Timeout | null = null;
   private _tempDir: string;
   private _logFileName: string;
   private _fileFullPath: string;

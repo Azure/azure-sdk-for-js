@@ -9,7 +9,7 @@ import {
 } from "./onBehalfOfCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MsalFlow } from "../msal/flows";
@@ -23,7 +23,7 @@ const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
   private tenantId: string;
@@ -98,7 +98,7 @@ export class OnBehalfOfCredential implements TokenCredential {
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       additionallyAllowedTenantIds
     );
 

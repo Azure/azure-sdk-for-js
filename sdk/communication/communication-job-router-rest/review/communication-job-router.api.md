@@ -8,6 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
 import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -15,14 +16,15 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
-export interface AcceptJobAction {
-    post(options?: AcceptJobActionParameters): StreamableMethod<AcceptJobAction200Response | AcceptJobActionDefaultResponse>;
+export interface Accept {
+    post(options?: AcceptParameters): StreamableMethod<Accept200Response | AcceptDefaultResponse>;
 }
 
 // @public
-export interface AcceptJobAction200Response extends HttpResponse {
+export interface Accept200Response extends HttpResponse {
     // (undocumented)
     body: AcceptJobOfferResultOutput;
     // (undocumented)
@@ -30,22 +32,19 @@ export interface AcceptJobAction200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AcceptJobActionDefaultHeaders {
+export interface AcceptDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface AcceptJobActionDefaultResponse extends HttpResponse {
+export interface AcceptDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & AcceptJobActionDefaultHeaders;
+    headers: RawHttpHeaders & AcceptDefaultHeaders;
     // (undocumented)
     status: string;
 }
-
-// @public (undocumented)
-export type AcceptJobActionParameters = RequestParameters;
 
 // @public
 export interface AcceptJobOfferResultOutput {
@@ -53,6 +52,9 @@ export interface AcceptJobOfferResultOutput {
     jobId: string;
     workerId: string;
 }
+
+// @public (undocumented)
+export type AcceptParameters = RequestParameters;
 
 // @public (undocumented)
 export type AzureCommunicationRoutingServiceClient = Client & {
@@ -73,6 +75,39 @@ export interface BestWorkerModeOutput extends DistributionModeOutputParent {
     scoringRuleOptions?: ScoringRuleOptionsOutput;
 }
 
+// @public (undocumented)
+export interface Cancel {
+    post(options?: CancelParameters): StreamableMethod<Cancel200Response | CancelDefaultResponse>;
+}
+
+// @public
+export interface Cancel200Response extends HttpResponse {
+    // (undocumented)
+    body: CancelJobResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface CancelBodyParam {
+    body?: CancelJobOptions;
+}
+
+// @public (undocumented)
+export interface CancelDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface CancelDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & CancelDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
 // @public
 export interface CancelExceptionAction extends ExceptionActionParent {
     dispositionCode?: string;
@@ -87,173 +122,133 @@ export interface CancelExceptionActionOutput extends ExceptionActionOutputParent
     note?: string;
 }
 
-// @public (undocumented)
-export interface CancelJobAction {
-    post(options?: CancelJobActionParameters): StreamableMethod<CancelJobAction200Response | CancelJobActionDefaultResponse>;
-}
-
 // @public
-export interface CancelJobAction200Response extends HttpResponse {
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface CancelJobActionBodyParam {
-    body?: CancelJobRequest;
-}
-
-// @public (undocumented)
-export interface CancelJobActionDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface CancelJobActionDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & CancelJobActionDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type CancelJobActionParameters = CancelJobActionBodyParam & RequestParameters;
-
-// @public
-export interface CancelJobRequest {
+export interface CancelJobOptions {
     dispositionCode?: string;
     note?: string;
 }
 
 // @public
-export interface ChannelConfiguration {
-    capacityCostPerJob: number;
-    maxNumberOfJobs?: number;
+export interface CancelJobResultOutput {
 }
 
-// @public
-export interface ChannelConfigurationOutput {
-    capacityCostPerJob: number;
-    maxNumberOfJobs?: number;
-}
+// @public (undocumented)
+export type CancelParameters = CancelBodyParam & RequestParameters;
 
 // @public
 export interface ClassificationPolicy {
     fallbackQueueId?: string;
     name?: string;
     prioritizationRule?: RouterRule;
-    queueSelectors?: Array<QueueSelectorAttachment>;
-    workerSelectors?: Array<WorkerSelectorAttachment>;
-}
-
-// @public
-export interface ClassificationPolicyItemOutput {
-    classificationPolicy: ClassificationPolicyOutput;
-    etag: string;
+    queueSelectorAttachments?: Array<QueueSelectorAttachment>;
+    workerSelectorAttachments?: Array<WorkerSelectorAttachment>;
 }
 
 // @public
 export interface ClassificationPolicyOutput {
+    readonly etag: string;
     fallbackQueueId?: string;
     readonly id: string;
     name?: string;
     prioritizationRule?: RouterRuleOutput;
-    queueSelectors?: Array<QueueSelectorAttachmentOutput>;
-    workerSelectors?: Array<WorkerSelectorAttachmentOutput>;
+    queueSelectorAttachments?: Array<QueueSelectorAttachmentOutput>;
+    workerSelectorAttachments?: Array<WorkerSelectorAttachmentOutput>;
 }
 
 // @public
 export type ClassificationPolicyResourceMergeAndPatch = Partial<ClassificationPolicy>;
 
 // @public (undocumented)
-export interface CloseJobAction {
-    post(options: CloseJobActionParameters): StreamableMethod<CloseJobAction200Response | CloseJobAction202Response | CloseJobActionDefaultResponse>;
+export interface Close {
+    post(options?: CloseParameters): StreamableMethod<Close200Response | CloseDefaultResponse>;
 }
 
 // @public
-export interface CloseJobAction200Response extends HttpResponse {
+export interface Close200Response extends HttpResponse {
+    // (undocumented)
+    body: CloseJobResultOutput;
     // (undocumented)
     status: "200";
 }
 
-// @public
-export interface CloseJobAction202Response extends HttpResponse {
-    // (undocumented)
-    status: "202";
+// @public (undocumented)
+export interface CloseBodyParam {
+    body?: CloseJobOptions;
 }
 
 // @public (undocumented)
-export interface CloseJobActionBodyParam {
-    body: CloseJobRequest;
-}
-
-// @public (undocumented)
-export interface CloseJobActionDefaultHeaders {
+export interface CloseDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface CloseJobActionDefaultResponse extends HttpResponse {
+export interface CloseDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & CloseJobActionDefaultHeaders;
+    headers: RawHttpHeaders & CloseDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
-// @public (undocumented)
-export type CloseJobActionParameters = CloseJobActionBodyParam & RequestParameters;
-
 // @public
-export interface CloseJobRequest {
-    assignmentId: string;
+export interface CloseJobOptions {
     closeAt?: Date | string;
     dispositionCode?: string;
     note?: string;
 }
 
+// @public
+export interface CloseJobResultOutput {
+}
+
 // @public (undocumented)
-export interface CompleteJobAction {
-    post(options: CompleteJobActionParameters): StreamableMethod<CompleteJobAction200Response | CompleteJobActionDefaultResponse>;
+export type CloseParameters = CloseBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface Complete {
+    post(options?: CompleteParameters): StreamableMethod<Complete200Response | CompleteDefaultResponse>;
 }
 
 // @public
-export interface CompleteJobAction200Response extends HttpResponse {
+export interface Complete200Response extends HttpResponse {
+    // (undocumented)
+    body: CompleteJobResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface CompleteJobActionBodyParam {
-    body: CompleteJobRequest;
+export interface CompleteBodyParam {
+    body?: CompleteJobOptions;
 }
 
 // @public (undocumented)
-export interface CompleteJobActionDefaultHeaders {
+export interface CompleteDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface CompleteJobActionDefaultResponse extends HttpResponse {
+export interface CompleteDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & CompleteJobActionDefaultHeaders;
+    headers: RawHttpHeaders & CompleteDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
-// @public (undocumented)
-export type CompleteJobActionParameters = CompleteJobActionBodyParam & RequestParameters;
-
 // @public
-export interface CompleteJobRequest {
-    assignmentId: string;
+export interface CompleteJobOptions {
     note?: string;
 }
+
+// @public
+export interface CompleteJobResultOutput {
+}
+
+// @public (undocumented)
+export type CompleteParameters = CompleteBodyParam & RequestParameters;
 
 // @public
 export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachmentParent {
@@ -284,47 +279,56 @@ export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-function createClient(endpoint: string, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
+function createClient(connectionStringOrUrl: string, options: ClientOptions): AzureCommunicationRoutingServiceClient;
+
+// @public
+function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
 export default createClient;
 
 // @public (undocumented)
-export interface DeclineJobAction {
-    post(options?: DeclineJobActionParameters): StreamableMethod<DeclineJobAction200Response | DeclineJobActionDefaultResponse>;
+export interface Decline {
+    post(options?: DeclineParameters): StreamableMethod<Decline200Response | DeclineDefaultResponse>;
 }
 
 // @public
-export interface DeclineJobAction200Response extends HttpResponse {
+export interface Decline200Response extends HttpResponse {
+    // (undocumented)
+    body: DeclineJobOfferResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface DeclineJobActionBodyParam {
-    body?: DeclineJobOfferRequest;
+export interface DeclineBodyParam {
+    body?: DeclineJobOfferOptions;
 }
 
 // @public (undocumented)
-export interface DeclineJobActionDefaultHeaders {
+export interface DeclineDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface DeclineJobActionDefaultResponse extends HttpResponse {
+export interface DeclineDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & DeclineJobActionDefaultHeaders;
+    headers: RawHttpHeaders & DeclineDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
-// @public (undocumented)
-export type DeclineJobActionParameters = DeclineJobActionBodyParam & RequestParameters;
-
 // @public
-export interface DeclineJobOfferRequest {
+export interface DeclineJobOfferOptions {
     retryOfferAt?: Date | string;
 }
+
+// @public
+export interface DeclineJobOfferResultOutput {
+}
+
+// @public (undocumented)
+export type DeclineParameters = DeclineBodyParam & RequestParameters;
 
 // @public
 export interface DeleteClassificationPolicy204Response extends HttpResponse {
@@ -512,13 +516,8 @@ export interface DistributionPolicy {
 }
 
 // @public
-export interface DistributionPolicyItemOutput {
-    distributionPolicy: DistributionPolicyOutput;
-    etag: string;
-}
-
-// @public
 export interface DistributionPolicyOutput {
+    readonly etag: string;
     readonly id: string;
     mode?: DistributionModeOutput;
     name?: string;
@@ -536,31 +535,28 @@ export type ExceptionActionOutput = CancelExceptionActionOutput | ManualReclassi
 
 // @public
 export interface ExceptionActionOutputParent {
+    id?: string;
     // (undocumented)
     kind: string;
 }
 
 // @public
 export interface ExceptionActionParent {
+    id?: string;
     // (undocumented)
     kind: string;
 }
 
 // @public
 export interface ExceptionPolicy {
-    exceptionRules?: Record<string, ExceptionRule>;
+    exceptionRules?: Array<ExceptionRule>;
     name?: string;
 }
 
 // @public
-export interface ExceptionPolicyItemOutput {
-    etag: string;
-    exceptionPolicy: ExceptionPolicyOutput;
-}
-
-// @public
 export interface ExceptionPolicyOutput {
-    exceptionRules?: Record<string, ExceptionRuleOutput>;
+    readonly etag: string;
+    exceptionRules?: Array<ExceptionRuleOutput>;
     readonly id: string;
     name?: string;
 }
@@ -570,13 +566,15 @@ export type ExceptionPolicyResourceMergeAndPatch = Partial<ExceptionPolicy>;
 
 // @public
 export interface ExceptionRule {
-    actions: Record<string, ExceptionAction>;
+    actions: Array<ExceptionAction>;
+    id: string;
     trigger: ExceptionTrigger;
 }
 
 // @public
 export interface ExceptionRuleOutput {
-    actions: Record<string, ExceptionActionOutput>;
+    actions: Array<ExceptionActionOutput>;
+    id: string;
     trigger: ExceptionTriggerOutput;
 }
 
@@ -973,16 +971,16 @@ export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse
 export function isUnexpected(response: DeleteJob204Response | DeleteJobDefaultResponse): response is DeleteJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: ReclassifyJobAction200Response | ReclassifyJobActionDefaultResponse): response is ReclassifyJobActionDefaultResponse;
+export function isUnexpected(response: Reclassify200Response | ReclassifyDefaultResponse): response is ReclassifyDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CancelJobAction200Response | CancelJobActionDefaultResponse): response is CancelJobActionDefaultResponse;
+export function isUnexpected(response: Cancel200Response | CancelDefaultResponse): response is CancelDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CompleteJobAction200Response | CompleteJobActionDefaultResponse): response is CompleteJobActionDefaultResponse;
+export function isUnexpected(response: Complete200Response | CompleteDefaultResponse): response is CompleteDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CloseJobAction200Response | CloseJobAction202Response | CloseJobActionDefaultResponse): response is CloseJobActionDefaultResponse;
+export function isUnexpected(response: Close200Response | CloseDefaultResponse): response is CloseDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: ListJobs200Response | ListJobsDefaultResponse): response is ListJobsDefaultResponse;
@@ -991,13 +989,13 @@ export function isUnexpected(response: ListJobs200Response | ListJobsDefaultResp
 export function isUnexpected(response: GetInQueuePosition200Response | GetInQueuePositionDefaultResponse): response is GetInQueuePositionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: UnassignJobAction200Response | UnassignJobActionDefaultResponse): response is UnassignJobActionDefaultResponse;
+export function isUnexpected(response: Unassign200Response | UnassignDefaultResponse): response is UnassignDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: AcceptJobAction200Response | AcceptJobActionDefaultResponse): response is AcceptJobActionDefaultResponse;
+export function isUnexpected(response: Accept200Response | AcceptDefaultResponse): response is AcceptDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: DeclineJobAction200Response | DeclineJobActionDefaultResponse): response is DeclineJobActionDefaultResponse;
+export function isUnexpected(response: Decline200Response | DeclineDefaultResponse): response is DeclineDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetQueueStatistics200Response | GetQueueStatisticsDefaultResponse): response is GetQueueStatisticsDefaultResponse;
@@ -1015,19 +1013,21 @@ export function isUnexpected(response: DeleteWorker204Response | DeleteWorkerDef
 export function isUnexpected(response: ListWorkers200Response | ListWorkersDefaultResponse): response is ListWorkersDefaultResponse;
 
 // @public
-export interface JobMatchingMode {
-    modeType?: string;
-    queueAndMatchMode?: QueueAndMatchMode;
-    scheduleAndSuspendMode?: ScheduleAndSuspendMode;
-    suspendMode?: SuspendMode;
+export type JobMatchingMode = ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
+
+// @public
+export type JobMatchingModeOutput = ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
+
+// @public
+export interface JobMatchingModeOutputParent {
+    // (undocumented)
+    kind: string;
 }
 
 // @public
-export interface JobMatchingModeOutput {
-    modeType?: string;
-    queueAndMatchMode?: QueueAndMatchModeOutput;
-    scheduleAndSuspendMode?: ScheduleAndSuspendModeOutput;
-    suspendMode?: SuspendModeOutput;
+export interface JobMatchingModeParent {
+    // (undocumented)
+    kind: string;
 }
 
 // @public (undocumented)
@@ -1038,7 +1038,7 @@ export interface ListClassificationPolicies {
 // @public
 export interface ListClassificationPolicies200Response extends HttpResponse {
     // (undocumented)
-    body: PagedClassificationPolicyItemOutput;
+    body: PagedClassificationPolicyOutput;
     // (undocumented)
     status: "200";
 }
@@ -1080,7 +1080,7 @@ export interface ListDistributionPolicies {
 // @public
 export interface ListDistributionPolicies200Response extends HttpResponse {
     // (undocumented)
-    body: PagedDistributionPolicyItemOutput;
+    body: PagedDistributionPolicyOutput;
     // (undocumented)
     status: "200";
 }
@@ -1122,7 +1122,7 @@ export interface ListExceptionPolicies {
 // @public
 export interface ListExceptionPolicies200Response extends HttpResponse {
     // (undocumented)
-    body: PagedExceptionPolicyItemOutput;
+    body: PagedExceptionPolicyOutput;
     // (undocumented)
     status: "200";
 }
@@ -1164,7 +1164,7 @@ export interface ListJobs {
 // @public
 export interface ListJobs200Response extends HttpResponse {
     // (undocumented)
-    body: PagedRouterJobItemOutput;
+    body: PagedRouterJobOutput;
     // (undocumented)
     status: "200";
 }
@@ -1212,7 +1212,7 @@ export interface ListQueues {
 // @public
 export interface ListQueues200Response extends HttpResponse {
     // (undocumented)
-    body: PagedRouterQueueItemOutput;
+    body: PagedRouterQueueOutput;
     // (undocumented)
     status: "200";
 }
@@ -1254,7 +1254,7 @@ export interface ListWorkers {
 // @public
 export interface ListWorkers200Response extends HttpResponse {
     // (undocumented)
-    body: PagedRouterWorkerItemOutput;
+    body: PagedRouterWorkerOutput;
     // (undocumented)
     status: "200";
 }
@@ -1319,34 +1319,34 @@ export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOu
 }
 
 // @public
-export interface Oauth2ClientCredential {
+export interface OAuth2WebhookClientCredential {
     clientId?: string;
     clientSecret?: string;
 }
 
 // @public
-export interface Oauth2ClientCredentialOutput {
+export interface OAuth2WebhookClientCredentialOutput {
     clientId?: string;
     clientSecret?: string;
 }
 
 // @public
-export type PagedClassificationPolicyItemOutput = Paged<ClassificationPolicyItemOutput>;
+export type PagedClassificationPolicyOutput = Paged<ClassificationPolicyOutput>;
 
 // @public
-export type PagedDistributionPolicyItemOutput = Paged<DistributionPolicyItemOutput>;
+export type PagedDistributionPolicyOutput = Paged<DistributionPolicyOutput>;
 
 // @public
-export type PagedExceptionPolicyItemOutput = Paged<ExceptionPolicyItemOutput>;
+export type PagedExceptionPolicyOutput = Paged<ExceptionPolicyOutput>;
 
 // @public
-export type PagedRouterJobItemOutput = Paged<RouterJobItemOutput>;
+export type PagedRouterJobOutput = Paged<RouterJobOutput>;
 
 // @public
-export type PagedRouterQueueItemOutput = Paged<RouterQueueItemOutput>;
+export type PagedRouterQueueOutput = Paged<RouterQueueOutput>;
 
 // @public
-export type PagedRouterWorkerItemOutput = Paged<RouterWorkerItemOutput>;
+export type PagedRouterWorkerOutput = Paged<RouterWorkerOutput>;
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1394,11 +1394,13 @@ export interface PassThroughWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-export interface QueueAndMatchMode {
+export interface QueueAndMatchMode extends JobMatchingModeParent {
+    kind: "queue-and-match";
 }
 
 // @public
-export interface QueueAndMatchModeOutput {
+export interface QueueAndMatchModeOutput extends JobMatchingModeOutputParent {
+    kind: "queue-and-match";
 }
 
 // @public
@@ -1443,6 +1445,39 @@ export interface QueueWeightedAllocationOutput {
     weight: number;
 }
 
+// @public (undocumented)
+export interface Reclassify {
+    post(options?: ReclassifyParameters): StreamableMethod<Reclassify200Response | ReclassifyDefaultResponse>;
+}
+
+// @public
+export interface Reclassify200Response extends HttpResponse {
+    // (undocumented)
+    body: ReclassifyJobResultOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ReclassifyBodyParam {
+    body?: ReclassifyJobOptions;
+}
+
+// @public (undocumented)
+export interface ReclassifyDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ReclassifyDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ReclassifyDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
 // @public
 export interface ReclassifyExceptionAction extends ExceptionActionParent {
     classificationPolicyId?: string;
@@ -1457,39 +1492,16 @@ export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputPa
     labelsToUpsert?: Record<string, any>;
 }
 
-// @public (undocumented)
-export interface ReclassifyJobAction {
-    post(options?: ReclassifyJobActionParameters): StreamableMethod<ReclassifyJobAction200Response | ReclassifyJobActionDefaultResponse>;
+// @public
+export interface ReclassifyJobOptions {
 }
 
 // @public
-export interface ReclassifyJobAction200Response extends HttpResponse {
-    // (undocumented)
-    status: "200";
+export interface ReclassifyJobResultOutput {
 }
 
 // @public (undocumented)
-export interface ReclassifyJobActionBodyParam {
-    body?: Record<string, string>;
-}
-
-// @public (undocumented)
-export interface ReclassifyJobActionDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface ReclassifyJobActionDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & ReclassifyJobActionDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type ReclassifyJobActionParameters = ReclassifyJobActionBodyParam & RequestParameters;
+export type ReclassifyParameters = ReclassifyBodyParam & RequestParameters;
 
 // @public
 export interface RoundRobinMode extends DistributionModeParent {
@@ -1499,6 +1511,20 @@ export interface RoundRobinMode extends DistributionModeParent {
 // @public
 export interface RoundRobinModeOutput extends DistributionModeOutputParent {
     kind: "round-robin";
+}
+
+// @public
+export interface RouterChannel {
+    capacityCostPerJob: number;
+    channelId: string;
+    maxNumberOfJobs?: number;
+}
+
+// @public
+export interface RouterChannelOutput {
+    capacityCostPerJob: number;
+    channelId: string;
+    maxNumberOfJobs?: number;
 }
 
 // @public
@@ -1513,7 +1539,7 @@ export interface RouterJob {
     dispositionCode?: string;
     labels?: Record<string, unknown>;
     matchingMode?: JobMatchingMode;
-    notes?: Record<string, string>;
+    notes?: Array<RouterJobNote>;
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: Array<RouterWorkerSelector>;
@@ -1523,7 +1549,6 @@ export interface RouterJob {
 // @public
 export interface RouterJobAssignment {
     assignedAt: Date | string;
-    assignmentId: string;
     closedAt?: Date | string;
     completedAt?: Date | string;
     workerId?: string;
@@ -1532,16 +1557,22 @@ export interface RouterJobAssignment {
 // @public
 export interface RouterJobAssignmentOutput {
     assignedAt: string;
-    assignmentId: string;
+    readonly assignmentId: string;
     closedAt?: string;
     completedAt?: string;
     workerId?: string;
 }
 
 // @public
-export interface RouterJobItemOutput {
-    etag: string;
-    job: RouterJobOutput;
+export interface RouterJobNote {
+    addedAt?: Date | string;
+    message: string;
+}
+
+// @public
+export interface RouterJobNoteOutput {
+    addedAt?: string;
+    message: string;
 }
 
 // @public
@@ -1550,7 +1581,6 @@ export interface RouterJobOffer {
     expiresAt?: Date | string;
     jobId: string;
     offeredAt?: Date | string;
-    offerId: string;
 }
 
 // @public
@@ -1559,7 +1589,7 @@ export interface RouterJobOfferOutput {
     expiresAt?: string;
     jobId: string;
     offeredAt?: string;
-    offerId: string;
+    readonly offerId: string;
 }
 
 // @public
@@ -1571,10 +1601,11 @@ export interface RouterJobOutput {
     classificationPolicyId?: string;
     dispositionCode?: string;
     readonly enqueuedAt?: string;
+    readonly etag: string;
     readonly id: string;
     labels?: Record<string, any>;
     matchingMode?: JobMatchingModeOutput;
-    notes?: Record<string, string>;
+    notes?: Array<RouterJobNoteOutput>;
     priority?: number;
     queueId?: string;
     requestedWorkerSelectors?: Array<RouterWorkerSelectorOutput>;
@@ -1604,22 +1635,9 @@ export interface RouterQueue {
 }
 
 // @public
-export interface RouterQueueAssignment {
-}
-
-// @public
-export interface RouterQueueAssignmentOutput {
-}
-
-// @public
-export interface RouterQueueItemOutput {
-    etag: string;
-    queue: RouterQueueOutput;
-}
-
-// @public
 export interface RouterQueueOutput {
     distributionPolicyId?: string;
+    readonly etag: string;
     exceptionPolicyId?: string;
     readonly id: string;
     labels?: Record<string, any>;
@@ -1672,11 +1690,11 @@ export interface RouterRuleParent {
 // @public
 export interface RouterWorker {
     availableForOffers?: boolean;
-    channelConfigurations?: Record<string, ChannelConfiguration>;
+    capacity?: number;
+    channels?: Array<RouterChannel>;
     labels?: Record<string, unknown>;
-    queueAssignments?: Record<string, RouterQueueAssignment>;
+    queues?: string[];
     tags?: Record<string, unknown>;
-    totalCapacity?: number;
 }
 
 // @public
@@ -1696,24 +1714,19 @@ export interface RouterWorkerAssignmentOutput {
 }
 
 // @public
-export interface RouterWorkerItemOutput {
-    etag: string;
-    worker: RouterWorkerOutput;
-}
-
-// @public
 export interface RouterWorkerOutput {
     readonly assignedJobs?: Array<RouterWorkerAssignmentOutput>;
     availableForOffers?: boolean;
-    channelConfigurations?: Record<string, ChannelConfigurationOutput>;
+    capacity?: number;
+    channels?: Array<RouterChannelOutput>;
+    readonly etag: string;
     readonly id: string;
     labels?: Record<string, any>;
     readonly loadRatio?: number;
     readonly offers?: Array<RouterJobOfferOutput>;
-    queueAssignments?: Record<string, RouterQueueAssignmentOutput>;
+    queues?: string[];
     readonly state?: string;
     tags?: Record<string, any>;
-    totalCapacity?: number;
 }
 
 // @public
@@ -1741,25 +1754,25 @@ export interface RouterWorkerSelectorOutput {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/routing/classificationPolicies/{id}", id: string): UpsertClassificationPolicy;
+    (path: "/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId: string): UpsertClassificationPolicy;
     (path: "/routing/classificationPolicies"): ListClassificationPolicies;
-    (path: "/routing/distributionPolicies/{id}", id: string): UpsertDistributionPolicy;
+    (path: "/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId: string): UpsertDistributionPolicy;
     (path: "/routing/distributionPolicies"): ListDistributionPolicies;
-    (path: "/routing/exceptionPolicies/{id}", id: string): UpsertExceptionPolicy;
+    (path: "/routing/exceptionPolicies/{exceptionPolicyId}", exceptionPolicyId: string): UpsertExceptionPolicy;
     (path: "/routing/exceptionPolicies"): ListExceptionPolicies;
-    (path: "/routing/queues/{id}", id: string): UpsertQueue;
+    (path: "/routing/queues/{queueId}", queueId: string): UpsertQueue;
     (path: "/routing/queues"): ListQueues;
-    (path: "/routing/jobs/{id}", id: string): UpsertJob;
-    (path: "/routing/jobs/{id}:reclassify", id: string): ReclassifyJobAction;
-    (path: "/routing/jobs/{id}:cancel", id: string): CancelJobAction;
-    (path: "/routing/jobs/{id}:complete", id: string): CompleteJobAction;
-    (path: "/routing/jobs/{id}:close", id: string): CloseJobAction;
+    (path: "/routing/jobs/{jobId}", jobId: string): UpsertJob;
+    (path: "/routing/jobs/{jobId}:reclassify", jobId: string): Reclassify;
+    (path: "/routing/jobs/{jobId}:cancel", jobId: string): Cancel;
+    (path: "/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId: string, assignmentId: string): Complete;
+    (path: "/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId: string, assignmentId: string): Close;
     (path: "/routing/jobs"): ListJobs;
-    (path: "/routing/jobs/{id}/position", id: string): GetInQueuePosition;
-    (path: "/routing/jobs/{id}/assignments/{assignmentId}:unassign", id: string, assignmentId: string): UnassignJobAction;
-    (path: "/routing/workers/{workerId}/offers/{offerId}:accept", workerId: string, offerId: string): AcceptJobAction;
-    (path: "/routing/workers/{workerId}/offers/{offerId}:decline", workerId: string, offerId: string): DeclineJobAction;
-    (path: "/routing/queues/{id}/statistics", id: string): GetQueueStatistics;
+    (path: "/routing/jobs/{jobId}/position", jobId: string): GetInQueuePosition;
+    (path: "/routing/jobs/{jobId}/assignments/{assignmentId}:unassign", jobId: string, assignmentId: string): Unassign;
+    (path: "/routing/workers/{workerId}/offers/{offerId}:accept", workerId: string, offerId: string): Accept;
+    (path: "/routing/workers/{workerId}/offers/{offerId}:decline", workerId: string, offerId: string): Decline;
+    (path: "/routing/queues/{queueId}/statistics", queueId: string): GetQueueStatistics;
     (path: "/routing/workers/{workerId}", workerId: string): UpsertWorker;
     (path: "/routing/workers"): ListWorkers;
 }
@@ -1789,28 +1802,30 @@ export interface RuleEngineWorkerSelectorAttachmentOutput extends WorkerSelector
 }
 
 // @public
-export interface ScheduleAndSuspendMode {
+export interface ScheduleAndSuspendMode extends JobMatchingModeParent {
+    kind: "schedule-and-suspend";
     scheduleAt: Date | string;
 }
 
 // @public
-export interface ScheduleAndSuspendModeOutput {
+export interface ScheduleAndSuspendModeOutput extends JobMatchingModeOutputParent {
+    kind: "schedule-and-suspend";
     scheduleAt: string;
 }
 
 // @public
 export interface ScoringRuleOptions {
-    allowScoringBatchOfWorkers?: boolean;
     batchSize?: number;
     descendingOrder?: boolean;
+    isBatchScoringEnabled?: boolean;
     scoringParameters?: string[];
 }
 
 // @public
 export interface ScoringRuleOptionsOutput {
-    allowScoringBatchOfWorkers?: boolean;
     batchSize?: number;
     descendingOrder?: boolean;
+    isBatchScoringEnabled?: boolean;
     scoringParameters?: string[];
 }
 
@@ -1851,20 +1866,22 @@ export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAtta
 }
 
 // @public
-export interface SuspendMode {
+export interface SuspendMode extends JobMatchingModeParent {
+    kind: "suspend";
 }
 
 // @public
-export interface SuspendModeOutput {
+export interface SuspendModeOutput extends JobMatchingModeOutputParent {
+    kind: "suspend";
 }
 
 // @public (undocumented)
-export interface UnassignJobAction {
-    post(options?: UnassignJobActionParameters): StreamableMethod<UnassignJobAction200Response | UnassignJobActionDefaultResponse>;
+export interface Unassign {
+    post(options?: UnassignParameters): StreamableMethod<Unassign200Response | UnassignDefaultResponse>;
 }
 
 // @public
-export interface UnassignJobAction200Response extends HttpResponse {
+export interface Unassign200Response extends HttpResponse {
     // (undocumented)
     body: UnassignJobResultOutput;
     // (undocumented)
@@ -1872,30 +1889,27 @@ export interface UnassignJobAction200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface UnassignJobActionBodyParam {
-    body?: UnassignJobRequest;
+export interface UnassignBodyParam {
+    body?: UnassignJobOptions;
 }
 
 // @public (undocumented)
-export interface UnassignJobActionDefaultHeaders {
+export interface UnassignDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface UnassignJobActionDefaultResponse extends HttpResponse {
+export interface UnassignDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & UnassignJobActionDefaultHeaders;
+    headers: RawHttpHeaders & UnassignDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
-// @public (undocumented)
-export type UnassignJobActionParameters = UnassignJobActionBodyParam & RequestParameters;
-
 // @public
-export interface UnassignJobRequest {
+export interface UnassignJobOptions {
     suspendMatching?: boolean;
 }
 
@@ -1904,6 +1918,9 @@ export interface UnassignJobResultOutput {
     jobId: string;
     unassignmentCount: number;
 }
+
+// @public (undocumented)
+export type UnassignParameters = UnassignBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface UpsertClassificationPolicy {
@@ -2394,7 +2411,7 @@ export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputPa
 // @public
 export interface WebhookRouterRule extends RouterRuleParent {
     authorizationServerUri?: string;
-    clientCredential?: Oauth2ClientCredential;
+    clientCredential?: OAuth2WebhookClientCredential;
     kind: "webhook-rule";
     webhookUri?: string;
 }
@@ -2402,7 +2419,7 @@ export interface WebhookRouterRule extends RouterRuleParent {
 // @public
 export interface WebhookRouterRuleOutput extends RouterRuleOutputParent {
     authorizationServerUri?: string;
-    clientCredential?: Oauth2ClientCredentialOutput;
+    clientCredential?: OAuth2WebhookClientCredentialOutput;
     kind: "webhook-rule";
     webhookUri?: string;
 }

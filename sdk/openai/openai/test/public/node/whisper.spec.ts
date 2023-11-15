@@ -8,14 +8,10 @@ import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient
 import { OpenAIClient } from "../../../src/index.js";
 import * as fs from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
-import {
-  formDataPolicyName,
-  formDataWithFileUploadPolicy,
-} from "../../../src/api/policies/formDataPolicy.js";
 import { assertAudioResult } from "../utils/asserts.js";
 
 function getModel(authMethod: AuthMethod): string {
-  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper-deployment";
+  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
 }
 
 describe("OpenAI", function () {
@@ -23,12 +19,15 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
+      before(async function (this: Context) {
+        if (process.version.startsWith("v16")) {
+          this.skip();
+        }
+      });
 
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
         client = createClient(authMethod, { recorder });
-        client["_client"].pipeline.removePolicy({ name: formDataPolicyName });
-        client["_client"].pipeline.addPolicy(formDataWithFileUploadPolicy("6ceck6po4ai0tb2u"));
       });
 
       afterEach(async function () {

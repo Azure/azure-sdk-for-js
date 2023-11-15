@@ -399,7 +399,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
     assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
 
-    const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse, testPollingOptions);
+    const devBoxCreatePoller = getLongRunningPoller(
+      client,
+      devBoxCreateResponse,
+      testPollingOptions
+    );
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
     if (isUnexpected(devBoxCreateResult)) {
@@ -432,7 +436,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
     assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
 
-    const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse, testPollingOptions);
+    const devBoxDeletePoller = getLongRunningPoller(
+      client,
+      devBoxDeleteResponse,
+      testPollingOptions
+    );
     const devBoxDeleteResult = await devBoxDeletePoller.pollUntilDone();
 
     if (isUnexpected(devBoxDeleteResult)) {

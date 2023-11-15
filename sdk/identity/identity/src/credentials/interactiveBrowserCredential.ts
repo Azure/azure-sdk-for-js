@@ -10,7 +10,7 @@ import {
 } from "./interactiveBrowserCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalFlow } from "../msal/flows";
@@ -44,9 +44,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(
-    options:
-      | InteractiveBrowserCredentialNodeOptions
-      | InteractiveBrowserCredentialInBrowserOptions = {}
+    options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions
   ) {
     const redirectUri =
       typeof options.redirectUri === "function"
@@ -54,16 +52,39 @@ export class InteractiveBrowserCredential implements TokenCredential {
         : options.redirectUri || "http://localhost";
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
 
-    this.msalFlow = new MsalOpenBrowser({
-      ...options,
-      tokenCredentialOptions: options,
-      logger,
-      redirectUri,
-    });
+    const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
+    if (ibcNodeOptions?.brokerOptions?.enabled) {
+      if (!ibcNodeOptions?.brokerOptions?.parentWindowHandle) {
+        throw new Error(
+          "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter"
+        );
+      } else {
+        this.msalFlow = new MsalOpenBrowser({
+          ...options,
+          tokenCredentialOptions: options,
+          logger,
+          redirectUri,
+          browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
+          brokerOptions: {
+            enabled: true,
+            parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
+            legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
+          },
+        });
+      }
+    } else {
+      this.msalFlow = new MsalOpenBrowser({
+        ...options,
+        tokenCredentialOptions: options,
+        logger,
+        redirectUri,
+        browserCustomizationOptions: ibcNodeOptions?.browserCustomizationOptions,
+      });
+    }
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 

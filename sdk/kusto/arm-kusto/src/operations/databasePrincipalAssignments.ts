@@ -252,8 +252,7 @@ export class DatabasePrincipalAssignmentsImpl
       OperationState<DatabasePrincipalAssignmentsCreateOrUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;
@@ -354,8 +353,7 @@ export class DatabasePrincipalAssignmentsImpl
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
     return poller;

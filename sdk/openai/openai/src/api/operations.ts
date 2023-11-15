@@ -54,8 +54,8 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
-import { createFile } from "./policies/formDataPolicy.js";
 import { renameKeysToCamelCase } from "./util.js";
+import { createFile } from "@azure/core-rest-pipeline";
 
 export function _getEmbeddingsSend(
   context: Client,
@@ -707,7 +707,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
     .pathUnchecked("deployments/{deploymentId}/audio/translations", deploymentName)
     .post({
       body: {
-        file: await createFile(fileContent),
+        file: createFile(fileContent, "placeholder.wav"),
         ...(response_format && { response_format }),
         ...(temperature !== undefined ? { temperature } : {}),
         ...(prompt && { prompt }),
@@ -770,7 +770,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
     .pathUnchecked("deployments/{deploymentId}/audio/transcriptions", deploymentName)
     .post({
       body: {
-        file: await createFile(fileContent),
+        file: createFile(fileContent, "placeholder.wav"),
         ...(response_format && { response_format }),
         ...(language && { language }),
         ...(temperature !== undefined ? { temperature } : {}),
