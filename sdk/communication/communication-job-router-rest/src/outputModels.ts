@@ -156,8 +156,7 @@ export interface RuleEngineQueueSelectorAttachmentOutput
 }
 
 /** Describes a queue selector that will be attached to a job. */
-export interface StaticQueueSelectorAttachmentOutput
-  extends QueueSelectorAttachmentOutputParent {
+export interface StaticQueueSelectorAttachmentOutput extends QueueSelectorAttachmentOutputParent {
   /** The queue selector to attach. */
   queueSelector: RouterQueueSelectorOutput;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -250,8 +249,7 @@ export interface RuleEngineWorkerSelectorAttachmentOutput
 }
 
 /** Describes a worker selector that will be attached to a job. */
-export interface StaticWorkerSelectorAttachmentOutput
-  extends WorkerSelectorAttachmentOutputParent {
+export interface StaticWorkerSelectorAttachmentOutput extends WorkerSelectorAttachmentOutputParent {
   /** The worker selector to attach. */
   workerSelector: RouterWorkerSelectorOutput;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -365,8 +363,7 @@ export interface ExceptionTriggerOutputParent {
 }
 
 /** Trigger for an exception action on exceeding queue length. */
-export interface QueueLengthExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
@@ -374,8 +371,7 @@ export interface QueueLengthExceptionTriggerOutput
 }
 
 /** Trigger for an exception action on exceeding wait time. */
-export interface WaitTimeExceptionTriggerOutput
-  extends ExceptionTriggerOutputParent {
+export interface WaitTimeExceptionTriggerOutput extends ExceptionTriggerOutputParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger. */
@@ -390,8 +386,7 @@ export interface ExceptionActionOutputParent {
 }
 
 /** An action that marks a job as cancelled. */
-export interface CancelExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface CancelExceptionActionOutput extends ExceptionActionOutputParent {
   /** A note that will be appended to a job's notes collection with the current timestamp. */
   note?: string;
   /** Indicates the outcome of a job, populate this field with your own custom values. */
@@ -401,8 +396,7 @@ export interface CancelExceptionActionOutput
 }
 
 /** An action that manually reclassifies a job by providing the queue, priority and worker selectors. */
-export interface ManualReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ManualReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** Updated QueueId. */
   queueId?: string;
   /** Updated Priority. */
@@ -414,8 +408,7 @@ export interface ManualReclassifyExceptionActionOutput
 }
 
 /** An action that modifies labels on a job and then reclassifies it. */
-export interface ReclassifyExceptionActionOutput
-  extends ExceptionActionOutputParent {
+export interface ReclassifyExceptionActionOutput extends ExceptionActionOutputParent {
   /** The new classification policy that will determine queue, priority and worker selectors. */
   classificationPolicyId?: string;
   /** Dictionary containing the labels to update (or add if not existing) in key-value pairs.  Values must be primitive values - number, string, boolean. */
@@ -517,8 +510,7 @@ export interface JobMatchingModeOutputParent {
 }
 
 /** Describes a matching mode used for scheduling jobs to be queued at a future time. At the specified time, matching worker to a job will not start automatically. */
-export interface ScheduleAndSuspendModeOutput
-  extends JobMatchingModeOutputParent {
+export interface ScheduleAndSuspendModeOutput extends JobMatchingModeOutputParent {
   /** Requested schedule time. */
   scheduleAt: string;
   /** The type discriminator describing ScheduleAndSuspendMode */
