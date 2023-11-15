@@ -37,7 +37,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Bring everything from original into the output
   await copy(originalDir, outDir);
 
-  if (!directoryExists(customDir)) {
+  if (!(await directoryExists(customDir))) {
     return;
   }
 
@@ -46,7 +46,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
     _originalFolderName;
 
   // Bring files only present in custom into the output
-  copyFilesInCustom(originalDir, customDir, outDir);
+  await copyFilesInCustom(originalDir, customDir, outDir);
 
   const projectInfo = await resolveProject(process.cwd());
 
@@ -83,6 +83,7 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
+    await ensureDir(path.dirname(destPath));
     await copyFile(sourcePath, destPath);
   }
 }
