@@ -1,5 +1,5 @@
 {
-  "commit": "4af52aaac2c3b4af4a0e61378d33c5bc050e65e2",
+  "commit": "8cd51b5240f4773621ec74346b6f5fb13f2c0e83",
   "readme": "specification/paloaltonetworks/resource-manager/readme.md",
   "autorest_command": "autorest --version=3.9.7 --typescript --modelerfour.lenient-model-deduplication --azure-arm --head-as-boolean=true --license-header=MICROSOFT_MIT_NO_VERSION --generate-test --typescript-sdks-folder=D:\\Git\\azure-sdk-for-js ..\\azure-rest-api-specs\\specification\\paloaltonetworks\\resource-manager\\readme.md --use=@autorest/typescript@6.0.12 --generate-sample=true",
   "repository_url": "https://github.com/Azure/azure-rest-api-specs.git",

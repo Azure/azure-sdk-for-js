@@ -1173,12 +1173,12 @@ export interface LocalRulestacks {
     getChangeLog(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetChangeLogOptionalParams): Promise<LocalRulestacksGetChangeLogResponse>;
     getSupportInfo(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksGetSupportInfoOptionalParams): Promise<LocalRulestacksGetSupportInfoResponse>;
     listAdvancedSecurityObjects(resourceGroupName: string, localRulestackName: string, typeParam: AdvSecurityObjectTypeEnum, options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
-    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): PagedAsyncIterableIterator<string>;
+    listAppIds(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListAppIdsOptionalParams): Promise<LocalRulestacksListAppIdsResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LocalRulestacksListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
     listBySubscription(options?: LocalRulestacksListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LocalRulestackResource>;
-    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): PagedAsyncIterableIterator<Country>;
+    listCountries(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListCountriesOptionalParams): Promise<LocalRulestacksListCountriesResponse>;
     listFirewalls(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListFirewallsOptionalParams): Promise<LocalRulestacksListFirewallsResponse>;
-    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): PagedAsyncIterableIterator<PredefinedUrlCategory>;
+    listPredefinedUrlCategories(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse>;
     listSecurityServices(resourceGroupName: string, localRulestackName: string, typeParam: SecurityServicesTypeEnum, options?: LocalRulestacksListSecurityServicesOptionalParams): Promise<LocalRulestacksListSecurityServicesResponse>;
     revert(resourceGroupName: string, localRulestackName: string, options?: LocalRulestacksRevertOptionalParams): Promise<void>;
     update(resourceGroupName: string, localRulestackName: string, properties: LocalRulestackResourceUpdate, options?: LocalRulestacksUpdateOptionalParams): Promise<LocalRulestacksUpdateResponse>;

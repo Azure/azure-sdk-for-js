@@ -35,15 +35,12 @@ async function localRulestacksListCountriesMaximumSetGen() {
   const options: LocalRulestacksListCountriesOptionalParams = { skip, top };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.localRulestacks.listCountries(
+  const result = await client.localRulestacks.listCountries(
     resourceGroupName,
     localRulestackName,
     options
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -61,14 +58,11 @@ async function localRulestacksListCountriesMinimumSetGen() {
   const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.localRulestacks.listCountries(
+  const result = await client.localRulestacks.listCountries(
     resourceGroupName,
     localRulestackName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

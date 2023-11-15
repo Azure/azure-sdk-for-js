@@ -42,15 +42,12 @@ async function localRulestacksListAppIdsMaximumSetGen() {
   };
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.localRulestacks.listAppIds(
+  const result = await client.localRulestacks.listAppIds(
     resourceGroupName,
     localRulestackName,
     options
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 /**
@@ -68,14 +65,11 @@ async function localRulestacksListAppIdsMinimumSetGen() {
   const localRulestackName = "lrs1";
   const credential = new DefaultAzureCredential();
   const client = new PaloAltoNetworksCloudngfw(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.localRulestacks.listAppIds(
+  const result = await client.localRulestacks.listAppIds(
     resourceGroupName,
     localRulestackName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
 async function main() {

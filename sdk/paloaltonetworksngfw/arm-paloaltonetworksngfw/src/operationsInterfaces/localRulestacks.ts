@@ -12,11 +12,6 @@ import {
   LocalRulestackResource,
   LocalRulestacksListBySubscriptionOptionalParams,
   LocalRulestacksListByResourceGroupOptionalParams,
-  LocalRulestacksListAppIdsOptionalParams,
-  Country,
-  LocalRulestacksListCountriesOptionalParams,
-  PredefinedUrlCategory,
-  LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
   LocalRulestacksGetOptionalParams,
   LocalRulestacksGetResponse,
   LocalRulestacksCreateOrUpdateOptionalParams,
@@ -33,8 +28,14 @@ import {
   AdvSecurityObjectTypeEnum,
   LocalRulestacksListAdvancedSecurityObjectsOptionalParams,
   LocalRulestacksListAdvancedSecurityObjectsResponse,
+  LocalRulestacksListAppIdsOptionalParams,
+  LocalRulestacksListAppIdsResponse,
+  LocalRulestacksListCountriesOptionalParams,
+  LocalRulestacksListCountriesResponse,
   LocalRulestacksListFirewallsOptionalParams,
   LocalRulestacksListFirewallsResponse,
+  LocalRulestacksListPredefinedUrlCategoriesOptionalParams,
+  LocalRulestacksListPredefinedUrlCategoriesResponse,
   SecurityServicesTypeEnum,
   LocalRulestacksListSecurityServicesOptionalParams,
   LocalRulestacksListSecurityServicesResponse,
@@ -60,39 +61,6 @@ export interface LocalRulestacks {
     resourceGroupName: string,
     options?: LocalRulestacksListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<LocalRulestackResource>;
-  /**
-   * List of AppIds for LocalRulestack ApiVersion
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param localRulestackName LocalRulestack resource name
-   * @param options The options parameters.
-   */
-  listAppIds(
-    resourceGroupName: string,
-    localRulestackName: string,
-    options?: LocalRulestacksListAppIdsOptionalParams
-  ): PagedAsyncIterableIterator<string>;
-  /**
-   * List of countries for Rulestack
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param localRulestackName LocalRulestack resource name
-   * @param options The options parameters.
-   */
-  listCountries(
-    resourceGroupName: string,
-    localRulestackName: string,
-    options?: LocalRulestacksListCountriesOptionalParams
-  ): PagedAsyncIterableIterator<Country>;
-  /**
-   * List predefined URL categories for rulestack
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param localRulestackName LocalRulestack resource name
-   * @param options The options parameters.
-   */
-  listPredefinedUrlCategories(
-    resourceGroupName: string,
-    localRulestackName: string,
-    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
-  ): PagedAsyncIterableIterator<PredefinedUrlCategory>;
   /**
    * Get a LocalRulestackResource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -228,6 +196,28 @@ export interface LocalRulestacks {
     options?: LocalRulestacksListAdvancedSecurityObjectsOptionalParams
   ): Promise<LocalRulestacksListAdvancedSecurityObjectsResponse>;
   /**
+   * List of AppIds for LocalRulestack ApiVersion
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  listAppIds(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListAppIdsOptionalParams
+  ): Promise<LocalRulestacksListAppIdsResponse>;
+  /**
+   * List of countries for Rulestack
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  listCountries(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListCountriesOptionalParams
+  ): Promise<LocalRulestacksListCountriesResponse>;
+  /**
    * List of Firewalls associated with Rulestack
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param localRulestackName LocalRulestack resource name
@@ -238,6 +228,17 @@ export interface LocalRulestacks {
     localRulestackName: string,
     options?: LocalRulestacksListFirewallsOptionalParams
   ): Promise<LocalRulestacksListFirewallsResponse>;
+  /**
+   * List predefined URL categories for rulestack
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param localRulestackName LocalRulestack resource name
+   * @param options The options parameters.
+   */
+  listPredefinedUrlCategories(
+    resourceGroupName: string,
+    localRulestackName: string,
+    options?: LocalRulestacksListPredefinedUrlCategoriesOptionalParams
+  ): Promise<LocalRulestacksListPredefinedUrlCategoriesResponse>;
   /**
    * List the security services for rulestack
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
