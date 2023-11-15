@@ -13,17 +13,17 @@ import {
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
- * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
+ * @param connectionString - The connectionString or url of your Communication Services resource.
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  connectionStringOrUrl: string,
+  connectionString: string,
   options: ClientOptions
 ): AzureCommunicationRoutingServiceClient;
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
- * @param endpoint - The endpoint of the Communication Services resource.
+ * @param endpoint - The endpoint of your Communication Services resource.
  * @param credentialOrOptions The key or token credential.
  * @param options - the parameter for all optional parameters
  */

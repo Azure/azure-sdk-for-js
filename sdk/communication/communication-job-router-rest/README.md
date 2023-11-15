@@ -8,6 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/communication-job-router)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/samples)
 
 ## Getting started
 
