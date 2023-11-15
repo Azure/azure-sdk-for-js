@@ -7,9 +7,9 @@ import {
   AssistantModificationOptions,
   AssistantThreadCreationOptions,
   AssistantTool,
-  AssistantThreadRunToolOutput,
+  RunToolOutput,
   AssistantThreadCreateAndRunOptions,
-} from "./models";
+} from "./models.js";
 
 export interface CreateAssistantBodyParam {
   body?: AssistantCreationOptions;
@@ -181,7 +181,7 @@ export interface ModifyRunBodyParam {
 export type ModifyRunParameters = ModifyRunBodyParam & RequestParameters;
 
 export interface SubmitRunToolOutputsBodyParam {
-  body?: { tool_outputs: Array<AssistantThreadRunToolOutput> };
+  body?: { tool_outputs: Array<RunToolOutput> };
 }
 
 export type SubmitRunToolOutputsParameters = SubmitRunToolOutputsBodyParam &
@@ -212,3 +212,34 @@ export interface ListRunStepsQueryParam {
 }
 
 export type ListRunStepsParameters = ListRunStepsQueryParam & RequestParameters;
+
+export interface ListFilesQueryParamProperties {
+  /**
+   * Limits files in the response to those with the specified purpose.
+   *
+   * Possible values: fine-tune, fine-tune-results, assistants, assistants_output
+   */
+  purpose?: string;
+}
+
+export interface ListFilesQueryParam {
+  queryParameters?: ListFilesQueryParamProperties;
+}
+
+export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
+
+export interface UploadFileBodyParam {
+  body?: { file: string; purpose: string; filename?: string };
+}
+
+export interface UploadFileMediaTypesParam {
+  /** The content-type header for this multipart request. */
+  contentType: "multipart/form-data";
+}
+
+export type UploadFileParameters = UploadFileMediaTypesParam &
+  UploadFileBodyParam &
+  RequestParameters;
+export type DeleteFileParameters = RequestParameters;
+export type RetrieveFileParameters = RequestParameters;
+export type RetrieveFileContentParameters = RequestParameters;

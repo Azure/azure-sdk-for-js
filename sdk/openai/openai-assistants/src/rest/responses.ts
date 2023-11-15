@@ -4,17 +4,20 @@
 import { HttpResponse } from "@azure-rest/core-client";
 import {
   AssistantOutput,
-  OpenAIListResponseOfOutput,
+  ListResponseOfOutput,
   AssistantDeletionStatusOutput,
   AssistantFileOutput,
   AssistantFileDeletionStatusOutput,
   AssistantThreadOutput,
   AssistantThreadDeletionStatusOutput,
-  AssistantThreadMessageOutput,
-  AssistantThreadMessageFileOutput,
-  AssistantThreadRunOutput,
-  AssistantThreadRunStepOutput,
-} from "./outputModels";
+  AssistantMessageOutput,
+  AssistantMessageFileOutput,
+  AssistantRunOutput,
+  RunStepOutput,
+  FileListResponseOutput,
+  FileOutput,
+  FileDeletionStatusOutput,
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface CreateAssistant200Response extends HttpResponse {
@@ -25,7 +28,7 @@ export interface CreateAssistant200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListAssistants200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
@@ -55,7 +58,7 @@ export interface CreateAssistantFile200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListAssistantFiles200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
@@ -97,89 +100,119 @@ export interface DeleteThread200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface CreateThreadMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadMessageOutput;
+  body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
 export interface ListThreadMessages200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
 export interface RetrieveThreadMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadMessageOutput;
+  body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
 export interface ModifyThreadMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadMessageOutput;
+  body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
 export interface ListThreadMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
 export interface RetrieveThreadMessageFile200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadMessageFileOutput;
+  body: AssistantMessageFileOutput;
 }
 
 /** The request has succeeded. */
 export interface CreateRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface ListRuns200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
 export interface RetrieveRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface ModifyRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface SubmitRunToolOutputs200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface CancelRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface CreateThreadAndRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunOutput;
+  body: AssistantRunOutput;
 }
 
 /** The request has succeeded. */
 export interface RetrieveRunStep200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadRunStepOutput;
+  body: RunStepOutput;
 }
 
 /** The request has succeeded. */
 export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
-  body: OpenAIListResponseOfOutput;
+  body: ListResponseOfOutput;
+}
+
+/** The request has succeeded. */
+export interface ListFiles200Response extends HttpResponse {
+  status: "200";
+  body: FileListResponseOutput;
+}
+
+/** The request has succeeded. */
+export interface UploadFile200Response extends HttpResponse {
+  status: "200";
+  body: FileOutput;
+}
+
+/** The request has succeeded. */
+export interface DeleteFile200Response extends HttpResponse {
+  status: "200";
+  body: FileDeletionStatusOutput;
+}
+
+/** The request has succeeded. */
+export interface RetrieveFile200Response extends HttpResponse {
+  status: "200";
+  body: FileOutput;
+}
+
+/** The request has succeeded. */
+export interface RetrieveFileContent200Response extends HttpResponse {
+  status: "200";
+  body: string;
 }

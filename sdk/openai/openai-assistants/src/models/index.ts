@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 export {
-  AssistantsClient,
-  AssistantsClientOptions,
-} from "./AssistantsClient.js";
-export {
   AssistantCreationOptions,
   AssistantTool,
   Assistant,
@@ -48,6 +44,8 @@ export {
   FileListResponse,
   File,
   FileDeletionStatus,
+} from "./models.js";
+export {
   CreateAssistantOptions,
   ListAssistantsOptions,
   RetrieveAssistantOptions,
@@ -81,4 +79,4 @@ export {
   DeleteFileOptions,
   RetrieveFileOptions,
   RetrieveFileContentOptions,
-} from "./models/index.js";
+} from "./options.js";

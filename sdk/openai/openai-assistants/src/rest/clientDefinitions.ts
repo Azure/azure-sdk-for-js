@@ -30,7 +30,12 @@ import {
   CreateThreadAndRunParameters,
   RetrieveRunStepParameters,
   ListRunStepsParameters,
-} from "./parameters";
+  ListFilesParameters,
+  UploadFileParameters,
+  DeleteFileParameters,
+  RetrieveFileParameters,
+  RetrieveFileContentParameters,
+} from "./parameters.js";
 import {
   CreateAssistant200Response,
   ListAssistants200Response,
@@ -60,7 +65,12 @@ import {
   CreateThreadAndRun200Response,
   RetrieveRunStep200Response,
   ListRunSteps200Response,
-} from "./responses";
+  ListFiles200Response,
+  UploadFile200Response,
+  DeleteFile200Response,
+  RetrieveFile200Response,
+  RetrieveFileContent200Response,
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface CreateAssistant {
@@ -218,6 +228,31 @@ export interface ListRunSteps {
   ): StreamableMethod<ListRunSteps200Response>;
 }
 
+export interface ListFiles {
+  /** Returns a list of files that belong to the user's organization. */
+  get(options?: ListFilesParameters): StreamableMethod<ListFiles200Response>;
+  /** Upload a file that can be used across various endpoints. */
+  post(options: UploadFileParameters): StreamableMethod<UploadFile200Response>;
+}
+
+export interface DeleteFile {
+  /** Delete a previously uploaded file. */
+  delete(
+    options?: DeleteFileParameters
+  ): StreamableMethod<DeleteFile200Response>;
+  /** Returns information about a specific file. Does not retrieve file content. */
+  get(
+    options?: RetrieveFileParameters
+  ): StreamableMethod<RetrieveFile200Response>;
+}
+
+export interface RetrieveFileContent {
+  /** Returns the contents of a specified file. */
+  get(
+    options?: RetrieveFileContentParameters
+  ): StreamableMethod<RetrieveFileContent200Response>;
+}
+
 export interface Routes {
   /** Resource for '/assistants' has methods for the following verbs: post, get */
   (path: "/assistants"): CreateAssistant;
@@ -294,8 +329,14 @@ export interface Routes {
     threadId: string,
     runId: string
   ): ListRunSteps;
+  /** Resource for '/files' has methods for the following verbs: get, post */
+  (path: "/files"): ListFiles;
+  /** Resource for '/files/\{fileId\}' has methods for the following verbs: delete, get */
+  (path: "/files/{fileId}", fileId: string): DeleteFile;
+  /** Resource for '/files/\{fileId\}/content' has methods for the following verbs: get */
+  (path: "/files/{fileId}/content", fileId: string): RetrieveFileContent;
 }
 
-export type AssistantsClient = Client & {
+export type AssistantsContext = Client & {
   path: Routes;
 };
