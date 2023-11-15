@@ -20,9 +20,9 @@ import {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
-  SendToGroupOptionsFireAndForget,
+  SendToGroupFireAndForgetOptions,
   SendToGroupOptions,
-  SendEventOptionsFireAndForget,
+  SendEventFireAndForgetOptions,
   SendEventOptions,
 } from "./models";
 import {
@@ -53,8 +53,8 @@ enum WebPubSubClientState {
   Recovering = "Recovering",
 }
 
-type SendToGroupOptionsInternal = SendToGroupOptions | SendToGroupOptionsFireAndForget;
-type SendEventOptionsInternal = SendEventOptions | SendEventOptionsFireAndForget;
+type SendToGroupOptionsInternal = SendToGroupOptions | SendToGroupFireAndForgetOptions;
+type SendEventOptionsInternal = SendEventOptions | SendEventFireAndForgetOptions;
 
 /**
  * Types which can be serialized and sent as JSON.
@@ -348,7 +348,7 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options: SendEventOptionsFireAndForget
+    options: SendEventFireAndForgetOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<void>;
   /**
    * Send custom event to server with ack
@@ -500,7 +500,7 @@ export class WebPubSubClient {
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options: SendToGroupOptionsFireAndForget
+    options: SendToGroupFireAndForgetOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ): Promise<void>;
   /**
    * Send message to group with ack.

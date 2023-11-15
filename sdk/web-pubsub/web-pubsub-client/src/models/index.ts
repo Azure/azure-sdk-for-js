@@ -104,7 +104,7 @@ export interface LeaveGroupOptions {
 /**
  * Send to group operation options for fire-and-forget
  */
-export interface SendToGroupOptionsFireAndForget {
+export interface SendToGroupFireAndForgetOptions {
   /**
    * Whether the message needs to echo to sender
    */
@@ -144,7 +144,7 @@ export interface SendToGroupOptions {
 /**
  * Send event operation options for fire-and-forget
  */
-export interface SendEventOptionsFireAndForget {
+export interface SendEventFireAndForgetOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
