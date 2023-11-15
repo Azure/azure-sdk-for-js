@@ -1,68 +1,138 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { ImportDeclaration } from "ts-morph";
+import { ImportDeclaration, ImportSpecifier, SourceFile, ts } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
-  customImports: ImportDeclaration[]
+  customImports: ImportDeclaration[],
+  originalFile: SourceFile
 ) {
-  const { customDir, originalDir } = getCustomizationState();
-  const importMap: Map<string, ImportDeclaration> = new Map();
+  const importRemoveCallbackMap: Map<string, ImportDeclaration | ImportSpecifier> = new Map(
+    Array.from(originalImports.values()).flatMap((importDecl) => {
+      const namedImports = importDecl.getNamedImports();
+      const defaultImport = importDecl.getDefaultImport();
+      const namespaceImport = importDecl.getNamespaceImport();
+      const map: Array<[string, ImportDeclaration | ImportSpecifier]> = namedImports.map(
+        (importSpecifier) => [importSpecifier.getNameNode().getText(), importSpecifier]
+      );
+      if (defaultImport) {
+        map.push([defaultImport.getText(), importDecl]);
+      }
+      if (namespaceImport) {
+        map.push([namespaceImport.getText(), importDecl]);
+      }
+      return map;
+    })
+  );
 
-  for (const [, value] of originalImports) {
-    const module = value.getModuleSpecifier().getText();
-    importMap.set(module, value);
+  const { customDir, originalDir } = getCustomizationState();
+  const importMap = new Map<string, ImportDeclaration>();
+  for (const [moduleSpecifier, importDecl] of originalImports) {
+    importMap.set(moduleSpecifier, importDecl);
   }
 
-  for (const customImport of customImports) {
-    const module = customImport.getModuleSpecifier().getText();
+  // remove identifiers from original if they're present in custom
 
-    if (isPathMovingToOriginal(originalDir, customDir, module)) {
-      continue;
+  const identifiers = customImports.flatMap((customImportDecl) => {
+    return customImportDecl.getDescendantsOfKind(ts.SyntaxKind.Identifier);
+  });
+
+  identifiers.forEach((identifier) => {
+    const identifierText = identifier.getText();
+
+    const importNode = importRemoveCallbackMap.get(identifierText);
+    if (!importNode) {
+      return;
     }
 
-    const existingImport = importMap.get(module);
+    const isSoleNamedImport =
+      importNode.isKind(ts.SyntaxKind.ImportSpecifier) &&
+      importNode.getImportDeclaration().getNamedImports().length === 1;
 
-    if (!existingImport) {
-      importMap.set(module, customImport);
-      continue;
+    const removeNode = isSoleNamedImport ? importNode.getImportDeclaration() : importNode;
+
+    if (removeNode.isKind(ts.SyntaxKind.ImportDeclaration)) {
+      importMap.delete(removeNode.getModuleSpecifierValue());
     }
 
-    if (isPathMovingToOriginal(originalDir, customDir, module)) {
-      continue;
-    }
+    removeNode.remove();
+    importRemoveCallbackMap.delete(identifierText);
+  });
 
-    if (!existingImport.getDefaultImport()) {
-      existingImport.setDefaultImport(customImport.getDefaultImport()?.getText() ?? "");
-    }
-
-    const existingNamedImports = existingImport.getNamedImports();
-
-    for (const namedImport of customImport.getNamedImports()) {
-      if (!existingNamedImports.find((x) => x.getName() === namedImport.getName())) {
-        existingImport.addNamedImport(namedImport.getStructure());
-      }
+  for (const customImportDecl of customImports) {
+    const newModuleSpecifier =
+      getOriginalModuleSpecifier(
+        originalDir,
+        customDir,
+        customImportDecl.getSourceFile().getFilePath(),
+        customImportDecl.getModuleSpecifierValue()
+      ) ?? customImportDecl.getModuleSpecifierValue();
+    const originalImportDecl = importMap.get(newModuleSpecifier);
+    if (originalImportDecl) {
+      augmentImportDeclaration(originalImportDecl, customImportDecl);
+    } else {
+      const importStructure = customImportDecl.getStructure();
+      importStructure.moduleSpecifier = newModuleSpecifier;
+      originalFile.addImportDeclaration(importStructure);
     }
   }
 }
 
-export function isPathMovingToOriginal(
-  originalPath: string,
-  currentFile: string,
-  resolvePath: string
-) {
-  // Check if resolvePath is traversing directories upwards
-  if (!resolvePath.startsWith("../") && !resolvePath.startsWith('"../')) {
-    return false;
+function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDeclaration) {
+  const customDefaultImport = custom.getDefaultImport();
+  if (customDefaultImport) {
+    original.setDefaultImport(customDefaultImport.getText());
   }
 
-  // Resolve the path from the current file's directory
-  const currentFileDir = path.dirname(currentFile);
-  const resolvedPath = path.resolve(currentFileDir, resolvePath);
+  const customNamedImports = custom.getNamedImports();
+  if (customNamedImports.length) {
+    original.insertNamedImports(
+      0,
+      customNamedImports.map((specifier) => {
+        return specifier.getStructure();
+      })
+    );
+  }
 
-  // Check if the resolved path is within the original path root
-  return resolvedPath.startsWith(originalPath);
+  const customNamespaceImport = custom.getNamespaceImport();
+  if (customNamespaceImport) {
+    original.setNamespaceImport(customNamespaceImport?.getText());
+  }
+}
+
+/**
+ * Given a source file at {@link customFilePath} which imports {@link originalModuleSpecifier}
+ * from a subdirectory of {@link originalPath}, returns the relative path between the output
+ * file and the output module.
+ */
+function getOriginalModuleSpecifier(
+  originalPath: string,
+  customPath: string,
+  customFilePath: string,
+  originalModuleSpecifier: string
+): string | undefined {
+  // Check that this custom file import is local, but not in the same directory (or subdirs) as the file
+  if (!originalModuleSpecifier.startsWith("../") && !originalModuleSpecifier.startsWith('"../')) {
+    return undefined;
+  }
+
+  const currentFileDir = path.dirname(customFilePath);
+  const moduleAbsolutePath = path.resolve(currentFileDir, originalModuleSpecifier);
+
+  const moduleRelativePath = path.relative(originalPath, moduleAbsolutePath);
+  const outputFileRelativePath = path.relative(customPath, currentFileDir);
+
+  const outputModuleSpecifier = path.relative(outputFileRelativePath, moduleRelativePath);
+
+  // Check if the module is actually contained in the original directory
+  if (!moduleRelativePath.startsWith("..") && !path.isAbsolute(moduleRelativePath)) {
+    if (outputModuleSpecifier.startsWith(".")) {
+      return outputModuleSpecifier;
+    } else {
+      return "./" + outputModuleSpecifier;
+    }
+  }
 }
