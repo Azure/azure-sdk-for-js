@@ -25,3 +25,20 @@ export interface QuickpulseExporterOptions {
 
   getDocumentsFn: () => DocumentIngress[];
 }
+
+export enum QuickPulseMetricNames {
+  // Memory
+  COMMITTED_BYTES = "\\Memory\\Committed_Bytes",
+  // CPU
+  PROCESSOR_TIME = "\\Processor(_Total)\\%_Processor_Time",
+  // Request
+  REQUEST_RATE = "\\ApplicationInsights\\Requests/Sec",
+  REQUEST_FAILURE_RATE = "\\ApplicationInsights\\Requests_Failed/Sec",
+  REQUEST_DURATION = "\\ApplicationInsights\\Request_Duration",
+  // Dependency
+  DEPENDENCY_RATE = "\\ApplicationInsights\\Dependency_Calls/Sec",
+  DEPENDENCY_FAILURE_RATE = "\\ApplicationInsights\\Dependency_Calls_Failed/Sec",
+  DEPENDENCY_DURATION = "\\ApplicationInsights\\Dependency_Call_Duration",
+  // Exception
+  EXCEPTION_RATE = "\\ApplicationInsights\\Exceptions/Sec",
+}

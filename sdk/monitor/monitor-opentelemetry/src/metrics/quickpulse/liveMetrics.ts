@@ -15,6 +15,7 @@ import {
   ObservableResult,
   SpanKind,
   ValueType,
+  context,
 } from "@opentelemetry/api";
 import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
@@ -41,8 +42,8 @@ import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickpulseExporterOptions } from "./types";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { QuickPulseMetricNames, QuickpulseExporterOptions } from "./types";
+import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -91,10 +92,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
+      model: string;
+      speed: number;
+      times: { user: number; nice: number; sys: number; idle: number; irq: number };
+    }[]
     | undefined;
 
   /**
@@ -152,8 +153,10 @@ export class LiveMetrics {
           xMsQpsTransmissionTime: Date.now(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
-        let response = await this.pingSender.ping(params);
-        this.quickPulseDone(response);
+        await context.with(suppressTracing(context.active()), async () => {
+          let response = await this.pingSender.ping(params);
+          this.quickPulseDone(response);
+        });
       } catch (error) {
         this.quickPulseDone(undefined);
       }
@@ -234,55 +237,55 @@ export class LiveMetrics {
     this.meter = this.meterProvider.getMeter("AzureMonitorLiveMetricsMeter");
 
     this.requestDurationHistogram = this.meter.createHistogram(
-      "\\ApplicationInsights\\Request Duration",
+      QuickPulseMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
       }
     );
     this.dependencyDurationHistogram = this.meter.createHistogram(
-      "\\ApplicationInsights\\Dependency Call Duration",
+      QuickPulseMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
       }
     );
 
-    this.requestRateGauge = this.meter.createObservableGauge(
-      "\\ApplicationInsights\\Requests/Sec",
-      {
-        valueType: ValueType.DOUBLE,
-      }
-    );
+    this.requestRateGauge = this.meter.createObservableGauge(QuickPulseMetricNames.REQUEST_RATE, {
+      valueType: ValueType.DOUBLE,
+    });
     this.requestFailedRateGauge = this.meter.createObservableGauge(
-      "\\ApplicationInsights\\Requests Failed/Sec",
+      QuickPulseMetricNames.REQUEST_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
       }
     );
     this.dependencyRateGauge = this.meter.createObservableGauge(
-      "\\ApplicationInsights\\Dependency Calls/Sec",
+      QuickPulseMetricNames.DEPENDENCY_RATE,
       {
         valueType: ValueType.DOUBLE,
       }
     );
     this.dependencyFailedRateGauge = this.meter.createObservableGauge(
-      "\\ApplicationInsights\\Dependency Calls Failed/Sec",
+      QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
       }
     );
 
-    this.memoryCommitedGauge = this.meter.createObservableGauge("\\Memory\\Committed Bytes", {
-      valueType: ValueType.INT,
-    });
+    this.memoryCommitedGauge = this.meter.createObservableGauge(
+      QuickPulseMetricNames.COMMITTED_BYTES,
+      {
+        valueType: ValueType.INT,
+      }
+    );
 
     this.processorTimeGauge = this.meter.createObservableGauge(
-      "\\Processor(_Total)\\% Processor Time",
+      QuickPulseMetricNames.PROCESSOR_TIME,
       {
         valueType: ValueType.DOUBLE,
       }
     );
     this.exceptionsRateGauge = this.meter.createObservableGauge(
-      "\\ApplicationInsights\\Exceptions/Sec",
+      QuickPulseMetricNames.EXCEPTION_RATE,
       {
         valueType: ValueType.DOUBLE,
       }

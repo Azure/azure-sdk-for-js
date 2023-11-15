@@ -115,7 +115,8 @@ export function resourceMetricsToQuickpulseDataPoint(
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
-          name: metric.descriptor.name,
+          // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
+          name: metric.descriptor.name.replace("_", " "),
           weight: 1,
         };
         if (
