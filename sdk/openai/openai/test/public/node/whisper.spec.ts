@@ -6,14 +6,10 @@ import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
-import { createReadStream } from "fs";
 import { readFile } from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
 import { assertAudioResult } from "../utils/asserts.js";
-
-function getModel(authMethod: AuthMethod): string {
-  return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
-}
+import { getModel, stretchWAV } from "./util.js";
 
 describe("OpenAI", function () {
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
@@ -86,11 +82,12 @@ describe("OpenAI", function () {
         } else if (mem - curMem > 1) {
           assert.fail(`Memory usage increased by ${mem - curMem} MB`);
         }
-      }, 1000);
-      const buildStream = (): NodeJS.ReadableStream =>
-        createReadStream(`./assets/audio/1OMB_MP3.mp3`);
+      }, 100);
+      const file = await readFile(`./assets/audio/countdown.wav`);
       try {
-        const res = await client.getAudioTranscription(getModel(authMethod), buildStream);
+        const res = await client.getAudioTranscription(getModel(authMethod), () =>
+          stretchWAV(file, 10)
+        );
         assertAudioResult("json", res);
       } finally {
         clearInterval(timer);
