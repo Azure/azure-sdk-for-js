@@ -3,7 +3,13 @@
 
 import * as dotenv from "dotenv";
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  env,
+  isPlaybackMode,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 import { Context, Test } from "mocha";

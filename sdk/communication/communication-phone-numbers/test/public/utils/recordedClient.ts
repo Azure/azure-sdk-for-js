@@ -126,7 +126,11 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({ additionalPolicies: policies }));
+  const client = new PhoneNumbersClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({ additionalPolicies: policies })
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
