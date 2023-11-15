@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
+      "RequestUri": "https://nostojic-acs-sdk-tests.unitedstates.communication.azure.com/sip:verifyDomainOwnership?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,34 +9,34 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "64",
+        "Content-Length": "56",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "QC4qCWePxG9L2OHRVY3h1Fob2zL02Jsesis2fftC9dE=",
-        "x-ms-useragent": "azsdk-js-communication-domain-verification/1.0.0-alpha.20230310.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-content-sha256": "yilelx6g2DlPJILTPntektQ4pHTMYPbG0mdoZTtHlzg=",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
-        "domain": "domain-1-2022-09-01.skype.net",
+        "domain": "nostojic.test.sbc.com",
         "challengeType": "TXT"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Length": "24",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 07 Mar 2023 21:32:03 GMT",
-        "MS-CV": "ryYY3X19p0mHio6KPIK7cw.0",
+        "Date": "Wed, 15 Nov 2023 23:02:20 GMT",
+        "MS-CV": "Z4ofSD2hnUaGsTIhvcu4yQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Uq0HZAAAAAAYkFdiC6mISImVtSrZX9XMUFJHMDFFREdFMDkwNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0\u002B01VZQAAAAAijrJS6/b8QL6dwfOLmAwPUFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "280ms"
+        "X-Processing-Time": "1209ms"
       },
       "ResponseBody": {
         "status": "NotVerified"

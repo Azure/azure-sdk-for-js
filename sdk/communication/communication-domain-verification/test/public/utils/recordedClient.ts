@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 import { Context, Test } from "mocha";
@@ -94,7 +94,7 @@ export async function createRecordedClientWithToken(
   const policies = getAdditionalPolicies(mockedAPI);
 
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
   ).endpoint;
 
   if (isPlaybackMode()) {
