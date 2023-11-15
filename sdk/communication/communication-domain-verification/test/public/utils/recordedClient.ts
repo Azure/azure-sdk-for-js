@@ -10,6 +10,8 @@ import { Context, Test } from "mocha";
 import { isNode } from "@azure/test-utils";
 import { DomainVerificationClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config({ path: __dirname });
@@ -68,24 +70,28 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   return {
     client: new DomainVerificationClient(
       env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({ additionalPolicies: policies })
     ),
     recorder,
   };
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
   let credential: TokenCredential;
+  const policies = getAdditionalPolicies(mockedAPI);
 
   const endpoint = parseConnectionString(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
@@ -100,8 +106,19 @@ export async function createRecordedClientWithToken(
   const client = new DomainVerificationClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   return { client, recorder };
+}
+
+export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
+  const additionalPolicies: AdditionalPolicyConfig[] = [
+    {
+      policy: createMSUserAgentPolicy(mockedApi),
+      position: "perRetry",
+    },
+  ];
+
+  return additionalPolicies;
 }

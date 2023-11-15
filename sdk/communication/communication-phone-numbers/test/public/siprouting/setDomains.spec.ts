@@ -38,8 +38,8 @@ matrix([[true, false]], async function (useAad) {
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(this, true)
+        : await createRecordedClient(this, true));
       domain1 = getUniqueDomain(recorder);
       domain9 = getUniqueDomain(recorder);
       domain10 = getUniqueDomain(recorder);

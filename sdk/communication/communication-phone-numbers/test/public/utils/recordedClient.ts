@@ -16,6 +16,8 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config();
@@ -83,13 +85,15 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({ additionalPolicies: policies })
   );
 
   // casting is a workaround to enable min-max testing
@@ -105,9 +109,11 @@ export function createMockToken(): TokenCredential {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
+  mockedAPI: boolean = false
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
+  const policies = getAdditionalPolicies(mockedAPI);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
@@ -120,7 +126,7 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new PhoneNumbersClient(endpoint, credential, recorder.configureClientOptions({ additionalPolicies: policies }));
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -129,3 +135,14 @@ export async function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined,
 };
+
+export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
+  const additionalPolicies: AdditionalPolicyConfig[] = [
+    {
+      policy: createMSUserAgentPolicy(mockedApi),
+      position: "perRetry",
+    },
+  ];
+
+  return additionalPolicies;
+}

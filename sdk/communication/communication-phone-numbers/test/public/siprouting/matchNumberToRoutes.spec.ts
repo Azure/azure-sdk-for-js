@@ -24,8 +24,8 @@ matrix([[false, true]], async function (useAad) {
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(this, true)
+        : await createRecordedClient(this, true));
 
       resetUniqueFqdns();
       trunkUs = getUniqueFqdn(recorder);

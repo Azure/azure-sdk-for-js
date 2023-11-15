@@ -34,8 +34,8 @@ matrix([[true, false]], async function (useAad) {
 
     beforeEach(async function (this: Context) {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(this, true)
+        : await createRecordedClient(this, true));
       firstFqdn = getUniqueFqdn(recorder);
       secondFqdn = getUniqueFqdn(recorder);
     });
