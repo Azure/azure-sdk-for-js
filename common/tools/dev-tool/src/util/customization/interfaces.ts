@@ -101,8 +101,8 @@ function findCallSignature(
 ): CallSignatureDeclaration | undefined {
   function typeEquals(a: Type, b: Type) {
     // Need to handle cases where the type is imported
-    const aStr = a?.getText()?.replace(/import\(\".+\"\)\./, "");
-    const bStr = b?.getText()?.replace(/import\(\".+\"\)\./, "");
+    const aStr = a?.getText()?.replace(/import\(".+"\)\./, "");
+    const bStr = b?.getText()?.replace(/import\(".+"\)\./, "");
     return aStr && bStr && aStr === bStr;
   }
   return interfaceDeclaration.getCallSignature((signature) => {
