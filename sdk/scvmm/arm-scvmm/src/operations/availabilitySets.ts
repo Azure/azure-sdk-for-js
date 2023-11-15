@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AvailabilitySet,
   AvailabilitySetsListByResourceGroupNextOptionalParams,
@@ -28,6 +32,7 @@ import {
   AvailabilitySetsCreateOrUpdateOptionalParams,
   AvailabilitySetsCreateOrUpdateResponse,
   AvailabilitySetsDeleteOptionalParams,
+  AvailabilitySetsDeleteResponse,
   ResourcePatch,
   AvailabilitySetsUpdateOptionalParams,
   AvailabilitySetsUpdateResponse,
@@ -50,7 +55,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * List of AvailabilitySets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -173,36 +178,36 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Implements AvailabilitySet GET method.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     options?: AvailabilitySetsGetOptionalParams
   ): Promise<AvailabilitySetsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, availabilitySetName, options },
+      { resourceGroupName, availabilitySetResourceName, options },
       getOperationSpec
     );
   }
 
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>,
       AvailabilitySetsCreateOrUpdateResponse
     >
   > {
@@ -212,7 +217,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     ): Promise<AvailabilitySetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +250,18 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsCreateOrUpdateResponse,
+      OperationState<AvailabilitySetsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -261,20 +269,20 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Onboards the ScVmm availability set as an Azure resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body Request payload.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: AvailabilitySet,
     options?: AvailabilitySetsCreateOrUpdateOptionalParams
   ): Promise<AvailabilitySetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
-      availabilitySetName,
+      availabilitySetResourceName,
       body,
       options
     );
@@ -283,22 +291,27 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AvailabilitySetsDeleteResponse>,
+      AvailabilitySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AvailabilitySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,13 +344,16 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsDeleteResponse,
+      OperationState<AvailabilitySetsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -346,18 +362,18 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Deregisters the ScVmm availability set from Azure.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     options?: AvailabilitySetsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AvailabilitySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
-      availabilitySetName,
+      availabilitySetResourceName,
       options
     );
     return poller.pollUntilDone();
@@ -365,19 +381,19 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   async beginUpdate(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
     options?: AvailabilitySetsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AvailabilitySetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AvailabilitySetsUpdateResponse>,
       AvailabilitySetsUpdateResponse
     >
   > {
@@ -387,7 +403,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
     ): Promise<AvailabilitySetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -420,15 +436,18 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, availabilitySetName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, availabilitySetResourceName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AvailabilitySetsUpdateResponse,
+      OperationState<AvailabilitySetsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -436,20 +455,20 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * Updates the AvailabilitySets resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param availabilitySetName Name of the AvailabilitySet.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param availabilitySetResourceName Name of the AvailabilitySet.
    * @param body AvailabilitySets patch payload.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
     resourceGroupName: string,
-    availabilitySetName: string,
+    availabilitySetResourceName: string,
     body: ResourcePatch,
     options?: AvailabilitySetsUpdateOptionalParams
   ): Promise<AvailabilitySetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
-      availabilitySetName,
+      availabilitySetResourceName,
       body,
       options
     );
@@ -458,7 +477,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * List of AvailabilitySets in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -486,7 +505,7 @@ export class AvailabilitySetsImpl implements AvailabilitySets {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -521,7 +540,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -536,14 +555,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -562,13 +581,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.body5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -576,13 +595,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AvailabilitySetsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -592,14 +619,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/availabilitySets/{availabilitySetResourceName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -624,7 +651,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.availabilitySetName
+    Parameters.availabilitySetResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

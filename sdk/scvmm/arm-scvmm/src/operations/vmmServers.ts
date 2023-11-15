@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { Scvmm } from "../scvmm";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VMMServer,
   VmmServersListByResourceGroupNextOptionalParams,
@@ -28,6 +32,7 @@ import {
   VmmServersCreateOrUpdateOptionalParams,
   VmmServersCreateOrUpdateResponse,
   VmmServersDeleteOptionalParams,
+  VmmServersDeleteResponse,
   ResourcePatch,
   VmmServersUpdateOptionalParams,
   VmmServersUpdateResponse,
@@ -50,7 +55,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * List of VmmServers in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -173,7 +178,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * Implements VMMServer GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -190,7 +195,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body Request payload.
    * @param options The options parameters.
@@ -201,8 +206,8 @@ export class VmmServersImpl implements VmmServers {
     body: VMMServer,
     options?: VmmServersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersCreateOrUpdateResponse>,
       VmmServersCreateOrUpdateResponse
     >
   > {
@@ -212,7 +217,7 @@ export class VmmServersImpl implements VmmServers {
     ): Promise<VmmServersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -245,15 +250,18 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, body, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, body, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VmmServersCreateOrUpdateResponse,
+      OperationState<VmmServersCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -261,7 +269,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body Request payload.
    * @param options The options parameters.
@@ -282,8 +290,8 @@ export class VmmServersImpl implements VmmServers {
   }
 
   /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * Removes the SCVMM fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -291,14 +299,19 @@ export class VmmServersImpl implements VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VmmServersDeleteResponse>,
+      VmmServersDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<VmmServersDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -331,23 +344,26 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VmmServersDeleteResponse,
+      OperationState<VmmServersDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * Removes the SCVMM fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -355,7 +371,7 @@ export class VmmServersImpl implements VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<VmmServersDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       vmmServerName,
@@ -366,7 +382,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body VmmServers patch payload.
    * @param options The options parameters.
@@ -377,8 +393,8 @@ export class VmmServersImpl implements VmmServers {
     body: ResourcePatch,
     options?: VmmServersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersUpdateResponse>,
       VmmServersUpdateResponse
     >
   > {
@@ -388,7 +404,7 @@ export class VmmServersImpl implements VmmServers {
     ): Promise<VmmServersUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -421,15 +437,18 @@ export class VmmServersImpl implements VmmServers {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, vmmServerName, body, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmmServerName, body, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VmmServersUpdateResponse,
+      OperationState<VmmServersUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -437,7 +456,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body VmmServers patch payload.
    * @param options The options parameters.
@@ -459,7 +478,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * List of VmmServers in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -487,7 +506,7 @@ export class VmmServersImpl implements VmmServers {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */
@@ -580,10 +599,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.VmmServersDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.VmmServersDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.VmmServersDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.VmmServersDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

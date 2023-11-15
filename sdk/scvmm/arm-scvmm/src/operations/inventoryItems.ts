@@ -41,7 +41,7 @@ export class InventoryItemsImpl implements InventoryItems {
 
   /**
    * Returns the list of inventoryItems in the given VMMServer.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -125,64 +125,64 @@ export class InventoryItemsImpl implements InventoryItems {
 
   /**
    * Create Or Update InventoryItem.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
+   * @param inventoryItemResourceName Name of the inventoryItem.
    * @param options The options parameters.
    */
   create(
     resourceGroupName: string,
     vmmServerName: string,
-    inventoryItemName: string,
+    inventoryItemResourceName: string,
     options?: InventoryItemsCreateOptionalParams
   ): Promise<InventoryItemsCreateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vmmServerName, inventoryItemName, options },
+      { resourceGroupName, vmmServerName, inventoryItemResourceName, options },
       createOperationSpec
     );
   }
 
   /**
    * Shows an inventory item.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
+   * @param inventoryItemResourceName Name of the inventoryItem.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     vmmServerName: string,
-    inventoryItemName: string,
+    inventoryItemResourceName: string,
     options?: InventoryItemsGetOptionalParams
   ): Promise<InventoryItemsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vmmServerName, inventoryItemName, options },
+      { resourceGroupName, vmmServerName, inventoryItemResourceName, options },
       getOperationSpec
     );
   }
 
   /**
    * Deletes an inventoryItem.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
-   * @param inventoryItemName Name of the inventoryItem.
+   * @param inventoryItemResourceName Name of the inventoryItem.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     vmmServerName: string,
-    inventoryItemName: string,
+    inventoryItemResourceName: string,
     options?: InventoryItemsDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, vmmServerName, inventoryItemName, options },
+      { resourceGroupName, vmmServerName, inventoryItemResourceName, options },
       deleteOperationSpec
     );
   }
 
   /**
    * Returns the list of inventoryItems in the given VMMServer.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -199,7 +199,7 @@ export class InventoryItemsImpl implements InventoryItems {
 
   /**
    * ListByVMMServerNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param nextLink The nextLink from the previous successful call to the ListByVMMServer method.
    * @param options The options parameters.
@@ -221,24 +221,27 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.InventoryItem
+    },
+    201: {
       bodyMapper: Mappers.InventoryItem
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmmServerName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemResourceName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -246,7 +249,7 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -262,14 +265,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmmServerName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ScVmm/vmmServers/{vmmServerName}/inventoryItems/{inventoryItemResourceName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -284,7 +287,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.vmmServerName,
-    Parameters.inventoryItemName
+    Parameters.inventoryItemResourceName
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VMMServer,
   VmmServersListByResourceGroupOptionalParams,
@@ -17,6 +17,7 @@ import {
   VmmServersCreateOrUpdateOptionalParams,
   VmmServersCreateOrUpdateResponse,
   VmmServersDeleteOptionalParams,
+  VmmServersDeleteResponse,
   ResourcePatch,
   VmmServersUpdateOptionalParams,
   VmmServersUpdateResponse
@@ -27,7 +28,7 @@ import {
 export interface VmmServers {
   /**
    * List of VmmServers in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +44,7 @@ export interface VmmServers {
   ): PagedAsyncIterableIterator<VMMServer>;
   /**
    * Implements VMMServer GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -54,7 +55,7 @@ export interface VmmServers {
   ): Promise<VmmServersGetResponse>;
   /**
    * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body Request payload.
    * @param options The options parameters.
@@ -65,14 +66,14 @@ export interface VmmServers {
     body: VMMServer,
     options?: VmmServersCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersCreateOrUpdateResponse>,
       VmmServersCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the SCVMM fabric as an Azure VmmServer resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body Request payload.
    * @param options The options parameters.
@@ -84,8 +85,8 @@ export interface VmmServers {
     options?: VmmServersCreateOrUpdateOptionalParams
   ): Promise<VmmServersCreateOrUpdateResponse>;
   /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * Removes the SCVMM fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -93,10 +94,15 @@ export interface VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VmmServersDeleteResponse>,
+      VmmServersDeleteResponse
+    >
+  >;
   /**
-   * Deboards the SCVMM fabric from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * Removes the SCVMM fabric from Azure.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param options The options parameters.
    */
@@ -104,10 +110,10 @@ export interface VmmServers {
     resourceGroupName: string,
     vmmServerName: string,
     options?: VmmServersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<VmmServersDeleteResponse>;
   /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body VmmServers patch payload.
    * @param options The options parameters.
@@ -118,14 +124,14 @@ export interface VmmServers {
     body: ResourcePatch,
     options?: VmmServersUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VmmServersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VmmServersUpdateResponse>,
       VmmServersUpdateResponse
     >
   >;
   /**
    * Updates the VmmServers resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param vmmServerName Name of the VMMServer.
    * @param body VmmServers patch payload.
    * @param options The options parameters.

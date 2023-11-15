@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetwork,
   VirtualNetworksListByResourceGroupOptionalParams,
@@ -17,6 +17,7 @@ import {
   VirtualNetworksCreateOrUpdateOptionalParams,
   VirtualNetworksCreateOrUpdateResponse,
   VirtualNetworksDeleteOptionalParams,
+  VirtualNetworksDeleteResponse,
   ResourcePatch,
   VirtualNetworksUpdateOptionalParams,
   VirtualNetworksUpdateResponse
@@ -27,7 +28,7 @@ import {
 export interface VirtualNetworks {
   /**
    * List of VirtualNetworks in a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -43,7 +44,7 @@ export interface VirtualNetworks {
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
    * Implements VirtualNetwork GET method.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
@@ -54,7 +55,7 @@ export interface VirtualNetworks {
   ): Promise<VirtualNetworksGetResponse>;
   /**
    * Onboards the ScVmm virtual network as an Azure virtual network resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param body Request payload.
    * @param options The options parameters.
@@ -65,14 +66,14 @@ export interface VirtualNetworks {
     body: VirtualNetwork,
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksCreateOrUpdateResponse>,
       VirtualNetworksCreateOrUpdateResponse
     >
   >;
   /**
    * Onboards the ScVmm virtual network as an Azure virtual network resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param body Request payload.
    * @param options The options parameters.
@@ -85,7 +86,7 @@ export interface VirtualNetworks {
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
    * Deregisters the ScVmm virtual network from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
@@ -93,10 +94,15 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualNetworksDeleteResponse>,
+      VirtualNetworksDeleteResponse
+    >
+  >;
   /**
    * Deregisters the ScVmm virtual network from Azure.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param options The options parameters.
    */
@@ -104,10 +110,10 @@ export interface VirtualNetworks {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: VirtualNetworksDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<VirtualNetworksDeleteResponse>;
   /**
    * Updates the VirtualNetworks resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param body VirtualNetworks patch payload.
    * @param options The options parameters.
@@ -118,14 +124,14 @@ export interface VirtualNetworks {
     body: ResourcePatch,
     options?: VirtualNetworksUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworksUpdateResponse>,
       VirtualNetworksUpdateResponse
     >
   >;
   /**
    * Updates the VirtualNetworks resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Name of the VirtualNetwork.
    * @param body VirtualNetworks patch payload.
    * @param options The options parameters.

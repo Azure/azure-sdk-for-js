@@ -6,7 +6,7 @@ The Microsoft.ScVmm Rest API spec.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/scvmm/arm-scvmm) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-scvmm) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-scvmm) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
