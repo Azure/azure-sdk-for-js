@@ -45,7 +45,7 @@ export interface RouterRuleParent {
 /** A rule that return the same labels as the input labels. */
 export interface DirectMapRouterRule extends RouterRuleParent {
   /** The type discriminator describing a sub-type of Rule */
-  kind: "direct-map-rule";
+  kind: "directMap";
 }
 
 /** A rule providing inline expression rules. */
@@ -59,7 +59,7 @@ export interface ExpressionRouterRule extends RouterRuleParent {
   /** The string containing the expression to evaluate. Should contain return statement with calculated values. */
   expression: string;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "expression-rule";
+  kind: "expression";
 }
 
 /** A rule providing a binding to an HTTP Triggered Azure Function. */
@@ -69,7 +69,7 @@ export interface FunctionRouterRule extends RouterRuleParent {
   /** Credentials used to access Azure function rule */
   credential?: FunctionRouterRuleCredential;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "azure-function-rule";
+  kind: "function";
 }
 
 /** Credentials used to access Azure function rule */
@@ -87,7 +87,7 @@ export interface StaticRouterRule extends RouterRuleParent {
   /** The static value this rule always returns. Values must be primitive values - number, string, boolean. */
   value?: unknown;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "static-rule";
+  kind: "static";
 }
 
 /** A rule providing a binding to an external web server. */
@@ -99,7 +99,7 @@ export interface WebhookRouterRule extends RouterRuleParent {
   /** Uri for Contoso's Web Server. */
   webhookUri?: string;
   /** The type discriminator describing a sub-type of Rule */
-  kind: "webhook-rule";
+  kind: "webhook";
 }
 
 /** OAuth2.0 Credentials used to Contoso's Authorization server. Reference: https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/ */
@@ -135,7 +135,7 @@ export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachm
    */
   labelOperator: string;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "pass-through";
+  kind: "passThrough";
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved */
@@ -143,7 +143,7 @@ export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachme
   /** A RouterRule that resolves a collection of queue selectors to attach */
   rule: RouterRule;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "rule-engine";
+  kind: "ruleEngine";
 }
 
 /** Describes a queue selector that will be attached to the job */
@@ -159,7 +159,7 @@ export interface WeightedAllocationQueueSelectorAttachment extends QueueSelector
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocation>;
   /** The type discriminator describing the type of queue selector attachment */
-  kind: "weighted-allocation-queue-selector";
+  kind: "weightedAllocation";
 }
 
 /** Contains the weight percentage and queue selectors to be applied if selected for weighted distributions. */
@@ -216,7 +216,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
   /** Describes how long the attached label selector is valid in seconds. */
   expiresAfterSeconds?: number;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "pass-through";
+  kind: "passThrough";
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved */
@@ -224,7 +224,7 @@ export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttach
   /** A RouterRule that resolves a collection of worker selectors to attach */
   rule: RouterRule;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "rule-engine";
+  kind: "ruleEngine";
 }
 
 /** Describes a worker selector that will be attached to the job */
@@ -240,7 +240,7 @@ export interface WeightedAllocationWorkerSelectorAttachment extends WorkerSelect
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocation>;
   /** The type discriminator describing the type of worker selector attachment */
-  kind: "weighted-allocation-worker-selector";
+  kind: "weightedAllocation";
 }
 
 /** Contains the weight percentage and worker selectors to be applied if selected for weighted distributions. */
@@ -279,7 +279,7 @@ export interface BestWorkerMode extends DistributionModeParent {
   /** Options to configure 'scoringRule'. If not set, default values are used. */
   scoringRuleOptions?: ScoringRuleOptions;
   /** The type discriminator describing a sub-type of Mode */
-  kind: "best-worker";
+  kind: "bestWorker";
 }
 
 /** Encapsulates all options that can be passed as parameters for scoring rule with BestWorkerMode */
@@ -297,13 +297,13 @@ export interface ScoringRuleOptions {
 /** Jobs are directed to the worker who has been idle longest. */
 export interface LongestIdleMode extends DistributionModeParent {
   /** The type discriminator describing a sub-type of Mode */
-  kind: "longest-idle";
+  kind: "longestIdle";
 }
 
 /** Jobs are distributed in order to workers, starting with the worker that is after the last worker to receive a job. */
 export interface RoundRobinMode extends DistributionModeParent {
   /** The type discriminator describing a sub-type of Mode */
-  kind: "round-robin";
+  kind: "roundRobin";
 }
 
 /** A policy that defines actions to execute when exception are triggered. */
@@ -334,7 +334,7 @@ export interface QueueLengthExceptionTrigger extends ExceptionTriggerParent {
   /** Threshold of number of jobs ahead in the queue to for this trigger to fire. */
   threshold: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
-  kind: "queue-length";
+  kind: "queueLength";
 }
 
 /** Trigger for an exception action on exceeding wait time */
@@ -342,7 +342,7 @@ export interface WaitTimeExceptionTrigger extends ExceptionTriggerParent {
   /** Threshold for wait time for this trigger. */
   thresholdSeconds: number;
   /** The type discriminator describing a sub-type of ExceptionTrigger */
-  kind: "wait-time";
+  kind: "waitTime";
 }
 
 /** The action to take when the exception is triggered */
@@ -371,7 +371,7 @@ export interface ManualReclassifyExceptionAction extends ExceptionActionParent {
   /** Updated WorkerSelectors. */
   workerSelectors?: Array<RouterWorkerSelector>;
   /** The type discriminator describing a sub-type of ExceptionAction */
-  kind: "manual-reclassify";
+  kind: "manualReclassify";
 }
 
 /** An action that modifies labels on a job and then reclassifies it */
@@ -457,13 +457,13 @@ export interface ScheduleAndSuspendMode extends JobMatchingModeParent {
   /** Scheduled time. */
   scheduleAt: Date | string;
   /** The type discriminator describing ScheduleAndSuspendMode */
-  kind: "schedule-and-suspend";
+  kind: "scheduleAndSuspend";
 }
 
 /** Describes a matching mode where matching worker to a job is automatically started after job is queued successfully. */
 export interface QueueAndMatchMode extends JobMatchingModeParent {
   /** The type discriminator describing QueueAndMatchMode */
-  kind: "queue-and-match";
+  kind: "queueAndMatch";
 }
 
 /** Describes a matching mode where matching worker to a job is suspended. */
