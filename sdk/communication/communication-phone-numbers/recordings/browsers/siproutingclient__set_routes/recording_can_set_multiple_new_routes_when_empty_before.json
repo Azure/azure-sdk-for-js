@@ -21,31 +21,33 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "GKCOKmpk/o\u002BLF4RTkIST7scbYsElDUdzRGZzbJjGQx4=",
-        "x-ms-date": "Wed, 17 May 2023 09:36:39 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:22:34 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": []
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "111",
+        "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:38 GMT",
-        "MS-CV": "C4cZUeoHn0CaKE88KeyO\u002Bw.0",
+        "Date": "Wed, 15 Nov 2023 22:22:35 GMT",
+        "MS-CV": "i1dksR9hdUCojAObwX0SdQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0J6BkZAAAAACOWjx8ZUNJRauLZGYVcRUqTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0q0RVZQAAAABgUu0TQrfTQ7HzRt/xV7C3UFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "182ms"
+        "X-Processing-Time": "413ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -74,8 +76,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "k9MKRhr2sj0JYbqfU1N0qu/\u002BWY6AyZMenqOcweHbCUM=",
-        "x-ms-date": "Wed, 17 May 2023 09:36:39 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:22:35 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "routes": [
@@ -95,23 +97,25 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "346",
+        "Content-Length": "384",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:39 GMT",
-        "MS-CV": "CPl6hxdtRU\u002Bm8\u002BteIaLSWg.0",
+        "Date": "Wed, 15 Nov 2023 22:22:36 GMT",
+        "MS-CV": "rajFVfQZUkGts0FxZSgIGg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0J6BkZAAAAACgkbodfrJTT5XrZ6xfQQcQTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0q0RVZQAAAAAosY5GDBuERaUVwWS0Ap6lUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "181ms"
+        "X-Processing-Time": "368ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -151,29 +155,31 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 17 May 2023 09:36:39 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:22:35 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "346",
+        "Content-Length": "384",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:39 GMT",
-        "MS-CV": "43InbM\u002BamEm8Fzgw7UtSZQ.0",
+        "Date": "Wed, 15 Nov 2023 22:22:36 GMT",
+        "MS-CV": "dbwm\u002BWH2fkudep54GXbQjw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0J6BkZAAAAADNxA6gaYsMTIJgHRD\u002BNZBmTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0rERVZQAAAACKjjIiewrrRpXobWun7IckUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "102ms"
+        "X-Processing-Time": "185ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -196,7 +202,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test1.jbtestinfra.com",
-    "fqdn-2": "test2.jbtestinfra.com"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test"
   }
 }

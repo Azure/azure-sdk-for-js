@@ -19,29 +19,31 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 17 May 2023 09:36:08 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:20:39 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "111",
+        "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:08 GMT",
-        "MS-CV": "ne\u002BYBgcfbEizLtgyvNzd/Q.0",
+        "Date": "Wed, 15 Nov 2023 22:20:40 GMT",
+        "MS-CV": "duKpjHCS/UOyyhGRgcOoow.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0CKBkZAAAAABqRndtKLo6S4iLrEr0iqJVTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0N0RVZQAAAAAjJy4nyx9qRIOPp\u002BMWCV3dUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "102ms"
+        "X-Processing-Time": "1243ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -68,29 +70,31 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 17 May 2023 09:36:08 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:20:40 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "111",
+        "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:08 GMT",
-        "MS-CV": "W6RdFqqNi0yj\u002BvMopRXVXA.0",
+        "Date": "Wed, 15 Nov 2023 22:20:40 GMT",
+        "MS-CV": "AIxRi6JgGkKzqWeiO2e03g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0CKBkZAAAAABDy0BnJeyJQJV\u002BWAaPo4YXTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0OURVZQAAAABPf7gGScpoTbO4NA/OXLeJUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "107ms"
+        "X-Processing-Time": "207ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -100,9 +104,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test1.jbtestinfra.com",
-    "fqdn-2": "test2.jbtestinfra.com",
-    "fqdn-3": "test3.jbtestinfra.com",
-    "fqdn-4": "test4.jbtestinfra.com"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test",
+    "fqdn-3": "test3.sanitized.sbc.test",
+    "fqdn-4": "test4.sanitized.sbc.test"
   }
 }

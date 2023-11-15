@@ -18,28 +18,30 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "111",
+        "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:01 GMT",
-        "MS-CV": "Mfu0p9UVekCT6hSP9DZr\u002Bw.0",
+        "Date": "Wed, 15 Nov 2023 22:20:32 GMT",
+        "MS-CV": "XWVIDlZjvEaIfIVbmI/iHw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0AqBkZAAAAACX1Jh/FkmMS4RcHDxcbFMNTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0MERVZQAAAAArIdye4vhpSofuG7TkhFYjUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "108ms"
+        "X-Processing-Time": "229ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
@@ -56,7 +58,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "207",
+        "Content-Length": "216",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -67,19 +69,19 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "trunks": {
-          "test1.jbtestinfra.com": {
+          "test1.sanitized.sbc.test": {
             "sipSignalingPort": 1239,
             "enabled": true
           },
-          "test2.jbtestinfra.com": {
+          "test2.sanitized.sbc.test": {
             "sipSignalingPort": 2348,
             "enabled": true
           },
-          "test3.jbtestinfra.com": {
+          "test3.sanitized.sbc.test": {
             "sipSignalingPort": 3457,
             "enabled": true
           }
@@ -87,38 +89,40 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "305",
+        "Content-Length": "352",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:02 GMT",
-        "MS-CV": "AhixNsFX2EykxAzwet/xNQ.0",
+        "Date": "Wed, 15 Nov 2023 22:20:33 GMT",
+        "MS-CV": "0fNakxkzB0K9MBr0R/tkmg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0AqBkZAAAAAAHRJlhwV1jTaOguLwlSCLCTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0MURVZQAAAACsKpJQr3tKSJjjTSShFB0kUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "566ms"
+        "X-Processing-Time": "853ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
         "trunks": {
-          "test1.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 1239
+          "test1.sanitized.sbc.test": {
+            "sipSignalingPort": 1239,
+            "enabled": true
           },
-          "test2.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 2348
+          "test2.sanitized.sbc.test": {
+            "sipSignalingPort": 2348,
+            "enabled": true
           },
-          "test3.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 3457
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 3457,
+            "enabled": true
           }
         },
         "routes": []
@@ -142,43 +146,45 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "305",
+        "Content-Length": "352",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:03 GMT",
-        "MS-CV": "ULmPk/97zEKqqOueFoIb4w.0",
+        "Date": "Wed, 15 Nov 2023 22:20:33 GMT",
+        "MS-CV": "AzYdr3pw20mbz0oR5tbLvw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0A6BkZAAAAADR7Td7JK0\u002BSIzS5AeKp9yWTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0MURVZQAAAACQvEWePk8sQ6\u002BXYZsdVKCqUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "243ms"
+        "X-Processing-Time": "205ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
         "trunks": {
-          "test1.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 1239
+          "test1.sanitized.sbc.test": {
+            "sipSignalingPort": 1239,
+            "enabled": true
           },
-          "test2.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 2348
+          "test2.sanitized.sbc.test": {
+            "sipSignalingPort": 2348,
+            "enabled": true
           },
-          "test3.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 3457
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 3457,
+            "enabled": true
           }
         },
         "routes": []
@@ -186,9 +192,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test1.jbtestinfra.com",
-    "fqdn-2": "test2.jbtestinfra.com",
-    "fqdn-3": "test3.jbtestinfra.com",
-    "fqdn-4": "test4.jbtestinfra.com"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test",
+    "fqdn-3": "test3.sanitized.sbc.test",
+    "fqdn-4": "test4.sanitized.sbc.test"
   }
 }

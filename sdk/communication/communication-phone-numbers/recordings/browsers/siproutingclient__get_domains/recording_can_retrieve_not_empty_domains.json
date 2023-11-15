@@ -19,32 +19,34 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 17 May 2023 09:35:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:21:24 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "174",
+        "Content-Length": "212",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:35:19 GMT",
-        "MS-CV": "1XDfqkjvP0ypb8K/I1A2BA.0",
+        "Date": "Wed, 15 Nov 2023 22:21:23 GMT",
+        "MS-CV": "DElyC25XwE2JuWnJdel1Hg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0159kZAAAAAC3jRyfks8ZQJdrTGx\u002BqOutTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0ZERVZQAAAAClHktkLamrSLgnnNpRMqTMUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "103ms"
+        "X-Processing-Time": "200ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
             "enabled": true
           },
-          "bc1ab94853d4406088c443610082783e.skype.net": {
+          "testdomain.com": {
+            "enabled": true
+          },
+          "5fa30183af2048dcbd8178b4441c8d82.skype.net": {
             "enabled": false
           }
         },
@@ -72,42 +74,44 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "kb3sX1Z8pLiepdKSKQChNsGnn8C4m3IHNLOrJOoVg0Q=",
-        "x-ms-date": "Wed, 17 May 2023 09:35:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-content-sha256": "wmTMUSdVN8QfDiMIu4KPh86fM6BTIM2Pga2vk5NBHv0=",
+        "x-ms-date": "Wed, 15 Nov 2023 22:21:24 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "domains": {
-          "d24939ebc0224b6597ef1a47cdbf1641.skype.net": {
+          "26f3a7be5e874b4ca3707090fe668b12.skype.net": {
             "enabled": false
           }
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "237",
+        "Content-Length": "275",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:35:19 GMT",
-        "MS-CV": "pfvsbH1cr0y4xPI8p3Jjew.0",
+        "Date": "Wed, 15 Nov 2023 22:21:24 GMT",
+        "MS-CV": "RrIArUNB90Gp5DcrgGRu7w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0159kZAAAAAAMjbZ\u002BsQzuQbEBJXp09q3STE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0ZURVZQAAAAB/0h2tr3ZIT7Och0/NfRI8UFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "185ms"
+        "X-Processing-Time": "383ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
             "enabled": true
           },
-          "bc1ab94853d4406088c443610082783e.skype.net": {
+          "testdomain.com": {
+            "enabled": true
+          },
+          "5fa30183af2048dcbd8178b4441c8d82.skype.net": {
             "enabled": false
           },
-          "d24939ebc0224b6597ef1a47cdbf1641.skype.net": {
+          "26f3a7be5e874b4ca3707090fe668b12.skype.net": {
             "enabled": false
           }
         },
@@ -135,45 +139,47 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "zwl9a/dkWXCcv77hDVY0kA1Gf6zyrsjnvNLNPgZH5u4=",
-        "x-ms-date": "Wed, 17 May 2023 09:35:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-content-sha256": "Wnm8j5erf3KuK7z4Pd5rM\u002BPBo\u002B4Oz5eE89QBawKffz8=",
+        "x-ms-date": "Wed, 15 Nov 2023 22:21:24 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "domains": {
-          "f010219a1cdc45a299452a9d586d74b5.skype.net": {
+          "7e309108dd534bf2befcba9c6433cf72.skype.net": {
             "enabled": false
           }
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "300",
+        "Content-Length": "338",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:35:19 GMT",
-        "MS-CV": "7CxBrKSupE\u002BNixPs5X7DWg.0",
+        "Date": "Wed, 15 Nov 2023 22:21:24 GMT",
+        "MS-CV": "IK/ya4gf8kSZHwoav0vSgg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0159kZAAAAADLKaFMoW5CSraNJZXCdoeTTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0ZURVZQAAAACWF6z/pSjFR7/QCeqZgp07UFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "194ms"
+        "X-Processing-Time": "384ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
             "enabled": true
           },
-          "bc1ab94853d4406088c443610082783e.skype.net": {
+          "testdomain.com": {
+            "enabled": true
+          },
+          "5fa30183af2048dcbd8178b4441c8d82.skype.net": {
             "enabled": false
           },
-          "d24939ebc0224b6597ef1a47cdbf1641.skype.net": {
+          "26f3a7be5e874b4ca3707090fe668b12.skype.net": {
             "enabled": false
           },
-          "f010219a1cdc45a299452a9d586d74b5.skype.net": {
+          "7e309108dd534bf2befcba9c6433cf72.skype.net": {
             "enabled": false
           }
         },
@@ -200,38 +206,40 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 17 May 2023 09:35:20 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 15 Nov 2023 22:21:25 GMT",
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "300",
+        "Content-Length": "338",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:35:20 GMT",
-        "MS-CV": "H0bM\u002BTDpgE\u002B64Y8N9vRsbw.0",
+        "Date": "Wed, 15 Nov 2023 22:21:25 GMT",
+        "MS-CV": "fiOARpLF7EyPvMHTQX4mzw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "02J9kZAAAAADKu56VuAIDQbZpI5DFkAqVTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0ZkRVZQAAAABjXyiGqSfmQJk1aoPzgQv4UFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "114ms"
+        "X-Processing-Time": "206ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
             "enabled": true
           },
-          "bc1ab94853d4406088c443610082783e.skype.net": {
+          "testdomain.com": {
+            "enabled": true
+          },
+          "5fa30183af2048dcbd8178b4441c8d82.skype.net": {
             "enabled": false
           },
-          "d24939ebc0224b6597ef1a47cdbf1641.skype.net": {
+          "26f3a7be5e874b4ca3707090fe668b12.skype.net": {
             "enabled": false
           },
-          "f010219a1cdc45a299452a9d586d74b5.skype.net": {
+          "7e309108dd534bf2befcba9c6433cf72.skype.net": {
             "enabled": false
           }
         },
@@ -241,9 +249,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "6191e7bc1f1a492396cb64ba7ef5e57b.skype.net",
-    "domain-2": "d24939ebc0224b6597ef1a47cdbf1641.skype.net",
-    "domain-3": "f010219a1cdc45a299452a9d586d74b5.skype.net",
-    "domain-4": "fdcf2dff09214290be7e4d94238a570a.skype.net"
+    "domain-1": "dec5c27290844dedbc15d4aa8880fce4.skype.net",
+    "domain-2": "26f3a7be5e874b4ca3707090fe668b12.skype.net",
+    "domain-3": "7e309108dd534bf2befcba9c6433cf72.skype.net",
+    "domain-4": "60ca7139dd3c4bf4bd9f6e4407fe8a01.skype.net"
   }
 }

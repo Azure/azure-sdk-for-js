@@ -9,7 +9,7 @@
         "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "77",
+        "Content-Length": "80",
         "Content-Type": "application/merge-patch\u002Bjson",
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
@@ -20,11 +20,11 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
         "trunks": {
-          "test4.jbtestinfra.com": {
+          "test4.sanitized.sbc.test": {
             "sipSignalingPort": 4567,
             "enabled": true
           }
@@ -32,42 +32,44 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "370",
+        "Content-Length": "420",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:04 GMT",
-        "MS-CV": "FGz8X30cy0mzg18m2dbxEw.0",
+        "Date": "Wed, 15 Nov 2023 22:20:34 GMT",
+        "MS-CV": "ad0MhG5KREmtdCvWSaVfEg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0A6BkZAAAAABWCPZd\u002Brm1T4CQAOQ5ZYbzTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0MkRVZQAAAAByNbsU4X9MSbcEPiKEUqQTUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "535ms"
+        "X-Processing-Time": "548ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
         "trunks": {
-          "test1.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 1239
+          "test1.sanitized.sbc.test": {
+            "sipSignalingPort": 1239,
+            "enabled": true
           },
-          "test2.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 2348
+          "test2.sanitized.sbc.test": {
+            "sipSignalingPort": 2348,
+            "enabled": true
           },
-          "test3.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 3457
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 3457,
+            "enabled": true
           },
-          "test4.jbtestinfra.com": {
-            "enabled": true,
-            "sipSignalingPort": 4567
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 4567,
+            "enabled": true
           }
         },
         "routes": []
@@ -91,33 +93,35 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-useragent": "acs-test"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "758",
+        "Content-Length": "808",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 17 May 2023 09:36:04 GMT",
-        "MS-CV": "piBgL1vNcEG1s7oUEHhSig.0",
+        "Date": "Wed, 15 Nov 2023 22:20:34 GMT",
+        "MS-CV": "UELR3GFlB0KlQICuGJswXQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0BKBkZAAAAAAhoJaTddTiTIKGF2lQGlnMTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
+        "X-Azure-Ref": "0M0RVZQAAAAA7IN8ZC0ccQKbPwbgLkX2FUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "313ms"
+        "X-Processing-Time": "702ms"
       },
       "ResponseBody": {
         "domains": {
-          "anotherjbdomain.com": {
+          "nostojic.test.domain": {
             "enabled": true
           },
-          "jbtestinfra.com": {
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
             "enabled": true
           }
         },
         "trunks": {
-          "test1.jbtestinfra.com": {
+          "test1.sanitized.sbc.test": {
             "health": {
               "tls": {
                 "status": "unknown"
@@ -129,10 +133,10 @@
                 "status": "unknown"
               }
             },
-            "enabled": true,
-            "sipSignalingPort": 1239
+            "sipSignalingPort": 1239,
+            "enabled": true
           },
-          "test2.jbtestinfra.com": {
+          "test2.sanitized.sbc.test": {
             "health": {
               "tls": {
                 "status": "unknown"
@@ -144,10 +148,10 @@
                 "status": "unknown"
               }
             },
-            "enabled": true,
-            "sipSignalingPort": 2348
+            "sipSignalingPort": 2348,
+            "enabled": true
           },
-          "test3.jbtestinfra.com": {
+          "test3.sanitized.sbc.test": {
             "health": {
               "tls": {
                 "status": "unknown"
@@ -159,10 +163,10 @@
                 "status": "unknown"
               }
             },
-            "enabled": true,
-            "sipSignalingPort": 3457
+            "sipSignalingPort": 3457,
+            "enabled": true
           },
-          "test4.jbtestinfra.com": {
+          "test4.sanitized.sbc.test": {
             "health": {
               "tls": {
                 "status": "unknown"
@@ -174,8 +178,8 @@
                 "status": "unknown"
               }
             },
-            "enabled": true,
-            "sipSignalingPort": 4567
+            "sipSignalingPort": 4567,
+            "enabled": true
           }
         },
         "routes": []
@@ -183,9 +187,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test1.jbtestinfra.com",
-    "fqdn-2": "test2.jbtestinfra.com",
-    "fqdn-3": "test3.jbtestinfra.com",
-    "fqdn-4": "test4.jbtestinfra.com"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test",
+    "fqdn-3": "test3.sanitized.sbc.test",
+    "fqdn-4": "test4.sanitized.sbc.test"
   }
 }
