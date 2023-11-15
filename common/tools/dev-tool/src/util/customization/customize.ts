@@ -260,7 +260,6 @@ function removeSelfImports(originalFile: SourceFile) {
     const modulePath = path.format(modulePathObject);
 
     const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath);
-    console.log("paths: ", moduleAbsolutePath, originalPath);
 
     if (moduleAbsolutePath === originalPath) {
       originalImport.remove();
