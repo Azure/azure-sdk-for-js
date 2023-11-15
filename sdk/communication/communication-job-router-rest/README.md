@@ -103,7 +103,7 @@ const result = await routerClient.path("/routing/distributionPolicies/{id}", id)
     name: "distribution-policy-123",
     offerExpiresAfterSeconds: 30,
     mode: {
-      kind: "longest-idle",
+      kind: "longestIdle",
       minConcurrentOffers: 1,
       maxConcurrentOffers: 3,
     },
@@ -136,7 +136,7 @@ const result = await routerClient.path("/routing/classificationPolicies/{id}", c
       workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
     }],
     prioritizationRule: {
-      kind: "expression-rule",
+      kind: "expression",
       language: "powerFx",
       expression: "If(job.department = \"xbox\", 2, 1)"
     }
