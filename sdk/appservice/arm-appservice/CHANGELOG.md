@@ -1,6 +1,6 @@
 # Release History
     
-## 15.0.0 (2023-11-16)
+## 14.1.0 (2023-11-16)
     
 **Features**
 
@@ -30,9 +30,6 @@
   - Added Enum KnownDaprLogLevel
   - Added Enum KnownTlsCipherSuites
   - Added Enum KnownWorkflowState
-
-**Breaking Changes**
-
   - Class WebSiteManagementClient has a new signature
   - Type of parameter dataset of interface DetectorResponse is changed from DiagnosticData[] to DiagnosticData_2[]
     
