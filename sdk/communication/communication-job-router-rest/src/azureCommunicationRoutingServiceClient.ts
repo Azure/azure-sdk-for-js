@@ -13,17 +13,17 @@ import {
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
- * @param connectionStringOrUrl - The connectionString or url of the Communication Services resource.
+ * @param connectionString - The connectionString or url of your Communication Services resource.
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  connectionStringOrUrl: string,
+  connectionString: string,
   options: ClientOptions
 ): AzureCommunicationRoutingServiceClient;
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
- * @param endpoint - The endpoint of the Communication Services resource.
+ * @param endpoint - The endpoint of your Communication Services resource.
  * @param credentialOrOptions The key or token credential.
  * @param options - the parameter for all optional parameters
  */
@@ -59,7 +59,7 @@ export default function createClient(
   const baseUrl = options?.baseUrl ?? `${url}`;
   options.apiVersion = options?.apiVersion ?? "2023-11-01";
 
-  const userAgentInfo = "azsdk-js-communication-job-router-rest/1.0.0-beta.1";
+  const userAgentInfo = "azsdk-js-communication-job-router-rest/1.0.0";
   const userAgentPrefix =
     options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
       ? `${options?.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
