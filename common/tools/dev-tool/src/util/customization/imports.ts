@@ -52,9 +52,7 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   if (customNamedImports.length) {
     original.insertNamedImports(
       0,
-      customNamedImports.map((specifier) => {
-        return specifier.getStructure();
-      })
+      customNamedImports.map((specifier) => specifier.getStructure())
     );
   }
 
