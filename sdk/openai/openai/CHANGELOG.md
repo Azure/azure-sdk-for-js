@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `getAudioTranscription` and `getAudioTranslation` now take a `StreamProducer` as input. This allows for streaming audio files to the service instead of having to load the entire file into memory. For example, an audio file saved on desk can be streamed to the service in NodeJS as follows:
+- `getAudioTranscription` and `getAudioTranslation` now take a `StreamProducer` as input. This allows for streaming audio files to the service instead of having to load the entire file into memory. For example, an audio file saved on disk can be streamed to the service in NodeJS as follows:
 
 ```js
 const { createReadStream } = require("fs");
