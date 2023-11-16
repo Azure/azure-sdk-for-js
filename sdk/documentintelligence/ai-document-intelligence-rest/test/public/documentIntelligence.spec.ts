@@ -61,18 +61,6 @@ describe("DocumentIntelligenceClient", () => {
     );
   });
 
-  it("documentModels get", async function () {
-    const response = await client.path("/documentModels").get();
-    if (isUnexpected(response)) {
-      throw response.body.error;
-    }
-    // assert.strictEqual(
-    //   response.body.value[0].apiVersion,
-    //   options.apiVersion,
-    //   "expected apiVersion to match"
-    // );
-  });
-
   it("documentClassifiers build", async function () {
     const initialResponse = await client.path("/documentClassifiers:build").post({
       body: {
@@ -109,22 +97,5 @@ describe("DocumentIntelligenceClient", () => {
       recorder.variable("customClassifierId"),
       "expected classifierId to match"
     );
-    // assert.strictEqual(result.apiVersion, options.apiVersion, "expected apiVersion to match");
   });
-
-  // it("classify from PNG file URL", async function (this: Context) {
-  //   const url = makeTestUrl("/Invoice_1.pdf");
-
-  //   const { classifierId } = await requireClassifier();
-
-  //   const poller = await client.beginClassifyDocumentFromUrl(
-  //     classifierId,
-  //     url,
-  //     testPollingOptions
-  //   );
-
-  //   const result = await poller.pollUntilDone();
-
-  //   assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
-  // });
 });

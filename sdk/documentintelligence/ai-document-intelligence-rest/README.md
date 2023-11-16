@@ -93,10 +93,9 @@ for await (const model of paginate(client, response)) {
 
 ## Document Models
 
-### Analyze prebuilt-layout
+### Analyze prebuilt-layout (urlSource)
 
 ```ts
-// Source Type 1: (urlSource)
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
   .post({
@@ -107,22 +106,36 @@ const initialResponse = await client
     },
     queryParameters: { locale: "en-IN" },
   });
+```
 
-// OR
-// Source Type 2: (base64Source)
-// const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-// const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
-// const initialResponse = await client
-//   .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
-//   .post({
-//     contentType: "application/json",
-//     body: {
-//       base64Source,
-//     },
-//     queryParameters: { locale: "en-IN" },
-//   });
+### Analyze prebuilt-layout (base64Source)
 
-// Continue creating the poller from initial response
+```ts
+import fs from "fs";
+import path from "path";
+
+const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
+const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      base64Source,
+    },
+    queryParameters: { locale: "en-IN" },
+  });
+```
+
+Continue creating the poller from initial response
+
+```ts
+import {
+  getLongRunningPoller,
+  AnalyzeResultOperationOutput,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
+
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
@@ -141,13 +154,17 @@ console.log(result);
 //     contentFormat: 'text'
 //   }
 // }
-console.log(result.analyzeResult?.modelId);
-// prebuilt-layout
 ```
 
 ## Document Classifiers #Build
 
 ```ts
+import {
+  DocumentClassifierBuildOperationDetailsOutput,
+  getLongRunningPoller,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
+
 const containerSasUrl = (): string =>
   process.env["DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL"];
 const initialResponse = await client.path("/documentClassifiers:build").post({
@@ -161,7 +178,6 @@ const initialResponse = await client.path("/documentClassifiers:build").post({
         },
       },
       bar: {
-        // Adding source kind fails with 400 Invalid Argument
         azureBlobSource: {
           containerUrl: containerSasUrl(),
         },
@@ -192,8 +208,6 @@ console.log(response);
 //    },
 //    apiVersion: '2023-10-31-preview'
 //  }
-console.log(response.result.classifierId);
-// customClassifier10978
 ```
 
 ## Troubleshooting

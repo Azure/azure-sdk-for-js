@@ -266,17 +266,22 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       try {
-        await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
+        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
           contentType: "application/json",
           body: {
             urlSource: url,
           },
           queryParameters: { locale: "thisIsNotAValidLanguage" },
         });
-        assert.fail("Expected an exception due to invalid language.");
+        if (isUnexpected(initialResponse)) {
+          throw initialResponse.body.error;
+        }
+
+        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput;
+        assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        // Just make sure we didn't get a bad error message
-        assert.isFalse((ex as Error).message.includes("<empty>"));
+        assert.ok((ex as Error).message.includes("Invalid argument."));
       }
     });
 
@@ -633,7 +638,7 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/contoso-allinone.jpg");
 
       try {
-        await client.path("/documentModels/{modelId}:analyze", "prebuilt-receipt").post({
+        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-receipt").post({
           contentType: "application/json",
           body: {
             urlSource: url,
@@ -641,10 +646,15 @@ describe("DocumentIntelligenceClient", () => {
           queryParameters: { locale: "thisIsNotAValidLanguage" },
         });
 
+        if (isUnexpected(initialResponse)) {
+          throw initialResponse.body.error;
+        }
+
+        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput;
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        // Just make sure we didn't get a bad error message
-        assert.isFalse((ex as Error).message.includes("<empty>"));
+        assert.ok((ex as Error).message.includes("Invalid argument."));
       }
     });
   });
@@ -720,7 +730,7 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       try {
-        await client.path("/documentModels/{modelId}:analyze", "prebuilt-invoice").post({
+        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-invoice").post({
           contentType: "application/json",
           body: {
             urlSource: url,
@@ -728,10 +738,15 @@ describe("DocumentIntelligenceClient", () => {
           queryParameters: { locale: "thisIsNotAValidLanguage" },
         });
 
+        if (isUnexpected(initialResponse)) {
+          throw initialResponse.body.error;
+        }
+
+        const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+        (await (await poller).pollUntilDone()).body as AnalyzeResultOperationOutput;
         assert.fail("Expected an exception due to invalid locale.");
       } catch (ex: any) {
-        // Just make sure we didn't get a bad error message
-        assert.isFalse((ex as Error).message.includes("<empty>"));
+        assert.ok((ex as Error).message.includes("Invalid argument."));
       }
     });
   });
