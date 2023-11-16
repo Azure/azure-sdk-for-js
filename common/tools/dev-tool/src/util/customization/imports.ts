@@ -20,7 +20,7 @@ export function augmentImports(
     Array.from(originalImports.values()),
     customImports
   );
-  removedModules.forEach(importMap.delete.bind(importMap));
+  removedModules.forEach((removedModule) => importMap.delete(removedModule));
 
   for (const customImportDecl of customImports) {
     const newModuleSpecifier =
