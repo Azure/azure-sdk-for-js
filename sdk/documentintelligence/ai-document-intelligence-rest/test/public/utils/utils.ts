@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createClientLogger } from "@azure/logger";
 
 import path from "path";
 
@@ -11,7 +12,7 @@ export const ASSET_PATH = path.resolve(
 
 export function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = assertEnvironmentVariable(
-    "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+    "DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"
   );
   const parts = testingContainerUrl.split("?");
   return `${parts[0]}${urlPath}?${parts[1]}`;
@@ -22,4 +23,6 @@ export function getRandomNumber(): number {
 }
 
 export const containerSasUrl = (): string =>
-  assertEnvironmentVariable("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
+  assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
+
+export const logger = createClientLogger("ai-form-recognizer:test");

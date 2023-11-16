@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, isPlaybackMode } from "@azure-tools/test-recorder";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -26,3 +26,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
+
+export const testPollingOptions = {
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
+};
