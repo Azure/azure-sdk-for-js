@@ -266,13 +266,15 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       try {
-        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
-          contentType: "application/json",
-          body: {
-            urlSource: url,
-          },
-          queryParameters: { locale: "thisIsNotAValidLanguage" },
-        });
+        const initialResponse = await client
+          .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+          .post({
+            contentType: "application/json",
+            body: {
+              urlSource: url,
+            },
+            queryParameters: { locale: "thisIsNotAValidLanguage" },
+          });
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
         }
@@ -638,13 +640,15 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/contoso-allinone.jpg");
 
       try {
-        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-receipt").post({
-          contentType: "application/json",
-          body: {
-            urlSource: url,
-          },
-          queryParameters: { locale: "thisIsNotAValidLanguage" },
-        });
+        const initialResponse = await client
+          .path("/documentModels/{modelId}:analyze", "prebuilt-receipt")
+          .post({
+            contentType: "application/json",
+            body: {
+              urlSource: url,
+            },
+            queryParameters: { locale: "thisIsNotAValidLanguage" },
+          });
 
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
@@ -730,13 +734,15 @@ describe("DocumentIntelligenceClient", () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       try {
-        const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-invoice").post({
-          contentType: "application/json",
-          body: {
-            urlSource: url,
-          },
-          queryParameters: { locale: "thisIsNotAValidLanguage" },
-        });
+        const initialResponse = await client
+          .path("/documentModels/{modelId}:analyze", "prebuilt-invoice")
+          .post({
+            contentType: "application/json",
+            body: {
+              urlSource: url,
+            },
+            queryParameters: { locale: "thisIsNotAValidLanguage" },
+          });
 
         if (isUnexpected(initialResponse)) {
           throw initialResponse.body.error;
