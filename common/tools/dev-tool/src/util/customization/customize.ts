@@ -245,24 +245,26 @@ export function mergeModuleDeclarations(
 }
 
 function removeSelfImports(originalFile: SourceFile) {
+  const originalPathObject = path.parse(originalFile.getFilePath()); // /.../src/file.ts
+  removeFileExtension(originalPathObject);
+  const originalPath = path.format(originalPathObject); // src/file
+
   for (const originalImport of originalFile.getImportDeclarations()) {
-    const originalPathObject = path.parse(originalFile.getFilePath()); // src/models/models
-    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./models
+    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./file.js
+    removeFileExtension(modulePathObject);
+    const modulePath = path.format(modulePathObject); // ./file
 
-    [originalPathObject, modulePathObject].forEach((pathObject) => {
-      if (pathObject.ext.length) {
-        pathObject.base = pathObject.base.slice(0, -pathObject.ext.length);
-        pathObject.ext = "";
-      }
-    });
-
-    const originalPath = path.format(originalPathObject);
-    const modulePath = path.format(modulePathObject);
-
-    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath);
+    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath); // /.../src/, ./file -> /.../src/file
 
     if (moduleAbsolutePath === originalPath) {
       originalImport.remove();
+    }
+  }
+
+  function removeFileExtension(parsedPath: path.ParsedPath): void {
+    if (parsedPath.ext.length) {
+      parsedPath.base = parsedPath.base.slice(0, -parsedPath.ext.length);
+      parsedPath.ext = "";
     }
   }
 }
