@@ -11,7 +11,7 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "centralus",
+      "defaultValue": "eastus",
       "metadata": {
         "description": "The location of the resource. By default, this is the same as the resource group."
       }
@@ -78,19 +78,19 @@
     }
   },
   "variables": {
-    "frRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
+    // "frRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
   },
   "resources": [
-    {
-      "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
-      "apiVersion": "2018-09-01-preview",
-      "name": "[format('{0}/Microsoft.Authorization/{1}', parameters('baseName'), guid(parameters('baseName')))]",
-      "dependsOn": ["[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"],
-      "properties": {
-        "principalId": "[parameters('testApplicationOid')]",
-        "roleDefinitionId": "[variables('frRoleId')]"
-      }
-    },
+    // {
+    //   "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
+    //   "apiVersion": "2018-09-01-preview",
+    //   "name": "[format('{0}/Microsoft.Authorization/{1}', parameters('baseName'), guid(parameters('baseName')))]",
+    //   "dependsOn": ["[resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName'))]"],
+    //   "properties": {
+    //     "principalId": "[parameters('testApplicationOid')]",
+    //     "roleDefinitionId": "[variables('frRoleId')]"
+    //   }
+    // },
     {
       "type": "Microsoft.CognitiveServices/accounts",
       "name": "[parameters('baseName')]",
@@ -112,7 +112,7 @@
     },
     "DOCUMENT_INTELLIGENCE_API_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2023-10-01-preview').key1]"
     },
     "DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL": {
       "type": "string",
