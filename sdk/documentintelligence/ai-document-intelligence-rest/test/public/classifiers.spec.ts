@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable, } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "./utils/recorderUtils";
 import { Context } from "mocha";
 import DocumentIntelligence, {
@@ -70,7 +70,7 @@ describe("classifiers", () => {
             },
           },
         },
-        queryParameters: { customClassifierDescription }
+        queryParameters: { customClassifierDescription },
       });
 
       if (isUnexpected(initialResponse)) {
@@ -78,7 +78,8 @@ describe("classifiers", () => {
       }
       const poller = getLongRunningPoller(client, initialResponse);
       const response = (
-        (await (await poller).pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput).result;
+        (await (await poller).pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
+      ).result;
       if (!response) {
         throw new Error("Expected a DocumentClassifierDetailsOutput response.");
       }
@@ -157,7 +158,6 @@ describe("classifiers", () => {
 
     assert.isNotEmpty(analyzeResult?.documents);
     assert.oneOf(analyzeResult?.documents![0].docType, ["foo", "bar"]);
-
   });
 
   it("get & delete classifiers from the account", async function () {
