@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Keeps request body of raw bytes for requests with `application/octet-stream` content type.
+
 ### Other Changes
 
 ## 1.1.4 (2023-07-06)
