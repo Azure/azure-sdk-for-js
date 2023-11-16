@@ -114,5 +114,14 @@
         "prefix": "userAgentInfo"
       }
     ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Document Intelligence Rest Client",
+    "productSlugs": [
+      "azure",
+      "document-intelligence",
+      "ai-document-intelligence"
+    ],
+    "disableDocsMs": true
   }
 }
