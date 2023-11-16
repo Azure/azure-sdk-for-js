@@ -5,7 +5,9 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
 import path from "path";
 
-export const ASSET_PATH = path.resolve(path.join(process.cwd(), "..", "..", "formrecognizer", "ai-form-recognizer", "assets"));
+export const ASSET_PATH = path.resolve(
+  path.join(process.cwd(), "..", "..", "formrecognizer", "ai-form-recognizer", "assets")
+);
 
 export function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = assertEnvironmentVariable(
