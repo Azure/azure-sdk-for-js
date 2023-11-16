@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { Identifier, ImportDeclaration, ImportSpecifier, SourceFile, ts } from "ts-morph";
+import { Identifier, ImportDeclaration, ImportSpecifier, SourceFile, SyntaxKind } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
 
@@ -125,7 +125,7 @@ function removeDuplicateIdentifiers(
   );
 
   const customIdentifiers = customImports.flatMap((customImportDecl) => {
-    return customImportDecl.getDescendantsOfKind(ts.SyntaxKind.Identifier);
+    return customImportDecl.getDescendantsOfKind(SyntaxKind.Identifier);
   });
 
   const removedModules = [];
@@ -153,13 +153,13 @@ function removeDuplicateIdentifiers(
     }
 
     const isSoleNamedImport =
-      importNode.isKind(ts.SyntaxKind.ImportSpecifier) &&
+      importNode.isKind(SyntaxKind.ImportSpecifier) &&
       importNode.getImportDeclaration().getNamedImports().length === 1;
 
     const removeNode = isSoleNamedImport ? importNode.getImportDeclaration() : importNode;
 
     const removedModule = removeNode
-      .asKind(ts.SyntaxKind.ImportDeclaration)
+      .asKind(SyntaxKind.ImportDeclaration)
       ?.getModuleSpecifierValue();
 
     removeNode.remove();
