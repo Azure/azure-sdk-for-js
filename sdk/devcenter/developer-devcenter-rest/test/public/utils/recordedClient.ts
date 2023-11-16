@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
-import { AzureDevCenterClient } from "../../../src";
+import { AzureDeveloperDevCenterClient } from "../../../src";
 import { ClientOptions } from "@azure-rest/core-client";
 import { DefaultAzureCredential } from "@azure/identity";
 import createClient from "../../../src/index";
@@ -46,7 +46,7 @@ export function createRecordedClient(
   recorder: Recorder,
   endpoint: string,
   options: ClientOptions = {}
-): AzureDevCenterClient {
+): AzureDeveloperDevCenterClient {
   // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
   const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();
   return createClient(endpoint, credential, recorder.configureClientOptions(options));

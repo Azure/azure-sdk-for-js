@@ -5,11 +5,11 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { AzureDevCenterClient, ProjectOutput, isUnexpected, paginate } from "../../src/index";
+import { AzureDeveloperDevCenterClient, ProjectOutput, isUnexpected, paginate } from "../../src/index";
 
 describe("DevCenter Project Operations Tests", () => {
   let recorder: Recorder;
-  let client: AzureDevCenterClient;
+  let client: AzureDeveloperDevCenterClient;
   let endpoint: string;
 
   beforeEach(async function (this: Context) {

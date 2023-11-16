@@ -3,7 +3,7 @@ import {
   ProjectOutput,
   isUnexpected,
   PoolOutput,
-  DevBoxesCreateDevBoxParameters,
+  CreateDevBoxParameters,
   getLongRunningPoller,
   paginate,
 } from "@azure-rest/developer-devcenter";
@@ -73,7 +73,7 @@ async function createDevBox() {
   }
 
   // Create a dev box with the first pool
-  const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
+  const devBoxCreateParameters: CreateDevBoxParameters = {
     contentType: "application/json",
     body: { poolName: firstPool.name },
   };

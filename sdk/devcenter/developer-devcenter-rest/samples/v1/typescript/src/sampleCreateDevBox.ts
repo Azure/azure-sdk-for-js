@@ -3,7 +3,7 @@ import {
   ProjectOutput,
   isUnexpected,
   PoolOutput,
-  DevBoxesCreateDevBoxParameters,
+  CreateDevBoxParameters,
   getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -39,7 +39,7 @@ async function createDevBox() {
     throw "No pools found.";
   }
 
-  const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
+  const devBoxCreateParameters: CreateDevBoxParameters = {
     contentType: "application/json",
     body: { poolName: pool.name },
   };

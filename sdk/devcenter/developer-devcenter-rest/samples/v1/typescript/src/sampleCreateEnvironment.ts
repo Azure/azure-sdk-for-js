@@ -5,7 +5,7 @@ import {
   CatalogOutput,
   EnvironmentTypeOutput,
   EnvironmentDefinitionOutput,
-  DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters,
+  CreateOrUpdateEnvironmentParameters,
   getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -66,7 +66,7 @@ async function createEnvironment() {
     throw new Error("No environment types found.");
   }
 
-  const environmentsCreateParameters: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters = {
+  const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
     contentType: "application/json",
     body: {
       environmentDefinitionName: environmentDefinitionName,

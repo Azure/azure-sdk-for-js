@@ -6,7 +6,7 @@ import { assert, expect } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
-  AzureDevCenterClient,
+  AzureDeveloperDevCenterClient,
   getLongRunningPoller,
   isUnexpected,
   PoolOutput,
@@ -14,9 +14,9 @@ import {
   DevBoxOutput,
   DevBoxActionOutput,
   ScheduleOutput,
-  DevBoxesDelayAllActionsParameters,
+  DelayAllActionsParameters,
   DevBoxActionDelayResultOutput,
-  DevBoxesCreateDevBoxParameters,
+  CreateDevBoxParameters,
 } from "../../src/index";
 
 const testPollingOptions = {
@@ -25,7 +25,7 @@ const testPollingOptions = {
 
 describe("DevCenter Dev Boxes Operations Test", () => {
   let recorder: Recorder;
-  let client: AzureDevCenterClient;
+  let client: AzureDeveloperDevCenterClient;
 
   let endpoint: string;
   let projectName: string;
@@ -279,7 +279,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("DelayAction", async function () {
-    const delayActionParameters: DevBoxesDelayAllActionsParameters = {
+    const delayActionParameters: DelayAllActionsParameters = {
       queryParameters: {
         until: "2023-05-06T00:00:00Z",
       },
@@ -299,7 +299,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   it("DelayAllActions", async function () {
-    const delayActionsParameters: DevBoxesDelayAllActionsParameters = {
+    const delayActionsParameters: DelayAllActionsParameters = {
       queryParameters: {
         until: "2023-05-06T00:00:00Z",
       },
@@ -339,12 +339,12 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-      const devBoxStopPoller = getLongRunningPoller(
+      const devBoxStopPoller = await getLongRunningPoller(
           client,
           stopDevBoxResponse,
           testPollingOptions
       );
-    const devBoxStopResult = await devBoxStopPoller.pollUntilDone();
+    const devBoxStopResult =  await devBoxStopPoller.pollUntilDone();
 
     if (isUnexpected(devBoxStopResult)) {
       throw new Error(devBoxStopResult.body?.error.message);
@@ -366,7 +366,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-      const devBoxStartPoller = getLongRunningPoller(
+      const devBoxStartPoller = await getLongRunningPoller(
           client,
           startDevBoxResponse,
           testPollingOptions
@@ -385,7 +385,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
   });
 
   async function createDevBox() {
-    const devBoxCreateParameters: DevBoxesCreateDevBoxParameters = {
+    const devBoxCreateParameters: CreateDevBoxParameters = {
       contentType: "application/json",
       body: { poolName: poolName },
     };
@@ -407,7 +407,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
     assert.equal(devBoxCreateResponse.status, "201", "Dev Box creation should return 201 Created.");
 
-    const devBoxCreatePoller = getLongRunningPoller(
+    const devBoxCreatePoller = await getLongRunningPoller(
       client,
       devBoxCreateResponse,
       testPollingOptions
@@ -444,7 +444,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
 
     assert.equal(devBoxDeleteResponse.status, "202", "Delete Dev Box should return 202 Accepted.");
 
-    const devBoxDeletePoller = getLongRunningPoller(
+    const devBoxDeletePoller = await getLongRunningPoller(
       client,
       devBoxDeleteResponse,
       testPollingOptions

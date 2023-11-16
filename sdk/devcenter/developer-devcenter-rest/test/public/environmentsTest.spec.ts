@@ -6,11 +6,11 @@ import { assert, expect } from "chai";
 import { Context } from "mocha";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import {
-  AzureDevCenterClient,
+  AzureDeveloperDevCenterClient,
   CatalogOutput,
   EnvironmentDefinitionOutput,
   EnvironmentTypeOutput,
-  DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters,
+  CreateOrUpdateEnvironmentParameters,
   isUnexpected,
   paginate,
   getLongRunningPoller,
@@ -22,7 +22,7 @@ const testPollingOptions = {
 };
 describe("DevCenter Environments Operations Test", () => {
   let recorder: Recorder;
-  let client: AzureDevCenterClient;
+  let client: AzureDeveloperDevCenterClient;
 
   let endpoint: string;
   let projectName: string;
@@ -223,7 +223,7 @@ describe("DevCenter Environments Operations Test", () => {
   });
 
   async function createDevelopmentEnvironment(): Promise<void> {
-    const environmentsCreateParameters: DeploymentEnvironmentsCreateOrUpdateEnvironmentParameters =
+    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters =
       {
         body: {
           environmentDefinitionName: envDefinitionName,
@@ -255,7 +255,7 @@ describe("DevCenter Environments Operations Test", () => {
       "Environment creation should return 201 created."
     );
 
-    const environmentCreatePoller = getLongRunningPoller(
+    const environmentCreatePoller = await getLongRunningPoller(
       client,
       environmentCreateResponse,
       testPollingOptions
@@ -298,7 +298,7 @@ describe("DevCenter Environments Operations Test", () => {
       "Environment delete should return 202 accepted."
     );
 
-    const environmentDeletePoller = getLongRunningPoller(
+    const environmentDeletePoller = await getLongRunningPoller(
       client,
       environmentDeleteResponse,
       testPollingOptions
