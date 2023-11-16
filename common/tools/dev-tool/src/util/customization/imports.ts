@@ -1,45 +1,85 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { Identifier, ImportDeclaration, ImportSpecifier, SourceFile, SyntaxKind } from "ts-morph";
+import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
+
+type DotPrefixedRelativePath = string & { __dotPrefixedRelativePath: never };
+type LocalModuleSpecifier = string & { __localModuleSpecifier: never };
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
   customImports: ImportDeclaration[],
   originalFile: SourceFile
 ) {
-  const { customDir, originalDir } = getCustomizationState();
+  const originalFilePath = originalFile.getFilePath();
+
   const importMap = new Map<string, ImportDeclaration>();
-  for (const [moduleSpecifier, importDecl] of originalImports) {
-    importMap.set(moduleSpecifier, importDecl);
-  }
+  originalImports.forEach((importDecl, moduleSpecifier) => {
+    const normalizedModuleSpecifier = normalizeModuleSpecifier(moduleSpecifier, originalFilePath);
+    importDecl.setModuleSpecifier(normalizedModuleSpecifier);
+    importMap.set(normalizedModuleSpecifier, importDecl);
+  });
 
-  const removedModules = removeDuplicateIdentifiers(
-    Array.from(originalImports.values()),
-    customImports
+  removeConflictingIdentifiers(Array.from(originalImports.values()), customImports);
+
+  customImports.forEach((customImportDecl) =>
+    mergeImportIntoFile(customImportDecl, originalFile, importMap)
   );
-  removedModules.forEach((removedModule) => importMap.delete(removedModule));
 
-  for (const customImportDecl of customImports) {
-    const newModuleSpecifier =
-      getOriginalModuleSpecifier(
-        originalDir,
-        customDir,
-        customImportDecl.getSourceFile().getFilePath(),
-        customImportDecl.getModuleSpecifierValue()
-      ) ?? customImportDecl.getModuleSpecifierValue();
+  removeEmptyImports(originalFile.getImportDeclarations());
+}
 
-    const originalImportDecl = importMap.get(newModuleSpecifier);
-    if (originalImportDecl) {
-      augmentImportDeclaration(originalImportDecl, customImportDecl);
-    } else {
-      const importStructure = customImportDecl.getStructure();
-      importStructure.moduleSpecifier = newModuleSpecifier;
-      originalFile.addImportDeclaration(importStructure);
+function removeEmptyImports(importDeclarations: ImportDeclaration[]) {
+  importDeclarations.forEach((importDecl) => {
+    const isEmpty =
+      !importDecl.getDefaultImport() &&
+      !importDecl.getNamespaceImport() &&
+      !importDecl.getNamedImports().length;
+    if (isEmpty) {
+      importDecl.remove();
     }
+  });
+}
+
+function mergeImportIntoFile(
+  customImportDecl: ImportDeclaration,
+  originalFile: SourceFile,
+  importMap: Map<string, ImportDeclaration>
+) {
+  const outputModuleSpecifier = getFixedLocalModuleSpecifier(customImportDecl);
+
+  const existingImportDecl = importMap.get(outputModuleSpecifier);
+  if (existingImportDecl) {
+    augmentImportDeclaration(existingImportDecl, customImportDecl);
+  } else {
+    const importStructure = customImportDecl.getStructure();
+    importStructure.moduleSpecifier = outputModuleSpecifier;
+    originalFile.addImportDeclaration(importStructure);
   }
+}
+
+function getFixedLocalModuleSpecifier(
+  customImportDecl: ImportDeclaration
+): DotPrefixedRelativePath {
+  const { customDir, originalDir } = getCustomizationState();
+  const customFilePath = customImportDecl.getSourceFile().getFilePath();
+
+  const moduleSpecifierFromCustomFile = normalizeModuleSpecifier(
+    customImportDecl.getModuleSpecifierValue() as DotPrefixedRelativePath,
+    customFilePath
+  );
+
+  const outputModuleSpecifier =
+    getModuleSpecifierIfImportedFromOriginal(
+      originalDir,
+      customDir,
+      customFilePath,
+      moduleSpecifierFromCustomFile
+    ) ?? moduleSpecifierFromCustomFile;
+
+  return outputModuleSpecifier;
 }
 
 function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDeclaration) {
@@ -62,107 +102,113 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   }
 }
 
-/**
- * Given a source file at {@link customFilePath} which imports {@link originalModuleSpecifier}
- * from a subdirectory of {@link originalPath}, returns the relative path between the output
- * file and the output module. Returns undefined if the module isn't in a subdirectory of
- * {@link originalPath}.
- */
-function getOriginalModuleSpecifier(
-  originalPath: string,
-  customPath: string,
-  customFilePath: string,
-  originalModuleSpecifier: string
-): string | undefined {
-  // Check that this custom file import is local, but not in the same directory (or subdirs) as the file
-  if (!originalModuleSpecifier.startsWith("../") && !originalModuleSpecifier.startsWith('"../')) {
-    return undefined;
+function normalizeModuleSpecifier<T extends string>(moduleSpecifier: T, filePath: string): T;
+function normalizeModuleSpecifier<T extends LocalModuleSpecifier>(
+  moduleSpecifier: T,
+  filePath: string
+): T & LocalModuleSpecifier & DotPrefixedRelativePath;
+function normalizeModuleSpecifier(moduleSpecifier: string, filePath: string): string {
+  return normalizeLocalModuleSpecifier(moduleSpecifier, filePath) ?? moduleSpecifier;
+}
+
+function normalizeLocalModuleSpecifier<T extends string>(
+  moduleSpecifier: T,
+  filePath: string
+): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
+  const fileDir = path.dirname(filePath);
+  const modulePath = path.resolve(fileDir, moduleSpecifier);
+  const normalizedModuleSpecifier = path.relative(fileDir, modulePath);
+
+  return toDotPrefixedRelativePath(normalizedModuleSpecifier) as
+    | (T & LocalModuleSpecifier & DotPrefixedRelativePath)
+    | undefined;
+}
+
+function toDotPrefixedRelativePath<T extends string>(
+  filePath: T
+): (T & DotPrefixedRelativePath) | undefined;
+function toDotPrefixedRelativePath<T extends DotPrefixedRelativePath>(filePath: T): T;
+function toDotPrefixedRelativePath(filePath: string): DotPrefixedRelativePath | undefined {
+  if (path.isAbsolute(filePath)) {
+    return;
   }
 
-  const currentFileDir = path.dirname(customFilePath);
-  const moduleAbsolutePath = path.resolve(currentFileDir, originalModuleSpecifier);
+  if (!filePath.startsWith(".")) {
+    filePath = "./" + filePath;
+  }
 
-  const moduleRelativePath = path.relative(originalPath, moduleAbsolutePath);
-  const outputFileRelativePath = path.relative(customPath, currentFileDir);
+  return filePath as DotPrefixedRelativePath;
+}
 
-  const outputModuleSpecifier = path.relative(outputFileRelativePath, moduleRelativePath);
+/**
+ * Given a source file at {@link customFilePath} which imports {@link originalModuleSpecifier}
+ * from a subdirectory of {@link originalSourceRoot}, returns the relative path between the output
+ * file and the output module. Returns undefined if the module isn't in a subdirectory of
+ * {@link originalSourceRoot}.
+ */
+function getModuleSpecifierIfImportedFromOriginal(
+  originalSourceRoot: string,
+  customSourceRoot: string,
+  customFilePath: string,
+  originalModuleSpecifier: string
+): (string & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
+  const customFileDir = path.dirname(customFilePath);
+  const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
+
+  const outputModuleRelativePath = path.relative(originalSourceRoot, moduleAbsolutePath);
+  const outputFileRelativePath = path.relative(customSourceRoot, customFileDir);
+
+  const outputModuleSpecifier = path.relative(outputFileRelativePath, outputModuleRelativePath);
 
   // Check if the module is actually contained in the original directory
-  if (!moduleRelativePath.startsWith("..") && !path.isAbsolute(moduleRelativePath)) {
-    if (outputModuleSpecifier.startsWith(".")) {
-      return outputModuleSpecifier;
-    } else {
-      return "./" + outputModuleSpecifier;
-    }
+  if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
+    return normalizeLocalModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
   }
 }
 
-function removeDuplicateIdentifiers(
+function removeConflictingIdentifiers(
   originalImports: ImportDeclaration[],
   customImports: ImportDeclaration[]
-): string[] {
-  const importMap: Map<string, ImportDeclaration | ImportSpecifier> = new Map(
-    originalImports.flatMap((importDecl) => {
-      const namedImports = importDecl.getNamedImports();
-      const defaultImport = importDecl.getDefaultImport();
-      const namespaceImport = importDecl.getNamespaceImport();
+) {
+  const importRemoveCallbackMap: Map<string, () => void> =
+    getImportRemoveCallbacks(originalImports);
 
-      const map: Array<[string, ImportDeclaration | ImportSpecifier]> = namedImports.map(
-        (importSpecifier) => [importSpecifier.getNameNode().getText(), importSpecifier]
-      );
+  const customIdentifiers = getBoundIdentifiers(customImports);
 
-      if (defaultImport) {
-        map.push([defaultImport.getText(), importDecl]);
-      }
-      if (namespaceImport) {
-        map.push([namespaceImport.getText(), importDecl]);
-      }
+  customIdentifiers.forEach((customIdentifier) => {
+    const removeIdentifier = importRemoveCallbackMap.get(customIdentifier);
+    removeIdentifier?.();
+  });
 
-      return map;
-    })
-  );
-
-  const customIdentifiers = customImports.flatMap((customImportDecl) =>
-    customImportDecl.getDescendantsOfKind(SyntaxKind.Identifier)
-  );
-
-  const removedModules = [];
-  for (const customIdentifier of customIdentifiers) {
-    // module specifier of removed import declaration, if the thing that was removed was an
-    // import declaration and not an import specifier
-    const removedModuleSpecifier = removeFromImports(customIdentifier);
-    if (removedModuleSpecifier) {
-      removedModules.push(removedModuleSpecifier);
-    }
+  function getBoundIdentifiers(imports: ImportDeclaration[]): string[] {
+    return Array.from(getImportRemoveCallbacks(imports).keys());
   }
 
-  return removedModules;
+  function getImportRemoveCallbacks(imports: ImportDeclaration[]): Map<string, () => void> {
+    return new Map(
+      imports.flatMap((importDecl) => {
+        const defaultImport = importDecl.getDefaultImport();
+        const namespaceImport = importDecl.getNamespaceImport();
+        const namedImports = importDecl.getNamedImports();
 
-  /**
-   * Removes the import of a given imported identifier. If the whole import declaration is removed
-   * (in the case of a default/namespace import or a named import with exactly one identifier),
-   * returns the module specifier of that import declaration.
-   */
-  function removeFromImports(identifier: Identifier): string | undefined {
-    const identifierText = identifier.getText();
-    const importNode = importMap.get(identifierText);
-    if (!importNode) {
-      return;
-    }
+        const importRemoveCallbacks = namedImports.map((importSpecifier): [string, () => void] => {
+          const relevantIdentifier =
+            importSpecifier.getAliasNode() ?? importSpecifier.getNameNode();
+          return [relevantIdentifier.getText(), () => importSpecifier.remove()];
+        });
+        if (defaultImport)
+          importRemoveCallbacks.push([
+            defaultImport.getText(),
+            () => importDecl.removeDefaultImport(),
+          ]);
+        if (namespaceImport)
+          importRemoveCallbacks.push([
+            namespaceImport.getText(),
+            () => importDecl.removeNamespaceImport(),
+          ]);
 
-    const isSoleNamedImport =
-      importNode.isKind(SyntaxKind.ImportSpecifier) &&
-      importNode.getImportDeclaration().getNamedImports().length === 1;
-
-    const removeNode = isSoleNamedImport ? importNode.getImportDeclaration() : importNode;
-
-    const removedModule = removeNode
-      .asKind(SyntaxKind.ImportDeclaration)
-      ?.getModuleSpecifierValue();
-
-    removeNode.remove();
-    importMap.delete(identifierText);
-
-    return removedModule;
+        return importRemoveCallbacks;
+      })
+    );
   }
 }
