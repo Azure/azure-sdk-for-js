@@ -237,7 +237,7 @@ describe("DocumentIntelligenceClient", () => {
   it("documentModels analyze prebuilt-layout - invoice (stream)", async function () {
     console.log("ASSET_PATH", ASSET_PATH);
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-    const base64Source = fs.readFileSync(filePath, { encoding: 'base64' });
+    const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
 
     const initialResponse = await client
       .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
@@ -328,7 +328,9 @@ describe("DocumentIntelligenceClient", () => {
       throw initialResponse.body.error;
     }
     const poller = getLongRunningPoller(client, initialResponse);
-    const response = <DocumentClassifierBuildOperationDetailsOutput>(await (await poller).pollUntilDone()).body;
+    const response = <DocumentClassifierBuildOperationDetailsOutput>(
+      (await (await poller).pollUntilDone()).body
+    );
     console.log(response);
     //  {
     //    operationId: '31466834048_f3ee629e-73fb-48ab-993b-1d55d73ca460',
