@@ -6,9 +6,9 @@ import {
   AssistantCreationOptions,
   AssistantModificationOptions,
   AssistantThreadCreationOptions,
-  AssistantTool,
-  RunToolOutput,
-  AssistantThreadCreateAndRunOptions,
+  ToolDefinition,
+  ToolOutputSubmission,
+  CreateAndRunThreadOptions,
 } from "./models.js";
 
 export interface CreateAssistantBodyParam {
@@ -87,7 +87,7 @@ export interface ModifyThreadBodyParam {
 export type ModifyThreadParameters = ModifyThreadBodyParam & RequestParameters;
 export type DeleteThreadParameters = RequestParameters;
 
-export interface CreateThreadMessageBodyParam {
+export interface CreateMessageBodyParam {
   body?: {
     role: string;
     content: string;
@@ -96,10 +96,10 @@ export interface CreateThreadMessageBodyParam {
   };
 }
 
-export type CreateThreadMessageParameters = CreateThreadMessageBodyParam &
+export type CreateMessageParameters = CreateMessageBodyParam &
   RequestParameters;
 
-export interface ListThreadMessagesQueryParamProperties {
+export interface ListMessagesQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -110,22 +110,21 @@ export interface ListThreadMessagesQueryParamProperties {
   before?: string;
 }
 
-export interface ListThreadMessagesQueryParam {
-  queryParameters?: ListThreadMessagesQueryParamProperties;
+export interface ListMessagesQueryParam {
+  queryParameters?: ListMessagesQueryParamProperties;
 }
 
-export type ListThreadMessagesParameters = ListThreadMessagesQueryParam &
-  RequestParameters;
-export type RetrieveThreadMessageParameters = RequestParameters;
+export type ListMessagesParameters = ListMessagesQueryParam & RequestParameters;
+export type RetrieveMessageParameters = RequestParameters;
 
-export interface ModifyThreadMessageBodyParam {
+export interface ModifyMessageBodyParam {
   body?: { metadata?: Record<string, string> };
 }
 
-export type ModifyThreadMessageParameters = ModifyThreadMessageBodyParam &
+export type ModifyMessageParameters = ModifyMessageBodyParam &
   RequestParameters;
 
-export interface ListThreadMessageFilesQueryParamProperties {
+export interface ListMessageFilesQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -136,20 +135,20 @@ export interface ListThreadMessageFilesQueryParamProperties {
   before?: string;
 }
 
-export interface ListThreadMessageFilesQueryParam {
-  queryParameters?: ListThreadMessageFilesQueryParamProperties;
+export interface ListMessageFilesQueryParam {
+  queryParameters?: ListMessageFilesQueryParamProperties;
 }
 
-export type ListThreadMessageFilesParameters =
-  ListThreadMessageFilesQueryParam & RequestParameters;
-export type RetrieveThreadMessageFileParameters = RequestParameters;
+export type ListMessageFilesParameters = ListMessageFilesQueryParam &
+  RequestParameters;
+export type RetrieveMessageFileParameters = RequestParameters;
 
 export interface CreateRunBodyParam {
   body?: {
     assistant_id: assistant_id;
     model?: string;
     instructions?: string;
-    tools?: Array<AssistantTool>;
+    tools?: Array<ToolDefinition>;
     metadata?: Record<string, string>;
   };
 }
@@ -181,7 +180,7 @@ export interface ModifyRunBodyParam {
 export type ModifyRunParameters = ModifyRunBodyParam & RequestParameters;
 
 export interface SubmitRunToolOutputsBodyParam {
-  body?: { tool_outputs: Array<RunToolOutput> };
+  body?: { tool_outputs: Array<ToolOutputSubmission> };
 }
 
 export type SubmitRunToolOutputsParameters = SubmitRunToolOutputsBodyParam &
@@ -189,7 +188,7 @@ export type SubmitRunToolOutputsParameters = SubmitRunToolOutputsBodyParam &
 export type CancelRunParameters = RequestParameters;
 
 export interface CreateThreadAndRunBodyParam {
-  body?: AssistantThreadCreateAndRunOptions;
+  body?: CreateAndRunThreadOptions;
 }
 
 export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &

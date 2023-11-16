@@ -12,34 +12,46 @@ export interface AssistantCreationOptions {
   /** The system instructions for the new assistant to use. */
   instructions?: string;
   /** The collection of tools to enable for the new assistant. */
-  tools?: Array<AssistantTool>;
+  tools?: Array<ToolDefinition>;
   /** A list of previously uploaded file IDs to attach to the assistant. */
   file_ids?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of a tool that an assistant can enable. */
-export interface AssistantToolParent {
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinitionParent {
   type: string;
 }
 
-/** The definition information for the code interpreter tool. */
-export interface CodeInterpreterTool extends AssistantToolParent {
+/** The input definition information for a code interpreter tool as used to configure an assistant. */
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
-/** The definition information for the retrieval tool. */
-export interface AssistantRetrievalTool extends AssistantToolParent {
+/** The input definition information for a retrieval tool as used to configure an assistant. */
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
-/** The definition information for a function tool. */
-export interface AssistantFunctionTool extends AssistantToolParent {
+/** The input definition information for a function tool as used to configure an assistant. */
+export interface FunctionToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'function'. */
   type: "function";
+  /** The definition of the concrete function that the function tool should call. */
+  function: FunctionDefinition;
+}
+
+/** The input definition information for a function. */
+export interface FunctionDefinition {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters: unknown;
 }
 
 /** The request details to use when modifying an existing assistant. */
@@ -53,7 +65,7 @@ export interface AssistantModificationOptions {
   /** The modified system instructions for the new assistant to use. */
   instructions?: string;
   /** The modified collection of tools to enable for the assistant. */
-  tools?: Array<AssistantTool>;
+  tools?: Array<ToolDefinition>;
   /** The modified list of previously uploaded fileIDs to attach to the assistant. */
   file_ids?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
@@ -172,35 +184,35 @@ export interface AssistantMessageTextFilePathAnnotation
   file_path: string;
 }
 
-/** The output information provided for a tool call required by an assistant thread run. */
-export interface RunToolOutput {
-  /** The ID of the tool call. */
+/** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
+export interface ToolOutputSubmission {
+  /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
   tool_call_id?: string;
-  /** The output of the tool call. */
+  /** The output from the tool to be submitted. */
   output?: string;
 }
 
 /** The details used when creating and immediately running a new assistant thread. */
-export interface AssistantThreadCreateAndRunOptions {
+export interface CreateAndRunThreadOptions {
   /** The ID of the assistant for which the thread should be created. */
   assistant_id: string;
   /** The details used to create the new thread. */
   thread?: AssistantThreadCreationOptions;
-  /** The ID of the model to use. */
+  /** The overridden model that the assistant should use to run the thread. */
   model?: string;
-  /** The overriden system instructions to use for the thread run. */
+  /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of tools to enable for the thread run. */
-  tools?: Array<AssistantTool>;
+  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  tools?: Array<ToolDefinition>;
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of a tool that an assistant can enable. */
-export type AssistantTool =
-  | CodeInterpreterTool
-  | AssistantRetrievalTool
-  | AssistantFunctionTool;
+/** An abstract representation of an input tool definition that an assistant can use. */
+export type ToolDefinition =
+  | CodeInterpreterToolDefinition
+  | RetrievalToolDefinition
+  | FunctionToolDefinition;
 /** An abstract representation of a single item of thread message content. */
 export type AssistantMessageContent =
   | AssistantMessageImageFileContent

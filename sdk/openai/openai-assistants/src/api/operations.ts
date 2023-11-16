@@ -13,11 +13,11 @@ import {
   AssistantMessage,
   AssistantRole,
   AssistantThread,
-  AssistantThreadDeletionStatus,
+  ThreadDeletionStatus,
   AssistantMessageFile,
   AssistantRun,
-  RunToolOutput,
-  AssistantThreadCreateAndRunOptions,
+  ToolOutputSubmission,
+  CreateAndRunThreadOptions,
   RunStep,
   FilePurpose,
   FileListResponse,
@@ -29,10 +29,10 @@ import {
   CancelRun200Response,
   CreateAssistant200Response,
   CreateAssistantFile200Response,
+  CreateMessage200Response,
   CreateRun200Response,
   CreateThread200Response,
   CreateThreadAndRun200Response,
-  CreateThreadMessage200Response,
   DeleteAssistant200Response,
   DeleteAssistantFile200Response,
   DeleteFile200Response,
@@ -40,23 +40,23 @@ import {
   ListAssistantFiles200Response,
   ListAssistants200Response,
   ListFiles200Response,
+  ListMessageFiles200Response,
+  ListMessages200Response,
   ListRuns200Response,
   ListRunSteps200Response,
-  ListThreadMessageFiles200Response,
-  ListThreadMessages200Response,
   ModifyAssistant200Response,
+  ModifyMessage200Response,
   ModifyRun200Response,
   ModifyThread200Response,
-  ModifyThreadMessage200Response,
   RetrieveAssistant200Response,
   RetrieveAssistantFile200Response,
   RetrieveFile200Response,
   RetrieveFileContent200Response,
+  RetrieveMessage200Response,
+  RetrieveMessageFile200Response,
   RetrieveRun200Response,
   RetrieveRunStep200Response,
   RetrieveThread200Response,
-  RetrieveThreadMessage200Response,
-  RetrieveThreadMessageFile200Response,
   SubmitRunToolOutputs200Response,
   UploadFile200Response,
 } from "../rest/index.js";
@@ -79,12 +79,12 @@ import {
   RetrieveThreadOptions,
   ModifyThreadOptions,
   DeleteThreadOptions,
-  CreateThreadMessageOptions,
-  ListThreadMessagesOptions,
-  RetrieveThreadMessageOptions,
-  ModifyThreadMessageOptions,
-  ListThreadMessageFilesOptions,
-  RetrieveThreadMessageFileOptions,
+  CreateMessageOptions,
+  ListMessagesOptions,
+  RetrieveMessageOptions,
+  ModifyMessageOptions,
+  ListMessageFilesOptions,
+  RetrieveMessageFileOptions,
   CreateRunOptions,
   ListRunsOptions,
   RetrieveRunOptions,
@@ -653,7 +653,7 @@ export function _deleteThreadSend(
 
 export async function _deleteThreadDeserialize(
   result: DeleteThread200Response
-): Promise<AssistantThreadDeletionStatus> {
+): Promise<ThreadDeletionStatus> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -669,18 +669,18 @@ export async function deleteThread(
   context: Client,
   threadId: string,
   options: DeleteThreadOptions = { requestOptions: {} }
-): Promise<AssistantThreadDeletionStatus> {
+): Promise<ThreadDeletionStatus> {
   const result = await _deleteThreadSend(context, threadId, options);
   return _deleteThreadDeserialize(result);
 }
 
-export function _createThreadMessageSend(
+export function _createMessageSend(
   context: Client,
   threadId: string,
   role: AssistantRole,
   content: string,
-  options: CreateThreadMessageOptions = { requestOptions: {} }
-): StreamableMethod<CreateThreadMessage200Response> {
+  options: CreateMessageOptions = { requestOptions: {} }
+): StreamableMethod<CreateMessage200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
     .post({
@@ -694,8 +694,8 @@ export function _createThreadMessageSend(
     });
 }
 
-export async function _createThreadMessageDeserialize(
-  result: CreateThreadMessage200Response
+export async function _createMessageDeserialize(
+  result: CreateMessage200Response
 ): Promise<AssistantMessage> {
   if (result.status !== "200") {
     throw result.body;
@@ -715,28 +715,28 @@ export async function _createThreadMessageDeserialize(
 }
 
 /** Returns a list of messages from a thread. */
-export async function createThreadMessage(
+export async function createMessage(
   context: Client,
   threadId: string,
   role: AssistantRole,
   content: string,
-  options: CreateThreadMessageOptions = { requestOptions: {} }
+  options: CreateMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
-  const result = await _createThreadMessageSend(
+  const result = await _createMessageSend(
     context,
     threadId,
     role,
     content,
     options
   );
-  return _createThreadMessageDeserialize(result);
+  return _createMessageDeserialize(result);
 }
 
-export function _listThreadMessagesSend(
+export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: ListThreadMessagesOptions = { requestOptions: {} }
-): StreamableMethod<ListThreadMessages200Response> {
+  options: ListMessagesOptions = { requestOptions: {} }
+): StreamableMethod<ListMessages200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
     .get({
@@ -750,8 +750,8 @@ export function _listThreadMessagesSend(
     });
 }
 
-export async function _listThreadMessagesDeserialize(
-  result: ListThreadMessages200Response
+export async function _listMessagesDeserialize(
+  result: ListMessages200Response
 ): Promise<ListResponseOf> {
   if (result.status !== "200") {
     throw result.body;
@@ -777,28 +777,28 @@ export async function _listThreadMessagesDeserialize(
 }
 
 /** Returns a list of messages from a thread. */
-export async function listThreadMessages(
+export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListThreadMessagesOptions = { requestOptions: {} }
+  options: ListMessagesOptions = { requestOptions: {} }
 ): Promise<ListResponseOf> {
-  const result = await _listThreadMessagesSend(context, threadId, options);
-  return _listThreadMessagesDeserialize(result);
+  const result = await _listMessagesSend(context, threadId, options);
+  return _listMessagesDeserialize(result);
 }
 
-export function _retrieveThreadMessageSend(
+export function _retrieveMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: RetrieveThreadMessageOptions = { requestOptions: {} }
-): StreamableMethod<RetrieveThreadMessage200Response> {
+  options: RetrieveMessageOptions = { requestOptions: {} }
+): StreamableMethod<RetrieveMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveThreadMessageDeserialize(
-  result: RetrieveThreadMessage200Response
+export async function _retrieveMessageDeserialize(
+  result: RetrieveMessage200Response
 ): Promise<AssistantMessage> {
   if (result.status !== "200") {
     throw result.body;
@@ -818,27 +818,27 @@ export async function _retrieveThreadMessageDeserialize(
 }
 
 /** Retrieves a message associated with a thread. */
-export async function retrieveThreadMessage(
+export async function retrieveMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: RetrieveThreadMessageOptions = { requestOptions: {} }
+  options: RetrieveMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
-  const result = await _retrieveThreadMessageSend(
+  const result = await _retrieveMessageSend(
     context,
     threadId,
     messageId,
     options
   );
-  return _retrieveThreadMessageDeserialize(result);
+  return _retrieveMessageDeserialize(result);
 }
 
-export function _modifyThreadMessageSend(
+export function _modifyMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ModifyThreadMessageOptions = { requestOptions: {} }
-): StreamableMethod<ModifyThreadMessage200Response> {
+  options: ModifyMessageOptions = { requestOptions: {} }
+): StreamableMethod<ModifyMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
     .post({
@@ -847,8 +847,8 @@ export function _modifyThreadMessageSend(
     });
 }
 
-export async function _modifyThreadMessageDeserialize(
-  result: ModifyThreadMessage200Response
+export async function _modifyMessageDeserialize(
+  result: ModifyMessage200Response
 ): Promise<AssistantMessage> {
   if (result.status !== "200") {
     throw result.body;
@@ -868,27 +868,27 @@ export async function _modifyThreadMessageDeserialize(
 }
 
 /** Modifies an existing message associated with a thread. */
-export async function modifyThreadMessage(
+export async function modifyMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ModifyThreadMessageOptions = { requestOptions: {} }
+  options: ModifyMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
-  const result = await _modifyThreadMessageSend(
+  const result = await _modifyMessageSend(
     context,
     threadId,
     messageId,
     options
   );
-  return _modifyThreadMessageDeserialize(result);
+  return _modifyMessageDeserialize(result);
 }
 
-export function _listThreadMessageFilesSend(
+export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListThreadMessageFilesOptions = { requestOptions: {} }
-): StreamableMethod<ListThreadMessageFiles200Response> {
+  options: ListMessageFilesOptions = { requestOptions: {} }
+): StreamableMethod<ListMessageFiles200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
     .get({
@@ -902,8 +902,8 @@ export function _listThreadMessageFilesSend(
     });
 }
 
-export async function _listThreadMessageFilesDeserialize(
-  result: ListThreadMessageFiles200Response
+export async function _listMessageFilesDeserialize(
+  result: ListMessageFiles200Response
 ): Promise<ListResponseOf> {
   if (result.status !== "200") {
     throw result.body;
@@ -924,28 +924,28 @@ export async function _listThreadMessageFilesDeserialize(
 }
 
 /** Returns a list of files associated with a message from a thread. */
-export async function listThreadMessageFiles(
+export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListThreadMessageFilesOptions = { requestOptions: {} }
+  options: ListMessageFilesOptions = { requestOptions: {} }
 ): Promise<ListResponseOf> {
-  const result = await _listThreadMessageFilesSend(
+  const result = await _listMessageFilesSend(
     context,
     threadId,
     messageId,
     options
   );
-  return _listThreadMessageFilesDeserialize(result);
+  return _listMessageFilesDeserialize(result);
 }
 
-export function _retrieveThreadMessageFileSend(
+export function _retrieveMessageFileSend(
   context: Client,
   threadId: string,
   messageId: string,
   fileId: string,
-  options: RetrieveThreadMessageFileOptions = { requestOptions: {} }
-): StreamableMethod<RetrieveThreadMessageFile200Response> {
+  options: RetrieveMessageFileOptions = { requestOptions: {} }
+): StreamableMethod<RetrieveMessageFile200Response> {
   return context
     .path(
       "/threads/{threadId}/messages/{messageId}/files/{fileId}",
@@ -956,8 +956,8 @@ export function _retrieveThreadMessageFileSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveThreadMessageFileDeserialize(
-  result: RetrieveThreadMessageFile200Response
+export async function _retrieveMessageFileDeserialize(
+  result: RetrieveMessageFile200Response
 ): Promise<AssistantMessageFile> {
   if (result.status !== "200") {
     throw result.body;
@@ -972,21 +972,21 @@ export async function _retrieveThreadMessageFileDeserialize(
 }
 
 /** Retrieves a file attached to a message within a thread. */
-export async function retrieveThreadMessageFile(
+export async function retrieveMessageFile(
   context: Client,
   threadId: string,
   messageId: string,
   fileId: string,
-  options: RetrieveThreadMessageFileOptions = { requestOptions: {} }
+  options: RetrieveMessageFileOptions = { requestOptions: {} }
 ): Promise<AssistantMessageFile> {
-  const result = await _retrieveThreadMessageFileSend(
+  const result = await _retrieveMessageFileSend(
     context,
     threadId,
     messageId,
     fileId,
     options
   );
-  return _retrieveThreadMessageFileDeserialize(result);
+  return _retrieveMessageFileDeserialize(result);
 }
 
 export function _createRunSend(
@@ -1293,7 +1293,7 @@ export function _submitRunToolOutputsSend(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: RunToolOutput[],
+  toolOutputs: ToolOutputSubmission[],
   options: SubmitRunToolOutputsOptions = { requestOptions: {} }
 ): StreamableMethod<SubmitRunToolOutputs200Response> {
   return context
@@ -1369,7 +1369,7 @@ export async function submitRunToolOutputs(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: RunToolOutput[],
+  toolOutputs: ToolOutputSubmission[],
   options: SubmitRunToolOutputsOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _submitRunToolOutputsSend(
@@ -1457,7 +1457,7 @@ export async function cancelRun(
 
 export function _createThreadAndRunSend(
   context: Client,
-  body: AssistantThreadCreateAndRunOptions,
+  body: CreateAndRunThreadOptions,
   options: CreateThreadAndRunOptions = { requestOptions: {} }
 ): StreamableMethod<CreateThreadAndRun200Response> {
   return context
@@ -1544,7 +1544,7 @@ export async function _createThreadAndRunDeserialize(
 /** Creates a new assistant thread and immediately starts a run using that new thread. */
 export async function createThreadAndRun(
   context: Client,
-  body: AssistantThreadCreateAndRunOptions,
+  body: CreateAndRunThreadOptions,
   options: CreateThreadAndRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _createThreadAndRunSend(context, body, options);

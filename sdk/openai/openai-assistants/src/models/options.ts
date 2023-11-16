@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure-rest/core-client";
-import { AssistantTool, FilePurpose } from "./models.js";
+import { ToolDefinition, FilePurpose } from "./models.js";
 
 export interface CreateAssistantOptions extends OperationOptions {}
 
@@ -51,14 +51,14 @@ export interface ModifyThreadOptions extends OperationOptions {
 
 export interface DeleteThreadOptions extends OperationOptions {}
 
-export interface CreateThreadMessageOptions extends OperationOptions {
+export interface CreateMessageOptions extends OperationOptions {
   /** A list of File IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like retrieval and code_interpreter that can access and use files. */
   fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-export interface ListThreadMessagesOptions extends OperationOptions {
+export interface ListMessagesOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -69,14 +69,14 @@ export interface ListThreadMessagesOptions extends OperationOptions {
   before?: string;
 }
 
-export interface RetrieveThreadMessageOptions extends OperationOptions {}
+export interface RetrieveMessageOptions extends OperationOptions {}
 
-export interface ModifyThreadMessageOptions extends OperationOptions {
+export interface ModifyMessageOptions extends OperationOptions {
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-export interface ListThreadMessageFilesOptions extends OperationOptions {
+export interface ListMessageFilesOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
@@ -87,15 +87,15 @@ export interface ListThreadMessageFilesOptions extends OperationOptions {
   before?: string;
 }
 
-export interface RetrieveThreadMessageFileOptions extends OperationOptions {}
+export interface RetrieveMessageFileOptions extends OperationOptions {}
 
 export interface CreateRunOptions extends OperationOptions {
-  /** The ID of the model to use. */
+  /** The overridden model that the assistant should use to run the thread. */
   model?: string;
-  /** The overridden system instructions to use for the assistant thread run. */
+  /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of enabled tools to use for the assistant thread run. */
-  tools?: AssistantTool[];
+  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  tools?: ToolDefinition[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }

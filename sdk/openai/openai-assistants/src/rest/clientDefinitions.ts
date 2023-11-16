@@ -15,12 +15,12 @@ import {
   RetrieveThreadParameters,
   ModifyThreadParameters,
   DeleteThreadParameters,
-  CreateThreadMessageParameters,
-  ListThreadMessagesParameters,
-  RetrieveThreadMessageParameters,
-  ModifyThreadMessageParameters,
-  ListThreadMessageFilesParameters,
-  RetrieveThreadMessageFileParameters,
+  CreateMessageParameters,
+  ListMessagesParameters,
+  RetrieveMessageParameters,
+  ModifyMessageParameters,
+  ListMessageFilesParameters,
+  RetrieveMessageFileParameters,
   CreateRunParameters,
   ListRunsParameters,
   RetrieveRunParameters,
@@ -50,12 +50,12 @@ import {
   RetrieveThread200Response,
   ModifyThread200Response,
   DeleteThread200Response,
-  CreateThreadMessage200Response,
-  ListThreadMessages200Response,
-  RetrieveThreadMessage200Response,
-  ModifyThreadMessage200Response,
-  ListThreadMessageFiles200Response,
-  RetrieveThreadMessageFile200Response,
+  CreateMessage200Response,
+  ListMessages200Response,
+  RetrieveMessage200Response,
+  ModifyMessage200Response,
+  ListMessageFiles200Response,
+  RetrieveMessageFile200Response,
   CreateRun200Response,
   ListRuns200Response,
   RetrieveRun200Response,
@@ -143,40 +143,40 @@ export interface RetrieveThread {
   ): StreamableMethod<DeleteThread200Response>;
 }
 
-export interface CreateThreadMessage {
+export interface CreateMessage {
   /** Returns a list of messages from a thread. */
   post(
-    options?: CreateThreadMessageParameters
-  ): StreamableMethod<CreateThreadMessage200Response>;
+    options?: CreateMessageParameters
+  ): StreamableMethod<CreateMessage200Response>;
   /** Returns a list of messages from a thread. */
   get(
-    options?: ListThreadMessagesParameters
-  ): StreamableMethod<ListThreadMessages200Response>;
+    options?: ListMessagesParameters
+  ): StreamableMethod<ListMessages200Response>;
 }
 
-export interface RetrieveThreadMessage {
+export interface RetrieveMessage {
   /** Retrieves a message associated with a thread. */
   get(
-    options?: RetrieveThreadMessageParameters
-  ): StreamableMethod<RetrieveThreadMessage200Response>;
+    options?: RetrieveMessageParameters
+  ): StreamableMethod<RetrieveMessage200Response>;
   /** Modifies an existing message associated with a thread. */
   post(
-    options?: ModifyThreadMessageParameters
-  ): StreamableMethod<ModifyThreadMessage200Response>;
+    options?: ModifyMessageParameters
+  ): StreamableMethod<ModifyMessage200Response>;
 }
 
-export interface ListThreadMessageFiles {
+export interface ListMessageFiles {
   /** Returns a list of files associated with a message from a thread. */
   get(
-    options?: ListThreadMessageFilesParameters
-  ): StreamableMethod<ListThreadMessageFiles200Response>;
+    options?: ListMessageFilesParameters
+  ): StreamableMethod<ListMessageFiles200Response>;
 }
 
-export interface RetrieveThreadMessageFile {
+export interface RetrieveMessageFile {
   /** Retrieves a file attached to a message within a thread. */
   get(
-    options?: RetrieveThreadMessageFileParameters
-  ): StreamableMethod<RetrieveThreadMessageFile200Response>;
+    options?: RetrieveMessageFileParameters
+  ): StreamableMethod<RetrieveMessageFile200Response>;
 }
 
 export interface CreateRun {
@@ -274,26 +274,26 @@ export interface Routes {
   /** Resource for '/threads/\{threadId\}' has methods for the following verbs: get, post, delete */
   (path: "/threads/{threadId}", threadId: string): RetrieveThread;
   /** Resource for '/threads/\{threadId\}/messages' has methods for the following verbs: post, get */
-  (path: "/threads/{threadId}/messages", threadId: string): CreateThreadMessage;
+  (path: "/threads/{threadId}/messages", threadId: string): CreateMessage;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}' has methods for the following verbs: get, post */
   (
     path: "/threads/{threadId}/messages/{messageId}",
     threadId: string,
     messageId: string
-  ): RetrieveThreadMessage;
+  ): RetrieveMessage;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files",
     threadId: string,
     messageId: string
-  ): ListThreadMessageFiles;
+  ): ListMessageFiles;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files/\{fileId\}' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files/{fileId}",
     threadId: string,
     messageId: string,
     fileId: string
-  ): RetrieveThreadMessageFile;
+  ): RetrieveMessageFile;
   /** Resource for '/threads/\{threadId\}/runs' has methods for the following verbs: post, get */
   (path: "/threads/{threadId}/runs", threadId: string): CreateRun;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}' has methods for the following verbs: get, post */

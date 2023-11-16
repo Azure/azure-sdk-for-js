@@ -15,11 +15,11 @@ import {
   AssistantMessage,
   AssistantRole,
   AssistantThread,
-  AssistantThreadDeletionStatus,
+  ThreadDeletionStatus,
   AssistantMessageFile,
   AssistantRun,
-  RunToolOutput,
-  AssistantThreadCreateAndRunOptions,
+  ToolOutputSubmission,
+  CreateAndRunThreadOptions,
   RunStep,
   FilePurpose,
   FileListResponse,
@@ -40,12 +40,12 @@ import {
   RetrieveThreadOptions,
   ModifyThreadOptions,
   DeleteThreadOptions,
-  CreateThreadMessageOptions,
-  ListThreadMessagesOptions,
-  RetrieveThreadMessageOptions,
-  ModifyThreadMessageOptions,
-  ListThreadMessageFilesOptions,
-  RetrieveThreadMessageFileOptions,
+  CreateMessageOptions,
+  ListMessagesOptions,
+  RetrieveMessageOptions,
+  ModifyMessageOptions,
+  ListMessageFilesOptions,
+  RetrieveMessageFileOptions,
   CreateRunOptions,
   ListRunsOptions,
   RetrieveRunOptions,
@@ -78,12 +78,12 @@ import {
   retrieveThread,
   modifyThread,
   deleteThread,
-  createThreadMessage,
-  listThreadMessages,
-  retrieveThreadMessage,
-  modifyThreadMessage,
-  listThreadMessageFiles,
-  retrieveThreadMessageFile,
+  createMessage,
+  listMessages,
+  retrieveMessage,
+  modifyMessage,
+  listMessageFiles,
+  retrieveMessageFile,
   createRun,
   listRuns,
   retrieveRun,
@@ -225,63 +225,63 @@ export class AssistantsClient {
   deleteThread(
     threadId: string,
     options: DeleteThreadOptions = { requestOptions: {} }
-  ): Promise<AssistantThreadDeletionStatus> {
+  ): Promise<ThreadDeletionStatus> {
     return deleteThread(this._client, threadId, options);
   }
 
   /** Returns a list of messages from a thread. */
-  createThreadMessage(
+  createMessage(
     threadId: string,
     role: AssistantRole,
     content: string,
-    options: CreateThreadMessageOptions = { requestOptions: {} }
+    options: CreateMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
-    return createThreadMessage(this._client, threadId, role, content, options);
+    return createMessage(this._client, threadId, role, content, options);
   }
 
   /** Returns a list of messages from a thread. */
-  listThreadMessages(
+  listMessages(
     threadId: string,
-    options: ListThreadMessagesOptions = { requestOptions: {} }
+    options: ListMessagesOptions = { requestOptions: {} }
   ): Promise<ListResponseOf> {
-    return listThreadMessages(this._client, threadId, options);
+    return listMessages(this._client, threadId, options);
   }
 
   /** Retrieves a message associated with a thread. */
-  retrieveThreadMessage(
+  retrieveMessage(
     threadId: string,
     messageId: string,
-    options: RetrieveThreadMessageOptions = { requestOptions: {} }
+    options: RetrieveMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
-    return retrieveThreadMessage(this._client, threadId, messageId, options);
+    return retrieveMessage(this._client, threadId, messageId, options);
   }
 
   /** Modifies an existing message associated with a thread. */
-  modifyThreadMessage(
+  modifyMessage(
     threadId: string,
     messageId: string,
-    options: ModifyThreadMessageOptions = { requestOptions: {} }
+    options: ModifyMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
-    return modifyThreadMessage(this._client, threadId, messageId, options);
+    return modifyMessage(this._client, threadId, messageId, options);
   }
 
   /** Returns a list of files associated with a message from a thread. */
-  listThreadMessageFiles(
+  listMessageFiles(
     threadId: string,
     messageId: string,
-    options: ListThreadMessageFilesOptions = { requestOptions: {} }
+    options: ListMessageFilesOptions = { requestOptions: {} }
   ): Promise<ListResponseOf> {
-    return listThreadMessageFiles(this._client, threadId, messageId, options);
+    return listMessageFiles(this._client, threadId, messageId, options);
   }
 
   /** Retrieves a file attached to a message within a thread. */
-  retrieveThreadMessageFile(
+  retrieveMessageFile(
     threadId: string,
     messageId: string,
     fileId: string,
-    options: RetrieveThreadMessageFileOptions = { requestOptions: {} }
+    options: RetrieveMessageFileOptions = { requestOptions: {} }
   ): Promise<AssistantMessageFile> {
-    return retrieveThreadMessageFile(
+    return retrieveMessageFile(
       this._client,
       threadId,
       messageId,
@@ -329,7 +329,7 @@ export class AssistantsClient {
   submitRunToolOutputs(
     threadId: string,
     runId: string,
-    toolOutputs: RunToolOutput[],
+    toolOutputs: ToolOutputSubmission[],
     options: SubmitRunToolOutputsOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return submitRunToolOutputs(
@@ -352,7 +352,7 @@ export class AssistantsClient {
 
   /** Creates a new assistant thread and immediately starts a run using that new thread. */
   createThreadAndRun(
-    body: AssistantThreadCreateAndRunOptions,
+    body: CreateAndRunThreadOptions,
     options: CreateThreadAndRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return createThreadAndRun(this._client, body, options);

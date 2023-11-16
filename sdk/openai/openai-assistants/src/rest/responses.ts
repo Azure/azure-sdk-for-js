@@ -9,7 +9,7 @@ import {
   AssistantFileOutput,
   AssistantFileDeletionStatusOutput,
   AssistantThreadOutput,
-  AssistantThreadDeletionStatusOutput,
+  ThreadDeletionStatusOutput,
   AssistantMessageOutput,
   AssistantMessageFileOutput,
   AssistantRunOutput,
@@ -94,41 +94,41 @@ export interface ModifyThread200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface DeleteThread200Response extends HttpResponse {
   status: "200";
-  body: AssistantThreadDeletionStatusOutput;
+  body: ThreadDeletionStatusOutput;
 }
 
 /** The request has succeeded. */
-export interface CreateThreadMessage200Response extends HttpResponse {
+export interface CreateMessage200Response extends HttpResponse {
   status: "200";
   body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
-export interface ListThreadMessages200Response extends HttpResponse {
+export interface ListMessages200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
-export interface RetrieveThreadMessage200Response extends HttpResponse {
+export interface RetrieveMessage200Response extends HttpResponse {
   status: "200";
   body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
-export interface ModifyThreadMessage200Response extends HttpResponse {
+export interface ModifyMessage200Response extends HttpResponse {
   status: "200";
   body: AssistantMessageOutput;
 }
 
 /** The request has succeeded. */
-export interface ListThreadMessageFiles200Response extends HttpResponse {
+export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput;
 }
 
 /** The request has succeeded. */
-export interface RetrieveThreadMessageFile200Response extends HttpResponse {
+export interface RetrieveMessageFile200Response extends HttpResponse {
   status: "200";
   body: AssistantMessageFileOutput;
 }

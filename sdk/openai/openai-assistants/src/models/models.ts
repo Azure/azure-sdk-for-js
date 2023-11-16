@@ -12,17 +12,27 @@ export interface AssistantCreationOptions {
   /** The system instructions for the new assistant to use. */
   instructions?: string;
   /** The collection of tools to enable for the new assistant. */
-  tools?: AssistantTool[];
+  tools?: ToolDefinition[];
   /** A list of previously uploaded file IDs to attach to the assistant. */
   fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of a tool that an assistant can enable. */
-export interface AssistantTool {
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinition {
   /** the discriminator possible values code_interpreter, retrieval, function */
   type: string;
+}
+
+/** The input definition information for a function. */
+export interface FunctionDefinition {
+  /** The name of the function to be called. */
+  name: string;
+  /** A description of what the function does, used by the model to choose when and how to call the function. */
+  description: string;
+  /** The parameters the functions accepts, described as a JSON Schema object. */
+  parameters: unknown;
 }
 
 /** Represents an assistant that can call the model and use tools. */
@@ -42,7 +52,7 @@ export interface Assistant {
   /** The system instructions for the assistant to use. */
   instructions: string;
   /** The collection of tools enabled for the assistant. */
-  tools: AssistantTool[];
+  tools: ToolDefinition[];
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   fileIds: string[];
   /** A set of key/value pairs used to store additional information about the object. */
@@ -74,7 +84,7 @@ export interface AssistantModificationOptions {
   /** The modified system instructions for the new assistant to use. */
   instructions?: string;
   /** The modified collection of tools to enable for the assistant. */
-  tools?: AssistantTool[];
+  tools?: ToolDefinition[];
   /** The modified list of previously uploaded fileIDs to attach to the assistant. */
   fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
@@ -210,7 +220,7 @@ export interface AssistantThread {
 }
 
 /** The status of a thread deletion operation. */
-export interface AssistantThreadDeletionStatus {
+export interface ThreadDeletionStatus {
   /** The object type, which is always 'thread.deleted'. */
   object: "thread.deleted";
   /** A value indicating whether deletion was successful. */
@@ -268,9 +278,9 @@ export interface AssistantRun {
   /** The ID of the assistant associated with the thread this run was performed against. */
   assistantId: string;
   /** The status of the assistant thread run. */
-  status: AssistantRunStatus;
+  status: RunStatus;
   /** The details of the action required for the assistant thread run to continue. */
-  requiredAction?: RunRequiredAction;
+  requiredAction?: RequiredAction;
   /** The last error, if any, encountered by this assistant thread run. */
   lastError?: RunError;
   /** The ID of the model to use. */
@@ -278,7 +288,7 @@ export interface AssistantRun {
   /** The overriden system instructions used for this assistant thread run. */
   instructions: string;
   /** The overriden enabled tools used for this assistant thread run. */
-  tools: AssistantTool[];
+  tools: ToolDefinition[];
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   fileIds: string[];
   /** A set of key/value pairs used to store additional information about the object. */
@@ -299,28 +309,59 @@ export interface AssistantRun {
 
 /** Possible values for the status of an assistant thread run. */
 /** "queued", "in_progress", "requires_action", "cancelling", "cancelled", "failed", "completed", "expired" */
-export type AssistantRunStatus = string;
+export type RunStatus = string;
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
-export interface RunRequiredAction {
+export interface RequiredAction {
   /** the discriminator possible values submit_tool_outputs */
   type: string;
 }
 
-/** An abstract representation of a tool call as performed by an assistant thread run. */
-export interface RunToolCall {
-  /** the discriminator possible values function */
+/** The details describing tools that should be called to submit tool outputs. */
+export interface SubmitToolOutputsDetails {
+  /** The list of tool calls that must be resolved for the assistant thread run to continue. */
+  toolCalls: ToolCall[];
+}
+
+/**
+ * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
+ * be fulfilled and have its outputs submitted before the model can continue.
+ */
+export interface ToolCall {
+  /** the discriminator possible values code_interpreter, retrieval, function */
   type: string;
-  /** The identifier, which can be referenced in API endpoints. */
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
 }
 
-/** The definition of a tool function as used by an assistant thread run. */
-export interface RunFunction {
+/** The detailed information about a code interpreter invocation by the model. */
+export interface CodeInterpeterCallDetails {
+  /** The input provided by the model to the code interpreter tool. */
+  input: string;
+  /** The outputs produced by the code interpeter tool back to the model in response to the tool call. */
+  outputs: CodeInterpreterCallOutput[];
+}
+
+/** An abstract representation of an emitted output from a code interpreter tool. */
+export interface CodeInterpreterCallOutput {
+  /** the discriminator possible values logs, image */
+  type: string;
+}
+
+/** An image reference emitted by a code interpreter tool in response to a tool call by the model. */
+export interface CodeInterpreterImageReference {
+  /** The ID of the file associated with this image. */
+  fileId: string;
+}
+
+/** The detailed information about the function called by the model. */
+export interface FunctionCallDetails {
   /** The name of the function. */
   name: string;
-  /** The arguments for the function. */
+  /** The arguments that the model requires are provided to the named function. */
   arguments: string;
+  /** The output of the function, only populated for function calls that have already have had their outputs submitted. */
+  output?: string | null;
 }
 
 /** The details of an error as encountered by an assistant thread run. */
@@ -345,26 +386,26 @@ export interface ListResponseOf {
   hasMore: boolean;
 }
 
-/** The output information provided for a tool call required by an assistant thread run. */
-export interface RunToolOutput {
-  /** The ID of the tool call. */
+/** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
+export interface ToolOutputSubmission {
+  /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
   toolCallId?: string;
-  /** The output of the tool call. */
+  /** The output from the tool to be submitted. */
   output?: string;
 }
 
 /** The details used when creating and immediately running a new assistant thread. */
-export interface AssistantThreadCreateAndRunOptions {
+export interface CreateAndRunThreadOptions {
   /** The ID of the assistant for which the thread should be created. */
   assistantId: string;
   /** The details used to create the new thread. */
   thread?: AssistantThreadCreationOptions;
-  /** The ID of the model to use. */
+  /** The overridden model that the assistant should use to run the thread. */
   model?: string;
-  /** The overriden system instructions to use for the thread run. */
+  /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of tools to enable for the thread run. */
-  tools?: AssistantTool[];
+  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  tools?: ToolDefinition[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
@@ -412,47 +453,9 @@ export interface RunStepDetails {
 }
 
 /** The details of a message created as a part of a run step. */
-export interface RunStepMessageCreation {
+export interface RunStepMessageCreationReference {
   /** The ID of the message created by this run step. */
   messageId: string;
-}
-
-/** An abstract representation of tool call details associated with a run step. */
-export interface RunStepToolCall {
-  /** the discriminator possible values code_interpreter, retrieval, function */
-  type: string;
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-}
-
-/** The definition information for a code interpreter tool as represented in a run step. */
-export interface CodeInterpreterToolDefinition {
-  /** The input to the Code Interpreter tool call. */
-  input: string;
-  /** The outputs from the Code Interpreter tool call. Code Interpreter can output one or more items, including text (logs) or images (image). */
-  outputs: CodeInterpreterToolCallOutput[];
-}
-
-/** An abstract representation of a code interpreter tool's output from a run step tool call. */
-export interface CodeInterpreterToolCallOutput {
-  /** the discriminator possible values logs, image */
-  type: string;
-}
-
-/** Information about an image associated with code interpreter tool output from a run step. */
-export interface CodeInterpreterImage {
-  /** The ID of the file associated with this image. */
-  fileId: string;
-}
-
-/** The definition for a function as used by a run step tool call. */
-export interface RunStepToolCallDefinition {
-  /** The name of the function. */
-  name: string;
-  /** The arguments provided to the function. */
-  arguments: string;
-  /** The output of the function, which will be null if outputs have not yet been submitted. */
-  output?: string;
 }
 
 /** The error information associated with a failed run step. */
