@@ -10,8 +10,7 @@ import {
 import {
   GetChatCompletionsWithAzureExtensionsOptions,
   GetCompletionsOptions,
-  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
-} from "../../generated/src/models/options.js";
+} from "../models/options.js";
 import {
   _getCompletionsSend,
   _beginAzureBatchImageGenerationSend,
@@ -53,10 +52,16 @@ export function listCompletions(
   deploymentName: string,
   options: GetCompletionsOptions = { requestOptions: {} }
 ): AsyncIterable<Omit<Completions, "usage">> {
-  const response = _getCompletionsSend(context, prompt, deploymentName, {
-    ...options,
-    stream: true,
-  });
+  const response = _getCompletionsSend(
+    context,
+    deploymentName,
+    {
+      prompt,
+      ...options,
+      stream: true,
+    },
+    options
+  );
   return getOaiSSEs(response, getCompletionsResult);
 }
 
@@ -65,7 +70,11 @@ export async function getImages(
   prompt: string,
   options: ImageGenerationOptions = { requestOptions: {} }
 ): Promise<ImageGenerations> {
-  const response = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+  const response = await _beginAzureBatchImageGenerationSend(
+    context,
+    { prompt, ...options },
+    options
+  );
 
   if (isUnexpected(response)) {
     // Check for response from OpenAI
@@ -330,7 +339,7 @@ export function _getChatCompletionsSend(
   context: Client,
   messages: ChatMessage[],
   deploymentId: string,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),

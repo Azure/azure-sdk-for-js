@@ -45,6 +45,8 @@ export {
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,
+  AzureCognitiveSearchIndexFieldMappingOptions,
+  AzureCognitiveSearchQueryType,
 } from "./models.js";
 export {
   GetAudioTranscriptionAsPlainTextOptions,

@@ -46,6 +46,8 @@ export {
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,
+  AzureCognitiveSearchIndexFieldMappingOptions,
+  AzureCognitiveSearchQueryType,
   GetAudioTranscriptionAsPlainTextOptions,
   GetAudioTranscriptionAsResponseObjectOptions,
   GetAudioTranslationAsPlainTextOptions,
