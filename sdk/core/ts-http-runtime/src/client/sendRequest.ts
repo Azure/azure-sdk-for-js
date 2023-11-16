@@ -15,7 +15,7 @@ import { Pipeline } from "../pipeline";
 import { createHttpHeaders } from "../httpHeaders";
 import { createPipelineRequest } from "../pipelineRequest";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
-import { isReadableStream } from "./helpers/isReadableStream";
+import { isReadableStream } from "../util/typeGuards";
 import { HttpResponse, RequestParameters } from "./common";
 import { binaryArrayToString } from "./helpers/getBinaryBody";
 
