@@ -47,6 +47,8 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 ### Using a Token Credential
 
 ```ts
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+
 const client = DocumentIntelligence(
   process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"],
   new DefaultAzureCredential()
