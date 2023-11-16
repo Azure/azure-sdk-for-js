@@ -1,6 +1,7 @@
 import { Project, SourceFile, InterfaceDeclaration } from "ts-morph";
 import { expect } from "chai";
-import { augmentInterface } from "../../src/util/customization/interfaces";
+import { augmentInterface, augmentInterfaces } from "../../src/util/customization/interfaces";
+import { getOriginalDeclarationsMap } from "../../src/util/customization/customize";
 
 describe("Interfaces", () => {
   let project: Project;
@@ -73,5 +74,30 @@ describe("Interfaces", () => {
     expect(
       originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText()
     ).to.equal("boolean");
+  });
+
+  it("should rename an interface marked with @azsdk-rename", () => {
+    originalFile.addInterface({
+      name: "Dog",
+      properties: [{ name: "name", type: "string" }],
+    });
+    originalFile.addInterface({
+      name: "Human",
+      properties: [{ name: "pets", type: "Dog[]" }],
+    });
+    customFile.addInterface({
+      name: "Pet",
+      docs: ["@azsdk-rename(Dog)"],
+    });
+
+    const originalMap = getOriginalDeclarationsMap(originalFile);
+
+    augmentInterfaces(originalMap.interfaces, customFile.getInterfaces(), originalFile);
+
+    expect(originalFile.getInterface("Dog")).to.be.undefined;
+    expect(originalFile.getInterface("Pet")).not.to.be.undefined;
+    expect(originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText()).to.equal(
+      "Pet[]"
+    );
   });
 });
