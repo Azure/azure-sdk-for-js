@@ -6,9 +6,7 @@ import { createClientLogger } from "@azure/logger";
 
 import path from "path";
 
-export const ASSET_PATH = path.resolve(
-  path.join(process.cwd(), "..", "..", "formrecognizer", "ai-form-recognizer", "assets")
-);
+export const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
 
 export function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = assertEnvironmentVariable(
