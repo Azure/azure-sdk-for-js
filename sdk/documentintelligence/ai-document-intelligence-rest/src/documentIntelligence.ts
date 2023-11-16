@@ -19,14 +19,6 @@ export default function createClient(
 ): DocumentIntelligenceClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/documentintelligence`;
   options.apiVersion = options.apiVersion ?? "2023-10-31-preview";
-  options = {
-    ...options,
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
-    },
-  };
-
   const userAgentInfo = `azsdk-js-ai-document-intelligence-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -39,6 +31,10 @@ export default function createClient(
     },
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
