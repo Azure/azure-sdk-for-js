@@ -8,7 +8,6 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-intelligence)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples)
 
 ## Getting started
