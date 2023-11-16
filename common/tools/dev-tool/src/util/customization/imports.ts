@@ -128,9 +128,15 @@ function removeDuplicateIdentifiers(
     return customImportDecl.getDescendantsOfKind(ts.SyntaxKind.Identifier);
   });
 
-  const removedModules = customIdentifiers
-    .map(removeFromImports)
-    .filter((moduleSpecifier): moduleSpecifier is string => !!moduleSpecifier);
+  const removedModules = [];
+  for (const customIdentifier of customIdentifiers) {
+    // module specifier of removed import declaration, if the thing that was removed was an
+    // import declaration and not an import specifier
+    const removedModuleSpecifier = removeFromImports(customIdentifier);
+    if (removedModuleSpecifier) {
+      removedModules.push(removedModuleSpecifier);
+    }
+  }
 
   return removedModules;
 
