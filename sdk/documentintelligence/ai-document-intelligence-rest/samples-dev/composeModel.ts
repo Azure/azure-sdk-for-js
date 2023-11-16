@@ -12,7 +12,7 @@
  * @azsdk-weight 60
  */
 
-import DocumentIntelligence, { AnalyzeResultOperationOutput, DocumentModelBuildOperationDetailsOutput, DocumentModelComposeOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
+import DocumentIntelligence, { DocumentModelBuildOperationDetailsOutput, DocumentModelComposeOperationDetailsOutput, getLongRunningPoller, isUnexpected } from "@azure-rest/ai-document-intelligence";
 
 import * as dotenv from "dotenv";
 dotenv.config();

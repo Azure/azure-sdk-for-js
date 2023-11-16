@@ -39,7 +39,6 @@ async function main() {
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
   // document, such as page text elements and information about the language of the text.
   const pages = analyzeResult?.pages;
-  const content = analyzeResult?.content;
   const languages = analyzeResult?.languages;
   const styles = analyzeResult?.styles;
 
