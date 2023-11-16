@@ -22,16 +22,13 @@ import fs from "fs";
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  const options = {
-    /* apiVersion: "2023-07-31" */
-  };
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions(options)
+      recorder.configureClientOptions({})
     );
   });
 

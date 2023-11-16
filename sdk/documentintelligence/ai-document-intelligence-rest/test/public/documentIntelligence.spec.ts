@@ -20,6 +20,7 @@ describe("DocumentIntelligenceClient", () => {
   let client: DocumentIntelligenceClient;
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
+    await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
