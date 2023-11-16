@@ -82,10 +82,10 @@ In the `RouterQuickStart` folder, install the ACS Job Router SDK by executing `n
 First we need to construct an `AzureCommunicationRoutingServiceClient`.
 
 ```js
-const { createClient } = require("@azure-rest/communication-job-router");
+const JobRouterClient = require("@azure-rest/communication-job-router").default;
 
 const connectionString = "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const routerClient : AzureCommunicationRoutingServiceClient = createClient(connectionString);
+const routerClient = JobRouterClient(connectionString);
 ```
 
 ### Create a Distribution Policy
@@ -93,7 +93,7 @@ const routerClient : AzureCommunicationRoutingServiceClient = createClient(conne
 This policy determines which workers will receive job offers as jobs are distributed off their queues.
 
 ```js
-const result = await routerClient.path("/routing/distributionPolicies/{id}", id).patch({
+await routerClient.path("/routing/distributionPolicies/{id}", "distributionPolicy-1").patch({
   contentType: "application/merge-patch+json",
   body: {
     name: "distribution-policy-123",
@@ -112,6 +112,7 @@ const result = await routerClient.path("/routing/distributionPolicies/{id}", id)
 This queue offers jobs to workers according to our previously created distribution policy.
 
 ```js
+const salesQueueId = "queue-123";
 await routerClient.path("/routing/queues/{id}", salesQueueId).patch({
   contentType: "application/merge-patch+json",
   body: {
@@ -135,23 +136,23 @@ const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
 const workerAliceResponse = await routerClient.path("/routing/workers/{workerId}", workerAliceId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    totalCapacity: 120,
-    queueAssignments: 
-      [salesQueueResponse.id]
-    ,
+    capacity: 120,
+    queues: [salesQueueId],
     labels: {
       Xbox: 5,
       german: 4,
       name: "Alice"
     },
-    channelConfigurations: {
-      CustomChatChannel: {
+    channels: [
+      {
+        channelId: "CustomChatChannel",
         capacityCostPerJob: 10,
       },
-      CustomVoiceChannel: {
+      {
+        channelId: "CustomVoiceChannel",
         capacityCostPerJob: 100,
       },
-    },
+    ],
   }
 });
 
@@ -160,23 +161,23 @@ const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
 const workerBobResponse = await routerClient.path("/routing/workers/{workerId}", workerBobId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    totalCapacity: 100,
-    queues: 
-      [salesQueueResponse.id]
-    ,
+    capacity: 100,
+    queues: [salesQueueId],
     labels: {
       Xbox: 5,
       english: 3,
       name: "Alice"
     },
-    channelConfigurations: {
-      CustomChatChannel: {
+    channels: [
+      {
+        channelId: "CustomChatChannel",
         capacityCostPerJob: 10,
       },
-      CustomVoiceChannel: {
+      {
+        channelId: "CustomVoiceChannel",
         capacityCostPerJob: 100,
       },
-    },
+    ],
   }
 });
 ```
@@ -197,7 +198,7 @@ const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
     channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
     channelId: "voice",
     priority: 2,
-    queueId: salesQueueId,
+    queueId: "salesQueueId",
     labels: {},
   }
 });
@@ -213,7 +214,6 @@ This policy classifies jobs upon creation.
 
 ```js
 const classificationPolicyId = "classification-policy-123";
-const salesQueueId = "queue-123";
 const result = await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
   contentType: "application/merge-patch+json",
   body: {
@@ -344,7 +344,7 @@ const declineResponse = await routerClient.path("/routing/workers/{workerId}/off
 The `assignmentId` received from the previous step's response is required to complete the job.
 
 ```ts
-const completeJob = await routerClient.path("/routing/jobs/{id}/assignments/{assignmentId}:complete", jobId, (acceptJobOfferResult as AcceptJobAction200Response).body.assignmentId).post({
+const completeJob = await routerClient.path("/routing/jobs/{id}/assignments/{assignmentId}:complete", jobId, acceptResponse.body.assignmentId).post({
   body: {
     note: `Job has been completed by ${workerId} at ${new Date()}`
   }
@@ -356,7 +356,7 @@ const completeJob = await routerClient.path("/routing/jobs/{id}/assignments/{ass
 Once the worker has completed the wrap-up phase of the job the `jobRouterClient` can close the job and attach a disposition code to it for future reference.
 
 ```ts
-const closeJob = await routerClient.path("/routing/jobs/{id}/assignments/{assignmentId}:close", jobId, (acceptJobOfferResult as AcceptJobAction200Response).body.assignmentId).post({
+const closeJob = await routerClient.path("/routing/jobs/{id}/assignments/{assignmentId}:close", jobId, acceptResponse.body.assignmentId).post({
   body: {
     note: `Job has been closed by ${workerId} at ${new Date()}`
   }
