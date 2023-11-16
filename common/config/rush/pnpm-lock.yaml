@@ -866,6 +866,9 @@ dependencies:
   '@rush-temp/identity-vscode':
     specifier: file:./projects/identity-vscode.tgz
     version: file:projects/identity-vscode.tgz
+  '@rush-temp/imageAnalysis':
+    specifier: file:./projects/imageAnalysis.tgz
+    version: file:projects/imageAnalysis.tgz
   '@rush-temp/iot-device-update':
     specifier: file:./projects/iot-device-update.tgz
     version: file:projects/iot-device-update.tgz
@@ -3554,6 +3557,13 @@ packages:
     requiresBuild: true
     dev: false
 
+  /autorest@3.7.0:
+    resolution: {integrity: sha512-E6RXXd6S8Kyc0oNY7Ar0IARSMTodIrww7FBR0FZSuQT0J8P3udvqXFexr2K290fr8qm7kAl7OUsWq08FTbIJoA==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -4495,7 +4505,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231107
+      typescript: 5.4.0-dev.20231116
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9272,8 +9282,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231107:
-    resolution: {integrity: sha512-4bQlfsyFjzZMo1bSLEkFJEcvuQ64pgE0S/BpdWu16lYsQOfJZtntZIyWdED3h+e96IMtVgrC6sxzfPZhj4J/dw==}
+  /typescript@5.4.0-dev.20231116:
+    resolution: {integrity: sha512-arT/MwHnosyqo1MQ2xN9VzwvWo1jxrhUpa1iQX1yZACfBRJb1dQ1D2MU/Ijotjr6eXw8BZ3RFdj9X/9O56iOgw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9905,7 +9915,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9951,7 +9961,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10181,7 +10191,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       dotenv: 8.6.0
       eslint: 8.53.0
@@ -10253,7 +10263,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10345,7 +10355,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10825,7 +10835,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11485,7 +11495,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11705,7 +11715,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13974,7 +13984,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15256,7 +15266,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16451,7 +16461,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17680,7 +17690,7 @@ packages:
       '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
       '@types/chai': 4.3.9
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18086,7 +18096,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18131,7 +18141,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18325,6 +18335,51 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/imageAnalysis.tgz:
+    resolution: {integrity: sha512-o0Sddhzm5cmEZsSy92GDd6kE5uX/NyJQcuBZk/8kaEqHfUwR9/TsMQGLetqn4IYXK/yGP8Zug8TGZLJ3qhvJkw==, tarball: file:projects/imageAnalysis.tgz}
+    name: '@rush-temp/imageAnalysis'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.3.2
+      '@microsoft/api-extractor': 7.38.2(@types/node@18.18.8)
+      '@types/chai': 4.3.9
+      '@types/mocha': 10.0.3
+      '@types/node': 18.18.8
+      autorest: 3.7.0
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.53.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      mocha-junit-reporter: 1.23.3(mocha@10.2.0)
+      prettier: 2.8.8
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.1(@types/node@18.18.8)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
@@ -18634,7 +18689,7 @@ packages:
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18743,7 +18798,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18789,7 +18844,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18835,7 +18890,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18881,7 +18936,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20009,7 +20064,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20054,7 +20109,7 @@ packages:
       '@types/chai': 4.3.9
       '@types/mocha': 10.0.3
       '@types/node': 18.18.8
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
