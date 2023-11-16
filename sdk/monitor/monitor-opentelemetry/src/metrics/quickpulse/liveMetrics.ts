@@ -92,10 +92,10 @@ export class LiveMetrics {
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastCpus:
     | {
-      model: string;
-      speed: number;
-      times: { user: number; nice: number; sys: number; idle: number; irq: number };
-    }[]
+        model: string;
+        speed: number;
+        times: { user: number; nice: number; sys: number; idle: number; irq: number };
+      }[]
     | undefined;
 
   /**
