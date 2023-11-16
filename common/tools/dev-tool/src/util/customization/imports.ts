@@ -122,9 +122,9 @@ function removeDuplicateIdentifiers(
     })
   );
 
-  const customIdentifiers = customImports.flatMap((customImportDecl) => {
-    return customImportDecl.getDescendantsOfKind(SyntaxKind.Identifier);
-  });
+  const customIdentifiers = customImports.flatMap((customImportDecl) =>
+    customImportDecl.getDescendantsOfKind(SyntaxKind.Identifier)
+  );
 
   const removedModules = [];
   for (const customIdentifier of customIdentifiers) {
