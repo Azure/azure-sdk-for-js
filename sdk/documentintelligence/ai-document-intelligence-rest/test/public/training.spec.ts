@@ -209,7 +209,7 @@ describe("model management", () => {
         await Promise.all(
           allModels.map(async (modelId) => {
             try {
-              const res = (await client.path("/documentModels/{modelId}", modelId).get());
+              const res = await client.path("/documentModels/{modelId}", modelId).get();
               if (isUnexpected(res)) {
                 throw res.body.error;
               }
