@@ -16,6 +16,8 @@ import {
   StatsbeatFeature,
   StatsbeatInstrumentation,
 } from "./types";
+import { Resource, detectResourcesSync } from '@opentelemetry/resources';
+import { azureAppServiceDetector, azureFunctionsDetector, azureVmDetector } from '@opentelemetry/resource-detector-azure';
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shared/types";
 
@@ -39,6 +41,13 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const metricHandler = new MetricHandler(config);
   const traceHandler = new TraceHandler(config, metricHandler);
   const logHandler = new LogHandler(config, metricHandler);
+
+  const azureResource: Resource = detectResourcesSync({
+    detectors: [azureAppServiceDetector, azureFunctionsDetector, azureVmDetector],
+  });
+
+  // Merge resources, azureResource will take precedence
+  config.resource.merge(azureResource);
 
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
