@@ -8,7 +8,7 @@ require("dotenv").config();
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "";
+  const devCenter = process.env.AZURE_DEVCENTER_ENDPOINT || "";
   const client = createClient(devCenter, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
@@ -86,7 +86,7 @@ async function createEnvironment() {
     throw new Error(environmentCreateResponse.body.error.message);
   }
 
-  const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
+  const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
   const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
   console.log(
     `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
@@ -105,7 +105,7 @@ async function createEnvironment() {
     throw new Error(environmentDeleteResponse.body.error.message);
   }
 
-  const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
+  const environmentDeletePoller = await getLongRunningPoller(client, environmentDeleteResponse);
   await environmentDeletePoller.pollUntilDone();
 
   console.log("Cleaned up environment successfully.");

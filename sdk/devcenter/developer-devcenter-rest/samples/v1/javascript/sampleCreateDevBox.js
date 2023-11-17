@@ -8,7 +8,7 @@ require("dotenv").config();
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "";
+  const devCenter = process.env.AZURE_DEVCENTER_ENDPOINT || "";
   const client = createClient(devCenter, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
@@ -50,7 +50,7 @@ async function createDevBox() {
     throw new Error(devBoxCreateResponse.body.error.message);
   }
 
-  const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse);
+  const devBoxCreatePoller = await getLongRunningPoller(client, devBoxCreateResponse);
   const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
   console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
@@ -83,7 +83,7 @@ async function createDevBox() {
     throw new Error(devBoxDeleteResponse.body.error.message);
   }
 
-  const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse);
+  const devBoxDeletePoller = await getLongRunningPoller(client, devBoxDeleteResponse);
   await devBoxDeletePoller.pollUntilDone();
 
   console.log(`Cleaned up dev box successfully.`);

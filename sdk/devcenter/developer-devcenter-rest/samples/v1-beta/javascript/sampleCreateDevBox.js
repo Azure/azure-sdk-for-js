@@ -1,5 +1,5 @@
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected, getLongRunningPoller, paginate } = require("@azure-rest/developer-devcenter");
+const { isUnexpected, getLongRunningPoller } = require("@azure-rest/developer-devcenter");
 const createClient = require("@azure-rest/developer-devcenter").default;
 require("dotenv").config();
 
@@ -8,68 +8,36 @@ require("dotenv").config();
  */
 async function createDevBox() {
   // Build client and fetch required parameters
-  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
   const client = createClient(endpoint, new DefaultAzureCredential());
 
-  // Get all projects
   const projectList = await client.path("/projects").get();
-  const projects = [];
   if (isUnexpected(projectList)) {
     throw projectList.body.error;
   }
 
-  console.log("Iterating through project results:");
-
-  for await (const project of paginate(client, projectList)) {
-    const { name } = project;
-    console.log(`Received project "${name}"`);
-    projects.push(project);
-  }
-
-  if (projects.length < 1) {
+  let project = projectList.body.value[0];
+  if (project === undefined || project.name === undefined) {
     throw "No projects found.";
   }
+  const projectName = project.name;
 
-  const firstProject = projects[0];
-
-  if (!firstProject.name) {
-    throw "Project is missing name";
-  }
-
-  const projectName = firstProject.name;
-
-  // Get all pools for the first project
   const poolList = await client.path("/projects/{projectName}/pools", projectName).get();
-  const pools = [];
-
   if (isUnexpected(poolList)) {
     throw poolList.body.error;
   }
 
-  console.log("Iterating through pool results:");
-
-  for await (const pool of paginate(client, poolList)) {
-    const { name } = pool;
-    console.log(`Received pool "${name}"`);
-    pools.push(pool);
-  }
-
-  if (pools.length < 1) {
+  let pool = poolList.body.value[0];
+  if (pool === undefined || pool.name === undefined) {
     throw "No pools found.";
   }
 
-  const firstPool = pools[0];
-
-  if (!firstPool.name) {
-    throw "Pool is missing name";
-  }
-
-  // Create a dev box with the first pool
   const devBoxCreateParameters = {
     contentType: "application/json",
-    body: { poolName: firstPool.name },
+    body: { poolName: pool.name },
   };
 
+  // Provision a dev box
   const devBoxCreateResponse = await client
     .path(
       "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
@@ -83,7 +51,7 @@ async function createDevBox() {
     throw new Error(devBoxCreateResponse.body.error.message);
   }
 
-  const devBoxCreatePoller = getLongRunningPoller(client, devBoxCreateResponse);
+  const devBoxCreatePoller = await getLongRunningPoller(client, devBoxCreateResponse);
   const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
   console.log(`Provisioned dev box with state ${devBoxCreateResult.body.provisioningState}.`);
@@ -97,6 +65,7 @@ async function createDevBox() {
       "TestDevBox"
     )
     .get();
+
   if (isUnexpected(remoteConnectionResult)) {
     throw new Error(remoteConnectionResult.body.error.message);
   }
@@ -112,11 +81,12 @@ async function createDevBox() {
       "TestDevBox"
     )
     .delete();
+
   if (isUnexpected(devBoxDeleteResponse)) {
     throw new Error(devBoxDeleteResponse.body.error.message);
   }
 
-  const devBoxDeletePoller = getLongRunningPoller(client, devBoxDeleteResponse);
+  const devBoxDeletePoller = await getLongRunningPoller(client, devBoxDeleteResponse);
   await devBoxDeletePoller.pollUntilDone();
 
   console.log(`Cleaned up dev box successfully.`);

@@ -1,5 +1,5 @@
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected, getLongRunningPoller, paginate } = require("@azure-rest/developer-devcenter");
+const { isUnexpected, getLongRunningPoller } = require("@azure-rest/developer-devcenter");
 const createClient = require("@azure-rest/developer-devcenter").default;
 require("dotenv").config();
 
@@ -8,110 +8,68 @@ require("dotenv").config();
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const endpoint = process.env.DEVCENTER_ENDPOINT || "<endpoint>";
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
   const client = createClient(endpoint, new DefaultAzureCredential());
 
-  // Get all projects
   const projectList = await client.path("/projects").get();
-  const projects = [];
   if (isUnexpected(projectList)) {
-    throw projectList.body.error;
+    throw new Error(projectList.body.error.message);
   }
 
-  console.log("Iterating through project results:");
-
-  for await (const project of paginate(client, projectList)) {
-    const { name } = project;
-    console.log(`Received project "${name}"`);
-    projects.push(project);
-  }
-
-  if (projects.length < 1) {
+  let project = projectList.body.value[0];
+  if (project === undefined || project.name === undefined) {
     throw "No projects found.";
   }
+  const projectName = project.name;
 
-  const firstProject = projects[0];
-
-  if (!firstProject.name) {
-    throw "Project is missing name";
+  const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
+  if (isUnexpected(catalogList)) {
+    throw catalogList.body.error;
   }
 
-  const projectName = firstProject.name;
+  const catalog = catalogList.body.value[0];
+  const catalogName = catalog.name;
 
-  // Get all catalog items for the first project
-  const catalogItemList = await client
-    .path("/projects/{projectName}/catalogItems", projectName)
+  const environmentDefinitionsList = await client
+    .path(
+      "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+      projectName,
+      catalogName
+    )
     .get();
-  const catalogItems = [];
 
-  if (isUnexpected(catalogItemList)) {
-    throw new Error(catalogItemList.body.error.message);
+  if (isUnexpected(environmentDefinitionsList)) {
+    throw environmentDefinitionsList.body.error;
   }
 
-  console.log("Iterating through pool results:");
+  const environmentDefinition = environmentDefinitionsList.body.value[0];
+  const environmentDefinitionName = environmentDefinition.name;
 
-  for await (const catalogItem of paginate(client, catalogItemList)) {
-    const { catalogName, name } = catalogItem;
-    console.log(`Received catalog item "${name}" from catalog "${catalogName}"`);
-    catalogItems.push(catalogItem);
-  }
-
-  if (catalogItems.length < 1) {
-    throw "No catalog items found.";
-  }
-
-  const firstCatalogItem = catalogItems[0];
-
-  if (!firstCatalogItem.name) {
-    throw "Catalog item is missing name";
-  }
-
-  if (!firstCatalogItem.catalogName) {
-    throw "Catalog item is missing catalog name";
-  }
-
-  // Get all environment types for the first project
   const environmentTypeList = await client
     .path("/projects/{projectName}/environmentTypes", projectName)
     .get();
-  const environmentTypes = [];
-
   if (isUnexpected(environmentTypeList)) {
     throw new Error(environmentTypeList.body.error.message);
   }
 
-  console.log("Iterating through catalog item results:");
-
-  for await (const environmentType of paginate(client, environmentTypeList)) {
-    const { name } = environmentType;
-    console.log(`Received environment type "${name}"`);
-    environmentTypes.push(environmentType);
+  let environmentType = environmentTypeList.body.value[0];
+  if (environmentType === undefined || environmentType.name === undefined) {
+    throw new Error("No environment types found.");
   }
 
-  if (environmentTypes.length < 1) {
-    throw "No environment types found.";
-  }
-
-  const firstEnvironmentType = environmentTypes[0];
-
-  if (!firstEnvironmentType.name) {
-    throw "Environment type is missing name";
-  }
-
-  // Create an environment with the first catalog item and environment type
   const environmentsCreateParameters = {
     contentType: "application/json",
     body: {
-      catalogItemName: firstCatalogItem.name,
-      environmentType: firstEnvironmentType.name,
-      catalogName: firstCatalogItem.catalogName,
+      environmentDefinitionName: environmentDefinitionName,
+      environmentType: environmentType.name,
+      catalogName: catalogName,
     },
   };
 
   const environmentName = "DevEnvironment";
   const userId = "me";
 
-  // Provision a dev box
+  // Provision an environment
   const environmentCreateResponse = await client
     .path(
       "/projects/{projectName}/users/{userId}/environments/{environmentName}",
@@ -124,7 +82,7 @@ async function createEnvironment() {
     throw new Error(environmentCreateResponse.body.error.message);
   }
 
-  const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
+  const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
   const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
   console.log(
     `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
@@ -143,7 +101,7 @@ async function createEnvironment() {
     throw new Error(environmentDeleteResponse.body.error.message);
   }
 
-  const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
+  const environmentDeletePoller = await getLongRunningPoller(client, environmentDeleteResponse);
   await environmentDeletePoller.pollUntilDone();
 
   console.log("Cleaned up environment successfully.");
