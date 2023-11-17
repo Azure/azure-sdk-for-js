@@ -82,3 +82,6 @@ export {
   RetrieveFileOptions,
   RetrieveFileContentOptions,
 } from "./models/index.js";
+export {
+  OpenAIKeyCredential,
+} from "./OpenAIKeyCredential.js";
