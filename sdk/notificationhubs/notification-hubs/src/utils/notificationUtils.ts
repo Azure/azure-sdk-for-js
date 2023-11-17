@@ -9,7 +9,7 @@ import { Notification } from "../models/notification.js";
 export function createMultipartDirectNotification(
   boundaryName: string,
   notification: Notification,
-  deviceHandles: string[]
+  deviceHandles: string[],
 ): string {
   return (
     `--${boundaryName}\r\n` +

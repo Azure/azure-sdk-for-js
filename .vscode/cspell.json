@@ -451,6 +451,14 @@
         "Whois",
         "whois"
       ]
+    },
+    {
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "words": [
+        "wordprocessingml",
+        "spreadsheetml",
+        "presentationml"
+      ]
     }
   ]
 }

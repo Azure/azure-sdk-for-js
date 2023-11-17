@@ -22,5 +22,5 @@ export async function getFiles(dir: string): Promise<string[]> {
       return dirent.isDirectory() ? getFiles(res) : res;
     })
   );
-  return files.flat() as string[];
+  return files.flat();
 }
