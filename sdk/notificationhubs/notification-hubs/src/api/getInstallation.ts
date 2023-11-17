@@ -19,7 +19,7 @@ const OPERATION_NAME = "getInstallation";
 export function getInstallation(
   context: NotificationHubsClientContext,
   installationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<Installation> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function getInstallation(
       const response = await sendRequest(context, request, 200);
 
       return JSON.parse(response.bodyAsText!) as Installation;
-    }
+    },
   );
 }

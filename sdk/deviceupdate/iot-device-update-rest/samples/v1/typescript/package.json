@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure IoT Hub Device Update rest client library samples for TypeScript",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@types/uuid": "^8.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "typescript": "~5.2.0",
     "rimraf": "latest"
   }

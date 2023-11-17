@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.11.3",
+  "version": "5.11.4",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -19,7 +19,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -134,7 +134,7 @@
     "@types/chai-string": "^1.4.1",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/sinon": "^10.0.0",
     "@types/ws": "^7.2.4",
     "chai": "^4.2.0",
@@ -165,7 +165,7 @@
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.2.0",
     "ws": "^8.2.0"

@@ -41,7 +41,6 @@ export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string,
 // @public
 export interface AddCredentialPipelinePolicyOptions {
     clientOptions?: ClientOptions;
-    // Warning: (ae-forgotten-export) The symbol "KeyCredential" needs to be exported by the entry point index.d.ts
     credential?: TokenCredential | KeyCredential;
 }
 
@@ -100,6 +99,12 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
+export interface BodyPart {
+    body: ((() => ReadableStream<Uint8Array>) | (() => NodeJS.ReadableStream)) | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob;
+    headers: HttpHeaders;
+}
+
+// @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
 }): Promise<T[number]>;
@@ -150,6 +155,24 @@ export function createDefaultHttpClient(): HttpClient;
 
 // @public
 export function createEmptyPipeline(): Pipeline;
+
+// @public
+export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
+
+// @public
+export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+
+// @public
+export interface CreateFileFromStreamOptions extends CreateFileOptions {
+    size?: number;
+}
+
+// @public
+export interface CreateFileOptions {
+    lastModified?: number;
+    type?: string;
+    webkitRelativePath?: string;
+}
 
 // @public
 export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders;
@@ -226,7 +249,7 @@ export function formDataPolicy(): PipelinePolicy;
 export const formDataPolicyName = "formDataPolicy";
 
 // @public
-export type FormDataValue = string | Blob;
+export type FormDataValue = string | Blob | File;
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
@@ -364,6 +387,11 @@ export function isRestError(e: unknown): e is RestError;
 export const isWebWorker: boolean;
 
 // @public
+export interface KeyCredential {
+    readonly key: string;
+}
+
+// @public
 export interface KeyObject {
     passphrase?: string | undefined;
     pem: string | Buffer;
@@ -380,6 +408,18 @@ export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
+}
+
+// @public
+export function multipartPolicy(): PipelinePolicy;
+
+// @public
+export const multipartPolicyName = "multipartPolicy";
+
+// @public
+export interface MultipartRequestBody {
+    boundary?: string;
+    parts: BodyPart[];
 }
 
 // @public
@@ -477,6 +517,7 @@ export interface PipelineRequest {
     formData?: FormDataMap;
     headers: HttpHeaders;
     method: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;
@@ -499,6 +540,7 @@ export interface PipelineRequestOptions {
     formData?: FormDataMap;
     headers?: HttpHeaders;
     method?: HttpMethods;
+    multipartBody?: MultipartRequestBody;
     onDownloadProgress?: (progress: TransferProgressEvent) => void;
     onUploadProgress?: (progress: TransferProgressEvent) => void;
     proxySettings?: ProxySettings;

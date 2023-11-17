@@ -29,12 +29,23 @@ export class StatsbeatMetrics {
   protected async getResourceProvider(): Promise<void> {
     // Check resource provider
     this.resourceProvider = StatsbeatResourceProvider.unknown;
-    if (process.env.WEBSITE_SITE_NAME) {
+    if (process.env.AKS_ARM_NAMESPACE_ID) {
+      // AKS
+      this.resourceProvider = StatsbeatResourceProvider.aks;
+      this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
+    } else if (process.env.WEBSITE_SITE_NAME) {
       // Web apps
       this.resourceProvider = StatsbeatResourceProvider.appsvc;
+      this.resourceIdentifier = process.env.WEBSITE_SITE_NAME;
+      if (process.env.WEBSITE_HOME_STAMPNAME) {
+        this.resourceIdentifier += "/" + process.env.WEBSITE_HOME_STAMPNAME;
+      }
     } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Function apps
       this.resourceProvider = StatsbeatResourceProvider.functions;
+      if (process.env.WEBSITE_HOSTNAME) {
+        this.resourceIdentifier = process.env.WEBSITE_HOSTNAME;
+      }
     } else if (await this.getAzureComputeMetadata()) {
       this.resourceProvider = StatsbeatResourceProvider.vm;
       this.resourceIdentifier = this.vmInfo.id + "/" + this.vmInfo.subscriptionId;

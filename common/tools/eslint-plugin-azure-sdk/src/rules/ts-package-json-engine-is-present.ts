@@ -13,13 +13,13 @@ import { Rule } from "eslint";
  * definition of LTS Node versions
  * * needs updating as definitions change
  */
-const LTS = ">=16.0.0";
+export const LTS = ">=18.0.0";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-engine-is-present",
     "force Node support for all LTS versions",
