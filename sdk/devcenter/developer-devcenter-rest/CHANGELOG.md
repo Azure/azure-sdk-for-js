@@ -1,13 +1,13 @@
 # Release History
 
-## 1.0.0 (2023-05-23)
+## 1.0.0-beta.3 (2023-11-17)
 This release updates the Azure DevCenter library to use the 2023-04-01 GA API.
 
 ### Breaking Changes
 
  - Environments client now works with "environment definitions" instead of "catalog items"
- - Createing a new environment requires passing `environmentDefinitionName` instead of `catalogItemName`
- - Createing a new environment requires passing an additional parameter `catalogName`
+ - Creating a new environment requires passing `environmentDefinitionName` instead of `catalogItemName`
+ - Creating a new environment requires passing an additional parameter `catalogName`
 
 ## 1.0.0-beta.2 (2023-02-07)
 
