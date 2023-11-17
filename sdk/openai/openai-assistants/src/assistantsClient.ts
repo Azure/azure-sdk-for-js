@@ -196,8 +196,6 @@ export class AssistantsClient {
   listAssistants(
     options: ListAssistantsOptions = { requestOptions: {} }
   ): Promise<ListResponseOf> {
-    console.log(options);
-    console.log(this._client);
     return listAssistants(this._client, options);
   }
 
