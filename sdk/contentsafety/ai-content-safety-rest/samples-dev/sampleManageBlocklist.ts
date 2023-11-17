@@ -7,9 +7,9 @@
 
 import ContentSafetyClient, {
   CreateOrUpdateTextBlocklistParameters,
-  AddBlockItemsParameters,
+  AddOrUpdateBlocklistItemsParameters,
   AnalyzeTextParameters,
-  RemoveBlockItemsParameters,
+  RemoveBlocklistItemsParameters,
   isUnexpected
 } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -47,9 +47,9 @@ async function addBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "sample";
   const blockItemText2 = "text";
-  const addBlockItemsParameters: AddBlockItemsParameters = {
+  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
-      blockItems: [
+      blocklistItems: [
         {
           description: "Test block item 1",
           text: blockItemText1
@@ -62,16 +62,16 @@ async function addBlockItems() {
     }
   };
 
-  const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
 
   if (isUnexpected(result)) {
     throw result;
   }
 
   console.log("Block items added: ");
-  if (result.body.value) {
-    for (const blockItem of result.body.value) {
-      console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+  if (result.body.blocklistItems) {
+    for (const blockItem of result.body.blocklistItems) {
+      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
     }
   }
 }
@@ -83,7 +83,7 @@ async function analyzeTextWithBlocklists() {
     body: {
       text: inputText,
       blocklistNames: [blocklistName],
-      breakByBlocklists: false
+      haltOnBlocklistHit: false
     }
   };
 
@@ -94,10 +94,9 @@ async function analyzeTextWithBlocklists() {
   }
 
   console.log("Blocklist match results: ");
-  if (result.body.blocklistsMatchResults) {
-    for (const blocklistMatchResult of result.body.blocklistsMatchResults) {
-      console.log("Block item was hit in text, Offset=", blocklistMatchResult.offset, ", Length=", blocklistMatchResult.length);
-      console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blockItemId, ", BlockItemText: ", blocklistMatchResult.blockItemText);
+  if (result.body.blocklistsMatch) {
+    for (const blocklistMatchResult of result.body.blocklistsMatch) {
+      console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
     }
   }
 }
@@ -133,7 +132,7 @@ async function getTextBlocklist() {
 async function listBlockItems() {
   const blocklistName = "TestBlocklist";
 
-  const result = await client.path("/text/blocklists/{blocklistName}/blockItems", blocklistName).get();
+  const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
 
   if (isUnexpected(result)) {
     throw result;
@@ -142,7 +141,7 @@ async function listBlockItems() {
   console.log("List block items: ");
   if (result.body.value) {
     for (const blockItem of result.body.value) {
-      console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
     }
   }
 }
@@ -150,9 +149,9 @@ async function listBlockItems() {
 async function getBlockItem() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const addBlockItemsParameters: AddBlockItemsParameters = {
+  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
-      blockItems: [
+      blocklistItems: [
         {
           description: "Test block item 1",
           text: blockItemText
@@ -160,28 +159,28 @@ async function getBlockItem() {
       ]
     }
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-  if (isUnexpected(result) || result.body.value === undefined) {
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
-  const blockItemId = result.body.value[0].blockItemId;
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-  const blockItem = await client.path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId).get();
+  const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
 
   if (isUnexpected(blockItem)) {
     throw blockItem;
   }
 
   console.log("Get blockitem: ");
-  console.log("BlockItemId: ", blockItem.body.blockItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
+  console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
 }
 
 async function removeBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const addBlockItemsParameters: AddBlockItemsParameters = {
+  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
-      blockItems: [
+      blocklistItems: [
         {
           description: "Test block item 1",
           text: blockItemText
@@ -189,18 +188,18 @@ async function removeBlockItems() {
       ]
     }
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-  if (isUnexpected(result) || result.body.value === undefined) {
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
-  const blockItemId = result.body.value[0].blockItemId;
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-  const removeBlockItemsParameters: RemoveBlockItemsParameters = {
+  const RemoveBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
     body: {
-      blockItemIds: [blockItemId]
+      blocklistItemIds: [blockItemId]
     }
   };
-  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName).post(removeBlockItemsParameters);
+  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(RemoveBlocklistItemsParameters);
 
   if (isUnexpected(removeBlockItem)) {
     throw removeBlockItem;

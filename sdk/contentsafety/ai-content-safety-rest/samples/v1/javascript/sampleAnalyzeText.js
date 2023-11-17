@@ -5,16 +5,12 @@
  * @summary Demonstrates how to analyze text.
  */
 
-import ContentSafetyClient, {
-  AnalyzeTextParameters,
-  AnalyzeTextOptions,
-  isUnexpected
-} from "@azure-rest/ai-content-safety";
-import { AzureKeyCredential } from "@azure/core-auth";
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -24,8 +20,8 @@ async function main() {
   const client = ContentSafetyClient(endpoint, credential);
 
   const text = "This is a sample text";
-  const analyzeTextOption: AnalyzeTextOptions = { text: text };
-  const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
+  const analyzeTextOption = { text: text };
+  const analyzeTextParameters = { body: analyzeTextOption };
 
   const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
@@ -33,10 +29,14 @@ async function main() {
     throw result;
   }
 
-  console.log("Hate severity: ", result.body.hateResult?.severity);
-  console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity);
-  console.log("Sexual severity: ", result.body.sexualResult?.severity);
-  console.log("Violence severity: ", result.body.violenceResult?.severity);
+  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+    const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    console.log(
+      textCategoriesAnalysisOutput.category,
+      " severity: ",
+      textCategoriesAnalysisOutput.severity
+    );
+  }
 }
 
 main().catch((err) => {

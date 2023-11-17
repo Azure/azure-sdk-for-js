@@ -2,7 +2,7 @@
 
 [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
 
-**Please rely on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
@@ -492,7 +492,3 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ### Additional documentation
 
 For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on docs.microsoft.com.
-
-## Contributing
-
-If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
