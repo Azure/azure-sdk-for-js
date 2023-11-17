@@ -7,7 +7,7 @@ import { getBSU } from "./utils";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   getUniqueName,
-  recorderEnvSetup,
+  recorderEnvSetupWithCopySource,
   testPollerProperties,
   uriSanitizers,
 } from "./utils/testutils.common";
@@ -29,7 +29,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
+    // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
+    await recorder.start(recorderEnvSetupWithCopySource);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -141,6 +142,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode && !isLiveMode()) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -167,6 +169,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );
@@ -188,6 +191,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode && !isLiveMode()) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
       recorder.variable("copiedblob", getUniqueName("copiedblob"))
     );

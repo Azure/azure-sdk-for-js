@@ -54,7 +54,7 @@ export class CosmosClient {
    */
   public readonly offers: Offers;
   private clientContext: ClientContext;
-  private endpointRefresher: NodeJS.Timer;
+  private endpointRefresher: NodeJS.Timeout;
   /**
    * Creates a new {@link CosmosClient} object from a connection string. Your database connection string can be found in the Azure Portal
    */

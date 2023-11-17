@@ -1,5 +1,33 @@
 # Release History
 
+## 4.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.0.0 (2023-11-07)
+
+### Features Added
+- All the features shipped as part of 4.0.0-beta.1 will be GA with this version. The most important features being the browser customization for success/ error messages and the support of brokered authentication on Windows OS, such as WAM.
+
+### Breaking Changes
+- Starting with v4.0.0 of `@azure/identity`, Node.js v20 will be supported and Node.js v16 will no longer be supported.
+
+## 4.0.0-beta.1 (2023-10-26)
+
+### Features Added
+- Added `brokerOptions` in `InteractiveBrowserCredential` for authentication broker support such as WAM. This feature works along with the new `@azure/identity-broker` plugin package. Note that this feature is only available in node.
+- Added support for MSA passthrough in the `brokerOptions` of `InteractiveBrowserCredential`. Note this is only available for legacy 1st party applications.
+- Added `BrowserCustomizationOptions` for success and error messages in the `InteractiveBrowserCredential`.
+
+### Breaking Changes
+- The `redirectUri` is no longer a required option for `InteractiveBrowserCredential` on Node.js. There's no API change, but this is a behavior change.
+
 ## 3.3.2 (2023-10-17)
 
 ### Bugs Fixed

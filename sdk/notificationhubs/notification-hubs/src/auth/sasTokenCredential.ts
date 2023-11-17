@@ -49,7 +49,7 @@ export class SasTokenCredential implements TokenCredential {
       this._credential.sharedAccessKeyName,
       this._credential.sharedAccessKey,
       Math.floor(Date.now() / 1000) + 3600,
-      audience
+      audience,
     );
   }
 }
@@ -66,7 +66,7 @@ async function createToken(
   keyName: string,
   key: string,
   expiry: number,
-  audience: string
+  audience: string,
 ): Promise<AccessToken> {
   audience = encodeURIComponent(audience.toLowerCase());
   keyName = encodeURIComponent(keyName);
