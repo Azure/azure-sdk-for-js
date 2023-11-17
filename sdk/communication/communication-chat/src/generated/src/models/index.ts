@@ -185,8 +185,6 @@ export interface ChatAttachment {
   id: string;
   /** The type of attachment. */
   attachmentType: "image";
-  /** The file extension of the attachment, if available */
-  extension?: string;
   /** The name of the attachment content. */
   name?: string;
   /** The URL where the attachment can be downloaded */

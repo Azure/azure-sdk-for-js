@@ -528,12 +528,6 @@ export const ChatAttachment: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      extension: {
-        serializedName: "extension",
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "name",
         type: {
