@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  ChatCompletionsOptions as GeneratedChatCompletionsOptions,
   ChatMessage,
   Completions,
   ImageGenerations,
@@ -34,7 +35,6 @@ import {
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ChatCompletions } from "../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
-import { GetChatCompletionsOptions } from "./models.js";
 import { ImageGenerationOptions } from "../models/options.js";
 import { renameKeysToCamelCase } from "./util.js";
 import {
@@ -45,6 +45,8 @@ import {
   GetAudioTranslationOptions,
 } from "../models/audio.js";
 import { createFile } from "@azure/core-rest-pipeline";
+import { GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions } from "../../generated/src/models/options.js";
+import { GetChatCompletionsOptions } from "./models.js";
 
 export function listCompletions(
   context: Client,
@@ -137,11 +139,16 @@ function _getChatCompletionsSendX(
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
   return options.azureExtensionOptions?.extensions
-    ? _getChatCompletionsWithAzureExtensionsSend(context, messages, deploymentName, {
-        ...options,
-        dataSources: options.azureExtensionOptions?.extensions,
-      })
-    : _getChatCompletionsSend(context, messages, deploymentName, options);
+    ? _getChatCompletionsWithAzureExtensionsSend(
+        context,
+        deploymentName,
+        { messages, ...options },
+        {
+          ...options,
+          dataSources: options.azureExtensionOptions?.extensions,
+        }
+      )
+    : _getChatCompletionsSend(context, deploymentName, { messages, ...options }, options);
 }
 
 export function listChatCompletions(
@@ -304,8 +311,8 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
 
 export function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
-  messages: ChatMessage[],
   deploymentId: string,
+  body: GeneratedChatCompletionsOptions,
   options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
@@ -316,49 +323,63 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: parseChatMessage(messages),
-        functions: options?.functions,
-        function_call: options?.functionCall,
-        max_tokens: options?.maxTokens,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        logit_bias: options?.logitBias,
-        user: options?.user,
-        n: options?.n,
-        stop: options?.stop,
-        presence_penalty: options?.presencePenalty,
-        frequency_penalty: options?.frequencyPenalty,
-        stream: options?.stream,
-        model: options?.model,
-        dataSources: options?.dataSources,
+        messages: parseChatMessage(body.messages),
+        functions: (body["functions"] ?? []).map((p) => ({
+          name: p["name"],
+          description: p["description"],
+          parameters: p["parameters"],
+        })),
+        function_call: body["functionCall"],
+        max_tokens: body["maxTokens"],
+        temperature: body["temperature"],
+        top_p: body["topP"],
+        logit_bias: body["logitBias"],
+        user: body["user"],
+        n: body["n"],
+        stop: body["stop"],
+        presence_penalty: body["presencePenalty"],
+        frequency_penalty: body["frequencyPenalty"],
+        stream: body["stream"],
+        model: body["model"],
+        dataSources: (body["dataSources"] ?? []).map((p) => ({
+          type: p["type"],
+          parameters: p["parameters"],
+        })),
       },
     });
 }
 
 export function _getChatCompletionsSend(
   context: Client,
-  messages: ChatMessage[],
   deploymentId: string,
-  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+  body: GeneratedChatCompletionsOptions,
+  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
     body: {
-      messages: parseChatMessage(messages),
-      functions: options?.functions,
-      function_call: options?.functionCall,
-      max_tokens: options?.maxTokens,
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      logit_bias: options?.logitBias,
-      user: options?.user,
-      n: options?.n,
-      stop: options?.stop,
-      presence_penalty: options?.presencePenalty,
-      frequency_penalty: options?.frequencyPenalty,
-      stream: options?.stream,
-      model: options?.model,
-      dataSources: options?.dataSources,
+      messages: parseChatMessage(body.messages),
+      functions: (body["functions"] ?? []).map((p) => ({
+        name: p["name"],
+        description: p["description"],
+        parameters: p["parameters"],
+      })),
+      function_call: body["functionCall"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      stream: body["stream"],
+      model: body["model"],
+      dataSources: (body["dataSources"] ?? []).map((p) => ({
+        type: p["type"],
+        parameters: p["parameters"],
+      })),
     },
   });
 }
