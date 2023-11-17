@@ -9,31 +9,66 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-/**
- * The configuration information for an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOptions {
+/** The configuration information for an audio transcription request. */
+export interface AudioTranscriptionOptions {
   /**
-   * An identifier for the caller or end user of the operation. This may be used for tracking
-   * or rate-limiting purposes.
+   * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
-  user?: string;
+  file: string;
   /**
-   * The model name to provide as part of this embeddings request.
-   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
-   * resource URI that's connected to.
-   */
-  model?: string;
-  /**
-   * Input texts to get embeddings for, encoded as a an array of strings.
-   * Each input must not exceed 2048 tokens in length.
+   * The requested format of the transcription response data, which will influence the content and detail of the result.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\\n) in your input with a single space,
-   * as we have observed inferior results when newlines are present.
+   * Possible values: json, verbose_json, text, srt, vtt
    */
-  input: string[];
+  response_format?: string;
+  /**
+   * The primary spoken language of the audio data to be transcribed, supplied as a two-letter ISO-639-1 language code
+   * such as 'en' or 'fr'.
+   * Providing this known input language is optional but may improve the accuracy and/or latency of transcription.
+   */
+  language?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this transcription request. */
+  model?: string;
+}
+
+/** The configuration information for an audio translation request. */
+export interface AudioTranslationOptions {
+  /**
+   * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
+   *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   */
+  file: string;
+  /**
+   * The requested format of the translation response data, which will influence the content and detail of the result.
+   *
+   * Possible values: json, verbose_json, text, srt, vtt
+   */
+  response_format?: string;
+  /**
+   * An optional hint to guide the model's style or continue from a prior audio segment. The written language of the
+   * prompt should match the primary spoken language of the audio data.
+   */
+  prompt?: string;
+  /**
+   * The sampling temperature, between 0 and 1.
+   * Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic.
+   * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
+   */
+  temperature?: number;
+  /** The model to use for this translation request. */
+  model?: string;
 }
 
 /**
@@ -339,4 +374,31 @@ export interface ImageGenerationOptions {
   response_format?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
+}
+
+/**
+ * The configuration information for an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOptions {
+  /**
+   * An identifier for the caller or end user of the operation. This may be used for tracking
+   * or rate-limiting purposes.
+   */
+  user?: string;
+  /**
+   * The model name to provide as part of this embeddings request.
+   * Not applicable to Azure OpenAI, where deployment information should be included in the Azure
+   * resource URI that's connected to.
+   */
+  model?: string;
+  /**
+   * Input texts to get embeddings for, encoded as a an array of strings.
+   * Each input must not exceed 2048 tokens in length.
+   *
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * as we have observed inferior results when newlines are present.
+   */
+  input: string[];
 }

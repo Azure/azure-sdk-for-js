@@ -8,16 +8,16 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
-import { ErrorModel, OperationOptions } from "@azure-rest/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import {
   AzureChatExtensionConfiguration,
-  FunctionDefinition,
   FunctionCallPreset,
+  FunctionDefinition,
   FunctionName,
-  ContentFilterResult,
 } from "../models/models.js";
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 /**
  * This module contains models that we want to live side-by-side with the
  * corresponding generated models. This is useful for providing customer-facing
@@ -112,50 +112,4 @@ export interface AzureExtensionsOptions {
    *   This additional specification is only compatible with Azure OpenAI.
    */
   extensions?: AzureChatExtensionConfiguration[];
-}
-
-/** Information about the content filtering category, if it has been detected. */
-export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
-
-/** Information about the content filtering success result. */
-export interface ContentFilterSuccessResults {
-  /**
-   * Describes language related to anatomical organs and genitals, romantic relationships,
-   *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
-   *  those portrayed as an assault or a forced sexual violent act against one’s will,
-   *  prostitution, pornography, and abuse.
-   */
-  sexual?: ContentFilterResult;
-  /**
-   * Describes language related to physical actions intended to hurt, injure, damage, or
-   * kill someone or something; describes weapons, etc.
-   */
-  violence?: ContentFilterResult;
-  /**
-   * Describes language attacks or uses that include pejorative or discriminatory language
-   * with reference to a person or identity group on the basis of certain differentiating
-   * attributes of these groups including but not limited to race, ethnicity, nationality,
-   * gender identity and expression, sexual orientation, religion, immigration status, ability
-   * status, personal appearance, and body size.
-   */
-  hate?: ContentFilterResult;
-  /**
-   * Describes language related to physical actions intended to purposely hurt, injure,
-   * or damage one’s body, or kill oneself.
-   */
-  selfHarm?: ContentFilterResult;
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error?: undefined;
-}
-
-/** Information about the content filtering error result. */
-export interface ContentFilterErrorResults {
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error: ErrorModel;
 }

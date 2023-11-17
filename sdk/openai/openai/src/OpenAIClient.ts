@@ -8,45 +8,69 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { GetCompletionsOptions, GetEmbeddingsOptions } from "../customizations/models/options.js";
+import { createOpenAI } from "./api/OpenAIContext.js";
 import {
-  OpenAIClientOptions,
-  OpenAIContext,
-  createOpenAI,
+  beginAzureBatchImageGeneration,
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
+  getAzureBatchImageGenerationOperationStatus,
+  getChatCompletionsWithAzureExtensions,
+} from "./api/index.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
+import {
+  getAudioTranscription,
+  getAudioTranslation,
   getChatCompletions,
   getCompletions,
   getEmbeddings,
   getImages,
   listChatCompletions,
   listCompletions,
-} from "./api/index.js";
+} from "./api/operations.js";
+import { nonAzurePolicy } from "./api/policies/nonAzure.js";
+import { OpenAIClientOptions } from "./index.js";
 import {
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  GetAudioTranscriptionOptions,
+  GetAudioTranslationOptions,
+} from "./models/audio.js";
+import {
+  AudioTranscription,
+  AudioTranscriptionOptions,
+  AudioTranslation,
+  AudioTranslationOptions,
+  BatchImageGenerationOperationResponse,
   ChatCompletions,
+  ChatCompletionsOptions,
   ChatMessage,
   Completions,
   Embeddings,
   ImageGenerations,
 } from "./models/models.js";
 import {
-  GetCompletionsOptions,
-  GetEmbeddingsOptions,
+  BeginAzureBatchImageGenerationOptions,
+  GetAudioTranscriptionAsPlainTextOptions,
+  GetAudioTranscriptionAsResponseObjectOptions,
+  GetAudioTranslationAsPlainTextOptions,
+  GetAudioTranslationAsResponseObjectOptions,
+  GetAzureBatchImageGenerationOperationStatusOptions,
+  GetChatCompletionsWithAzureExtensionsOptions,
   ImageGenerationOptions,
 } from "./models/options.js";
-import { GetChatCompletionsOptions } from "./api/models.js";
-import {
-  AudioResultFormat,
-  AudioResult,
-  GetAudioTranscriptionOptions,
-  GetAudioTranslationOptions,
-  AudioResultSimpleJson,
-} from "./models/audio.js";
-import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { getAudioTranscription, getAudioTranslation } from "./api/operations.js";
+import { OpenAIContext } from "./rest/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
 export class OpenAIClient {
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
   private _client: OpenAIContext;
   private _isAzure = false;
 
@@ -121,6 +145,83 @@ export class OpenAIClient {
   }
 
   /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsPlainText(
+    deploymentId: string,
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranscriptionAsPlainText(this._client, deploymentId, body, options);
+  }
+
+  /**
+   * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
+   * written language corresponding to the language it was spoken in.
+   */
+  getAudioTranscriptionAsResponseObject(
+    deploymentId: string,
+    body: AudioTranscriptionOptions,
+    options: GetAudioTranscriptionAsResponseObjectOptions = {
+      requestOptions: {},
+    }
+  ): Promise<AudioTranscription> {
+    return getAudioTranscriptionAsResponseObject(this._client, deploymentId, body, options);
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsPlainText(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} }
+  ): Promise<string> {
+    return getAudioTranslationAsPlainText(this._client, deploymentId, body, options);
+  }
+
+  /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
+  getAudioTranslationAsResponseObject(
+    deploymentId: string,
+    body: AudioTranslationOptions,
+    options: GetAudioTranslationAsResponseObjectOptions = { requestOptions: {} }
+  ): Promise<AudioTranslation> {
+    return getAudioTranslationAsResponseObject(this._client, deploymentId, body, options);
+  }
+
+  /**
+   * Gets chat completions for the provided chat messages.
+   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
+   * other augmentations to the base chat completions capabilities.
+   */
+  getChatCompletionsWithAzureExtensions(
+    deploymentId: string,
+    body: ChatCompletionsOptions,
+    options: GetChatCompletionsWithAzureExtensionsOptions = {
+      requestOptions: {},
+    }
+  ): Promise<ChatCompletions> {
+    return getChatCompletionsWithAzureExtensions(this._client, deploymentId, body, options);
+  }
+
+  /** Returns the status of the images operation */
+  getAzureBatchImageGenerationOperationStatus(
+    operationId: string,
+    options: GetAzureBatchImageGenerationOperationStatusOptions = {
+      requestOptions: {},
+    }
+  ): Promise<BatchImageGenerationOperationResponse> {
+    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
+  }
+
+  /** Starts the generation of a batch of images from a text caption */
+  beginAzureBatchImageGeneration(
+    body: ImageGenerationOptions,
+    options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
+  ): Promise<BatchImageGenerationOperationResponse> {
+    return beginAzureBatchImageGeneration(this._client, body, options);
+  }
+
+  /**
    * Returns textual completions as configured for a given prompt.
    * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
@@ -133,7 +234,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
-    return getCompletions(this._client, prompt, deploymentName, options);
+    return getCompletions(this._client, deploymentName, { prompt, ...options }, options);
   }
 
   /**
@@ -165,7 +266,7 @@ export class OpenAIClient {
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
-    return getEmbeddings(this._client, input, deploymentName, options);
+    return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
   }
 
   /**
@@ -239,7 +340,6 @@ export class OpenAIClient {
     format: Format,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>>;
-  // implementation
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
@@ -255,6 +355,7 @@ export class OpenAIClient {
         AudioResult<Format>
       >;
     }
+
     return getAudioTranscription(
       this._client,
       deploymentName,
@@ -290,7 +391,6 @@ export class OpenAIClient {
     format: Format,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
-  // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
@@ -306,6 +406,7 @@ export class OpenAIClient {
         AudioResult<Format>
       >;
     }
+
     return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
   }
 
