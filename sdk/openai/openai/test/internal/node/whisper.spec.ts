@@ -8,7 +8,7 @@ import { StreamProducer, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { PassThrough } from "node:stream";
 import { assert } from "@azure/test-utils";
 
-describe.only("OpenAI", function () {
+describe("OpenAI", function () {
   describe("Streaming", () => {
     let client: OpenAIClient;
 
@@ -35,7 +35,7 @@ describe.only("OpenAI", function () {
       });
     });
     it("Audio operations", async function () {
-      const buildStream = () => {
+      const buildStream = (): NodeJS.ReadableStream => {
         const stream = new PassThrough();
         setTimeout(() => {
           const chunk = Uint8Array.from(new Array(4).fill(0));

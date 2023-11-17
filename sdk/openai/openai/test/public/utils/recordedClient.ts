@@ -47,7 +47,7 @@ export function createClient(
   } = {}
 ): OpenAIClient {
   const { recorder, clientOptions = {} } = options;
-  const createEndpoint = () => assertEnvironmentVariable("ENDPOINT");
+  const createEndpoint = (): string => assertEnvironmentVariable("ENDPOINT");
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
