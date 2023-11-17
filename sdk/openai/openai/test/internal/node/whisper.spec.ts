@@ -8,7 +8,7 @@ import { StreamProducer, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { PassThrough } from "node:stream";
 import { assert } from "@azure/test-utils";
 
-describe("OpenAI", function () {
+describe.only("OpenAI", function () {
   describe("Streaming", () => {
     let client: OpenAIClient;
 

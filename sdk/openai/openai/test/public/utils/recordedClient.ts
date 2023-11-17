@@ -47,13 +47,13 @@ export function createClient(
   } = {}
 ): OpenAIClient {
   const { recorder, clientOptions = {} } = options;
-  const endpoint = assertEnvironmentVariable("ENDPOINT");
+  const createEndpoint = () => assertEnvironmentVariable("ENDPOINT");
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
   switch (authMethod) {
     case "AzureAPIKey": {
       return new OpenAIClient(
-        endpoint,
+        createEndpoint(),
         new AzureKeyCredential(assertEnvironmentVariable("AZURE_API_KEY")),
         updatedOptions
       );
@@ -65,10 +65,14 @@ export function createClient(
       );
     }
     case "AAD": {
-      return new OpenAIClient(endpoint, createTestCredential(), updatedOptions);
+      return new OpenAIClient(createEndpoint(), createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
-      return new OpenAIClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
+      return new OpenAIClient(
+        "https://whatever.azure.com",
+        new AzureKeyCredential("whatever"),
+        updatedOptions
+      );
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);
