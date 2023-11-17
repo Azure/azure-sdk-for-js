@@ -8,6 +8,7 @@ export function nonAzurePolicy(): PipelinePolicy {
     name: "openAiEndpoint",
     sendRequest: (request, next) => {
       const obj = new URL(request.url);
+      request.headers.set("OpenAI-Beta", "assistants=v1");
       const parts = obj.pathname.split("/");
       switch (parts[parts.length - 1]) {
         case "threads":
