@@ -91,7 +91,7 @@ export async function _getAudioTranscriptionAsPlainTextDeserialize(
     | GetAudioTranscriptionAsPlainTextDefaultResponse
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return result.body;
@@ -150,7 +150,7 @@ export async function _getAudioTranscriptionAsResponseObjectDeserialize(
     | GetAudioTranscriptionAsResponseObjectDefaultResponse
 ): Promise<AudioTranscription> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -224,7 +224,7 @@ export async function _getAudioTranslationAsPlainTextDeserialize(
     | GetAudioTranslationAsPlainTextDefaultResponse
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return result.body;
@@ -279,7 +279,7 @@ export async function _getAudioTranslationAsResponseObjectDeserialize(
     | GetAudioTranslationAsResponseObjectDefaultResponse
 ): Promise<AudioTranslation> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -352,7 +352,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -510,7 +510,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -685,7 +685,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -832,7 +832,7 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -896,7 +896,7 @@ export async function _beginAzureBatchImageGenerationDeserialize(
     | BeginAzureBatchImageGenerationLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {
@@ -946,7 +946,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw result.body.error;
   }
 
   return {

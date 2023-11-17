@@ -8,10 +8,7 @@ import {
   ImageGenerations,
   ImageLocation,
 } from "../../generated/src/models/models.js";
-import {
-  GetChatCompletionsWithAzureExtensionsOptions,
-  GetCompletionsOptions,
-} from "../models/options.js";
+import { GetCompletionsOptions } from "../models/options.js";
 import {
   _getCompletionsSend,
   _beginAzureBatchImageGenerationSend,
@@ -142,10 +139,9 @@ function _getChatCompletionsSendX(
     ? _getChatCompletionsWithAzureExtensionsSend(
         context,
         deploymentName,
-        { messages, ...options },
+        { messages, ...options, dataSources: options.azureExtensionOptions?.extensions },
         {
           ...options,
-          dataSources: options.azureExtensionOptions?.extensions,
         }
       )
     : _getChatCompletionsSend(context, deploymentName, { messages, ...options }, options);
@@ -313,7 +309,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
   deploymentId: string,
   body: GeneratedChatCompletionsOptions,
-  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
