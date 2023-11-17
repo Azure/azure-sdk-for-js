@@ -231,8 +231,14 @@ export interface PurchasedPhoneNumbers {
 export interface OperatorInformationRequest {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
-  /** Options to modify the search to include additional properties in the response. Please note: use of options may affect the cost of the query. */
-  options?: OperatorInformationRequestOptions[];
+  /** Represents options to modify a search request for operator information */
+  options?: OperatorInformationRequestOptions;
+}
+
+/** Represents options to modify a search request for operator information */
+export interface OperatorInformationRequestOptions {
+  /** Includes the fields operatorDetails, numberType, and isoCountryCode in the response.  Please note: use of this option will result in additional costs */
+  includeAdditionalPhoneAndOperatorDetails?: boolean;
 }
 
 /** Represents a search result containing format and operator information associated with the requested phone numbers */
@@ -247,11 +253,11 @@ export interface OperatorInformationResult {
 /** Represents metadata about a phone number that is controlled/provided by that phone number's operator. */
 export interface OperatorInformation {
   /** E.164 formatted string representation of the phone number */
-  phoneNumber?: string;
+  phoneNumber: string;
   /** National format of the phone number */
-  nationalFormat?: string;
+  nationalFormat: string;
   /** International format of the phone number */
-  internationalFormat?: string;
+  internationalFormat: string;
   /** Type of service associated with the phone number */
   numberType?: OperatorNumberType;
   /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */
@@ -320,20 +326,6 @@ export interface PhoneNumbersReleasePhoneNumberHeaders {
   releaseId?: string;
 }
 
-/** Known values of {@link OperatorInformationRequestOptions} that the service accepts. */
-export enum KnownOperatorInformationRequestOptions {
-  /** IncludeOperatorDetails */
-  IncludeOperatorDetails = "IncludeOperatorDetails"
-}
-
-/**
- * Defines values for OperatorInformationRequestOptions. \
- * {@link KnownOperatorInformationRequestOptions} can be used interchangeably with OperatorInformationRequestOptions,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **IncludeOperatorDetails**
- */
-export type OperatorInformationRequestOptions = string;
 /** Defines values for PhoneNumberType. */
 export type PhoneNumberType = "geographic" | "tollFree";
 /** Defines values for PhoneNumberAssignmentType. */
@@ -549,8 +541,8 @@ export interface PhoneNumbersOperatorInformationSearchOptionalParams
   extends coreClient.OperationOptions {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
-  /** Options to modify the search to include additional properties in the response. Please note: use of options may affect the cost of the query. */
-  options?: OperatorInformationRequestOptions[];
+  /** Represents options to modify a search request for operator information */
+  options?: OperatorInformationRequestOptions;
 }
 
 /** Contains response data for the operatorInformationSearch operation. */
