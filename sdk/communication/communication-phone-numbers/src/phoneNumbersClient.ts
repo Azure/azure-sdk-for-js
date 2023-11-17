@@ -550,7 +550,7 @@ export class PhoneNumbersClient {
    */
   public searchOperatorInformation(
     phoneNumbers: string[],
-    options: SearchOperatorInformationOptions = { "options": [] }
+    options: SearchOperatorInformationOptions = { "options": { "includeAdditionalPhoneAndOperatorDetails": false } }
   ): Promise<OperatorInformationResult> {
     return tracingClient.withSpan(
       "PhoneNumbersClient-searchOperatorInformation",

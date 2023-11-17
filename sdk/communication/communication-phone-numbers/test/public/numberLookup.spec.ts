@@ -7,7 +7,6 @@ import { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
 import { getPhoneNumber } from "./utils/testPhoneNumber";
-import { KnownOperatorInformationRequestOptions } from "../../src/generated/src";
 
 describe(`PhoneNumbersClient - look up phone number`, function () {
   let recorder: Recorder;
@@ -57,7 +56,7 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
 
-    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "options": [ KnownOperatorInformationRequestOptions.IncludeOperatorDetails ]});
+    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "options": { "includeAdditionalPhoneAndOperatorDetails": true } });
 
     resultPhoneNumber = operatorInformation.values
       ? operatorInformation.values[0].phoneNumber
