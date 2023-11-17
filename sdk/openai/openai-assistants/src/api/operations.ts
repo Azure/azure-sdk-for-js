@@ -4,7 +4,11 @@
 import {
   AssistantCreationOptions,
   Assistant,
-  ListResponseOf,
+  ListResponseOfAssistant,
+  ListResponseOfAssistantFile,
+  ListResponseOfAssistantMessageFile,
+  ListResponseOfAssistantRun,
+  ListResponseOfRunStep,
   AssistantModificationOptions,
   AssistantDeletionStatus,
   AssistantFile,
@@ -23,6 +27,7 @@ import {
   FileListResponse,
   File,
   FileDeletionStatus,
+  ListResponseOfAssistantMessage,
 } from "../models/models.js";
 import {
   AssistantsContext as Client,
@@ -172,7 +177,7 @@ export function _listAssistantsSend(
 
 export async function _listAssistantsDeserialize(
   result: ListAssistants200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistant> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -201,7 +206,7 @@ export async function _listAssistantsDeserialize(
 export async function listAssistants(
   context: Client,
   options: ListAssistantsOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistant> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
 }
@@ -406,7 +411,7 @@ export function _listAssistantFilesSend(
 
 export async function _listAssistantFilesDeserialize(
   result: ListAssistantFiles200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantFile> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -430,7 +435,7 @@ export async function listAssistantFiles(
   context: Client,
   assistantId: string,
   options: ListAssistantFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantFile> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
 }
@@ -752,7 +757,7 @@ export function _listMessagesSend(
 
 export async function _listMessagesDeserialize(
   result: ListMessages200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantMessage> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -781,7 +786,7 @@ export async function listMessages(
   context: Client,
   threadId: string,
   options: ListMessagesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantMessage> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
 }
@@ -904,7 +909,7 @@ export function _listMessageFilesSend(
 
 export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantMessageFile> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -929,7 +934,7 @@ export async function listMessageFiles(
   threadId: string,
   messageId: string,
   options: ListMessageFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantMessageFile> {
   const result = await _listMessageFilesSend(
     context,
     threadId,
@@ -1091,7 +1096,7 @@ export function _listRunsSend(
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantRun> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -1135,7 +1140,7 @@ export async function listRuns(
   context: Client,
   threadId: string,
   options: ListRunsOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfAssistantRun> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
 }
@@ -1650,7 +1655,7 @@ export function _listRunStepsSend(
 
 export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfRunStep> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -1690,7 +1695,7 @@ export async function listRunSteps(
   threadId: string,
   runId: string,
   options: ListRunStepsOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<ListResponseOfRunStep> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }

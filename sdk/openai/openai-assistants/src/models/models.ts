@@ -60,7 +60,7 @@ export interface Assistant {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfAssistant {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -112,7 +112,7 @@ export interface AssistantFile {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfAssistantFile {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -228,7 +228,7 @@ export interface ThreadDeletionStatus {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfAssistantMessage {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -242,7 +242,7 @@ export interface ListResponseOf {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfAssistantMessageFile {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -373,7 +373,7 @@ export interface RunError {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfAssistantRun {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -479,7 +479,7 @@ export interface RunStepError {
 export type RunStepErrorCode = string;
 
 /** The response data for a requested list of items. */
-export interface ListResponseOf {
+export interface ListResponseOfRunStep {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
