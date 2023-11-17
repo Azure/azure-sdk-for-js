@@ -5,7 +5,12 @@ import { env, Recorder } from "@azure-tools/test-recorder";
 import { expect } from "chai";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { AzureDeveloperDevCenterClient, ProjectOutput, isUnexpected, paginate } from "../../src/index";
+import {
+  AzureDeveloperDevCenterClient,
+  ProjectOutput,
+  isUnexpected,
+  paginate,
+} from "../../src/index";
 
 describe("DevCenter Project Operations Tests", () => {
   let recorder: Recorder;

@@ -381,14 +381,12 @@ export type PagedDevBoxOutput = Paged<DevBoxOutput>;
 /** The actions list result */
 export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
 /** The actions list result */
-export type PagedDevBoxActionDelayResultOutput =
-  Paged<DevBoxActionDelayResultOutput>;
+export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
 /** Results of the environment list operation. */
 export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
 /** Results of the catalog list operation. */
 export type PagedCatalogOutput = Paged<CatalogOutput>;
 /** Results of the environment definition list operation. */
-export type PagedEnvironmentDefinitionOutput =
-  Paged<EnvironmentDefinitionOutput>;
+export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
 /** Result of the environment type list operation. */
 export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;

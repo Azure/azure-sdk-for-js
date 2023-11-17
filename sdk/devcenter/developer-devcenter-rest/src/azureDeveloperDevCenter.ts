@@ -33,17 +33,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://devcenter.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://devcenter.azure.com/.default"],
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as AzureDeveloperDevCenterClient;
+  const client = getClient(baseUrl, credentials, options) as AzureDeveloperDevCenterClient;
 
   return client;
 }

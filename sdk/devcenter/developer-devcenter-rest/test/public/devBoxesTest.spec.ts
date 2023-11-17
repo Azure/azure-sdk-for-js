@@ -339,12 +339,12 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-      const devBoxStopPoller = await getLongRunningPoller(
-          client,
-          stopDevBoxResponse,
-          testPollingOptions
-      );
-    const devBoxStopResult =  await devBoxStopPoller.pollUntilDone();
+    const devBoxStopPoller = await getLongRunningPoller(
+      client,
+      stopDevBoxResponse,
+      testPollingOptions
+    );
+    const devBoxStopResult = await devBoxStopPoller.pollUntilDone();
 
     if (isUnexpected(devBoxStopResult)) {
       throw new Error(devBoxStopResult.body?.error.message);
@@ -366,11 +366,11 @@ describe("DevCenter Dev Boxes Operations Test", () => {
       )
       .post();
 
-      const devBoxStartPoller = await getLongRunningPoller(
-          client,
-          startDevBoxResponse,
-          testPollingOptions
-      );
+    const devBoxStartPoller = await getLongRunningPoller(
+      client,
+      startDevBoxResponse,
+      testPollingOptions
+    );
     const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
 
     if (isUnexpected(devBoxStartResult)) {

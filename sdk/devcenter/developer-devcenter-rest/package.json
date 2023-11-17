@@ -4,13 +4,22 @@
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.3",
   "description": "Azure Developer DevCenter Client",
-  "keywords": [ "node", "azure", "cloud", "typescript", "browser", "isomorphic" ],
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/developer-devcenter.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -27,7 +36,9 @@
     "disableDocsMs": true,
     "apiRefLink": "https://learn.microsoft.com/azure/dev-box/"
   },
-  "engines": { "node": ">=18.0.0" },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -105,7 +116,10 @@
   },
   "//metadata": {
     "constantPaths": [
-      { "path": "src/azureDeveloperDevCenter.ts", "prefix": "userAgentInfo" }
+      {
+        "path": "src/azureDeveloperDevCenter.ts",
+        "prefix": "userAgentInfo"
+      }
     ]
   },
   "browser": {

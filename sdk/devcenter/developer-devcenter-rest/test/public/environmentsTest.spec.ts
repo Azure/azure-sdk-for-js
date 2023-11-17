@@ -223,14 +223,13 @@ describe("DevCenter Environments Operations Test", () => {
   });
 
   async function createDevelopmentEnvironment(): Promise<void> {
-    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters =
-      {
-        body: {
-          environmentDefinitionName: envDefinitionName,
-          environmentType: environmentTypeName,
-          catalogName: catalogName,
-        },
-      };
+    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
+      body: {
+        environmentDefinitionName: envDefinitionName,
+        environmentType: environmentTypeName,
+        catalogName: catalogName,
+      },
+    };
 
     // Provision an environment
     const environmentCreateResponse = await client

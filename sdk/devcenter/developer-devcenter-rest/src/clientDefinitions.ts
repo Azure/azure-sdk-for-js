@@ -128,8 +128,7 @@ export interface GetProjectOperationStatus {
   get(
     options?: GetProjectOperationStatusParameters
   ): StreamableMethod<
-    | GetProjectOperationStatus200Response
-    | GetProjectOperationStatusDefaultResponse
+    GetProjectOperationStatus200Response | GetProjectOperationStatusDefaultResponse
   >;
 }
 
@@ -142,9 +141,7 @@ export interface ListPools {
 
 export interface GetPool {
   /** Gets a pool */
-  get(
-    options?: GetPoolParameters
-  ): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
+  get(options?: GetPoolParameters): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
 }
 
 export interface ListSchedules {
@@ -177,17 +174,13 @@ export interface GetDevBox {
   put(
     options: CreateDevBoxParameters
   ): StreamableMethod<
-    | CreateDevBox200Response
-    | CreateDevBox201Response
-    | CreateDevBoxDefaultResponse
+    CreateDevBox200Response | CreateDevBox201Response | CreateDevBoxDefaultResponse
   >;
   /** Deletes a Dev Box. */
   delete(
     options?: DeleteDevBoxParameters
   ): StreamableMethod<
-    | DeleteDevBox202Response
-    | DeleteDevBox204Response
-    | DeleteDevBoxDefaultResponse
+    DeleteDevBox202Response | DeleteDevBox204Response | DeleteDevBoxDefaultResponse
   >;
 }
 
@@ -216,27 +209,21 @@ export interface GetRemoteConnection {
   /** Gets RDP Connection info */
   get(
     options?: GetRemoteConnectionParameters
-  ): StreamableMethod<
-    GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse
-  >;
+  ): StreamableMethod<GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse>;
 }
 
 export interface ListDevBoxActions {
   /** Lists actions on a Dev Box. */
   get(
     options?: ListDevBoxActionsParameters
-  ): StreamableMethod<
-    ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse
-  >;
+  ): StreamableMethod<ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse>;
 }
 
 export interface GetDevBoxAction {
   /** Gets an action. */
   get(
     options?: GetDevBoxActionParameters
-  ): StreamableMethod<
-    GetDevBoxAction200Response | GetDevBoxActionDefaultResponse
-  >;
+  ): StreamableMethod<GetDevBoxAction200Response | GetDevBoxActionDefaultResponse>;
 }
 
 export interface SkipAction {
@@ -257,68 +244,53 @@ export interface DelayAllActions {
   /** Delays all actions. */
   post(
     options: DelayAllActionsParameters
-  ): StreamableMethod<
-    DelayAllActions200Response | DelayAllActionsDefaultResponse
-  >;
+  ): StreamableMethod<DelayAllActions200Response | DelayAllActionsDefaultResponse>;
 }
 
 export interface ListAllDevBoxes {
   /** Lists Dev Boxes that the caller has access to in the DevCenter. */
   get(
     options?: ListAllDevBoxesParameters
-  ): StreamableMethod<
-    ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse
-  >;
+  ): StreamableMethod<ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse>;
 }
 
 export interface ListAllDevBoxesByUser {
   /** Lists Dev Boxes in the Dev Center for a particular user. */
   get(
     options?: ListAllDevBoxesByUserParameters
-  ): StreamableMethod<
-    ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse
-  >;
+  ): StreamableMethod<ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse>;
 }
 
 export interface ListAllEnvironments {
   /** Lists the environments for a project. */
   get(
     options?: ListAllEnvironmentsParameters
-  ): StreamableMethod<
-    ListAllEnvironments200Response | ListAllEnvironmentsDefaultResponse
-  >;
+  ): StreamableMethod<ListAllEnvironments200Response | ListAllEnvironmentsDefaultResponse>;
 }
 
 export interface ListEnvironments {
   /** Lists the environments for a project and user. */
   get(
     options?: ListEnvironmentsParameters
-  ): StreamableMethod<
-    ListEnvironments200Response | ListEnvironmentsDefaultResponse
-  >;
+  ): StreamableMethod<ListEnvironments200Response | ListEnvironmentsDefaultResponse>;
 }
 
 export interface GetEnvironment {
   /** Gets an environment */
   get(
     options?: GetEnvironmentParameters
-  ): StreamableMethod<
-    GetEnvironment200Response | GetEnvironmentDefaultResponse
-  >;
+  ): StreamableMethod<GetEnvironment200Response | GetEnvironmentDefaultResponse>;
   /** Creates or updates an environment. */
   put(
     options: CreateOrUpdateEnvironmentParameters
   ): StreamableMethod<
-    | CreateOrUpdateEnvironment201Response
-    | CreateOrUpdateEnvironmentDefaultResponse
+    CreateOrUpdateEnvironment201Response | CreateOrUpdateEnvironmentDefaultResponse
   >;
   /** Deletes an environment and all its associated resources */
   delete(
     options?: DeleteEnvironmentParameters
   ): StreamableMethod<
-    | DeleteEnvironment202Response
-    | DeleteEnvironment204Response
-    | DeleteEnvironmentDefaultResponse
+    DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentDefaultResponse
   >;
 }
 
@@ -341,8 +313,7 @@ export interface ListEnvironmentDefinitions {
   get(
     options?: ListEnvironmentDefinitionsParameters
   ): StreamableMethod<
-    | ListEnvironmentDefinitions200Response
-    | ListEnvironmentDefinitionsDefaultResponse
+    ListEnvironmentDefinitions200Response | ListEnvironmentDefinitionsDefaultResponse
   >;
 }
 
@@ -361,8 +332,7 @@ export interface GetEnvironmentDefinition {
   get(
     options?: GetEnvironmentDefinitionParameters
   ): StreamableMethod<
-    | GetEnvironmentDefinition200Response
-    | GetEnvironmentDefinitionDefaultResponse
+    GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse
   >;
 }
 
@@ -370,9 +340,7 @@ export interface ListEnvironmentTypes {
   /** Lists all environment types configured for a project. */
   get(
     options?: ListEnvironmentTypesParameters
-  ): StreamableMethod<
-    ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse
-  >;
+  ): StreamableMethod<ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse>;
 }
 
 export interface Routes {
@@ -491,10 +459,7 @@ export interface Routes {
   /** Resource for '/users/\{userId\}/devboxes' has methods for the following verbs: get */
   (path: "/users/{userId}/devboxes", userId: string): ListAllDevBoxesByUser;
   /** Resource for '/projects/\{projectName\}/environments' has methods for the following verbs: get */
-  (
-    path: "/projects/{projectName}/environments",
-    projectName: string
-  ): ListAllEnvironments;
+  (path: "/projects/{projectName}/environments", projectName: string): ListAllEnvironments;
   /** Resource for '/projects/\{projectName\}/users/\{userId\}/environments' has methods for the following verbs: get */
   (
     path: "/projects/{projectName}/users/{userId}/environments",
@@ -535,10 +500,7 @@ export interface Routes {
     definitionName: string
   ): GetEnvironmentDefinition;
   /** Resource for '/projects/\{projectName\}/environmentTypes' has methods for the following verbs: get */
-  (
-    path: "/projects/{projectName}/environmentTypes",
-    projectName: string
-  ): ListEnvironmentTypes;
+  (path: "/projects/{projectName}/environmentTypes", projectName: string): ListEnvironmentTypes;
 }
 
 export type AzureDeveloperDevCenterClient = Client & {

@@ -44,8 +44,7 @@ export interface ListSchedulesQueryParam {
   queryParameters?: ListSchedulesQueryParamProperties;
 }
 
-export type ListSchedulesParameters = ListSchedulesQueryParam &
-  RequestParameters;
+export type ListSchedulesParameters = ListSchedulesQueryParam & RequestParameters;
 export type GetScheduleParameters = RequestParameters;
 
 export interface ListDevBoxesQueryParamProperties {
@@ -107,8 +106,7 @@ export interface DelayAllActionsQueryParam {
   queryParameters: DelayAllActionsQueryParamProperties;
 }
 
-export type DelayAllActionsParameters = DelayAllActionsQueryParam &
-  RequestParameters;
+export type DelayAllActionsParameters = DelayAllActionsQueryParam & RequestParameters;
 
 export interface ListAllDevBoxesQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
@@ -121,8 +119,7 @@ export interface ListAllDevBoxesQueryParam {
   queryParameters?: ListAllDevBoxesQueryParamProperties;
 }
 
-export type ListAllDevBoxesParameters = ListAllDevBoxesQueryParam &
-  RequestParameters;
+export type ListAllDevBoxesParameters = ListAllDevBoxesQueryParam & RequestParameters;
 
 export interface ListAllDevBoxesByUserQueryParamProperties {
   /** An OData filter clause to apply to the operation. */
@@ -135,8 +132,7 @@ export interface ListAllDevBoxesByUserQueryParam {
   queryParameters?: ListAllDevBoxesByUserQueryParamProperties;
 }
 
-export type ListAllDevBoxesByUserParameters = ListAllDevBoxesByUserQueryParam &
-  RequestParameters;
+export type ListAllDevBoxesByUserParameters = ListAllDevBoxesByUserQueryParam & RequestParameters;
 
 export interface ListAllEnvironmentsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
@@ -147,8 +143,7 @@ export interface ListAllEnvironmentsQueryParam {
   queryParameters?: ListAllEnvironmentsQueryParamProperties;
 }
 
-export type ListAllEnvironmentsParameters = ListAllEnvironmentsQueryParam &
-  RequestParameters;
+export type ListAllEnvironmentsParameters = ListAllEnvironmentsQueryParam & RequestParameters;
 
 export interface ListEnvironmentsQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
@@ -159,8 +154,7 @@ export interface ListEnvironmentsQueryParam {
   queryParameters?: ListEnvironmentsQueryParamProperties;
 }
 
-export type ListEnvironmentsParameters = ListEnvironmentsQueryParam &
-  RequestParameters;
+export type ListEnvironmentsParameters = ListEnvironmentsQueryParam & RequestParameters;
 export type GetEnvironmentParameters = RequestParameters;
 
 export interface CreateOrUpdateEnvironmentBodyParam {
@@ -168,8 +162,8 @@ export interface CreateOrUpdateEnvironmentBodyParam {
   body: Environment;
 }
 
-export type CreateOrUpdateEnvironmentParameters =
-  CreateOrUpdateEnvironmentBodyParam & RequestParameters;
+export type CreateOrUpdateEnvironmentParameters = CreateOrUpdateEnvironmentBodyParam &
+  RequestParameters;
 export type DeleteEnvironmentParameters = RequestParameters;
 
 export interface ListCatalogsQueryParamProperties {
@@ -193,8 +187,8 @@ export interface ListEnvironmentDefinitionsQueryParam {
   queryParameters?: ListEnvironmentDefinitionsQueryParamProperties;
 }
 
-export type ListEnvironmentDefinitionsParameters =
-  ListEnvironmentDefinitionsQueryParam & RequestParameters;
+export type ListEnvironmentDefinitionsParameters = ListEnvironmentDefinitionsQueryParam &
+  RequestParameters;
 
 export interface ListEnvironmentDefinitionsByCatalogQueryParamProperties {
   /** The maximum number of resources to return from the operation. Example: 'top=10'. */
@@ -218,5 +212,4 @@ export interface ListEnvironmentTypesQueryParam {
   queryParameters?: ListEnvironmentTypesQueryParamProperties;
 }
 
-export type ListEnvironmentTypesParameters = ListEnvironmentTypesQueryParam &
-  RequestParameters;
+export type ListEnvironmentTypesParameters = ListEnvironmentTypesQueryParam & RequestParameters;
