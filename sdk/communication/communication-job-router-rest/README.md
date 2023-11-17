@@ -93,7 +93,7 @@ const routerClient = JobRouterClient(connectionString);
 This policy determines which workers will receive job offers as jobs are distributed off their queues.
 
 ```js
-await routerClient.path("/routing/distributionPolicies/{id}", "distributionPolicy-1").patch({
+const distributionPolicy = await routerClient.path("/routing/distributionPolicies/{id}", "distributionPolicy-1").patch({
   contentType: "application/merge-patch+json",
   body: {
     name: "distribution-policy-123",
@@ -116,7 +116,7 @@ const salesQueueId = "queue-123";
 await routerClient.path("/routing/queues/{id}", salesQueueId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    distributionPolicyId: "distribution-policy-123",
+    distributionPolicyId: distributionPolicy.body.id,
     name: "Main",
     labels: {},
   }
