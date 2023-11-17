@@ -60,11 +60,11 @@ export interface Assistant {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistant {
+export interface ListResponseOf<T> {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
-  data: Assistant[];
+  data: T[];
   /** The first ID represented in this list. */
   firstId: string;
   /** The last ID represented in this list. */
@@ -109,20 +109,6 @@ export interface AssistantFile {
   createdAt: Date;
   /** The assistant ID that the file is attached to. */
   assistantId: string;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantFile {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: AssistantFile[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
 }
 
 /** The status of an assistant file deletion operation. */
@@ -225,34 +211,6 @@ export interface ThreadDeletionStatus {
   object: "thread.deleted";
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessage {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: AssistantMessage[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessageFile {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: AssistantMessageFile[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
 }
 
 /** Information about a file attached to an assistant thread message. */
@@ -372,20 +330,6 @@ export interface RunError {
   message: string;
 }
 
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantRun {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: AssistantRun[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
-}
-
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
 export interface ToolOutputSubmission {
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
@@ -477,20 +421,6 @@ export interface RunStepError {
 /** Possible error code values attributable to a failed run step. */
 /** "server_error", "rate_limit_exceeded" */
 export type RunStepErrorCode = string;
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfRunStep {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: RunStep[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
-}
 
 /** The possible values denoting the intended usage of a file. */
 /** "fine-tune", "fine-tune-results", "assistants", "assistants_output" */

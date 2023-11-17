@@ -5,11 +5,7 @@ import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-a
 import {
   AssistantCreationOptions,
   Assistant,
-  ListResponseOfAssistant,
-  ListResponseOfAssistantFile,
-  ListResponseOfAssistantMessageFile,
-  ListResponseOfAssistantRun,
-  ListResponseOfRunStep,
+  ListResponseOf,
   AssistantModificationOptions,
   AssistantDeletionStatus,
   AssistantFile,
@@ -28,7 +24,6 @@ import {
   FileListResponse,
   File,
   FileDeletionStatus,
-  ListResponseOfAssistantMessage,
 } from "./models/models.js";
 import {
   CreateAssistantOptions,
@@ -200,7 +195,7 @@ export class AssistantsClient {
   /** Returns a list of assistants. */
   listAssistants(
     options: ListAssistantsOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistant> {
+  ): Promise<ListResponseOf<Assistant>> {
     return listAssistants(this._client, options);
   }
 
@@ -247,7 +242,7 @@ export class AssistantsClient {
   listAssistantFiles(
     assistantId: string,
     options: ListAssistantFilesOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistantFile> {
+  ): Promise<ListResponseOf<AssistantFile>> {
     return listAssistantFiles(this._client, assistantId, options);
   }
 
@@ -315,7 +310,7 @@ export class AssistantsClient {
   listMessages(
     threadId: string,
     options: ListMessagesOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistantMessage> {
+  ): Promise<ListResponseOf<AssistantMessage>> {
     return listMessages(this._client, threadId, options);
   }
 
@@ -342,7 +337,7 @@ export class AssistantsClient {
     threadId: string,
     messageId: string,
     options: ListMessageFilesOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistantMessageFile> {
+  ): Promise<ListResponseOf<AssistantMessageFile>> {
     return listMessageFiles(this._client, threadId, messageId, options);
   }
 
@@ -375,7 +370,7 @@ export class AssistantsClient {
   listRuns(
     threadId: string,
     options: ListRunsOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistantRun> {
+  ): Promise<ListResponseOf<AssistantRun>> {
     return listRuns(this._client, threadId, options);
   }
 
@@ -445,7 +440,7 @@ export class AssistantsClient {
     threadId: string,
     runId: string,
     options: ListRunStepsOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfRunStep> {
+  ): Promise<ListResponseOf<RunStep>> {
     return listRunSteps(this._client, threadId, runId, options);
   }
 
