@@ -47,7 +47,7 @@ export type ModifyAssistantParameters = ModifyAssistantBodyParam &
 export type DeleteAssistantParameters = RequestParameters;
 
 export interface CreateAssistantFileBodyParam {
-  body?: { file_id: file_id };
+  body?: { file_id: string };
 }
 
 export type CreateAssistantFileParameters = CreateAssistantFileBodyParam &
@@ -145,7 +145,7 @@ export type RetrieveMessageFileParameters = RequestParameters;
 
 export interface CreateRunBodyParam {
   body?: {
-    assistant_id: assistant_id;
+    assistant_id: string;
     model?: string;
     instructions?: string;
     tools?: Array<ToolDefinition>;

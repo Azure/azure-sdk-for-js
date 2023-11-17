@@ -64,7 +64,7 @@ export interface AssistantOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfAssistantOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -98,7 +98,7 @@ export interface AssistantFileOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfAssistantFileOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -244,7 +244,7 @@ export interface ThreadDeletionStatusOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfAssistantMessageOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -270,7 +270,7 @@ export interface AssistantMessageFileOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfAssistantMessageFileOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -446,7 +446,7 @@ export interface RunErrorOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfAssistantRunOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -537,7 +537,7 @@ export interface RunStepErrorOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfOutput {
+export interface ListResponseOfRunStepOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
