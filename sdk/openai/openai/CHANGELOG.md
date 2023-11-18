@@ -4,15 +4,21 @@
 
 ### Features Added
 
+### Breaking Changes
+
 - `getAudioTranscription` and `getAudioTranslation` now take a `StreamProducer` as input. This allows for streaming audio files to the service instead of having to load the entire file into memory. For example, an audio file saved on disk can be streamed to the service in NodeJS as follows:
 
 ```js
 const { createReadStream } = require("fs");
-const createAudioStream = () => createReadStream("<Path to audio file>");
-const result = await client.getAudioTranslation(deploymentName, createAudioStream);
+const { stat } = require("fs/promises");
+  const name = "countdown.wav";
+  const filePath = `<path>/${name}`;
+  const result = await client.getAudioTranscription(deploymentName, {
+    stream: async () => createReadStream(filePath),
+    length: (await stat(filePath)).size,
+    name,
+  });
 ```
-
-### Breaking Changes
 
 ### Bugs Fixed
 
