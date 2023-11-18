@@ -112,6 +112,14 @@ function normalizeModuleSpecifier<T extends string>(
 function normalizeLocalModuleSpecifier<T extends string>(
   moduleSpecifier: T,
   filePath: string
+): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined;
+function normalizeLocalModuleSpecifier<T extends LocalModuleSpecifier>(
+  moduleSpecifier: T,
+  filePath: string
+): T & LocalModuleSpecifier & DotPrefixedRelativePath;
+function normalizeLocalModuleSpecifier<T extends string>(
+  moduleSpecifier: T,
+  filePath: string
 ): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
   const fileDir = path.dirname(filePath);
   const modulePath = path.resolve(fileDir, moduleSpecifier);
