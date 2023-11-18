@@ -4,12 +4,13 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorModel } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure-rest/core-client';
-import { StreamProducer } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -329,14 +330,10 @@ export class OpenAIClient {
     constructor(endpoint: string, credential: KeyCredential, options?: OpenAIClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: OpenAIClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: OpenAIClientOptions);
-    getAudioTranscription(deploymentName: string, createAudioStream: StreamProducer, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, createAudioStream: StreamProducer, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
-    getAudioTranscription(deploymentName: string, audioContent: Uint8Array, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, audioContent: Uint8Array, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
-    getAudioTranslation(deploymentName: string, createAudioStream: StreamProducer, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, createAudioStream: StreamProducer, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
-    getAudioTranslation(deploymentName: string, audioContent: Uint8Array, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
-    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, audioContent: Uint8Array, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
+    getAudioTranscription(deploymentName: string, audioStream: StreamProducer, options?: GetAudioTranscriptionOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranscription<Format extends AudioResultFormat>(deploymentName: string, audioStream: StreamProducer, format: Format, options?: GetAudioTranscriptionOptions): Promise<AudioResult<Format>>;
+    getAudioTranslation(deploymentName: string, audioStream: StreamProducer, options?: GetAudioTranslationOptions): Promise<AudioResultSimpleJson>;
+    getAudioTranslation<Format extends AudioResultFormat>(deploymentName: string, audioStream: StreamProducer, format: Format, options?: GetAudioTranslationOptions): Promise<AudioResult<Format>>;
     getChatCompletions(deploymentName: string, messages: ChatMessage[], options?: GetChatCompletionsOptions): Promise<ChatCompletions>;
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
@@ -360,6 +357,13 @@ export class OpenAIKeyCredential implements KeyCredential {
 export interface PromptFilterResult {
     contentFilterResults?: ContentFilterResults;
     promptIndex: number;
+}
+
+// @public
+export interface StreamProducer {
+    length?: number;
+    name?: string;
+    stream(): Promise<NodeJS.ReadableStream | ReadableStream<Uint8Array>>;
 }
 
 ```

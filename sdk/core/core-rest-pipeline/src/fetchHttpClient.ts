@@ -57,7 +57,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
   try {
     const headers = buildFetchHeaders(request.headers);
-    const { streaming, body: requestBody } = buildRequestBody(request);
+    const { streaming, body: requestBody } = await buildRequestBody(request);
     const requestInit: RequestInit = {
       body: requestBody,
       method: request.method,
@@ -216,8 +216,8 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
   return responseHeaders;
 }
 
-function buildRequestBody(request: PipelineRequest) {
-  const body = typeof request.body === "function" ? request.body() : request.body;
+async function buildRequestBody(request: PipelineRequest) {
+  const body = typeof request.body === "function" ? await request.body() : request.body;
   if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
   }

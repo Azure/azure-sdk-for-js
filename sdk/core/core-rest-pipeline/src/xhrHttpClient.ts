@@ -65,7 +65,7 @@ class XhrHttpClient implements HttpClient {
 
     xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
-    const body = typeof request.body === "function" ? request.body() : request.body;
+    const body = typeof request.body === "function" ? await request.body() : request.body;
     if (isReadableStream(body)) {
       throw new Error("streams are not supported in XhrHttpClient.");
     }

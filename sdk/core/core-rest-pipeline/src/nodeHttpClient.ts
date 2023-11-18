@@ -98,7 +98,7 @@ class NodeHttpClient implements HttpClient {
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
 
-    let body = typeof request.body === "function" ? request.body() : request.body;
+    let body = typeof request.body === "function" ? await request.body() : request.body;
     if (body && !request.headers.has("Content-Length")) {
       const bodyLength = getBodyLength(body);
       if (bodyLength !== null) {

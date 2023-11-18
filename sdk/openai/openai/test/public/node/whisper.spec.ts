@@ -6,10 +6,11 @@ import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
-import { readFile } from "fs/promises";
+import { readFile, stat } from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
 import { assertAudioResult } from "../utils/asserts.js";
 import { getModel, stretchWAV } from "./util.js";
+import { createReadStream } from "fs";
 
 describe("OpenAI", function () {
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
@@ -36,16 +37,32 @@ describe("OpenAI", function () {
         async function (format: AudioResultFormat, extension: string) {
           describe("getAudioTranscription", function () {
             it(`returns ${format} transcription for ${extension} files`, async function () {
-              const file = await readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranscription(getModel(authMethod), file, format);
+              const name = `countdown.${extension}`;
+              const res = await client.getAudioTranscription(
+                getModel(authMethod),
+                {
+                  stream: async () => createReadStream(`./assets/audio/${name}`),
+                  length: (await stat(`./assets/audio/${name}`)).size,
+                  name,
+                },
+                format
+              );
               assertAudioResult(format, res);
             });
           });
 
           describe("getAudioTranslation", function () {
             it(`returns ${format} translation for ${extension} files`, async function () {
-              const file = await readFile(`./assets/audio/countdown.${extension}`);
-              const res = await client.getAudioTranslation(getModel(authMethod), file, format);
+              const name = `countdown.${extension}`;
+              const res = await client.getAudioTranslation(
+                getModel(authMethod),
+                {
+                  stream: async () => createReadStream(`./assets/audio/${name}`),
+                  length: (await stat(`./assets/audio/${name}`)).size,
+                  name,
+                },
+                format
+              );
               assertAudioResult(format, res);
             });
           });
@@ -85,9 +102,9 @@ describe("OpenAI", function () {
       }, 100);
       const file = await readFile(`./assets/audio/countdown.wav`);
       try {
-        const res = await client.getAudioTranscription(getModel(authMethod), () =>
-          stretchWAV(file, 10)
-        );
+        const res = await client.getAudioTranscription(getModel(authMethod), {
+          stream: async () => stretchWAV(file, 10),
+        });
         assertAudioResult("json", res);
       } finally {
         clearInterval(timer);

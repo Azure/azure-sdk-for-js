@@ -159,3 +159,24 @@ export interface ContentFilterErrorResults {
    */
   error: ErrorModel;
 }
+
+/**
+ * Represents a stream that could potentially be created multiple times. It also provides the length of the stream, if known, and the name of the source of the stream, typically the file name.
+ */
+export interface StreamProducer {
+  /**
+   * A function that generates an identical stream each time it is invoked. It is useful when the request needs to be retried and the same stream needs to be resent again.
+   * @returns A promise that resolves to a NodeJS.ReadableStream or ReadableStream<Uint8Array>.
+   */
+  stream(): Promise<NodeJS.ReadableStream | ReadableStream<Uint8Array>>;
+
+  /**
+   * The length of the stream in bytes, if known.
+   */
+  length?: number;
+
+  /**
+   * The name of the source of the stream, typically the file name.
+   */
+  name?: string;
+}

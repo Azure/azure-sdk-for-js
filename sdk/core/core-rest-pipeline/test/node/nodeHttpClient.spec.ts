@@ -381,7 +381,7 @@ describe("NodeHttpClient", function () {
     });
     stubbedHttpsRequest.returns(writable);
 
-    const body = () => {
+    const body = async () => {
       const stream = new PassThrough();
       stream.write(requestText);
       stream.end();
@@ -389,7 +389,7 @@ describe("NodeHttpClient", function () {
     };
     const request = createPipelineRequest({ url: "https://example.com", body });
     const promise = client.sendRequest(request);
-    stubbedHttpsRequest.yield(createResponse(200));
+    stubbedHttpsRequest.yieldsAsync(createResponse(200));
     await promise;
     assert.isTrue(bodySent, "body should have been piped to request");
   });

@@ -65,10 +65,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = () =>
-    concatenateStreams(
-      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream)
-    );
+  request.body = async () => concatenateStreams(await Promise.all(sources.map(toStream)));
 }
 
 /**

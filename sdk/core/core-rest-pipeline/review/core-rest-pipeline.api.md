@@ -97,7 +97,7 @@ export function createEmptyPipeline(): Pipeline;
 export function createFile(content: Uint8Array, name: string, options?: CreateFileOptions): File;
 
 // @public
-export function createFileFromStream(stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream, name: string, options?: CreateFileFromStreamOptions): File;
+export function createFileFromStream(stream: StreamProducer, name: string, options?: CreateFileFromStreamOptions): Promise<File>;
 
 // @public
 export interface CreateFileFromStreamOptions extends CreateFileOptions {
@@ -427,7 +427,7 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
-export type StreamProducer = () => ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+export type StreamProducer = () => Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream>;
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;

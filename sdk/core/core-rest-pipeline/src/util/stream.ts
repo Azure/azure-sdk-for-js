@@ -4,6 +4,7 @@
 import { Readable } from "stream";
 import { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { isBlob, isNodeReadableStream, isWebReadableStream } from "./typeGuards";
+import { StreamProducer } from "../interfaces";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>
@@ -46,15 +47,17 @@ export function toWebStream(
     : (Readable.toWeb(Readable.from(stream)) as ReadableStream<Uint8Array>);
 }
 
-export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
-): NodeJS.ReadableStream | ReadableStream<Uint8Array> {
+export async function toStream(
+  source: StreamProducer | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+): Promise<NodeJS.ReadableStream | ReadableStream<Uint8Array>> {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
     return nodeStreamFromWebStream(source.stream());
   } else if (isNodeReadableStream(source)) {
     return source;
+  } else if (typeof source === "function") {
+    return toStream(await source());
   } else {
     return nodeStreamFromWebStream(source);
   }

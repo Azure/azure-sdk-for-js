@@ -50,7 +50,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 /**
  * A function that generates an identical stream each time it is invoked. This builder is useful when the request needs to be retried and the same stream needs to be resent again.
  */
-export type StreamProducer = () => ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+export type StreamProducer = () => Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream>;
 
 /**
  * A part of the request body in a multipart request.

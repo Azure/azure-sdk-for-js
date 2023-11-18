@@ -4,7 +4,7 @@
 import { Context } from "mocha";
 import { OpenAIClient } from "../../../src/index.js";
 import { createClient } from "../../public/utils/recordedClient.js";
-import { StreamProducer, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { PassThrough } from "node:stream";
 import { assert } from "@azure/test-utils";
 
@@ -18,7 +18,7 @@ describe("OpenAI", function () {
         clientOptions: {
           httpClient: {
             sendRequest: async (request) => {
-              const body = (request.body as StreamProducer)() as NodeJS.ReadableStream;
+              const body = (request.body as unknown as () => NodeJS.ReadableStream)();
               for await (const { length } of body) {
                 if (length > maxChunkSize) {
                   assert.fail(`Chunk size ${length} is larger than ${maxChunkSize}`);
@@ -35,7 +35,7 @@ describe("OpenAI", function () {
       });
     });
     it("Audio operations", async function () {
-      const buildStream = (): NodeJS.ReadableStream => {
+      const buildStream = async (): Promise<NodeJS.ReadableStream> => {
         const stream = new PassThrough();
         setTimeout(() => {
           const chunk = Uint8Array.from(new Array(4).fill(0));
@@ -51,8 +51,12 @@ describe("OpenAI", function () {
         }, 0);
         return stream;
       };
-      await client.getAudioTranscription("test", buildStream);
-      await client.getAudioTranslation("test", buildStream);
+      await client.getAudioTranscription("test", {
+        stream: buildStream,
+      });
+      await client.getAudioTranslation("test", {
+        stream: buildStream,
+      });
     });
   });
 });

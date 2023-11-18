@@ -49,7 +49,8 @@ export async function assertBodyMatches(
     assert.fail("Expected a request body");
   }
 
-  const actual = typeof resettableActual === "function" ? resettableActual() : resettableActual;
+  const actual =
+    typeof resettableActual === "function" ? await resettableActual() : resettableActual;
 
   if (isWebReadableStream(actual)) {
     const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { StreamProducer } from "../interfaces";
 import { toWebStream } from "./stream";
 
 /**
@@ -25,7 +26,7 @@ export interface CreateFileOptions {
 }
 
 /**
- * Extra options for createFile when a stream is being passed in.
+ * Options for createFileFromStream when a stream is being passed in.
  */
 export interface CreateFileFromStreamOptions extends CreateFileOptions {
   /**
@@ -66,11 +67,11 @@ const unimplementedMethods = {
  * @param name - the name of the file.
  * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
  */
-export function createFileFromStream(
-  stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+export async function createFileFromStream(
+  stream: StreamProducer,
   name: string,
   options: CreateFileFromStreamOptions = {}
-): File {
+): Promise<File> {
   return {
     ...unimplementedMethods,
     type: options.type ?? "",
@@ -78,7 +79,13 @@ export function createFileFromStream(
     webkitRelativePath: options.webkitRelativePath ?? "",
     size: options.size ?? -1,
     name,
-    stream: () => toWebStream(stream()),
+    stream: () => {
+      const transformStream = new TransformStream();
+      setTimeout(async () => {
+        toWebStream(await stream()).pipeThrough(transformStream);
+      }, 0);
+      return transformStream.readable;
+    },
   };
 }
 
@@ -91,7 +98,7 @@ export function createFileFromStream(
  *
  * @param content - the content of the file as a Uint8Array in memory.
  * @param name - the name of the file.
- * @param options - optional metadata about the file, e.g. file name, file size, MIME type.
+ * @param options - optional metadata about the file, e.g. file name and MIME type.
  */
 export function createFile(
   content: Uint8Array,

@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { StreamProducer } from "../interfaces";
 import { isBlob, isWebReadableStream } from "./typeGuards";
 
-export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
-): ReadableStream<Uint8Array> | NodeJS.ReadableStream {
+export async function toStream(
+  source: StreamProducer | ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+): Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream> {
   if (source instanceof Uint8Array) {
     return new Blob([source]).stream();
   } else if (isWebReadableStream(source)) {
     return source;
   } else if (isBlob(source)) {
     return source.stream();
+  } else if (typeof source === "function") {
+    return toStream(await source());
   } else {
     throw new Error(
       "Unsupported type. Only ReadableStream, Uint8Array and Blob are supported in browser"
