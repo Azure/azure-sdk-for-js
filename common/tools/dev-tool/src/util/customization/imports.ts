@@ -48,7 +48,7 @@ function mergeImportIntoFile(
   originalFile: SourceFile,
   importMap: Map<string, ImportDeclaration>
 ) {
-  const outputModuleSpecifier = getFixedLocalModuleSpecifier(customImportDecl);
+  const outputModuleSpecifier = getFixedModuleSpecifier(customImportDecl);
 
   const existingImportDecl = importMap.get(outputModuleSpecifier);
   if (existingImportDecl) {
@@ -58,28 +58,28 @@ function mergeImportIntoFile(
     importStructure.moduleSpecifier = outputModuleSpecifier;
     originalFile.addImportDeclaration(importStructure);
   }
-}
 
-function getFixedLocalModuleSpecifier(
-  customImportDecl: ImportDeclaration
-): DotPrefixedRelativePath {
-  const { customDir, originalDir } = getCustomizationState();
-  const customFilePath = customImportDecl.getSourceFile().getFilePath();
+  function getFixedModuleSpecifier(
+    customImportDecl: ImportDeclaration
+  ): (string & LocalModuleSpecifier & DotPrefixedRelativePath) | string {
+    const { customDir, originalDir } = getCustomizationState();
+    const customFilePath = customImportDecl.getSourceFile().getFilePath();
 
-  const moduleSpecifierFromCustomFile = normalizeModuleSpecifier(
-    customImportDecl.getModuleSpecifierValue() as DotPrefixedRelativePath,
-    customFilePath
-  );
+    const moduleSpecifierFromCustomFile = normalizeModuleSpecifier(
+      customImportDecl.getModuleSpecifierValue(),
+      customFilePath
+    );
 
-  const outputModuleSpecifier =
-    getModuleSpecifierIfImportedFromOriginal(
-      originalDir,
-      customDir,
-      customFilePath,
-      moduleSpecifierFromCustomFile
-    ) ?? moduleSpecifierFromCustomFile;
+    const outputModuleSpecifier =
+      getModuleSpecifierIfImportedFromOriginal(
+        originalDir,
+        customDir,
+        customFilePath,
+        moduleSpecifierFromCustomFile
+      ) ?? moduleSpecifierFromCustomFile;
 
-  return outputModuleSpecifier;
+    return outputModuleSpecifier;
+  }
 }
 
 function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDeclaration) {
@@ -102,12 +102,10 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   }
 }
 
-function normalizeModuleSpecifier<T extends string>(moduleSpecifier: T, filePath: string): T;
-function normalizeModuleSpecifier<T extends LocalModuleSpecifier>(
+function normalizeModuleSpecifier<T extends string>(
   moduleSpecifier: T,
   filePath: string
-): T & LocalModuleSpecifier & DotPrefixedRelativePath;
-function normalizeModuleSpecifier(moduleSpecifier: string, filePath: string): string {
+): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | T {
   return normalizeLocalModuleSpecifier(moduleSpecifier, filePath) ?? moduleSpecifier;
 }
 
@@ -117,18 +115,18 @@ function normalizeLocalModuleSpecifier<T extends string>(
 ): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
   const fileDir = path.dirname(filePath);
   const modulePath = path.resolve(fileDir, moduleSpecifier);
-  const normalizedModuleSpecifier = path.relative(fileDir, modulePath);
+  const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T & LocalModuleSpecifier;
 
-  return toDotPrefixedRelativePath(normalizedModuleSpecifier) as
-    | (T & LocalModuleSpecifier & DotPrefixedRelativePath)
-    | undefined;
+  return toDotPrefixedRelativePath(normalizedModuleSpecifier);
 }
 
 function toDotPrefixedRelativePath<T extends string>(
   filePath: T
 ): (T & DotPrefixedRelativePath) | undefined;
 function toDotPrefixedRelativePath<T extends DotPrefixedRelativePath>(filePath: T): T;
-function toDotPrefixedRelativePath(filePath: string): DotPrefixedRelativePath | undefined {
+function toDotPrefixedRelativePath<T extends string>(
+  filePath: string
+): (T & DotPrefixedRelativePath) | undefined {
   if (path.isAbsolute(filePath)) {
     return;
   }
@@ -137,7 +135,7 @@ function toDotPrefixedRelativePath(filePath: string): DotPrefixedRelativePath | 
     filePath = "./" + filePath;
   }
 
-  return filePath as DotPrefixedRelativePath;
+  return filePath as T & DotPrefixedRelativePath;
 }
 
 /**
