@@ -66,7 +66,8 @@
     "tslib": "^2.2.0",
     "typescript": "~5.2.0",
     "yaml": "^2.3.0",
-    "ts-morph": "^20.0.0"
+    "ts-morph": "^20.0.0",
+    "upath": "^2.0.1"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",

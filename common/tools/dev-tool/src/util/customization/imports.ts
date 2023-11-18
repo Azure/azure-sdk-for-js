@@ -3,7 +3,7 @@
 
 import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
-import * as path from "path";
+import * as path from "upath";
 
 type RelativePath = string & { __relativePath: never };
 type DotPrefixedRelativePath = string & { __dotPrefixedRelativePath: never } & RelativePath;

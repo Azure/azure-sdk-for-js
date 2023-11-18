@@ -9241,6 +9241,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /upath@2.0.1:
+    resolution: {integrity: sha512-1uEe95xksV1O0CYKXo8vQvN1JEbtJp7lb7C5U9HMsIp6IVwntkH/oNUzyVNQSd4S1sYk2FpSSW44FqMc8qee5w==}
+    engines: {node: '>=4'}
+    dev: false
+
   /update-browserslist-db@1.0.13(browserslist@4.22.1):
     resolution: {integrity: sha512-xebP81SNcPuNpPP3uzeW1NYXxI3rxyJzF3pD6sH4jE7o/IX+WtSpwnVU+qIsDPyk0d3hmFQ7mjqc6AtV604hbg==}
     hasBin: true
@@ -17571,7 +17576,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-PyKhkqBED7QMfHdGMUq2AFlWDqPeMu/B0cwiLVDRnxME0D0194f9UDKwc8z9XiperEulcnFljkFq+ma7ECIwNg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-OGSM47UBfPU3RaKUInM9qpx+YymsehwTNz79ZFSUVE2Wpc2ksQSvSFss/hLXLWup4CzeX1g5a8D94bbKRtZ+Lw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -17622,6 +17627,7 @@ packages:
       ts-node: 10.9.1(@types/node@18.18.13)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
+      upath: 2.0.1
       yaml: 2.3.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -18233,7 +18239,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-Lj15j+IFPXNJotoVhQtAurBpIEQW/JCdQRGYxB03zYaiNb2GI/07Bq5ZlZJRMxb8lwgnplT2Xq0k5IJPzjT6Nw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-MuCTGxlBHAgRG60wMaIRdu0iQQURgMoojNknvE8VGefA1OvqzRH51LNodDEkUKelUPUXVFgqoA8aZBmSRmBm8w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
