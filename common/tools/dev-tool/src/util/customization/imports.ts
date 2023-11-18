@@ -5,8 +5,9 @@ import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
 
-type DotPrefixedRelativePath = string & { __dotPrefixedRelativePath: never };
-type LocalModuleSpecifier = string & { __localModuleSpecifier: never };
+type RelativePath = string & { __relativePath: never };
+type DotPrefixedRelativePath = string & { __dotPrefixedRelativePath: never } & RelativePath;
+type LocalModuleSpecifier = string & { __localModuleSpecifier: never } & RelativePath;
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
@@ -61,7 +62,7 @@ function mergeImportIntoFile(
 
   function getFixedModuleSpecifier(
     customImportDecl: ImportDeclaration
-  ): (string & LocalModuleSpecifier & DotPrefixedRelativePath) | string {
+  ): (LocalModuleSpecifier & DotPrefixedRelativePath) | string {
     const { customDir, originalDir } = getCustomizationState();
     const customFilePath = customImportDecl.getSourceFile().getFilePath();
 
@@ -70,15 +71,19 @@ function mergeImportIntoFile(
       customFilePath
     );
 
-    const outputModuleSpecifier =
-      getModuleSpecifierIfImportedFromOriginal(
+    if (!isLocalModuleSpecifier(moduleSpecifierFromCustomFile)) {
+      return moduleSpecifierFromCustomFile;
+    }
+
+    const fixedModuleSpecifier =
+      getFixedModuleSpecifierIfImportedFromOriginal(
         originalDir,
         customDir,
         customFilePath,
         moduleSpecifierFromCustomFile
       ) ?? moduleSpecifierFromCustomFile;
 
-    return outputModuleSpecifier;
+    return fixedModuleSpecifier;
   }
 }
 
@@ -102,25 +107,30 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   }
 }
 
+function normalizeModuleSpecifier<T extends LocalModuleSpecifier>(
+  moduleSpecifier: T,
+  filePath: string
+): T & LocalModuleSpecifier & DotPrefixedRelativePath;
+function normalizeModuleSpecifier<T extends string>(moduleSpecifier: T, filePath: string): T;
 function normalizeModuleSpecifier<T extends string>(
   moduleSpecifier: T,
   filePath: string
 ): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | T {
-  return normalizeLocalModuleSpecifier(moduleSpecifier, filePath) ?? moduleSpecifier;
+  return isLocalModuleSpecifier(moduleSpecifier)
+    ? normalizeLocalModuleSpecifier(moduleSpecifier, filePath)
+    : moduleSpecifier;
 }
 
-function normalizeLocalModuleSpecifier<T extends string>(
-  moduleSpecifier: T,
-  filePath: string
-): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined;
+function isLocalModuleSpecifier<T extends string>(
+  moduleSpecifier: T
+): moduleSpecifier is T & LocalModuleSpecifier {
+  return moduleSpecifier.startsWith(".");
+}
+
 function normalizeLocalModuleSpecifier<T extends LocalModuleSpecifier>(
   moduleSpecifier: T,
   filePath: string
-): T & LocalModuleSpecifier & DotPrefixedRelativePath;
-function normalizeLocalModuleSpecifier<T extends string>(
-  moduleSpecifier: T,
-  filePath: string
-): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
+): T & DotPrefixedRelativePath {
   const fileDir = path.dirname(filePath);
   const modulePath = path.resolve(fileDir, moduleSpecifier);
   const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T & LocalModuleSpecifier;
@@ -128,10 +138,12 @@ function normalizeLocalModuleSpecifier<T extends string>(
   return toDotPrefixedRelativePath(normalizedModuleSpecifier);
 }
 
+function toDotPrefixedRelativePath<T extends RelativePath>(
+  filePath: T
+): T & DotPrefixedRelativePath;
 function toDotPrefixedRelativePath<T extends string>(
   filePath: T
 ): (T & DotPrefixedRelativePath) | undefined;
-function toDotPrefixedRelativePath<T extends DotPrefixedRelativePath>(filePath: T): T;
 function toDotPrefixedRelativePath<T extends string>(
   filePath: string
 ): (T & DotPrefixedRelativePath) | undefined {
@@ -152,19 +164,22 @@ function toDotPrefixedRelativePath<T extends string>(
  * file and the output module. Returns undefined if the module isn't in a subdirectory of
  * {@link originalSourceRoot}.
  */
-function getModuleSpecifierIfImportedFromOriginal(
+function getFixedModuleSpecifierIfImportedFromOriginal(
   originalSourceRoot: string,
   customSourceRoot: string,
   customFilePath: string,
-  originalModuleSpecifier: string
-): (string & LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
+  originalModuleSpecifier: LocalModuleSpecifier
+): (LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
   const customFileDir = path.dirname(customFilePath);
   const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
 
   const outputModuleRelativePath = path.relative(originalSourceRoot, moduleAbsolutePath);
   const outputFileRelativePath = path.relative(customSourceRoot, customFileDir);
 
-  const outputModuleSpecifier = path.relative(outputFileRelativePath, outputModuleRelativePath);
+  const outputModuleSpecifier = path.relative(
+    outputFileRelativePath,
+    outputModuleRelativePath
+  ) as LocalModuleSpecifier;
 
   // Check if the module is actually contained in the original directory
   if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
