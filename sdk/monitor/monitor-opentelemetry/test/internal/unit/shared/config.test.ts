@@ -333,6 +333,29 @@ describe("OpenTelemetry Resource", () => {
     );
   });
 
+  it("Azure App Service resource attributes", () => {
+    const env = <{ [id: string]: string }>{};
+    const originalEnv = process.env;
+    env.WEBSITE_SITE_NAME = 'test-site';
+    env.REGION_NAME = 'test-region';
+    env.WEBSITE_SLOT_NAME = 'test-slot';
+    env.WEBSITE_HOSTNAME = 'test-hostname';
+    env.WEBSITE_INSTANCE_ID = 'test-instance-id';
+    env.WEBSITE_HOME_STAMPNAME = 'test-home-stamp';
+    env.WEBSITE_OWNER_NAME = 'test-owner-name';
+    process.env = env;
+    const config = new InternalConfig();
+    process.env = originalEnv;
+    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME], "opentelemetry");
+    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME], "test-site");
+    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID], "test-instance-id");
+    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER], "azure");
+    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION], "test-region");
+    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT], "test-slot");
+    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.HOST_ID], "test-hostname");
+    assert.strictEqual(config.resource.attributes["azure.app.service.stamp"], "test-home-stamp");
+  });
+
   it("OTEL_RESOURCE_ATTRIBUTES", () => {
     const env = <{ [id: string]: string }>{};
     const originalEnv = process.env;
