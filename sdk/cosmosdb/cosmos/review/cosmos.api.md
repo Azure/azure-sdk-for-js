@@ -1632,9 +1632,9 @@ export class QueryIterator<T> {
     constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
     fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>>;
     // (undocumented)
-    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
+    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal, operationOptions?: OperationOptions): Promise<FeedResponse<T>>;
     fetchNext(operationOptions?: OperationOptions): Promise<FeedResponse<T>>;
-    getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
+    getAsyncIterator(operationOptions?: OperationOptions): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
 }

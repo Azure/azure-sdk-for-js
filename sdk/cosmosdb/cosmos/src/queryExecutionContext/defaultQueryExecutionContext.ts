@@ -1,4 +1,3 @@
-/* eslint-disable no-return-await */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
@@ -11,7 +10,6 @@ import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/Diagn
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 import { RUCapPerOperationExceededError } from "../request/RUCapPerOperationExceededError";
-// import semaphore from "semaphore";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
@@ -63,7 +61,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.options = options || {};
     this.continuationToken = this.options.continuationToken || this.options.continuation || null;
     this.state = DefaultQueryExecutionContext.STATES.start;
-    // this.ruConsumedSemaphore = semaphore(1);
   }
 
   /**
@@ -141,7 +138,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     operationOptions?: OperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
-    return await addDignosticChild(
+    return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
           return {
