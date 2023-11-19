@@ -96,7 +96,6 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         }
       }
     } catch (err: any) {
-      console.log("Next Item of Group BY value",err);
       if (err.code === RUCapPerOperationExceededErrorCode) {
         err.body.fetchedSoFarResults = undefined;
       }

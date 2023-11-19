@@ -167,7 +167,6 @@ export class DocumentProducer {
     }
 
     try {
-      console.log("DocumentProducer.bufferMore");
       const { result: resources, headers: headerResponse } =
         await this.internalExecutionContext.fetchMore(diagnosticNode, operationOptions, ruConsumed);
       ++this.generation;
@@ -234,7 +233,6 @@ export class DocumentProducer {
     }
 
     try {
-      console.log("DocumentProducer.nextItem");
       const { result, headers } = await this.current(diagnosticNode, operationOptions, ruConsumed);
 
       const fetchResult = this.fetchResults.shift();
@@ -266,7 +264,6 @@ export class DocumentProducer {
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     // If something is buffered just give that
-    console.log("DocumentProducer.current");
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults[0];
       // Need to unwrap fetch results

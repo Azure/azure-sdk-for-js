@@ -1,25 +1,42 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Response } from "../../request";
+import { OperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
+import { RUConsumed } from "../../common";
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;
   constructor(private executionContext: ExecutionContext) {}
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    const { headers, result } = await this.executionContext.nextItem(diagnosticNode);
-    if (result) {
-      const hashedResult = await hashObject(result);
-      if (hashedResult === this.hashedLastResult) {
-        return { result: undefined, headers };
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
+    try {
+      const { headers, result } = await this.executionContext.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumed
+      );
+      if (result) {
+        const hashedResult = await hashObject(result);
+        if (hashedResult === this.hashedLastResult) {
+          return { result: undefined, headers };
+        }
+        this.hashedLastResult = hashedResult;
       }
-      this.hashedLastResult = hashedResult;
+      return { result, headers };
+    } catch (err) {
+      if (err.code === RUCapPerOperationExceededErrorCode) {
+        err.body.fetchedSoFarResults = undefined;
+      }
+      throw err;
     }
-    return { result, headers };
   }
 
   public hasMoreResults(): boolean {

@@ -36,7 +36,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     // If we have a full result set, begin returning results
-    console.log("GroupByEndpointComponent.nextItem");
     if (this.aggregateResultArray.length > 0) {
       return {
         result: this.aggregateResultArray.pop(),
@@ -98,7 +97,6 @@ export class GroupByEndpointComponent implements ExecutionContext {
         }
       }
     } catch (err: any) {
-      console.log("Next Item of Group BY value", err);
       if (err.code === RUCapPerOperationExceededErrorCode) {
         err.body.fetchedSoFarResults = undefined;
       }

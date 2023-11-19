@@ -68,13 +68,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
     ) {
       if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
-        console.log("GroupByValueEndpointComponent");
         this.endpoint = new GroupByValueEndpointComponent(
           this.endpoint,
           partitionedQueryExecutionInfo.queryInfo
         );
       } else {
-        console.log("GroupByEndpointComponent");
         this.endpoint = new GroupByEndpointComponent(
           this.endpoint,
           partitionedQueryExecutionInfo.queryInfo
@@ -123,7 +121,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (typeof this.endpoint.fetchMore === "function") {
       return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumed);
     } else {
-      console.log("fetchMore");
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
       return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumed);
@@ -136,7 +133,6 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {
-      console.log("fetchMoreImplementation");
       const { result: item, headers } = await this.endpoint.nextItem(
         diagnosticNode,
         operationOptions,

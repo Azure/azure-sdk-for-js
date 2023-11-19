@@ -1,4 +1,3 @@
-/* eslint-disable prefer-const */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import PriorityQueue from "priorityqueuejs";
@@ -44,8 +43,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private requestContinuation: any;
   private respHeaders: CosmosHeaders;
   private orderByPQ: PriorityQueue<DocumentProducer>;
-  // private sem: any;
-  // private waitingForInternalExecutionContexts: number;
   private diagnosticNodeWrapper: {
     consumed: boolean;
     diagnosticNode: DiagnosticNodeInternal;
@@ -100,103 +97,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.orderByPQ = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
     );
-    // Creating the documentProducers
-    // this.sem = semaphore(1);
-    // // Creating callback for semaphore
-    // // TODO: Code smell
-    // const createDocumentProducersAndFillUpPriorityQueueFunc = async (): Promise<void> => {
-    //   // ensure the lock is released after finishing up
-    //   try {
-    //     const targetPartitionRanges = await this._onTargetPartitionRanges();
-    //     this.waitingForInternalExecutionContexts = targetPartitionRanges.length;
-
-    //     const maxDegreeOfParallelism =
-    //       options.maxDegreeOfParallelism === undefined || options.maxDegreeOfParallelism < 1
-    //         ? targetPartitionRanges.length
-    //         : Math.min(options.maxDegreeOfParallelism, targetPartitionRanges.length);
-
-    //     logger.info(
-    //       "Query starting against " +
-    //         targetPartitionRanges.length +
-    //         " ranges with parallelism of " +
-    //         maxDegreeOfParallelism
-    //     );
-
-    //     const parallelismSem = semaphore(maxDegreeOfParallelism);
-    //     let filteredPartitionKeyRanges = [];
-    //     // The document producers generated from filteredPartitionKeyRanges
-    //     const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
-
-    //     if (this.requestContinuation) {
-    //       throw new Error("Continuation tokens are not yet supported for cross partition queries");
-    //     } else {
-    //       filteredPartitionKeyRanges = targetPartitionRanges;
-    //     }
-
-    //     // Create one documentProducer for each partitionTargetRange
-    //     filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
-    //       // TODO: any partitionTargetRange
-    //       // no async callback
-    //       targetPartitionQueryExecutionContextList.push(
-    //         this._createTargetPartitionQueryExecutionContext(partitionTargetRange)
-    //       );
-    //     });
-
-    //     // Fill up our priority queue with documentProducers
-    //     targetPartitionQueryExecutionContextList.forEach((documentProducer): void => {
-    //       // has async callback
-    //       const throttledFunc = async (): Promise<void> => {
-    //         try {
-    //           const { result: document, headers } = await documentProducer.current(
-    //             this.getDiagnosticNode()
-    //           );
-    //           this._mergeWithActiveResponseHeaders(headers);
-    //           if (document === undefined) {
-    //             // no results on this one
-    //             return;
-    //           }
-    //           // if there are matching results in the target ex range add it to the priority queue
-    //           try {
-    //             this.orderByPQ.enq(documentProducer);
-    //           } catch (e: any) {
-    //             this.err = e;
-    //           }
-    //         } catch (err: any) {
-    //           this._mergeWithActiveResponseHeaders(err.headers);
-    //           this.err = err;
-    //         } finally {
-    //           parallelismSem.leave();
-    //           this._decrementInitiationLock();
-    //         }
-    //       };
-    //       parallelismSem.take(throttledFunc);
-    //     });
-    //   } catch (err: any) {
-    //     this.err = err;
-    //     // release the lock
-    //     this.sem.leave();
-    //     return;
-    //   }
-    // };
-    // this.sem.take(createDocumentProducersAndFillUpPriorityQueueFunc);
   }
 
   protected abstract documentProducerComparator(
     dp1: DocumentProducer,
     dp2: DocumentProducer
   ): number;
-
-  // private _decrementInitiationLock(): void {
-  //   // decrements waitingForInternalExecutionContexts
-  //   // if waitingForInternalExecutionContexts reaches 0 releases the semaphore and changes the state
-  //   this.waitingForInternalExecutionContexts = this.waitingForInternalExecutionContexts - 1;
-  //   if (this.waitingForInternalExecutionContexts === 0) {
-  //     this.sem.leave();
-  //     if (this.orderByPQ.size() === 0) {
-  //       this.state = ParallelQueryExecutionContextBase.STATES.inProgress;
-  //     }
-  //   }
-  // }
 
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
     mergeHeaders(this.respHeaders, headers);
@@ -366,12 +272,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
     if (!this.initializedPriorityQueue) {
       this.initializedPriorityQueue = true;
-      console.log("Initilizing priority queue from fetchNext");
       await this._createDocumentProducersAndFillUpPriorityQueue(operationOptions, ruConsumed);
     }
 
     return new Promise<Response<any>>((resolve, reject) => {
-      // this.sem.take(() => {
       if (!this.diagnosticNodeWrapper.consumed) {
         diagnosticNode.addChildNode(
           this.diagnosticNodeWrapper.diagnosticNode,
@@ -384,11 +288,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         this.diagnosticNodeWrapper.diagnosticNode = diagnosticNode;
       }
 
-      // NOTE: lock must be released before invoking quitting
       if (this.err) {
-        // release the lock before invoking callback
-        // this.sem.leave();
-        // if there is a prior error return error
         this.err.headers = this._getAndResetActiveResponseHeaders();
         reject(this.err);
         return;
@@ -397,8 +297,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       if (this.orderByPQ.size() === 0) {
         // there is no more results
         this.state = ParallelQueryExecutionContextBase.STATES.ended;
-        // release the lock before invoking callback
-        // this.sem.leave();
         return resolve({
           result: undefined,
           headers: this._getAndResetActiveResponseHeaders(),
@@ -406,8 +304,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       }
 
       const ifCallback = (): void => {
-        // Release the semaphore to avoid deadlock
-        // this.sem.leave();
         // Reexcute the function
         return resolve(this.nextItem(diagnosticNode, operationOptions, ruConsumed));
       };
@@ -420,7 +316,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // set that error and return error
           this.err = e;
           // release the lock before invoking callback
-          // this.sem.leave();
           this.err.headers = this._getAndResetActiveResponseHeaders();
           reject(this.err);
           return;
@@ -464,7 +359,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.err.headers = this._getAndResetActiveResponseHeaders();
           }
           // release the lock before invoking callback
-          // this.sem.leave();
           reject(this.err);
           return;
         }
@@ -508,9 +402,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.err = err;
             reject(this.err);
           }
-        } finally {
-          // release the lock before returning
-          // this.sem.leave();
         }
         // invoke the callback on the item
         return resolve({
@@ -519,7 +410,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         });
       };
       this._repairExecutionContextIfNeeded(diagnosticNode, ifCallback, elseCallback).catch(reject);
-      // });
     });
   }
 
@@ -586,7 +476,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // ensure the lock is released after finishing up
     try {
       const targetPartitionRanges = await this._onTargetPartitionRanges();
-      // this.waitingForInternalExecutionContexts = targetPartitionRanges.length;
 
       const maxDegreeOfParallelism =
         this.options.maxDegreeOfParallelism === undefined || this.options.maxDegreeOfParallelism < 1
@@ -600,7 +489,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           maxDegreeOfParallelism
       );
 
-      // const parallelismSem = semaphore(maxDegreeOfParallelism);
       let filteredPartitionKeyRanges = [];
       // The document producers generated from filteredPartitionKeyRanges
       const targetPartitionQueryExecutionContextList: DocumentProducer[] = [];
@@ -624,52 +512,48 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       let inProgressPromises: Promise<void>[] = [];
       for (const documentProducer of targetPartitionQueryExecutionContextList) {
         // Don't enqueue any new promise if RU cap exceeded
-        inProgressPromises = [];
         if (this.ruCapExceededError) {
-          console.log("RU cap exceeded, not enqueuing any new promises");
           break;
         }
-        const promise = this._processAndEnqueueDocumentProducer(
+        const promise: Promise<void> = this._processAndEnqueueDocumentProducer(
           documentProducer,
-          inProgressPromises,
           operationOptions,
           ruConsumed
         );
-        console.log("Pushing promise to inProgressPromises");
         inProgressPromises.push(promise);
 
         // Limit concurrent executions
-        if (inProgressPromises.length >= maxDegreeOfParallelism) {
-          console.log("Reached max degree of parallelism, waiting for one to finish");
-          await Promise.race(inProgressPromises);
+        if (inProgressPromises.length === maxDegreeOfParallelism) {
+          await Promise.all(inProgressPromises);
+          inProgressPromises = [];
         }
       }
-      console.log("Waiting for all promises to complete");
       // Wait for all promises to complete
       await Promise.all(inProgressPromises);
+
       if (this.err) {
         if (this.ruCapExceededError) {
-          console.log("RU cap exceeded, throwing error");
+          // merge the buffered items
+          this.orderByPQ.forEach((dp) => {
+            const bufferedItems = dp.peekBufferedItems();
+            this.ruCapExceededError.body.fetchedSoFarResults.push(...bufferedItems);
+          });
           throw this.ruCapExceededError;
         }
         throw this.err;
       }
     } catch (err: any) {
       this.err = err;
-      // release the lock
-      // this.sem.leave();
       throw err;
     }
   }
 
   private async _processAndEnqueueDocumentProducer(
     documentProducer: DocumentProducer,
-    inProgressPromises: Promise<void>[],
     operationOptions?: OperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<void> {
     try {
-      console.log("Fetching current from documentProducer inside fillUpPriorityQueue");
       const { result: document, headers } = await documentProducer.current(
         this.getDiagnosticNode(),
         operationOptions,
@@ -685,26 +569,12 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // would be halting further execution of other promises
         if (!this.ruCapExceededError) {
           this.ruCapExceededError = err;
-          console.log("RUCapPerOperationExceededErrorCode, setting ruCapExceededError");
         } else {
           // merge the buffered items
-          if (err.body.fetchedSoFarResults) {
+          if (err.body && err.body.fetchedSoFarResults) {
             this.ruCapExceededError.body.fetchedSoFarResults.push(...err.body.fetchedSoFarResults);
           }
         }
-        console.log(
-          "RUCapPerOperationExceededErrorCode, UPDATED ruCapExceededError, cleaning up inProgressPromises"
-        );
-        if (inProgressPromises.length === 0) {
-          console.log("Cleaned up inProgressPromises");
-          this.orderByPQ.forEach((dp) => {
-            const bufferedItems = dp.peekBufferedItems();
-            this.ruCapExceededError.body.fetchedSoFarResults.push(...bufferedItems);
-          });
-        }
-        this._mergeWithActiveResponseHeaders(err.headers);
-        this.err = err;
-        return;
       }
       this._mergeWithActiveResponseHeaders(err.headers);
       this.err = err;

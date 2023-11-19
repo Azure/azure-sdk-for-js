@@ -141,11 +141,9 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     operationOptions?: OperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
-    return await  addDignosticChild(
+    return await addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
-        console.log("Default Context, fetchMore");
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-          console.log("Default Context, fetchMore, no more fetch functions: 1");
           return {
             headers: getInitialHeader(),
             result: undefined,
@@ -158,7 +156,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
         // Return undefined if there is no more results
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
-          console.log("Default context, fetchMore, no more fetch functions: 2")
           return {
             headers: getInitialHeader(),
             result: undefined,
@@ -177,10 +174,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             logger.verbose("using fresh fetch");
             p = this.fetchFunctions[this.currentPartitionIndex](childDiagnosticNode, this.options);
           }
-          const time = Date.now();
-          console.log("Default context, Start P: ", time);
           const response = await p;
-          console.log("Default context, End P: ", time);
           resources = response.result;
           childDiagnosticNode.recordQueryResult(resources, CosmosDbDiagnosticLevel.debugUnsafe);
           responseHeaders = response.headers;
@@ -199,7 +193,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               : undefined;
           }
         } catch (err: any) {
-          console.log("Default context, fetchMore, no more fetch functions: 5");
           this.state = DefaultQueryExecutionContext.STATES.ended;
           // return callback(err, undefined, responseHeaders);
           // TODO: Error and data being returned is an antipattern, this might broken
@@ -249,7 +242,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           ruConsumed.value !== undefined
         ) {
           ruConsumed.value += getRequestChargeIfAny(responseHeaders);
-          console.log("ruConsumed.value", ruConsumed.value);
           if (ruConsumed.value > operationOptions.ruCapPerOperation) {
             // For RUCapPerOperationExceededError error, we will be marking state as inProgress as we want to support continue
             throw new RUCapPerOperationExceededError(
@@ -258,7 +250,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             );
           }
         }
-        console.log("Default context,Returning resources")
         return { result: resources, headers: responseHeaders };
       },
       diagnosticNode,
