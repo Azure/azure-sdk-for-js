@@ -121,13 +121,13 @@ async function main(){
     console.log(`No coordinates found for the address.`);
   } else {
     console.log(`The followings are the possible coordinates of the address:`);
-    response.body.features.forEach((result) => {
+    for(const result of response.body.features) {
       const [lon, lat] = result.geometry.coordinates;
       console.log(`Latitude: ${lat}, Longitude ${lon}`);
       console.log("Postal code: ", result.properties?.address?.postalCode)
       console.log("Admin districts: ", result.properties?.address?.adminDistricts?.join(", "));
       console.log("Country region: ", result.properties?.address?.countryRegion);
-    });
+    }
   }
 }
 
@@ -162,13 +162,13 @@ async function main(){
     console.log("No results found.");
   } else {
     /** Log the response body. */
-    response.body.features.forEach((feature) => {
+    for(const feature of response.body.features) {
       if (feature.properties?.address?.formattedAddress) {
         console.log(feature.properties.address.formattedAddress);
       } else {
         console.log("No address found.");
       }
-    });
+    }
   }
 }
 
@@ -227,13 +227,13 @@ async function searchNearby(address) {
     throw nearByResponse.body.error;
   }
   /** Log response body */
-  nearByResponse.body.results.forEach((result) => {
+  for(const results of nearByResponse.body.results) {
     console.log(
       `${result.poi ? result.poi.name + ":" : ""} ${result.address.freeformAddress}. (${
         result.position.lat
       }, ${result.position.lon})\n`
     );
-  }); 
+  }
 }
 
 async function main(){

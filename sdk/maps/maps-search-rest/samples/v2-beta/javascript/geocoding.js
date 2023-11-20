@@ -45,10 +45,10 @@ async function main() {
     console.log(`No coordinates found for the address.`);
   } else {
     console.log(`The followings are the possible coordinates of the address:`);
-    response.body.features.forEach((result) => {
+    for (const result of response.body.features) {
       const [lon, lat] = result.geometry.coordinates;
       console.log(`(${lat}, ${lon})`);
-    });
+    }
   }
 }
 

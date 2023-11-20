@@ -38,7 +38,7 @@ async function main(): Promise<void> {
         { query: "One, Microsoft Way, Redmond, WA 98052" },
         { query: "350 5th Ave, New York, NY 10118" },
         // This is an invalid query
-        { query: "" }
+        { query: "" },
       ],
     },
   });
@@ -57,7 +57,7 @@ function logResponseBody(resBody: GeocodingBatchResponseOutput): void {
   }
   const { successfulRequests, totalRequests } = summary;
   console.log(`${successfulRequests} out of ${totalRequests} requests are successful.`);
-  batchItems.forEach((response, idx) => {
+  for (const [idx, response] of batchItems.entries()) {
     if (response.error) {
       console.error(`Error in ${idx + 1}: ${response.error.message}`);
     } else {
@@ -66,12 +66,12 @@ function logResponseBody(resBody: GeocodingBatchResponseOutput): void {
         return;
       }
       console.log(`Result in ${idx + 1}:`);
-      response.features.forEach((result) => {
+      for (const result of response.features) {
         const [lat, lon] = result.geometry.coordinates;
         console.log(`(${lat}, ${lon})`);
-      });
+      }
     }
-  });
+  }
 }
 
 main().catch(console.error);

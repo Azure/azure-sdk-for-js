@@ -35,7 +35,7 @@ async function main(): Promise<void> {
     queryParameters: {
       coordinates: [-122.204141, 47.61256],
       resultType: "locality",
-      resolution: "small"
+      resolution: "small",
     },
   });
 

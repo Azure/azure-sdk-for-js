@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import MapsSearch, {
-  GeocodingBatchResponseOutput,
-  isUnexpected,
-} from "@azure-rest/maps-search";
+import MapsSearch, { GeocodingBatchResponseOutput, isUnexpected } from "@azure-rest/maps-search";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 
@@ -43,7 +40,7 @@ async function main(): Promise<void> {
           coordinates: [-122.34255, 47.6101],
         },
         { coordinates: [-122.33817, 47.6155] },
-      ]
+      ],
     },
   });
 
@@ -63,22 +60,22 @@ function logResponseBody(resBody: GeocodingBatchResponseOutput): void {
   const { totalRequests, successfulRequests } = summary;
   console.log(`${successfulRequests} out of ${totalRequests} requests are successful.`);
 
-  batchItems.forEach((response, idx) => {
+  for (const [idx, response] of batchItems.entries()) {
     if (response.error) {
       console.log(`Error in ${idx + 1} request: ${response.error.message}`);
     } else {
       if (response.features) {
         console.log(`Results in ${idx + 1} request:`);
-        response.features.forEach((feature) => {
+        for (const feature of response.features) {
           if (feature.properties?.address?.formattedAddress) {
             console.log(`  ${feature.properties.address.formattedAddress}`);
           } else {
             console.log(`  No address found.`);
           }
-        });
+        }
       }
     }
-  });
+  }
 }
 
 main().catch(console.error);

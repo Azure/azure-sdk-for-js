@@ -45,13 +45,13 @@ async function main(): Promise<void> {
     console.log("No results found.");
   } else {
     /** Log the response body. */
-    response.body.features.forEach((feature) => {
+    for (const feature of response.body.features) {
       if (feature.properties?.address?.formattedAddress) {
         console.log(feature.properties.address.formattedAddress);
       } else {
         console.log("No address found.");
       }
-    });
+    }
   }
 }
 
