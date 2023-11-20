@@ -15,6 +15,7 @@ import { isNode } from "./util/checkEnvironment";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
+import { multipartPolicy } from "./policies/multipartPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -88,6 +89,10 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
+  // The multipart policy is added after policies with no phase, so that
+  // policies can be added between it and formDataPolicy to modify
+  // properties (e.g., making the boundary constant in recorded tests).
+  pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {

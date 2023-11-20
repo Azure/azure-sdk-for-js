@@ -12,7 +12,6 @@ import {
   TypeAliasDeclaration,
   SourceFile,
   ImportDeclaration,
-  Directory,
 } from "ts-morph";
 import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
@@ -21,7 +20,7 @@ import { sortSourceFileContents } from "./helpers/preformat";
 import { addHeaderToFiles } from "./helpers/addFileHeaders";
 import { resolveProject } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
-import { setCustomizationState, resetCustomizationState, getCustomizationState } from "./state";
+import { setCustomizationState, resetCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
@@ -37,7 +36,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Bring everything from original into the output
   await copy(originalDir, outDir);
 
-  if (!directoryExists(customDir)) {
+  if (!(await directoryExists(customDir))) {
     return;
   }
 
@@ -46,7 +45,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
     _originalFolderName;
 
   // Bring files only present in custom into the output
-  copyFilesInCustom(originalDir, customDir, outDir);
+  await copyFilesInCustom(originalDir, customDir, outDir);
 
   const projectInfo = await resolveProject(process.cwd());
 
@@ -83,6 +82,7 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
+    await ensureDir(path.dirname(destPath));
     await copyFile(sourcePath, destPath);
   }
 }
@@ -230,94 +230,47 @@ export function mergeModuleDeclarations(
     originalVirtualSourceFile
   );
 
-  augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
+  augmentImports(
+    originalDeclarationsMap.imports,
+    customVirtualSourceFile.getImportDeclarations(),
+    originalVirtualSourceFile
+  );
 
   augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
-  originalVirtualSourceFile.fixMissingImports();
+  removeSelfImports(originalVirtualSourceFile);
   sortSourceFileContents(originalVirtualSourceFile);
-  copyCustomImports(customVirtualSourceFile, originalVirtualSourceFile);
+
   return originalVirtualSourceFile.getFullText();
 }
 
-function isGeneratedImport(importDeclaration: ImportDeclaration) {
-  const regex = new RegExp(`^../(?:../)*${_originalFolderName}(?:/.*)?$`);
+function removeSelfImports(originalFile: SourceFile) {
+  const originalPathObject = path.parse(originalFile.getFilePath()); // /.../src/file.ts
+  removeFileExtension(originalPathObject);
+  const originalPath = path.format(originalPathObject); // src/file
 
-  return regex.test(importDeclaration.getModuleSpecifierValue());
-}
+  for (const originalImport of originalFile.getImportDeclarations()) {
+    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./file.js
+    removeFileExtension(modulePathObject);
+    const modulePath = path.format(modulePathObject); // ./file
 
-function transformGeneratedImport(moduleSpecifier: string) {
-  const regex = new RegExp(`^(../)+(?:../)*${_originalFolderName}(?:/(.*))?$`);
-  return moduleSpecifier.replace(regex, "./$2");
-}
+    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath); // /.../src/, ./file -> /.../src/file
 
-function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
-  for (const customImport of customFile.getImportDeclarations()) {
-    if (isSelfImport(customImport.getModuleSpecifierValue(), originalFile)) {
-      continue;
+    if (moduleAbsolutePath === originalPath) {
+      originalImport.remove();
     }
-    if (isGeneratedImport(customImport)) {
-      const newModuleSpecifier = transformGeneratedImport(customImport.getModuleSpecifierValue());
-      customImport.setModuleSpecifier(newModuleSpecifier);
-      originalFile.addImportDeclaration(customImport.getStructure());
-    }
-
-    const originalImport = originalFile.getImportDeclaration(
-      customImport.getModuleSpecifierValue()
-    );
-
-    if (!originalImport) {
-      originalFile.addImportDeclaration(customImport.getStructure());
-    }
-
-    if (originalImport?.getNamespaceImport()) {
-      continue;
-    }
-
-    const originalNamedImports = originalImport?.getNamedImports().map((i) => i.getName()) || [];
-
-    const allImports = new Set<string>(originalNamedImports);
-    for (const customNamedImport of customImport.getNamedImports()) {
-      allImports.add(customNamedImport.getText());
-    }
-
-    originalImport?.removeNamedImports();
-    originalImport?.addNamedImports(Array.from(allImports));
   }
-  originalFile.organizeImports();
+
+  function removeFileExtension(parsedPath: path.ParsedPath): void {
+    if (parsedPath.ext.length) {
+      parsedPath.base = parsedPath.base.slice(0, -parsedPath.ext.length);
+      parsedPath.ext = "";
+    }
+  }
 }
 
 function commonPrefix(a: string, b: string) {
   let i = 0;
   while (i < a.length && i < b.length && a[i] === b[i]) i++;
   return a.slice(0, i);
-}
-
-function isSelfImport(module: string, file: SourceFile): boolean {
-  const { customDir, originalDir } = getCustomizationState();
-  let projectPath = file.getDirectory();
-  while (projectPath.getRelativePathTo(customDir).startsWith("..")) {
-    projectPath = projectPath.getParent() as Directory;
-  }
-  // e.g: ./sources/generated/src
-  const relativeOriginal = originalDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
-  // e.g: ./sources/customizations
-  const relativeCustom = customDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
-  // e.g: ./sources/
-  const prefix = commonPrefix(relativeOriginal, relativeCustom);
-  // e.g generated/src
-  let originalSuffix = relativeOriginal.substring(prefix.length);
-  // e.g generated/src/
-  originalSuffix = originalSuffix.endsWith("/") ? originalSuffix : originalSuffix + "/";
-  // e.g folder/file.js (with the original module being ../../generated/src/folder/file.js)
-  const index = module.search(originalSuffix);
-  if (index < 0) {
-    return false;
-  }
-  const moduleRelative = module.substring(index + originalSuffix.length);
-  const sanitizedPath = file.getFilePath().replace(/\\/g, "/").replace(/\.ts$/, ".js");
-  if (sanitizedPath.endsWith(moduleRelative)) {
-    return true;
-  }
-  return false;
 }

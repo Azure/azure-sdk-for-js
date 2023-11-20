@@ -3,12 +3,14 @@
 
 export {
   Agent,
+  BodyPart,
   FormDataMap,
   FormDataValue,
   HttpClient,
   HttpHeaders,
   HttpMethods,
   KeyObject,
+  MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
   PipelineRetryOptions,
@@ -43,6 +45,7 @@ export {
   decompressResponsePolicyName,
 } from "./policies/decompressResponsePolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,
@@ -99,6 +102,12 @@ export {
 export { getRandomIntegerInclusive } from "./util/random";
 export { isObject, UnknownObject } from "./util/object";
 export { isError, getErrorMessage } from "./util/error";
+export {
+  createFile,
+  createFileFromStream,
+  CreateFileOptions,
+  CreateFileFromStreamOptions,
+} from "./util/file";
 export { computeSha256Hash, computeSha256Hmac } from "./util/sha256";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
 export { randomUUID } from "./util/uuidUtils";
