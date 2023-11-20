@@ -8,12 +8,12 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "196",
+        "Content-Length": "195",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "852f7777-a5a5-4341-9d50-ae64be1fff12",
-        "x-ms-content-sha256": "T08Cc0oh0OCgjvQtVF3ifpaMYKKJJo7C9SWFC9tsPmk=",
-        "x-ms-date": "Thu, 09 Nov 2023 20:33:08 GMT"
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d5b2977e-bc46-453f-a293-7b21f7c566a7",
+        "x-ms-content-sha256": "0da/z3\u002Bk/Iq0nPetcf0dO0JLqBMSh13V6TBicHXZGAI=",
+        "x-ms-date": "Wed, 15 Nov 2023 00:05:11 GMT"
       },
       "RequestBody": {
         "name": "new-name",
@@ -27,7 +27,7 @@
               }
             ],
             "trigger": {
-              "kind": "wait-time",
+              "kind": "waitTime",
               "thresholdSeconds": 10
             }
           }
@@ -36,14 +36,15 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 20:33:09 GMT",
-        "ETag": "\u00223d212f32-0000-0700-0000-654d42050000\u0022",
-        "Last-Modified": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "Date": "Wed, 15 Nov 2023 00:05:11 GMT",
+        "ETag": "\u002221000ce1-0000-0700-0000-65540b370000\u0022",
+        "Last-Modified": "Wed, 15 Nov 2023 00:05:11 GMT",
         "Request-Context": "appId=",
-        "trace-id": "0ba9b372-4ef2-b075-1a3e-7201d3c40b34",
+        "trace-id": "eaa2c3bc-8515-b8da-9e0a-2389b60859a4",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0BUJNZQAAAAC2gxkcoSoXQpZk0VOFne7rV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "x-azure-ref": "20231115T000511Z-cq1hd1x7sp251f9vu3c5ev9dzg000000023000000000bh74",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -53,19 +54,19 @@
           {
             "id": "MaxWaitTimeExceededCancel",
             "trigger": {
-              "kind": "wait-time",
+              "kind": "waitTime",
               "thresholdSeconds": 10
             },
             "actions": [
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "2c50a37e-efad-455c-9832-fe1aa880bdf4"
+                "id": "a1d57b6b-6723-4a55-b645-d9d0c1242212"
               }
             ]
           }
         ],
-        "etag": "\u00223d212f32-0000-0700-0000-654d42050000\u0022"
+        "etag": "\u002221000ce1-0000-0700-0000-65540b370000\u0022"
       }
     },
     {
@@ -76,12 +77,12 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "190",
+        "Content-Length": "189",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "e8a6d030-f85b-4c3b-b454-3973e561d3f1",
-        "x-ms-content-sha256": "/OT3Iv0syX7hJPWva/PQHBFSLi\u002BBjeu9AV6k0ZLeBSk=",
-        "x-ms-date": "Thu, 09 Nov 2023 20:33:08 GMT"
+        "User-Agent": "azsdk-js-communication-job-router-rest/1.0.0 core-rest-pipeline/1.12.3 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "6c6a5041-1dd7-454e-b8d9-99a7a8463130",
+        "x-ms-content-sha256": "EdEEatZ2G3lR0GTCD8Kl3MHr1sm\u002BhAiNQY7MczDoTtk=",
+        "x-ms-date": "Wed, 15 Nov 2023 00:05:11 GMT"
       },
       "RequestBody": {
         "name": null,
@@ -95,7 +96,7 @@
               }
             ],
             "trigger": {
-              "kind": "wait-time",
+              "kind": "waitTime",
               "thresholdSeconds": 10
             }
           }
@@ -104,14 +105,15 @@
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2021-04-07-preview1, 2022-07-18-preview, 2023-08-25-preview, 2023-11-01",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 09 Nov 2023 20:33:09 GMT",
-        "ETag": "\u00223d214532-0000-0700-0000-654d42050000\u0022",
-        "Last-Modified": "Thu, 09 Nov 2023 20:33:09 GMT",
+        "Date": "Wed, 15 Nov 2023 00:05:11 GMT",
+        "ETag": "\u002221000ee1-0000-0700-0000-65540b370000\u0022",
+        "Last-Modified": "Wed, 15 Nov 2023 00:05:11 GMT",
         "Request-Context": "appId=",
-        "trace-id": "a99c99bb-5509-8b9a-38e5-efbf394a5f9d",
+        "trace-id": "8e295149-f2d8-cac9-c36c-de8c620e3d0e",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0BUJNZQAAAAAlbIbe56IsQ4YIVIetPMydV1NURURHRTA4MjEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "x-azure-ref": "20231115T000511Z-cq1hd1x7sp251f9vu3c5ev9dzg000000023000000000bh9k",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
@@ -120,19 +122,19 @@
           {
             "id": "MaxWaitTimeExceededCancel",
             "trigger": {
-              "kind": "wait-time",
+              "kind": "waitTime",
               "thresholdSeconds": 10
             },
             "actions": [
               {
                 "kind": "cancel",
                 "note": "wait time exceeded; cancelling",
-                "id": "b665d272-819c-4e4f-8331-b2f3d8449d04"
+                "id": "f66b00b6-854b-4d58-a9d7-b61a35f39ecb"
               }
             ]
           }
         ],
-        "etag": "\u00223d214532-0000-0700-0000-654d42050000\u0022"
+        "etag": "\u002221000ee1-0000-0700-0000-65540b370000\u0022"
       }
     }
   ],
