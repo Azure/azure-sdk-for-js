@@ -17,114 +17,35 @@ export interface DeploymentOutput {
   readonly deploymentId: string;
 }
 
-/** Result information for an operation that transcribed spoken audio into written text. */
-export interface AudioTranscriptionOutput {
-  /** The transcribed text for the provided audio data. */
-  text: string;
-  /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: transcribe, translate
-   */
-  task?: string;
-  /**
-   * The spoken language that was detected in the transcribed audio data.
-   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
-   */
-  language?: string;
-  /** The total duration of the audio processed to produce accompanying transcription information. */
-  duration?: number;
-  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
-  segments?: Array<AudioTranscriptionSegmentOutput>;
-}
-
 /**
- * Extended information about a single segment of transcribed audio data.
- * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
- * necessarily sentences.
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
  */
-export interface AudioTranscriptionSegmentOutput {
-  /** The 0-based index of this segment within a transcription. */
-  id: number;
-  /** The time at which this segment started relative to the beginning of the transcribed audio. */
-  start: number;
-  /** The time at which this segment ended relative to the beginning of the transcribed audio. */
-  end: number;
-  /** The transcribed text that was part of this audio segment. */
-  text: string;
-  /** The temperature score associated with this audio segment. */
-  temperature: number;
-  /** The average log probability associated with this audio segment. */
-  avg_logprob: number;
-  /** The compression ratio of this audio segment. */
-  compression_ratio: number;
-  /** The probability of no speech detection within this audio segment. */
-  no_speech_prob: number;
-  /** The token IDs matching the transcribed text in this audio segment. */
-  tokens: number[];
-  /**
-   * The seek position associated with the processing of this audio segment.
-   * Seek positions are expressed as hundredths of seconds.
-   * The model may process several segments from a single seek position, so while the seek position will never represent
-   * a later time than the segment's start, the segment's start may represent a significantly later time than the
-   * segment's associated seek position.
-   */
-  seek: number;
+export interface EmbeddingsOutput {
+  /** Embedding values for the prompts submitted in the request. */
+  data: Array<EmbeddingItemOutput>;
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsageOutput;
 }
 
-/** Result information for an operation that translated spoken audio into written text. */
-export interface AudioTranslationOutput {
-  /** The translated text for the provided audio data. */
-  text: string;
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItemOutput {
   /**
-   * The label that describes which operation type generated the accompanying response data.
-   *
-   * Possible values: transcribe, translate
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
    */
-  task?: string;
-  /**
-   * The spoken language that was detected in the translated audio data.
-   * This is expressed as a two-letter ISO-639-1 language code like 'en' or 'fr'.
-   */
-  language?: string;
-  /** The total duration of the audio processed to produce accompanying translation information. */
-  duration?: number;
-  /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
-  segments?: Array<AudioTranslationSegmentOutput>;
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
 }
 
-/**
- * Extended information about a single segment of translated audio data.
- * Segments generally represent roughly 5-10 seconds of speech. Segment boundaries typically occur between words but not
- * necessarily sentences.
- */
-export interface AudioTranslationSegmentOutput {
-  /** The 0-based index of this segment within a translation. */
-  id: number;
-  /** The time at which this segment started relative to the beginning of the translated audio. */
-  start: number;
-  /** The time at which this segment ended relative to the beginning of the translated audio. */
-  end: number;
-  /** The translated text that was part of this audio segment. */
-  text: string;
-  /** The temperature score associated with this audio segment. */
-  temperature: number;
-  /** The average log probability associated with this audio segment. */
-  avg_logprob: number;
-  /** The compression ratio of this audio segment. */
-  compression_ratio: number;
-  /** The probability of no speech detection within this audio segment. */
-  no_speech_prob: number;
-  /** The token IDs matching the translated text in this audio segment. */
-  tokens: number[];
-  /**
-   * The seek position associated with the processing of this audio segment.
-   * Seek positions are expressed as hundredths of seconds.
-   * The model may process several segments from a single seek position, so while the seek position will never represent
-   * a later time than the segment's start, the segment's start may represent a significantly later time than the
-   * segment's associated seek position.
-   */
-  seek: number;
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsageOutput {
+  /** Number of tokens sent in the original request. */
+  prompt_tokens: number;
+  /** Total number of tokens transacted in this request/response. */
+  total_tokens: number;
 }
 
 /**
@@ -144,7 +65,7 @@ export interface CompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results?: Array<PromptFilterResultOutput>;
+  prompt_annotations?: Array<PromptFilterResultOutput>;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -335,7 +256,7 @@ export interface ChatCompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results?: Array<PromptFilterResultOutput>;
+  prompt_annotations?: Array<PromptFilterResultOutput>;
   /** Usage information for tokens processed and generated as part of this completions operation. */
   usage: CompletionsUsageOutput;
 }
@@ -423,35 +344,4 @@ export interface ImageGenerationOptionsOutput {
   response_format?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
-}
-
-/**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOutput {
-  /** Embedding values for the prompts submitted in the request. */
-  data: Array<EmbeddingItemOutput>;
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsageOutput;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItemOutput {
-  /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
-   */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
-}
-
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsageOutput {
-  /** Number of tokens sent in the original request. */
-  prompt_tokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  total_tokens: number;
 }

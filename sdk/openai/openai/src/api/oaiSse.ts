@@ -8,12 +8,11 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+
 import { StreamableMethod } from "@azure-rest/core-client";
 import { getSSEs } from "./getSSEs.js";
 import { wrapError } from "./util.js";
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 export async function* getOaiSSEs<TEvent>(
   response: StreamableMethod<unknown>,
   toEvent: (obj: Record<string, any>) => TEvent

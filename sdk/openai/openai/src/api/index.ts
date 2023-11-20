@@ -9,28 +9,15 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-export {
-  OpenAIClientOptions,
-  OpenAIContext,
-  createOpenAI,
-} from "../../generated/src/api/OpenAIContext.js";
-export { getCompletions, getEmbeddings } from "../../generated/src/api/operations.js";
 export { OpenAIClientOptions, OpenAIContext, createOpenAI } from "./OpenAIContext.js";
 export {
-  beginAzureBatchImageGeneration,
-  getAudioTranscription,
-  getAudioTranscriptionAsPlainText,
-  getAudioTranscriptionAsResponseObject,
-  getAudioTranslation,
-  getAudioTranslationAsPlainText,
-  getAudioTranslationAsResponseObject,
-  getAzureBatchImageGenerationOperationStatus,
-  getChatCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
   getCompletions,
   getEmbeddings,
-  getImages,
   listChatCompletions,
   listCompletions,
+  getImages,
+  getAudioTranscription,
+  getAudioTranslation,
 } from "./operations.js";

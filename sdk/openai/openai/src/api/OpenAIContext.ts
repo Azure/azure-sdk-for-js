@@ -9,9 +9,10 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { ClientOptions } from "@azure-rest/core-client";
 import { OpenAIContext } from "../rest/index.js";
+import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import getClient from "../rest/index.js";
 
 export interface OpenAIClientOptions extends ClientOptions {}
@@ -24,6 +25,7 @@ export function createOpenAI(
   credential: KeyCredential | TokenCredential,
   options: OpenAIClientOptions = {}
 ): OpenAIContext {
-  const clientContext = getClient(endpoint, credential, options);
+  const baseUrl = endpoint;
+  const clientContext = getClient(baseUrl, credential, options);
   return clientContext;
 }

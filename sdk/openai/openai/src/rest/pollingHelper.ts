@@ -19,6 +19,9 @@ import {
   createHttpPoller,
 } from "@azure/core-lro";
 import {
+  GetAzureBatchImageGenerationOperationStatus200Response,
+  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
+  GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
   BeginAzureBatchImageGenerationLogicalResponse,
@@ -39,6 +42,17 @@ export async function getLongRunningPoller<
   initialResponse:
     | BeginAzureBatchImageGeneration202Response
     | BeginAzureBatchImageGenerationDefaultResponse,
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export async function getLongRunningPoller<
+  TResult extends
+    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
+>(
+  client: Client,
+  initialResponse:
+    | GetAzureBatchImageGenerationOperationStatus200Response
+    | GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(
