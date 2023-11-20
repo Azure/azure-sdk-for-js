@@ -4440,7 +4440,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231116
+      typescript: 5.4.0-dev.20231120
     dev: false
 
   /downlevel-dts@0.11.0:
