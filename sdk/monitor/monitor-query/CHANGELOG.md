@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- The Monitor Query service has done some internal changes such as changing the type of `interval` from `TimeSpan` to `String` in metrics. These changes are under the generated layer and hidden outside the SDK. A detailed list of changes could be found at [PR #27825](https://github.com/Azure/azure-sdk-for-js/pull/27825/).
+- The Monitor Query service has done some internal changes and we have updated the service versions. A detailed list of changes could be found at [PR #27825](https://github.com/Azure/azure-sdk-for-js/pull/27825/).
 
 ## 1.2.0-beta.2 (2023-08-21)
 
