@@ -18,7 +18,7 @@ describe("OpenAI", function () {
         clientOptions: {
           httpClient: {
             sendRequest: async (request) => {
-              const body = (request.body as unknown as () => NodeJS.ReadableStream)();
+              const body = await (request.body as () => Promise<NodeJS.ReadableStream>)();
               for await (const { length } of body) {
                 if (length > maxChunkSize) {
                   assert.fail(`Chunk size ${length} is larger than ${maxChunkSize}`);
