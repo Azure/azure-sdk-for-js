@@ -184,6 +184,17 @@ if (result.error !== undefined) {
 }
 ```
 
+If you want to use the `filter` method in TypeScript to only return successful results that are typed as such, you could combine the filter with a type guard:
+
+```typescript
+function isSuccessful(result: SentimentAnalysisResult): result is SentimentAnalysisSuccessResult {
+  return result.error === undefined;
+}
+
+const results = await client.analyze("SentimentAnalysis", documents);
+const onlySuccessful = results.filter(isSuccessful);
+```
+
 ## Samples
 
 ### Client Usage
