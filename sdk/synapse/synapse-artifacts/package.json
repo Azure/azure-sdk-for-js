@@ -62,7 +62,7 @@
     "uglify-js": "^3.4.9",
     "@types/chai-as-promised": "^7.1.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "karma-json-preprocessor": "^0.3.3",

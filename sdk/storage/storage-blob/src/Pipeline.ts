@@ -331,6 +331,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
   }
   return {
     ...restOptions,
+    allowInsecureConnection: true,
     httpClient,
     pipeline: corePipeline,
   };
