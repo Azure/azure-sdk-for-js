@@ -73,7 +73,9 @@ export async function sendRequestWithRecorder(
   const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
   if (!isLiveMode()) {
-    pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+    for (const p of recorder.configureClientOptions({}).additionalPolicies ?? []) {
+      pipeline.addPolicy(p.policy);
+    }
   }
   return pipeline.sendRequest(client, request);
 }
@@ -92,7 +94,9 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
   const response = await sendRequestWithRecorder(request, recorder);
 
   const body = JSON.parse(response.bodyAsText as string);
-  const models = body.data.map((model: { id: string }) => model.id);
+  const models = body.data
+    .map((model: { id: string }) => model.id)
+    .filter((id: string) => !id.match(/fine/));
   console.log(`Available models (${models.length}): ${models.join(", ")}`);
   return models;
 }

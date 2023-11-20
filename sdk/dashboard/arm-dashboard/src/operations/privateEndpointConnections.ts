@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DashboardManagementClient } from "../dashboardManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListNextOptionalParams,
@@ -25,6 +29,7 @@ import {
   PrivateEndpointConnectionsApproveOptionalParams,
   PrivateEndpointConnectionsApproveResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsDeleteResponse,
   PrivateEndpointConnectionsListNextResponse
 } from "../models";
 
@@ -155,8 +160,8 @@ export class PrivateEndpointConnectionsImpl
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsApproveOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<PrivateEndpointConnectionsApproveResponse>,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsApproveResponse>,
       PrivateEndpointConnectionsApproveResponse
     >
   > {
@@ -166,7 +171,7 @@ export class PrivateEndpointConnectionsImpl
     ): Promise<PrivateEndpointConnectionsApproveResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -199,20 +204,23 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
         options
       },
-      approveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: approveOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionsApproveResponse,
+      OperationState<PrivateEndpointConnectionsApproveResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -252,14 +260,19 @@ export class PrivateEndpointConnectionsImpl
     workspaceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionsDeleteResponse>,
+      PrivateEndpointConnectionsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<PrivateEndpointConnectionsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -292,20 +305,23 @@ export class PrivateEndpointConnectionsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      PrivateEndpointConnectionsDeleteResponse,
+      OperationState<PrivateEndpointConnectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -323,7 +339,7 @@ export class PrivateEndpointConnectionsImpl
     workspaceName: string,
     privateEndpointConnectionName: string,
     options?: PrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<PrivateEndpointConnectionsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       workspaceName,
@@ -401,16 +417,20 @@ const approveOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
     },
     201: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
     },
     204: {
-      bodyMapper: Mappers.PrivateEndpointConnection
+      bodyMapper: Mappers.PrivateEndpointConnection,
+      headersMapper: Mappers.PrivateEndpointConnectionsApproveHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -434,10 +454,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.PrivateEndpointConnectionsDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
