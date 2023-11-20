@@ -18,13 +18,13 @@ async function createEnvironment() {
 
   let project = projectList.body.value[0];
   if (project === undefined || project.name === undefined) {
-    throw "No projects found.";
+    throw new Error("No projects found.");
   }
   const projectName = project.name;
 
   const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
   if (isUnexpected(catalogList)) {
-    throw catalogList.body.error;
+    throw new Error(catalogList.body.error);
   }
 
   const catalog = catalogList.body.value[0];
@@ -39,7 +39,7 @@ async function createEnvironment() {
     .get();
 
   if (isUnexpected(environmentDefinitionsList)) {
-    throw environmentDefinitionsList.body.error;
+    throw new Error(environmentDefinitionsList.body.error);
   }
 
   const environmentDefinition = environmentDefinitionsList.body.value[0];

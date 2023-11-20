@@ -20,23 +20,23 @@ async function createDevBox() {
 
     const projectList = await client.path("/projects").get();
     if (isUnexpected(projectList)) {
-        throw projectList.body.error;
+        throw new Error(projectList.body.error);
     }
 
     let project: ProjectOutput = projectList.body.value[0];
     if (project === undefined || project.name === undefined) {
-        throw "No projects found.";
+        throw new Error("No projects found.");
     }
     const projectName: string = project.name;
 
     const poolList = await client.path("/projects/{projectName}/pools", projectName).get();
     if (isUnexpected(poolList)) {
-        throw poolList.body.error;
+        throw new Error(poolList.body.error);
     }
 
     let pool: PoolOutput = poolList.body.value[0];
     if (pool === undefined || pool.name === undefined) {
-        throw "No pools found.";
+        throw new Error("No pools found.");
     }
 
     const devBoxCreateParameters: CreateDevBoxParameters = {
