@@ -2,714 +2,1204 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  UpdateListOutput,
-  ErrorResponseOutput,
+  PagedUpdateOutput,
   UpdateOutput,
   StringsListOutput,
   UpdateFileOutput,
-  UpdateOperationsListOutput,
+  PagedUpdateOperationOutput,
   UpdateOperationOutput,
-  DeviceClassesListOutput,
+  PagedDeviceClassOutput,
   DeviceClassOutput,
-  UpdateInfoListOutput,
-  DevicesListOutput,
+  PagedUpdateInfoOutput,
+  PagedDeviceOutput,
   DeviceOutput,
   UpdateComplianceOutput,
-  GroupsListOutput,
+  PagedGroupOutput,
   GroupOutput,
-  DeviceClassSubgroupUpdatableDevicesListOutput,
-  DeploymentsListOutput,
+  PagedDeviceClassSubgroupUpdatableDevicesOutput,
+  PagedDeploymentOutput,
   DeploymentOutput,
   DeploymentStatusOutput,
-  DeviceClassSubgroupsListOutput,
+  PagedDeviceClassSubgroupOutput,
   DeviceClassSubgroupOutput,
   DeviceClassSubgroupUpdatableDevicesOutput,
+  PagedDeviceClassSubgroupDeploymentOutput,
+  DeviceClassSubgroupDeploymentOutput,
   DeviceClassSubgroupDeploymentStatusOutput,
-  DeploymentDeviceStatesListOutput,
+  PagedDeploymentDeviceStateOutput,
   DeviceOperationOutput,
-  DeviceOperationsListOutput,
+  PagedDeviceOperationOutput,
+  PagedLogCollectionOutput,
   LogCollectionOutput,
-  LogCollectionListOutput,
-  LogCollectionOperationDetailedStatusOutput,
-  DeviceHealthListOutput,
+  PagedLogCollectionOperationDetailedStatusOutput,
+  PagedDeviceHealthOutput,
+  LimitsOutput,
 } from "./outputModels";
 
-/** Get a list of all updates that have been imported to Device Update for IoT Hub. */
+export interface DeviceUpdateListUpdates200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateListUpdates200Response extends HttpResponse {
   status: "200";
-  body: UpdateListOutput;
+  body: PagedUpdateOutput;
+  headers: RawHttpHeaders & DeviceUpdateListUpdates200Headers;
 }
 
-/** Get a list of all updates that have been imported to Device Update for IoT Hub. */
-export interface DeviceUpdateListUpdatesdefaultResponse extends HttpResponse {
+export interface DeviceUpdateListUpdatesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceUpdateListUpdatesDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListUpdatesDefaultHeaders;
 }
 
-/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
-export interface DeviceUpdateImportUpdate200Response extends HttpResponse {
-  status: "200";
-  body: UpdateOutput;
-}
-
-export interface DeviceUpdateImportUpdate202Headers {
-  /** Url to retrieve the import operation status. */
-  "operation-location"?: string;
-}
-
-/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
-export interface DeviceUpdateImportUpdate202Response extends HttpResponse {
-  status: "202";
-  body: Record<string, unknown>;
-  headers: RawHttpHeaders & DeviceUpdateImportUpdate202Headers;
-}
-
-/** Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
-export interface DeviceUpdateImportUpdatedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** Get a specific update version. */
+/** The request has succeeded. */
 export interface DeviceUpdateGetUpdate200Response extends HttpResponse {
   status: "200";
   body: UpdateOutput;
 }
 
-/** Get a specific update version. */
-export interface DeviceUpdateGetUpdate304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
+export interface DeviceUpdateGetUpdateDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a specific update version. */
-export interface DeviceUpdateGetUpdatedefaultResponse extends HttpResponse {
+export interface DeviceUpdateGetUpdateDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateGetUpdateDefaultHeaders;
 }
 
-export interface DeviceUpdateDeleteUpdate202Headers {
-  /** Url to retrieve the operation status */
+export interface DeviceUpdateImportUpdate202Headers {
   "operation-location"?: string;
 }
 
-/** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+/** The request has been accepted for processing, but processing has not yet completed. */
+export interface DeviceUpdateImportUpdate202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & DeviceUpdateImportUpdate202Headers;
+}
+
+export interface DeviceUpdateImportUpdateDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceUpdateImportUpdateDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateImportUpdateDefaultHeaders;
+}
+
+/** The final response for long-running importUpdate operation */
+export interface DeviceUpdateImportUpdateLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+export interface DeviceUpdateDeleteUpdate202Headers {
+  "operation-location"?: string;
+}
+
+/** The request has been accepted for processing, but processing has not yet completed. */
 export interface DeviceUpdateDeleteUpdate202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & DeviceUpdateDeleteUpdate202Headers;
 }
 
-/** Delete a specific update version. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
-export interface DeviceUpdateDeleteUpdatedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceUpdateDeleteUpdateDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a list of all update providers that have been imported to Device Update for IoT Hub. */
+export interface DeviceUpdateDeleteUpdateDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateDeleteUpdateDefaultHeaders;
+}
+
+/** The final response for long-running deleteUpdate operation */
+export interface DeviceUpdateDeleteUpdateLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateListProviders200Response extends HttpResponse {
   status: "200";
   body: StringsListOutput;
 }
 
-/** Get a list of all update providers that have been imported to Device Update for IoT Hub. */
-export interface DeviceUpdateListProvidersdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceUpdateListProvidersDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a list of all update names that match the specified provider. */
+export interface DeviceUpdateListProvidersDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListProvidersDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateListNames200Response extends HttpResponse {
   status: "200";
   body: StringsListOutput;
 }
 
-/** Get a list of all update names that match the specified provider. */
-export interface DeviceUpdateListNamesdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceUpdateListNamesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a list of all update versions that match the specified provider and name. */
+export interface DeviceUpdateListNamesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListNamesDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateListVersions200Response extends HttpResponse {
   status: "200";
   body: StringsListOutput;
 }
 
-/** Get a list of all update versions that match the specified provider and name. */
-export interface DeviceUpdateListVersionsdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceUpdateListVersionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a list of all update file identifiers for the specified version. */
+export interface DeviceUpdateListVersionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListVersionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateListFiles200Response extends HttpResponse {
   status: "200";
   body: StringsListOutput;
 }
 
-/** Get a list of all update file identifiers for the specified version. */
-export interface DeviceUpdateListFilesdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceUpdateListFilesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a specific update file from the version. */
+export interface DeviceUpdateListFilesDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListFilesDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface DeviceUpdateGetFile200Response extends HttpResponse {
   status: "200";
   body: UpdateFileOutput;
 }
 
-/** Get a specific update file from the version. */
-export interface DeviceUpdateGetFile304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
+export interface DeviceUpdateGetFileDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get a specific update file from the version. */
-export interface DeviceUpdateGetFiledefaultResponse extends HttpResponse {
+export interface DeviceUpdateGetFileDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateGetFileDefaultHeaders;
 }
 
-/** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperationStatuses200Response extends HttpResponse {
+export interface DeviceUpdateListOperationStatuses200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceUpdateListOperationStatuses200Response
+  extends HttpResponse {
   status: "200";
-  body: UpdateOperationsListOutput;
+  body: PagedUpdateOperationOutput;
+  headers: RawHttpHeaders & DeviceUpdateListOperationStatuses200Headers;
 }
 
-/** Get a list of all import update operations. Completed operations are kept for 7 days before auto-deleted. Delete operations are not returned by this API version. */
-export interface DeviceUpdateListOperationStatusesdefaultResponse extends HttpResponse {
+export interface DeviceUpdateListOperationStatusesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceUpdateListOperationStatusesDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateListOperationStatusesDefaultHeaders;
 }
 
 export interface DeviceUpdateGetOperationStatus200Headers {
-  /** Number of seconds to wait before checking the operation status again. */
-  "retry-after"?: string;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-/** Retrieve operation status. */
-export interface DeviceUpdateGetOperationStatus200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceUpdateGetOperationStatus200Response
+  extends HttpResponse {
   status: "200";
   body: UpdateOperationOutput;
   headers: RawHttpHeaders & DeviceUpdateGetOperationStatus200Headers;
 }
 
-/** Retrieve operation status. */
-export interface DeviceUpdateGetOperationStatus304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
+export interface DeviceUpdateGetOperationStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Retrieve operation status. */
-export interface DeviceUpdateGetOperationStatusdefaultResponse extends HttpResponse {
+export interface DeviceUpdateGetOperationStatusDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceUpdateGetOperationStatusDefaultHeaders;
 }
 
-/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
-export interface DeviceManagementListDeviceClasses200Response extends HttpResponse {
+export interface DeviceManagementListDeviceClasses200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListDeviceClasses200Response
+  extends HttpResponse {
   status: "200";
-  body: DeviceClassesListOutput;
+  body: PagedDeviceClassOutput;
+  headers: RawHttpHeaders & DeviceManagementListDeviceClasses200Headers;
 }
 
-/** Gets a list of all device classes (sets of devices compatible with the same updates based on the model Id and compat properties reported in the Device Update PnP interface in IoT Hub) for all devices connected to Device Update for IoT Hub. */
-export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpResponse {
+export interface DeviceManagementListDeviceClassesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDeviceClassesDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListDeviceClassesDefaultHeaders;
 }
 
-/** Gets the properties of a device class. */
-export interface DeviceManagementGetDeviceClass200Response extends HttpResponse {
+export interface DeviceManagementGetDeviceClass200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementGetDeviceClass200Response
+  extends HttpResponse {
   status: "200";
   body: DeviceClassOutput;
+  headers: RawHttpHeaders & DeviceManagementGetDeviceClass200Headers;
 }
 
-/** Gets the properties of a device class. */
-export interface DeviceManagementGetDeviceClassdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetDeviceClassDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetDeviceClassDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetDeviceClassDefaultHeaders;
 }
 
-/** Update device class details. */
-export interface DeviceManagementUpdateDeviceClass200Response extends HttpResponse {
+export interface DeviceManagementUpdateDeviceClass200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementUpdateDeviceClass200Response
+  extends HttpResponse {
   status: "200";
   body: DeviceClassOutput;
+  headers: RawHttpHeaders & DeviceManagementUpdateDeviceClass200Headers;
 }
 
-/** Update device class details. */
-export interface DeviceManagementUpdateDeviceClassdefaultResponse extends HttpResponse {
+export interface DeviceManagementUpdateDeviceClassDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementUpdateDeviceClassDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementUpdateDeviceClassDefaultHeaders;
 }
 
-/** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
-export interface DeviceManagementDeleteDeviceClass204Response extends HttpResponse {
+export interface DeviceManagementDeleteDeviceClass204Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeviceManagementDeleteDeviceClass204Response
+  extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
+  headers: RawHttpHeaders & DeviceManagementDeleteDeviceClass204Headers;
 }
 
-/** Deletes a device class. Device classes are created automatically when Device Update-enabled devices are connected to the hub but are not automatically cleaned up since they are referenced by DeviceClassSubgroups. If the user has deleted all DeviceClassSubgroups for a device class they can also delete the device class to remove the records from the system and to stop checking the compatibility of this device class with new updates. If a device is ever reconnected for this device class it will be re-created. */
-export interface DeviceManagementDeleteDeviceClassdefaultResponse extends HttpResponse {
+export interface DeviceManagementDeleteDeviceClassDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementDeleteDeviceClassDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementDeleteDeviceClassDefaultHeaders;
 }
 
-/** Gets a list of installable updates for a device class. */
+/** The request has succeeded. */
 export interface DeviceManagementListInstallableUpdatesForDeviceClass200Response
   extends HttpResponse {
   status: "200";
-  body: UpdateInfoListOutput;
+  body: PagedUpdateInfoOutput;
 }
 
-/** Gets a list of installable updates for a device class. */
-export interface DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
+export interface DeviceManagementListInstallableUpdatesForDeviceClassDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListInstallableUpdatesForDeviceClassDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListInstallableUpdatesForDeviceClassDefaultHeaders;
 }
 
-/** Gets a list of devices connected to Device Update for IoT Hub. */
+export interface DeviceManagementListDevices200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementListDevices200Response extends HttpResponse {
   status: "200";
-  body: DevicesListOutput;
+  body: PagedDeviceOutput;
+  headers: RawHttpHeaders & DeviceManagementListDevices200Headers;
 }
 
-/** Gets a list of devices connected to Device Update for IoT Hub. */
-export interface DeviceManagementListDevicesdefaultResponse extends HttpResponse {
+export interface DeviceManagementListDevicesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDevicesDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListDevicesDefaultHeaders;
 }
 
 export interface DeviceManagementImportDevices202Headers {
-  /** Url to retrieve the device import operation status. */
   "operation-location"?: string;
 }
 
-/** Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
+/** The request has been accepted for processing, but processing has not yet completed. */
 export interface DeviceManagementImportDevices202Response extends HttpResponse {
   status: "202";
-  body: Record<string, unknown>;
   headers: RawHttpHeaders & DeviceManagementImportDevices202Headers;
 }
 
-/** Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status. */
-export interface DeviceManagementImportDevicesdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementImportDevicesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Gets the device properties and latest deployment status for a device connected to Device Update for IoT Hub. */
+export interface DeviceManagementImportDevicesDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementImportDevicesDefaultHeaders;
+}
+
+/** The final response for long-running importDevices operation */
+export interface DeviceManagementImportDevicesLogicalResponse
+  extends HttpResponse {
+  status: "200";
+}
+
+export interface DeviceManagementGetDevice200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementGetDevice200Response extends HttpResponse {
   status: "200";
   body: DeviceOutput;
+  headers: RawHttpHeaders & DeviceManagementGetDevice200Headers;
 }
 
-/** Gets the device properties and latest deployment status for a device connected to Device Update for IoT Hub. */
-export interface DeviceManagementGetDevicedefaultResponse extends HttpResponse {
+export interface DeviceManagementGetDeviceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetDeviceDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetDeviceDefaultHeaders;
 }
 
-/** Gets the device module properties and latest deployment status for a device module connected to Device Update for IoT Hub. */
-export interface DeviceManagementGetDeviceModule200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementGetDeviceModule200Response
+  extends HttpResponse {
   status: "200";
   body: DeviceOutput;
 }
 
-/** Gets the device module properties and latest deployment status for a device module connected to Device Update for IoT Hub. */
-export interface DeviceManagementGetDeviceModuledefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetDeviceModuleDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Gets the breakdown of how many devices are on their latest update, have new updates available, or are in progress receiving new updates. */
-export interface DeviceManagementGetUpdateCompliance200Response extends HttpResponse {
+export interface DeviceManagementGetDeviceModuleDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetDeviceModuleDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementGetUpdateCompliance200Response
+  extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
-/** Gets the breakdown of how many devices are on their latest update, have new updates available, or are in progress receiving new updates. */
-export interface DeviceManagementGetUpdateCompliancedefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetUpdateComplianceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Gets a list of all device groups.  The $default group will always be returned first. */
+export interface DeviceManagementGetUpdateComplianceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetUpdateComplianceDefaultHeaders;
+}
+
+export interface DeviceManagementListGroups200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementListGroups200Response extends HttpResponse {
   status: "200";
-  body: GroupsListOutput;
+  body: PagedGroupOutput;
+  headers: RawHttpHeaders & DeviceManagementListGroups200Headers;
 }
 
-/** Gets a list of all device groups.  The $default group will always be returned first. */
-export interface DeviceManagementListGroupsdefaultResponse extends HttpResponse {
+export interface DeviceManagementListGroupsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListGroupsDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListGroupsDefaultHeaders;
 }
 
-/** Gets the device group properties. */
+export interface DeviceManagementGetGroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementGetGroup200Response extends HttpResponse {
   status: "200";
   body: GroupOutput;
+  headers: RawHttpHeaders & DeviceManagementGetGroup200Headers;
 }
 
-/** Gets the device group properties. */
-export interface DeviceManagementGetGroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetGroupDefaultResponse extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetGroupDefaultHeaders;
 }
 
-/** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
+export interface DeviceManagementDeleteGroup204Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
 export interface DeviceManagementDeleteGroup204Response extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
+  headers: RawHttpHeaders & DeviceManagementDeleteGroup204Headers;
 }
 
-/** Deletes a device group. This group is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a group if they do not need to retain any of the history of the group and no longer need it. If a device is ever connected again for this group after the group was deleted it will be automatically re-created but there will be no history. */
-export interface DeviceManagementDeleteGroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementDeleteGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementDeleteGroupDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementDeleteGroupDefaultHeaders;
 }
 
-/** Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetUpdateComplianceForGroup200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementGetUpdateComplianceForGroup200Response
+  extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
-/** Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetUpdateComplianceForGroupdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetUpdateComplianceForGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get the best available updates for a device group and a count of how many devices need each update. */
-export interface DeviceManagementListBestUpdatesForGroup200Response extends HttpResponse {
+export interface DeviceManagementGetUpdateComplianceForGroupDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetUpdateComplianceForGroupDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListBestUpdatesForGroup200Response
+  extends HttpResponse {
   status: "200";
-  body: DeviceClassSubgroupUpdatableDevicesListOutput;
+  body: PagedDeviceClassSubgroupUpdatableDevicesOutput;
 }
 
-/** Get the best available updates for a device group and a count of how many devices need each update. */
-export interface DeviceManagementListBestUpdatesForGroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementListBestUpdatesForGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListBestUpdatesForGroupDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListBestUpdatesForGroupDefaultHeaders;
 }
 
-/** Gets a list of deployments for a device group. */
-export interface DeviceManagementListDeploymentsForGroup200Response extends HttpResponse {
+export interface DeviceManagementListDeploymentsForGroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListDeploymentsForGroup200Response
+  extends HttpResponse {
   status: "200";
-  body: DeploymentsListOutput;
+  body: PagedDeploymentOutput;
+  headers: RawHttpHeaders & DeviceManagementListDeploymentsForGroup200Headers;
 }
 
-/** Gets a list of deployments for a device group. */
-export interface DeviceManagementListDeploymentsForGroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementListDeploymentsForGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDeploymentsForGroupDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeploymentsForGroupDefaultHeaders;
 }
 
-/** Gets the deployment properties. */
+export interface DeviceManagementGetDeployment200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementGetDeployment200Response extends HttpResponse {
   status: "200";
   body: DeploymentOutput;
+  headers: RawHttpHeaders & DeviceManagementGetDeployment200Headers;
 }
 
-/** Gets the deployment properties. */
-export interface DeviceManagementGetDeploymentdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetDeploymentDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetDeploymentDefaultHeaders;
 }
 
-/** Creates or updates a deployment. */
-export interface DeviceManagementCreateOrUpdateDeployment200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementCreateOrUpdateDeployment200Response
+  extends HttpResponse {
   status: "200";
   body: DeploymentOutput;
 }
 
-/** Creates or updates a deployment. */
-export interface DeviceManagementCreateOrUpdateDeploymentdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+/** The request has succeeded and a new resource has been created as a result. */
+export interface DeviceManagementCreateOrUpdateDeployment201Response
+  extends HttpResponse {
+  status: "201";
+  body: DeploymentOutput;
 }
 
-/** Deletes a deployment. */
-export interface DeviceManagementDeleteDeployment204Response extends HttpResponse {
+export interface DeviceManagementCreateOrUpdateDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementCreateOrUpdateDeploymentDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementCreateOrUpdateDeploymentDefaultHeaders;
+}
+
+export interface DeviceManagementDeleteDeployment204Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeviceManagementDeleteDeployment204Response
+  extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
+  headers: RawHttpHeaders & DeviceManagementDeleteDeployment204Headers;
 }
 
-/** Deletes a deployment. */
-export interface DeviceManagementDeleteDeploymentdefaultResponse extends HttpResponse {
+export interface DeviceManagementDeleteDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementDeleteDeploymentDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementDeleteDeploymentDefaultHeaders;
 }
 
-/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface DeviceManagementGetDeploymentStatus200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementGetDeploymentStatus200Response
+  extends HttpResponse {
   status: "200";
   body: DeploymentStatusOutput;
 }
 
-/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface DeviceManagementGetDeploymentStatusdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetDeploymentStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
-export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response extends HttpResponse {
-  status: "200";
-  body: DeviceClassSubgroupsListOutput;
-}
-
-/** Get the device class subgroups for the group. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
-export interface DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
+export interface DeviceManagementGetDeploymentStatusDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetDeploymentStatusDefaultHeaders;
 }
 
-/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
-export interface DeviceManagementGetDeviceClassSubgroup200Response extends HttpResponse {
+export interface DeviceManagementListDeviceClassSubgroupsForGroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedDeviceClassSubgroupOutput;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeviceClassSubgroupsForGroup200Headers;
+}
+
+export interface DeviceManagementListDeviceClassSubgroupsForGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDeviceClassSubgroupsForGroupDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeviceClassSubgroupsForGroupDefaultHeaders;
+}
+
+export interface DeviceManagementGetDeviceClassSubgroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementGetDeviceClassSubgroup200Response
+  extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupOutput;
+  headers: RawHttpHeaders & DeviceManagementGetDeviceClassSubgroup200Headers;
 }
 
-/** Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates. */
-export interface DeviceManagementGetDeviceClassSubgroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetDeviceClassSubgroupDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetDeviceClassSubgroupDefaultHeaders;
 }
 
-/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
-export interface DeviceManagementDeleteDeviceClassSubgroup204Response extends HttpResponse {
+export interface DeviceManagementDeleteDeviceClassSubgroup204Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
+export interface DeviceManagementDeleteDeviceClassSubgroup204Response
+  extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
+  headers: RawHttpHeaders & DeviceManagementDeleteDeviceClassSubgroup204Headers;
 }
 
-/** Deletes a device class subgroup. This subgroup is automatically created when a Device Update-enabled device is connected to the hub and reports its properties. Groups, subgroups, and deployments are not automatically cleaned up but are retained for history purposes. Users can call this method to delete a subgroup if they do not need to retain any of the history of the subgroup and no longer need it. If a device is ever connected again for this subgroup after the subgroup was deleted it will be automatically re-created but there will be no history. */
-export interface DeviceManagementDeleteDeviceClassSubgroupdefaultResponse extends HttpResponse {
+export interface DeviceManagementDeleteDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementDeleteDeviceClassSubgroupDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementDeleteDeviceClassSubgroupDefaultHeaders;
 }
 
-/** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
+/** The request has succeeded. */
 export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
   extends HttpResponse {
   status: "200";
   body: UpdateComplianceOutput;
 }
 
-/** Get device class subgroup update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update. */
-export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get the best available update for a device class subgroup and a count of how many devices need this update. */
+export interface DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetDeviceClassSubgroupUpdateComplianceDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
   extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupUpdatableDevicesOutput;
 }
 
-/** Get the best available update for a device class subgroup and a count of how many devices need this update. */
-export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Gets a list of deployments for a device class subgroup. */
+export interface DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetBestUpdatesForDeviceClassSubgroupDefaultHeaders;
+}
+
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
   extends HttpResponse {
   status: "200";
-  body: DeploymentsListOutput;
+  body: PagedDeviceClassSubgroupDeploymentOutput;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeploymentsForDeviceClassSubgroup200Headers;
 }
 
-/** Gets a list of deployments for a device class subgroup. */
-export interface DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeploymentsForDeviceClassSubgroupDefaultHeaders;
 }
 
-/** Gets the deployment properties. */
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
   extends HttpResponse {
   status: "200";
-  body: DeploymentOutput;
+  body: DeviceClassSubgroupDeploymentOutput;
+  headers: RawHttpHeaders &
+    DeviceManagementGetDeploymentForDeviceClassSubgroup200Headers;
 }
 
-/** Gets the deployment properties. */
-export interface DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetDeploymentForDeviceClassSubgroupDefaultHeaders;
 }
 
-/** Deletes a device class subgroup deployment. */
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** There is no content to send for this request, but the headers may be useful. */
 export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
+  headers: RawHttpHeaders &
+    DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Headers;
 }
 
-/** Deletes a device class subgroup deployment. */
-export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementDeleteDeploymentForDeviceClassSubgroupDefaultHeaders;
 }
 
-/** Stops a deployment. */
-export interface DeviceManagementStopDeployment200Response extends HttpResponse {
+export interface DeviceManagementStopDeployment200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementStopDeployment200Response
+  extends HttpResponse {
   status: "200";
-  body: DeploymentOutput;
+  body: DeviceClassSubgroupDeploymentOutput;
+  headers: RawHttpHeaders & DeviceManagementStopDeployment200Headers;
 }
 
-/** Stops a deployment. */
-export interface DeviceManagementStopDeploymentdefaultResponse extends HttpResponse {
+export interface DeviceManagementStopDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementStopDeploymentDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementStopDeploymentDefaultHeaders;
 }
 
-/** Retries a deployment with failed devices. */
-export interface DeviceManagementRetryDeployment200Response extends HttpResponse {
+export interface DeviceManagementRetryDeployment200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementRetryDeployment200Response
+  extends HttpResponse {
   status: "200";
-  body: DeploymentOutput;
+  body: DeviceClassSubgroupDeploymentOutput;
+  headers: RawHttpHeaders & DeviceManagementRetryDeployment200Headers;
 }
 
-/** Retries a deployment with failed devices. */
-export interface DeviceManagementRetryDeploymentdefaultResponse extends HttpResponse {
+export interface DeviceManagementRetryDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementRetryDeploymentDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementRetryDeploymentDefaultHeaders;
 }
 
-/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
+/** The request has succeeded. */
 export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
   extends HttpResponse {
   status: "200";
   body: DeviceClassSubgroupDeploymentStatusOutput;
 }
 
-/** Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed. */
-export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetDeviceClassSubgroupDeploymentStatusDefaultHeaders;
+}
+
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
 export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
   extends HttpResponse {
   status: "200";
-  body: DeploymentDeviceStatesListOutput;
+  body: PagedDeploymentDeviceStateOutput;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Headers;
 }
 
-/** Gets a list of devices in a deployment along with their state. Useful for getting a list of failed devices. */
-export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentDefaultHeaders;
 }
 
 export interface DeviceManagementGetOperationStatus200Headers {
-  /** Number of seconds to wait before checking the operation status again. */
-  "retry-after"?: string;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-/** Retrieve operation status. */
-export interface DeviceManagementGetOperationStatus200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementGetOperationStatus200Response
+  extends HttpResponse {
   status: "200";
   body: DeviceOperationOutput;
   headers: RawHttpHeaders & DeviceManagementGetOperationStatus200Headers;
 }
 
-/** Retrieve operation status. */
-export interface DeviceManagementGetOperationStatus304Response extends HttpResponse {
-  status: "304";
-  body: Record<string, unknown>;
+export interface DeviceManagementGetOperationStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Retrieve operation status. */
-export interface DeviceManagementGetOperationStatusdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetOperationStatusDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetOperationStatusDefaultHeaders;
 }
 
-/** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperationStatuses200Response extends HttpResponse {
+export interface DeviceManagementListOperationStatuses200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListOperationStatuses200Response
+  extends HttpResponse {
   status: "200";
-  body: DeviceOperationsListOutput;
+  body: PagedDeviceOperationOutput;
+  headers: RawHttpHeaders & DeviceManagementListOperationStatuses200Headers;
 }
 
-/** Get a list of all device import operations. Completed operations are kept for 7 days before auto-deleted. */
-export interface DeviceManagementListOperationStatusesdefaultResponse extends HttpResponse {
+export interface DeviceManagementListOperationStatusesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListOperationStatusesDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListOperationStatusesDefaultHeaders;
 }
 
-/** Start the device diagnostics log collection on specified devices. */
-export interface DeviceManagementStartLogCollection201Response extends HttpResponse {
+export interface DeviceManagementListLogCollections200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListLogCollections200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedLogCollectionOutput;
+  headers: RawHttpHeaders & DeviceManagementListLogCollections200Headers;
+}
+
+export interface DeviceManagementListLogCollectionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListLogCollectionsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListLogCollectionsDefaultHeaders;
+}
+
+export interface DeviceManagementGetLogCollection200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementGetLogCollection200Response
+  extends HttpResponse {
+  status: "200";
+  body: LogCollectionOutput;
+  headers: RawHttpHeaders & DeviceManagementGetLogCollection200Headers;
+}
+
+export interface DeviceManagementGetLogCollectionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetLogCollectionDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementGetLogCollectionDefaultHeaders;
+}
+
+/** The request has succeeded and a new resource has been created as a result. */
+export interface DeviceManagementStartLogCollection201Response
+  extends HttpResponse {
   status: "201";
   body: LogCollectionOutput;
 }
 
-/** Start the device diagnostics log collection on specified devices. */
-export interface DeviceManagementStartLogCollectiondefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
+export interface DeviceManagementStartLogCollectionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
 }
 
-/** Get the device diagnostics log collection */
-export interface DeviceManagementGetLogCollection200Response extends HttpResponse {
-  status: "200";
-  body: LogCollectionOutput;
-}
-
-/** Get the device diagnostics log collection */
-export interface DeviceManagementGetLogCollectiondefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** Get all device diagnostics log collections */
-export interface DeviceManagementListLogCollections200Response extends HttpResponse {
-  status: "200";
-  body: LogCollectionListOutput;
-}
-
-/** Get all device diagnostics log collections */
-export interface DeviceManagementListLogCollectionsdefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponseOutput;
-}
-
-/** Get log collection with detailed status */
-export interface DeviceManagementGetLogCollectionDetailedStatus200Response extends HttpResponse {
-  status: "200";
-  body: LogCollectionOperationDetailedStatusOutput;
-}
-
-/** Get log collection with detailed status */
-export interface DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
+export interface DeviceManagementStartLogCollectionDefaultResponse
   extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementStartLogCollectionDefaultHeaders;
 }
 
-/** Get list of device health */
-export interface DeviceManagementListHealthOfDevices200Response extends HttpResponse {
+/** The request has succeeded. */
+export interface DeviceManagementGetLogCollectionDetailedStatus200Response
+  extends HttpResponse {
   status: "200";
-  body: DeviceHealthListOutput;
+  body: PagedLogCollectionOperationDetailedStatusOutput;
 }
 
-/** Get list of device health */
-export interface DeviceManagementListHealthOfDevicesdefaultResponse extends HttpResponse {
+export interface DeviceManagementGetLogCollectionDetailedStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementGetLogCollectionDetailedStatusDefaultResponse
+  extends HttpResponse {
   status: string;
-  body: ErrorResponseOutput;
+  body: ErrorResponse;
+  headers: RawHttpHeaders &
+    DeviceManagementGetLogCollectionDetailedStatusDefaultHeaders;
+}
+
+export interface DeviceManagementListHealthOfDevices200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The request has succeeded. */
+export interface DeviceManagementListHealthOfDevices200Response
+  extends HttpResponse {
+  status: "200";
+  body: PagedDeviceHealthOutput;
+  headers: RawHttpHeaders & DeviceManagementListHealthOfDevices200Headers;
+}
+
+export interface DeviceManagementListHealthOfDevicesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeviceManagementListHealthOfDevicesDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DeviceManagementListHealthOfDevicesDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface InstanceManagementGetLimits200Response extends HttpResponse {
+  status: "200";
+  body: LimitsOutput;
+}
+
+export interface InstanceManagementGetLimitsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface InstanceManagementGetLimitsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & InstanceManagementGetLimitsDefaultHeaders;
 }

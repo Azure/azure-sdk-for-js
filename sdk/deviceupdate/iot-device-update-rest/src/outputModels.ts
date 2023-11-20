@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface UpdateListOutput {
-  /** The collection of pageable items. */
-  value: Array<UpdateOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
+import { Paged } from "@azure/core-paging";
+import { ErrorModel } from "@azure-rest/core-client";
 
+/** Update metadata. */
 export interface UpdateOutput {
   /** Update identity. */
-  updateId: UpdateIdOutput;
+  readonly updateId: UpdateIdOutput;
   /** Update description specified by creator. */
   description?: string;
   /** Friendly update name specified by importer. */
@@ -19,10 +16,13 @@ export interface UpdateOutput {
   isDeployable?: boolean;
   /** Update type. Deprecated in latest import manifest schema. */
   updateType?: string;
-  /** String interpreted by Device Update client to determine if the update is installed on the device. Deprecated in latest import manifest schema. */
+  /**
+   * String interpreted by Device Update client to determine if the update is
+   * installed on the device. Deprecated in latest import manifest schema.
+   */
   installedCriteria?: string;
   /** List of update compatibility information. */
-  compatibility: Array<Record<string, string>>;
+  compatibility: Record<string, string>[];
   /** Update install instructions. */
   instructions?: InstructionsOutput;
   /** List of update identities that reference this update. */
@@ -39,77 +39,82 @@ export interface UpdateOutput {
   etag?: string;
 }
 
+/** Update identifier. */
 export interface UpdateIdOutput {
   /** Update provider. */
   provider: string;
   /** Update name. */
   name: string;
-  /** Update version. */
+  /**
+   * Update version.Two to four part dot separated numerical version numbers.
+   * Each part must be a number between 0 and 2147483647 and leading zeroes will be dropped.
+   */
   version: string;
 }
 
+/** Update installation instructions. */
 export interface InstructionsOutput {
   /** Collection of installation steps. */
   steps: Array<StepOutput>;
 }
 
-export interface StepOutput {
-  /** Step type. */
-  type?: "Inline" | "Reference";
+/** Update install instruction step. */
+export interface StepOutputParent {
   /** Step description. */
   description?: string;
+  type: string;
+}
+
+/** Installation instruction step that performs code execution. */
+export interface InlineStepOutput extends StepOutputParent {
+  /** Step type. */
+  type: "Inline";
   /** Identity of handler that will execute this step. Required if step type is inline. */
-  handler?: string;
+  handler: string;
   /** Parameters to be passed to handler during execution. */
-  handlerProperties?: Record<string, unknown>;
-  /** Collection of file names to be passed to handler during execution. Required if step type is inline. */
-  files?: Array<string>;
-  /** Referenced child update identity.  Required if step type is reference. */
-  updateId?: UpdateIdOutput;
+  handlerProperties?: Record<string, any>;
+  /** Collection of file names to be passed to handler during execution. */
+  files: string[];
 }
 
-export interface ErrorResponseOutput {
-  /** The error details. */
-  error: ErrorModelOutput;
+/** Installation instruction step that installs another update. */
+export interface ReferenceStepOutput extends StepOutputParent {
+  /** Step type. */
+  type: "Reference";
+  /** Referenced child update identity. */
+  updateId: UpdateIdOutput;
 }
 
-export interface ErrorModelOutput {
-  /** Server defined error code. */
-  code: string;
-  /** A human-readable representation of the error. */
-  message: string;
-  /** The target of the error. */
-  target?: string;
-  /** An array of errors that led to the reported error. */
-  details?: Array<ErrorModelOutput>;
-  /** An object containing more specific information than the current object about the error. */
-  innererror?: InnerErrorOutput;
-  /** Date and time in UTC when the error occurred. */
-  occurredDateTime?: string;
-}
-
-export interface InnerErrorOutput {
-  /** A more specific error code than what was provided by the containing error. */
-  code: string;
-  /** A human-readable representation of the error. */
-  message?: string;
-  /** The internal error or exception message. */
-  errorDetail?: string;
-  /** An object containing more specific information than the current object about the error. */
-  innerError?: InnerErrorOutput;
-}
-
+/** The list of strings with server paging support. */
 export interface StringsListOutput {
   /** The collection of pageable items. */
-  value: Array<string>;
-  /** The link to the next page of items. */
+  value: string[];
+  /** The link to the next page of items */
   nextLink?: string;
 }
 
-export interface UpdateFileOutput extends UpdateFileBaseOutput {
+/** Update file metadata. */
+export interface UpdateFileOutput {
+  /** File name. */
+  fileName: string;
+  /** File size in number of bytes. */
+  sizeInBytes: number;
+  /** Mapping of hashing algorithm to base64 encoded hash values. */
+  hashes: Record<string, string>;
+  /** File MIME type. */
+  mimeType?: string;
+  /** Anti-malware scan result. */
+  scanResult?: string;
+  /** Anti-malware scan details. */
+  scanDetails?: string;
+  /** Optional file properties (not consumed by service but pass-through to device). */
+  properties?: Record<string, string>;
   /** File identity, generated by server at import time. */
   fileId: string;
-  /** Optional related files metadata used together DownloadHandler metadata to download payload file. */
+  /**
+   * Optional related files metadata used together DownloadHandler metadata to
+   * download payload file.
+   */
   relatedFiles?: Array<UpdateFileBaseOutput>;
   /** Optional download handler for utilizing related files to download payload file. */
   downloadHandler?: UpdateFileDownloadHandlerOutput;
@@ -117,6 +122,7 @@ export interface UpdateFileOutput extends UpdateFileBaseOutput {
   etag?: string;
 }
 
+/** Update file basic metadata. */
 export interface UpdateFileBaseOutput {
   /** File name. */
   fileName: string;
@@ -134,30 +140,33 @@ export interface UpdateFileBaseOutput {
   properties?: Record<string, string>;
 }
 
+/** Download handler for utilizing related files to download payload file. */
 export interface UpdateFileDownloadHandlerOutput {
   /** Download handler identifier. */
   id: string;
 }
 
-export interface UpdateOperationsListOutput {
-  /** The collection of pageable items. */
-  value: Array<UpdateOperationOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Operation metadata. */
 export interface UpdateOperationOutput {
-  /** Operation Id. */
-  operationId: string;
-  /** Operation status. */
-  status: "NotStarted" | "Running" | "Succeeded" | "Failed";
-  /** The update being imported or deleted. For import, this property will only be populated after import manifest is processed successfully. */
+  /**
+   * Operation status.
+   *
+   * Possible values: NotStarted, Running, Succeeded, Failed
+   */
+  status: string;
+  /**
+   * The update being imported or deleted. For import, this property will only be
+   * populated after import manifest is processed successfully.
+   */
   update?: UpdateInfoOutput;
   /** Location of the imported update when operation is successful. */
   resourceLocation?: string;
   /** Operation error encountered, if any. */
-  error?: ErrorModelOutput;
-  /** Operation correlation identity that can used by Microsoft Support for troubleshooting. */
+  error?: ErrorModel;
+  /**
+   * Operation correlation identity that can used by Microsoft Support for
+   * troubleshooting.
+   */
   traceId?: string;
   /** Date and time in UTC when the operation status was last updated. */
   lastActionDateTime: string;
@@ -167,64 +176,61 @@ export interface UpdateOperationOutput {
   etag?: string;
 }
 
+/** Update information. */
 export interface UpdateInfoOutput {
   /** Update identifier. */
-  updateId: UpdateIdOutput;
+  readonly updateId: UpdateIdOutput;
   /** Update description. */
-  description?: string;
+  readonly description?: string;
   /** Friendly update name. */
-  friendlyName?: string;
+  readonly friendlyName?: string;
 }
 
-export interface DeviceClassesListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceClassOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
+/** Provides the 'x-ms-client-request-id' header to enable request correlation in requests and responses. */
+export interface ClientRequestIdHeaderOutput {}
 
+/** Device class metadata. */
 export interface DeviceClassOutput {
-  /** The device class identifier. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash. */
-  deviceClassId: string;
-  /** The device class friendly name. This can be updated by callers after the device class has been automatically created. */
+  /**
+   * The device class friendly name. This can be updated by callers after the device
+   * class has been automatically created.
+   */
   friendlyName?: string;
   /** The device class properties that are used to calculate the device class Id */
-  deviceClassProperties: DeviceClassPropertiesOutput;
+  readonly deviceClassProperties: DeviceClassPropertiesOutput;
   /** Update that is the highest version compatible with this device class. */
-  bestCompatibleUpdate?: UpdateInfoOutput;
+  readonly bestCompatibleUpdate?: UpdateInfoOutput;
 }
 
+/** The device class properties that are used to calculate the device class Id */
 export interface DeviceClassPropertiesOutput {
   /** The Device Update agent contract model. */
   contractModel?: ContractModelOutput;
-  /** The compat properties of the device class. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property */
+  /**
+   * The compat properties of the device class. This object can be thought of as a
+   * set of key-value pairs where the key is the name of the compatibility property
+   * and the value is the value of the compatibility property. There will always be
+   * at least 1 compat property
+   */
   compatProperties: Record<string, string>;
 }
 
+/** The Device Update agent contract model. */
 export interface ContractModelOutput {
-  /** The Device Update agent contract model Id of the device class. This is also used to calculate the device class Id. */
+  /**
+   * The Device Update agent contract model Id of the device class. This is also
+   * used to calculate the device class Id.
+   */
   id: string;
-  /** The Device Update agent contract model name of the device class. Intended to be a more readable form of the contract model Id. */
+  /**
+   * The Device Update agent contract model name of the device class. Intended to be
+   * a more readable form of the contract model Id.
+   */
   name: string;
 }
 
-export interface UpdateInfoListOutput {
-  /** The collection of pageable items. */
-  value: Array<UpdateInfoOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
-export interface DevicesListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Device metadata. */
 export interface DeviceOutput {
-  /** Device identity. */
-  deviceId: string;
   /** Device module identity. */
   moduleId?: string;
   /** Device class identity. */
@@ -233,11 +239,18 @@ export interface DeviceOutput {
   groupId?: string;
   /** The update that device last attempted to install. */
   lastAttemptedUpdate?: UpdateInfoOutput;
-  /** State of the device in its last deployment. */
-  deploymentStatus?: "Succeeded" | "InProgress" | "Canceled" | "Failed";
+  /**
+   * State of the device in its last deployment.
+   *
+   * Possible values: Succeeded, InProgress, Canceled, Failed
+   */
+  deploymentStatus?: string;
   /** Currently installed update on device. */
   installedUpdate?: UpdateInfoOutput;
-  /** Boolean flag indicating whether the latest update (the best compatible update for the device's device class and group) is installed on the device */
+  /**
+   * Boolean flag indicating whether the latest update (the best compatible update
+   * for the device's device class and group) is installed on the device
+   */
   onLatestUpdate: boolean;
   /** The deployment identifier for the last deployment to the device */
   lastDeploymentId?: string;
@@ -245,6 +258,7 @@ export interface DeviceOutput {
   lastInstallResult?: InstallResultOutput;
 }
 
+/** The install result of an update and any step results under it. */
 export interface InstallResultOutput {
   /** Install result code. */
   resultCode: number;
@@ -256,6 +270,7 @@ export interface InstallResultOutput {
   stepResults?: Array<StepResultOutput>;
 }
 
+/** The step result under an update. */
 export interface StepResultOutput {
   /** The update that this step installs if it is of reference type. */
   update?: UpdateInfoOutput;
@@ -269,6 +284,7 @@ export interface StepResultOutput {
   resultDetails?: string;
 }
 
+/** Update compliance information. */
 export interface UpdateComplianceOutput {
   /** Total number of devices. */
   totalDeviceCount: number;
@@ -280,18 +296,14 @@ export interface UpdateComplianceOutput {
   updatesInProgressDeviceCount: number;
 }
 
-export interface GroupsListOutput {
-  /** The collection of pageable items. */
-  value: Array<GroupOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Group details. */
 export interface GroupOutput {
-  /** Group identity. This is created from the value of the ADUGroup tag in the Iot Hub's device/module twin or $default for devices with no tag. */
-  groupId: string;
-  /** Group type. */
-  groupType: "IoTHubTag" | "DefaultNoTag";
+  /**
+   * Group type.
+   *
+   * Possible values: IoTHubTag, DefaultNoTag
+   */
+  groupType: string;
   /** Date and time when the update was created. */
   createdDateTime: string;
   /** The number of devices in the group. */
@@ -303,16 +315,10 @@ export interface GroupOutput {
   /** The count of subgroups with devices on the latest update. */
   subgroupsWithOnLatestUpdateCount?: number;
   /** The active deployment Ids for the group */
-  deployments?: Array<string>;
+  deployments?: string[];
 }
 
-export interface DeviceClassSubgroupUpdatableDevicesListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceClassSubgroupUpdatableDevicesOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Device class subgroup, update information, and the number of devices for which the update is applicable. */
 export interface DeviceClassSubgroupUpdatableDevicesOutput {
   /** The group Id */
   groupId: string;
@@ -324,15 +330,15 @@ export interface DeviceClassSubgroupUpdatableDevicesOutput {
   deviceCount: number;
 }
 
-export interface DeploymentsListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeploymentOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Deployment metadata. */
 export interface DeploymentOutput {
-  /** The caller-provided deployment identifier. This cannot be longer than 73 characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{', '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you create a deployment. */
+  /**
+   * The caller-provided deployment identifier. This cannot be longer than 73
+   * characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{',
+   * '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view
+   * in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you
+   * create a deployment.
+   */
   deploymentId: string;
   /** The deployment start datetime. */
   startDateTime: string;
@@ -340,18 +346,23 @@ export interface DeploymentOutput {
   update: UpdateInfoOutput;
   /** The group identity for the devices the deployment is intended to update. */
   groupId: string;
-  /** The device class subgroups the deployment is compatible with and subgroup deployments have been created for. This is not provided by the caller during CreateOrUpdateDeployment but is automatically determined by Device Update */
-  deviceClassSubgroups?: Array<string>;
+  /**
+   * The device class subgroups the deployment is compatible with and subgroup
+   * deployments have been created for. This is not provided by the caller during
+   * CreateOrUpdateDeployment but is automatically determined by Device Update
+   */
+  readonly deviceClassSubgroups?: string[];
   /** Boolean flag indicating whether the deployment was canceled. */
-  isCanceled?: boolean;
+  readonly isCanceled?: boolean;
   /** Boolean flag indicating whether the deployment has been retried. */
-  isRetried?: boolean;
+  readonly isRetried?: boolean;
   /** The rollback policy for the deployment. */
   rollbackPolicy?: CloudInitiatedRollbackPolicyOutput;
   /** Boolean flag indicating whether the deployment is a rollback deployment. */
-  isCloudInitiatedRollback?: boolean;
+  readonly isCloudInitiatedRollback?: boolean;
 }
 
+/** Rollback policy for deployment */
 export interface CloudInitiatedRollbackPolicyOutput {
   /** Update to rollback to. */
   update: UpdateInfoOutput;
@@ -359,6 +370,7 @@ export interface CloudInitiatedRollbackPolicyOutput {
   failure: CloudInitiatedRollbackPolicyFailureOutput;
 }
 
+/** Failure conditions to initiate rollback policy */
 export interface CloudInitiatedRollbackPolicyFailureOutput {
   /** Percentage of devices that failed. */
   devicesFailedPercentage: number;
@@ -366,26 +378,42 @@ export interface CloudInitiatedRollbackPolicyFailureOutput {
   devicesFailedCount: number;
 }
 
+/** Deployment status metadata. */
 export interface DeploymentStatusOutput {
   /** The group identity */
   groupId: string;
-  /** The state of the deployment. */
-  deploymentState: "Active" | "ActiveWithSubgroupFailures" | "Failed" | "Inactive" | "Canceled";
-  /** The error details of the Failed state.  This is not present if the deployment state is not Failed. */
-  error?: ErrorModelOutput;
+  /**
+   * The state of the deployment.
+   *
+   * Possible values: Active, ActiveWithSubgroupFailures, Failed, Inactive, Canceled
+   */
+  deploymentState: string;
+  /**
+   * The error details of the Failed state.  This is not present if the deployment
+   * state is not Failed.
+   */
+  error?: ErrorModel;
   /** The collection of device class subgroup status objects */
   subgroupStatus: Array<DeviceClassSubgroupDeploymentStatusOutput>;
 }
 
+/** Device class subgroup deployment status metadata. */
 export interface DeviceClassSubgroupDeploymentStatusOutput {
   /** The group identity */
   groupId: string;
   /** The device class subgroup identity */
   deviceClassId: string;
-  /** The state of the subgroup deployment. */
-  deploymentState: "Active" | "Failed" | "Inactive" | "Canceled";
-  /** The error details of the Failed state.  This is not present if the deployment state is not Failed. */
-  error?: ErrorModelOutput;
+  /**
+   * The state of the subgroup deployment.
+   *
+   * Possible values: Active, Failed, Inactive, Canceled
+   */
+  deploymentState: string;
+  /**
+   * The error details of the Failed state.  This is not present if the deployment
+   * state is not Failed.
+   */
+  error?: ErrorModel;
   /** The total number of devices in the deployment. */
   totalDevices?: number;
   /** The number of devices that are currently in deployment. */
@@ -398,16 +426,11 @@ export interface DeviceClassSubgroupDeploymentStatusOutput {
   devicesCanceledCount?: number;
 }
 
-export interface DeviceClassSubgroupsListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceClassSubgroupOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/**
+ * Device class subgroup details. A device class subgroup is a subset of devices
+ * in a group that share the same device class id.
+ */
 export interface DeviceClassSubgroupOutput {
-  /** Device class subgroup identity. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash. */
-  deviceClassId: string;
   /** Group identity. */
   groupId: string;
   /** Date and time when the device class subgroup was created. */
@@ -418,33 +441,67 @@ export interface DeviceClassSubgroupOutput {
   deploymentId?: string;
 }
 
-export interface DeploymentDeviceStatesListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeploymentDeviceStateOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
+/** DeviceClass Subgroup Deployment metadata */
+export interface DeviceClassSubgroupDeploymentOutput {
+  /**
+   * The caller-provided deployment identifier. This cannot be longer than 73
+   * characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{',
+   * '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view
+   * in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you
+   * create a deployment.
+   */
+  deploymentId: string;
+  /** The deployment start datetime. */
+  startDateTime: string;
+  /** Update information for the update in the deployment. */
+  update: UpdateInfoOutput;
+  /** The group identity for the devices the deployment is intended to update. */
+  groupId: string;
+  /**
+   * The device class subgroups the deployment is compatible with and subgroup
+   * deployments have been created for. This is not provided by the caller during
+   * CreateOrUpdateDeployment but is automatically determined by Device Update
+   */
+  readonly deviceClassSubgroups?: string[];
+  /** Boolean flag indicating whether the deployment was canceled. */
+  readonly isCanceled?: boolean;
+  /** Boolean flag indicating whether the deployment has been retried. */
+  readonly isRetried?: boolean;
+  /** The rollback policy for the deployment. */
+  rollbackPolicy?: CloudInitiatedRollbackPolicyOutput;
+  /** Boolean flag indicating whether the deployment is a rollback deployment. */
+  readonly isCloudInitiatedRollback?: boolean;
 }
 
+/** Deployment device status. */
 export interface DeploymentDeviceStateOutput {
-  /** Device identity. */
-  deviceId: string;
   /** Device module identity. */
   moduleId?: string;
   /** The number of times this deployment has been retried on this device. */
   retryCount: number;
-  /** Boolean flag indicating whether this device is in a newer deployment and can no longer retry this deployment. */
+  /**
+   * Boolean flag indicating whether this device is in a newer deployment and can no
+   * longer retry this deployment.
+   */
   movedOnToNewDeployment: boolean;
-  /** Deployment device state. */
-  deviceState: "Succeeded" | "InProgress" | "Canceled" | "Failed";
+  /**
+   * Deployment device state.
+   *
+   * Possible values: Succeeded, InProgress, Canceled, Failed
+   */
+  deviceState: string;
 }
 
+/** Operation metadata. */
 export interface DeviceOperationOutput {
-  /** Operation Id. */
-  operationId: string;
-  /** Operation status. */
-  status: "NotStarted" | "Running" | "Succeeded" | "Failed";
+  /**
+   * Operation status.
+   *
+   * Possible values: NotStarted, Running, Succeeded, Failed
+   */
+  status: string;
   /** Operation error encountered, if any. */
-  error?: ErrorModelOutput;
+  error?: ErrorModel;
   /** Operation correlation identity that can used by Microsoft Support for troubleshooting. */
   traceId?: string;
   /** Date and time in UTC when the operation status was last updated. */
@@ -455,28 +512,27 @@ export interface DeviceOperationOutput {
   etag?: string;
 }
 
-export interface DeviceOperationsListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceOperationOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Diagnostics request body */
 export interface LogCollectionOutput {
   /** The log collection id. */
-  operationId?: string;
+  operationId: string;
   /** Array of Device Update agent ids */
   deviceList: Array<DeviceUpdateAgentIdOutput>;
   /** Description of the diagnostics operation. */
   description?: string;
   /** The timestamp when the operation was created. */
-  createdDateTime?: string;
+  readonly createdDateTime?: string;
   /** A timestamp for when the current state was entered. */
-  lastActionDateTime?: string;
-  /** Operation status. */
-  status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
+  readonly lastActionDateTime?: string;
+  /**
+   * Operation status.
+   *
+   * Possible values: NotStarted, Running, Succeeded, Failed
+   */
+  readonly status?: string;
 }
 
+/** Device Update agent id */
 export interface DeviceUpdateAgentIdOutput {
   /** Device Id */
   deviceId: string;
@@ -484,13 +540,7 @@ export interface DeviceUpdateAgentIdOutput {
   moduleId?: string;
 }
 
-export interface LogCollectionListOutput {
-  /** The collection of pageable items. */
-  value: Array<LogCollectionOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Device diagnostics operation detailed status */
 export interface LogCollectionOperationDetailedStatusOutput {
   /** The device diagnostics operation id. */
   operationId?: string;
@@ -498,21 +548,30 @@ export interface LogCollectionOperationDetailedStatusOutput {
   createdDateTime?: string;
   /** A timestamp for when the current state was entered. */
   lastActionDateTime?: string;
-  /** Operation status. */
-  status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
+  /**
+   * Operation status.
+   *
+   * Possible values: NotStarted, Running, Succeeded, Failed
+   */
+  status?: string;
   /** Status of the devices in the operation */
   deviceStatus?: Array<LogCollectionOperationDeviceStatusOutput>;
   /** Device diagnostics operation description. */
   description?: string;
 }
 
+/** Diagnostics operation device status */
 export interface LogCollectionOperationDeviceStatusOutput {
   /** Device id */
   deviceId: string;
   /** Module id. */
   moduleId?: string;
-  /** Log upload status */
-  status: "NotStarted" | "Running" | "Succeeded" | "Failed";
+  /**
+   * Log upload status
+   *
+   * Possible values: NotStarted, Running, Succeeded, Failed
+   */
+  status: string;
   /** Log upload result code */
   resultCode?: string;
   /** Log upload extended result code */
@@ -521,29 +580,98 @@ export interface LogCollectionOperationDeviceStatusOutput {
   logLocation?: string;
 }
 
-export interface DeviceHealthListOutput {
-  /** The collection of pageable items. */
-  value: Array<DeviceHealthOutput>;
-  /** The link to the next page of items. */
-  nextLink?: string;
-}
-
+/** Device Health */
 export interface DeviceHealthOutput {
-  /** Device id */
-  deviceId: string;
   /** Module id */
   moduleId?: string;
-  /** Aggregate device health state */
-  state: "healthy" | "unhealthy";
+  /**
+   * Aggregate device health state
+   *
+   * Possible values: healthy, unhealthy
+   */
+  state: string;
   /** Digital twin model Id */
   digitalTwinModelId?: string;
   /** Array of health checks and their results */
   healthChecks: Array<HealthCheckOutput>;
 }
 
+/** Health check */
 export interface HealthCheckOutput {
   /** Health check name */
   name?: string;
-  /** Health check result */
-  result?: "success" | "userError";
+  /**
+   * Health check result
+   *
+   * Possible values: success, userError
+   */
+  result?: string;
 }
+
+/**
+ * The list of limits of how many of each resource are currently in use and how
+ * many are allowed.
+ */
+export interface LimitsOutput {
+  /** The list of current counts of each limited resource and the maximum quota that are allowed. */
+  counters: CountersOutput;
+}
+
+/** The list of counts of each limited resource with both current usage and overall quota. */
+export interface CountersOutput {
+  /** The current usage and quota of devices. */
+  deviceCount: UsageQuotaCounterOutput;
+  /** The current usage and quota of device classes. */
+  deviceClassCount: UsageQuotaCounterOutput;
+  /** The current usage and quota of device groups. */
+  deviceGroupCount: UsageQuotaCounterOutput;
+  /** The current usage and quota of active deployments. */
+  activeDeploymentCount: UsageQuotaCounterOutput;
+  /** The current usage and quota of deployments. */
+  deploymentCount: UsageQuotaCounterOutput;
+}
+
+/** A counter with both usage and quota information. */
+export interface UsageQuotaCounterOutput {
+  /** The current number of the resource that exist */
+  usage: number;
+  /** The maximum number of the resource that can be created */
+  quota: number;
+}
+
+/** Update install instruction step. */
+export type StepOutput = InlineStepOutput | ReferenceStepOutput;
+/** Paged collection of Update items */
+export type PagedUpdateOutput = Paged<UpdateOutput>;
+/** Paged collection of UpdateOperation items */
+export type PagedUpdateOperationOutput = Paged<UpdateOperationOutput>;
+/** Paged collection of DeviceClass items */
+export type PagedDeviceClassOutput = Paged<DeviceClassOutput>;
+/** List of update information. */
+export type PagedUpdateInfoOutput = Paged<UpdateInfoOutput>;
+/** Paged collection of Device items */
+export type PagedDeviceOutput = Paged<DeviceOutput>;
+/** Paged collection of Group items */
+export type PagedGroupOutput = Paged<GroupOutput>;
+/** The list of updatable devices for a device class subgroup. */
+export type PagedDeviceClassSubgroupUpdatableDevicesOutput =
+  Paged<DeviceClassSubgroupUpdatableDevicesOutput>;
+/** Paged collection of Deployment items */
+export type PagedDeploymentOutput = Paged<DeploymentOutput>;
+/** Paged collection of DeviceClassSubgroup items */
+export type PagedDeviceClassSubgroupOutput = Paged<DeviceClassSubgroupOutput>;
+/** Paged collection of DeviceClassSubgroupDeployment items */
+export type PagedDeviceClassSubgroupDeploymentOutput =
+  Paged<DeviceClassSubgroupDeploymentOutput>;
+/** Paged collection of DeploymentDeviceState items */
+export type PagedDeploymentDeviceStateOutput =
+  Paged<DeploymentDeviceStateOutput>;
+/** Paged collection of DeviceOperation items */
+export type PagedDeviceOperationOutput = Paged<DeviceOperationOutput>;
+/** Paged collection of LogCollection items */
+export type PagedLogCollectionOutput = Paged<LogCollectionOutput>;
+/** Paged collection of LogCollectionOperationDetailedStatus items */
+export type PagedLogCollectionOperationDetailedStatusOutput =
+  Paged<LogCollectionOperationDetailedStatusOutput>;
+/** Paged collection of DeviceHealth items */
+export type PagedDeviceHealthOutput = Paged<DeviceHealthOutput>;

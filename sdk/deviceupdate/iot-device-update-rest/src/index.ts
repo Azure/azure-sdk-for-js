@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import DeviceUpdate from "./deviceUpdate";
+import DeviceUpdateClient from "./deviceUpdateClient";
 
-export * from "./deviceUpdate";
+export * from "./deviceUpdateClient";
 export * from "./parameters";
 export * from "./responses";
 export * from "./clientDefinitions";
@@ -13,4 +13,4 @@ export * from "./outputModels";
 export * from "./paginateHelper";
 export * from "./pollingHelper";
 
-export default DeviceUpdate;
+export default DeviceUpdateClient;

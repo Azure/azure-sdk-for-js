@@ -3,7 +3,17 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
+import {
+  ImportUpdateInputItem,
+  DeviceClass,
+  Deployment,
+  LogCollection,
+} from "./models";
+
+export interface DeviceUpdateListUpdatesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */
@@ -16,7 +26,28 @@ export interface DeviceUpdateListUpdatesQueryParam {
   queryParameters?: DeviceUpdateListUpdatesQueryParamProperties;
 }
 
-export type DeviceUpdateListUpdatesParameters = DeviceUpdateListUpdatesQueryParam &
+export interface DeviceUpdateListUpdatesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceUpdateListUpdatesHeaders;
+}
+
+export type DeviceUpdateListUpdatesParameters =
+  DeviceUpdateListUpdatesQueryParam &
+    DeviceUpdateListUpdatesHeaderParam &
+    RequestParameters;
+
+export interface DeviceUpdateGetUpdateHeaders {
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if
+   * the ETag on the server does not match this value.
+   */
+  "if-none-match"?: string;
+}
+
+export interface DeviceUpdateGetUpdateHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
+}
+
+export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
   RequestParameters;
 
 export interface DeviceUpdateImportUpdateBodyParam {
@@ -24,57 +55,45 @@ export interface DeviceUpdateImportUpdateBodyParam {
   body: Array<ImportUpdateInputItem>;
 }
 
-export interface DeviceUpdateImportUpdateMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
-}
-
-export type DeviceUpdateImportUpdateParameters = DeviceUpdateImportUpdateMediaTypesParam &
-  DeviceUpdateImportUpdateBodyParam &
-  RequestParameters;
-
-export interface DeviceUpdateGetUpdateHeaders {
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  "If-None-Match"?: string;
-}
-
-export interface DeviceUpdateGetUpdateHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetUpdateHeaders;
-}
-
-export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam & RequestParameters;
+export type DeviceUpdateImportUpdateParameters =
+  DeviceUpdateImportUpdateBodyParam & RequestParameters;
 export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 export type DeviceUpdateListProvidersParameters = RequestParameters;
 export type DeviceUpdateListNamesParameters = RequestParameters;
-
-export interface DeviceUpdateListVersionsQueryParamProperties {
-  /** Optional to filter updates by isDeployable property. */
-  filter?: string;
-}
-
-export interface DeviceUpdateListVersionsQueryParam {
-  queryParameters?: DeviceUpdateListVersionsQueryParamProperties;
-}
-
-export type DeviceUpdateListVersionsParameters = DeviceUpdateListVersionsQueryParam &
-  RequestParameters;
+export type DeviceUpdateListVersionsParameters = RequestParameters;
 export type DeviceUpdateListFilesParameters = RequestParameters;
 
 export interface DeviceUpdateGetFileHeaders {
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  "If-None-Match"?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if
+   * the ETag on the server does not match this value.
+   */
+  "if-none-match"?: string;
 }
 
 export interface DeviceUpdateGetFileHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
+  headers?: RawHttpHeadersInput & DeviceUpdateGetFileHeaders;
 }
 
-export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam & RequestParameters;
+export type DeviceUpdateGetFileParameters = DeviceUpdateGetFileHeaderParam &
+  RequestParameters;
+
+export interface DeviceUpdateListOperationStatusesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceUpdateListOperationStatusesQueryParamProperties {
-  /** Optional to filter operations by status property. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
+  /**
+   * Optional to filter operations by status property. Only one specific filter is
+   * supported: \"status eq 'NotStarted' or status eq 'Running'\"
+   */
   filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
+  /**
+   * Specifies a non-negative integer n that limits the number of items returned
+   * from a collection. The service returns the number of available items up to but
+   * not greater than the specified value n.
+   */
   top?: number;
 }
 
@@ -82,20 +101,36 @@ export interface DeviceUpdateListOperationStatusesQueryParam {
   queryParameters?: DeviceUpdateListOperationStatusesQueryParamProperties;
 }
 
+export interface DeviceUpdateListOperationStatusesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceUpdateListOperationStatusesHeaders;
+}
+
 export type DeviceUpdateListOperationStatusesParameters =
-  DeviceUpdateListOperationStatusesQueryParam & RequestParameters;
+  DeviceUpdateListOperationStatusesQueryParam &
+    DeviceUpdateListOperationStatusesHeaderParam &
+    RequestParameters;
 
 export interface DeviceUpdateGetOperationStatusHeaders {
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  "If-None-Match"?: string;
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if
+   * the ETag on the server does not match this value.
+   */
+  "if-none-match"?: string;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
 export interface DeviceUpdateGetOperationStatusHeaderParam {
-  headers: RawHttpHeadersInput & DeviceUpdateGetOperationStatusHeaders;
+  headers?: RawHttpHeadersInput & DeviceUpdateGetOperationStatusHeaders;
 }
 
-export type DeviceUpdateGetOperationStatusParameters = DeviceUpdateGetOperationStatusHeaderParam &
-  RequestParameters;
+export type DeviceUpdateGetOperationStatusParameters =
+  DeviceUpdateGetOperationStatusHeaderParam & RequestParameters;
+
+export interface DeviceManagementListDeviceClassesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceManagementListDeviceClassesQueryParamProperties {
   /** Restricts the set of device classes returned. You can filter on friendly name. */
@@ -106,29 +141,80 @@ export interface DeviceManagementListDeviceClassesQueryParam {
   queryParameters?: DeviceManagementListDeviceClassesQueryParamProperties;
 }
 
+export interface DeviceManagementListDeviceClassesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListDeviceClassesHeaders;
+}
+
 export type DeviceManagementListDeviceClassesParameters =
-  DeviceManagementListDeviceClassesQueryParam & RequestParameters;
-export type DeviceManagementGetDeviceClassParameters = RequestParameters;
+  DeviceManagementListDeviceClassesQueryParam &
+    DeviceManagementListDeviceClassesHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementGetDeviceClassHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetDeviceClassHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetDeviceClassHeaders;
+}
+
+export type DeviceManagementGetDeviceClassParameters =
+  DeviceManagementGetDeviceClassHeaderParam & RequestParameters;
+
+export interface DeviceManagementUpdateDeviceClassHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+/** The resource instance. */
+export type DeviceClassResourceMergeAndPatch = Partial<DeviceClass>;
 
 export interface DeviceManagementUpdateDeviceClassBodyParam {
-  /** The device class json merge patch body. Currently only supports patching friendlyName. */
-  body: PatchBody;
+  /** The resource instance. */
+  body: DeviceClassResourceMergeAndPatch;
+}
+
+export interface DeviceManagementUpdateDeviceClassHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementUpdateDeviceClassHeaders;
 }
 
 export interface DeviceManagementUpdateDeviceClassMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/merge-patch+json";
+  /** This request has a JSON Merge Patch body. */
+  contentType: "application/merge-patch+json";
 }
 
 export type DeviceManagementUpdateDeviceClassParameters =
-  DeviceManagementUpdateDeviceClassMediaTypesParam &
+  DeviceManagementUpdateDeviceClassHeaderParam &
+    DeviceManagementUpdateDeviceClassMediaTypesParam &
     DeviceManagementUpdateDeviceClassBodyParam &
     RequestParameters;
-export type DeviceManagementDeleteDeviceClassParameters = RequestParameters;
-export type DeviceManagementListInstallableUpdatesForDeviceClassParameters = RequestParameters;
+
+export interface DeviceManagementDeleteDeviceClassHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementDeleteDeviceClassHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementDeleteDeviceClassHeaders;
+}
+
+export type DeviceManagementDeleteDeviceClassParameters =
+  DeviceManagementDeleteDeviceClassHeaderParam & RequestParameters;
+export type DeviceManagementListInstallableUpdatesForDeviceClassParameters =
+  RequestParameters;
+
+export interface DeviceManagementListDevicesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceManagementListDevicesQueryParamProperties {
-  /** Restricts the set of devices returned. You can filter on GroupId, DeviceClassId, or GroupId and DeploymentStatus. Use DeploymentStatus eq null to query for devices with no deployment status (that have never been deployed to). */
+  /**
+   * Restricts the set of devices returned. You can filter on GroupId,
+   * DeviceClassId, or GroupId and DeploymentStatus. Use DeploymentStatus eq null to
+   * query for devices with no deployment status (that have never been deployed to).
+   */
   filter?: string;
 }
 
@@ -136,28 +222,52 @@ export interface DeviceManagementListDevicesQueryParam {
   queryParameters?: DeviceManagementListDevicesQueryParamProperties;
 }
 
-export type DeviceManagementListDevicesParameters = DeviceManagementListDevicesQueryParam &
-  RequestParameters;
+export interface DeviceManagementListDevicesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListDevicesHeaders;
+}
+
+export type DeviceManagementListDevicesParameters =
+  DeviceManagementListDevicesQueryParam &
+    DeviceManagementListDevicesHeaderParam &
+    RequestParameters;
 
 export interface DeviceManagementImportDevicesBodyParam {
-  /** The types of devices to import. */
-  body: "Devices" | "Modules" | "All";
+  /**
+   * The types of devices to import.
+   *
+   * Possible values: Devices, Modules, All
+   */
+  body: string;
 }
 
-export interface DeviceManagementImportDevicesMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export type DeviceManagementImportDevicesParameters =
+  DeviceManagementImportDevicesBodyParam & RequestParameters;
+
+export interface DeviceManagementGetDeviceHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-export type DeviceManagementImportDevicesParameters = DeviceManagementImportDevicesMediaTypesParam &
-  DeviceManagementImportDevicesBodyParam &
-  RequestParameters;
-export type DeviceManagementGetDeviceParameters = RequestParameters;
+export interface DeviceManagementGetDeviceHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetDeviceHeaders;
+}
+
+export type DeviceManagementGetDeviceParameters =
+  DeviceManagementGetDeviceHeaderParam & RequestParameters;
 export type DeviceManagementGetDeviceModuleParameters = RequestParameters;
 export type DeviceManagementGetUpdateComplianceParameters = RequestParameters;
 
+export interface DeviceManagementListGroupsHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 export interface DeviceManagementListGroupsQueryParamProperties {
-  /** Orders the set of groups returned. You can order by groupId, deviceCount, createdDate, subgroupsWithNewUpdatesAvailableCount, subgroupsWithUpdatesInProgressCount, or subgroupsOnLatestUpdateCount. */
+  /**
+   * Orders the set of groups returned. You can order by groupId, deviceCount,
+   * createdDate, subgroupsWithNewUpdatesAvailableCount,
+   * subgroupsWithUpdatesInProgressCount, or subgroupsOnLatestUpdateCount.
+   */
   orderby?: string;
 }
 
@@ -165,12 +275,47 @@ export interface DeviceManagementListGroupsQueryParam {
   queryParameters?: DeviceManagementListGroupsQueryParamProperties;
 }
 
-export type DeviceManagementListGroupsParameters = DeviceManagementListGroupsQueryParam &
+export interface DeviceManagementListGroupsHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListGroupsHeaders;
+}
+
+export type DeviceManagementListGroupsParameters =
+  DeviceManagementListGroupsQueryParam &
+    DeviceManagementListGroupsHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementGetGroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetGroupHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetGroupHeaders;
+}
+
+export type DeviceManagementGetGroupParameters =
+  DeviceManagementGetGroupHeaderParam & RequestParameters;
+
+export interface DeviceManagementDeleteGroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementDeleteGroupHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementDeleteGroupHeaders;
+}
+
+export type DeviceManagementDeleteGroupParameters =
+  DeviceManagementDeleteGroupHeaderParam & RequestParameters;
+export type DeviceManagementGetUpdateComplianceForGroupParameters =
   RequestParameters;
-export type DeviceManagementGetGroupParameters = RequestParameters;
-export type DeviceManagementDeleteGroupParameters = RequestParameters;
-export type DeviceManagementGetUpdateComplianceForGroupParameters = RequestParameters;
-export type DeviceManagementListBestUpdatesForGroupParameters = RequestParameters;
+export type DeviceManagementListBestUpdatesForGroupParameters =
+  RequestParameters;
+
+export interface DeviceManagementListDeploymentsForGroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceManagementListDeploymentsForGroupQueryParamProperties {
   /** Orders the set of deployments returned. You can order by start date. */
@@ -181,29 +326,60 @@ export interface DeviceManagementListDeploymentsForGroupQueryParam {
   queryParameters?: DeviceManagementListDeploymentsForGroupQueryParamProperties;
 }
 
+export interface DeviceManagementListDeploymentsForGroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementListDeploymentsForGroupHeaders;
+}
+
 export type DeviceManagementListDeploymentsForGroupParameters =
-  DeviceManagementListDeploymentsForGroupQueryParam & RequestParameters;
-export type DeviceManagementGetDeploymentParameters = RequestParameters;
+  DeviceManagementListDeploymentsForGroupQueryParam &
+    DeviceManagementListDeploymentsForGroupHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementGetDeploymentHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetDeploymentHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetDeploymentHeaders;
+}
+
+export type DeviceManagementGetDeploymentParameters =
+  DeviceManagementGetDeploymentHeaderParam & RequestParameters;
 
 export interface DeviceManagementCreateOrUpdateDeploymentBodyParam {
-  /** The deployment properties. */
+  /** Deployment details. */
   body: Deployment;
 }
 
-export interface DeviceManagementCreateOrUpdateDeploymentMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export type DeviceManagementCreateOrUpdateDeploymentParameters =
+  DeviceManagementCreateOrUpdateDeploymentBodyParam & RequestParameters;
+
+export interface DeviceManagementDeleteDeploymentHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-export type DeviceManagementCreateOrUpdateDeploymentParameters =
-  DeviceManagementCreateOrUpdateDeploymentMediaTypesParam &
-    DeviceManagementCreateOrUpdateDeploymentBodyParam &
-    RequestParameters;
-export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
+export interface DeviceManagementDeleteDeploymentHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementDeleteDeploymentHeaders;
+}
+
+export type DeviceManagementDeleteDeploymentParameters =
+  DeviceManagementDeleteDeploymentHeaderParam & RequestParameters;
 export type DeviceManagementGetDeploymentStatusParameters = RequestParameters;
 
+export interface DeviceManagementListDeviceClassSubgroupsForGroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties {
-  /** Restricts the set of device class subgroups returned. You can filter on compat properties by name and value. (i.e. filter=compatProperties/propertyName1 eq 'value1' and compatProperties/propertyName2 eq 'value2') */
+  /**
+   * Restricts the set of device class subgroups returned. You can filter on compat
+   * properties by name and value. (i.e. filter=compatProperties/propertyName1 eq 'value1'
+   * and compatProperties/propertyName2 eq 'value2')
+   */
   filter?: string;
 }
 
@@ -211,12 +387,49 @@ export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParam {
   queryParameters?: DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties;
 }
 
+export interface DeviceManagementListDeviceClassSubgroupsForGroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementListDeviceClassSubgroupsForGroupHeaders;
+}
+
 export type DeviceManagementListDeviceClassSubgroupsForGroupParameters =
-  DeviceManagementListDeviceClassSubgroupsForGroupQueryParam & RequestParameters;
-export type DeviceManagementGetDeviceClassSubgroupParameters = RequestParameters;
-export type DeviceManagementDeleteDeviceClassSubgroupParameters = RequestParameters;
-export type DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters = RequestParameters;
-export type DeviceManagementGetBestUpdatesForDeviceClassSubgroupParameters = RequestParameters;
+  DeviceManagementListDeviceClassSubgroupsForGroupQueryParam &
+    DeviceManagementListDeviceClassSubgroupsForGroupHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementGetDeviceClassSubgroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetDeviceClassSubgroupHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetDeviceClassSubgroupHeaders;
+}
+
+export type DeviceManagementGetDeviceClassSubgroupParameters =
+  DeviceManagementGetDeviceClassSubgroupHeaderParam & RequestParameters;
+
+export interface DeviceManagementDeleteDeviceClassSubgroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementDeleteDeviceClassSubgroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementDeleteDeviceClassSubgroupHeaders;
+}
+
+export type DeviceManagementDeleteDeviceClassSubgroupParameters =
+  DeviceManagementDeleteDeviceClassSubgroupHeaderParam & RequestParameters;
+export type DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters =
+  RequestParameters;
+export type DeviceManagementGetBestUpdatesForDeviceClassSubgroupParameters =
+  RequestParameters;
+
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties {
   /** Orders the set of deployments returned. You can order by start date. */
@@ -227,16 +440,80 @@ export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam
   queryParameters?: DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties;
 }
 
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementListDeploymentsForDeviceClassSubgroupHeaders;
+}
+
 export type DeviceManagementListDeploymentsForDeviceClassSubgroupParameters =
-  DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam & RequestParameters;
-export type DeviceManagementGetDeploymentForDeviceClassSubgroupParameters = RequestParameters;
-export type DeviceManagementDeleteDeploymentForDeviceClassSubgroupParameters = RequestParameters;
-export type DeviceManagementStopDeploymentParameters = RequestParameters;
-export type DeviceManagementRetryDeploymentParameters = RequestParameters;
-export type DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters = RequestParameters;
+  DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam &
+    DeviceManagementListDeploymentsForDeviceClassSubgroupHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementGetDeploymentForDeviceClassSubgroupHeaders;
+}
+
+export type DeviceManagementGetDeploymentForDeviceClassSubgroupParameters =
+  DeviceManagementGetDeploymentForDeviceClassSubgroupHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementDeleteDeploymentForDeviceClassSubgroupHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementDeleteDeploymentForDeviceClassSubgroupHeaders;
+}
+
+export type DeviceManagementDeleteDeploymentForDeviceClassSubgroupParameters =
+  DeviceManagementDeleteDeploymentForDeviceClassSubgroupHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementStopDeploymentHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementStopDeploymentHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementStopDeploymentHeaders;
+}
+
+export type DeviceManagementStopDeploymentParameters =
+  DeviceManagementStopDeploymentHeaderParam & RequestParameters;
+
+export interface DeviceManagementRetryDeploymentHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementRetryDeploymentHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementRetryDeploymentHeaders;
+}
+
+export type DeviceManagementRetryDeploymentParameters =
+  DeviceManagementRetryDeploymentHeaderParam & RequestParameters;
+export type DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters =
+  RequestParameters;
+
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
 
 export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParamProperties {
-  /** Restricts the set of deployment device states returned. You can filter on deviceId and moduleId and/or deviceState. */
+  /**
+   * Restricts the set of deployment device states returned. You can filter on
+   * deviceId and moduleId and/or deviceState.
+   */
   filter?: string;
 }
 
@@ -244,25 +521,41 @@ export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymen
   queryParameters?: DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParamProperties;
 }
 
+export interface DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentHeaderParam {
+  headers?: RawHttpHeadersInput &
+    DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentHeaders;
+}
+
 export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentParameters =
-  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam & RequestParameters;
+  DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentQueryParam &
+    DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentHeaderParam &
+    RequestParameters;
 
 export interface DeviceManagementGetOperationStatusHeaders {
-  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
-  "If-None-Match"?: string;
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
 export interface DeviceManagementGetOperationStatusHeaderParam {
-  headers: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
+  headers?: RawHttpHeadersInput & DeviceManagementGetOperationStatusHeaders;
 }
 
 export type DeviceManagementGetOperationStatusParameters =
   DeviceManagementGetOperationStatusHeaderParam & RequestParameters;
 
+export interface DeviceManagementListOperationStatusesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 export interface DeviceManagementListOperationStatusesQueryParamProperties {
-  /** Restricts the set of operations returned. Only one specific filter is supported: "status eq 'NotStarted' or status eq 'Running'" */
+  /** Restricts the set of operations returned. Only one specific filter is supported: \"status eq 'NotStarted' or status eq 'Running'\" */
   filter?: string;
-  /** Specifies a non-negative integer n that limits the number of items returned from a collection. The service returns the number of available items up to but not greater than the specified value n. */
+  /**
+   * Specifies a non-negative integer n that limits the number of items returned
+   * from a collection. The service returns the number of available items up to but
+   * not greater than the specified value n.
+   */
   top?: number;
 }
 
@@ -270,35 +563,72 @@ export interface DeviceManagementListOperationStatusesQueryParam {
   queryParameters?: DeviceManagementListOperationStatusesQueryParamProperties;
 }
 
+export interface DeviceManagementListOperationStatusesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListOperationStatusesHeaders;
+}
+
 export type DeviceManagementListOperationStatusesParameters =
-  DeviceManagementListOperationStatusesQueryParam & RequestParameters;
+  DeviceManagementListOperationStatusesQueryParam &
+    DeviceManagementListOperationStatusesHeaderParam &
+    RequestParameters;
+
+export interface DeviceManagementListLogCollectionsHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementListLogCollectionsHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListLogCollectionsHeaders;
+}
+
+export type DeviceManagementListLogCollectionsParameters =
+  DeviceManagementListLogCollectionsHeaderParam & RequestParameters;
+
+export interface DeviceManagementGetLogCollectionHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
+export interface DeviceManagementGetLogCollectionHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementGetLogCollectionHeaders;
+}
+
+export type DeviceManagementGetLogCollectionParameters =
+  DeviceManagementGetLogCollectionHeaderParam & RequestParameters;
 
 export interface DeviceManagementStartLogCollectionBodyParam {
-  /** The log collection properties. */
+  /** Log collection details. */
   body: LogCollection;
 }
 
-export interface DeviceManagementStartLogCollectionMediaTypesParam {
-  /** Request content type */
-  contentType?: "application/json";
+export type DeviceManagementStartLogCollectionParameters =
+  DeviceManagementStartLogCollectionBodyParam & RequestParameters;
+export type DeviceManagementGetLogCollectionDetailedStatusParameters =
+  RequestParameters;
+
+export interface DeviceManagementListHealthOfDevicesHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
 }
 
-export type DeviceManagementStartLogCollectionParameters =
-  DeviceManagementStartLogCollectionMediaTypesParam &
-    DeviceManagementStartLogCollectionBodyParam &
-    RequestParameters;
-export type DeviceManagementGetLogCollectionParameters = RequestParameters;
-export type DeviceManagementListLogCollectionsParameters = RequestParameters;
-export type DeviceManagementGetLogCollectionDetailedStatusParameters = RequestParameters;
-
 export interface DeviceManagementListHealthOfDevicesQueryParamProperties {
-  /** Restricts the set of devices for which device health is returned. You can filter on status, device id and module id. */
-  filter: string;
+  /**
+   * Restricts the set of devices for which device health is returned. You can
+   * filter on status, device id and module id.
+   */
+  filter?: string;
 }
 
 export interface DeviceManagementListHealthOfDevicesQueryParam {
-  queryParameters: DeviceManagementListHealthOfDevicesQueryParamProperties;
+  queryParameters?: DeviceManagementListHealthOfDevicesQueryParamProperties;
+}
+
+export interface DeviceManagementListHealthOfDevicesHeaderParam {
+  headers?: RawHttpHeadersInput & DeviceManagementListHealthOfDevicesHeaders;
 }
 
 export type DeviceManagementListHealthOfDevicesParameters =
-  DeviceManagementListHealthOfDevicesQueryParam & RequestParameters;
+  DeviceManagementListHealthOfDevicesQueryParam &
+    DeviceManagementListHealthOfDevicesHeaderParam &
+    RequestParameters;
+export type InstanceManagementGetLimitsParameters = RequestParameters;
