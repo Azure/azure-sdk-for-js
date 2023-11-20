@@ -359,15 +359,21 @@ The audio file can be loaded into memory using the NodeJS file system APIs. In t
 
 ```js
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
-const fs = require("fs/promises");
+const { stat } = require("fs/promises");
+const { createReadStream } = require("fs");
 
 async function main() {
   console.log("== Transcribe Audio Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentName = "whisper";
-  const audio = await fs.readFile("< path to an audio file >");
-  const result = await client.getAudioTranscription(deploymentName, audio);
+  const name = "<file name>";
+  const filePath = `<directory path>${name}`;
+  const result = await client.getAudioTranslation(deploymentName, {
+    stream: async () => createReadStream(filePath),
+    length: (await stat(filePath)).size,
+    name,
+  });
 
   console.log(`Transcription: ${result.text}`);
 }

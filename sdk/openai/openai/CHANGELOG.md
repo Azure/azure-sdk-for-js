@@ -11,13 +11,18 @@
 ```js
 const { createReadStream } = require("fs");
 const { stat } = require("fs/promises");
-  const name = "countdown.wav";
-  const filePath = `<path>/${name}`;
+
+async function main() {
+  ...
+  const name = "<file name>";
+  const filePath = `<directory path>${name}`;
   const result = await client.getAudioTranscription(deploymentName, {
     stream: async () => createReadStream(filePath),
     length: (await stat(filePath)).size,
     name,
   });
+  ...
+}
 ```
 
 ### Bugs Fixed
