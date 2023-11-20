@@ -88,7 +88,7 @@
     "typescript": "~5.2.0",
     "util": "^0.12.1",
     "sinon": "^17.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "prettier": "^2.5.1",
     "ts-node": "^10.0.0"
   }
