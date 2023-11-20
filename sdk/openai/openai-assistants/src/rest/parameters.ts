@@ -228,7 +228,7 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
-  body?: { file: string; purpose: string; filename?: string };
+  body?: { file: File; purpose: string; filename?: string };
 }
 
 export interface UploadFileMediaTypesParam {

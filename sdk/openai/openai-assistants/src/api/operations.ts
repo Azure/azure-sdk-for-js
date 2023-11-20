@@ -64,7 +64,8 @@ import {
   StreamableMethod,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
+import { createFile } from "@azure/core-rest-pipeline";
+import { stringToUint8Array } from "@azure/core-util";
 import {
   CreateAssistantOptions,
   ListAssistantsOptions,
@@ -1766,9 +1767,8 @@ export function _uploadFileSend(
       ...operationOptionsToRequestParameters(options),
       contentType: (options.contentType as any) ?? "multipart/form-data",
       body: {
-        file: uint8ArrayToString(file, "base64"),
+        file: createFile(file, options?.filename || "unknown.txt"),
         purpose: purpose,
-        filename: options?.filename,
       },
     });
 }
