@@ -6,6 +6,7 @@
 
 - Add `multipartPolicy` and `MultipartRequestBody` to allow for making multipart requests.
 - Add `createFile` and `createFileFromStream` to allow creation of `File` objects for `multipart/form-data` requests.
+- Add `() => Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream>` to `RequestBodyType` which enables creating resettable streams in the request body from asynchronous functions.
 
 ### Breaking Changes
 

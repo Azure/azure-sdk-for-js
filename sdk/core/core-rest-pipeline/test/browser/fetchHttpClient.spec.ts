@@ -420,7 +420,7 @@ describe("FetchHttpClient", function () {
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
     let bodySent = false;
-    const factoryMethod = async () => {
+    const factoryMethod = () => {
       return new ReadableStream({
         start(controller) {
           controller.enqueue(requestText);
