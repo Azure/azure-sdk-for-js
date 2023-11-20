@@ -11,24 +11,7 @@ import {
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+import { isNodeReadableStream, isReadableStream } from "./util/typeGuards";
 
 /**
  * Checks if the body is a Blob or Blob-like
