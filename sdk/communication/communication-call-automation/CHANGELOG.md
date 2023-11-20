@@ -9,11 +9,9 @@
 - Support transfer a participant in a group call to another participant.
 - Add Custom Context payload to Transfer and AddParticipant API.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- Deprecated startRecognizing method signature which accepts Maximum number of DTMF tones as mandatory param, instead use new method signature and set it in DTMF sepecific recognizeOptions.
 
 ## 1.1.0-beta.3 (2023-10-19)
 
