@@ -2,20 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-// import { GetCompletionsOptions, GetEmbeddingsOptions } from "../generated/src/models/options.js";
-import { AssistantsClientOptions, ListAssistantsOptions } from "../generated/src/index.js";
-import {
-  getAudioTranscription,
-  getAudioTranslation,
-  getChatCompletions,
-  getImages,
-  listChatCompletions,
-  listCompletions,
-} from "./api/operations.js";
-import {
-  ListResponseOfAssistant,
-} from "../generated/src/models/models.js";
-import { listAssistants } from "../generated/src/api/operations.js";
+import { AssistantsClientOptions } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
@@ -134,16 +121,5 @@ export class AssistantsClient {
           }),
     });
   }
-
-  /**
-   * Returns textual completions as configured for a given prompt.
-   * @param prompt - The prompt to use for this request.
-   * @param options - The options for this completions request.
-   * @returns The completions for the given prompt.
-   */
-  listAssistants(
-    options: ListAssistantsOptions = { requestOptions: {} }
-  ): Promise<ListResponseOfAssistant> {
-    return listAssistants(this._client, options);
-  }
 }
+

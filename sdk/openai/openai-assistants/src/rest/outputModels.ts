@@ -146,13 +146,21 @@ export interface AssistantMessageOutput {
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContentOutputParent {
+export interface AssistantMessageContentOutput {
   type: string;
+  /** The image file for this thread message content item. */
+  image_file?: AssistantImageFileOutput;
+  /** The text and associated annotations for this thread message content item. */
+  text?: AssistantMessageTextOutput;
+  /** A list of attached file IDs, ordered by creation date in ascending order. */
+  file_ids?: string[];
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata?: Record<string, string>;
 }
 
 /** A representation of image file content in a thread message. */
 export interface AssistantMessageImageFileContentOutput
-  extends AssistantMessageContentOutputParent {
+  extends AssistantMessageContentOutput {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -167,7 +175,7 @@ export interface AssistantImageFileOutput {
 
 /** A representation of a textual item of thread message content. */
 export interface AssistantMessageTextContentOutput
-  extends AssistantMessageContentOutputParent {
+  extends AssistantMessageContentOutput {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -593,10 +601,6 @@ export type ToolDefinitionOutput =
   | CodeInterpreterToolDefinitionOutput
   | RetrievalToolDefinitionOutput
   | FunctionToolDefinitionOutput;
-/** An abstract representation of a single item of thread message content. */
-export type AssistantMessageContentOutput =
-  | AssistantMessageImageFileContentOutput
-  | AssistantMessageTextContentOutput;
 /** An abstract representation of an annotation to text thread message content. */
 export type AssistantMessageTextAnnotationOutput =
   | AssistantMessageTextFileAnnotationOutput
