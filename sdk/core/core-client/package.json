@@ -82,7 +82,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "chai": "^4.2.0",
