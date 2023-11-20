@@ -127,7 +127,7 @@ export function getConstructorAugmentationParameters(
     );
   }
 
-  for (const [_, augmentedParameter] of expectedAugmentationParams) {
+  for (const augmentedParameter of expectedAugmentationParams.values()) {
     if (!customConstructor.getBodyText()?.includes(augmentedParameter)) {
       throw new Error(`Custom constructor is missing parameter ${augmentedParameter}`);
     }
