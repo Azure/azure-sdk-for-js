@@ -272,7 +272,7 @@ export interface GetInQueuePosition {
 }
 
 export interface Unassign {
-  /** Un-assign a job. */
+  /** Unassign a job. */
   post(
     options?: UnassignParameters
   ): StreamableMethod<Unassign200Response | UnassignDefaultResponse>;

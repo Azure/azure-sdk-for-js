@@ -116,7 +116,7 @@
     "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
