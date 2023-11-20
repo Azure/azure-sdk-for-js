@@ -11,7 +11,6 @@ import {
 import { GetCompletionsOptions } from "../models/options.js";
 import {
   _getCompletionsSend,
-  _beginAzureBatchImageGenerationSend,
 } from "../../generated/src/api/operations.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import {
@@ -33,6 +32,7 @@ import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-re
 import { ChatCompletions } from "../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
 import { ImageGenerationOptions } from "../models/options.js";
+import { ImageGenerationOptions as GeneratedImageGenerationOptions } from "../../generated/src/models/models.js";
 import { renameKeysToCamelCase } from "./util.js";
 import {
   AudioResult,
@@ -42,7 +42,7 @@ import {
   GetAudioTranslationOptions,
 } from "../models/audio.js";
 import { createFile } from "@azure/core-rest-pipeline";
-import { GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions } from "../../generated/src/models/options.js";
+import { BeginAzureBatchImageGenerationOptions as GeneratedBatchImageGenerationOptions, GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions } from "../../generated/src/models/options.js";
 import { GetChatCompletionsOptions } from "./models.js";
 
 export function listCompletions(
@@ -388,4 +388,27 @@ function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
     function_call: p.functionCall,
     context: p.context,
   }));
+}
+
+function _beginAzureBatchImageGenerationSend(
+  context: Client,
+  body: GeneratedImageGenerationOptions,
+  options: GeneratedBatchImageGenerationOptions = { requestOptions: {} }
+): StreamableMethod<
+  | BeginAzureBatchImageGeneration202Response
+  | BeginAzureBatchImageGenerationDefaultResponse
+  | BeginAzureBatchImageGenerationLogicalResponse
+> {
+  return context
+    .path("/images/generations:submit")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        prompt: body["prompt"],
+        n: body["n"],
+        size: body["size"],
+        response_format: body["responseFormat"],
+        user: body["user"],
+      },
+    });
 }
