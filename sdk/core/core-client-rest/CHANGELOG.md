@@ -1,14 +1,10 @@
 # Release History
 
-## 1.1.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.5 (2023-11-20)
 
 ### Bugs Fixed
 
-### Other Changes
+- Keeps request body of raw bytes for requests with `application/octet-stream` content type.
 
 ## 1.1.4 (2023-07-06)
 
