@@ -427,7 +427,7 @@ export function setClientRequestIdPolicy(requestIdHeaderName?: string): Pipeline
 export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
-export type StreamProducer = () => Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream>;
+export type StreamProducer = (() => Promise<ReadableStream<Uint8Array> | NodeJS.ReadableStream>) | (() => ReadableStream<Uint8Array> | NodeJS.ReadableStream);
 
 // @public
 export function systemErrorRetryPolicy(options?: SystemErrorRetryPolicyOptions): PipelinePolicy;
