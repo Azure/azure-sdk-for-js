@@ -84,7 +84,7 @@ describe("Interfaces", () => {
     originalFile.addInterface({
       name: "Human",
       properties: [{ name: "pets", type: "Dog[]" }],
-    })
+    });
     customFile.addInterface({
       name: "Pet",
       docs: ["@azsdk-rename(Dog)"],
@@ -96,6 +96,8 @@ describe("Interfaces", () => {
 
     expect(originalFile.getInterface("Dog")).to.be.undefined;
     expect(originalFile.getInterface("Pet")).not.to.be.undefined;
-    expect(originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText()).to.equal("Pet[]");
+    expect(originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText()).to.equal(
+      "Pet[]"
+    );
   });
 });
