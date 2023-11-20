@@ -1,6 +1,6 @@
 # Release History
     
-## 3.1.0 (2023-10-31)
+## 4.0.0 (2023-10-31)
     
 **Features**
 
@@ -19,6 +19,9 @@
   - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
   - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
     
+**Breaking Changes**
+
+  - Parameter totalBytesPerSession has a more constraining minimum value
     
 ## 3.0.0 (2023-07-05)
     
