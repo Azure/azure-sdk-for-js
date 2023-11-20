@@ -4447,7 +4447,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231117
+      typescript: 5.4.0-dev.20231119
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4456,7 +4456,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231117
+      typescript: 5.4.0-dev.20231119
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9158,8 +9158,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231117:
-    resolution: {integrity: sha512-qJs5vq279esPS+UX+NlDaSB8aDc9NiC1VLo6cHGrEVMUV8e9WTMic5T92KgDsExf239vViwmKNvtSMGf90aDOA==}
+  /typescript@5.4.0-dev.20231119:
+    resolution: {integrity: sha512-a8JGI0ifhQ0VM9dJhSWWZnSKQu6Bgm16G32BHDOIhEuLcn0uWcfA2ZHeazTiqYEAzja+zsN+Y4f8yliGW0K3+A==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -14158,20 +14158,22 @@ packages:
     dev: false
 
   file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-iiLwdGzmDz8BL4BKdvXrhwQqZ7aRvxlAfYTIImqmaoKOikQ1HKoKBY/Ie/SWti+Hcro8jhSVplcFkS70gV3esA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-lsISvRWGHwxKw8TP9L7epuqo9CAf4R114g7Cwd84V7FC7YleZnCf1cpUXGTtVdiHLdlPpEkZfKvx9SVKIwlAdg==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
