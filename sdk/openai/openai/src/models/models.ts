@@ -705,7 +705,7 @@ export interface EmbeddingsOptions {
    * Input texts to get embeddings for, encoded as a an array of strings.
    * Each input must not exceed 2048 tokens in length.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * Unless you are embedding code, we suggest replacing newlines (\\n) in your input with a single space,
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
