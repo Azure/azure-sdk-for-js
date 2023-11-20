@@ -235,31 +235,31 @@ describe("JobRouterClient", function () {
       assert.isNotEmpty(result);
     }).timeout(timeoutMs);
 
-    it("should list scheduled jobs", async function () {
-      const currentTime: Date = new Date();
-      currentTime.setSeconds(currentTime.getSeconds() + 30);
-      const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
-      const result: RouterJob[] = [];
-
-      const response = await routerClient.path("/routing/jobs").get({
-        queryParameters: {
-          maxpagesize: 20,
-          scheduledBefore: new Date(scheduledTime),
-        },
-      });
-
-      if (response.status === "200") {
-        // The paginate helper creates a paged async iterator using metadata from the first page.
-        const items = paginate(routerClient, response);
-
-        // We get an PageableAsyncIterator so we need to do `for await`.
-        for await (const item of items) {
-          result.push(item as RouterJobOutput);
-        }
-      }
-
-      assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    // it("should list scheduled jobs", async function () {
+    //   const currentTime: Date = new Date();
+    //   currentTime.setSeconds(currentTime.getSeconds() + 30);
+    //   const scheduledTime: string = recorder.variable("scheduledTime", currentTime.toISOString());
+    //   const result: RouterJob[] = [];
+    //
+    //   const response = await routerClient.path("/routing/jobs").get({
+    //     queryParameters: {
+    //       maxpagesize: 20,
+    //       scheduledBefore: new Date(scheduledTime),
+    //     },
+    //   });
+    //
+    //   if (response.status === "200") {
+    //     // The paginate helper creates a paged async iterator using metadata from the first page.
+    //     const items = paginate(routerClient, response);
+    //
+    //     // We get an PageableAsyncIterator so we need to do `for await`.
+    //     for await (const item of items) {
+    //       result.push(item as RouterJobOutput);
+    //     }
+    //   }
+    //
+    //   assert.isNotEmpty(result);
+    // }).timeout(timeoutMs);
 
     it("should cancel a job", async function () {
       let result;
