@@ -407,6 +407,18 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
   };
 }
 
+export function _getEmbeddingsSend(
+  context: Client,
+  deploymentId: string,
+  body: EmbeddingsOptions,
+  options: GetEmbeddingsOptions = { requestOptions: {} }
+): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: { user: body["user"], model: body["model"], input: body["input"] },
+  });
+}
+
 export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
@@ -644,18 +656,6 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   return response_format !== "verbose_json"
     ? body
     : (renameKeysToCamelCase(body) as AudioResult<Format>);
-}
-
-export function _getEmbeddingsSend(
-  context: Client,
-  deploymentId: string,
-  body: EmbeddingsOptions,
-  options: GetEmbeddingsOptions = { requestOptions: {} }
-): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
-    ...operationOptionsToRequestParameters(options),
-    body: { user: body["user"], model: body["model"], input: body["input"] },
-  });
 }
 
 export function _getChatCompletionsWithAzureExtensionsSend(

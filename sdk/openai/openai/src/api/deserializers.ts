@@ -13,7 +13,6 @@ import {
   ChatMessage,
   ChatRole,
   Completions,
-  ContentFilterResults,
   PromptFilterResult,
 } from "../models/models.js";
 import {
@@ -23,6 +22,7 @@ import {
   ContentFilterResultsOutput,
   PromptFilterResultOutput,
 } from "../rest/outputModels.js";
+import { ContentFilterResults } from "./models.js";
 export function getCompletionsResult(body: Record<string, any>): Omit<Completions, "usage"> {
   return {
     id: body["id"],

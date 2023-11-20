@@ -13,7 +13,6 @@ export {
   Completions,
   PromptFilterResult,
   ContentFilterResult,
-  ContentFilterResults,
   ContentFilterSeverity,
   Choice,
   CompletionsLogProbabilityModel,

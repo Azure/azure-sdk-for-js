@@ -5,7 +5,6 @@ import {
   ChatMessage,
   ChatRole,
   Completions,
-  ContentFilterResults,
   PromptFilterResult,
 } from "../../generated/src/models/models.js";
 import {
@@ -16,6 +15,7 @@ import {
   PromptFilterResultOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { ChatCompletions } from "../models/models.js";
+import { ContentFilterResults } from "./models.js";
 
 function getPromptFilterResult(body: Record<string, any>): {
   promptFilterResults?: PromptFilterResult[];
