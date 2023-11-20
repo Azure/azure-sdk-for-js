@@ -21,9 +21,7 @@ export type AudioResult<ResponseFormat extends AudioResultFormat> = {
 }[ResponseFormat];
 
 // @public
-export type AudioResultFormat =
-/** This format will return an JSON structure containing a single \"text\" with the transcription. */
-"json"
+export type AudioResultFormat = "json"
 /** This format will return an JSON structure containing an enriched structure with the transcription. */
 | "verbose_json"
 /** This will make the response return the transcription as plain/text. */
@@ -172,30 +170,22 @@ export interface CompletionsUsage {
 }
 
 // @public
-export interface ContentFilterErrorResults {
-    error: ErrorModel;
-}
-
-// @public
 export interface ContentFilterResult {
     filtered: boolean;
     severity: ContentFilterSeverity;
 }
 
 // @public
-export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
-
-// @public
-export type ContentFilterSeverity = string;
-
-// @public
-export interface ContentFilterSuccessResults {
-    error?: undefined;
+export interface ContentFilterResults {
+    error?: ErrorModel;
     hate?: ContentFilterResult;
     selfHarm?: ContentFilterResult;
     sexual?: ContentFilterResult;
     violence?: ContentFilterResult;
 }
+
+// @public
+export type ContentFilterSeverity = string;
 
 // @public
 export interface EmbeddingItem {
@@ -269,7 +259,7 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetCompletionsOptions extends OperationOptions {
     bestOf?: number;
     echo?: boolean;
@@ -287,7 +277,7 @@ export interface GetCompletionsOptions extends OperationOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetEmbeddingsOptions extends OperationOptions {
     model?: string;
     user?: string;
@@ -356,5 +346,7 @@ export interface PromptFilterResult {
     contentFilterResults?: ContentFilterResults;
     promptIndex: number;
 }
+
+// (No @packageDocumentation comment for this package)
 
 ```

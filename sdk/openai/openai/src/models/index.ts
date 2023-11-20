@@ -10,12 +10,10 @@
  */
 
 export {
-  Embeddings,
-  EmbeddingItem,
-  EmbeddingsUsage,
   Completions,
   PromptFilterResult,
   ContentFilterResult,
+  ContentFilterResults,
   ContentFilterSeverity,
   Choice,
   CompletionsLogProbabilityModel,
@@ -39,12 +37,8 @@ export {
   AzureOpenAIOperationState,
   ImageSize,
   ImageGenerationResponseFormat,
+  Embeddings,
+  EmbeddingItem,
+  EmbeddingsUsage,
 } from "./models.js";
 export { GetEmbeddingsOptions, GetCompletionsOptions, ImageGenerationOptions } from "./options.js";
-export {
-  AzureExtensionsOptions,
-  GetChatCompletionsOptions,
-  ContentFilterErrorResults,
-  ContentFilterSuccessResults,
-  ContentFilterResults,
-} from "../api/models.js";

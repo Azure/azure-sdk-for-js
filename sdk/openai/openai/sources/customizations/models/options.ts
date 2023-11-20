@@ -21,6 +21,7 @@ export interface ImageGenerationOptions extends OperationOptions {
   user?: string;
 }
 
+/** Options for to custom embeddings request */
 export interface GetEmbeddingsOptions extends OperationOptions {
   /**
    * An identifier for the caller or end user of the operation. This may be used for tracking
@@ -35,6 +36,7 @@ export interface GetEmbeddingsOptions extends OperationOptions {
   model?: string;
 }
 
+/** Options for to custom completions request */
 export interface GetCompletionsOptions extends OperationOptions {
   /** The maximum number of tokens to generate. */
   maxTokens?: number;

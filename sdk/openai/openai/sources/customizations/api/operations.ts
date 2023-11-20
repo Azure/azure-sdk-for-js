@@ -9,9 +9,7 @@ import {
   ImageLocation,
 } from "../../generated/src/models/models.js";
 import { GetCompletionsOptions } from "../models/options.js";
-import {
-  _getCompletionsSend,
-} from "../../generated/src/api/operations.js";
+import { _getCompletionsSend } from "../../generated/src/api/operations.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import {
   BeginAzureBatchImageGeneration202Response,
@@ -42,7 +40,10 @@ import {
   GetAudioTranslationOptions,
 } from "../models/audio.js";
 import { createFile } from "@azure/core-rest-pipeline";
-import { BeginAzureBatchImageGenerationOptions as GeneratedBatchImageGenerationOptions, GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions } from "../../generated/src/models/options.js";
+import {
+  BeginAzureBatchImageGenerationOptions as GeneratedBatchImageGenerationOptions,
+  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
+} from "../../generated/src/models/options.js";
 import { GetChatCompletionsOptions } from "./models.js";
 
 export function listCompletions(
@@ -399,16 +400,14 @@ function _beginAzureBatchImageGenerationSend(
   | BeginAzureBatchImageGenerationDefaultResponse
   | BeginAzureBatchImageGenerationLogicalResponse
 > {
-  return context
-    .path("/images/generations:submit")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        prompt: body["prompt"],
-        n: body["n"],
-        size: body["size"],
-        response_format: body["responseFormat"],
-        user: body["user"],
-      },
-    });
+  return context.path("/images/generations:submit").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: body["prompt"],
+      n: body["n"],
+      size: body["size"],
+      response_format: body["responseFormat"],
+      user: body["user"],
+    },
+  });
 }
