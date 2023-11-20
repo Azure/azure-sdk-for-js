@@ -29,11 +29,34 @@ export function augmentImports(
     mergeImportIntoFile(customImportDecl, originalFile, importMap)
   );
 
-  removeEmptyImports(originalFile.getImportDeclarations());
+  removeEmptyImports(originalFile);
+  removeSelfImports(originalFile);
 }
 
-function removeEmptyImports(importDeclarations: ImportDeclaration[]) {
-  importDeclarations.forEach((importDecl) => {
+function removeSelfImports(originalFile: SourceFile) {
+  const filePath = originalFile.getFilePath();
+  const filePathObject = path.parse(filePath);
+  const filePathWithoutExt = removeFileExtension(filePath);
+
+  originalFile
+    .getImportDeclarations()
+    .filter(isSelfImport)
+    .forEach((originalImport) => originalImport.remove());
+
+  function isSelfImport(originalImport: ImportDeclaration) {
+    const modulePath = originalImport.getModuleSpecifierValue();
+    const moduleAbsolutePath = path.resolve(filePathObject.dir, modulePath);
+    return removeFileExtension(moduleAbsolutePath) === filePathWithoutExt;
+  }
+}
+
+function removeFileExtension(filePath: string): string {
+  const filePathObject = path.parse(filePath);
+  return filePath.slice(0, -filePathObject.ext.length - 1);
+}
+
+function removeEmptyImports(originalFile: SourceFile) {
+  originalFile.getImportDeclarations().forEach((importDecl) => {
     const isEmpty =
       !importDecl.getDefaultImport() &&
       !importDecl.getNamespaceImport() &&

@@ -3,7 +3,7 @@
 
 import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
 import { ensureDir, copy } from "fs-extra";
-import * as path from "path";
+import * as path from "upath";
 import {
   Project,
   FunctionDeclaration,
@@ -238,35 +238,9 @@ export function mergeModuleDeclarations(
 
   augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
-  removeSelfImports(originalVirtualSourceFile);
   sortSourceFileContents(originalVirtualSourceFile);
 
   return originalVirtualSourceFile.getFullText();
-}
-
-function removeSelfImports(originalFile: SourceFile) {
-  const originalPathObject = path.parse(originalFile.getFilePath()); // /.../src/file.ts
-  removeFileExtension(originalPathObject);
-  const originalPath = path.format(originalPathObject); // src/file
-
-  for (const originalImport of originalFile.getImportDeclarations()) {
-    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./file.js
-    removeFileExtension(modulePathObject);
-    const modulePath = path.format(modulePathObject); // ./file
-
-    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath); // /.../src/, ./file -> /.../src/file
-
-    if (moduleAbsolutePath === originalPath) {
-      originalImport.remove();
-    }
-  }
-
-  function removeFileExtension(parsedPath: path.ParsedPath): void {
-    if (parsedPath.ext.length) {
-      parsedPath.base = parsedPath.base.slice(0, -parsedPath.ext.length);
-      parsedPath.ext = "";
-    }
-  }
 }
 
 function commonPrefix(a: string, b: string) {
