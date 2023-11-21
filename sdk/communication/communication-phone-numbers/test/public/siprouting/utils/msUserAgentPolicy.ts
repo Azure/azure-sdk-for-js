@@ -15,7 +15,6 @@ export function createMSUserAgentPolicy(): PipelinePolicy {
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const useragent = env.AZURE_USERAGENT_OVERRIDE;
 
-      request.headers.set("x-ms-useragent", "acs-test");
       if (useragent) {
         request.headers.set("x-ms-useragent", useragent);
       }
