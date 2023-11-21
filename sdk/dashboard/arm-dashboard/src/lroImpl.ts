@@ -6,29 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { AbortSignalLike } from "@azure/abort-controller";
 import { LongRunningOperation, LroResponse } from "@azure/core-lro";
 
-export class LroImpl<T> implements LongRunningOperation<T> {
-  constructor(
-    private sendOperationFn: (args: any, spec: any) => Promise<LroResponse<T>>,
-    private args: Record<string, unknown>,
-    private spec: {
-      readonly requestBody?: unknown;
-      readonly path?: string;
-      readonly httpMethod: string;
-    } & Record<string, any>,
-    public requestPath: string = spec.path!,
-    public requestMethod: string = spec.httpMethod
-  ) {}
-  public async sendInitialRequest(): Promise<LroResponse<T>> {
-    return this.sendOperationFn(this.args, this.spec);
-  }
-  public async sendPollRequest(path: string): Promise<LroResponse<T>> {
-    const { requestBody, ...restSpec } = this.spec;
-    return this.sendOperationFn(this.args, {
-      ...restSpec,
-      path,
-      httpMethod: "GET"
-    });
-  }
+export function createLroSpec<T>(inputs: {
+  sendOperationFn: (args: any, spec: any) => Promise<LroResponse<T>>;
+  args: Record<string, unknown>;
+  spec: {
+    readonly requestBody?: unknown;
+    readonly path?: string;
+    readonly httpMethod: string;
+  } & Record<string, any>;
+}): LongRunningOperation<T> {
+  const { args, spec, sendOperationFn } = inputs;
+  return {
+    requestMethod: spec.httpMethod,
+    requestPath: spec.path!,
+    sendInitialRequest: () => sendOperationFn(args, spec),
+    sendPollRequest: (
+      path: string,
+      options?: { abortSignal?: AbortSignalLike }
+    ) => {
+      const { requestBody, ...restSpec } = spec;
+      return sendOperationFn(args, {
+        ...restSpec,
+        httpMethod: "GET",
+        path,
+        abortSignal: options?.abortSignal
+      });
+    }
+  };
 }

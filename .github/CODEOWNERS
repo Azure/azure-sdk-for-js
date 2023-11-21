@@ -327,6 +327,9 @@
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
