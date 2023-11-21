@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { StreamProducer } from "../interfaces";
-import { toWebStream } from "./stream";
+import { makeAsyncIterable, toWebStream } from "./stream";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -80,11 +80,19 @@ export async function createFileFromStream(
     size: options.size ?? -1,
     name,
     stream: () => {
-      const transformStream = new TransformStream();
-      setTimeout(async () => {
-        toWebStream(await stream()).pipeThrough(transformStream);
-      }, 0);
-      return transformStream.readable;
+      return new ReadableStream({
+        async pull(controller) {
+          try {
+            const s = toWebStream(await stream());
+            makeAsyncIterable<Uint8Array>(s);
+            for await (const chunk of s) {
+              controller.enqueue(chunk);
+            }
+          } catch (error) {
+            controller.error(error);
+          }
+        },
+      });
     },
   };
 }

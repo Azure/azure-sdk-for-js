@@ -24,7 +24,9 @@ async function* streamAsyncIterator(
   }
 }
 
-function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterableReadableStream<T> {
+export function makeAsyncIterable<T>(
+  webStream: any
+): asserts webStream is AsyncIterableReadableStream<T> {
   if (!webStream[Symbol.asyncIterator]) {
     webStream[Symbol.asyncIterator] = streamAsyncIterator.bind(webStream);
   }
