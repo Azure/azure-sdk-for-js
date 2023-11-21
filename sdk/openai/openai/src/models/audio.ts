@@ -84,6 +84,7 @@ export interface GetAudioTranslationOptions extends OperationOptions {
 
 /** The result format of an audio task */
 export type AudioResultFormat =
+  /** This format will return an JSON structure containing a single \"text\" with the transcription. */
   | "json"
   /** This format will return an JSON structure containing an enriched structure with the transcription. */
   | "verbose_json"
