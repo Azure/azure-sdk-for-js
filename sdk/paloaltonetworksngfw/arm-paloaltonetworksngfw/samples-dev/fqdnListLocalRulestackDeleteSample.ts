@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a FqdnListLocalRulestackResource
  *
  * @summary Delete a FqdnListLocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/FqdnListLocalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_Delete_MaximumSet_Gen.json
  */
 async function fqdnListLocalRulestackDeleteMaximumSetGen() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function fqdnListLocalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a FqdnListLocalRulestackResource
  *
  * @summary Delete a FqdnListLocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/FqdnListLocalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListLocalRulestack_Delete_MinimumSet_Gen.json
  */
 async function fqdnListLocalRulestackDeleteMinimumSetGen() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Refresh counters
  *
  * @summary Refresh counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_refreshCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_refreshCounters_MaximumSet_Gen.json
  */
 async function localRulesRefreshCountersMaximumSetGen() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function localRulesRefreshCountersMaximumSetGen() {
  * This sample demonstrates how to Refresh counters
  *
  * @summary Refresh counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_refreshCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_refreshCounters_MinimumSet_Gen.json
  */
 async function localRulesRefreshCountersMinimumSetGen() {
   const subscriptionId =
