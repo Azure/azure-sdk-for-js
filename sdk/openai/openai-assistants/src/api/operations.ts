@@ -193,7 +193,7 @@ export async function _listAssistantsDeserialize(
       description: p["description"],
       model: p["model"],
       instructions: p["instructions"],
-      tools: (p["tools"] ?? []).map((p) => ({ type: p["type"] })),
+      tools: (p["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
       fileIds: p["file_ids"],
       metadata: p["metadata"],
     })),
@@ -237,7 +237,7 @@ export async function _retrieveAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
@@ -270,6 +270,7 @@ export function _modifyAssistantSend(
         instructions: modificationOptions["instructions"],
         tools: (modificationOptions["tools"] ?? []).map((p) => ({
           type: p["type"],
+          function: p["function"] || undefined
         })),
         file_ids: modificationOptions["fileIds"],
         metadata: modificationOptions["metadata"],
@@ -292,7 +293,7 @@ export async function _modifyAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
@@ -534,15 +535,9 @@ export function _createThreadSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         messages: (body["messages"] ?? []).map((p) => ({
-          id: p["id"],
           object: p["object"],
-          created_at: p["createdAt"].getTime(),
-          thread_id: p["threadId"],
           role: p["role"],
-          content: (p["content"] ?? []).map((p) => ({ type: p["type"] })),
-          assistant_id: p["assistantId"],
-          run_id: p["runId"],
-          metadata: p["metadata"],
+          content: p["content"],
         })),
         metadata: body["metadata"],
       },
@@ -1027,7 +1022,7 @@ export function _createRunSend(
         assistant_id: assistantId,
         model: options?.model,
         instructions: options?.instructions,
-        tools: (options?.tools ?? []).map((p) => ({ type: p["type"] })),
+        tools: (options?.tools ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
         metadata: options?.metadata,
       },
     });
@@ -1048,7 +1043,8 @@ export async function _createRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1057,7 +1053,7 @@ export async function _createRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -1130,13 +1126,13 @@ export async function _listRunsDeserialize(
       status: p["status"],
       requiredAction: !p.required_action
         ? undefined
-        : { type: p.required_action?.["type"] },
+        : { type: p.required_action?.["type"], submitToolOutputs: p.required_action?.["submit_tool_outputs"] || undefined },
       lastError: !p.last_error
         ? undefined
         : { code: p.last_error?.["code"], message: p.last_error?.["message"] },
       model: p["model"],
       instructions: p["instructions"],
-      tools: (p["tools"] ?? []).map((p) => ({ type: p["type"] })),
+      tools: (p["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
       fileIds: p["file_ids"],
       metadata: p["metadata"],
       createdAt: new Date(p["created_at"]),
@@ -1190,7 +1186,8 @@ export async function _retrieveRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1199,7 +1196,7 @@ export async function _retrieveRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -1266,7 +1263,8 @@ export async function _modifyRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1275,7 +1273,7 @@ export async function _modifyRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -1352,7 +1350,8 @@ export async function _submitRunToolOutputsDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1361,7 +1360,7 @@ export async function _submitRunToolOutputsDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -1432,7 +1431,8 @@ export async function _cancelRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1441,7 +1441,7 @@ export async function _cancelRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -1494,21 +1494,14 @@ export function _createThreadAndRunSend(
           ? undefined
           : {
               messages: (body.thread?.["messages"] ?? []).map((p) => ({
-                id: p["id"],
-                object: p["object"],
-                created_at: p["createdAt"].getTime(),
-                thread_id: p["threadId"],
                 role: p["role"],
-                content: (p["content"] ?? []).map((p) => ({ type: p["type"] })),
-                assistant_id: p["assistantId"],
-                run_id: p["runId"],
-                metadata: p["metadata"],
+                content: p["content"],
               })),
               metadata: body.thread?.["metadata"],
             },
         model: body["model"],
         instructions: body["instructions"],
-        tools: (body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+        tools: (body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
         metadata: body["metadata"],
       },
     });
@@ -1529,7 +1522,8 @@ export async function _createThreadAndRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : { type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1538,7 +1532,7 @@ export async function _createThreadAndRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),

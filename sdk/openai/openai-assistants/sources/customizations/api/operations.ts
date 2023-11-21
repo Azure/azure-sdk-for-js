@@ -601,3 +601,92 @@ export async function uploadFile(
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
 }
+
+export function _createThreadAndRunSend(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: CreateThreadAndRunOptions = { requestOptions: {} }
+): StreamableMethod<CreateThreadAndRun200Response> {
+  return context
+    .path("/threads/runs")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        assistant_id: body["assistantId"],
+        thread: !body.thread
+          ? undefined
+          : {
+              messages: (body.thread?.["messages"] ?? []).map((p) => ({
+                role: p["role"],
+                content: p["content"],
+              })),
+              metadata: body.thread?.["metadata"],
+            },
+        model: body["model"],
+        instructions: body["instructions"],
+        tools: (body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+        metadata: body["metadata"],
+      },
+    });
+}
+
+export async function _createThreadAndRunDeserialize(
+  result: CreateThreadAndRun200Response
+): Promise<AssistantRun> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    threadId: result.body["thread_id"],
+    assistantId: result.body["assistant_id"],
+    status: result.body["status"],
+    requiredAction: !result.body.required_action
+      ? undefined
+      : { type: result.body.required_action?.["type"] },
+    lastError: !result.body.last_error
+      ? undefined
+      : {
+          code: result.body.last_error?.["code"],
+          message: result.body.last_error?.["message"],
+        },
+    model: result.body["model"],
+    instructions: result.body["instructions"],
+    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+    fileIds: result.body["file_ids"],
+    metadata: result.body["metadata"],
+    createdAt: new Date(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null
+        ? null
+        : new Date(result.body["expires_at"]),
+    startedAt:
+      result.body["started_at"] === null
+        ? null
+        : new Date(result.body["started_at"]),
+    completedAt:
+      result.body["completed_at"] === null
+        ? null
+        : new Date(result.body["completed_at"]),
+    cancelledAt:
+      result.body["cancelled_at"] === null
+        ? null
+        : new Date(result.body["cancelled_at"]),
+    failedAt:
+      result.body["failed_at"] === null
+        ? null
+        : new Date(result.body["failed_at"]),
+  };
+}
+
+/** Creates a new assistant thread and immediately starts a run using that new thread. */
+export async function createThreadAndRun(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: CreateThreadAndRunOptions = { requestOptions: {} }
+): Promise<AssistantRun> {
+  const result = await _createThreadAndRunSend(context, body, options);
+  return _createThreadAndRunDeserialize(result);
+}

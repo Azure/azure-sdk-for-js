@@ -123,7 +123,14 @@ export interface AssistantFileDeletionStatus {
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
-  messages?: AssistantMessage[];
+  messages?: {
+    /** The object type, which is always 'thread.message'. */
+    object: "thread.message";
+    /** The role associated with the assistant thread message. */
+    role: AssistantRole;
+    /** The list of content items associated with the assistant thread message. */
+    content: string;
+  }[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
@@ -131,13 +138,13 @@ export interface AssistantThreadCreationOptions {
 /** A single message within an assistant thread. */
 export interface AssistantMessage {
   /** The identifier, which can be referenced in API endpoints. */
-  id: string;
+  id?: string;
   /** The object type, which is always 'thread.message'. */
   object: "thread.message";
   /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
+  createdAt?: Date;
   /** The ID of the thread that this message belongs to. */
-  threadId: string;
+  threadId?: string;
   /** The role associated with the assistant thread message. */
   role: AssistantRole;
   /** The list of content items associated with the assistant thread message. */
@@ -274,12 +281,13 @@ export type RunStatus = string;
 export interface RequiredAction {
   /** the discriminator possible values submit_tool_outputs */
   type: string;
+  submitToolOutputs?: SubmitToolOutputsDetails;
 }
 
 /** The details describing tools that should be called to submit tool outputs. */
 export interface SubmitToolOutputsDetails {
   /** The list of tool calls that must be resolved for the assistant thread run to continue. */
-  toolCalls: ToolCall[];
+  tool_calls: ToolCall[];
 }
 
 /**
