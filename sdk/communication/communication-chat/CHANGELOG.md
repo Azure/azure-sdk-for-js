@@ -1,14 +1,9 @@
 # Release History
 
-## 1.4.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.5.0-beta.1 (Unreleased)
 
 ### Other Changes
+- Updated @azure/communication-signaling to 1.0.0-beta.23
 
 ## 1.4.0-beta.2 (2023-10-10)
 

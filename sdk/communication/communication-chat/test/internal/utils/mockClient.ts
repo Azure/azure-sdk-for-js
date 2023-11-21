@@ -82,16 +82,14 @@ export const mockMessageContent: RestModel.ChatMessageContent = {
   attachments: [
     {
       id: "id",
-      attachmentType: "teamsInlineImage",
-      contentType: "png",
+      attachmentType: "image",
       name: "images",
       url: "url",
       previewUrl: "previewUrl",
     },
     {
       id: "id1",
-      attachmentType: "teamsImage",
-      contentType: "png",
+      attachmentType: "image",
       name: "picture1.png",
       url: "url1",
       previewUrl: "previewUrl1",
@@ -99,7 +97,6 @@ export const mockMessageContent: RestModel.ChatMessageContent = {
     {
       id: "id2",
       attachmentType: "file",
-      contentType: "docx",
       name: "report.docx",
       url: "url2",
       previewUrl: "previewUrl2",
@@ -119,16 +116,14 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
     attachments: [
       {
         id: "id",
-        attachmentType: "teamsInlineImage",
-        contentType: "png",
+        attachmentType: "image",
         name: "images",
         url: "url",
         previewUrl: "previewUrl",
       },
       {
         id: "id1",
-        attachmentType: "teamsImage",
-        contentType: "png",
+        attachmentType: "image",
         name: "picture1.png",
         url: "url1",
         previewUrl: "previewUrl1",
@@ -136,7 +131,6 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
       {
         id: "id2",
         attachmentType: "file",
-        contentType: "docx",
         name: "report.docx",
         url: "url2",
         previewUrl: "previewUrl2",

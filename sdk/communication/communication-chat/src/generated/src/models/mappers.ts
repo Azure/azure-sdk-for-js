@@ -532,13 +532,7 @@ export const ChatAttachment: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["teamsInlineImage", "teamsImage", "file"]
-        }
-      },
-      contentType: {
-        serializedName: "contentType",
-        type: {
-          name: "String"
+          allowedValues: ["image", "file"]
         }
       },
       name: {
@@ -549,7 +543,6 @@ export const ChatAttachment: coreClient.CompositeMapper = {
       },
       url: {
         serializedName: "url",
-        required: true,
         type: {
           name: "String"
         }
