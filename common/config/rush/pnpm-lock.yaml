@@ -14613,20 +14613,22 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-kcDzZ8zZXD0c9hnnEDdECXEw+kvmB0NntVRhBW2k//EtS3iAFUwoRGGpkj9mqpnn81MEPX0lmCV1f+1aeGpgow==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-Sq6BhMxRyQHpESQs0fg8zF0n5FHWN3DeLGBSjrgUGHOHWG7RFdvTD7Ab8X3Td3weURSRbydJL9p2Dd9EdGC09w==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
