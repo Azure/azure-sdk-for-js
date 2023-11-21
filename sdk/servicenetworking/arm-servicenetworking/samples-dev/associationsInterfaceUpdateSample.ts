@@ -31,10 +31,12 @@ async function updateAssociation() {
   const trafficControllerName = "tc1";
   const associationName = "as1";
   const properties: AssociationUpdate = {
-    associationType: "subnets",
-    subnet: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
+    properties: {
+      associationType: "subnets",
+      subnet: {
+        id:
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
+      }
     }
   };
   const credential = new DefaultAzureCredential();

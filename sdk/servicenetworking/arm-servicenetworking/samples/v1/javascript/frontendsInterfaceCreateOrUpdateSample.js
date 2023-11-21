@@ -23,7 +23,7 @@ async function putFrontend() {
   const resourceGroupName = process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
   const trafficControllerName = "tc1";
   const frontendName = "fe1";
-  const resource = { location: "NorthCentralUS" };
+  const resource = { location: "NorthCentralUS", properties: {} };
   const credential = new DefaultAzureCredential();
   const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const result = await client.frontendsInterface.beginCreateOrUpdateAndWait(

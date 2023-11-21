@@ -31,11 +31,13 @@ async function putAssociation() {
   const trafficControllerName = "tc1";
   const associationName = "as1";
   const resource: Association = {
-    associationType: "subnets",
     location: "NorthCentralUS",
-    subnet: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
+    properties: {
+      associationType: "subnets",
+      subnet: {
+        id:
+          "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet-tc/subnets/tc-subnet"
+      }
     }
   };
   const credential = new DefaultAzureCredential();
