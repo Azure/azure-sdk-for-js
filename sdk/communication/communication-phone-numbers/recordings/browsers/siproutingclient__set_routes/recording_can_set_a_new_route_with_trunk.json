@@ -20,13 +20,13 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "dQorSHyMmXJhdRRlvZnOkfOK\u002B3Aky/O9hGANUJiV7ew=",
-        "x-ms-date": "Mon, 13 Nov 2023 13:22:46 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-content-sha256": "CWrMZzJSvO0NEo6BErVllPFy5/v3IZN7hqTCg/gfSrU=",
+        "x-ms-date": "Tue, 21 Nov 2023 16:02:39 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "trunks": {
-          "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test": {
+          "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         }
@@ -36,16 +36,16 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "431",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:22:48 GMT",
-        "MS-CV": "9rInwgUFf0i5Z/IULDgItg.0",
+        "Date": "Tue, 21 Nov 2023 16:02:39 GMT",
+        "MS-CV": "Spn8Z6tzSUqC6gBSv1YY1g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0JyNSZQAAAAD0PLHxEhlRSJTkA1/zbWbtUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ntRcZQAAAABgklRFiYHqTLAEnyvtc7CvUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "795ms"
+        "X-Processing-Time": "859ms"
       },
       "ResponseBody": {
         "trunks": {
-          "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test": {
+          "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -91,9 +91,9 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "GIV3TjoNEzfWZnmhoz3uBbSQtDPWkbLt/4PIP9Oisds=",
-        "x-ms-date": "Mon, 13 Nov 2023 13:22:47 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-content-sha256": "Wb7RCJiQHhB2Rd2L58Xvd6YEmkrPEgdw6kA0eXsNiNA=",
+        "x-ms-date": "Tue, 21 Nov 2023 16:02:40 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "routes": [
@@ -102,7 +102,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test"
+              "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test"
             ]
           }
         ]
@@ -112,16 +112,16 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:22:48 GMT",
-        "MS-CV": "B4x9WyHiuUSnqwiWP25n8Q.0",
+        "Date": "Tue, 21 Nov 2023 16:02:39 GMT",
+        "MS-CV": "34BWiDJH6UiJAQSCx2eJ3w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0KCNSZQAAAABhpixm/pueQKBGPNX8/mZKUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0n9RcZQAAAABOhImAEgmnRLs4JMneEdgeUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "361ms"
+        "X-Processing-Time": "502ms"
       },
       "ResponseBody": {
         "trunks": {
-          "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test": {
+          "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -131,7 +131,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test"
+              "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test"
             ]
           }
         ]
@@ -156,8 +156,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Mon, 13 Nov 2023 13:22:48 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Tue, 21 Nov 2023 16:02:41 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -165,16 +165,16 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "281",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:22:48 GMT",
-        "MS-CV": "vSuTMgm5cka4l49RmF5b8g.0",
+        "Date": "Tue, 21 Nov 2023 16:02:39 GMT",
+        "MS-CV": "cxTBqlhSAUudWP/w8kQRUQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0KSNSZQAAAAC79khqoFMjRJ3cVXWDVXCFUFJHMDFFREdFMDkwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0n9RcZQAAAAAF69JupW3rRpKlg\u002B16DUVJUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "210ms"
+        "X-Processing-Time": "245ms"
       },
       "ResponseBody": {
         "trunks": {
-          "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test": {
+          "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test": {
             "sipSignalingPort": 5678
           }
         },
@@ -184,7 +184,7 @@
             "name": "myFirstRoute",
             "numberPattern": "^\u002B[1-9][0-9]{3,23}$",
             "trunks": [
-              "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test"
+              "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test"
             ]
           }
         ]
@@ -192,7 +192,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "teste0ada600a6c94cf18fbe6a649827a0e9.sanitized.sbc.test",
-    "fqdn-2": "testffca10a3b3144746b2340ce7f467a31d.sanitized.sbc.test"
+    "fqdn-1": "test0003ede5613440e1b03ff7498db11e41.sanitized.sbc.test",
+    "fqdn-2": "test52a2b0078d3e45cd94d4531d69cd5c88.sanitized.sbc.test"
   }
 }
