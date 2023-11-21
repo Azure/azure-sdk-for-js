@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List the security services for rulestack
  *
  * @summary List the security services for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listSecurityServices_MaximumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMaximumSetGen() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function localRulestacksListSecurityServicesMaximumSetGen() {
  * This sample demonstrates how to List the security services for rulestack
  *
  * @summary List the security services for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listSecurityServices_MinimumSet_Gen.json
  */
 async function localRulestacksListSecurityServicesMinimumSetGen() {
   const subscriptionId =
