@@ -8,22 +8,22 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f86081ab-1793-45cb-aed3-db92b77c4261"
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.16.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "756c0183-18fe-4a62-9162-a21421857463"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Date": "Mon, 13 Nov 2023 09:17:22 GMT",
+        "Date": "Tue, 21 Nov 2023 02:02:05 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "58b68098-df3f-4b2a-9b25-54d7657887ca",
+        "x-ms-correlation-request-id": "38f51a7a-4f0b-42c6-90f7-b9191ca83ed2",
         "x-ms-ratelimit-remaining-subscription-deletes": "14999",
-        "x-ms-request-id": "58b68098-df3f-4b2a-9b25-54d7657887ca",
-        "x-ms-routing-request-id": "JAPANEAST:20231113T091723Z:58b68098-df3f-4b2a-9b25-54d7657887ca"
+        "x-ms-request-id": "38f51a7a-4f0b-42c6-90f7-b9191ca83ed2",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20231121T020205Z:38f51a7a-4f0b-42c6-90f7-b9191ca83ed2"
       },
       "ResponseBody": null
     },
@@ -35,30 +35,44 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0a08fbfd-69d5-4801-ad1f-c180ea625de8"
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.16.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "840d2785-6f34-4a4f-8744-bf513253db96"
       },
       "RequestBody": null,
-      "StatusCode": 404,
+      "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "239",
+        "Content-Encoding": "gzip",
+        "Content-Length": "12",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 09:17:23 GMT",
+        "Date": "Tue, 21 Nov 2023 02:02:05 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Vary": "Accept-Encoding",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94",
-        "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94",
-        "x-ms-routing-request-id": "JAPANEAST:20231113T091723Z:bb0d7c5c-e1d5-4bbf-a138-c8754bfd7e94"
+        "x-ms-correlation-request-id": "d6fe5ac9-d8ba-406d-aa7b-c354c492a17f",
+        "x-ms-original-request-ids": [
+          "9373ee74-d154-44bb-a7a0-2b73a47ae35f",
+          "5eaaddbe-7c73-4e4c-99c6-0fb806d4d586",
+          "9442fca7-cfa9-4bba-9b20-c54b6d30d227",
+          "f6590cfb-99ea-4f66-bd12-b1c8f981c0bf",
+          "970559f2-eef6-482e-99de-c59b3aa3a8c0",
+          "316b776f-d5f9-40f5-90a9-10b4da2a238b",
+          "77ec4726-e54d-4de3-99d2-5ef65ca3c699",
+          "58bd30c2-68c7-4033-a25a-d2cc7a3e10f1",
+          "783b609a-f3f5-4795-84e0-e571f83a325d",
+          "f2b74316-38b4-4423-ad49-ee1e1030ca0f",
+          "9e62e1fd-8422-43e1-90a2-5c60398901f2",
+          "ff435911-8402-469a-86ae-fac0dcc14dcd",
+          "0f0b3d60-8a2f-4cd6-8f27-f29f4e7d57ad"
+        ],
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "d6fe5ac9-d8ba-406d-aa7b-c354c492a17f",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20231121T020205Z:d6fe5ac9-d8ba-406d-aa7b-c354c492a17f"
       },
       "ResponseBody": {
-        "error": {
-          "code": "InvalidResourceType",
-          "message": "The resource type \u0027publishers\u0027 could not be found in the namespace \u0027Microsoft.HybridNetwork\u0027 for api version \u00272023-09-01\u0027. The supported api-versions are \u00272023-01-01,2023-04-01-preview\u0027."
-        }
+        "value": []
       }
     }
   ],

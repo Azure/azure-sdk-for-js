@@ -93,4 +93,12 @@ describe("HybridNetwork test", () => {
     }
     assert.equal(resArray.length, 0);
   });
+
+  it("operation list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.operations.list()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
 })

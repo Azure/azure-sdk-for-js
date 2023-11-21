@@ -8,29 +8,31 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0 core-rest-pipeline/1.12.3 Node/v21.1.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "7533cca4-6510-494a-8267-9aab8532b40b"
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.16.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "23231937-9def-495e-9c29-f8f6b2298aea"
       },
       "RequestBody": null,
       "StatusCode": 404,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "227",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 09:17:21 GMT",
+        "Content-Length": "132",
+        "Content-Type": "application/json",
+        "Date": "Tue, 21 Nov 2023 02:02:01 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "0ab86ab2-54c9-416e-9749-93b00151eb8e",
+        "x-ms-correlation-request-id": "a6412d3d-1e4e-4176-bf57-8c958492b4cc",
         "x-ms-failure-cause": "gateway",
-        "x-ms-request-id": "0ab86ab2-54c9-416e-9749-93b00151eb8e",
-        "x-ms-routing-request-id": "JAPANEAST:20231113T091721Z:0ab86ab2-54c9-416e-9749-93b00151eb8e"
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "a727b01a-1bde-428e-9207-4b724d8edc79",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20231121T020202Z:a6412d3d-1e4e-4176-bf57-8c958492b4cc"
       },
       "ResponseBody": {
         "error": {
           "code": "ResourceNotFound",
-          "message": "The Resource \u0027Microsoft.HybridNetwork/publishers/resourcetest\u0027 under resource group \u0027myjstest\u0027 was not found. For more details please go to https://aka.ms/ARMResourceNotFoundFix"
+          "message": "The resource \u0027Microsoft.HybridNetwork/publishers/resourcetest\u0027 could not be found."
         }
       }
     }

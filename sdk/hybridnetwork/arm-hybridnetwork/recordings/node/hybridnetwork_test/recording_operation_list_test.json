@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.HybridNetwork/operations?api-version=2023-09-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-hybridnetwork/1.0.0-beta.1 core-rest-pipeline/1.12.3 Node/v18.16.0 OS/(x64-Windows_NT-10.0.19045)",
+        "x-ms-client-request-id": "305ffe1c-8455-4426-bc9e-9ea74da45e0b"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "307",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 21 Nov 2023 02:02:06 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5bd6d321-9e5e-40cc-ab8d-ee7b82b178b4",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "5bd6d321-9e5e-40cc-ab8d-ee7b82b178b4",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20231121T020206Z:5bd6d321-9e5e-40cc-ab8d-ee7b82b178b4"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceType",
+          "message": "The resource type \u0027Operations\u0027 could not be found in the namespace \u0027Microsoft.HybridNetwork\u0027 for api version \u00272023-09-01\u0027. The supported api-versions are \u00272020-01-01-preview,2021-05-01,2022-01-01-preview,2022-09-01-preview,2023-01-01,2023-04-01-preview\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-hybridnetwork-ts",
+  "name": "@azure-samples/arm-hybridnetwork-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript",
+  "description": " client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -29,13 +25,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/hybridnetwork/arm-hybridnetwork",
   "dependencies": {
-    "@azure/arm-hybridnetwork": "latest",
+    "@azure/arm-hybridnetwork": "next",
     "dotenv": "latest",
     "@azure/identity": "^3.3.0"
-  },
-  "devDependencies": {
-    "@types/node": "^18.0.0",
-    "typescript": "~5.2.0",
-    "rimraf": "latest"
   }
 }
