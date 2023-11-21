@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-datafactory-ts",
+  "name": "@azure-samples/arm-datafactory-js",
   "private": true,
   "version": "1.0.0",
-  "description": " client library samples for TypeScript",
+  "description": " client library samples for JavaScript",
   "engines": {
     "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -31,11 +27,6 @@
   "dependencies": {
     "@azure/arm-datafactory": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
-  },
-  "devDependencies": {
-    "@types/node": "^18.0.0",
-    "typescript": "~5.2.0",
-    "rimraf": "latest"
+    "@azure/identity": "^3.3.0"
   }
 }

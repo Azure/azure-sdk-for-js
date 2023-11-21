@@ -11969,20 +11969,22 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-tWDNEjQbnYroisQCzm94pwEkzyZ6dj36Kfxk5ZeLB7btuvUgLyB7b57zgZxhF0YZJ9VeSHDmWYMwI+2DdCJcxA==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-XOKr6opnuUaE7v+r4XvPxAm8xp8YIxnY4A56eWZ78pVHVUf9WUg+fP5DADf57LKRL49Iip9rJOV10zH0Ghgl9Q==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
