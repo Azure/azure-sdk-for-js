@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the mongo clusters in a given subscription.
  *
  * @summary List all the mongo clusters in a given subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/mongo-cluster/CosmosDBMongoClusterList.json
  */
 async function listAllTheMongoClusters() {
   const subscriptionId =

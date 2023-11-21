@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB MongoDB Collection
  *
  * @summary Create or update an Azure Cosmos DB MongoDB Collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBCollectionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBMongoDBCollectionCreateUpdate.json
  */
 async function cosmosDbMongoDbcollectionCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -62,7 +62,7 @@ async function cosmosDbMongoDbcollectionCreateUpdate() {
  * This sample demonstrates how to Create or update an Azure Cosmos DB MongoDB Collection
  *
  * @summary Create or update an Azure Cosmos DB MongoDB Collection
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBMongoDBCollectionRestore.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBMongoDBCollectionRestore.json
  */
 async function cosmosDbMongoDbcollectionRestore() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

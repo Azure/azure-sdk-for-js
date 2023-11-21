@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreate.json
  */
 async function createANewMongoCluster() {
   const subscriptionId =
@@ -56,7 +56,7 @@ async function createANewMongoCluster() {
  * This sample demonstrates how to Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
  *
  * @summary Create or update a mongo cluster. Update overwrites all properties for the resource. To only modify some of the properties, use PATCH.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreatePITR.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/mongo-cluster/CosmosDBMongoClusterCreatePITR.json
  */
 async function createANewMongoClusterWithPointInTimeRestore() {
   const subscriptionId =

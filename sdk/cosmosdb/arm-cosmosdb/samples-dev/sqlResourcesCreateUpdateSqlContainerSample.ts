@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
  *
  * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlContainerCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBSqlContainerCreateUpdate.json
  */
 async function cosmosDbSqlContainerCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -85,7 +85,7 @@ async function cosmosDbSqlContainerCreateUpdate() {
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
  *
  * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlContainerRestore.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBSqlContainerRestore.json
  */
 async function cosmosDbSqlContainerRestore() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -123,7 +123,7 @@ async function cosmosDbSqlContainerRestore() {
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
  *
  * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBSqlMaterializedViewCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBSqlMaterializedViewCreateUpdate.json
  */
 async function cosmosDbSqlMaterializedViewCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

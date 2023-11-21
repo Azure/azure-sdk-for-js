@@ -1157,6 +1157,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cosmosdb@16.0.0-beta.6:
+    resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -9149,6 +9164,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /typescript@5.4.0-dev.20231120:
     resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
     engines: {node: '>=14.17'}
@@ -11197,10 +11218,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-8Dll77YDjgujpTNawmQf+OwblyeVtwXw093LHmvw1S89ar1zTshiONi4IbaK8TzLIFQBRsRReNZQ/pI30b+Jag==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-+qkwfzD871fIp9dbL6ZCKTJKtkxB+pJz4ePlDxMJiSfCWZo7ae8Bd4uAiuh1ot4WxtHPXTcwt/L7Uvk6bbXrHA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
@@ -11686,20 +11708,22 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-0niv6ZwyYlOVx+ldtZ9j05NaazieXbydzF2ysNlhXKD/qG3NIFRWlo7r7z/Jl952TjX3fBKOH930LLW5cSLWsA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-Q486sY+60djDQkCz4DN5j/h3MQ0j5dC+ynDGOWXLW26rgPEKj4EiUYukMOdURA45rk09ujnev674WdSEauu7Rw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17535,7 +17559,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
@@ -18793,7 +18817,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-0c620IRl8qUpuVvlktAvfGJBBPLJ+GYImP9gYMKib/z4p8fLwBqDXIu+PQ9BAZr989jiTWWtIDVGAAzGTq1M0g==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-rQjWla5iqC2+spBVto7uurlHatu/DLuZ87aN78ipQhneziIVkPXxrFBZik8+JhAepgBWTb/O5JodYHF6LZqtJQ==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -21102,7 +21126,7 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-XXawjubPvJvw6gFXREpKWutiFCOJyE+m94SRQYXdxw5AW7M+W0jyzZgSbx6j2xW2YvHcc2FwVx0QcfLAJCs0pA==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-65IgqX3myZ+cSo7FQeo27HZJtHOK0aPfoTKYiCxZCecek7JCwwc5yL07ssAKP/NT2jwCQOviN2lBBszfKGvXHQ==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:

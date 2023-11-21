@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a managed Cassandra cluster.
  *
  * @summary Get the properties of a managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBManagedCassandraClusterGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-09-15-preview/examples/CosmosDBManagedCassandraClusterGet.json
  */
 async function cosmosDbManagedCassandraClusterGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
