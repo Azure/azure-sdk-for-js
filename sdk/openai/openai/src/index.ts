@@ -1,12 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+/** *
+ * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
+ * provides REST API access to OpenAI's powerful language models including the GPT-3,
+ * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
+ * model series have now reached general availability. These models can be easily adapted
+ * to your specific task including but not limited to content generation, summarization,
+ * semantic search, and natural language to code translation.
+ * 
+ * @packageDocumentation
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";

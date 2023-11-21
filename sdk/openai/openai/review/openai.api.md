@@ -355,6 +355,4 @@ export interface PromptFilterResult {
     promptIndex: number;
 }
 
-// (No @packageDocumentation comment for this package)
-
 ```
