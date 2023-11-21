@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NginxManagementClient } from "@azure/arm-nginx";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { NginxManagementClient } = require("@azure/arm-nginx");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Delete the NGINX deployment resource
@@ -22,17 +20,12 @@ dotenv.config();
  */
 async function deploymentsDelete() {
   const subscriptionId =
-    process.env["NGINX_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName =
-    process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
+    process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginDeleteAndWait(
-    resourceGroupName,
-    deploymentName
-  );
+  const result = await client.deployments.beginDeleteAndWait(resourceGroupName, deploymentName);
   console.log(result);
 }
 

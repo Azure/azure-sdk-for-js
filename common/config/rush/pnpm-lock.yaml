@@ -14013,20 +14013,22 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-9u6ync6F3jVWi3v6KRt0QfNzX9ghcXNPE/eOFOpJTB/7fEqrx6ql6tmgvt5Nl8Rs6x1H6vTq98EI3DSTT6mUlQ==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-5sAta1oU0WGyEZ3Zv8Sw6XRP8eQBSpm6mEacmEGpy9S9RStG2/JpbRWgtyvylB3UV14FjT5sWwTUlNh2SSsj8Q==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
