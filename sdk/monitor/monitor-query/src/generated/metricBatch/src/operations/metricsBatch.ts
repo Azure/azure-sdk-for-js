@@ -6,23 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Metrics } from "../operationsInterfaces";
+import { MetricsBatch } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMonitorMetricBatchContext } from "../azureMonitorMetricBatchContext";
 import {
   ResourceIdList,
-  MetricsBatchOptionalParams,
-  MetricsBatchResponse
+  MetricsBatchBatchOptionalParams,
+  MetricsBatchBatchResponse
 } from "../models";
 
-/** Class containing Metrics operations. */
-export class MetricsImpl implements Metrics {
+/** Class containing MetricsBatch operations. */
+export class MetricsBatchImpl implements MetricsBatch {
   private readonly client: AzureMonitorMetricBatchContext;
 
   /**
-   * Initialize a new instance of the class Metrics class.
+   * Initialize a new instance of the class MetricsBatch class.
    * @param client Reference to the service client
    */
   constructor(client: AzureMonitorMetricBatchContext) {
@@ -31,9 +31,6 @@ export class MetricsImpl implements Metrics {
 
   /**
    * Lists the metric values for multiple resources.
-   * @param baseUrl The regional endpoint to use, for example https://eastus.metrics.monitor.azure.com.
-   *                The region should match the region of the requested resources. For global resources, the region
-   *                should be 'global'.
    * @param subscriptionId The subscription identifier for the resources in this batch.
    * @param metricnamespace Metric namespace that contains the requested metric names.
    * @param metricnames The names of the metrics (comma separated) to retrieve.
@@ -41,22 +38,14 @@ export class MetricsImpl implements Metrics {
    * @param options The options parameters.
    */
   batch(
-    baseUrl: string,
     subscriptionId: string,
     metricnamespace: string,
     metricnames: string[],
     resourceIds: ResourceIdList,
-    options?: MetricsBatchOptionalParams
-  ): Promise<MetricsBatchResponse> {
+    options?: MetricsBatchBatchOptionalParams
+  ): Promise<MetricsBatchBatchResponse> {
     return this.client.sendOperationRequest(
-      {
-        baseUrl,
-        subscriptionId,
-        metricnamespace,
-        metricnames,
-        resourceIds,
-        options
-      },
+      { subscriptionId, metricnamespace, metricnames, resourceIds, options },
       batchOperationSpec
     );
   }
@@ -73,7 +62,7 @@ const batchOperationSpec: coreClient.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.AdditionalInfoErrorResponse,
-      headersMapper: Mappers.MetricsBatchExceptionHeaders
+      headersMapper: Mappers.MetricsBatchBatchExceptionHeaders
     }
   },
   requestBody: Parameters.resourceIds,
@@ -89,7 +78,7 @@ const batchOperationSpec: coreClient.OperationSpec = {
     Parameters.filter,
     Parameters.apiVersion
   ],
-  urlParameters: [Parameters.baseUrl, Parameters.subscriptionId],
+  urlParameters: [Parameters.endpoint, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
