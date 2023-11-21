@@ -109,9 +109,9 @@ describe("FetchHttpClient", function () {
       },
     });
     const promise = client.sendRequest(request);
-    clock.tick(timeoutLength - 1);
+    clock.tickAsync(timeoutLength - 1);
     controller.abort();
-    clock.tick(1);
+    clock.tickAsync(1);
 
     try {
       await promise;
@@ -142,9 +142,9 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
-    clock.tick(100);
+    clock.tickAsync(100);
     controller.abort();
-    clock.tick(1);
+    clock.tickAsync(1);
     try {
       const response = await promise;
       const reader = response.browserStreamBody!.getReader();
@@ -227,7 +227,7 @@ describe("FetchHttpClient", function () {
     const chunk = await reader.read();
     // Advance the mocked clock 1000ms so that the mock response
     // enqueues the second chunk
-    clock.tick(1000);
+    clock.tickAsync(1000);
 
     // Verify that only one chunk was loaded
     assert.equal(downloadCalled, 1);
@@ -482,7 +482,7 @@ describe("FetchHttpClient", function () {
       method: "GET",
     });
     const promise = client.sendRequest(request);
-    clock.tick(timeoutLength);
+    clock.tickAsync(timeoutLength);
 
     try {
       await promise;

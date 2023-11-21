@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { StreamProducer } from "../interfaces";
-import { makeAsyncIterable, toWebStream } from "./stream";
+import { toWebStream } from "./stream";
+import { makeAsyncIterable } from "./webstreamIterator";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -88,6 +89,7 @@ export async function createFileFromStream(
             for await (const chunk of s) {
               controller.enqueue(chunk);
             }
+            controller.close();
           } catch (error) {
             controller.error(error);
           }
