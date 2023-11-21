@@ -24,13 +24,13 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
 
   console.log("List providers, names and versions of updates in Device Update for IoT Hub...");
 
   console.log("\nProviders:");
   const providersResult = await client
-    .path("/deviceUpdate/{instanceId}/updates/providers", instanceId)
+    .path("/updates/providers")
     .get();
 
   if (isUnexpected(providersResult)) {
@@ -44,7 +44,7 @@ async function main() {
 
   console.log("\nNames in provider '" + provider + "':");
   const namesResult = await client
-    .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId, provider)
+    .path("/updates/providers/{provider}/names", provider)
     .get();
 
   if (isUnexpected(namesResult)) {
@@ -59,8 +59,8 @@ async function main() {
   console.log("\nVersions in provider '" + provider + "' and name '" + name + "':");
   const versionsResult = await client
     .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
-      instanceId,
+      "/updates/providers/{provider}/names/{name}/versions",
+
       provider,
       name
     )

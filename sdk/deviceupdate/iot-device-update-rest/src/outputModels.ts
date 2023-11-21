@@ -148,6 +148,8 @@ export interface UpdateFileDownloadHandlerOutput {
 
 /** Operation metadata. */
 export interface UpdateOperationOutput {
+  /** Operation Id. */
+  readonly operationId: string;
   /**
    * Operation status.
    *
@@ -192,6 +194,12 @@ export interface ClientRequestIdHeaderOutput {}
 /** Device class metadata. */
 export interface DeviceClassOutput {
   /**
+   * The device class identifier. This is generated from the model Id and the compat
+   * properties reported by the device update agent in the Device Update PnP
+   * interface in IoT Hub. It is a hex-encoded SHA1 hash.
+   */
+  readonly deviceClassId: string;
+  /**
    * The device class friendly name. This can be updated by callers after the device
    * class has been automatically created.
    */
@@ -231,6 +239,8 @@ export interface ContractModelOutput {
 
 /** Device metadata. */
 export interface DeviceOutput {
+  /** Device identity. */
+  readonly deviceId: string;
   /** Device module identity. */
   moduleId?: string;
   /** Device class identity. */
@@ -298,6 +308,11 @@ export interface UpdateComplianceOutput {
 
 /** Group details. */
 export interface GroupOutput {
+  /**
+   * Group identity. This is created from the value of the ADUGroup tag in the Iot
+   * Hub's device/module twin or $default for devices with no tag.
+   */
+  readonly groupId: string;
   /**
    * Group type.
    *
@@ -431,6 +446,12 @@ export interface DeviceClassSubgroupDeploymentStatusOutput {
  * in a group that share the same device class id.
  */
 export interface DeviceClassSubgroupOutput {
+  /**
+   * Device class subgroup identity. This is generated from the model Id and the
+   * compat properties reported by the device update agent in the Device Update PnP
+   * interface in IoT Hub. It is a hex-encoded SHA1 hash.
+   */
+  readonly deviceClassId: string;
   /** Group identity. */
   groupId: string;
   /** Date and time when the device class subgroup was created. */
@@ -475,6 +496,8 @@ export interface DeviceClassSubgroupDeploymentOutput {
 
 /** Deployment device status. */
 export interface DeploymentDeviceStateOutput {
+  /** Device identity. */
+  readonly deviceId: string;
   /** Device module identity. */
   moduleId?: string;
   /** The number of times this deployment has been retried on this device. */
@@ -494,6 +517,8 @@ export interface DeploymentDeviceStateOutput {
 
 /** Operation metadata. */
 export interface DeviceOperationOutput {
+  /** Operation Id. */
+  readonly operationId: string;
   /**
    * Operation status.
    *
@@ -582,6 +607,8 @@ export interface LogCollectionOperationDeviceStatusOutput {
 
 /** Device Health */
 export interface DeviceHealthOutput {
+  /** Device id */
+  readonly deviceId: string;
   /** Module id */
   moduleId?: string;
   /**

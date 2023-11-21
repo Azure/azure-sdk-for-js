@@ -9,6 +9,7 @@ export function createRecordedClient(recorder: Recorder): DeviceUpdateClient {
   const credential = createTestCredential();
   const client = DeviceUpdate(
     assertEnvironmentVariable("ENDPOINT"),
+    assertEnvironmentVariable("INSTANCE_ID"),
     credential,
     recorder.configureClientOptions({})
   );
@@ -19,6 +20,7 @@ export async function startRecorder(recorder: Recorder): Promise<void> {
   await recorder.start({
     envSetupForPlayback: {
       ENDPOINT: "endpoint",
+      INSTANCE_ID: "sdkinstance",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",

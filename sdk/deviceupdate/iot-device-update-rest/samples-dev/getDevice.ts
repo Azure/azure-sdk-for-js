@@ -23,13 +23,13 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
 
   console.log("Get various device management information from Device Update for IoT Hub...");
 
   console.log("\nDevices:");
   const devicesResult = await client
-    .path("/deviceUpdate/{instanceId}/management/devices", instanceId)
+    .path("/management/devices")
     .get();
 
   if (isUnexpected(devicesResult)) {
@@ -43,7 +43,7 @@ async function main() {
 
   console.log("\nDevice groups:");
   const groupsResult = await client
-    .path("/deviceUpdate/{instanceId}/management/groups", instanceId)
+    .path("/management/groups")
     .get();
 
   if (isUnexpected(groupsResult)) {
@@ -57,7 +57,7 @@ async function main() {
 
   console.log("\nDevice classes:");
   const deviceClassesResult = await client
-    .path("/deviceUpdate/{instanceId}/management/deviceClasses", instanceId)
+    .path("/management/deviceClasses")
     .get();
 
   if (isUnexpected(deviceClassesResult)) {
@@ -71,7 +71,7 @@ async function main() {
 
   console.log("\nFor group '" + groupId + "', best updates are:");
   const bestUpdatesResult = await client
-    .path("/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId, groupId)
+    .path("/management/groups/{groupId}/bestUpdates", groupId)
     .get();
 
   if (isUnexpected(bestUpdatesResult)) {

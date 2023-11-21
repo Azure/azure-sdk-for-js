@@ -26,12 +26,11 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
 
   const initialResponse = await client
     .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
-      instanceId,
+      "/updates/providers/{provider}/names/{name}/versions/{version}",
       updateProvider,
       updateName,
       updateVersion

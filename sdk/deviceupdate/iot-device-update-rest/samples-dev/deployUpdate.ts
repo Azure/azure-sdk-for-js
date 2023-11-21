@@ -28,14 +28,14 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
   const deploymentId = v4();
   const startAt = new Date().toISOString();
 
   const initialResponse = await client
     .path(
-      "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}",
-      instanceId,
+      "/management/groups/{groupId}/deployments/{deploymentId}",
+
       groupId,
       deploymentId
     )
@@ -65,8 +65,8 @@ async function main() {
 
   const statusResponse = await client
     .path(
-      "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status",
-      instanceId,
+      "/management/groups/{groupId}/deployments/{deploymentId}/status",
+
       groupId,
       deploymentId
     )

@@ -26,7 +26,7 @@ describe("update test", () => {
 
   it("list providers", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers", "sdkinstance")
+      .path("/updates/providers")
       .get();
 
     if (isUnexpected(response)) {
@@ -41,8 +41,8 @@ describe("update test", () => {
   it("list names", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names",
-        "sdkinstance",
+        "/updates/providers/{provider}/names",
+
         provider
       )
       .get();
@@ -58,7 +58,7 @@ describe("update test", () => {
 
   it("get name not found", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/updates/providers/{provider}/names", "sdkinstance", "foo")
+      .path("/updates/providers/{provider}/names", "foo")
       .get();
 
     assert.equal(response.status, "404");
@@ -67,8 +67,8 @@ describe("update test", () => {
   it("list versions", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions",
+
         provider,
         name
       )
@@ -86,8 +86,8 @@ describe("update test", () => {
   it("get version not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions",
+
         "foo",
         "bar"
       )
@@ -99,8 +99,8 @@ describe("update test", () => {
   it("get update", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions/{version}",
+
         provider,
         name,
         version
@@ -119,8 +119,8 @@ describe("update test", () => {
   it("get update not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions/{version}",
+
         "foo",
         "bar",
         "1.2"
@@ -133,8 +133,8 @@ describe("update test", () => {
   it("list files", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions/{version}/files",
+
         provider,
         name,
         version
@@ -153,8 +153,8 @@ describe("update test", () => {
   it("list files not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
-        "sdkinstance",
+        "/updates/providers/{provider}/names/{name}/versions/{version}/files",
+
         "foo",
         "bar",
         "1.2"

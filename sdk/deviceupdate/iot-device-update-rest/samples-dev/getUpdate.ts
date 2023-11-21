@@ -25,21 +25,21 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
 
   console.log(
     "Get update data for provider '" +
-      provider +
-      "', name '" +
-      name +
-      "' and version '" +
-      version +
-      "'..."
+    provider +
+    "', name '" +
+    name +
+    "' and version '" +
+    version +
+    "'..."
   );
   const updateResult = await client
     .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}",
-      instanceId,
+      "/updates/providers/{provider}/names/{name}/versions/{version}",
+
       provider,
       name,
       version
@@ -48,11 +48,6 @@ async function main() {
 
   if (isUnexpected(updateResult)) {
     throw updateResult.body;
-  }
-
-  if (updateResult.status === "304") {
-    console.log("no change");
-    return;
   }
 
   console.log("Update:");
@@ -65,8 +60,8 @@ async function main() {
   console.log("\nEnumerate update files:");
   const filesResult = await client
     .path(
-      "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files",
-      instanceId,
+      "/updates/providers/{provider}/names/{name}/versions/{version}/files",
+
       provider,
       name,
       version
@@ -84,8 +79,8 @@ async function main() {
   filesResult.body.value.forEach(async (fileId: string) => {
     const fileResult = await client
       .path(
-        "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
-        instanceId,
+        "/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}",
+
         provider,
         name,
         version,
@@ -95,11 +90,6 @@ async function main() {
 
     if (isUnexpected(fileResult)) {
       throw fileResult.body;
-    }
-
-    if (fileResult.status === "304") {
-      console.log("no change");
-      return;
     }
 
     console.log("File:");

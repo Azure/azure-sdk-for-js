@@ -24,7 +24,7 @@ describe("device and deployment test", () => {
 
   it("list devices", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/devices", "sdkinstance")
+      .path("/management/devices")
       .get();
 
     if (isUnexpected(response)) {
@@ -38,7 +38,7 @@ describe("device and deployment test", () => {
 
   it("get device not found", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/devices/{deviceId}", "sdkinstance", "foo")
+      .path("/management/devices/{deviceId}", "foo")
       .get();
 
     assert.equal(response.status, "404");
@@ -46,7 +46,7 @@ describe("device and deployment test", () => {
 
   it("list groups", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/groups", "sdkinstance")
+      .path("/management/groups")
       .get();
 
     if (isUnexpected(response)) {
@@ -60,7 +60,7 @@ describe("device and deployment test", () => {
 
   it("get group", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", group)
+      .path("/management/groups/{groupId}", group)
       .get();
 
     if (isUnexpected(response)) {
@@ -74,7 +74,7 @@ describe("device and deployment test", () => {
 
   it("get group not found", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/groups/{groupId}", "sdkinstance", "foo")
+      .path("/management/groups/{groupId}", "foo")
       .get();
 
     assert.equal(response.status, "404");
@@ -82,7 +82,7 @@ describe("device and deployment test", () => {
 
   it("list device classes", async function () {
     const response = await client
-      .path("/deviceUpdate/{instanceId}/management/deviceClasses", "sdkinstance")
+      .path("/management/deviceClasses")
       .get();
 
     if (isUnexpected(response)) {
@@ -97,8 +97,8 @@ describe("device and deployment test", () => {
   it("get device class not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}",
-        "sdkinstance",
+        "/management/deviceClasses/{deviceClassId}",
+
         "foo"
       )
       .get();
@@ -109,8 +109,8 @@ describe("device and deployment test", () => {
   it("list best updates for group", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
-        "sdkinstance",
+        "/management/groups/{groupId}/bestUpdates",
+
         group
       )
       .get();
@@ -127,8 +127,8 @@ describe("device and deployment test", () => {
   it("list best updates for group not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates",
-        "sdkinstance",
+        "/management/groups/{groupId}/bestUpdates",
+
         "foo"
       )
       .get();
@@ -139,8 +139,8 @@ describe("device and deployment test", () => {
   it("list deployments for group", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
-        "sdkinstance",
+        "/management/groups/{groupId}/deployments",
+
         group
       )
       .get();
@@ -157,8 +157,8 @@ describe("device and deployment test", () => {
   it("list deployments for group not found", async function () {
     const response = await client
       .path(
-        "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments",
-        "sdkinstance",
+        "/management/groups/{groupId}/deployments",
+
         "foo"
       )
       .get();

@@ -30,13 +30,13 @@ async function main() {
 
   const credentials = new DefaultAzureCredential();
 
-  const client = DeviceUpdate(endpoint, credentials);
+  const client = DeviceUpdate(endpoint, instanceId, credentials);
   const sha256 = await getFileHash(manifestFile);
   const sizeInBytes = getFileSize(manifestFile);
   const filename = getFileName(payloadFile);
 
   const initialResponse = await client
-    .path("/deviceUpdate/{instanceId}/updates:import", instanceId)
+    .path("/updates:import")
     .post({
       body: [
         {

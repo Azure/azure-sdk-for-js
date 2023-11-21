@@ -532,6 +532,11 @@ export type DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentPara
     RequestParameters;
 
 export interface DeviceManagementGetOperationStatusHeaders {
+  /**
+   * Defines the If-None-Match condition. The operation will be performed only if
+   * the ETag on the server does not match this value.
+   */
+  "if-none-match"?: string;
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
