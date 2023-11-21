@@ -10,6 +10,5 @@ export * from "./clientDefinitions";
 export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
-export * from "./pollingHelper";
 
 export default MapsSearchClient;
