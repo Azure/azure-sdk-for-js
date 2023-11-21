@@ -217,16 +217,12 @@ function removeConflictingIdentifiers(
   const importRemoveCallbackMap: Map<string, () => void> =
     getImportRemoveCallbacks(originalImports);
 
-  const customIdentifiers = getBoundIdentifiers(customImports);
+  const customIdentifiers = Array.from(getImportRemoveCallbacks(customImports).keys());
 
   customIdentifiers.forEach((customIdentifier) => {
     const removeIdentifier = importRemoveCallbackMap.get(customIdentifier);
     removeIdentifier?.();
   });
-
-  function getBoundIdentifiers(imports: ImportDeclaration[]): string[] {
-    return Array.from(getImportRemoveCallbacks(imports).keys());
-  }
 
   function getImportRemoveCallbacks(imports: ImportDeclaration[]): Map<string, () => void> {
     return new Map(
