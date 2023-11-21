@@ -151,7 +151,7 @@ export interface QuotaConfigurationInfo {
   quotaAccrualRatePerSec: number;
 }
 
-/** Optional http response body, whose existance carries additional error descriptions. */
+/** Optional http response body, whose existence carries additional error descriptions. */
 export interface ServiceError {
   /** A guid of the request that triggers the service error. */
   requestId?: string;
