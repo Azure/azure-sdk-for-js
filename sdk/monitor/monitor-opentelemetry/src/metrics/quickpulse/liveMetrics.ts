@@ -183,7 +183,7 @@ export class LiveMetrics {
       }
     } else {
       this.postInterval = POST_INTERVAL;
-      //// Update using response if needed
+      // Update using response if needed
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
