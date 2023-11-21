@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3A5dcBA718UEj1zANIca4oyucZE_nkBRkfn0oCE2uqTtw1%40thread.v2/messages/1692122386157?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3AGZscxmr8_E7htLUB7S-XRHC2FfNFKbySD3MQtPnIj9Y1%40thread.v2/messages/1700526858304?api-version=2023-11-15-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -18,22 +18,21 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "c82375b2-ed28-492e-ac41-220dfb66a15a",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 OS"
+        "x-ms-client-request-id": "cf60ab2d-21c5-431d-90cb-ff6f02ce6418",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.5.0-beta.1 core-rest-pipeline/1.12.2 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Connection": "keep-alive",
-        "Date": "Tue, 15 Aug 2023 17:59:47 GMT",
-        "MS-CV": "2/jJq\u002BLXvUec61iYGiFkrQ.0",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
+        "Date": "Tue, 21 Nov 2023 00:34:19 GMT",
+        "MS-CV": "c4wQhBWo80qwYyDPV2f6DA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230815T175947Z-s2ky2mn5615v97n0nf5uk2n4dn00000007hg000000006npu",
+        "X-Azure-Ref": "0DPtbZQAAAADMf4EzQs32TKCBZ1qJPrRNV1NURURHRTAxMTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "217ms"
+        "X-Processing-Time": "165ms"
       },
       "ResponseBody": null
     }

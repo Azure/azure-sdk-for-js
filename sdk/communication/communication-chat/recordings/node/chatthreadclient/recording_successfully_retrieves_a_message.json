@@ -1,45 +1,45 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AJSkjP3aPpPaSNVo4v7ZxL0IOcVDpJATab3FPCTV7QXM1%40thread.v2/messages/1692122376975?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3A2DSJlUg7R4ofGKtwIaHygytaHGAciwrHGNzXsjUNZQI1%40thread.v2/messages/1700526847343?api-version=2023-11-15-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "1f33b177-8c86-47c7-afc5-61710f196f71"
+        "User-Agent": "azsdk-js-communication-chat/1.5.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
+        "x-ms-client-request-id": "182dd558-71de-479b-a925-378db2462fb6"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
         "Content-Length": "449",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 15 Aug 2023 17:59:37 GMT",
-        "MS-CV": "P1kDZ4Pt0kiCWi9iz8Ew/A.0",
+        "Date": "Tue, 21 Nov 2023 00:34:07 GMT",
+        "MS-CV": "EOvyUPtLI0OycNHZz5NMrA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Cb3bZAAAAABBXAsiI/IJQLTRG0aGXyqXV1NURURHRTAxMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0//pbZQAAAADpgFIAhVIzRa0mXZDGwz6lV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "127ms"
+        "X-Processing-Time": "108ms"
       },
       "ResponseBody": {
-        "id": "1692122376975",
+        "id": "1700526847343",
         "type": "text",
         "sequenceId": "4",
-        "version": "1692122376975",
+        "version": "1700526847343",
         "content": {
           "message": "content",
           "attachments": []
         },
         "senderDisplayName": "",
-        "createdOn": "2023-08-15T17:59:36Z",
+        "createdOn": "2023-11-21T00:34:07Z",
         "senderCommunicationIdentifier": {
-          "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-0928-35f3-343a0d003e11",
+          "rawId": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f2e-0fc7-d68a-084822003e57",
           "communicationUser": {
-            "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-0928-35f3-343a0d003e11"
+            "id": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f2e-0fc7-d68a-084822003e57"
           }
         },
         "metadata": {
