@@ -22,6 +22,7 @@ async function* streamAsyncIterator(
 }
 
 export function makeAsyncIterable<T>(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   webStream: any
 ): asserts webStream is AsyncIterableReadableStream<T> {
   if (!webStream[Symbol.asyncIterator]) {
