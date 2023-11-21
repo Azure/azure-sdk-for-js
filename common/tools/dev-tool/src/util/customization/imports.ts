@@ -5,9 +5,13 @@ import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "upath";
 
-type RelativePath = string & { __relativePath: never };
-type DotPrefixedRelativePath = string & { __dotPrefixedRelativePath: never } & RelativePath;
-type LocalModuleSpecifier = string & { __localModuleSpecifier: never } & RelativePath;
+declare const RELATIVE_PATH: unique symbol;
+declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
+declare const LOCAL_MODULE_SPECIFIER: unique symbol;
+
+type RelativePath = string & { [RELATIVE_PATH]: never };
+type DotPrefixedRelativePath = RelativePath & { [DOT_PREFIXED_RELATIVE_PATH]: never };
+type LocalModuleSpecifier = RelativePath & { [LOCAL_MODULE_SPECIFIER]: never };
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
