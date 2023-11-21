@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AjQF7csxMFhCnHQURc6BcOIW-j9X9yJVwM8AbHM1S8x41%40thread.v2/messages?api-version=2023-11-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A_PQfjjcwP5IQnNCNPwtLNzZlRzfPuXSCvaK5g8RxnMs1%40thread.v2/messages?api-version=2023-11-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,7 +11,7 @@
         "Content-Length": "51",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
-        "x-ms-client-request-id": "d5270f31-6d4c-48c4-adae-dccf10542e7a"
+        "x-ms-client-request-id": "88bb2a12-2dd8-4ece-a596-9bf0d7b0ac68"
       },
       "RequestBody": {
         "content": "content",
@@ -25,16 +25,16 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
         "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 00:41:36 GMT",
-        "Location": "https://endpoint/chat/threads/19%3AjQF7csxMFhCnHQURc6BcOIW-j9X9yJVwM8AbHM1S8x41@thread.v2/messages/1700527296914",
-        "MS-CV": "I\u002BJthtQ1RUmoprIZaYHHtA.0",
+        "Date": "Tue, 21 Nov 2023 01:09:34 GMT",
+        "Location": "https://endpoint/chat/threads/19%3A_PQfjjcwP5IQnNCNPwtLNzZlRzfPuXSCvaK5g8RxnMs1@thread.v2/messages/1700528975722",
+        "MS-CV": "gAZJkmHbxUu7H2E0V8Otuw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0wPxbZQAAAACLK5jwv8iESo2i1/GGRDVlV1NURURHRTA4MTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0TwNcZQAAAAA7A\u002BVLvCRhR6ZbFUvWUfAqV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "201ms"
+        "X-Processing-Time": "153ms"
       },
       "ResponseBody": {
-        "id": "1700527296914"
+        "id": "1700528975722"
       }
     }
   ],

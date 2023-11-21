@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AjQF7csxMFhCnHQURc6BcOIW-j9X9yJVwM8AbHM1S8x41%40thread.v2/participants/:remove?api-version=2023-11-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A_PQfjjcwP5IQnNCNPwtLNzZlRzfPuXSCvaK5g8RxnMs1%40thread.v2/participants/:remove?api-version=2023-11-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -11,24 +11,24 @@
         "Content-Length": "200",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
-        "x-ms-client-request-id": "2a88e1f5-4a9c-4c60-b06c-a35d417d3f17"
+        "x-ms-client-request-id": "c1f82a8f-a126-45c6-a4a8-11726d625d98"
       },
       "RequestBody": {
-        "rawId": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f34-ef50-02c3-593a0d002cf9",
+        "rawId": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f4e-8c83-2c8a-084822002b1e",
         "communicationUser": {
-          "id": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f34-ef50-02c3-593a0d002cf9"
+          "id": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f4e-8c83-2c8a-084822002b1e"
         }
       },
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
-        "Date": "Tue, 21 Nov 2023 00:41:39 GMT",
-        "MS-CV": "hGnotGyfvEyqUb5GWl00vQ.0",
+        "Date": "Tue, 21 Nov 2023 01:09:37 GMT",
+        "MS-CV": "hrEM0hFReEa7UbgDyiDJNg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0w/xbZQAAAAC\u002BxnxYJb6xSqIjT9k6jzXZV1NURURHRTA4MTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0UQNcZQAAAACQuUlPcZF9QLb3ZZ47aIbvV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "284ms"
+        "X-Processing-Time": "400ms"
       },
       "ResponseBody": null
     }
