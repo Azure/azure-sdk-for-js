@@ -52,7 +52,7 @@ function removeSelfImports(originalFile: SourceFile) {
 
 function removeFileExtension(filePath: string): string {
   const filePathObject = path.parse(filePath);
-  return filePath.slice(0, -filePathObject.ext.length - 1);
+  return filePath.slice(0, -filePathObject.ext.length);
 }
 
 function removeEmptyImports(originalFile: SourceFile) {
