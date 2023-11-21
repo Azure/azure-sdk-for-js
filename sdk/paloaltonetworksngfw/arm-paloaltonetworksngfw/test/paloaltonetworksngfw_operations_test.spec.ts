@@ -49,7 +49,7 @@ describe("paloaltonetworksngfw test", () => {
     const credential = createTestCredential();
     client = new PaloAltoNetworksCloudngfw(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     resourcename = "resourcetest";
   });
 
