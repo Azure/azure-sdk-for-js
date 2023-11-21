@@ -218,15 +218,17 @@ function removeConflictingIdentifiers(
   originalImports: ImportDeclaration[],
   customImports: ImportDeclaration[]
 ) {
-  const importRemoveCallbackMap: Map<string, () => void> =
+  // maps the name of the imported symbol to a nullary function that removes the symbol from the
+  // original source file
+  const originalImportRemoveCallbackMap: Map<string, () => void> =
     getImportRemoveCallbacks(originalImports);
 
-  const customIdentifiers = Array.from(getImportRemoveCallbacks(customImports).keys());
+  const customIdentifiers = getImportRemoveCallbacks(customImports).keys();
 
-  customIdentifiers.forEach((customIdentifier) => {
-    const removeIdentifier = importRemoveCallbackMap.get(customIdentifier);
-    removeIdentifier?.();
-  });
+  for (const customIdentifier of customIdentifiers) {
+    const removeOriginalImportedIdentifier = originalImportRemoveCallbackMap.get(customIdentifier);
+    removeOriginalImportedIdentifier?.();
+  }
 
   function getImportRemoveCallbacks(imports: ImportDeclaration[]): Map<string, () => void> {
     return new Map(
