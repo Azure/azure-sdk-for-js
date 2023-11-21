@@ -9,7 +9,7 @@
 
 ### Breaking Changes
 
-- Split `PurviewWorkflowServiceClient` into multiple clients by model.
+- Rename interfaces and paramters from VerbNoun to NounVerb, to follow the convention.
 
 ### Other Changes
 
