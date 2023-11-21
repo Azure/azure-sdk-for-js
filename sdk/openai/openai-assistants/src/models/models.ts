@@ -23,6 +23,7 @@ export interface AssistantCreationOptions {
 export interface ToolDefinition {
   /** the discriminator possible values code_interpreter, retrieval, function */
   type: string;
+  function?: FunctionDefinition;
 }
 
 /** The input definition information for a function. */

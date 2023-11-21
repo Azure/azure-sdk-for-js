@@ -116,7 +116,10 @@ export function _createAssistantSend(
         name: body["name"],
         description: body["description"],
         instructions: body["instructions"],
-        tools: (body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+        tools: (body["tools"] ?? []).map((p) => ({ 
+          type: p["type"],
+          function: p["function"] || undefined
+        })),
         file_ids: body["fileIds"],
         metadata: body["metadata"],
       },
@@ -138,7 +141,9 @@ export async function _createAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"] })),
+    tools: (result.body["tools"] ?? []).map((p) => ({ 
+      type: p["type"],
+      function: p["function"] || undefined })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };

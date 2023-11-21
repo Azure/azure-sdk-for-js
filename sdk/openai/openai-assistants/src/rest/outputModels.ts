@@ -4,6 +4,7 @@
 /** An abstract representation of an input tool definition that an assistant can use. */
 export interface ToolDefinitionOutputParent {
   type: string;
+  function?: FunctionDefinitionOutput;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
