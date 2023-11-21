@@ -32,7 +32,7 @@ export const Response: coreClient.CompositeMapper = {
       interval: {
         serializedName: "interval",
         type: {
-          name: "TimeSpan"
+          name: "String"
         }
       },
       namespace: {

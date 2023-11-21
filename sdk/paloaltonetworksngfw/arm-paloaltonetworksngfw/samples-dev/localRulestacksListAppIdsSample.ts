@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List of AppIds for LocalRulestack ApiVersion
  *
  * @summary List of AppIds for LocalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listAppIds_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MaximumSet_Gen.json
  */
 async function localRulestacksListAppIdsMaximumSetGen() {
   const subscriptionId =
@@ -54,7 +54,7 @@ async function localRulestacksListAppIdsMaximumSetGen() {
  * This sample demonstrates how to List of AppIds for LocalRulestack ApiVersion
  *
  * @summary List of AppIds for LocalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_listAppIds_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_listAppIds_MinimumSet_Gen.json
  */
 async function localRulestacksListAppIdsMinimumSetGen() {
   const subscriptionId =
