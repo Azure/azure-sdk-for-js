@@ -673,11 +673,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         messages: parseChatMessage(body.messages),
-        functions: (body["functions"] ?? []).map((p) => ({
-          name: p["name"],
-          description: p["description"],
-          parameters: p["parameters"],
-        })),
+        functions: body["functions"],
         function_call: body["functionCall"],
         max_tokens: body["maxTokens"],
         temperature: body["temperature"],
@@ -690,10 +686,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: (body["dataSources"] ?? []).map((p) => ({
-          type: p["type"],
-          parameters: p["parameters"],
-        })),
+        dataSources: body["dataSources"],
       },
     });
 }
@@ -708,11 +701,7 @@ export function _getChatCompletionsSend(
     ...operationOptionsToRequestParameters(options),
     body: {
       messages: parseChatMessage(body.messages),
-      functions: (body["functions"] ?? []).map((p) => ({
-        name: p["name"],
-        description: p["description"],
-        parameters: p["parameters"],
-      })),
+      functions: body["functions"],
       function_call: body["functionCall"],
       max_tokens: body["maxTokens"],
       temperature: body["temperature"],
@@ -725,10 +714,7 @@ export function _getChatCompletionsSend(
       frequency_penalty: body["frequencyPenalty"],
       stream: body["stream"],
       model: body["model"],
-      dataSources: (body["dataSources"] ?? []).map((p) => ({
-        type: p["type"],
-        parameters: p["parameters"],
-      })),
+      dataSources: body["dataSources"],
     },
   });
 }

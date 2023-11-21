@@ -165,7 +165,12 @@ function deserializeContentFilter(result: ContentFilterResultsOutput): ContentFi
     ...(!result.error
       ? {}
       : {
-          error: result.error,
+          error: {
+            ...result.error,
+            code: result.error["code"],
+            details: result.error["details"] ?? [],
+            message: result.error["message"],
+          },
         }),
   };
 }
