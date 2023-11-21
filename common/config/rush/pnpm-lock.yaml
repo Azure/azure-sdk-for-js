@@ -9149,6 +9149,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /typescript@5.4.0-dev.20231120:
     resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
     engines: {node: '>=14.17'}
@@ -11887,19 +11893,22 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-JUk2vDTtQu0ZSzgyW9yQQXDiwOnSxj/ZaCVwyrmv4HP47fLMCV1q4tQYiEz9YxoTsr9J2yzuf7glCQVwMFNtNw==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-2+E3CIDxap6q0IVVTeRRaEazCKTUMbYOnGOf/5tWTMF2l270F/Ho+dyZ+Wpli/T43hq7qeraZXWststAh80W+A==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -17535,7 +17544,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
@@ -18793,7 +18802,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-0c620IRl8qUpuVvlktAvfGJBBPLJ+GYImP9gYMKib/z4p8fLwBqDXIu+PQ9BAZr989jiTWWtIDVGAAzGTq1M0g==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-rQjWla5iqC2+spBVto7uurlHatu/DLuZ87aN78ipQhneziIVkPXxrFBZik8+JhAepgBWTb/O5JodYHF6LZqtJQ==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -21102,7 +21111,7 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-XXawjubPvJvw6gFXREpKWutiFCOJyE+m94SRQYXdxw5AW7M+W0jyzZgSbx6j2xW2YvHcc2FwVx0QcfLAJCs0pA==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-65IgqX3myZ+cSo7FQeo27HZJtHOK0aPfoTKYiCxZCecek7JCwwc5yL07ssAKP/NT2jwCQOviN2lBBszfKGvXHQ==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
