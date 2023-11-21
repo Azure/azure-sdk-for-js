@@ -69,7 +69,7 @@ export async function parseNotificationDetails(bodyText: string): Promise<Notifi
 }
 
 function parseOutcomeCounts(
-  counts: Record<string, any>[] | Record<string, any>
+  counts: Record<string, any>[] | Record<string, any>,
 ): NotificationOutcome[] {
   const items = Array.isArray(counts) ? counts : [counts];
   const results: NotificationOutcome[] = [];

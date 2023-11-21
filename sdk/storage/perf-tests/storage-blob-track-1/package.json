@@ -10,7 +10,7 @@
   "devDependencies": {
     "@azure/storage-blob": "^10.5.0",
     "@azure/test-utils-perf": "file:../../../test-utils/perf/azure-test-utils-perf-1.0.0.tgz",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/uuid": "^8.0.0",
     "dotenv": "^16.0.0",
     "uuid": "^8.3.0",

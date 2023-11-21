@@ -13,19 +13,6 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
-// @public
-export interface AgentProfile {
-    subnetId?: string;
-    vmSize?: string;
-}
-
-// @public
-export interface APIServerAccessProfile {
-    enablePrivateCluster?: boolean;
-    enableVnetIntegration?: boolean;
-    subnetId?: string;
-}
-
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -80,7 +67,6 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
-    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
 }
@@ -94,16 +80,6 @@ export interface FleetCredentialResult {
 // @public
 export interface FleetCredentialResults {
     readonly kubeconfigs?: FleetCredentialResult[];
-}
-
-// @public
-export interface FleetHubProfile {
-    agentProfile?: AgentProfile;
-    apiServerAccessProfile?: APIServerAccessProfile;
-    dnsPrefix?: string;
-    readonly fqdn?: string;
-    readonly kubernetesVersion?: string;
-    readonly portalFqdn?: string;
 }
 
 // @public

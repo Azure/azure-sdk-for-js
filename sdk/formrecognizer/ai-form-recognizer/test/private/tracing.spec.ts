@@ -9,6 +9,7 @@ import { assert } from "@azure/test-utils";
 import { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { CopyAuthorization } from "../../src/generated";
+import { FormRecognizerRequestBody } from "../../src/lro/analysis";
 
 // #region FakeClient
 
@@ -60,7 +61,11 @@ describe("supports tracing", function () {
     it("beginAnalyzeDocument", () =>
       assert.supportsTracing(
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
-          await dac.beginAnalyzeDocument("test", "test", options);
+          await dac.beginAnalyzeDocument(
+            "test",
+            "test" as unknown as FormRecognizerRequestBody,
+            options
+          );
         }),
         ["DocumentAnalysisClient.beginAnalyzeDocument"]
       ));

@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.106.0",
+  "rushVersion": "5.109.2",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -34,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=16.0.0",
+  "nodeSupportedVersionRange": ">=18.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -308,6 +308,11 @@
     {
       "packageName": "@azure-rest/agrifood-farming",
       "projectFolder": "sdk/agrifood/agrifood-farming-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/ai-document-intelligence",
+      "projectFolder": "sdk/documentintelligence/ai-document-intelligence-rest",
       "versionPolicyName": "client"
     },
     {
@@ -639,6 +644,11 @@
     {
       "packageName": "@azure/identity-cache-persistence",
       "projectFolder": "sdk/identity/identity-cache-persistence",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-broker",
+      "projectFolder": "sdk/identity/identity-broker",
       "versionPolicyName": "client"
     },
     {

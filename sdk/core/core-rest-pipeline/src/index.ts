@@ -3,12 +3,14 @@
 
 export {
   Agent,
+  BodyPart,
   FormDataMap,
   FormDataValue,
   HttpClient,
   HttpHeaders,
   HttpMethods,
   KeyObject,
+  MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
   PipelineRetryOptions,
@@ -52,6 +54,7 @@ export {
   setClientRequestIdPolicyName,
 } from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,
@@ -93,3 +96,9 @@ export {
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy";
+export {
+  createFile,
+  createFileFromStream,
+  CreateFileOptions,
+  CreateFileFromStreamOptions,
+} from "./util/file";

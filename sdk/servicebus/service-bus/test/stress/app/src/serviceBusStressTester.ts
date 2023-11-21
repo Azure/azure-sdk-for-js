@@ -57,7 +57,7 @@ export function captureConsoleOutputToAppInsights() {
 export class ServiceBusStressTester {
   private messagesSentCount: number = 0;
   private messagesReceivedCount: number = 0;
-  private snapshotTimer: NodeJS.Timer;
+  private snapshotTimer: NodeJS.Timeout;
   private startedAt!: Date;
   private _numErrors = 0;
 
