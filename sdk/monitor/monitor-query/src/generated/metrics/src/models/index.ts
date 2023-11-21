@@ -14,7 +14,10 @@ export interface Response {
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
   timespan: string;
-  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  /**
+   * The interval (window size) for which the metric data was returned in ISO 8601 duration format with a special case for 'FULL' value that returns single datapoint for entire time span requested (*Examples: PT15M, PT1H, P1D, FULL*).
+   * This may be adjusted and different from what was originally requested if AutoAdjustTimegrain=true is specified. This is not present if a metadata request was made.
+   */
   interval?: string;
   /** The namespace of the metrics being queried */
   namespace?: string;
@@ -46,9 +49,9 @@ export interface Metric {
 
 /** The localizable string class. */
 export interface LocalizableString {
-  /** the invariant value. */
+  /** The invariant value. */
   value: string;
-  /** the locale specific value. */
+  /** The display name. */
   localizedValue?: string;
 }
 
@@ -62,25 +65,25 @@ export interface TimeSeriesElement {
 
 /** Represents a metric metadata value. */
 export interface MetadataValue {
-  /** the name of the metadata. */
+  /** The name of the metadata. */
   name?: LocalizableString;
-  /** the value of the metadata. */
+  /** The value of the metadata. */
   value?: string;
 }
 
 /** Represents a metric value. */
 export interface MetricValue {
-  /** the timestamp for the metric value in ISO 8601 format. */
+  /** The timestamp for the metric value in ISO 8601 format. */
   timeStamp: Date;
-  /** the average value in the time range. */
+  /** The average value in the time range. */
   average?: number;
-  /** the least value in the time range. */
+  /** The least value in the time range. */
   minimum?: number;
-  /** the greatest value in the time range. */
+  /** The greatest value in the time range. */
   maximum?: number;
-  /** the sum of all of the values in the time range. */
+  /** The sum of all of the values in the time range. */
   total?: number;
-  /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
+  /** The number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
   count?: number;
 }
 
@@ -151,7 +154,10 @@ export type ResultType = "Data" | "Metadata";
 export interface MetricsListOptionalParams extends coreClient.OperationOptions {
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
-  /** The interval (i.e. timegrain) of the query. */
+  /**
+   * The interval (i.e. timegrain) of the query in ISO 8601 duration format. Defaults to PT1M. Special case for 'FULL' value that returns single datapoint for entire time span requested.
+   * *Examples: PT15M, PT1H, P1D, FULL*
+   */
   interval?: string;
   /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
   metricnames?: string;
