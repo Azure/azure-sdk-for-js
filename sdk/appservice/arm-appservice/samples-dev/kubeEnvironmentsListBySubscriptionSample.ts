@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get all Kubernetes Environments for a subscription.
  *
  * @summary Description for Get all Kubernetes Environments for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/KubeEnvironments_ListBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/KubeEnvironments_ListBySubscription.json
  */
 async function listKubeEnvironmentsBySubscription() {
   const subscriptionId =

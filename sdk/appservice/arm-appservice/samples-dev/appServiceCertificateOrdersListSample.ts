@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for List all certificate orders in a subscription.
  *
  * @summary Description for List all certificate orders in a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/ListAppServiceCertificateOrdersBySubscription.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/ListAppServiceCertificateOrdersBySubscription.json
  */
 async function listAppServiceCertificateOrdersBySubscription() {
   const subscriptionId =

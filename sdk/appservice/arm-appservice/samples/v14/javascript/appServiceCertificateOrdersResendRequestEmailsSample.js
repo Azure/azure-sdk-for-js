@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order
  *
  * @summary Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/ResendDomainOwnershipVerificationEmail.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/ResendDomainOwnershipVerificationEmail.json
  */
 async function resendDomainOwnershipVerificationEmail() {
   const subscriptionId =
