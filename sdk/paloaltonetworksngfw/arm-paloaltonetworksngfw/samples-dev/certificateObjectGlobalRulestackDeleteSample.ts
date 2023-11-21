@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a CertificateObjectGlobalRulestackResource
  *
  * @summary Delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_Delete_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -36,7 +36,7 @@ async function certificateObjectGlobalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a CertificateObjectGlobalRulestackResource
  *
  * @summary Delete a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackDeleteMinimumSetGen() {
   const globalRulestackName = "praval";

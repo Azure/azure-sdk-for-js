@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a LocalRulestackResource
  *
  * @summary Delete a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_Delete_MaximumSet_Gen.json
  */
 async function localRulestacksDeleteMaximumSetGen() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function localRulestacksDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a LocalRulestackResource
  *
  * @summary Delete a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_Delete_MinimumSet_Gen.json
  */
 async function localRulestacksDeleteMinimumSetGen() {
   const subscriptionId =
