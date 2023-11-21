@@ -21,7 +21,9 @@ export type AudioResult<ResponseFormat extends AudioResultFormat> = {
 }[ResponseFormat];
 
 // @public
-export type AudioResultFormat = "json"
+export type AudioResultFormat =
+/** This format will return an JSON structure containing a single \"text\" with the transcription. */
+"json"
 /** This format will return an JSON structure containing an enriched structure with the transcription. */
 | "verbose_json"
 /** This will make the response return the transcription as plain/text. */
