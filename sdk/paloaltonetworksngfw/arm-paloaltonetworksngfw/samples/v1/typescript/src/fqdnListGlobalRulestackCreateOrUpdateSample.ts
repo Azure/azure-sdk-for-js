@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a FqdnListGlobalRulestackResource
  *
  * @summary Create a FqdnListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/FqdnListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -47,7 +47,7 @@ async function fqdnListGlobalRulestackCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a FqdnListGlobalRulestackResource
  *
  * @summary Create a FqdnListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/FqdnListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/FqdnListGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function fqdnListGlobalRulestackCreateOrUpdateMinimumSetGen() {
   const globalRulestackName = "praval";

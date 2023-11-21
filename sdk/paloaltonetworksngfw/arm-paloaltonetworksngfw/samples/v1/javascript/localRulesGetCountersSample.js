@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MaximumSet_Gen.json
  */
 async function localRulesGetCountersMaximumSetGen() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function localRulesGetCountersMaximumSetGen() {
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_getCounters_MinimumSet_Gen.json
  */
 async function localRulesGetCountersMinimumSetGen() {
   const subscriptionId =
