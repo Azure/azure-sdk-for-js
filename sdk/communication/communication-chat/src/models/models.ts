@@ -127,4 +127,4 @@ export interface ListPageSettings {
 }
 
 /** Type of Supported Attachments. */
-export type ChatAttachmentType = "image" | "file" | "unkonwn";
+export type ChatAttachmentType = "image" | "file" | "unknown";
