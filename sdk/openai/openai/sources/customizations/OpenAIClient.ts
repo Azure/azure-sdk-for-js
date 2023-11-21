@@ -25,7 +25,6 @@ import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 import { GetChatCompletionsOptions } from "./api/models.js";
 import { ImageGenerationOptions } from "./models/options.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { formDataPolicyName, formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
 import {
   AudioResult,
   AudioResultFormat,
@@ -146,9 +145,6 @@ export class OpenAIClient {
             ],
           }),
     });
-
-    this._client.pipeline.removePolicy({ name: formDataPolicyName });
-    this._client.pipeline.addPolicy(formDataWithFileUploadPolicy());
   }
 
   private setModel(model: string, options: { model?: string }): void {

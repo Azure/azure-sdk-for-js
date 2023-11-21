@@ -53,6 +53,7 @@ export const MAX_STATSBEAT_FAILURES = 3;
 
 export const StatsbeatResourceProvider = {
   appsvc: "appsvc",
+  aks: "aks",
   functions: "functions",
   vm: "vm",
   unknown: "unknown",

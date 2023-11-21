@@ -1,5 +1,17 @@
 # Release History
 
+## 7.9.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Wait for user error handler to finish when possible in session receivers. [PR #27716](https://github.com/Azure/azure-sdk-for-js/pull/27716)
+
+### Other Changes
+
 ## 7.9.3 (2023-11-07)
 
 ### Bugs Fixed

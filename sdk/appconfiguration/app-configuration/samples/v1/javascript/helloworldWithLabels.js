@@ -7,8 +7,7 @@
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
@@ -29,12 +28,12 @@ async function main() {
   await client.addConfigurationSetting({
     key: urlKey,
     label: "beta",
-    value: "https://beta.example.com"
+    value: "https://beta.example.com",
   });
   await client.addConfigurationSetting({
     key: urlKey,
     label: "production",
-    value: "https://example.com"
+    value: "https://example.com",
   });
 
   const betaEndpoint = await client.getConfigurationSetting({ key: urlKey, label: "beta" });
@@ -42,7 +41,7 @@ async function main() {
 
   const productionEndpoint = await client.getConfigurationSetting({
     key: urlKey,
-    label: "production"
+    label: "production",
   });
   console.log(`Endpoint with production label: ${productionEndpoint.value}`);
 
@@ -51,7 +50,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -62,3 +61,5 @@ async function cleanupSampleValues(keys, client) {
 main().catch((error) => {
   console.error("Failed to run sample:", error);
 });
+
+module.exports = { main };

@@ -1,6 +1,6 @@
 {
   "name": "@azure/identity-broker",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "sdk-type": "client",
   "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
   "main": "dist/index.js",
@@ -59,8 +59,8 @@
   "dependencies": {
     "@azure/core-auth": "^1.4.0",
     "@azure/identity": "^4.0.0",
-    "@azure/msal-node": "^2.3.0",
-    "@azure/msal-node-extensions": "^1.0.5",
+    "@azure/msal-node": "^2.5.1",
+    "@azure/msal-node-extensions": "^1.0.7",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -74,7 +74,7 @@
     "@microsoft/api-extractor": "^7.35.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.15",
+    "@types/sinon": "^17.0.0",
     "@types/wtfnode": "0.7.2",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
@@ -83,7 +83,7 @@
     "puppeteer": "^20.5.0",
     "rimraf": "^5.0.1",
     "typescript": "~5.0.0",
-    "sinon": "^15.1.0",
+    "sinon": "^17.0.0",
     "wtfnode": "0.9.1",
     "prettier": "^2.8.8"
   },

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
  *
  * @summary Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Create.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/Grafana_Create.json
  */
 async function grafanaCreate() {
   const subscriptionId =
@@ -29,6 +29,22 @@ async function grafanaCreate() {
     properties: {
       apiKey: "Enabled",
       deterministicOutboundIP: "Enabled",
+      enterpriseConfigurations: {
+        marketplaceAutoRenew: "Enabled",
+        marketplacePlanId: "myPlanId",
+      },
+      grafanaConfigurations: {
+        smtp: {
+          enabled: true,
+          fromAddress: "test@sendemail.com",
+          fromName: "emailsender",
+          host: "smtp.sendemail.com:587",
+          password: "<password>",
+          skipVerify: true,
+          startTLSPolicy: "OpportunisticStartTLS",
+          user: "username",
+        },
+      },
       grafanaIntegrations: {
         azureMonitorWorkspaceIntegrations: [
           {
@@ -37,6 +53,8 @@ async function grafanaCreate() {
           },
         ],
       },
+      grafanaMajorVersion: "9",
+      grafanaPlugins: { samplePluginId: {} },
       publicNetworkAccess: "Enabled",
       zoneRedundancy: "Enabled",
     },
