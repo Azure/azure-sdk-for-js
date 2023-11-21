@@ -329,6 +329,7 @@ export class LiveMetrics {
 
   private addDocument(document: DocumentIngress) {
     if (document) {
+      // Limit risk of memory leak by limiting doc length to something manageable
       if (this.documents.length > 20) {
         this.documents.shift(); // Remove oldest document
       }
