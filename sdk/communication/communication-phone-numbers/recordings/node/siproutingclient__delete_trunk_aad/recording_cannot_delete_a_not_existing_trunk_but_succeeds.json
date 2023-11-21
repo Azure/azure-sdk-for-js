@@ -9,8 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,12 +17,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:13:18 GMT",
-        "MS-CV": "e6XCGbx3DkiMfaF7v9yO8A.0",
+        "Date": "Tue, 21 Nov 2023 15:17:11 GMT",
+        "MS-CV": "kak6neWO4EWtBo4b3w\u002B0Hg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07yBSZQAAAAAcvvER\u002B9vRQJlhSJANz1pNUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0\u002BMlcZQAAAAAERAg0cChSSYDAIw5jnnzgUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "188ms"
+        "X-Processing-Time": "202ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -41,8 +40,7 @@
         "Content-Length": "40",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
@@ -54,12 +52,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:13:18 GMT",
-        "MS-CV": "cr0TPRqKWEaCG16heZugeQ.0",
+        "Date": "Tue, 21 Nov 2023 15:17:12 GMT",
+        "MS-CV": "lHiKpQ5D1k65984N7JN2Nw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07yBSZQAAAACF51YHYNq/Q4G\u002BRcauN/piUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0\u002BMlcZQAAAAAKOIZ56H0/QLaeiiFWTii7UFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "404ms"
+        "X-Processing-Time": "379ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -75,8 +73,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -84,12 +81,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 13 Nov 2023 13:13:19 GMT",
-        "MS-CV": "jx2fBkVeJ0WlKbc3QxHycg.0",
+        "Date": "Tue, 21 Nov 2023 15:17:12 GMT",
+        "MS-CV": "K/NdUsHQe0eqbRsTAzH5pQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07yBSZQAAAAC3Z2WEaMPNQLB2kwk/8E3eUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0\u002BMlcZQAAAADEkn060AJBQKbBDNUQZWKjUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "223ms"
+        "X-Processing-Time": "217ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -98,6 +95,6 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testa783513697c14a7885659036313c4f66.sanitized.sbc.test"
+    "fqdn-1": "testd13dc273ec834e63aa48eaadbb3fa416.sanitized.sbc.test"
   }
 }
