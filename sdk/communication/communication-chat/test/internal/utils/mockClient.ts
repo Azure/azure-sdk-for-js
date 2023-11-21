@@ -84,7 +84,6 @@ export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
       {
         id: "id",
         attachmentType: "image",
-        extension: "png",
         name: "",
         url: "url",
         previewUrl: "previewUrl",
