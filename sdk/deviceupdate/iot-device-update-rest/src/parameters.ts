@@ -60,7 +60,18 @@ export type DeviceUpdateImportUpdateParameters =
 export type DeviceUpdateDeleteUpdateParameters = RequestParameters;
 export type DeviceUpdateListProvidersParameters = RequestParameters;
 export type DeviceUpdateListNamesParameters = RequestParameters;
-export type DeviceUpdateListVersionsParameters = RequestParameters;
+
+export interface DeviceUpdateListVersionsQueryParamProperties {
+  /** Optional to filter updates by isDeployable property. */
+  filter?: string;
+}
+
+export interface DeviceUpdateListVersionsQueryParam {
+  queryParameters?: DeviceUpdateListVersionsQueryParamProperties;
+}
+
+export type DeviceUpdateListVersionsParameters =
+  DeviceUpdateListVersionsQueryParam & RequestParameters;
 export type DeviceUpdateListFilesParameters = RequestParameters;
 
 export interface DeviceUpdateGetFileHeaders {

@@ -33,7 +33,7 @@ import {
   PagedDeviceOperationOutput,
   PagedLogCollectionOutput,
   LogCollectionOutput,
-  PagedLogCollectionOperationDetailedStatusOutput,
+  LogCollectionOperationDetailedStatusOutput,
   PagedDeviceHealthOutput,
   LimitsOutput,
 } from "./outputModels";
@@ -1145,7 +1145,7 @@ export interface DeviceManagementStartLogCollectionDefaultResponse
 export interface DeviceManagementGetLogCollectionDetailedStatus200Response
   extends HttpResponse {
   status: "200";
-  body: PagedLogCollectionOperationDetailedStatusOutput;
+  body: LogCollectionOperationDetailedStatusOutput;
 }
 
 export interface DeviceManagementGetLogCollectionDetailedStatusDefaultHeaders {

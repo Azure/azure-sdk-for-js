@@ -1,4 +1,4 @@
 directory: specification/deviceupdate/Microsoft.DeviceUpdate
-commit: 0788c5a7d5375a141d66f2cb82266f7c8190550d
+commit: 7aeac5c0dd0e6c160e6567bd897a6b2fdf73314b
 repo: Azure/azure-rest-api-specs-pr
 additionalDirectories:

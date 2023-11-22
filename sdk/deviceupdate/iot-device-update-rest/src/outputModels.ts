@@ -697,8 +697,5 @@ export type PagedDeploymentDeviceStateOutput =
 export type PagedDeviceOperationOutput = Paged<DeviceOperationOutput>;
 /** Paged collection of LogCollection items */
 export type PagedLogCollectionOutput = Paged<LogCollectionOutput>;
-/** Paged collection of LogCollectionOperationDetailedStatus items */
-export type PagedLogCollectionOperationDetailedStatusOutput =
-  Paged<LogCollectionOperationDetailedStatusOutput>;
 /** Paged collection of DeviceHealth items */
 export type PagedDeviceHealthOutput = Paged<DeviceHealthOutput>;
