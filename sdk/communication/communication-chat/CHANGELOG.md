@@ -1,8 +1,11 @@
 # Release History
 
-## 1.4.0 (TBD)
+## 1.4.0 (Unreleased)
+
+### Features Added
 
 - Added inline image support
+- Updated @azure/communication-signaling to 1.0.0-beta.22 with inline image support
 
 ## 1.3.2 (2023-08-24)
 
