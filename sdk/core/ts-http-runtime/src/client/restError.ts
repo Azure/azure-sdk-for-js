@@ -9,11 +9,23 @@ import { PathUncheckedResponse } from "./common";
 /**
  * Creates a rest error from a PathUnchecked response
  */
-export function createRestError(message: string, response: PathUncheckedResponse): RestError {
+export function createRestError(response: PathUncheckedResponse): RestError;
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
+export function createRestError(
+  messageOrResponse: string | PathUncheckedResponse,
+  response?: PathUncheckedResponse
+): RestError {
+  const resp = typeof messageOrResponse === "string" ? response : messageOrResponse;
+  const internalError = resp?.body.error || resp?.body || resp;
+  const message =
+    typeof messageOrResponse === "string"
+      ? messageOrResponse
+      : internalError.message ?? `Unexpected status code: ${resp?.status}`;
   return new RestError(message, {
-    statusCode: statusCodeToNumber(response.status),
-    request: response.request,
-    response: toPipelineResponse(response),
+    statusCode: statusCodeToNumber(resp?.status ?? "-1"),
+    code: internalError.code,
+    request: resp?.request,
+    response: toPipelineResponse(resp!),
   });
 }
 
