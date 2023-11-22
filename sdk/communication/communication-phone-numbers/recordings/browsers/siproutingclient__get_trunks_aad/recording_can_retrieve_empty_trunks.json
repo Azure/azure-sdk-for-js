@@ -18,7 +18,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,16 +26,16 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "108",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 16:02:11 GMT",
-        "MS-CV": "bk//F1fhDkW7ge\u002B4YGm\u002BjQ.0",
+        "Date": "Wed, 22 Nov 2023 10:41:10 GMT",
+        "MS-CV": "3P6LvstoIkSmFqXQeYk56w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0g9RcZQAAAABXA7q6jYMRTqWxhOtnO9JPUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0xtpdZQAAAADLtoRGGUoNTbX6s/Qe5KKVUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "206ms"
+        "X-Processing-Time": "247ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test3b8908599758497eaa30ecf9bd5eff48.sanitized.sbc.test": {
+          "test3750dd6d47844ea5855323c1431442b1.sanitized.sbc.test": {
             "sipSignalingPort": 4567
           }
         },
@@ -62,11 +62,11 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "trunks": {
-          "test3b8908599758497eaa30ecf9bd5eff48.sanitized.sbc.test": null
+          "test3750dd6d47844ea5855323c1431442b1.sanitized.sbc.test": null
         }
       },
       "StatusCode": 200,
@@ -74,12 +74,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 16:02:11 GMT",
-        "MS-CV": "QhWLDZBc8kGgK4jcKYwVkA.0",
+        "Date": "Wed, 22 Nov 2023 10:41:11 GMT",
+        "MS-CV": "gDpzztNuqkK0ng\u002Bs1JyCNg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0hNRcZQAAAABfJUkSNlwuSq7Dy1gOkVdJUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0x9pdZQAAAAD7nK2CDiqBTqvzGeNXhPivUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "344ms"
+        "X-Processing-Time": "460ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -104,7 +104,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -112,12 +112,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 16:02:11 GMT",
-        "MS-CV": "dsaPSOm9m0\u002BOoKiBAQdVWw.0",
+        "Date": "Wed, 22 Nov 2023 10:41:11 GMT",
+        "MS-CV": "X3ZswaNiGEyiKaaCTd7\u002Bnw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0hNRcZQAAAAC2hU7qPxfXSqc7OQmsxgaiUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0x9pdZQAAAABkvN3sS/6wSbFzL4yM7EUuUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "197ms"
+        "X-Processing-Time": "211ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -126,9 +126,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test5d6dcc1d09f24a89a38f2315424749dd.sanitized.sbc.test",
-    "fqdn-2": "testbd07a0794c04472e8897beb5e816df29.sanitized.sbc.test",
-    "fqdn-3": "test80140e6e8531449ebac4d9292732862f.sanitized.sbc.test",
-    "fqdn-4": "test2b71c60034a346ca86eb2493785dbb1c.sanitized.sbc.test"
+    "fqdn-1": "testf32ec0ac00264d4294c5fbe4e14d3203.sanitized.sbc.test",
+    "fqdn-2": "test73268674d7ad4271ac60d57d73ebd99d.sanitized.sbc.test",
+    "fqdn-3": "test1743a9bbc616468d854aaca5e900b5d2.sanitized.sbc.test",
+    "fqdn-4": "test8a467545aa3a45c58f2a3e2524b9a6e2.sanitized.sbc.test"
   }
 }

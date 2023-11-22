@@ -19,8 +19,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 21 Nov 2023 16:02:17 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-date": "Wed, 22 Nov 2023 10:41:15 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -28,12 +28,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 16:02:14 GMT",
-        "MS-CV": "L4SOmrD8YEmy9TnaqQJLFA.0",
+        "Date": "Wed, 22 Nov 2023 10:41:14 GMT",
+        "MS-CV": "jMDshiRWJk\u002BL1kLNduPHXA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0h9RcZQAAAAAeaYykvcFYS46OaRCPqZhjUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0ytpdZQAAAADqjMRMV/d5QIVjSErQAvOmUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "206ms"
+        "X-Processing-Time": "222ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -42,9 +42,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test790487efc91c49d9a60f9601dfa4b91d.sanitized.sbc.test",
-    "fqdn-2": "testd3dae4284c23413d9988a962aba1ead9.sanitized.sbc.test",
-    "fqdn-3": "testede01dbebeb6496d9829439b2d5229a9.sanitized.sbc.test",
-    "fqdn-4": "testc9ff91d7312e486ca4b909ad3d9768bd.sanitized.sbc.test"
+    "fqdn-1": "test13200c8ff34041bab1f45cba64fbdd32.sanitized.sbc.test",
+    "fqdn-2": "testb7764251b4aa42fab00aaeb72bbfc4f2.sanitized.sbc.test",
+    "fqdn-3": "test234e4ee2357c46ccb949a1fbc75ad467.sanitized.sbc.test",
+    "fqdn-4": "test86df767f398348e8b4b71bdd485aebca.sanitized.sbc.test"
   }
 }

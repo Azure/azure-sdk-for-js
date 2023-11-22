@@ -18,21 +18,21 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10221",
+        "Content-Length": "10217",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:59:32 GMT",
-        "MS-CV": "M4Kn5D6WcEGKCXnLyhU3GQ.0",
+        "Date": "Wed, 22 Nov 2023 10:40:50 GMT",
+        "MS-CV": "u4xqN8LX5EOZOoHsIZlHLw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "049NcZQAAAABQqdSyjhVDRYfOO84zcMRSUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0stpdZQAAAAAR3kXCM4QGSo20Ln8Jc/THUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "993ms"
+        "X-Processing-Time": "744ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -618,6 +618,13 @@
             }
           },
           {
+            "localizedName": "Lowell",
+            "administrativeDivision": {
+              "localizedName": "MA",
+              "abbreviatedName": "MA"
+            }
+          },
+          {
             "localizedName": "Lynn",
             "administrativeDivision": {
               "localizedName": "MA",
@@ -728,13 +735,6 @@
               "localizedName": "MI",
               "abbreviatedName": "MI"
             }
-          },
-          {
-            "localizedName": "Alexandria",
-            "administrativeDivision": {
-              "localizedName": "MN",
-              "abbreviatedName": "MN"
-            }
           }
         ],
         "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
@@ -758,24 +758,31 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10194",
+        "Content-Length": "10195",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:59:33 GMT",
-        "MS-CV": "d20EL5etIEecSZMbnxK1Yw.0",
+        "Date": "Wed, 22 Nov 2023 10:40:51 GMT",
+        "MS-CV": "stAz6p55j0qLIDi5e32uDw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05dNcZQAAAAC91XPQUN37Samitl5V\u002BITDUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0s9pdZQAAAACPlYWXbDnjTa3Ow37WLH2/UFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "759ms"
+        "X-Processing-Time": "753ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
+          {
+            "localizedName": "Alexandria",
+            "administrativeDivision": {
+              "localizedName": "MN",
+              "abbreviatedName": "MN"
+            }
+          },
           {
             "localizedName": "Bloomington",
             "administrativeDivision": {
@@ -1463,17 +1470,10 @@
             }
           },
           {
-            "localizedName": "Tacoma",
+            "localizedName": "Seattle",
             "administrativeDivision": {
               "localizedName": "WA",
               "abbreviatedName": "WA"
-            }
-          },
-          {
-            "localizedName": "Eau Claire",
-            "administrativeDivision": {
-              "localizedName": "WI",
-              "abbreviatedName": "WI"
             }
           }
         ],
@@ -1498,24 +1498,38 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "543",
+        "Content-Length": "743",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:59:33 GMT",
-        "MS-CV": "KgMKiMy9902ru4DjKpj0hQ.0",
+        "Date": "Wed, 22 Nov 2023 10:40:52 GMT",
+        "MS-CV": "owlW86/WlEuRawsjHut5Uw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "05dNcZQAAAADIn/i45dNZR4yCreII9hpNUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0s9pdZQAAAADVvLs2uFa3TplrPEREQqnKUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "767ms"
+        "X-Processing-Time": "765ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
+          {
+            "localizedName": "Tacoma",
+            "administrativeDivision": {
+              "localizedName": "WA",
+              "abbreviatedName": "WA"
+            }
+          },
+          {
+            "localizedName": "Eau Claire",
+            "administrativeDivision": {
+              "localizedName": "WI",
+              "abbreviatedName": "WI"
+            }
+          },
           {
             "localizedName": "Kenosha",
             "administrativeDivision": {
