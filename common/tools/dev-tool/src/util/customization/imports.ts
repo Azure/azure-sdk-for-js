@@ -26,7 +26,7 @@ export function augmentImports(
   customImports: ImportDeclaration[],
   originalFile: SourceFile
 ) {
-  const originalFilePath = originalFile.getFilePath();
+  const originalFilePath = originalFile.getFilePath().replace(/\\/g, "/");
 
   const importMap = new Map<string, ImportDeclaration>();
   originalImports.forEach((importDecl, moduleSpecifier) => {
@@ -46,7 +46,7 @@ export function augmentImports(
 }
 
 function removeSelfImports(originalFile: SourceFile) {
-  const filePath = originalFile.getFilePath();
+  const filePath = originalFile.getFilePath().replace(/\\/g, "/");
   const filePathObject = path.parse(filePath);
   const filePathWithoutExt = removeFileExtension(filePath);
 
@@ -103,7 +103,7 @@ function mergeImportIntoFile(
     customImportDecl: ImportDeclaration
   ): LocalModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
-    const customFilePath = customImportDecl.getSourceFile().getFilePath();
+    const customFilePath = customImportDecl.getSourceFile().getFilePath().replace(/\\/g, "/");
 
     const moduleSpecifierFromCustomFile = normalizeModuleSpecifier(
       customImportDecl.getModuleSpecifierValue(),
