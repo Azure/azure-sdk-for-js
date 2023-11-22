@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   MachineExtension,
   MachineExtensionsListOptionalParams,
@@ -50,8 +50,8 @@ export interface MachineExtensions {
     extensionParameters: MachineExtension,
     options?: MachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsCreateOrUpdateResponse>,
       MachineExtensionsCreateOrUpdateResponse
     >
   >;
@@ -85,8 +85,8 @@ export interface MachineExtensions {
     extensionParameters: MachineExtensionUpdate,
     options?: MachineExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsUpdateResponse>,
       MachineExtensionsUpdateResponse
     >
   >;
@@ -117,7 +117,7 @@ export interface MachineExtensions {
     machineName: string,
     extensionName: string,
     options?: MachineExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the extension.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

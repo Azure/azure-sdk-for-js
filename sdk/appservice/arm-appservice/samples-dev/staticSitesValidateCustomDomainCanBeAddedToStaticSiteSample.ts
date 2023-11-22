@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Validates a particular custom domain can be added to a static site.
  *
  * @summary Description for Validates a particular custom domain can be added to a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ValidateStaticSiteCustomDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ValidateStaticSiteCustomDomain.json
  */
 async function validateACustomDomainForAStaticSite() {
   const subscriptionId =

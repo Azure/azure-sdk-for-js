@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get workflow information by its ID for web site, or a deployment slot.
  *
  * @summary Get workflow information by its ID for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetWorkflow.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetWorkflow.json
  */
 async function getAWorkflow() {
   const subscriptionId =

@@ -284,6 +284,9 @@
     },
     {
       "path": "sdk/core/core-http-compat"
+    },
+    {
+      "path": "sdk/openai/openai"
     }
   ],
   "settings": {

@@ -327,6 +327,9 @@
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -519,6 +522,9 @@
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/nginx/arm-nginx/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network/      @qiaozha @MaryGao
