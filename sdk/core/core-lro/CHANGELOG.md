@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Search for the `resourceLocation` property in the raw response body if it cannot be found in the parsed response body.
+
 ## 2.5.4 (2023-07-24)
 
 ### Bugs Fixed
