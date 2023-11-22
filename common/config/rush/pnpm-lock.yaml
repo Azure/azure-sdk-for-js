@@ -1157,6 +1157,42 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/communication-common@2.3.0:
+    resolution: {integrity: sha512-KqpdV1AsojDcmISMnvv9MTE8lNRcgz+OQukp2mFl/cm4aKjzROrGcSlayU6p9A51knRGwgoS6hXkaUdqU5cXow==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.6.1
+      events: 3.3.0
+      jwt-decode: 3.1.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/communication-phone-numbers@1.2.0:
+    resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/communication-common': 2.3.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.20:
     resolution: {integrity: sha512-Vjsiv6lWiVFqTG51cKNOAwnhuUhKbb6oOsQ833NEaWl9MwlqEQtxSOMJPYsoSCjb+pnIYvbioC+hIHkKfkAxbQ==}
     engines: {node: '>=8.0.0'}
@@ -3509,6 +3545,13 @@ packages:
     requiresBuild: true
     dev: false
 
+  /autorest@3.7.0:
+    resolution: {integrity: sha512-E6RXXd6S8Kyc0oNY7Ar0IARSMTodIrww7FBR0FZSuQT0J8P3udvqXFexr2K290fr8qm7kAl7OUsWq08FTbIJoA==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -4440,7 +4483,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231116
+      typescript: 5.4.0-dev.20231122
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4449,7 +4492,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231116
+      typescript: 5.4.0-dev.20231122
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -6329,6 +6372,10 @@ packages:
     dependencies:
       jwa: 2.0.0
       safe-buffer: 5.2.1
+    dev: false
+
+  /jwt-decode@3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
   /jwt-decode@4.0.0:
@@ -9163,8 +9210,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231116:
-    resolution: {integrity: sha512-arT/MwHnosyqo1MQ2xN9VzwvWo1jxrhUpa1iQX1yZACfBRJb1dQ1D2MU/Ijotjr6eXw8BZ3RFdj9X/9O56iOgw==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.4.0-dev.20231122:
+    resolution: {integrity: sha512-jEdb2OJDseS3Vi8dg4ARi3ZDqwopyxJP9qsIFawXzTrVSfcIj4WGbBvDx4MIJuwFqGhkJ4G2cJESi3+eN0Rydw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9792,7 +9845,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9838,7 +9891,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9880,7 +9933,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10113,7 +10166,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       dotenv: 8.6.0
       eslint: 8.53.0
@@ -10185,7 +10238,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10277,7 +10330,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10757,7 +10810,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11417,7 +11470,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11637,7 +11690,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13906,7 +13959,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15188,7 +15241,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16087,10 +16140,11 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-qOe6wz4VYWVtqkS7uQa119WwJzkQTEX70n0uaK4TbAeVobqsRP4JNyfjHn1Z1B1EP29jYtVjCQj2PrzyqphycA==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-o6mQoyc/Z9Y6dunhNfXjbnggmOU74jzLr/TCMU0gmpLo9CfsNDLS0UxmU67lCwmN2pT2/JOiUKZpE5ohDCUlFQ==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
+      '@azure/communication-phone-numbers': 1.2.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -16383,7 +16437,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17545,7 +17599,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
@@ -17611,7 +17665,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18017,7 +18071,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18062,7 +18116,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18565,7 +18619,7 @@ packages:
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18674,7 +18728,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18720,7 +18774,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18766,7 +18820,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18812,7 +18866,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19938,7 +19992,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19983,7 +20037,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.9
-      autorest: 3.6.3
+      autorest: 3.7.0
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20472,7 +20526,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-cElx8OY4OhnGLeTTxL6P+Y9+1krsptOCY82lNRi1RFirPFEYptgQO4uu3PzSSi10nVD7XZCUufej5e5CJvCQ0A==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-40V28wv/bYrwzBpkO7wTPesmR3f+iSe2KZUv762kyxG36GJDzBRLmcNkAw6SyV+o7RRA/XCTgGB/sCQc7gK2ZQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
