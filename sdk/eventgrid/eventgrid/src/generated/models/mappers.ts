@@ -6372,6 +6372,14 @@ export const AcsChatThreadParticipant: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CommunicationIdentifierModel"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -7653,7 +7661,8 @@ export const ResourceNotificationsResourceUpdatedDetails: coreClient.CompositeMa
         serializedName: "tags",
         required: true,
         type: {
-          name: "String"
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       properties: {
@@ -7708,6 +7717,59 @@ export const ResourceNotificationsResourceUpdatedEventData: coreClient.Composite
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsResourceDeletedDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceDeletedDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsResourceDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceDeletedEventData",
+    modelProperties: {
+      resourceDetails: {
+        serializedName: "resourceInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsResourceDeletedDetails"
+        }
+      },
+      operationalDetails: {
+        serializedName: "operationalInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsOperationalDetails"
         }
       }
     }
@@ -8573,6 +8635,27 @@ export const ResourceNotificationsHealthResourcesAnnotatedEventData: coreClient.
   }
 };
 
+export const ResourceNotificationsResourceManagementCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ResourceNotificationsResourceManagementCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsResourceManagementDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceManagementDeletedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceDeletedEventData.type.modelProperties
+    }
+  }
+};
+
 export const AcsRouterJobCancelledEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9350,6 +9433,14 @@ export const AcsChatThreadCreatedWithUserEventData: coreClient.CompositeMapper =
           value: { type: { name: "any" } }
         }
       },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       participants: {
         serializedName: "participants",
         required: true,
@@ -9409,6 +9500,14 @@ export const AcsChatThreadPropertiesUpdatedPerUserEventData: coreClient.Composit
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       properties: {
@@ -9647,6 +9746,14 @@ export const AcsChatThreadPropertiesUpdatedEventData: coreClient.CompositeMapper
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

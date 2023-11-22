@@ -2,20 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  ChatCompletionsOptions as GeneratedChatCompletionsOptions,
   ChatMessage,
   Completions,
   ImageGenerations,
   ImageLocation,
 } from "../../generated/src/models/models.js";
-import {
-  GetChatCompletionsWithAzureExtensionsOptions,
-  GetCompletionsOptions,
-  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
-} from "../../generated/src/models/options.js";
-import {
-  _getCompletionsSend,
-  _beginAzureBatchImageGenerationSend,
-} from "../../generated/src/api/operations.js";
+import { GetCompletionsOptions } from "../models/options.js";
+import { _getCompletionsSend } from "../../generated/src/api/operations.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import {
   BeginAzureBatchImageGeneration202Response,
@@ -35,8 +29,9 @@ import {
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ChatCompletions } from "../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
-import { GetChatCompletionsOptions, StreamProducer } from "./models.js";
+import { StreamProducer } from "./models.js";
 import { ImageGenerationOptions } from "../models/options.js";
+import { ImageGenerationOptions as GeneratedImageGenerationOptions } from "../../generated/src/models/models.js";
 import { renameKeysToCamelCase } from "./util.js";
 import {
   AudioResult,
@@ -45,6 +40,11 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "../models/audio.js";
+import {
+  BeginAzureBatchImageGenerationOptions as GeneratedBatchImageGenerationOptions,
+  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
+} from "../../generated/src/models/options.js";
+import { GetChatCompletionsOptions } from "./models.js";
 import { createFileFromStream } from "@azure/core-rest-pipeline";
 
 export function listCompletions(
@@ -53,10 +53,16 @@ export function listCompletions(
   deploymentName: string,
   options: GetCompletionsOptions = { requestOptions: {} }
 ): AsyncIterable<Omit<Completions, "usage">> {
-  const response = _getCompletionsSend(context, prompt, deploymentName, {
-    ...options,
-    stream: true,
-  });
+  const response = _getCompletionsSend(
+    context,
+    deploymentName,
+    {
+      prompt,
+      ...options,
+      stream: true,
+    },
+    options
+  );
   return getOaiSSEs(response, getCompletionsResult);
 }
 
@@ -65,7 +71,11 @@ export async function getImages(
   prompt: string,
   options: ImageGenerationOptions = { requestOptions: {} }
 ): Promise<ImageGenerations> {
-  const response = await _beginAzureBatchImageGenerationSend(context, prompt, options);
+  const response = await _beginAzureBatchImageGenerationSend(
+    context,
+    { prompt, ...options },
+    options
+  );
 
   if (isUnexpected(response)) {
     // Check for response from OpenAI
@@ -128,11 +138,15 @@ function _getChatCompletionsSendX(
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
   return options.azureExtensionOptions?.extensions
-    ? _getChatCompletionsWithAzureExtensionsSend(context, messages, deploymentName, {
-        ...options,
-        dataSources: options.azureExtensionOptions?.extensions,
-      })
-    : _getChatCompletionsSend(context, messages, deploymentName, options);
+    ? _getChatCompletionsWithAzureExtensionsSend(
+        context,
+        deploymentName,
+        { messages, ...options, dataSources: options.azureExtensionOptions?.extensions },
+        {
+          ...options,
+        }
+      )
+    : _getChatCompletionsSend(context, deploymentName, { messages, ...options }, options);
 }
 
 export function listChatCompletions(
@@ -303,9 +317,9 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
 
 export function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
-  messages: ChatMessage[],
   deploymentId: string,
-  options: GetChatCompletionsWithAzureExtensionsOptions = { requestOptions: {} }
+  body: GeneratedChatCompletionsOptions,
+  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -315,49 +329,49 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: parseChatMessage(messages),
-        functions: options?.functions,
-        function_call: options?.functionCall,
-        max_tokens: options?.maxTokens,
-        temperature: options?.temperature,
-        top_p: options?.topP,
-        logit_bias: options?.logitBias,
-        user: options?.user,
-        n: options?.n,
-        stop: options?.stop,
-        presence_penalty: options?.presencePenalty,
-        frequency_penalty: options?.frequencyPenalty,
-        stream: options?.stream,
-        model: options?.model,
-        dataSources: options?.dataSources,
+        messages: parseChatMessage(body.messages),
+        functions: body["functions"],
+        function_call: body["functionCall"],
+        max_tokens: body["maxTokens"],
+        temperature: body["temperature"],
+        top_p: body["topP"],
+        logit_bias: body["logitBias"],
+        user: body["user"],
+        n: body["n"],
+        stop: body["stop"],
+        presence_penalty: body["presencePenalty"],
+        frequency_penalty: body["frequencyPenalty"],
+        stream: body["stream"],
+        model: body["model"],
+        dataSources: body["dataSources"],
       },
     });
 }
 
 export function _getChatCompletionsSend(
   context: Client,
-  messages: ChatMessage[],
   deploymentId: string,
+  body: GeneratedChatCompletionsOptions,
   options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
     body: {
-      messages: parseChatMessage(messages),
-      functions: options?.functions,
-      function_call: options?.functionCall,
-      max_tokens: options?.maxTokens,
-      temperature: options?.temperature,
-      top_p: options?.topP,
-      logit_bias: options?.logitBias,
-      user: options?.user,
-      n: options?.n,
-      stop: options?.stop,
-      presence_penalty: options?.presencePenalty,
-      frequency_penalty: options?.frequencyPenalty,
-      stream: options?.stream,
-      model: options?.model,
-      dataSources: options?.dataSources,
+      messages: parseChatMessage(body.messages),
+      functions: body["functions"],
+      function_call: body["functionCall"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      stream: body["stream"],
+      model: body["model"],
+      dataSources: body["dataSources"],
     },
   });
 }
@@ -370,4 +384,25 @@ function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
     function_call: p.functionCall,
     context: p.context,
   }));
+}
+
+function _beginAzureBatchImageGenerationSend(
+  context: Client,
+  body: GeneratedImageGenerationOptions,
+  options: GeneratedBatchImageGenerationOptions = { requestOptions: {} }
+): StreamableMethod<
+  | BeginAzureBatchImageGeneration202Response
+  | BeginAzureBatchImageGenerationDefaultResponse
+  | BeginAzureBatchImageGenerationLogicalResponse
+> {
+  return context.path("/images/generations:submit").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: body["prompt"],
+      n: body["n"],
+      size: body["size"],
+      response_format: body["responseFormat"],
+      user: body["user"],
+    },
+  });
 }

@@ -8,19 +8,28 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { createOpenAI } from "./api/OpenAIContext.js";
+import { GetChatCompletionsOptions, StreamProducer } from "./api/models.js";
 import {
-  OpenAIClientOptions,
-  OpenAIContext,
-  createOpenAI,
+  getAudioTranscription,
+  getAudioTranslation,
   getChatCompletions,
   getCompletions,
   getEmbeddings,
   getImages,
   listChatCompletions,
   listCompletions,
-} from "./api/index.js";
+} from "./api/operations.js";
+import { nonAzurePolicy } from "./api/policies/nonAzure.js";
+import { OpenAIClientOptions } from "./index.js";
+import {
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  GetAudioTranscriptionOptions,
+  GetAudioTranslationOptions,
+} from "./models/audio.js";
 import {
   ChatCompletions,
   ChatMessage,
@@ -33,16 +42,7 @@ import {
   GetEmbeddingsOptions,
   ImageGenerationOptions,
 } from "./models/options.js";
-import { GetChatCompletionsOptions, StreamProducer } from "./api/models.js";
-import {
-  AudioResultFormat,
-  AudioResult,
-  GetAudioTranscriptionOptions,
-  GetAudioTranslationOptions,
-  AudioResultSimpleJson,
-} from "./models/audio.js";
-import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { getAudioTranscription, getAudioTranslation } from "./api/operations.js";
+import { OpenAIContext } from "./rest/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
@@ -133,7 +133,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
-    return getCompletions(this._client, prompt, deploymentName, options);
+    return getCompletions(this._client, deploymentName, { prompt, ...options }, options);
   }
 
   /**
@@ -165,7 +165,7 @@ export class OpenAIClient {
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
-    return getEmbeddings(this._client, input, deploymentName, options);
+    return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
   }
 
   /**
@@ -239,7 +239,6 @@ export class OpenAIClient {
     format: Format,
     options?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>>;
-  // implementation
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
     audioStream: StreamProducer,
@@ -255,6 +254,7 @@ export class OpenAIClient {
         AudioResult<Format>
       >;
     }
+
     return getAudioTranscription(
       this._client,
       deploymentName,
@@ -290,7 +290,6 @@ export class OpenAIClient {
     format: Format,
     options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
-  // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
     audioStream: StreamProducer,

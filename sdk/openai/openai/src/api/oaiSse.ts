@@ -8,7 +8,6 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { StreamableMethod } from "@azure-rest/core-client";
 import { getSSEs } from "./getSSEs.js";
 import { wrapError } from "./util.js";

@@ -15,6 +15,7 @@
 ### Other Changes
 
 - `formDataPolicy` now uses `multipartPolicy` when content type is `multipart/form-data`.
+- Trim leading and trailing whitespace from header values.
 
 ## 1.12.2 (2023-10-23)
 

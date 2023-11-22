@@ -6,7 +6,7 @@ import {
   ContentFilterResult,
   FunctionCallPreset,
   FunctionName,
-} from "../../generated/src/index.js";
+} from "../../generated/src/models/models.js";
 import { AzureChatExtensionConfiguration, FunctionDefinition } from "../models/models.js";
 
 /**

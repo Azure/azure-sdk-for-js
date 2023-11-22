@@ -15,7 +15,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 disable-async-iterators: true
 api-version-parameter: choice
-package-version: 4.8.0-beta.1
+package-version: 4.8.0-beta.2
 use-extension:
   "@autorest/typescript": "6.0.0-beta.19"
 ```

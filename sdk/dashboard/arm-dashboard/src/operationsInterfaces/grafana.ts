@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ManagedGrafana,
   GrafanaListOptionalParams,
@@ -19,7 +19,11 @@ import {
   ManagedGrafanaUpdateParameters,
   GrafanaUpdateOptionalParams,
   GrafanaUpdateResponse,
-  GrafanaDeleteOptionalParams
+  GrafanaDeleteOptionalParams,
+  GrafanaCheckEnterpriseDetailsOptionalParams,
+  GrafanaCheckEnterpriseDetailsResponse,
+  GrafanaFetchAvailablePluginsOptionalParams,
+  GrafanaFetchAvailablePluginsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +70,10 @@ export interface Grafana {
     requestBodyParameters: ManagedGrafana,
     options?: GrafanaCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<GrafanaCreateResponse>, GrafanaCreateResponse>
+    SimplePollerLike<
+      OperationState<GrafanaCreateResponse>,
+      GrafanaCreateResponse
+    >
   >;
   /**
    * Create or update a workspace for Grafana resource. This API is idempotent, so user can either create
@@ -105,7 +112,7 @@ export interface Grafana {
     resourceGroupName: string,
     workspaceName: string,
     options?: GrafanaDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a workspace for Grafana resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -117,4 +124,25 @@ export interface Grafana {
     workspaceName: string,
     options?: GrafanaDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Retrieve enterprise add-on details information
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The workspace name of Azure Managed Grafana.
+   * @param options The options parameters.
+   */
+  checkEnterpriseDetails(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: GrafanaCheckEnterpriseDetailsOptionalParams
+  ): Promise<GrafanaCheckEnterpriseDetailsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The workspace name of Azure Managed Grafana.
+   * @param options The options parameters.
+   */
+  fetchAvailablePlugins(
+    resourceGroupName: string,
+    workspaceName: string,
+    options?: GrafanaFetchAvailablePluginsOptionalParams
+  ): Promise<GrafanaFetchAvailablePluginsResponse>;
 }

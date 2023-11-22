@@ -10,9 +10,6 @@
  */
 
 export {
-  Embeddings,
-  EmbeddingItem,
-  EmbeddingsUsage,
   Completions,
   PromptFilterResult,
   ContentFilterResult,
@@ -39,6 +36,9 @@ export {
   AzureOpenAIOperationState,
   ImageSize,
   ImageGenerationResponseFormat,
+  Embeddings,
+  EmbeddingItem,
+  EmbeddingsUsage,
 } from "./models.js";
 export { GetEmbeddingsOptions, GetCompletionsOptions, ImageGenerationOptions } from "./options.js";
 export {

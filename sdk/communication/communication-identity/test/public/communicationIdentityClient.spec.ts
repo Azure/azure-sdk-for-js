@@ -19,9 +19,20 @@ matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationIdentityClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
-    const chatScope: TokenScope[] = ["chat"];
-    const voipScope: TokenScope[] = ["voip"];
-    const multipleScopes: TokenScope[] = ["chat", "voip"];
+
+    const scopes: TokenScope[] = ["chat", "voip"];
+
+    const tokenScopeScenarios = [
+      { scopes: ["chat"], description: "ChatScope" },
+      { scopes: ["voip"], description: "VoipScope" },
+      { scopes: ["chat.join"], description: "ChatJoinScope" },
+      { scopes: ["chat.join.limited"], description: "ChatJoinLimitedScope" },
+      { scopes: ["voip.join"], description: "VoipJoinScope" },
+      { scopes: ["chat", "voip"], description: "ChatVoipScopes" },
+      { scopes: ["chat", "chat.join", "chat.join.limited"], description: "AllChatScopes" },
+      { scopes: ["voip", "voip.join"], description: "AllVoipScopes" },
+      { scopes: ["chat.join", "voip.join"], description: "ChatJoinVoipJoinScopes" },
+    ];
 
     beforeEach(async function (this: Context) {
       if (useAad) {
@@ -42,13 +53,13 @@ matrix([[true, false]], async function (useAad: boolean) {
       assert.isString(user.communicationUserId);
     });
 
-    [
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ].forEach((input) =>
-      it(`successfully creates a user and token <${input.description}>`, async function () {
-        const { user: newUser, token, expiresOn } = await client.createUserAndToken(input.scopes);
+    tokenScopeScenarios.forEach((scenario) =>
+      it(`successfully creates a user and token <${scenario.description}>`, async function () {
+        const {
+          user: newUser,
+          token,
+          expiresOn,
+        } = await client.createUserAndToken(scenario.scopes as TokenScope[]);
         assert.isTrue(isCommunicationUserIdentifier(newUser));
         assert.isString(newUser.communicationUserId);
         assert.isString(token);
@@ -56,21 +67,17 @@ matrix([[true, false]], async function (useAad: boolean) {
       })
     );
 
-    [
-      { scopes: chatScope, description: "chat scope" },
-      { scopes: voipScope, description: "voip scope" },
-      { scopes: multipleScopes, description: "multiple scopes" },
-    ].forEach((input) =>
-      it(`successfully gets a token for a user <${input.description}>`, async function () {
+    tokenScopeScenarios.forEach((scenario) =>
+      it(`successfully gets a token for a user <${scenario.description}>`, async function () {
         const user: CommunicationUserIdentifier = await client.createUser();
-        const { token, expiresOn } = await client.getToken(user, input.scopes);
+        const { token, expiresOn } = await client.getToken(user, scenario.scopes as TokenScope[]);
         assert.isString(token);
         assert.instanceOf(expiresOn, Date);
       })
     );
 
     it("successfully revokes tokens issued for a user", async function () {
-      const { user } = await client.createUserAndToken(multipleScopes);
+      const { user } = await client.createUserAndToken(scopes);
       await client.revokeTokens(user);
     });
 
@@ -99,7 +106,7 @@ matrix([[true, false]], async function (useAad: boolean) {
 
       it("throws an error when attempting to issue a token for an invalid user", async function () {
         try {
-          await client.getToken(fakeUser, multipleScopes);
+          await client.getToken(fakeUser, scopes);
           assert.fail("Should have thrown an error");
         } catch (e: any) {
           assert.equal(e.statusCode, 401);
