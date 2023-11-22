@@ -36,7 +36,8 @@ import {
   PrivateEndPointConnectionsImpl,
   PrivateEndpointConnectionImpl,
   PrivateLinkResourcesImpl,
-  GlobalParametersImpl
+  GlobalParametersImpl,
+  ChangeDataCaptureImpl
 } from "./operations";
 import {
   Operations,
@@ -60,7 +61,8 @@ import {
   PrivateEndPointConnections,
   PrivateEndpointConnection,
   PrivateLinkResources,
-  GlobalParameters
+  GlobalParameters,
+  ChangeDataCapture
 } from "./operationsInterfaces";
 import { DataFactoryManagementClientOptionalParams } from "./models";
 
@@ -96,7 +98,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datafactory/11.1.1`;
+    const packageDetails = `azsdk-js-arm-datafactory/12.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -174,6 +176,7 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
     this.privateEndpointConnection = new PrivateEndpointConnectionImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.globalParameters = new GlobalParametersImpl(this);
+    this.changeDataCapture = new ChangeDataCaptureImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -227,4 +230,5 @@ export class DataFactoryManagementClient extends coreClient.ServiceClient {
   privateEndpointConnection: PrivateEndpointConnection;
   privateLinkResources: PrivateLinkResources;
   globalParameters: GlobalParameters;
+  changeDataCapture: ChangeDataCapture;
 }

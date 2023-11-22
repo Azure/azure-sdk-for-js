@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List a workflow run repetition request history.
  *
  * @summary List a workflow run repetition request history.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActionRepetitionsRequestHistories_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActionRepetitionsRequestHistories_List.json
  */
 async function listRepetitionRequestHistory() {
   const subscriptionId =
