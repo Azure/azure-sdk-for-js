@@ -50,23 +50,36 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       ? operatorInformation.values[0].phoneNumber
       : "";
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].isoCountryCode : null);
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].nationalFormat : null
+    );
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].internationalFormat : null
+    );
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].isoCountryCode : null
+    );
     assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].operatorDetails : null
+    );
 
-    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "formatOnly": true });
+    operatorInformation = await client.searchOperatorInformation(phoneNumbers, {
+      formatOnly: true,
+    });
 
-    resultPhoneNumber = operatorInformation.values
-      ? operatorInformation.values[0].phoneNumber
-      : "";
+    resultPhoneNumber = operatorInformation.values ? operatorInformation.values[0].phoneNumber : "";
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].nationalFormat : null);
-    assert.isNotNull(operatorInformation.values ? operatorInformation.values[0].internationalFormat : null);
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].nationalFormat : null
+    );
+    assert.isNotNull(
+      operatorInformation.values ? operatorInformation.values[0].internationalFormat : null
+    );
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].isoCountryCode : null);
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
-    assert.isNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
-
+    assert.isNull(
+      operatorInformation.values ? operatorInformation.values[0].operatorDetails : null
+    );
   }).timeout(60000);
 });
