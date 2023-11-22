@@ -20,7 +20,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "routes": [
@@ -34,11 +34,11 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 15 Nov 2023 22:22:26 GMT",
-        "MS-CV": "bbq4CC57H0uX1A9A21rLJA.0",
+        "Date": "Wed, 22 Nov 2023 11:46:20 GMT",
+        "MS-CV": "PrC9AH7lv0WRjsmcpvJUIQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0okRVZQAAAACvNlLY0Kg9TL7M1rLqo7e\u002BUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DOpdZQAAAAAZlsich5A7Tbvf7a0M3M0xUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "8ms"
       },
@@ -71,7 +71,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -79,12 +79,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "216",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:22:26 GMT",
-        "MS-CV": "zkmPKBRoA0q5VImrMLEcqg.0",
+        "Date": "Wed, 22 Nov 2023 11:46:20 GMT",
+        "MS-CV": "xfqZs4CXKk\u002BpVxdLF1sOkg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0okRVZQAAAAD3qP1c7ocFR42DQ6ixLokiUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DepdZQAAAACDi5NtWGO1Q7rGikJXVzfnUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "192ms"
+        "X-Processing-Time": "210ms"
       },
       "ResponseBody": {
         "domains": {

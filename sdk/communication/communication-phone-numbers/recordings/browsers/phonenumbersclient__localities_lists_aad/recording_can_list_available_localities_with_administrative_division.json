@@ -18,24 +18,31 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10215",
+        "Content-Length": "10217",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:17:29 GMT",
-        "MS-CV": "XWY1Nm9HV0KoKmrv0Yfklw.0",
+        "Date": "Wed, 22 Nov 2023 11:41:39 GMT",
+        "MS-CV": "TkfBVPZHLUGQl7rQWSGsoQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0eENVZQAAAAClhJOVzcE7QLXoQHlzlkXEUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "08\u002BhdZQAAAAByX03y1AYbRZ6M/5s7pSG2UFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "782ms"
+        "X-Processing-Time": "725ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
+          {
+            "localizedName": "Anchorage",
+            "administrativeDivision": {
+              "localizedName": "AK",
+              "abbreviatedName": "AK"
+            }
+          },
           {
             "localizedName": "Birmingham",
             "administrativeDivision": {
@@ -93,13 +100,6 @@
             }
           },
           {
-            "localizedName": "Anaheim",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
-            }
-          },
-          {
             "localizedName": "Burbank",
             "administrativeDivision": {
               "localizedName": "CA",
@@ -115,13 +115,6 @@
           },
           {
             "localizedName": "Fresno",
-            "administrativeDivision": {
-              "localizedName": "CA",
-              "abbreviatedName": "CA"
-            }
-          },
-          {
-            "localizedName": "Irvine",
             "administrativeDivision": {
               "localizedName": "CA",
               "abbreviatedName": "CA"
@@ -625,6 +618,13 @@
             }
           },
           {
+            "localizedName": "Lowell",
+            "administrativeDivision": {
+              "localizedName": "MA",
+              "abbreviatedName": "MA"
+            }
+          },
+          {
             "localizedName": "Lynn",
             "administrativeDivision": {
               "localizedName": "MA",
@@ -741,7 +741,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026administrativeDivision=AL\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026administrativeDivision=AK\u0026api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -758,50 +758,29 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "447",
+        "Content-Length": "144",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:17:30 GMT",
-        "MS-CV": "HPlk12ob50aTQXUpmWEqCw.0",
+        "Date": "Wed, 22 Nov 2023 11:41:40 GMT",
+        "MS-CV": "iawy8/oU50O\u002B6w2ePMSc2g.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0eUNVZQAAAACFoOswuZLxT5gQW\u002BQwGqqCUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "09OhdZQAAAADlPsGQ0uHATY48Nb\u002BUtfdkUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "736ms"
+        "X-Processing-Time": "847ms"
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
           {
-            "localizedName": "Birmingham",
+            "localizedName": "Anchorage",
             "administrativeDivision": {
-              "localizedName": "AL",
-              "abbreviatedName": "AL"
-            }
-          },
-          {
-            "localizedName": "Huntsville",
-            "administrativeDivision": {
-              "localizedName": "AL",
-              "abbreviatedName": "AL"
-            }
-          },
-          {
-            "localizedName": "Mobile",
-            "administrativeDivision": {
-              "localizedName": "AL",
-              "abbreviatedName": "AL"
-            }
-          },
-          {
-            "localizedName": "Montgomery",
-            "administrativeDivision": {
-              "localizedName": "AL",
-              "abbreviatedName": "AL"
+              "localizedName": "AK",
+              "abbreviatedName": "AK"
             }
           }
         ],

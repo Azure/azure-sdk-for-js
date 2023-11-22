@@ -18,7 +18,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,12 +26,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:21:17 GMT",
-        "MS-CV": "nhN9CQtS6EGskszbPpT9ZA.0",
+        "Date": "Wed, 22 Nov 2023 11:44:27 GMT",
+        "MS-CV": "CvQog2kL\u002B0\u002B\u002B2Qx93hImsg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0XkRVZQAAAACjsROEOagqS6Kw9jBKPZtXUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0m\u002BldZQAAAADrKBC5vgc7SJkxQWJOf7pSUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "200ms"
+        "X-Processing-Time": "169ms"
       },
       "ResponseBody": {
         "domains": {
@@ -51,9 +51,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "f2a733a320e743678128d64a32ff8e79.skype.net",
-    "domain-2": "b2e90ab5b8da4b62813c65d3f60963ea.skype.net",
-    "domain-3": "70a7d7a6c06c4922a960002836b230d3.skype.net",
-    "domain-4": "d7a1a23a959245fbb3135af16bf656f4.skype.net"
+    "domain-1": "72bf7b519b5744b2aa169872ab0daddd.skype.net",
+    "domain-2": "3ced6930e36741c490efe5cbc431b687.skype.net",
+    "domain-3": "db7912383f5243248168df30b6742478.skype.net",
+    "domain-4": "3ca2f972781746fd983298994ff1763b.skype.net"
   }
 }

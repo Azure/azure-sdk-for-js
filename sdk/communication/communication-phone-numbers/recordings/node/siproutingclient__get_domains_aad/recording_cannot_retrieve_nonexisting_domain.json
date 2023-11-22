@@ -8,9 +8,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.10.4 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,12 +18,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 19:30:13 GMT",
-        "MS-CV": "kzpS1ULqHkuBmOjog1lAFA.0",
+        "Date": "Wed, 22 Nov 2023 11:14:10 GMT",
+        "MS-CV": "5EqX2v4a6EO5xHDfOJk15A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0RhxVZQAAAAC8LEBRzX\u002B5RrL8n7i4HEQBUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0guJdZQAAAAAmP\u002BVOu9mmQ5ofErVlZgdfUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "229ms"
+        "X-Processing-Time": "197ms"
       },
       "ResponseBody": {
         "domains": {
@@ -43,9 +43,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "8ad1cb56fe78433c89cbc0c9c39a7b0e.skype.net",
-    "domain-2": "519177c56a4d4e07b467696278788c3b.skype.net",
-    "domain-3": "3b77f208ef1b4369a6674b171c25de79.skype.net",
-    "domain-4": "533ca44b22e74790a19e20f0a8e1a990.skype.net"
+    "domain-1": "7f13cde0cac347fb8b6b2c50781622f3.skype.net",
+    "domain-2": "94f94aa01ef241dab877a07e622aa585.skype.net",
+    "domain-3": "38716a8ffd784ae299cf3a5bfaa0a31d.skype.net",
+    "domain-4": "a5fe30ea570b403c8a1ce517dcc25e18.skype.net"
   }
 }

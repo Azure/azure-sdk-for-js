@@ -18,7 +18,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -26,12 +26,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:19:45 GMT",
-        "MS-CV": "uc/TipsXNk\u002Bs0eYq9voWBw.0",
+        "Date": "Wed, 22 Nov 2023 11:44:17 GMT",
+        "MS-CV": "y8R26tT5\u002BkW\u002Bs/\u002BDpKYQbQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0AURVZQAAAADGDUue3pDTTYfMJy64fo/fUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0kOldZQAAAAAk3xz\u002BWhiJTYGpRQH9vXgAUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "735ms"
+        "X-Processing-Time": "213ms"
       },
       "ResponseBody": {
         "domains": {
@@ -69,7 +69,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "domains": {
@@ -81,12 +81,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:19:45 GMT",
-        "MS-CV": "85HOI8Pu5kCySKwV7A/AmA.0",
+        "Date": "Wed, 22 Nov 2023 11:44:17 GMT",
+        "MS-CV": "PhLFAKQgHEC1xKASKfYpBA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0AkRVZQAAAACWaESDEmzJSqf5ER7LdkNqUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0keldZQAAAABHoT6bpG2DT5iwnjlUesPTUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "367ms"
+        "X-Processing-Time": "333ms"
       },
       "ResponseBody": {
         "domains": {
@@ -122,7 +122,7 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -130,12 +130,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:19:46 GMT",
-        "MS-CV": "9xP6uatv00qRm72qABP\u002BDg.0",
+        "Date": "Wed, 22 Nov 2023 11:44:17 GMT",
+        "MS-CV": "SaNIwCNuxkmNPegoyI89aw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0AkRVZQAAAADohZJvcNenQqFGAMh7iq2XUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0keldZQAAAAAqNttCM0\u002ByRJnSWNG/7B2IUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "249ms"
+        "X-Processing-Time": "184ms"
       },
       "ResponseBody": {
         "domains": {
@@ -155,7 +155,7 @@
     }
   ],
   "Variables": {
-    "domain-1": "58cfcf5d982a447cacf490bca15ed9d8.skype.net",
-    "domain-2": "e91445fce77f4010b3cf7c1f7489a0c9.skype.net"
+    "domain-1": "4bc1dbe2086c4218af00738815048593.skype.net",
+    "domain-2": "25041457663c424dadcb4aa7b9f0a363.skype.net"
   }
 }

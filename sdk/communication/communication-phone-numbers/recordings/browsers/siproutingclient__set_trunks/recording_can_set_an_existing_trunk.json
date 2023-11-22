@@ -21,8 +21,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "knXWyhGZVZ01RBBd2Vp3sGqfAhOKR22bV/ZNm2shrCc=",
-        "x-ms-date": "Wed, 15 Nov 2023 22:21:48 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Wed, 22 Nov 2023 11:45:59 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "trunks": {
@@ -37,12 +37,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "216",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:21:49 GMT",
-        "MS-CV": "QsA97EX\u002BbUWc0mIh2aAxSw.0",
+        "Date": "Wed, 22 Nov 2023 11:45:59 GMT",
+        "MS-CV": "ZSWEeqvkOEWA1GqrunKuCQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0fURVZQAAAAAOO8e\u002BMahUSoCBwSKIGsUgUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "09uldZQAAAACSpi0SdqmYRrlw\u002BJMubLyrUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "435ms"
+        "X-Processing-Time": "461ms"
       },
       "ResponseBody": {
         "domains": {
@@ -86,8 +86,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "gTkywv5lEcE4Q222DMfBAjp3EdKUfyUPkJqVH6dv8wI=",
-        "x-ms-date": "Wed, 15 Nov 2023 22:21:49 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Wed, 22 Nov 2023 11:46:00 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "trunks": {
@@ -102,12 +102,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "216",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:21:50 GMT",
-        "MS-CV": "Xqt58TwhC0CaIuUpVwWWiw.0",
+        "Date": "Wed, 22 Nov 2023 11:45:59 GMT",
+        "MS-CV": "1zoWO4NoRkenUUc4ZJUrMQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0fURVZQAAAADvL0Kpg1hNR7AHnM8L3nW4UFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "09\u002BldZQAAAACzoXruiVu6T6jon29\u002B9S/7UFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "470ms"
+        "X-Processing-Time": "398ms"
       },
       "ResponseBody": {
         "domains": {
@@ -149,8 +149,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 15 Nov 2023 22:21:49 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Wed, 22 Nov 2023 11:46:00 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -158,12 +158,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "216",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 22:21:50 GMT",
-        "MS-CV": "a6TSC6elzkyKdq65bNTavQ.0",
+        "Date": "Wed, 22 Nov 2023 11:45:59 GMT",
+        "MS-CV": "mBw6FUU/HUyA3Hv6mYHnCg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0fkRVZQAAAAA5RKKperpKRI2KherfJR0ZUFJHMDFFREdFMDkyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "09\u002BldZQAAAAAV9DoZAI9mSb30v68ewqvoUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "202ms"
+        "X-Processing-Time": "233ms"
       },
       "ResponseBody": {
         "domains": {

@@ -8,9 +8,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.10.4 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "acs-test"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,12 +18,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 19:30:13 GMT",
-        "MS-CV": "3dvYZ4YLzU6uGDljikYJaw.0",
+        "Date": "Wed, 22 Nov 2023 11:14:10 GMT",
+        "MS-CV": "8KkBvCgeCU6u89yFudsLfw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0RhxVZQAAAABmYFp9z/\u002BvTbFKiS8wdsY1UFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0g\u002BJdZQAAAAAyVLHYge6XRbn9AJ0gywivUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "198ms"
+        "X-Processing-Time": "231ms"
       },
       "ResponseBody": {
         "domains": {
@@ -43,9 +43,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "9cfafb87ea664a3d8f720cec03bb769b.skype.net",
-    "domain-2": "8b81f95ba9ce43e194060d6e1021a72b.skype.net",
-    "domain-3": "12194b8c891844489168c8008665060a.skype.net",
-    "domain-4": "563dfac0bc4c48d99b078d0795aa788d.skype.net"
+    "domain-1": "fdfd0dff3bd745bb9156b70fa80a3293.skype.net",
+    "domain-2": "1e8b02633eba41a395f48971f6dc4c7b.skype.net",
+    "domain-3": "3897485d2cb543f0b1fc4fcb49aa5950.skype.net",
+    "domain-4": "75382575059341fb844dbadd6c2524ee.skype.net"
   }
 }
