@@ -73,11 +73,11 @@ describe("Chaos test", () => {
     const cosmosdb_res = await cos_client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroup, cosmosdbName, {
       databaseAccountOfferType: "Standard",
       locations: [
-        {
-          failoverPriority: 2,
-          locationName: "southcentralus",
-          isZoneRedundant: false
-        },
+        // {
+        //   failoverPriority: 2,
+        //   locationName: "southcentralus",
+        //   isZoneRedundant: false
+        // },
         {
           locationName: "eastus",
           failoverPriority: 1
