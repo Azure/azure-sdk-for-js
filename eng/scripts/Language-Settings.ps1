@@ -419,7 +419,7 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
 
 # Defined in common.ps1 as:
 # $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages" 
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
+function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
   }
@@ -431,6 +431,7 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
       -ItemType Directory `
       -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
     
+    Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
     $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation
     if ($LASTEXITCODE) {
       $allSucceeded = $false
