@@ -3545,13 +3545,6 @@ packages:
     requiresBuild: true
     dev: false
 
-  /autorest@3.7.0:
-    resolution: {integrity: sha512-E6RXXd6S8Kyc0oNY7Ar0IARSMTodIrww7FBR0FZSuQT0J8P3udvqXFexr2K290fr8qm7kAl7OUsWq08FTbIJoA==}
-    engines: {node: '>=12.0.0'}
-    hasBin: true
-    requiresBuild: true
-    dev: false
-
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -20978,7 +20971,7 @@ packages:
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
-      rimraf: 3.0.2
+      rimraf: 3.0.248
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
