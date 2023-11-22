@@ -3,7 +3,7 @@
 
 import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
-import * as path from "upath";
+import * as path from "path/posix";
 
 declare const RELATIVE_PATH: unique symbol;
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
