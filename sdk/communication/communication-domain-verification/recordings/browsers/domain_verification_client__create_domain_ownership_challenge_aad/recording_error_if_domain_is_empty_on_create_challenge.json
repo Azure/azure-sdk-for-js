@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://nostojic-acs-sdk-tests.unitedstates.communication.azure.com/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -20,8 +20,9 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-        "x-ms-content-sha256": "kvBkJhsHJT6Nl8yOb82f7R9TKWJBtljhaJrL3cZfZx0=",      
-        "x-ms-useragent": "acs-test"
+        "x-ms-content-sha256": "kvBkJhsHJT6Nl8yOb82f7R9TKWJBtljhaJrL3cZfZx0=",
+        "x-ms-date": "Wed, 22 Nov 2023 12:45:12 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "domain": ""
@@ -29,13 +30,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 15 Nov 2023 23:02:18 GMT",
-        "MS-CV": "s7NQUzVkrkK0DSkJj6sDrQ.0",
+        "Date": "Wed, 22 Nov 2023 12:45:11 GMT",
+        "MS-CV": "nYI7v9ExBUmzBku8Gppp7A.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0\u002Bk1VZQAAAAAQTUTTrkLpQ5EiWXr8YejkUFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "01/ddZQAAAAC4a\u002BnFKvcVRJkF7yFcUaE7UFJHMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "7ms"
+        "X-Processing-Time": "8ms"
       },
       "ResponseBody": {
         "error": {

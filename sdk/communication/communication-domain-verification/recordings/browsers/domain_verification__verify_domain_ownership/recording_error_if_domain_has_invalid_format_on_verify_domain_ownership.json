@@ -21,8 +21,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "FiZfl1gP\u002Bn\u002BwJkoKnHq6uOkpZeAgl2G6LV7P80MLDJo=",
-        "x-ms-date": "Wed, 15 Nov 2023 23:02:20 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Wed, 22 Nov 2023 12:45:14 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "domain": "invaliddomain",
@@ -31,11 +31,11 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Wed, 15 Nov 2023 23:02:20 GMT",
-        "MS-CV": "TK1FCYNFeEmVrnc\u002BfTALXg.0",
+        "Date": "Wed, 22 Nov 2023 12:45:13 GMT",
+        "MS-CV": "nHkTlOZCyk60nJJfJTWBpw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0/U1VZQAAAADZQExZUCLYRrC7ifagAd5vUFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "02fddZQAAAACvQRsdY7l8Sa8LhVbb727TUFJHMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "7ms"
       },

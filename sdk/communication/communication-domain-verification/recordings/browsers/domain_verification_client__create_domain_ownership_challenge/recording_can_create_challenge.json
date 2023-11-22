@@ -21,8 +21,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "4lps9q0RF3ZJGNqj5CobrUhtXNgNc1judNBSqQVKEgk=",
-        "x-ms-date": "Wed, 15 Nov 2023 23:02:17 GMT",
-        "x-ms-useragent": "acs-test"
+        "x-ms-date": "Wed, 22 Nov 2023 12:45:12 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "domain": "nostojic.test.sbc.com"
@@ -31,12 +31,12 @@
       "ResponseHeaders": {
         "Content-Length": "20",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 15 Nov 2023 23:02:17 GMT",
-        "MS-CV": "MlA40yGjGUqRZugxF/7DiA.0",
+        "Date": "Wed, 22 Nov 2023 12:45:11 GMT",
+        "MS-CV": "xNylJphUV0GK3C5u/fzQnQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BU1VZQAAAADWzgGH0pTLQaIKPj95Fn3BUFJHMDFFREdFMDkxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "01vddZQAAAACSeGpesxsVRbw\u002BcGrxWhY1UFJHMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "740ms"
+        "X-Processing-Time": "773ms"
       },
       "ResponseBody": {
         "value": "MS130464"

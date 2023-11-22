@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://nostojic-acs-sdk-tests.unitedstates.communication.azure.com/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
+      "RequestUri": "https://endpoint/sip:createDomainOwnershipChallenge?api-version=2022-09-01-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -13,6 +13,7 @@
         "User-Agent": "azsdk-js-communication-domain-verification/1.0.0-alpha.20230310.1 core-rest-pipeline/1.10.4 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "kvBkJhsHJT6Nl8yOb82f7R9TKWJBtljhaJrL3cZfZx0=",
+        "x-ms-date": "Wed, 15 Nov 2023 22:55:08 GMT",
         "x-ms-useragent": "acs-test"
       },
       "RequestBody": {
