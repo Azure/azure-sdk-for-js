@@ -58,8 +58,8 @@ describe("Chaos test", () => {
     cos_client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    experimentName = "exampleExperiment";
-    cosmosdbName = "test-123aa"
+    experimentName = "exampleExperiment1";
+    cosmosdbName = "test-123aaa"
     parentProviderNamespace = "Microsoft.DocumentDB";
     parentResourceType = "databaseAccounts";
     targetName = "Microsoft-CosmosDB";
@@ -113,7 +113,7 @@ describe("Chaos test", () => {
   });
 
   it("experiment create test", async function () {
-    const res = await client.experiments.createOrUpdate(resourceGroup, experimentName, {
+    const res = await client.experiments.beginCreateOrUpdateAndWait(resourceGroup, experimentName, {
       identity: { type: "SystemAssigned" },
       location: "eastus",
       selectors: [
@@ -152,7 +152,8 @@ describe("Chaos test", () => {
           ]
         }
       ]
-    });
+    },
+      testPollingOptions);
     assert.equal(res.name, experimentName);
   });
 
@@ -192,7 +193,7 @@ describe("Chaos test", () => {
 
   it("experiment delete test", async function () {
     const resArray = new Array();
-    const res = await client.experiments.delete(resourceGroup, experimentName)
+    const res = await client.experiments.beginDeleteAndWait(resourceGroup, experimentName, testPollingOptions)
     for await (let item of client.experiments.list(resourceGroup)) {
       resArray.push(item);
     }

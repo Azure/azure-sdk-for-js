@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of workflow run actions.
  *
  * @summary Gets a list of workflow run actions.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActions_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActions_List.json
  */
 async function listAWorkflowRunActions() {
   const subscriptionId =
