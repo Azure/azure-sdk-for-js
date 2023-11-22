@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a GlobalRulestackResource
  *
  * @summary Update a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Update_MaximumSet_Gen.json
  */
 async function globalRulestackUpdateMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -58,7 +58,7 @@ async function globalRulestackUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a GlobalRulestackResource
  *
  * @summary Update a GlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_Update_MinimumSet_Gen.json
  */
 async function globalRulestackUpdateMinimumSetGen() {
   const globalRulestackName = "praval";

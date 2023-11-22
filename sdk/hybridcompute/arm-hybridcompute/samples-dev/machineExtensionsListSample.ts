@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to get all extensions of a non-Azure machine
  *
  * @summary The operation to get all extensions of a non-Azure machine
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/LISTExtension.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/extension/Extension_List.json
  */
-async function getAllMachineExtensions() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+async function getAllMachineExtensionsList() {
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
@@ -33,4 +38,8 @@ async function getAllMachineExtensions() {
   console.log(resArray);
 }
 
-getAllMachineExtensions().catch(console.error);
+async function main() {
+  getAllMachineExtensionsList();
+}
+
+main().catch(console.error);
