@@ -5,13 +5,21 @@ import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path/posix";
 
-declare const RELATIVE_PATH: unique symbol;
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
-declare const LOCAL_MODULE_SPECIFIER: unique symbol;
+declare const LOCAL_MODULE_PATH: unique symbol;
 
-type RelativePath = string & { [RELATIVE_PATH]: never };
-type DotPrefixedRelativePath = RelativePath & { [DOT_PREFIXED_RELATIVE_PATH]: never };
-type LocalModuleSpecifier = RelativePath & { [LOCAL_MODULE_SPECIFIER]: never };
+// The following types have type brands, a zero-cost way to tell the TS compiler that they should
+// be considered different types. Any cast to these types should only happen in places where the
+// conditions in their docstrings are satisfied, e.g. in their corresponding factory functions.
+/**
+ * A POSIX style relative path with a `.` as its first character.
+ */
+type DotPrefixedRelativePath = string & { [DOT_PREFIXED_RELATIVE_PATH]: never };
+/**
+ * A POSIX style relative path from a source file to the module it imports.
+ */
+type LocalModuleRelativePath = string & { [LOCAL_MODULE_PATH]: never };
+type LocalModuleSpecifier = LocalModuleRelativePath & DotPrefixedRelativePath;
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
@@ -87,9 +95,13 @@ function mergeImportIntoFile(
     originalFile.addImportDeclaration(importStructure);
   }
 
+  /**
+   * Returns the module specifier for this import declaration, fixing it if it points to a
+   * generated module
+   */
   function getFixedModuleSpecifier(
     customImportDecl: ImportDeclaration
-  ): (LocalModuleSpecifier & DotPrefixedRelativePath) | string {
+  ): LocalModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
     const customFilePath = customImportDecl.getSourceFile().getFilePath();
 
@@ -134,15 +146,15 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   }
 }
 
-function normalizeModuleSpecifier<T extends LocalModuleSpecifier>(
+function normalizeModuleSpecifier<T extends LocalModuleRelativePath>(
   moduleSpecifier: T,
   filePath: string
-): T & LocalModuleSpecifier & DotPrefixedRelativePath;
+): T & LocalModuleSpecifier;
 function normalizeModuleSpecifier<T extends string>(moduleSpecifier: T, filePath: string): T;
 function normalizeModuleSpecifier<T extends string>(
   moduleSpecifier: T,
   filePath: string
-): (T & LocalModuleSpecifier & DotPrefixedRelativePath) | T {
+): (T & LocalModuleSpecifier) | T {
   return isLocalModuleSpecifier(moduleSpecifier)
     ? normalizeLocalModuleSpecifier(moduleSpecifier, filePath)
     : moduleSpecifier;
@@ -150,32 +162,27 @@ function normalizeModuleSpecifier<T extends string>(
 
 function isLocalModuleSpecifier<T extends string>(
   moduleSpecifier: T
-): moduleSpecifier is T & LocalModuleSpecifier {
-  return moduleSpecifier.startsWith(".");
+): moduleSpecifier is T & LocalModuleRelativePath {
+  return !path.isAbsolute(moduleSpecifier);
 }
 
-function normalizeLocalModuleSpecifier<T extends LocalModuleSpecifier>(
+function normalizeLocalModuleSpecifier<T extends LocalModuleRelativePath>(
   moduleSpecifier: T,
   filePath: string
-): T & DotPrefixedRelativePath {
+): T & LocalModuleSpecifier {
   const fileDir = path.dirname(filePath);
   const modulePath = path.resolve(fileDir, moduleSpecifier);
-  const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T & LocalModuleSpecifier;
+  const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T &
+    LocalModuleRelativePath;
 
-  return toDotPrefixedRelativePath(normalizedModuleSpecifier);
+  return prefixRelativePathWithDot(normalizedModuleSpecifier);
 }
 
-function toDotPrefixedRelativePath<T extends RelativePath>(
-  filePath: T
-): T & DotPrefixedRelativePath;
-function toDotPrefixedRelativePath<T extends string>(
-  filePath: T
-): (T & DotPrefixedRelativePath) | undefined;
-function toDotPrefixedRelativePath<T extends string>(
+function prefixRelativePathWithDot<T extends string>(
   filePath: string
-): (T & DotPrefixedRelativePath) | undefined {
+): T & DotPrefixedRelativePath {
   if (path.isAbsolute(filePath)) {
-    return;
+    throw Error("Attempted to dot-prefix an absolute path");
   }
 
   if (!filePath.startsWith(".")) {
@@ -195,8 +202,8 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   originalSourceRoot: string,
   customSourceRoot: string,
   customFilePath: string,
-  originalModuleSpecifier: LocalModuleSpecifier
-): (LocalModuleSpecifier & DotPrefixedRelativePath) | undefined {
+  originalModuleSpecifier: LocalModuleRelativePath
+): LocalModuleSpecifier | undefined {
   const customFileDir = path.dirname(customFilePath);
   const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
 
@@ -206,7 +213,7 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   const outputModuleSpecifier = path.relative(
     outputFileRelativePath,
     outputModuleRelativePath
-  ) as LocalModuleSpecifier;
+  ) as LocalModuleRelativePath;
 
   // Check if the module is actually contained in the original directory
   if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
