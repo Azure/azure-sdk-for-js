@@ -73,6 +73,13 @@ export interface GetChatCompletionsWithAzureExtensionsBodyParam {
 
 export type GetChatCompletionsWithAzureExtensionsParameters =
   GetChatCompletionsWithAzureExtensionsBodyParam & RequestParameters;
+
+export interface GetImageGenerationsBodyParam {
+  body?: ImageGenerationOptions;
+}
+
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam &
+  RequestParameters;
 export type GetAzureBatchImageGenerationOperationStatusParameters =
   RequestParameters;
 

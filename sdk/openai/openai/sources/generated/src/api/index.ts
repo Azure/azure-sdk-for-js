@@ -14,6 +14,7 @@ export {
   getCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
+  getImageGenerations,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
   getEmbeddings,

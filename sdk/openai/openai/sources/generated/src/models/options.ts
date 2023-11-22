@@ -28,6 +28,8 @@ export interface GetChatCompletionsOptions extends OperationOptions {}
 export interface GetChatCompletionsWithAzureExtensionsOptions
   extends OperationOptions {}
 
+export interface GetImageGenerationsOptions extends OperationOptions {}
+
 export interface GetAzureBatchImageGenerationOperationStatusOptions
   extends OperationOptions {}
 

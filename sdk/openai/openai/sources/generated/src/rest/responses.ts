@@ -8,6 +8,7 @@ import {
   AudioTranslationOutput,
   CompletionsOutput,
   ChatCompletionsOutput,
+  ImageGenerationsOutput,
   BatchImageGenerationOperationResponseOutput,
   EmbeddingsOutput,
 } from "./outputModels.js";
@@ -139,6 +140,23 @@ export interface GetChatCompletionsWithAzureExtensionsDefaultResponse
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetChatCompletionsWithAzureExtensionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetImageGenerations200Response extends HttpResponse {
+  status: "200";
+  body: ImageGenerationsOutput;
+}
+
+export interface GetImageGenerationsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetImageGenerationsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetImageGenerationsDefaultHeaders;
 }
 
 /** The request has succeeded. */
