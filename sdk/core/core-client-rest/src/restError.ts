@@ -9,7 +9,10 @@ import { PathUncheckedResponse } from "./common";
  */
 export function createRestError(response: PathUncheckedResponse): RestError;
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
-export function createRestError(messageOrResponse: string | PathUncheckedResponse, response?: PathUncheckedResponse): RestError {
+export function createRestError(
+  messageOrResponse: string | PathUncheckedResponse,
+  response?: PathUncheckedResponse
+): RestError {
   const resp = typeof messageOrResponse === "string" ? response : messageOrResponse;
   const internalError = resp?.body.error || resp?.body || resp;
   const message =
