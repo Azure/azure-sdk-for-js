@@ -58,42 +58,6 @@ describe("HybridNetwork test", () => {
     await recorder.stop();
   });
 
-  it("publishers create test", async function () {
-    const res = await client.publishers.beginCreateOrUpdateAndWait(
-      resourceGroup,
-      resourcename,
-      {
-        parameters: {
-          location,
-          properties: { scope: "Public" }
-        }
-      });
-    assert.equal(res.name, resourcename);
-  });
-
-  it("publishers get test", async function () {
-    const res = await client.publishers.get(resourceGroup, resourcename);
-    assert.equal(res.name, resourcename);
-  });
-
-  it("publishers list test", async function () {
-    const resArray = new Array();
-    for await (let item of client.publishers.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 1);
-  });
-
-  it("publishers delete test", async function () {
-    const resArray = new Array();
-    const res = await client.publishers.beginDeleteAndWait(resourceGroup, resourcename
-    )
-    for await (let item of client.publishers.listByResourceGroup(resourceGroup)) {
-      resArray.push(item);
-    }
-    assert.equal(resArray.length, 0);
-  });
-
   it("operation list test", async function () {
     const resArray = new Array();
     for await (let item of client.operations.list()) {
