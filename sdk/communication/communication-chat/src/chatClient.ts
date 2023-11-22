@@ -22,7 +22,7 @@ import {
   TypingIndicatorReceivedEvent,
 } from "./models/events";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { ConnectionState, SignalingClient } from "@azure/communication-signaling";
+import { ConnectionState, SignalingClient, SignalingClientOptions } from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
@@ -42,12 +42,16 @@ import { getSignalingClient } from "./signaling/signalingClient";
 import { logger } from "./models/logger";
 import { tracingClient } from "./generated/src/tracing";
 
+declare interface InternalChatClientOptions extends ChatClientOptions {
+  signalingClientOptions?: SignalingClientOptions
+}
+
 /**
  * The client to do chat operations
  */
 export class ChatClient {
   private readonly tokenCredential: CommunicationTokenCredential;
-  private readonly clientOptions: ChatClientOptions;
+  private readonly clientOptions: InternalChatClientOptions;
   private readonly client: ChatApiClient;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
@@ -67,6 +71,10 @@ export class ChatClient {
   ) {
     this.tokenCredential = credential;
     this.clientOptions = { ...options };
+    this.clientOptions.signalingClientOptions = {
+      ...this.clientOptions.signalingClientOptions,
+      resourceEndpoint: this.endpoint,
+    };
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -85,15 +93,10 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
 
-    (options as any).signalingClientOptions = {
-      ...(options as any).signalingClientOptions,
-      resourceEndpoint: this.endpoint,
-    };
-
     this.signalingClient = getSignalingClient(
       credential,
       logger,
-      (options as any).signalingClientOptions
+      this.clientOptions.signalingClientOptions
     );
   }
 
