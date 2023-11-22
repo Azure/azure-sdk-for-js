@@ -1,5 +1,12 @@
 # Release History
 
+## 1.3.0-beta.2 (2023-11-22)
+
+### Features Added
+
+- Adding format fields to number lookup result
+- Support format-only search for number lookup feature
+
 ## 1.3.0-beta.1 (2023-07-21)
 
 ### Features Added
