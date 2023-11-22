@@ -217,41 +217,6 @@ function Get-DocsMsPackageName($packageName, $packageVersion) {
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
 }
 
-
-# Performs package validation for a list of packages provided in the doc 
-# onboarding format ("name" is the only required field): 
-# @{
-#   name = "@azure/attestation@dev";
-#   folder = "./types";
-#   registry = "<url>";
-#   ...
-# }
-function ValidatePackagesForDocs($packages, $DocValidationImageId) {
-  # Using GetTempPath because it works on linux and windows
-  $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
-  New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
-
-  $scriptRoot = $PSScriptRoot
-  # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | ForEach-Object { [PSCustomObject]$_ } | Foreach-Object -Parallel {
-    # Get value for variables outside of the Foreach-Object scope
-    $scriptRoot = "$using:scriptRoot"
-    $workingDirectory = "$using:tempDirectory"
-    Write-Host "`"$scriptRoot\validate-docs-package.ps1`" -Package $_ -DocValidationImageId `"$($using:DocValidationImageId)`" -WorkingDirectory $workingDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
-  }
-
-  # Clean up temp folder
-  Remove-Item -Path $tempDirectory -Force -Recurse -ErrorAction Ignore | Out-Null
-
-  return $validationOutput
-}
-
-$PackageExclusions = @{
-  '@azure/identity-vscode'            = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
-  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
-}
-
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
   Write-Host "Excluded packages:"
   foreach ($excludedPackage in $PackageExclusions.Keys) {
@@ -459,44 +424,20 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
     $PackageInfos = @($PackageInfo)
   }
 
-  $outputPackages = @()
+  $allSucceeded = $true
 
   foreach ($packageInfo in $PackageInfos) {
-    $fileLocation = ""
-    if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
-      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
-      if ($packageInfo.DevVersion) {
-        $packageInfo.Version = $packageInfo.DevVersion
-      }
-    }
-    else {
-      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
-    }
-
-    $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
+    $outputLocation = New-Item `
+      -ItemType Directory `
+      -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
     
-    $outputPackage = $packageInfo
-    
-    foreach ($package in $packageConfig.npm_package_sources) {
-      if ($package.name -eq $packageInfo.Name) {
-        $outputPackage = $package
-        $outputPackage.name = Get-DocsMsPackageName $package.name $packageInfo.Version
-        break
-      }
-    }
-
-    $outputPackages += $outputPackage
-  }
-
-  $validationResults = ValidatePackagesForDocs `
-    -packages $outputPackages `
-    -DocValidationImageId $DocValidationImageId
-
-  foreach ($result in $validationResults) { 
-    if (!$result.Success) { 
-      return $false
+    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation
+    if ($LASTEXITCODE) {
+      $allSucceeded = $false
+      Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
+      Write-Host $output
     }
   }
 
-  return $true
+  return $allSucceeded
 }
