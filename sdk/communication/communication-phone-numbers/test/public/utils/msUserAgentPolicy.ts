@@ -11,7 +11,7 @@ import { env } from "@azure-tools/test-recorder";
 
 export function createMSUserAgentPolicy(mockedUserAgent: boolean): PipelinePolicy {
   const userAgentKey = "x-ms-useragent";
-  const userAgentValue = "acs-test";
+  const userAgentValue = "acs-mock-test";
   return {
     name: "msUserAgentPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
