@@ -12,8 +12,9 @@ import {
   Completions,
   ChatCompletionsOptions,
   ChatCompletions,
-  BatchImageGenerationOperationResponse,
   ImageGenerationOptions,
+  ImageGenerations,
+  BatchImageGenerationOperationResponse,
   EmbeddingsOptions,
   Embeddings,
 } from "./models/models.js";
@@ -25,6 +26,7 @@ import {
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
+  GetImageGenerationsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
   GetEmbeddingsOptions,
@@ -40,6 +42,7 @@ import {
   getCompletions,
   getChatCompletions,
   getChatCompletionsWithAzureExtensions,
+  getImageGenerations,
   getAzureBatchImageGenerationOperationStatus,
   beginAzureBatchImageGeneration,
   getEmbeddings,
@@ -170,6 +173,15 @@ export class OpenAIClient {
       body,
       options
     );
+  }
+
+  /** Creates an image given a prompt. */
+  getImageGenerations(
+    deploymentId: string,
+    body: ImageGenerationOptions,
+    options: GetImageGenerationsOptions = { requestOptions: {} }
+  ): Promise<ImageGenerations> {
+    return getImageGenerations(this._client, deploymentId, body, options);
   }
 
   /** Returns the status of the images operation */

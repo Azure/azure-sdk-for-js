@@ -9,6 +9,7 @@ import {
   GetCompletionsParameters,
   GetChatCompletionsParameters,
   GetChatCompletionsWithAzureExtensionsParameters,
+  GetImageGenerationsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
   BeginAzureBatchImageGenerationParameters,
   GetEmbeddingsParameters,
@@ -28,6 +29,8 @@ import {
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
+  GetImageGenerations200Response,
+  GetImageGenerationsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
@@ -117,6 +120,15 @@ export interface GetChatCompletionsWithAzureExtensions {
   >;
 }
 
+export interface GetImageGenerations {
+  /** Creates an image given a prompt. */
+  post(
+    options?: GetImageGenerationsParameters
+  ): StreamableMethod<
+    GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+  >;
+}
+
 export interface GetAzureBatchImageGenerationOperationStatus {
   /** Returns the status of the images operation */
   get(
@@ -170,6 +182,11 @@ export interface Routes {
     path: "/deployments/{deploymentId}/extensions/chat/completions",
     deploymentId: string
   ): GetChatCompletionsWithAzureExtensions;
+  /** Resource for '/deployments/\{deploymentId\}/images/generations' has methods for the following verbs: post */
+  (
+    path: "/deployments/{deploymentId}/images/generations",
+    deploymentId: string
+  ): GetImageGenerations;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/operations/images/{operationId}",

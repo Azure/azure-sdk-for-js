@@ -14,6 +14,8 @@ import {
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
+  GetImageGenerations200Response,
+  GetImageGenerationsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
@@ -29,6 +31,7 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
+  "POST /deployments/{deploymentId}/images/generations": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
   "GET /images/generations:submit": ["200", "202"],
@@ -59,6 +62,9 @@ export function isUnexpected(
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
 ): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
 export function isUnexpected(
+  response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+): response is GetImageGenerationsDefaultResponse;
+export function isUnexpected(
   response:
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -86,6 +92,8 @@ export function isUnexpected(
     | GetChatCompletionsDefaultResponse
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
+    | GetImageGenerations200Response
+    | GetImageGenerationsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
     | BeginAzureBatchImageGeneration202Response
@@ -99,6 +107,7 @@ export function isUnexpected(
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
+  | GetImageGenerationsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
   | BeginAzureBatchImageGenerationDefaultResponse
   | GetEmbeddingsDefaultResponse {

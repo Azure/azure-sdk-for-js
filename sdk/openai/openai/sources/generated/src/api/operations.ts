@@ -10,8 +10,9 @@ import {
   Completions,
   ChatCompletionsOptions,
   ChatCompletions,
-  BatchImageGenerationOperationResponse,
   ImageGenerationOptions,
+  ImageGenerations,
+  BatchImageGenerationOperationResponse,
   EmbeddingsOptions,
   Embeddings,
 } from "../models/models.js";
@@ -37,6 +38,8 @@ import {
   GetCompletionsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
+  GetImageGenerations200Response,
+  GetImageGenerationsDefaultResponse,
   isUnexpected,
   OpenAIContext as Client,
 } from "../rest/index.js";
@@ -53,6 +56,7 @@ import {
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetChatCompletionsWithAzureExtensionsOptions,
+  GetImageGenerationsOptions,
   GetAzureBatchImageGenerationOperationStatusOptions,
   BeginAzureBatchImageGenerationOptions,
   GetEmbeddingsOptions,
@@ -91,7 +95,7 @@ export async function _getAudioTranscriptionAsPlainTextDeserialize(
     | GetAudioTranscriptionAsPlainTextDefaultResponse
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return result.body;
@@ -150,7 +154,7 @@ export async function _getAudioTranscriptionAsResponseObjectDeserialize(
     | GetAudioTranscriptionAsResponseObjectDefaultResponse
 ): Promise<AudioTranscription> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -158,18 +162,20 @@ export async function _getAudioTranscriptionAsResponseObjectDeserialize(
     task: result.body["task"],
     language: result.body["language"],
     duration: result.body["duration"],
-    segments: (result.body["segments"] ?? []).map((p) => ({
-      id: p["id"],
-      start: p["start"],
-      end: p["end"],
-      text: p["text"],
-      temperature: p["temperature"],
-      avgLogprob: p["avg_logprob"],
-      compressionRatio: p["compression_ratio"],
-      noSpeechProb: p["no_speech_prob"],
-      tokens: p["tokens"],
-      seek: p["seek"],
-    })),
+    segments: !result.body["segments"]
+      ? result.body["segments"]
+      : result.body["segments"].map((p) => ({
+          id: p["id"],
+          start: p["start"],
+          end: p["end"],
+          text: p["text"],
+          temperature: p["temperature"],
+          avgLogprob: p["avg_logprob"],
+          compressionRatio: p["compression_ratio"],
+          noSpeechProb: p["no_speech_prob"],
+          tokens: p["tokens"],
+          seek: p["seek"],
+        })),
   };
 }
 
@@ -224,7 +230,7 @@ export async function _getAudioTranslationAsPlainTextDeserialize(
     | GetAudioTranslationAsPlainTextDefaultResponse
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return result.body;
@@ -279,7 +285,7 @@ export async function _getAudioTranslationAsResponseObjectDeserialize(
     | GetAudioTranslationAsResponseObjectDefaultResponse
 ): Promise<AudioTranslation> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -287,18 +293,20 @@ export async function _getAudioTranslationAsResponseObjectDeserialize(
     task: result.body["task"],
     language: result.body["language"],
     duration: result.body["duration"],
-    segments: (result.body["segments"] ?? []).map((p) => ({
-      id: p["id"],
-      start: p["start"],
-      end: p["end"],
-      text: p["text"],
-      temperature: p["temperature"],
-      avgLogprob: p["avg_logprob"],
-      compressionRatio: p["compression_ratio"],
-      noSpeechProb: p["no_speech_prob"],
-      tokens: p["tokens"],
-      seek: p["seek"],
-    })),
+    segments: !result.body["segments"]
+      ? result.body["segments"]
+      : result.body["segments"].map((p) => ({
+          id: p["id"],
+          start: p["start"],
+          end: p["end"],
+          text: p["text"],
+          temperature: p["temperature"],
+          avgLogprob: p["avg_logprob"],
+          compressionRatio: p["compression_ratio"],
+          noSpeechProb: p["no_speech_prob"],
+          tokens: p["tokens"],
+          seek: p["seek"],
+        })),
   };
 }
 
@@ -352,49 +360,72 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
     id: result.body["id"],
     created: new Date(result.body["created"]),
-    promptFilterResults: (result.body["prompt_filter_results"] ?? []).map(
-      (p) => ({
-        promptIndex: p["prompt_index"],
-        contentFilterResults: !p.content_filter_results
-          ? undefined
-          : {
-              sexual: !p.content_filter_results?.sexual
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.sexual?.["severity"],
-                    filtered: p.content_filter_results?.sexual?.["filtered"],
-                  },
-              violence: !p.content_filter_results?.violence
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.violence?.["severity"],
-                    filtered: p.content_filter_results?.violence?.["filtered"],
-                  },
-              hate: !p.content_filter_results?.hate
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.hate?.["severity"],
-                    filtered: p.content_filter_results?.hate?.["filtered"],
-                  },
-              selfHarm: !p.content_filter_results?.self_harm
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.self_harm?.["severity"],
-                    filtered: p.content_filter_results?.self_harm?.["filtered"],
-                  },
-              error: !p.content_filter_results?.error
-                ? undefined
-                : p.content_filter_results?.error,
-            },
-      })
-    ),
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    promptFilterResults: !result.body["prompt_filter_results"]
+      ? result.body["prompt_filter_results"]
+      : result.body["prompt_filter_results"].map((p) => ({
+          promptIndex: p["prompt_index"],
+          contentFilterResults: !p.content_filter_results
+            ? undefined
+            : {
+                sexual: !p.content_filter_results?.sexual
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.sexual?.["severity"],
+                      filtered: p.content_filter_results?.sexual?.["filtered"],
+                    },
+                violence: !p.content_filter_results?.violence
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.violence?.["severity"],
+                      filtered:
+                        p.content_filter_results?.violence?.["filtered"],
+                    },
+                hate: !p.content_filter_results?.hate
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.hate?.["severity"],
+                      filtered: p.content_filter_results?.hate?.["filtered"],
+                    },
+                selfHarm: !p.content_filter_results?.self_harm
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.self_harm?.["severity"],
+                      filtered:
+                        p.content_filter_results?.self_harm?.["filtered"],
+                    },
+                profanity: !p.content_filter_results?.profanity
+                  ? undefined
+                  : {
+                      filtered:
+                        p.content_filter_results?.profanity?.["filtered"],
+                      detected:
+                        p.content_filter_results?.profanity?.["detected"],
+                    },
+                customBlocklists: !p.content_filter_results?.[
+                  "custom_blocklists"
+                ]
+                  ? p.content_filter_results?.["custom_blocklists"]
+                  : p.content_filter_results?.["custom_blocklists"].map(
+                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                    ),
+                error: !p.content_filter_results?.error
+                  ? undefined
+                  : p.content_filter_results?.error,
+                jailbreak: {
+                  filtered: p.content_filter_results?.jailbreak["filtered"],
+                  detected: p.content_filter_results?.jailbreak["detected"],
+                },
+              },
+        })),
+    choices: result.body["choices"].map((p) => ({
       text: p["text"],
       index: p["index"],
       contentFilterResults: !p.content_filter_results
@@ -424,9 +455,54 @@ export async function _getCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            profanity: !p.content_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.content_filter_results?.profanity?.["filtered"],
+                  detected: p.content_filter_results?.profanity?.["detected"],
+                },
+            customBlocklists: !p.content_filter_results?.["custom_blocklists"]
+              ? p.content_filter_results?.["custom_blocklists"]
+              : p.content_filter_results?.["custom_blocklists"].map((p) => ({
+                  id: p["id"],
+                  filtered: p["filtered"],
+                })),
             error: !p.content_filter_results?.error
               ? undefined
               : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results
+              ?.protected_material_text
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_text?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_text?.[
+                      "detected"
+                    ],
+                },
+            protectedMaterialCode: !p.content_filter_results
+              ?.protected_material_code
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_code?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_code?.[
+                      "detected"
+                    ],
+                  url: p.content_filter_results?.protected_material_code?.[
+                    "URL"
+                  ],
+                  license:
+                    p.content_filter_results?.protected_material_code?.[
+                      "license"
+                    ],
+                },
           },
       logprobs:
         p.logprobs === null
@@ -480,12 +556,14 @@ export function _getChatCompletionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body.messages as any,
-        functions: (body["functions"] ?? []).map((p) => ({
-          name: p["name"],
-          description: p["description"],
-          parameters: p["parameters"],
-        })),
+        messages: body["messages"].map((p) => ({ role: p["role"] })),
+        functions: !body["functions"]
+          ? body["functions"]
+          : body["functions"].map((p) => ({
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
         function_call: body["functionCall"],
         max_tokens: body["maxTokens"],
         temperature: body["temperature"],
@@ -498,10 +576,28 @@ export function _getChatCompletionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: (body["dataSources"] ?? []).map((p) => ({
-          type: p["type"],
-          parameters: p["parameters"],
-        })),
+        dataSources: !body["dataSources"]
+          ? body["dataSources"]
+          : body["dataSources"].map((p) => ({
+              type: p["type"],
+              parameters: p["parameters"],
+            })),
+        enhancements: !body.enhancements
+          ? undefined
+          : {
+              grounding: !body.enhancements?.grounding
+                ? undefined
+                : { enabled: body.enhancements?.grounding?.["enabled"] },
+              ocr: !body.enhancements?.ocr
+                ? undefined
+                : { enabled: body.enhancements?.ocr?.["enabled"] },
+            },
+        seed: body["seed"],
+        response_format: body["responseFormat"],
+        tools: !body["tools"]
+          ? body["tools"]
+          : body["tools"].map((p) => ({ type: p["type"] })),
+        tool_choice: body["toolChoice"],
       },
     });
 }
@@ -510,22 +606,30 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
     id: result.body["id"],
     created: new Date(result.body["created"]),
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    choices: result.body["choices"].map((p) => ({
       message: !p.message ? undefined : (p.message as any),
       index: p["index"],
       finishReason: p["finish_reason"],
+      finishDetails: !p.finish_details
+        ? undefined
+        : { type: p.finish_details?.["type"] },
       delta: !p.delta
         ? undefined
         : {
             role: p.delta?.["role"],
             content: p.delta?.["content"],
-            name: p.delta?.["name"],
+            toolCalls: !p.delta?.["tool_calls"]
+              ? p.delta?.["tool_calls"]
+              : p.delta?.["tool_calls"].map((p) => ({
+                  type: p["type"],
+                  id: p["id"],
+                })),
             functionCall: !p.delta?.function_call
               ? undefined
               : {
@@ -567,47 +671,131 @@ export async function _getChatCompletionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            profanity: !p.content_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.content_filter_results?.profanity?.["filtered"],
+                  detected: p.content_filter_results?.profanity?.["detected"],
+                },
+            customBlocklists: !p.content_filter_results?.["custom_blocklists"]
+              ? p.content_filter_results?.["custom_blocklists"]
+              : p.content_filter_results?.["custom_blocklists"].map((p) => ({
+                  id: p["id"],
+                  filtered: p["filtered"],
+                })),
             error: !p.content_filter_results?.error
               ? undefined
               : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results
+              ?.protected_material_text
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_text?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_text?.[
+                      "detected"
+                    ],
+                },
+            protectedMaterialCode: !p.content_filter_results
+              ?.protected_material_code
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_code?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_code?.[
+                      "detected"
+                    ],
+                  url: p.content_filter_results?.protected_material_code?.[
+                    "URL"
+                  ],
+                  license:
+                    p.content_filter_results?.protected_material_code?.[
+                      "license"
+                    ],
+                },
           },
-    })),
-    promptFilterResults: (result.body["prompt_filter_results"] ?? []).map(
-      (p) => ({
-        promptIndex: p["prompt_index"],
-        contentFilterResults: !p.content_filter_results
+      enhancements: {
+        grounding: !p.enhancements.grounding
           ? undefined
           : {
-              sexual: !p.content_filter_results?.sexual
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.sexual?.["severity"],
-                    filtered: p.content_filter_results?.sexual?.["filtered"],
-                  },
-              violence: !p.content_filter_results?.violence
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.violence?.["severity"],
-                    filtered: p.content_filter_results?.violence?.["filtered"],
-                  },
-              hate: !p.content_filter_results?.hate
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.hate?.["severity"],
-                    filtered: p.content_filter_results?.hate?.["filtered"],
-                  },
-              selfHarm: !p.content_filter_results?.self_harm
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.self_harm?.["severity"],
-                    filtered: p.content_filter_results?.self_harm?.["filtered"],
-                  },
-              error: !p.content_filter_results?.error
-                ? undefined
-                : p.content_filter_results?.error,
+              lines: p.enhancements.grounding?.["lines"].map((p) => ({
+                text: p["text"],
+                spans: p["spans"].map((p) => ({
+                  text: p["text"],
+                  offset: p["offset"],
+                  length: p["length"],
+                  polygon: p["polygon"].map((p) => ({ x: p["x"], y: p["y"] })),
+                })),
+              })),
             },
-      })
-    ),
+      },
+    })),
+    promptFilterResults: !result.body["prompt_filter_results"]
+      ? result.body["prompt_filter_results"]
+      : result.body["prompt_filter_results"].map((p) => ({
+          promptIndex: p["prompt_index"],
+          contentFilterResults: !p.content_filter_results
+            ? undefined
+            : {
+                sexual: !p.content_filter_results?.sexual
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.sexual?.["severity"],
+                      filtered: p.content_filter_results?.sexual?.["filtered"],
+                    },
+                violence: !p.content_filter_results?.violence
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.violence?.["severity"],
+                      filtered:
+                        p.content_filter_results?.violence?.["filtered"],
+                    },
+                hate: !p.content_filter_results?.hate
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.hate?.["severity"],
+                      filtered: p.content_filter_results?.hate?.["filtered"],
+                    },
+                selfHarm: !p.content_filter_results?.self_harm
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.self_harm?.["severity"],
+                      filtered:
+                        p.content_filter_results?.self_harm?.["filtered"],
+                    },
+                profanity: !p.content_filter_results?.profanity
+                  ? undefined
+                  : {
+                      filtered:
+                        p.content_filter_results?.profanity?.["filtered"],
+                      detected:
+                        p.content_filter_results?.profanity?.["detected"],
+                    },
+                customBlocklists: !p.content_filter_results?.[
+                  "custom_blocklists"
+                ]
+                  ? p.content_filter_results?.["custom_blocklists"]
+                  : p.content_filter_results?.["custom_blocklists"].map(
+                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                    ),
+                error: !p.content_filter_results?.error
+                  ? undefined
+                  : p.content_filter_results?.error,
+                jailbreak: {
+                  filtered: p.content_filter_results?.jailbreak["filtered"],
+                  detected: p.content_filter_results?.jailbreak["detected"],
+                },
+              },
+        })),
+    systemFingerprint: result.body["system_fingerprint"],
     usage: {
       completionTokens: result.body.usage["completion_tokens"],
       promptTokens: result.body.usage["prompt_tokens"],
@@ -653,12 +841,14 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body.messages as any,
-        functions: (body["functions"] ?? []).map((p) => ({
-          name: p["name"],
-          description: p["description"],
-          parameters: p["parameters"],
-        })),
+        messages: body["messages"].map((p) => ({ role: p["role"] })),
+        functions: !body["functions"]
+          ? body["functions"]
+          : body["functions"].map((p) => ({
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
         function_call: body["functionCall"],
         max_tokens: body["maxTokens"],
         temperature: body["temperature"],
@@ -671,10 +861,28 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: (body["dataSources"] ?? []).map((p) => ({
-          type: p["type"],
-          parameters: p["parameters"],
-        })),
+        dataSources: !body["dataSources"]
+          ? body["dataSources"]
+          : body["dataSources"].map((p) => ({
+              type: p["type"],
+              parameters: p["parameters"],
+            })),
+        enhancements: !body.enhancements
+          ? undefined
+          : {
+              grounding: !body.enhancements?.grounding
+                ? undefined
+                : { enabled: body.enhancements?.grounding?.["enabled"] },
+              ocr: !body.enhancements?.ocr
+                ? undefined
+                : { enabled: body.enhancements?.ocr?.["enabled"] },
+            },
+        seed: body["seed"],
+        response_format: body["responseFormat"],
+        tools: !body["tools"]
+          ? body["tools"]
+          : body["tools"].map((p) => ({ type: p["type"] })),
+        tool_choice: body["toolChoice"],
       },
     });
 }
@@ -685,22 +893,30 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
     id: result.body["id"],
     created: new Date(result.body["created"]),
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    choices: result.body["choices"].map((p) => ({
       message: !p.message ? undefined : (p.message as any),
       index: p["index"],
       finishReason: p["finish_reason"],
+      finishDetails: !p.finish_details
+        ? undefined
+        : { type: p.finish_details?.["type"] },
       delta: !p.delta
         ? undefined
         : {
             role: p.delta?.["role"],
             content: p.delta?.["content"],
-            name: p.delta?.["name"],
+            toolCalls: !p.delta?.["tool_calls"]
+              ? p.delta?.["tool_calls"]
+              : p.delta?.["tool_calls"].map((p) => ({
+                  type: p["type"],
+                  id: p["id"],
+                })),
             functionCall: !p.delta?.function_call
               ? undefined
               : {
@@ -742,47 +958,131 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                   severity: p.content_filter_results?.self_harm?.["severity"],
                   filtered: p.content_filter_results?.self_harm?.["filtered"],
                 },
+            profanity: !p.content_filter_results?.profanity
+              ? undefined
+              : {
+                  filtered: p.content_filter_results?.profanity?.["filtered"],
+                  detected: p.content_filter_results?.profanity?.["detected"],
+                },
+            customBlocklists: !p.content_filter_results?.["custom_blocklists"]
+              ? p.content_filter_results?.["custom_blocklists"]
+              : p.content_filter_results?.["custom_blocklists"].map((p) => ({
+                  id: p["id"],
+                  filtered: p["filtered"],
+                })),
             error: !p.content_filter_results?.error
               ? undefined
               : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results
+              ?.protected_material_text
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_text?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_text?.[
+                      "detected"
+                    ],
+                },
+            protectedMaterialCode: !p.content_filter_results
+              ?.protected_material_code
+              ? undefined
+              : {
+                  filtered:
+                    p.content_filter_results?.protected_material_code?.[
+                      "filtered"
+                    ],
+                  detected:
+                    p.content_filter_results?.protected_material_code?.[
+                      "detected"
+                    ],
+                  url: p.content_filter_results?.protected_material_code?.[
+                    "URL"
+                  ],
+                  license:
+                    p.content_filter_results?.protected_material_code?.[
+                      "license"
+                    ],
+                },
           },
-    })),
-    promptFilterResults: (result.body["prompt_filter_results"] ?? []).map(
-      (p) => ({
-        promptIndex: p["prompt_index"],
-        contentFilterResults: !p.content_filter_results
+      enhancements: {
+        grounding: !p.enhancements.grounding
           ? undefined
           : {
-              sexual: !p.content_filter_results?.sexual
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.sexual?.["severity"],
-                    filtered: p.content_filter_results?.sexual?.["filtered"],
-                  },
-              violence: !p.content_filter_results?.violence
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.violence?.["severity"],
-                    filtered: p.content_filter_results?.violence?.["filtered"],
-                  },
-              hate: !p.content_filter_results?.hate
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.hate?.["severity"],
-                    filtered: p.content_filter_results?.hate?.["filtered"],
-                  },
-              selfHarm: !p.content_filter_results?.self_harm
-                ? undefined
-                : {
-                    severity: p.content_filter_results?.self_harm?.["severity"],
-                    filtered: p.content_filter_results?.self_harm?.["filtered"],
-                  },
-              error: !p.content_filter_results?.error
-                ? undefined
-                : p.content_filter_results?.error,
+              lines: p.enhancements.grounding?.["lines"].map((p) => ({
+                text: p["text"],
+                spans: p["spans"].map((p) => ({
+                  text: p["text"],
+                  offset: p["offset"],
+                  length: p["length"],
+                  polygon: p["polygon"].map((p) => ({ x: p["x"], y: p["y"] })),
+                })),
+              })),
             },
-      })
-    ),
+      },
+    })),
+    promptFilterResults: !result.body["prompt_filter_results"]
+      ? result.body["prompt_filter_results"]
+      : result.body["prompt_filter_results"].map((p) => ({
+          promptIndex: p["prompt_index"],
+          contentFilterResults: !p.content_filter_results
+            ? undefined
+            : {
+                sexual: !p.content_filter_results?.sexual
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.sexual?.["severity"],
+                      filtered: p.content_filter_results?.sexual?.["filtered"],
+                    },
+                violence: !p.content_filter_results?.violence
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.violence?.["severity"],
+                      filtered:
+                        p.content_filter_results?.violence?.["filtered"],
+                    },
+                hate: !p.content_filter_results?.hate
+                  ? undefined
+                  : {
+                      severity: p.content_filter_results?.hate?.["severity"],
+                      filtered: p.content_filter_results?.hate?.["filtered"],
+                    },
+                selfHarm: !p.content_filter_results?.self_harm
+                  ? undefined
+                  : {
+                      severity:
+                        p.content_filter_results?.self_harm?.["severity"],
+                      filtered:
+                        p.content_filter_results?.self_harm?.["filtered"],
+                    },
+                profanity: !p.content_filter_results?.profanity
+                  ? undefined
+                  : {
+                      filtered:
+                        p.content_filter_results?.profanity?.["filtered"],
+                      detected:
+                        p.content_filter_results?.profanity?.["detected"],
+                    },
+                customBlocklists: !p.content_filter_results?.[
+                  "custom_blocklists"
+                ]
+                  ? p.content_filter_results?.["custom_blocklists"]
+                  : p.content_filter_results?.["custom_blocklists"].map(
+                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                    ),
+                error: !p.content_filter_results?.error
+                  ? undefined
+                  : p.content_filter_results?.error,
+                jailbreak: {
+                  filtered: p.content_filter_results?.jailbreak["filtered"],
+                  detected: p.content_filter_results?.jailbreak["detected"],
+                },
+              },
+        })),
+    systemFingerprint: result.body["system_fingerprint"],
     usage: {
       completionTokens: result.body.usage["completion_tokens"],
       promptTokens: result.body.usage["prompt_tokens"],
@@ -811,6 +1111,64 @@ export async function getChatCompletionsWithAzureExtensions(
   return _getChatCompletionsWithAzureExtensionsDeserialize(result);
 }
 
+export function _getImageGenerationsSend(
+  context: Client,
+  deploymentId: string,
+  body: ImageGenerationOptions,
+  options: GetImageGenerationsOptions = { requestOptions: {} }
+): StreamableMethod<
+  GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+> {
+  return context
+    .path("/deployments/{deploymentId}/images/generations", deploymentId)
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        model: body["model"],
+        prompt: body["prompt"],
+        n: body["n"],
+        size: body["size"],
+        response_format: body["responseFormat"],
+        quality: body["quality"],
+        style: body["style"],
+        user: body["user"],
+      },
+    });
+}
+
+export async function _getImageGenerationsDeserialize(
+  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+): Promise<ImageGenerations> {
+  if (isUnexpected(result)) {
+    throw result.body;
+  }
+
+  return {
+    created: new Date(result.body["created"]),
+    data: result.body["data"].map((p) => ({
+      url: p["url"],
+      base64Data: p["b64_json"],
+      revisedPrompt: p["revised_prompt"],
+    })),
+  };
+}
+
+/** Creates an image given a prompt. */
+export async function getImageGenerations(
+  context: Client,
+  deploymentId: string,
+  body: ImageGenerationOptions,
+  options: GetImageGenerationsOptions = { requestOptions: {} }
+): Promise<ImageGenerations> {
+  const result = await _getImageGenerationsSend(
+    context,
+    deploymentId,
+    body,
+    options
+  );
+  return _getImageGenerationsDeserialize(result);
+}
+
 export function _getAzureBatchImageGenerationOperationStatusSend(
   context: Client,
   operationId: string,
@@ -832,7 +1190,7 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -843,7 +1201,11 @@ export async function _getAzureBatchImageGenerationOperationStatusDeserialize(
       ? undefined
       : {
           created: new Date(result.body.result?.["created"]),
-          data: result.body.result?.["data"] as any,
+          data: result.body.result?.["data"].map((p) => ({
+            url: p["url"],
+            base64Data: p["b64_json"],
+            revisedPrompt: p["revised_prompt"],
+          })),
         },
     status: result.body["status"],
     error: !result.body.error ? undefined : result.body.error,
@@ -880,10 +1242,13 @@ export function _beginAzureBatchImageGenerationSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
+        model: body["model"],
         prompt: body["prompt"],
         n: body["n"],
         size: body["size"],
         response_format: body["responseFormat"],
+        quality: body["quality"],
+        style: body["style"],
         user: body["user"],
       },
     });
@@ -896,7 +1261,7 @@ export async function _beginAzureBatchImageGenerationDeserialize(
     | BeginAzureBatchImageGenerationLogicalResponse
 ): Promise<BatchImageGenerationOperationResponse> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
@@ -907,7 +1272,11 @@ export async function _beginAzureBatchImageGenerationDeserialize(
       ? undefined
       : {
           created: new Date(result.body.result?.["created"]),
-          data: result.body.result?.["data"] as any,
+          data: result.body.result?.["data"].map((p) => ({
+            url: p["url"],
+            base64Data: p["b64_json"],
+            revisedPrompt: p["revised_prompt"],
+          })),
         },
     status: result.body["status"],
     error: !result.body.error ? undefined : result.body.error,
@@ -946,11 +1315,11 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw result.body;
   }
 
   return {
-    data: (result.body["data"] ?? []).map((p) => ({
+    data: result.body["data"].map((p) => ({
       embedding: p["embedding"],
       index: p["index"],
     })),
