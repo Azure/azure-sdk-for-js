@@ -9,7 +9,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,12 +18,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:17:11 GMT",
-        "MS-CV": "kak6neWO4EWtBo4b3w\u002B0Hg.0",
+        "Date": "Wed, 22 Nov 2023 10:04:26 GMT",
+        "MS-CV": "9WC9W18E10ujB6zPGwx0/A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BMlcZQAAAAAERAg0cChSSYDAIw5jnnzgUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0KtJdZQAAAABX5loHdzVDR7h5dXyeU9CwUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "202ms"
+        "X-Processing-Time": "228ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -40,7 +41,8 @@
         "Content-Length": "40",
         "Content-Type": "application/merge-patch\u002Bjson",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "trunks": {
@@ -52,12 +54,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:17:12 GMT",
-        "MS-CV": "lHiKpQ5D1k65984N7JN2Nw.0",
+        "Date": "Wed, 22 Nov 2023 10:04:26 GMT",
+        "MS-CV": "mWTQlOSFSUmRooykzsKyxA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BMlcZQAAAAAKOIZ56H0/QLaeiiFWTii7UFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0K9JdZQAAAACM5y6VYnadSoy5X7s1ZPWDUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "379ms"
+        "X-Processing-Time": "377ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -73,7 +75,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -81,12 +84,12 @@
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "25",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 21 Nov 2023 15:17:12 GMT",
-        "MS-CV": "K/NdUsHQe0eqbRsTAzH5pQ.0",
+        "Date": "Wed, 22 Nov 2023 10:04:26 GMT",
+        "MS-CV": "DdF/ZP/1xkaJU/it3tetcA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0\u002BMlcZQAAAADEkn060AJBQKbBDNUQZWKjUFJHMDFFREdFMDkxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0K9JdZQAAAABjlPaB2u9fTrkP/uewkbjyUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "217ms"
+        "X-Processing-Time": "213ms"
       },
       "ResponseBody": {
         "trunks": {},
@@ -95,6 +98,6 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "testd13dc273ec834e63aa48eaadbb3fa416.sanitized.sbc.test"
+    "fqdn-1": "testfed689cc85494ef08fe6c571462768e2.sanitized.sbc.test"
   }
 }
