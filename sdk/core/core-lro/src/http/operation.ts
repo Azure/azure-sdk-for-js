@@ -180,7 +180,7 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
 }
 
 export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
-  const error = (response.flatResponse as ResponseBody).error;
+  const error = accessBody(response, "error");
   if (!error) {
     logger.warning(
       `The long-running operation failed but there is no error property in the response's body`
@@ -304,15 +304,20 @@ export function getOperationStatus<TState>(
   }
 }
 
+function accessBody<P extends string>(
+  { flatResponse, rawResponse }: LroResponse,
+  prop: P
+): ResponseBody[P] {
+  return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
+}
+
 export function getResourceLocation<TState>(
-  { flatResponse }: LroResponse,
+  res: LroResponse,
   state: RestorableOperationState<TState>
 ): string | undefined {
-  if (typeof flatResponse === "object") {
-    const resourceLocation = (flatResponse as { resourceLocation?: string }).resourceLocation;
-    if (resourceLocation !== undefined) {
-      state.config.resourceLocation = resourceLocation;
-    }
+  const loc = accessBody(res, "resourceLocation");
+  if (loc !== undefined) {
+    state.config.resourceLocation = loc;
   }
   return state.config.resourceLocation;
 }
