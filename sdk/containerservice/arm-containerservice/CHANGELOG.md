@@ -1,15 +1,38 @@
 # Release History
+    
+## 19.5.0 (2023-11-22)
+    
+**Features**
 
-## 19.5.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group TrustedAccessRoleBindings
+  - Added operation group TrustedAccessRoles
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface TrustedAccessRole
+  - Added Interface TrustedAccessRoleBinding
+  - Added Interface TrustedAccessRoleBindingListResult
+  - Added Interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  - Added Interface TrustedAccessRoleBindingsDeleteHeaders
+  - Added Interface TrustedAccessRoleBindingsDeleteOptionalParams
+  - Added Interface TrustedAccessRoleBindingsGetOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListNextOptionalParams
+  - Added Interface TrustedAccessRoleBindingsListOptionalParams
+  - Added Interface TrustedAccessRoleListResult
+  - Added Interface TrustedAccessRoleRule
+  - Added Interface TrustedAccessRolesListNextOptionalParams
+  - Added Interface TrustedAccessRolesListOptionalParams
+  - Added Type Alias TrustedAccessRoleBindingProvisioningState
+  - Added Type Alias TrustedAccessRoleBindingsCreateOrUpdateResponse
+  - Added Type Alias TrustedAccessRoleBindingsDeleteResponse
+  - Added Type Alias TrustedAccessRoleBindingsGetResponse
+  - Added Type Alias TrustedAccessRoleBindingsListNextResponse
+  - Added Type Alias TrustedAccessRoleBindingsListResponse
+  - Added Type Alias TrustedAccessRolesListNextResponse
+  - Added Type Alias TrustedAccessRolesListResponse
+  - Added Enum KnownTrustedAccessRoleBindingProvisioningState
+    
+    
 ## 19.5.0-beta.1 (2023-11-03)
     
 **Features**
@@ -182,7 +205,7 @@
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
     
-    
+   
 ## 19.4.0 (2023-10-20)
     
 **Features**
