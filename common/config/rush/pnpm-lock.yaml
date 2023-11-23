@@ -11009,20 +11009,22 @@ packages:
     dev: false
 
   file:projects/arm-baremetalinfrastructure.tgz:
-    resolution: {integrity: sha512-Dz8Yurl0IJF9a8TZdEKhbNVKKaVUOCZbEbHJXyaJjrSDi0kt065LLub3OB61h7hzV4GLbUdukKHQyVo8SQsX2Q==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    resolution: {integrity: sha512-EGG3W17fhAN6QzUIAH4UG/NQCctMA6PVzj6pcxdq9HOr/3WjP1HnRs5jb14lAsmqmlFNbs5ulvbm666khBdjOA==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
     name: '@rush-temp/arm-baremetalinfrastructure'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -11573,17 +11575,19 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-yenTfukpcmOA8IuKPaskytC/xe5tgQJaHMgnWMEbqZ9l2ZgzCWy2FUhayP8X8ungz5skyJX4oPNFusU24DN9HQ==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-IlNtJhNxx84POEA/UUjwGivdaSwwFdpMLyymXU/tqYKXKcOQ4M1lK9XRQ4S7AhLJFZ+zAIPNIfgBiCwnUcWxug==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -12518,20 +12522,22 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-3WyGsv9+MeLtTcF6nkEobky/e5NHBeFqjNfVsdLCRvXM+Gg4Dep5l5WcgrTYC3clV3LFTGHOI9qaAa0tuoo6cA==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-eOutePzB+EhqSl1kSFCC2KhPjwAWsCh6JxxG5seT6b2QPN+fPKRUf5FrGyallRfZs4p+ovU8LuOuPfKjjaIH+g==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -14349,17 +14355,19 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-THH0bGQNNPLWJBg1/U+xrf8TJ2mRED+hmwN1k00PuAV5N9muZ2p75NVWxI10ecibe3lrl91SlaSIXXITBfAp4g==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-MhkspW3boK37WvFPDM0fm93cW139qYWGT0nf8Mnsf4Fty1RTRGp1OBdWmTVj4qIDJp48OX4xk0nzRfHNzO5MEQ==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5

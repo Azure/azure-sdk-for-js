@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all event subscriptions from the given location under a specific Azure subscription and topic type.
  *
  * @summary List all event subscriptions from the given location under a specific Azure subscription and topic type.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_ListRegionalBySubscriptionForTopicType.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_ListRegionalBySubscriptionForTopicType.json
  */
 async function eventSubscriptionsListRegionalBySubscriptionForTopicType() {
   const subscriptionId =
