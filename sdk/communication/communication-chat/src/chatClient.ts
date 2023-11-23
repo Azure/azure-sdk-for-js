@@ -22,7 +22,11 @@ import {
   TypingIndicatorReceivedEvent,
 } from "./models/events";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { ConnectionState, SignalingClient, SignalingClientOptions } from "@azure/communication-signaling";
+import {
+  ConnectionState,
+  SignalingClient,
+  SignalingClientOptions,
+} from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
@@ -43,7 +47,7 @@ import { logger } from "./models/logger";
 import { tracingClient } from "./generated/src/tracing";
 
 declare interface InternalChatClientOptions extends ChatClientOptions {
-  signalingClientOptions?: SignalingClientOptions
+  signalingClientOptions?: SignalingClientOptions;
 }
 
 /**
