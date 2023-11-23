@@ -60,7 +60,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-nginx/2.0.2`;
+    const packageDetails = `azsdk-js-arm-nginx/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,7 +113,7 @@ export class NginxManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-08-01";
+    this.apiVersion = options.apiVersion || "2023-04-01";
     this.certificates = new CertificatesImpl(this);
     this.configurations = new ConfigurationsImpl(this);
     this.deployments = new DeploymentsImpl(this);

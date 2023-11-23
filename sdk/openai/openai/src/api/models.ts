@@ -8,14 +8,13 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { ErrorModel, OperationOptions } from "@azure-rest/core-client";
 import {
   AzureChatExtensionConfiguration,
-  FunctionDefinition,
-  FunctionCallPreset,
-  FunctionName,
   ContentFilterResult,
+  FunctionCallPreset,
+  FunctionDefinition,
+  FunctionName,
 } from "../models/models.js";
 
 /**
@@ -114,9 +113,6 @@ export interface AzureExtensionsOptions {
   extensions?: AzureChatExtensionConfiguration[];
 }
 
-/** Information about the content filtering category, if it has been detected. */
-export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;
-
 /** Information about the content filtering success result. */
 export interface ContentFilterSuccessResults {
   /**
@@ -159,3 +155,6 @@ export interface ContentFilterErrorResults {
    */
   error: ErrorModel;
 }
+
+/** Information about the content filtering category, if it has been detected. */
+export type ContentFilterResults = ContentFilterSuccessResults | ContentFilterErrorResults;

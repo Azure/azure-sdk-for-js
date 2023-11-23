@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates that a backend can be linked to a static site build
  *
  * @summary Validates that a backend can be linked to a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ValidateLinkedBackendForStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ValidateLinkedBackendForStaticSiteBuild.json
  */
 async function validateIfBackendCanBeLinkedToStaticSiteBuild() {
   const subscriptionId =

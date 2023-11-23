@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
  *
  * @summary Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/VerifyHostingEnvironmentVnet.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/VerifyHostingEnvironmentVnet.json
  */
 async function verifyHostingEnvironmentVnet() {
   const subscriptionId =

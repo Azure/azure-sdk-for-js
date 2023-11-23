@@ -258,6 +258,9 @@
 /sdk/batch/arm-batch/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/billing/arm-billing/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -419,6 +422,9 @@
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hybridcontainerservice/arm-hybridcontainerservice/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -522,6 +528,9 @@
 
 # PRLabel: %Mgmt
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/nginx/arm-nginx/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network/      @qiaozha @MaryGao

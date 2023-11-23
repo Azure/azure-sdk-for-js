@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get Site Analysis
  *
  * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteAnalysis.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteAnalysis.json
  */
 async function getAppAnalysis() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function getAppAnalysis() {
  * This sample demonstrates how to Description for Get Site Analysis
  *
  * @summary Description for Get Site Analysis
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteAnalysisSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteAnalysisSlot.json
  */
 async function getAppSlotAnalysis() {
   const subscriptionId =

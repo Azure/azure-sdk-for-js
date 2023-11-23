@@ -8,7 +8,6 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { StreamableMethod } from "@azure-rest/core-client";
 import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { wrapError } from "./util.js";
@@ -28,6 +27,7 @@ async function getStream<TResponse>(
     const text = await streamToText(body);
     throw wrapError(() => JSON.parse(text).error, "Error parsing response body");
   }
+
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
   return body;
 }
@@ -63,5 +63,6 @@ function concatBuffers(buffers: Uint8Array[], len?: number): Uint8Array {
     res.set(buffer, pos);
     pos += buffer.length;
   }
+
   return res;
 }

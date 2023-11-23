@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Detach the user provided function app from the static site build
  *
  * @summary Description for Detach the user provided function app from the static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DetachUserProvidedFunctionAppFromStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/DetachUserProvidedFunctionAppFromStaticSiteBuild.json
  */
 async function detachTheUserProvidedFunctionAppFromTheStaticSiteBuild() {
   const subscriptionId =
