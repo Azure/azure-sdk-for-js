@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AM1U_hrImZctcO0FtqOihDsUS_MOFTko1xnGp6g1XnQ81%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3AsMzsnIQLo5Q3sP5Vfh3GsKNKuVVYAEeXvBHAG-eCiUg1%40thread.v2/messages?api-version=2023-11-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,9 +19,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "470302f6-ce30-4bc3-a76a-fb9d5c7f2d97",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.12.2 OS"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "031cbff4-19c7-4c94-b28a-6f9031b6b6f2",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "content": "content",
@@ -36,16 +36,16 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
         "Content-Length": "22",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Oct 2023 10:46:45 GMT",
-        "Location": "https://endpoint/chat/threads/19%3AM1U_hrImZctcO0FtqOihDsUS_MOFTko1xnGp6g1XnQ81@thread.v2/messages/1697712406215",
-        "MS-CV": "O15KC6FgAke0tAn3sk7/0A.0",
+        "Date": "Tue, 21 Nov 2023 01:09:43 GMT",
+        "Location": "https://endpoint/chat/threads/19%3AsMzsnIQLo5Q3sP5Vfh3GsKNKuVVYAEeXvBHAG-eCiUg1@thread.v2/messages/1700528984299",
+        "MS-CV": "d09MJSJFyUes7cMxO34y8A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0FgkxZQAAAABw0DtrD8gxRJN2J4TtqYBCU1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Azure-Ref": "0WANcZQAAAAAJWZJjeYu3Rp92Y4GPwmK3V1NURURHRTAxMTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "219ms"
+        "X-Processing-Time": "152ms"
       },
       "ResponseBody": {
-        "id": "1697712406215"
+        "id": "1700528984299"
       }
     }
   ],
