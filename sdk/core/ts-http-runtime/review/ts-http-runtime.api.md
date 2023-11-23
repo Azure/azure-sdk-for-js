@@ -186,7 +186,7 @@ export function createPipelineRequest(options: PipelineRequestOptions): Pipeline
 // @public
 export function createRestError(response: PathUncheckedResponse): RestError;
 
-// @public (undocumented)
+// @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public
