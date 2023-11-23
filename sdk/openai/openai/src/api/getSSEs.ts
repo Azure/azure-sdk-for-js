@@ -8,10 +8,9 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { RestError } from "@azure/core-rest-pipeline";
+import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { wrapError } from "./util.js";
 
 export async function getSSEs(
@@ -29,6 +28,7 @@ async function getStream<TResponse>(
     const text = await streamToText(body);
     throw wrapError(() => JSON.parse(text).error, "Error parsing response body");
   }
+
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
   return body as AsyncIterable<Uint8Array>;
 }

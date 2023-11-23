@@ -41,13 +41,6 @@ export const NginxCertificate: coreClient.CompositeMapper = {
           className: "NginxCertificateProperties"
         }
       },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
       location: {
         serializedName: "location",
         type: {
@@ -286,13 +279,6 @@ export const NginxConfiguration: coreClient.CompositeMapper = {
           className: "NginxConfigurationProperties"
         }
       },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
       location: {
         serializedName: "location",
         type: {
@@ -393,6 +379,17 @@ export const NginxConfigurationPackage: coreClient.CompositeMapper = {
         serializedName: "data",
         type: {
           name: "String"
+        }
+      },
+      protectedFiles: {
+        serializedName: "protectedFiles",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -582,6 +579,20 @@ export const NginxDeploymentProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "NginxLogging"
         }
+      },
+      scalingProperties: {
+        serializedName: "scalingProperties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentScalingProperties"
+        }
+      },
+      userProfile: {
+        serializedName: "userProfile",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentUserProfile"
+        }
       }
     }
   }
@@ -737,6 +748,41 @@ export const NginxStorageAccount: coreClient.CompositeMapper = {
   }
 };
 
+export const NginxDeploymentScalingProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentScalingProperties",
+    modelProperties: {
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const NginxDeploymentUserProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NginxDeploymentUserProfile",
+    modelProperties: {
+      preferredEmail: {
+        constraints: {
+          Pattern: new RegExp(
+            "^$|^[A-Za-z0-9._%+-]+@(?:[A-Za-z0-9-]+\\.)+[A-Za-z]{2,}$"
+          )
+        },
+        serializedName: "preferredEmail",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ResourceSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -812,6 +858,20 @@ export const NginxDeploymentUpdateProperties: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "NginxLogging"
+        }
+      },
+      scalingProperties: {
+        serializedName: "scalingProperties",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentScalingProperties"
+        }
+      },
+      userProfile: {
+        serializedName: "userProfile",
+        type: {
+          name: "Composite",
+          className: "NginxDeploymentUserProfile"
         }
       }
     }

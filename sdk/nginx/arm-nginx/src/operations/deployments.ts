@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NginxManagementClient } from "../nginxManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NginxDeployment,
   DeploymentsListNextOptionalParams,
@@ -48,7 +52,7 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * List the Nginx deployments resources
+   * List the NGINX deployments resources
    * @param options The options parameters.
    */
   public list(
@@ -102,7 +106,7 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * List all Nginx deployments under the specified resource group.
+   * List all NGINX deployments under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -171,9 +175,9 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Get the Nginx deployment
+   * Get the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   get(
@@ -188,9 +192,9 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Create or update the Nginx deployment
+   * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -198,8 +202,8 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsCreateOrUpdateResponse>,
       DeploymentsCreateOrUpdateResponse
     >
   > {
@@ -209,7 +213,7 @@ export class DeploymentsImpl implements Deployments {
     ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -242,24 +246,27 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeploymentsCreateOrUpdateResponse,
+      OperationState<DeploymentsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update the Nginx deployment
+   * Create or update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -276,9 +283,9 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Update the Nginx deployment
+   * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -286,8 +293,8 @@ export class DeploymentsImpl implements Deployments {
     deploymentName: string,
     options?: DeploymentsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DeploymentsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DeploymentsUpdateResponse>,
       DeploymentsUpdateResponse
     >
   > {
@@ -297,7 +304,7 @@ export class DeploymentsImpl implements Deployments {
     ): Promise<DeploymentsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -330,13 +337,16 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeploymentsUpdateResponse,
+      OperationState<DeploymentsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -344,9 +354,9 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Update the Nginx deployment
+   * Update the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -363,23 +373,23 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Delete the Nginx deployment resource
+   * Delete the NGINX deployment resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginDelete(
     resourceGroupName: string,
     deploymentName: string,
     options?: DeploymentsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -412,13 +422,13 @@ export class DeploymentsImpl implements Deployments {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -426,9 +436,9 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * Delete the Nginx deployment resource
+   * Delete the NGINX deployment resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -445,7 +455,7 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * List the Nginx deployments resources
+   * List the NGINX deployments resources
    * @param options The options parameters.
    */
   private _list(
@@ -455,7 +465,7 @@ export class DeploymentsImpl implements Deployments {
   }
 
   /**
-   * List all Nginx deployments under the specified resource group.
+   * List all NGINX deployments under the specified resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */

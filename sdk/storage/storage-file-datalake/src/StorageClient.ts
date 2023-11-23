@@ -29,6 +29,7 @@ function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions 
   }
   return {
     ...restOptions,
+    allowInsecureConnection: true,
     httpClient,
     pipeline: corePipeline,
   };

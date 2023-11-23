@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Initiate an upgrade of an App Service Environment if one is available.
  *
  * @summary Description for Initiate an upgrade of an App Service Environment if one is available.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_Upgrade.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_Upgrade.json
  */
 async function initiateAnUpgradeOnAnAppServiceEnvironment() {
   const subscriptionId =
