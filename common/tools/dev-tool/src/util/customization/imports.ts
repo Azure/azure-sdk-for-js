@@ -6,7 +6,12 @@ import { getCustomizationState } from "./state";
 import * as path from "path/posix";
 
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
-declare const LOCAL_MODULE_PATH: unique symbol;
+declare const LOCAL_MODULE_RELATIVE_PATH: unique symbol;
+declare const ABSOLUTE_MODULE_SPECIFIER: unique symbol;
+declare const URL_MODULE_SPECIFIER: unique symbol;
+declare const NODE_MODULES_PACKAGE_MODULE_SPECIFIER: unique symbol;
+declare const RELATIVE_MODULE_SPECIFIER: unique symbol;
+declare const MODULE_SPECIFIER: unique symbol;
 
 // The following types have type brands, a zero-cost way to tell the TS compiler that they should
 // be considered different types. Any cast to these types should only happen in places where the
@@ -18,8 +23,35 @@ type DotPrefixedRelativePath = string & { [DOT_PREFIXED_RELATIVE_PATH]: never };
 /**
  * A POSIX style relative path from a source file to the module it imports.
  */
-type LocalModuleRelativePath = string & { [LOCAL_MODULE_PATH]: never };
-type LocalModuleSpecifier = LocalModuleRelativePath & DotPrefixedRelativePath;
+type LocalModuleRelativePath = string & { [LOCAL_MODULE_RELATIVE_PATH]: never };
+
+/**
+ * A POSIX style absolute path
+ */
+type AbsoluteModuleSpecifier = string & { [MODULE_SPECIFIER]: typeof ABSOLUTE_MODULE_SPECIFIER };
+/**
+ * A URL
+ */
+type URLModuleSpecifier = string & { [MODULE_SPECIFIER]: typeof URL_MODULE_SPECIFIER };
+/**
+ * A string corresponding to a package name in `node_modules`
+ */
+type NodeModulesPackageModuleSpecifier = string & {
+  [MODULE_SPECIFIER]: typeof NODE_MODULES_PACKAGE_MODULE_SPECIFIER;
+};
+/**
+ * A POSIX style relative path
+ */
+type RelativeModuleSpecifier = LocalModuleRelativePath &
+  DotPrefixedRelativePath & { [MODULE_SPECIFIER]: typeof RELATIVE_MODULE_SPECIFIER };
+/**
+ * A valid JS module specifier
+ */
+type ModuleSpecifier =
+  | RelativeModuleSpecifier
+  | AbsoluteModuleSpecifier
+  | URLModuleSpecifier
+  | NodeModulesPackageModuleSpecifier;
 
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
@@ -29,8 +61,11 @@ export function augmentImports(
   const originalFilePath = originalFile.getFilePath().replace(/\\/g, "/");
 
   const importMap = new Map<string, ImportDeclaration>();
-  originalImports.forEach((importDecl, moduleSpecifier) => {
-    const normalizedModuleSpecifier = normalizeModuleSpecifier(moduleSpecifier, originalFilePath);
+  originalImports.forEach((importDecl, _moduleSpecifier) => {
+    const moduleSpecifier = _moduleSpecifier as ModuleSpecifier;
+    const normalizedModuleSpecifier = isRelativeModuleSpecifier(moduleSpecifier)
+      ? normalizeRelativeModuleSpecifier(moduleSpecifier, originalFilePath)
+      : moduleSpecifier;
     importDecl.setModuleSpecifier(normalizedModuleSpecifier);
     importMap.set(normalizedModuleSpecifier, importDecl);
   });
@@ -56,7 +91,7 @@ function removeSelfImports(originalFile: SourceFile) {
     .forEach((originalImport) => originalImport.remove());
 
   function isSelfImport(originalImport: ImportDeclaration) {
-    const modulePath = originalImport.getModuleSpecifierValue();
+    const modulePath = originalImport.getModuleSpecifierValue() as ModuleSpecifier;
     const moduleAbsolutePath = path.resolve(filePathObject.dir, modulePath);
     return removeFileExtension(moduleAbsolutePath) === filePathWithoutExt;
   }
@@ -101,16 +136,13 @@ function mergeImportIntoFile(
    */
   function getFixedModuleSpecifier(
     customImportDecl: ImportDeclaration
-  ): LocalModuleSpecifier | string {
+  ): RelativeModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
     const customFilePath = customImportDecl.getSourceFile().getFilePath().replace(/\\/g, "/");
 
-    const moduleSpecifierFromCustomFile = normalizeModuleSpecifier(
-      customImportDecl.getModuleSpecifierValue(),
-      customFilePath
-    );
-
-    if (!isLocalModuleSpecifier(moduleSpecifierFromCustomFile)) {
+    const moduleSpecifierFromCustomFile =
+      customImportDecl.getModuleSpecifierValue() as ModuleSpecifier;
+    if (!isRelativeModuleSpecifier(moduleSpecifierFromCustomFile)) {
       return moduleSpecifierFromCustomFile;
     }
 
@@ -120,7 +152,7 @@ function mergeImportIntoFile(
         customDir,
         customFilePath,
         moduleSpecifierFromCustomFile
-      ) ?? moduleSpecifierFromCustomFile;
+      ) ?? normalizeRelativeModuleSpecifier(moduleSpecifierFromCustomFile, customFilePath);
 
     return fixedModuleSpecifier;
   }
@@ -146,30 +178,16 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   }
 }
 
-function normalizeModuleSpecifier<T extends LocalModuleRelativePath>(
-  moduleSpecifier: T,
-  filePath: string
-): T & LocalModuleSpecifier;
-function normalizeModuleSpecifier<T extends string>(moduleSpecifier: T, filePath: string): T;
-function normalizeModuleSpecifier<T extends string>(
-  moduleSpecifier: T,
-  filePath: string
-): (T & LocalModuleSpecifier) | T {
-  return isLocalModuleSpecifier(moduleSpecifier)
-    ? normalizeLocalModuleSpecifier(moduleSpecifier, filePath)
-    : moduleSpecifier;
-}
-
-function isLocalModuleSpecifier<T extends string>(
+function isRelativeModuleSpecifier<T extends ModuleSpecifier>(
   moduleSpecifier: T
-): moduleSpecifier is T & LocalModuleRelativePath {
-  return !path.isAbsolute(moduleSpecifier);
+): moduleSpecifier is T & RelativeModuleSpecifier {
+  return moduleSpecifier.startsWith(".");
 }
 
-function normalizeLocalModuleSpecifier<T extends LocalModuleRelativePath>(
+function normalizeRelativeModuleSpecifier<T extends LocalModuleRelativePath>(
   moduleSpecifier: T,
   filePath: string
-): T & LocalModuleSpecifier {
+): T & RelativeModuleSpecifier {
   const fileDir = path.dirname(filePath);
   const modulePath = path.resolve(fileDir, moduleSpecifier);
   const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T &
@@ -203,7 +221,7 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   customSourceRoot: string,
   customFilePath: string,
   originalModuleSpecifier: LocalModuleRelativePath
-): LocalModuleSpecifier | undefined {
+): RelativeModuleSpecifier | undefined {
   const customFileDir = path.dirname(customFilePath);
   const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
 
@@ -217,7 +235,7 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
 
   // Check if the module is actually contained in the original directory
   if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
-    return normalizeLocalModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
+    return normalizeRelativeModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
   }
 }
 
