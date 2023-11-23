@@ -1,15 +1,39 @@
 # Release History
+    
+## 14.1.0 (2023-11-16)
+    
+**Features**
 
-## 14.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation group GetUsagesInLocation
+  - Added Interface AseRegion
+  - Added Interface AseRegionCollection
+  - Added Interface DaprConfig
+  - Added Interface DiagnosticData_2
+  - Added Interface GetUsagesInLocationListNextOptionalParams
+  - Added Interface GetUsagesInLocationListOptionalParams
+  - Added Interface ListAseRegionsNextOptionalParams
+  - Added Interface ListAseRegionsOptionalParams
+  - Added Interface ResourceConfig
+  - Added Type Alias DaprLogLevel
+  - Added Type Alias GetUsagesInLocationListNextResponse
+  - Added Type Alias GetUsagesInLocationListResponse
+  - Added Type Alias ListAseRegionsNextResponse
+  - Added Type Alias ListAseRegionsResponse
+  - Added Type Alias TlsCipherSuites
+  - Interface CheckNameAvailabilityOptionalParams has a new optional parameter environmentId
+  - Interface ResourceNameAvailabilityRequest has a new optional parameter environmentId
+  - Interface Site has a new optional parameter daprConfig
+  - Interface Site has a new optional parameter resourceConfig
+  - Interface Site has a new optional parameter workloadProfileName
+  - Interface SiteConfig has a new optional parameter minTlsCipherSuite
+  - Interface SiteConfigResource has a new optional parameter minTlsCipherSuite
+  - Added Enum KnownDaprLogLevel
+  - Added Enum KnownTlsCipherSuites
+  - Added Enum KnownWorkflowState
+  - Class WebSiteManagementClient has a new signature
+  - Type of parameter dataset of interface DetectorResponse is changed from DiagnosticData[] to DiagnosticData_2[]
+    
+    
 ## 14.0.0 (2023-03-10)
     
 **Features**

@@ -155,6 +155,13 @@ export abstract class BaseSender {
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
         this.networkStatsbeatMetrics?.countRetry(restError.statusCode);
         return this.persist(envelopes);
+      } else if (
+        restError.statusCode === 400 &&
+        restError.message.includes("Invalid instrumentation key")
+      ) {
+        const invalidInstrumentationKeyError = new Error("Invalid instrumentation key");
+        this.shutdownStatsbeat();
+        return { code: ExportResultCode.FAILED, error: invalidInstrumentationKeyError };
       }
       if (this.isNetworkError(restError)) {
         if (restError.statusCode) {
@@ -192,15 +199,24 @@ export abstract class BaseSender {
     }
   }
 
-  // Disable collection of statsbeat metrics after max failures
+  /**
+   * Disable collection of statsbeat metrics after max failures
+   */
   private incrementStatsbeatFailure() {
     this.statsbeatFailureCount++;
     if (this.statsbeatFailureCount > MAX_STATSBEAT_FAILURES) {
-      this.networkStatsbeatMetrics?.shutdown();
-      this.longIntervalStatsbeatMetrics?.shutdown();
-      this.networkStatsbeatMetrics = undefined;
-      this.statsbeatFailureCount = 0;
+      this.shutdownStatsbeat();
     }
+  }
+
+  /**
+   * Shutdown statsbeat metrics
+   */
+  private shutdownStatsbeat() {
+    this.networkStatsbeatMetrics?.shutdown();
+    this.longIntervalStatsbeatMetrics?.shutdown();
+    this.networkStatsbeatMetrics = undefined;
+    this.statsbeatFailureCount = 0;
   }
 
   private async sendFirstPersistedFile(): Promise<void> {

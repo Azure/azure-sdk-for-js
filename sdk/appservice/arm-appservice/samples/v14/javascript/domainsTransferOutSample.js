@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Transfer out domain to another registrar
  *
  * @summary Transfer out domain to another registrar
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/TransferOutDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/TransferOutDomain.json
  */
 async function transferOutDomain() {
   const subscriptionId =

@@ -18,15 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Description for Get available Web app frameworks and their versions for location
  *
  * @summary Description for Get available Web app frameworks and their versions for location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetWebAppStacksForLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetWebAppStacksForLocation.json
  */
 async function getLocationsWebAppStacks() {
-  const subscriptionId =
-    process.env["APPSERVICE_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const location = "westus";
   const credential = new DefaultAzureCredential();
-  const client = new WebSiteManagementClient(credential, subscriptionId);
+  const client = new WebSiteManagementClient(credential);
   const resArray = new Array();
   for await (let item of client.provider.listWebAppStacksForLocation(
     location
