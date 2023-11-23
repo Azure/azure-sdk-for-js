@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Revert rulestack configuration
  *
  * @summary Revert rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_revert_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_revert_MaximumSet_Gen.json
  */
 async function localRulestacksRevertMaximumSetGen() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function localRulestacksRevertMaximumSetGen() {
  * This sample demonstrates how to Revert rulestack configuration
  *
  * @summary Revert rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_revert_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_revert_MinimumSet_Gen.json
  */
 async function localRulestacksRevertMinimumSetGen() {
   const subscriptionId =

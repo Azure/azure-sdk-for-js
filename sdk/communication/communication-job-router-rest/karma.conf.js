@@ -59,6 +59,7 @@ module.exports = function (config) {
       "AZURE_TENANT_ID",
       "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
+      "COMMUNICATION_CONNECTION_STRING",
     ],
 
     // test results reporter to use

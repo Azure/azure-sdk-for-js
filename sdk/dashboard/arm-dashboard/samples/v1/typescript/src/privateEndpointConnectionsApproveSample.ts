@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Manual approve private endpoint connection
  *
  * @summary Manual approve private endpoint connection
- * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Approve.json
+ * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2023-09-01/examples/PrivateEndpointConnections_Approve.json
  */
 async function privateEndpointConnectionsApprove() {
   const subscriptionId =

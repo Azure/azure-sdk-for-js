@@ -8,7 +8,6 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 export function wrapError<T>(f: () => T, message: string): T {
   try {
     const result = f();
@@ -16,10 +15,6 @@ export function wrapError<T>(f: () => T, message: string): T {
   } catch (cause) {
     throw new Error(`${message}: ${cause}`, { cause });
   }
-}
-
-function tocamelCase(str: string): string {
-  return str.replace(/([_][a-z])/g, (group) => group.toUpperCase().replace("_", ""));
 }
 
 /**
@@ -41,5 +36,10 @@ export function renameKeysToCamelCase(obj: Record<string, any>): Record<string, 
           : renameKeysToCamelCase(value)
         : value;
   }
+
   return obj;
+}
+
+function tocamelCase(str: string): string {
+  return str.replace(/([_][a-z])/g, (group) => group.toUpperCase().replace("_", ""));
 }
