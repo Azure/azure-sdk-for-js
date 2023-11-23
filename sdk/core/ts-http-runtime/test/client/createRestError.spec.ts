@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createRestError } from "../../src/client/restError";
 import { PipelineRequest } from "../../src/interfaces";
 import { assert } from "chai";
