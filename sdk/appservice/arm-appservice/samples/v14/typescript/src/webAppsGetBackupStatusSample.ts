@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets a backup of an app by its ID.
  *
  * @summary Description for Gets a backup of an app by its ID.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetWebAppBackup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetWebAppBackup.json
  */
 async function getWebAppBackup() {
   const subscriptionId =

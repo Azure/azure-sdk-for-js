@@ -1,15 +1,22 @@
 # Release History
+    
+## 3.0.0 (2023-11-09)
+    
+**Features**
 
-## 2.0.2 (Unreleased)
+  - Added Interface NginxDeploymentScalingProperties
+  - Added Interface NginxDeploymentUserProfile
+  - Interface NginxConfigurationPackage has a new optional parameter protectedFiles
+  - Interface NginxDeploymentProperties has a new optional parameter scalingProperties
+  - Interface NginxDeploymentProperties has a new optional parameter userProfile
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter scalingProperties
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter userProfile
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface NginxCertificate no longer has parameter tags
+  - Interface NginxConfiguration no longer has parameter tags
+    
 ## 2.0.1 (2023-01-30)
 
 **Features**
