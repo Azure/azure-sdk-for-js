@@ -14351,17 +14351,19 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-YSXJW8BtF9HqLWexP2+bGeo7ooW7lePKmH4y/34/u59si1nTs6BWMY7ud+JWYT1x1jvxonvVFTMrxOlSM0ffhg==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-IAdWZNzt9xojICD12ecNw2zCg87H86jtz/8bIIyKkKiK+R2+U/j8SEoQMjRp/DIHu9YzMD5WSZx1kX0HLt2R4g==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
