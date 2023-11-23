@@ -11009,20 +11009,22 @@ packages:
     dev: false
 
   file:projects/arm-baremetalinfrastructure.tgz:
-    resolution: {integrity: sha512-8Le7YeOKmFHQs2mbQeJ7dxVD+sjVip7BXdt39+Hla1osSXeqR8mcIKKA7J29+5OoMAjt4iMnIJwpxWJtSP/Odw==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    resolution: {integrity: sha512-l8Zu/vH06xX96P9m6Nih2ODB4vYpTTSGkLTCOFx1hL/p8+BUOi/QeGu4WUkrH64OgzdhFYjxbPx0JwtV3wdbwg==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
     name: '@rush-temp/arm-baremetalinfrastructure'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
