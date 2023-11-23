@@ -11575,17 +11575,19 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-NJ7XQgGZASKL93L/e7WLrIviDOC7uTV7SBZEWMQO/9smQX4NNEDYczfc6jhqMBhASgdAm4/7BDHcWGpDiNUj4Q==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-PUitgqJBr6Iaz6QiyG7/lCjCdwv7kHOaDwp/ksXh7Xyofr8QtX5W+J/qbwfETUxgp3NYKVEiLCJksplBmSndeA==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
