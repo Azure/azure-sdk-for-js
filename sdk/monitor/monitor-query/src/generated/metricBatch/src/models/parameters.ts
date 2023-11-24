@@ -42,10 +42,10 @@ export const accept: OperationParameter = {
   }
 };
 
-export const baseUrl: OperationURLParameter = {
-  parameterPath: "baseUrl",
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
   mapper: {
-    serializedName: "baseUrl",
+    serializedName: "endpoint",
     required: true,
     type: {
       name: "String"
@@ -91,7 +91,7 @@ export const interval: OperationQueryParameter = {
     defaultValue: "PT1M",
     serializedName: "interval",
     type: {
-      name: "TimeSpan"
+      name: "String"
     }
   }
 };

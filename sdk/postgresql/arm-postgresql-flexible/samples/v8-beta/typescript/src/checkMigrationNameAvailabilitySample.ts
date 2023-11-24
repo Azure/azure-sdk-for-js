@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to This method checks whether a proposed migration name is valid and available.
  *
  * @summary This method checks whether a proposed migration name is valid and available.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/CheckMigrationNameAvailability.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/CheckMigrationNameAvailability.json
  */
 async function checkMigrationNameAvailability() {
   const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";

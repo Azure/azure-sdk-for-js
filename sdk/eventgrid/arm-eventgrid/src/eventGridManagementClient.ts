@@ -36,6 +36,7 @@ import {
   PartnerNamespacesImpl,
   PartnerRegistrationsImpl,
   PartnerTopicsImpl,
+  NetworkSecurityPerimeterConfigurationsImpl,
   PermissionBindingsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
@@ -68,6 +69,7 @@ import {
   PartnerNamespaces,
   PartnerRegistrations,
   PartnerTopics,
+  NetworkSecurityPerimeterConfigurations,
   PermissionBindings,
   PrivateEndpointConnections,
   PrivateLinkResources,
@@ -82,7 +84,7 @@ import { EventGridManagementClientOptionalParams } from "./models";
 
 export class EventGridManagementClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
   apiVersion: string;
 
   /**
@@ -96,12 +98,26 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: EventGridManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: EventGridManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: EventGridManagementClientOptionalParams | string,
+    options?: EventGridManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -166,7 +182,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-12-15-preview";
     this.caCertificates = new CaCertificatesImpl(this);
     this.channels = new ChannelsImpl(this);
     this.clientGroups = new ClientGroupsImpl(this);
@@ -196,6 +212,9 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
     this.partnerNamespaces = new PartnerNamespacesImpl(this);
     this.partnerRegistrations = new PartnerRegistrationsImpl(this);
     this.partnerTopics = new PartnerTopicsImpl(this);
+    this.networkSecurityPerimeterConfigurations = new NetworkSecurityPerimeterConfigurationsImpl(
+      this
+    );
     this.permissionBindings = new PermissionBindingsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
@@ -257,6 +276,7 @@ export class EventGridManagementClient extends coreClient.ServiceClient {
   partnerNamespaces: PartnerNamespaces;
   partnerRegistrations: PartnerRegistrations;
   partnerTopics: PartnerTopics;
+  networkSecurityPerimeterConfigurations: NetworkSecurityPerimeterConfigurations;
   permissionBindings: PermissionBindings;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;

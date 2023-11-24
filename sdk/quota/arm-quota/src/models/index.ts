@@ -42,7 +42,7 @@ export interface UsagesProperties {
   readonly unit?: string;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
   name?: ResourceName;
-  /** The name of the resource type. */
+  /** The name of the resource type. Optional field. */
   resourceType?: string;
   /**
    * The time period for the summary of the quota usage values. For example:
@@ -154,7 +154,7 @@ export interface QuotaProperties {
   readonly unit?: string;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
   name?: ResourceName;
-  /** Resource type name. */
+  /** The name of the resource type. Optional field. */
   resourceType?: string;
   /**
    * The time period over which the quota usage values are summarized. For example:
@@ -205,25 +205,8 @@ export interface QuotaRequestDetails {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * The quota request status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: QuotaRequestState;
-  /**
-   * User-friendly status message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /** Error details of the quota request. */
-  error?: ServiceErrorDetail;
-  /**
-   * The quota request submission time. The date conforms to the following format specified by the ISO 8601 standard: yyyy-MM-ddTHH:mm:ssZ
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requestSubmitTime?: Date;
   /** Quota request details. */
-  value?: SubRequest[];
+  properties?: QuotaRequestProperties;
 }
 
 /** Quota request properties. */
@@ -360,6 +343,12 @@ export interface QuotaRequestOneResourceSubmitResponse {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /** Quota request details. */
+  properties?: QuotaRequestOneResourceProperties;
+}
+
+/** Quota request. */
+export interface QuotaRequestOneResourceProperties {
   /**
    * Quota request status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -385,8 +374,8 @@ export interface QuotaRequestOneResourceSubmitResponse {
   /**  The quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
   unit?: string;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
-  namePropertiesName?: ResourceName;
-  /** Resource type name. */
+  name?: ResourceName;
+  /** The name of the resource type. Optional field. */
   resourceType?: string;
   /**
    * The time period over which the quota usage values are summarized. For example:
@@ -446,6 +435,12 @@ export interface QuotaRequestSubmitResponse202 {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /** Quota request status. */
+  properties?: QuotaRequestStatusDetails;
+}
+
+/** Quota request status details. */
+export interface QuotaRequestStatusDetails {
   /**
    * Quota request status.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -461,8 +456,8 @@ export interface QuotaRequestSubmitResponse202 {
   /**  The quota limit units, such as Count and Bytes. When requesting quota, use the **unit** value returned in the GET response in the request body of your PUT operation. */
   unit?: string;
   /** Resource name provided by the resource provider. Use this property name when requesting quota. */
-  namePropertiesName?: ResourceName;
-  /** Resource type name. */
+  name?: ResourceName;
+  /** The name of the resource type. Optional field. */
   resourceType?: string;
   /**
    * The time period over which the quota usage values are summarized. For example:
@@ -693,22 +688,7 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList;
 
 /** Optional parameters. */
 export interface QuotaRequestStatusListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /**
-   * | Field                    | Supported operators
-   * |---------------------|------------------------
-   *
-   * |requestSubmitTime | ge, le, eq, gt, lt
-   *  |provisioningState eq {QuotaRequestState}
-   *  |resourceName eq {resourceName}
-   *
-   */
-  filter?: string;
-  /** Number of records to return. */
-  top?: number;
-  /** The **Skiptoken** parameter is used only if a previous operation returned a partial result. If a previous response contains a **nextLink** element, its value includes a **skiptoken** parameter that specifies a starting point to use for subsequent calls. */
-  skiptoken?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList;

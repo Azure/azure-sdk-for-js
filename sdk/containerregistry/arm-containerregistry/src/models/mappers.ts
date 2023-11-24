@@ -2183,6 +2183,12 @@ export const RegistryUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      metadataSearch: {
+        serializedName: "properties.metadataSearch",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -5634,6 +5640,12 @@ export const Registry: coreClient.CompositeMapper = {
         serializedName: "properties.anonymousPullEnabled",
         type: {
           name: "Boolean"
+        }
+      },
+      metadataSearch: {
+        serializedName: "properties.metadataSearch",
+        type: {
+          name: "String"
         }
       }
     }

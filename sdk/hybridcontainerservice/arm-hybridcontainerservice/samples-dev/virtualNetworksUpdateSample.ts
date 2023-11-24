@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches the Hybrid AKS virtual network
  *
  * @summary Patches the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/UpdateVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/UpdateVirtualNetwork.json
  */
 async function updateVirtualNetwork() {
   const subscriptionId =
@@ -30,15 +30,15 @@ async function updateVirtualNetwork() {
   const resourceGroupName =
     process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] ||
     "test-arcappliance-resgrp";
-  const virtualNetworksName = "test-vnet-static";
+  const virtualNetworkName = "test-vnet-static";
   const virtualNetworks: VirtualNetworksPatch = {
     tags: { additionalProperties: "sample" }
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
-  const result = await client.virtualNetworksOperations.beginUpdateAndWait(
+  const result = await client.virtualNetworks.beginUpdateAndWait(
     resourceGroupName,
-    virtualNetworksName,
+    virtualNetworkName,
     virtualNetworks
   );
   console.log(result);

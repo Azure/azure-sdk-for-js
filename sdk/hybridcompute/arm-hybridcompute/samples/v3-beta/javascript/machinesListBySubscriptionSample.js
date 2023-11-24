@@ -10,15 +10,16 @@
 // Licensed under the MIT License.
 const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines.
  *
  * @summary Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/Machines_ListBySubscription.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/machine/Machines_ListBySubscription.json
  */
 async function listMachinesByResourceGroup() {
-  const subscriptionId = "{subscription-id}";
+  const subscriptionId = process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -28,4 +29,8 @@ async function listMachinesByResourceGroup() {
   console.log(resArray);
 }
 
-listMachinesByResourceGroup().catch(console.error);
+async function main() {
+  listMachinesByResourceGroup();
+}
+
+main().catch(console.error);
