@@ -15327,20 +15327,22 @@ packages:
     dev: false
 
   file:projects/arm-servicenetworking.tgz:
-    resolution: {integrity: sha512-cITfJKQB+miSGsH83fzP1FsEcr7wdBTH0GGUVA1XqG+hmfIh7MD7iAtQnVlq1VkFu0xjksc1FYOuKlVv1BdYkg==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-3mfPCDS4q+Vu/weUKq+JlBfySBomkhF/aByXQTNoS4tAi48/qcPEZQRlDAXcQX7wxuba7o/Hj7vCDoA/ETL7Hw==, tarball: file:projects/arm-servicenetworking.tgz}
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.12)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.18.12
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.12)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  Frontend,
-  ServiceNetworkingManagementClient
-} from "@azure/arm-servicenetworking";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ServiceNetworkingManagementClient } = require("@azure/arm-servicenetworking");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create a Frontend
@@ -24,18 +19,13 @@ dotenv.config();
  * x-ms-original-file: specification/servicenetworking/resource-manager/Microsoft.ServiceNetworking/stable/2023-11-01/examples/FrontendPut.json
  */
 async function putFrontend() {
-  const subscriptionId =
-    process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
-  const resourceGroupName =
-    process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
+  const subscriptionId = process.env["SERVICENETWORKING_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SERVICENETWORKING_RESOURCE_GROUP"] || "rg1";
   const trafficControllerName = "tc1";
   const frontendName = "fe1";
-  const resource: Frontend = { location: "NorthCentralUS", properties: {} };
+  const resource = { location: "NorthCentralUS", properties: {} };
   const credential = new DefaultAzureCredential();
-  const client = new ServiceNetworkingManagementClient(
-    credential,
-    subscriptionId
-  );
+  const client = new ServiceNetworkingManagementClient(credential, subscriptionId);
   const result = await client.frontendsInterface.beginCreateOrUpdateAndWait(
     resourceGroupName,
     trafficControllerName,

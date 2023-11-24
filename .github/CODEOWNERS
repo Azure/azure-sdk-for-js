@@ -644,6 +644,9 @@
 /sdk/service-map/arm-servicemap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
