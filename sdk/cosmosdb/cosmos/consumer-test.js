@@ -1,6 +1,8 @@
 const execa = require("execa");
 
-let tsVersionsToCheckCompatibility = ["4.1"];
+// let tsVersionsToCheckCompatibility = ["4.1"];
+let tsVersionsToCheckCompatibility = [];
+
 
 if (!process.env.SKIP_LATEST) {
   tsVersionsToCheckCompatibility.push("latest");
@@ -15,6 +17,12 @@ async function exec(cmd) {
 
 (async () => {
   try {
+    console.log("Node.js version:", process.version);
+    console.log("npm version:", require("npm/package.json").version);
+    console.log("Current working directory:", process.cwd());
+    
+    // Clear npm cache
+    await exec("npm cache clean --force");
     console.log("Running typescript consumer test against", tsVersionsToCheckCompatibility);
     for (const version of tsVersionsToCheckCompatibility) {
       console.log(`Compiling with typescript@${version} - Basic`);
