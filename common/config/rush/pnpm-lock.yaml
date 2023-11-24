@@ -11476,19 +11476,22 @@ packages:
     dev: false
 
   file:projects/arm-confluent.tgz:
-    resolution: {integrity: sha512-8AXp4gijJp0q8/cyArckZW8As9+azk6AMcEuLw+9AyFNPKyNFkUdMlDw7GO5ErYF75kGi8Ai+ZLg3Pht9F2MjA==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-bggOgfwybYLOMmoGf1HNEc/QRF2pxxcn5gnq9D06jHr5nHdFf5fuEgZCprePiLcbPuvV0x2pIPoT5B3788ou8A==, tarball: file:projects/arm-confluent.tgz}
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.12)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.18.12
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.12)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
