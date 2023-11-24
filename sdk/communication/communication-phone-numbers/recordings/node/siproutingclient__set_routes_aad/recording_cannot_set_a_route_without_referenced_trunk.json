@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "120",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "routes": [
@@ -27,15 +26,17 @@
       },
       "StatusCode": 422,
       "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json",
-        "Date": "Wed, 22 Nov 2023 11:15:37 GMT",
-        "MS-CV": "ct5ERR7dd0OpcpNFU0sZqA.0",
+        "Date": "Wed, 17 May 2023 09:26:28 GMT",
+        "MS-CV": "fH1MeudSFUyj\u002BF7gx4ySOA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "02eJdZQAAAADIQX2XSQ4ETI0SpyCDBKCmUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20230517T092627Z-02fqv2pgsp3gp6xpavw24ccces00000000k0000000027859",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "345ms"
+        "X-Processing-Time": "694ms"
       },
       "ResponseBody": {
         "error": {
@@ -56,43 +57,42 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "284",
+        "Connection": "keep-alive",
+        "Content-Length": "240",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 11:15:37 GMT",
-        "MS-CV": "90R6Uvq\u002BlU2nHxn4FddPDQ.0",
+        "Date": "Wed, 17 May 2023 09:26:28 GMT",
+        "MS-CV": "xf\u002Bu4Nn\u002Bk0mJshYo7ZubbA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "02eJdZQAAAACWnre9a/e8RoKYiCH6YlvhUFJHMDFFREdFMDkxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20230517T092628Z-02fqv2pgsp3gp6xpavw24ccces00000000k00000000278b2",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "213ms"
+        "X-Processing-Time": "104ms"
       },
       "ResponseBody": {
         "domains": {
-          "nostojic.test.domain": {
+          "anotherjbdomain.com": {
             "enabled": true
           },
-          "sanitized.sbc.test": {
-            "enabled": true
-          },
-          "testdomain.com": {
+          "jbtestinfra.com": {
             "enabled": true
           }
         },
         "trunks": {
-          "test1.sanitized.sbc.test": {
-            "sipSignalingPort": 8239,
-            "enabled": true
+          "test1.jbtestinfra.com": {
+            "enabled": true,
+            "sipSignalingPort": 8239
           },
-          "test2.sanitized.sbc.test": {
-            "sipSignalingPort": 7348,
-            "enabled": true
+          "test2.jbtestinfra.com": {
+            "enabled": true,
+            "sipSignalingPort": 7348
           }
         },
         "routes": []
@@ -100,7 +100,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test1.sanitized.sbc.test",
-    "fqdn-2": "test2.sanitized.sbc.test"
+    "fqdn-1": "test1.jbtestinfra.com",
+    "fqdn-2": "test2.jbtestinfra.com"
   }
 }

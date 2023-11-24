@@ -18,30 +18,28 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "149",
+        "Content-Length": "111",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 11:44:27 GMT",
-        "MS-CV": "VurANxjbqE6StK2wsC2HfA.0",
+        "Date": "Wed, 17 May 2023 09:35:09 GMT",
+        "MS-CV": "rH/Fh7aqzkG6vBw97t928w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0m\u002BldZQAAAACayl0OWfZTSItlccg\u002BxFHwUFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0zZ9kZAAAAABr20YHrQUtSoQwbxK679vKTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "544ms"
+        "X-Processing-Time": "99ms"
       },
       "ResponseBody": {
         "domains": {
-          "nostojic.test.domain": {
+          "anotherjbdomain.com": {
             "enabled": true
           },
-          "sanitized.sbc.test": {
-            "enabled": true
-          },
-          "testdomain.com": {
+          "jbtestinfra.com": {
             "enabled": true
           }
         },
@@ -51,9 +49,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "eadd59b3ccdc462ca7dd1f211d4990b0.skype.net",
-    "domain-2": "dd35f5617e494f5b9490b8e847365464.skype.net",
-    "domain-3": "654e5ba6d7734f9d8413ddea9bd40bd9.skype.net",
-    "domain-4": "634717bb0b3040a99dc9d16e4f956cbd.skype.net"
+    "domain-1": "0f9c310beef2477291a7802d5db070ff.skype.net",
+    "domain-2": "2c1bfa3a9ed846ffa4d71de8410f8883.skype.net",
+    "domain-3": "31a925ac22ed454c9cfa33aa8ac8d3f0.skype.net",
+    "domain-4": "d1e592227bb14835abd7443efc155641.skype.net"
   }
 }

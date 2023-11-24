@@ -19,31 +19,29 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 22 Nov 2023 11:44:33 GMT",
-        "x-ms-useragent": "fake-useragent"
+        "x-ms-date": "Wed, 17 May 2023 09:35:18 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230517.1 core-rest-pipeline/1.10.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "api-deprecated-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "149",
+        "Content-Length": "111",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 11:44:32 GMT",
-        "MS-CV": "6ARFHp5NNUeyho1Kec54cw.0",
+        "Date": "Wed, 17 May 2023 09:35:18 GMT",
+        "MS-CV": "Ak7MiAsnPUGZBdpro2J0EQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0oOldZQAAAAA6F0iERWtzQZcW7SF7sEi4UFJHMDFFREdFMDkxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "01p9kZAAAAAACUdGzCl1oQb2Pe\u002B9cM1MZTE9OMjEyMDUwNzE2MDE5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "228ms"
+        "X-Processing-Time": "104ms"
       },
       "ResponseBody": {
         "domains": {
-          "nostojic.test.domain": {
+          "anotherjbdomain.com": {
             "enabled": true
           },
-          "sanitized.sbc.test": {
-            "enabled": true
-          },
-          "testdomain.com": {
+          "jbtestinfra.com": {
             "enabled": true
           }
         },
@@ -53,9 +51,9 @@
     }
   ],
   "Variables": {
-    "domain-1": "9cd85dc923564baea198ab62bfa7e31a.skype.net",
-    "domain-2": "970df29cdd9e4e49ac10a82831b7d4a5.skype.net",
-    "domain-3": "ba79a40bd3b64f20806ba83229b49b82.skype.net",
-    "domain-4": "82b795bf53db4d809c764a35739119f4.skype.net"
+    "domain-1": "851ae6450789444cbd62dae8c2ccab42.skype.net",
+    "domain-2": "404fef1b8c11444aa3da33a6e9059a7e.skype.net",
+    "domain-3": "e3685759c8a5482fa8e9a7a4d331def1.skype.net",
+    "domain-4": "8b42288e6098483e8ad51a02e38c2d2e.skype.net"
   }
 }
