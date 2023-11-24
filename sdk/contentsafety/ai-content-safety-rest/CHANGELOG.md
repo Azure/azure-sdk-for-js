@@ -1,5 +1,19 @@
 # Release History
 
+## 1.0.0 (Unreleased)
+
+### Features Added
+
+- Support AAD Authentication
+
+### Breaking Changes
+
+- Contract change for AnalyzeText, AnalyzeImage, Blocklist management related methods
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.2 (Unreleased)
 
 ### Features Added
