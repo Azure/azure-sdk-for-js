@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AxpMEpgs_hSMB1QtAjq509RZGi76SaME0glQ98ZX34MA1%40thread.v2/readReceipts?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A_PQfjjcwP5IQnNCNPwtLNzZlRzfPuXSCvaK5g8RxnMs1%40thread.v2/readReceipts?api-version=2023-11-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,23 +10,23 @@
         "Connection": "keep-alive",
         "Content-Length": "33",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "569c4ae0-74dd-4267-b821-95496554a420"
+        "User-Agent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
+        "x-ms-client-request-id": "0b304006-7190-4d27-95a9-8179a9be1bb9"
       },
       "RequestBody": {
-        "chatMessageId": "1697712387445"
+        "chatMessageId": "1700528975722"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
         "Content-Length": "0",
-        "Date": "Thu, 19 Oct 2023 10:46:28 GMT",
-        "MS-CV": "u0vUBKB8vE\u002Bg9kpleP1Lyg.0",
+        "Date": "Tue, 21 Nov 2023 01:09:35 GMT",
+        "MS-CV": "vC33NPKkiEOQm9\u002Bmh6QqQw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0BAkxZQAAAADP9KUzUu4zT59w9MW0LqNHU1RPRURHRTE0MTIAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Azure-Ref": "0UANcZQAAAACwDh4UrU\u002BIQ6vDEvZZuUOEV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "214ms"
+        "X-Processing-Time": "173ms"
       },
       "ResponseBody": null
     }
