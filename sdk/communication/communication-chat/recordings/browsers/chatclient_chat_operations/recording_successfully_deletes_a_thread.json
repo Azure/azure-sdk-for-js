@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AHELmfNFbrT_MDIOkgWZdTvkUY4OxLUn3eD3Xtozvpmo1%40thread.v2?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3AZ7iuqheTxgESJ4ffCaj-WzJNPsWEpFQwCDOj1dcMCMo1%40thread.v2?api-version=2023-11-07",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,9 +17,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
-        "x-ms-client-request-id": "bd91967e-0df9-4c6f-bc64-d5be8f01bd5b",
-        "x-ms-useragent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.12.2 OS"
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "6e4d3da7-2d94-43d8-a19f-54e1b5564172",
+        "x-ms-useragent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 204,
@@ -27,12 +27,12 @@
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Expose-Headers": "Location",
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
-        "Date": "Thu, 19 Oct 2023 10:46:53 GMT",
-        "MS-CV": "1gIlFNvWckuJRbD8awzE6w.0",
+        "Date": "Tue, 21 Nov 2023 01:09:41 GMT",
+        "MS-CV": "BD7dLyR\u002BlE\u002BcEDsIXsytvg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0HQkxZQAAAAAI8K1ljyJuT6B05egf8E2qU1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Azure-Ref": "0VgNcZQAAAACxXQ3mxcXoTryA0tVhMAnPV1NURURHRTAxMTAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "286ms"
+        "X-Processing-Time": "224ms"
       },
       "ResponseBody": null
     }

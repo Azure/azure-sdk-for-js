@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AxpMEpgs_hSMB1QtAjq509RZGi76SaME0glQ98ZX34MA1%40thread.v2/readReceipts?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A_PQfjjcwP5IQnNCNPwtLNzZlRzfPuXSCvaK5g8RxnMs1%40thread.v2/readReceipts?api-version=2023-11-07",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.3.2 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "378a64f7-f6d4-4e5d-9a09-0b6503a225c2"
+        "User-Agent": "azsdk-js-communication-chat/1.4.0 core-rest-pipeline/1.12.3 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
+        "x-ms-client-request-id": "cb77756f-3dca-42f2-a185-600fa1a65dc1"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -18,24 +18,24 @@
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
         "Content-Length": "310",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 19 Oct 2023 10:46:32 GMT",
-        "MS-CV": "ZI3g7Jj\u002B4EiFvcOCt7HuvA.0",
+        "Date": "Tue, 21 Nov 2023 01:09:37 GMT",
+        "MS-CV": "fpfXaNo4DE\u002B6zjkZ6XrJbw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0CAkxZQAAAACapbADrd8UT63p30BOmT6GU1RPRURHRTE0MTIAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "X-Azure-Ref": "0UgNcZQAAAAA\u002BwJ7czEbxSbZG0cARgGpcV1NURURHRTA4MTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "128ms"
+        "X-Processing-Time": "125ms"
       },
       "ResponseBody": {
         "value": [
           {
             "senderCommunicationIdentifier": {
-              "rawId": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_0000001b-e76c-cf3c-1985-0948220072ec",
+              "rawId": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f4e-8c40-e3c7-593a0d0046b5",
               "communicationUser": {
-                "id": "8:acs:a5ba7870-ef05-4e2b-9901-7751faa29e20_0000001b-e76c-cf3c-1985-0948220072ec"
+                "id": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f4e-8c40-e3c7-593a0d0046b5"
               }
             },
-            "chatMessageId": "1697712387445",
-            "readOn": "2023-10-19T10:46:28Z"
+            "chatMessageId": "1700528975722",
+            "readOn": "2023-11-21T01:09:36Z"
           }
         ]
       }
