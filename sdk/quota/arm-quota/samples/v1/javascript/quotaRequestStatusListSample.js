@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureQuotaExtensionAPI } from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to For the specified scope, get the current quota requests for a one year period ending at the time is made. Use the **oData** filter to select quota requests.

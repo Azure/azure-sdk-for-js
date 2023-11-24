@@ -8,14 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  CurrentQuotaLimitBase,
-  AzureQuotaExtensionAPI
-} from "@azure/arm-quota";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { AzureQuotaExtensionAPI } = require("@azure/arm-quota");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update the quota limit for the specified resource with the requested value. To update the quota, follow these steps:
@@ -31,12 +26,12 @@ async function quotasPutRequestForNetwork() {
   const resourceName = "MinPublicIpInterNetworkPrefixLength";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "MinPublicIpInterNetworkPrefixLength" },
       limit: { limitObjectType: "LimitValue", value: 10 },
-      resourceType: "MinPublicIpInterNetworkPrefixLength"
-    }
+      resourceType: "MinPublicIpInterNetworkPrefixLength",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
@@ -62,12 +57,12 @@ async function quotasPutRequestForNetworkStandardSkuPublicIPAddressesResource() 
   const resourceName = "StandardSkuPublicIpAddresses";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Network/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "StandardSkuPublicIpAddresses" },
       limit: { limitObjectType: "LimitValue", value: 10 },
-      resourceType: "PublicIpAddresses"
-    }
+      resourceType: "PublicIpAddresses",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
@@ -93,11 +88,11 @@ async function quotasPutRequestForCompute() {
   const resourceName = "standardFSv2Family";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Compute/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "standardFSv2Family" },
-      limit: { limitObjectType: "LimitValue", value: 10 }
-    }
+      limit: { limitObjectType: "LimitValue", value: 10 },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
@@ -123,12 +118,12 @@ async function quotasRequestForMachineLearningServicesLowPriorityResource() {
   const resourceName = "TotalLowPriorityCores";
   const scope =
     "subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.MachineLearningServices/locations/eastus";
-  const createQuotaRequest: CurrentQuotaLimitBase = {
+  const createQuotaRequest = {
     properties: {
       name: { value: "TotalLowPriorityCores" },
       limit: { limitObjectType: "LimitValue", value: 10 },
-      resourceType: "lowPriority"
-    }
+      resourceType: "lowPriority",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
