@@ -8,7 +8,7 @@
 
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
-  ValidateOperationRequestUnion,
+  ValidateOperationRequestResource,
   ValidateOperationTriggerOptionalParams
 } from "../models";
 
@@ -26,7 +26,7 @@ export interface ValidateOperation {
   beginTrigger(
     vaultName: string,
     resourceGroupName: string,
-    parameters: ValidateOperationRequestUnion,
+    parameters: ValidateOperationRequestResource,
     options?: ValidateOperationTriggerOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
@@ -41,7 +41,7 @@ export interface ValidateOperation {
   beginTriggerAndWait(
     vaultName: string,
     resourceGroupName: string,
-    parameters: ValidateOperationRequestUnion,
+    parameters: ValidateOperationRequestResource,
     options?: ValidateOperationTriggerOptionalParams
   ): Promise<void>;
 }

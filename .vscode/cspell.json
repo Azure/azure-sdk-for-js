@@ -384,14 +384,6 @@
       ]
     },
     {
-      "filename": "sdk/maps/maps-search/review/maps-search.api.md",
-      "words": [
-        "bbox",
-        "Neighbourhood",
-        "Xstr"
-      ]
-    },
-    {
       "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
       "words": [
         "bbox",
@@ -409,7 +401,8 @@
       "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
       "words": [
         "Neighbourhood",
-        "Xstr"
+        "Xstr",
+        "bbox"
       ]
     },
     {

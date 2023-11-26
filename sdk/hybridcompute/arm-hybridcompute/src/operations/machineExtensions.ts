@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridComputeManagementClient } from "../hybridComputeManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MachineExtension,
   MachineExtensionsListNextOptionalParams,
@@ -135,8 +139,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
     extensionParameters: MachineExtension,
     options?: MachineExtensionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsCreateOrUpdateResponse>,
       MachineExtensionsCreateOrUpdateResponse
     >
   > {
@@ -146,7 +150,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     ): Promise<MachineExtensionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -179,19 +183,22 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         machineName,
         extensionName,
         extensionParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachineExtensionsCreateOrUpdateResponse,
+      OperationState<MachineExtensionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -238,8 +245,8 @@ export class MachineExtensionsImpl implements MachineExtensions {
     extensionParameters: MachineExtensionUpdate,
     options?: MachineExtensionsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<MachineExtensionsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<MachineExtensionsUpdateResponse>,
       MachineExtensionsUpdateResponse
     >
   > {
@@ -249,7 +256,7 @@ export class MachineExtensionsImpl implements MachineExtensions {
     ): Promise<MachineExtensionsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -282,19 +289,22 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         machineName,
         extensionName,
         extensionParameters,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      MachineExtensionsUpdateResponse,
+      OperationState<MachineExtensionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -338,14 +348,14 @@ export class MachineExtensionsImpl implements MachineExtensions {
     machineName: string,
     extensionName: string,
     options?: MachineExtensionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -378,13 +388,13 @@ export class MachineExtensionsImpl implements MachineExtensions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, machineName, extensionName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, machineName, extensionName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -501,7 +511,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName,
     Parameters.extensionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -535,7 +545,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.machineName,
     Parameters.extensionName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -619,13 +629,12 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.machineName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.machineName
   ],
   headerParameters: [Parameters.accept],
   serializer

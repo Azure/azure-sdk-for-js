@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the properties of the export pipeline.
  *
  * @summary Gets the properties of the export pipeline.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/ExportPipelineGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ExportPipelineGet.json
  */
 async function exportPipelineGet() {
   const subscriptionId =
