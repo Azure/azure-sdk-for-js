@@ -119,7 +119,7 @@ The following section provides several code snippets covering some of the most c
 #### Analyze text without blocklists
 
 ```typescript
-import ContentSafetyClient, { AnalyzeTextOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { AnalyzeTextOptions, AnalyzeTextParameters, TextCategoriesAnalysisOutput, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -138,10 +138,10 @@ if (isUnexpected(result)) {
   throw result;
 }
 
-console.log("Hate severity: ", result.body.hateResult?.severity);
-console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity);
-console.log("Sexual severity: ", result.body.sexualResult?.severity);
-console.log("Violence severity: ", result.body.violenceResult?.severity);
+for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+  const textCategoriesAnalysisOutput: TextCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+}
 ```
 
 #### Analyze text with blocklists
@@ -162,7 +162,7 @@ const analyzeTextParameters: AnalyzeTextParameters = {
   body: {
     text: inputText,
     blocklistNames: [blocklistName],
-    breakByBlocklists: false
+    haltOnBlocklistHit: false
   }
 };
 
@@ -173,10 +173,9 @@ if (isUnexpected(result)) {
 }
 
 console.log("Blocklist match results: ");
-if (result.body.blocklistsMatchResults) {
-  for (const blocklistMatchResult of result.body.blocklistsMatchResults) {
-    console.log("Block item was hit in text, Offset=", blocklistMatchResult.offset, ", Length=", blocklistMatchResult.length);
-    console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blockItemId, ", BlockItemText: ", blocklistMatchResult.blockItemText);
+if (result.body.blocklistsMatch) {
+  for (const blocklistMatchResult of result.body.blocklistsMatch) {
+    console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
   }
 }
 ```
@@ -184,8 +183,10 @@ if (result.body.blocklistsMatchResults) {
 ### Analyze image
 
 ```typescript
-import ContentSafetyClient, { AnalyzeImageOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { AnalyzeImageOptions, AnalyzeTextParameters, ImageCategoriesAnalysisOutput, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
+import fs from "fs";
+import path from "path";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
@@ -206,10 +207,10 @@ if (isUnexpected(result)) {
   throw result;
 }
 
-console.log("Hate severity: ", result.body.hateResult?.severity);
-console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity);
-console.log("Sexual severity: ", result.body.sexualResult?.severity);
-console.log("Violence severity: ", result.body.violenceResult?.severity);
+for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+  const imageCategoriesAnalysisOutput: ImageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+}
 ```
 
 ### Manage text blocklist
@@ -320,7 +321,7 @@ console.log("Deleted blocklist: ", blocklistName);
 #### Add blockItems
 
 ```typescript
-import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -332,9 +333,9 @@ const client = ContentSafetyClient(endpoint, credential);
 const blocklistName = "TestBlocklist";
 const blockItemText1 = "sample";
 const blockItemText2 = "text";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText1
@@ -347,16 +348,16 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
   }
 };
 
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
 
 if (isUnexpected(result)) {
   throw result;
 }
 
 console.log("Block items added: ");
-if (result.body.value) {
-  for (const blockItem of result.body.value) {
-    console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+if (result.body.blocklistItems) {
+  for (const blockItem of result.body.blocklistItems) {
+    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
   }
 }
 ```
@@ -375,7 +376,7 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 
-const result = await client.path("/text/blocklists/{blocklistName}/blockItems", blocklistName).get();
+const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
 
 if (isUnexpected(result)) {
   throw result;
@@ -384,7 +385,7 @@ if (isUnexpected(result)) {
 console.log("List block items: ");
 if (result.body.value) {
   for (const blockItem of result.body.value) {
-    console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
   }
 }
 ```
@@ -392,7 +393,7 @@ if (result.body.value) {
 #### Get blockItem
 
 ```typescript
-import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -403,9 +404,9 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText
@@ -413,26 +414,26 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
     ]
   }
 };
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-if (isUnexpected(result) || result.body.value === undefined) {
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+if (isUnexpected(result) || result.body.blocklistItems === undefined) {
   throw new Error("Block item not added.");
 }
-const blockItemId = result.body.value[0].blockItemId;
+const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const blockItem = await client.path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId).get();
+const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
 
 if (isUnexpected(blockItem)) {
   throw blockItem;
 }
 
 console.log("Get blockitem: ");
-console.log("BlockItemId: ", blockItem.body.blockItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
+console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
 ```
 
 #### Remove blockItems
 
 ```typescript
-import ContentSafetyClient, { RemoveBlockItemsParameters, AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, RemoveBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -443,9 +444,9 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText
@@ -453,18 +454,18 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
     ]
   }
 };
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-if (isUnexpected(result) || result.body.value === undefined) {
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+if (isUnexpected(result) || result.body.blocklistItems === undefined) {
   throw new Error("Block item not added.");
 }
-const blockItemId = result.body.value[0].blockItemId;
+const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const removeBlockItemsParameters: RemoveBlockItemsParameters = {
+const removeBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
   body: {
-    blockItemIds: [blockItemId]
+    blocklistItemIds: [blockItemId]
   }
 };
-const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName).post(removeBlockItemsParameters);
+const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
 
 if (isUnexpected(removeBlockItem)) {
   throw removeBlockItem;

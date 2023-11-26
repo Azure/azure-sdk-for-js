@@ -47,7 +47,7 @@ async function addBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "sample";
   const blockItemText2 = "text";
-  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -62,7 +62,7 @@ async function addBlockItems() {
     }
   };
 
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
 
   if (isUnexpected(result)) {
     throw result;
@@ -149,7 +149,7 @@ async function listBlockItems() {
 async function getBlockItem() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -159,7 +159,7 @@ async function getBlockItem() {
       ]
     }
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
   if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
@@ -178,7 +178,7 @@ async function getBlockItem() {
 async function removeBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const AddOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -188,18 +188,18 @@ async function removeBlockItems() {
       ]
     }
   };
-  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(AddOrUpdateBlocklistItemsParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
   if (isUnexpected(result) || result.body.blocklistItems === undefined) {
     throw new Error("Block item not added.");
   }
   const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-  const RemoveBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
+  const removeBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
     body: {
       blocklistItemIds: [blockItemId]
     }
   };
-  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(RemoveBlocklistItemsParameters);
+  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
 
   if (isUnexpected(removeBlockItem)) {
     throw removeBlockItem;
