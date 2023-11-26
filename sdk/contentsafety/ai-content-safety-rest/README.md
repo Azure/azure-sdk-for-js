@@ -60,6 +60,27 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 ```
 
+#### Create a ContentSafetyClient with Azure Active Directory (AAD) token credential
+
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
+
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+```typescript
+const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
+
+const client = ContentSafetyClient(endpoint, new DefaultAzureCredential());
+```
+
 ## Key concepts
 
 ### Available features
