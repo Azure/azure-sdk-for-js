@@ -2331,8 +2331,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@opentelemetry/resource-detector-azure@0.2.0(@opentelemetry/api@1.7.0):
-    resolution: {integrity: sha512-r5BZtXnnebm1HevGEiQfAJM2SjpPVH4EUocypB1hf9peYeMB/ZznRHbwyv48NdTnUa2mS/XlTnPapfd6qTVaiA==}
+  /@opentelemetry/resource-detector-azure@0.2.1(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-FZWXQTenVIR+Xzk1dh3shHSALX306TH9qZ+D2EV9PchAygbv4/H8MbtqzF3MdBGzTWE/uD5aVXMxBSO4VL8yzg==}
     engines: {node: '>=14'}
     dependencies:
       '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
@@ -4457,7 +4457,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231118
+      typescript: 5.4.0-dev.20231125
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4466,7 +4466,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231118
+      typescript: 5.4.0-dev.20231125
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9168,8 +9168,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231118:
-    resolution: {integrity: sha512-ZrQd4CI6YXINmXfnDSNG26zo+qAAh3UXig2GREmT9wOqmxceVHE7wbeP4PU3IBIpea8P22WEcB/cP33yPsxjsA==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.4.0-dev.20231125:
+    resolution: {integrity: sha512-2ZIQF3cO+9zrPkCvxnE01/aGEjc+mhr1p5YMc8uwsZob01BVeOs7rTvQSj4Hfh5z+Z2iUUT/ZA4538IInrSzmw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17550,7 +17556,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
@@ -19054,7 +19060,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-DUXk7Y3QV/i4HhWQmqwFenT5f3HJRyZAPdrk4ztOLrJEUzNKLlDTIFvIutUBNThc2l2IXw/VT1uVx4zTWabifg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-TwGHMFQOJLzRleonVHwOXYppgE9K2yR2pRPxGmp++llsdvsaLciRZ0kvTRr/vkVDxXSUyGV2/lrulpTfpfVLnA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19070,7 +19076,7 @@ packages:
       '@opentelemetry/instrumentation-pg': 0.36.2(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-redis': 0.35.3(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-redis-4': 0.35.4(@opentelemetry/api@1.7.0)
-      '@opentelemetry/resource-detector-azure': 0.2.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resource-detector-azure': 0.2.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-logs': 0.45.1(@opentelemetry/api-logs@0.45.1)(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-metrics': 1.18.1(@opentelemetry/api@1.7.0)
