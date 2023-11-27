@@ -38,7 +38,7 @@ export default function MapsGeolocation(
  *
  * @example
  * ```ts
- * import MapsGeolocation from "@azure/maps-geo-location";
+ * import MapsGeolocation from "@azure-rest/maps-geo-location";
  * import { DefaultAzureCredential } from "@azure/identity";
  *
  * const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ export default function MapsGeolocation(
  *
  * @example
  * ```ts
- * import MapsGeolocation from "@azure/maps-geo-location";
+ * import MapsGeolocation from "@azure-rest/maps-geo-location";
  * import { AzureSASCredential } from "@azure/core-auth";
  *
  * const credential = new AzureSASCredential("<SAS Token>");

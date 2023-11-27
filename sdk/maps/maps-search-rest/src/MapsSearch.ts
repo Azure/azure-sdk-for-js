@@ -38,7 +38,7 @@ export default function MapsSearch(
  *
  * @example
  * ```ts
- * import MapsSearch from "@azure/maps-search";
+ * import MapsSearch from "@azure-rest/maps-search";
  * import { DefaultAzureCredential } from "@azure/identity";
  *
  * const credential = new DefaultAzureCredential();
@@ -59,7 +59,7 @@ export default function MapsSearch(
  *
  * @example
  * ```ts
- * import MapsSearch from "@azure/maps-search";
+ * import MapsSearch from "@azure-rest/maps-search";
  * import { AzureSASCredential } from "@azure/core-auth";
  *
  * const credential = new AzureSASCredential("<SAS Token>");
