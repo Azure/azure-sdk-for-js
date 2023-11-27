@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List PostRulesResource resources by Tenant
  *
  * @summary List PostRulesResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MaximumSet_Gen.json
  */
 async function postRulesListMaximumSetGen() {
   const globalRulestackName = "lrs1";
@@ -33,7 +33,7 @@ async function postRulesListMaximumSetGen() {
  * This sample demonstrates how to List PostRulesResource resources by Tenant
  *
  * @summary List PostRulesResource resources by Tenant
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_List_MinimumSet_Gen.json
  */
 async function postRulesListMinimumSetGen() {
   const globalRulestackName = "lrs1";

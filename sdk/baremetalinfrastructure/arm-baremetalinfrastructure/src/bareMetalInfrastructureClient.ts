@@ -14,8 +14,16 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { AzureBareMetalInstancesImpl, OperationsImpl } from "./operations";
-import { AzureBareMetalInstances, Operations } from "./operationsInterfaces";
+import {
+  AzureBareMetalInstancesImpl,
+  OperationsImpl,
+  AzureBareMetalStorageInstancesImpl
+} from "./operations";
+import {
+  AzureBareMetalInstances,
+  Operations,
+  AzureBareMetalStorageInstances
+} from "./operationsInterfaces";
 import { BareMetalInfrastructureClientOptionalParams } from "./models";
 
 export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
@@ -26,7 +34,7 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the BareMetalInfrastructureClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -103,9 +111,12 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-08-09";
+    this.apiVersion = options.apiVersion || "2023-08-04-preview";
     this.azureBareMetalInstances = new AzureBareMetalInstancesImpl(this);
     this.operations = new OperationsImpl(this);
+    this.azureBareMetalStorageInstances = new AzureBareMetalStorageInstancesImpl(
+      this
+    );
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -139,4 +150,5 @@ export class BareMetalInfrastructureClient extends coreClient.ServiceClient {
 
   azureBareMetalInstances: AzureBareMetalInstances;
   operations: Operations;
+  azureBareMetalStorageInstances: AzureBareMetalStorageInstances;
 }

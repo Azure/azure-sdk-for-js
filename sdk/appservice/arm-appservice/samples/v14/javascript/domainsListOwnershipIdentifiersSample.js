@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Lists domain ownership identifiers.
  *
  * @summary Description for Lists domain ownership identifiers.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/ListDomainOwnershipIdentifiers.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/ListDomainOwnershipIdentifiers.json
  */
 async function listDomainOwnershipIdentifiers() {
   const subscriptionId =

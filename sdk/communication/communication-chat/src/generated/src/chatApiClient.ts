@@ -38,7 +38,7 @@ export class ChatApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-chat/1.3.2`;
+    const packageDetails = `azsdk-js-communication-chat/1.4.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -50,14 +50,14 @@ export class ChatApiClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2021-09-07";
+    this.apiVersion = options.apiVersion || "2023-11-07";
     this.chatThread = new ChatThreadImpl(this);
     this.chat = new ChatImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
