@@ -14,15 +14,15 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/111.0.5555.0 Safari/537.36",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
         "x-ms-content-sha256": "HxeFS5LKwZsIjYeUZmRozeMSl3gxy798JFIUP3Qrv0g=",
-        "x-ms-date": "Tue, 07 Mar 2023 21:33:47 GMT",
-        "x-ms-useragent": "azsdk-js-communication-domain-verification/1.0.0-alpha.20230310.1 core-rest-pipeline/1.10.3 OS"
+        "x-ms-date": "Wed, 22 Nov 2023 12:45:13 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "domain": "invaliddomain"
@@ -30,13 +30,13 @@
       "StatusCode": 422,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 07 Mar 2023 21:32:02 GMT",
-        "MS-CV": "W8FdWg9/YkGxTqzZ1UxTwQ.0",
+        "Date": "Wed, 22 Nov 2023 12:45:11 GMT",
+        "MS-CV": "oFtiIzKFqE6v\u002BYttzs9\u002BNg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Uq0HZAAAAABve5sPCtOQQqV6VeTqeUfFUFJHMDFFREdFMDkwNgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "01/ddZQAAAAB/Ah49gcZ/RZzltXire4TzUFJHMDFFREdFMDkyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "46ms"
+        "X-Processing-Time": "7ms"
       },
       "ResponseBody": {
         "error": {
