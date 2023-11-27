@@ -3,7 +3,7 @@
 
 import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
-import * as path from "path/posix";
+import * as path from "path";
 
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
 declare const LOCAL_MODULE_RELATIVE_PATH: unique symbol;
@@ -58,11 +58,7 @@ export function augmentImports(
   customImports: ImportDeclaration[],
   originalFile: SourceFile
 ) {
-  const originalFilePath = originalFile
-    .getFilePath()
-    .replace(/\\/g, "/")
-    .replace(/(?!^)\/+/g, "/");
-
+  const originalFilePath = path.posix.format(path.parse(originalFile.getFilePath()));
   const importMap = new Map<string, ImportDeclaration>();
   originalImports.forEach((importDecl, _moduleSpecifier) => {
     const moduleSpecifier = _moduleSpecifier as ModuleSpecifier;
@@ -84,11 +80,8 @@ export function augmentImports(
 }
 
 function removeSelfImports(originalFile: SourceFile) {
-  const filePath = originalFile
-    .getFilePath()
-    .replace(/\\/g, "/")
-    .replace(/(?!^)\/+/g, "/");
-  const filePathObject = path.parse(filePath);
+  const filePath = path.posix.format(path.parse(originalFile.getFilePath()));
+  const filePathObject = path.posix.parse(filePath);
   const filePathWithoutExt = removeFileExtension(filePath);
 
   originalFile
@@ -98,13 +91,13 @@ function removeSelfImports(originalFile: SourceFile) {
 
   function isSelfImport(originalImport: ImportDeclaration) {
     const modulePath = originalImport.getModuleSpecifierValue() as ModuleSpecifier;
-    const moduleAbsolutePath = path.resolve(filePathObject.dir, modulePath);
+    const moduleAbsolutePath = path.posix.resolve(filePathObject.dir, modulePath);
     return removeFileExtension(moduleAbsolutePath) === filePathWithoutExt;
   }
 }
 
 function removeFileExtension(filePath: string): string {
-  const filePathObject = path.parse(filePath);
+  const filePathObject = path.posix.parse(filePath);
   return filePath.slice(0, -filePathObject.ext.length);
 }
 
@@ -144,12 +137,9 @@ function mergeImportIntoFile(
     customImportDecl: ImportDeclaration
   ): RelativeModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
-    const customFilePath = customImportDecl
-      .getSourceFile()
-      .getFilePath()
-      .replace(/\\/g, "/")
-      .replace(/(?!^)\/+/g, "/");
-
+    const customFilePath = path.posix.format(
+      path.parse(customImportDecl.getSourceFile().getFilePath())
+    );
     const moduleSpecifierFromCustomFile =
       customImportDecl.getModuleSpecifierValue() as ModuleSpecifier;
     if (!isRelativeModuleSpecifier(moduleSpecifierFromCustomFile)) {
@@ -198,9 +188,9 @@ function normalizeRelativeModuleSpecifier<T extends LocalModuleRelativePath>(
   moduleSpecifier: T,
   filePath: string
 ): T & RelativeModuleSpecifier {
-  const fileDir = path.dirname(filePath);
-  const modulePath = path.resolve(fileDir, moduleSpecifier);
-  const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T &
+  const fileDir = path.posix.dirname(filePath);
+  const modulePath = path.posix.resolve(fileDir, moduleSpecifier);
+  const normalizedModuleSpecifier = path.posix.relative(fileDir, modulePath) as T &
     LocalModuleRelativePath;
 
   return prefixRelativePathWithDot(normalizedModuleSpecifier);
@@ -209,7 +199,7 @@ function normalizeRelativeModuleSpecifier<T extends LocalModuleRelativePath>(
 function prefixRelativePathWithDot<T extends string>(
   filePath: string
 ): T & DotPrefixedRelativePath {
-  if (path.isAbsolute(filePath)) {
+  if (path.posix.isAbsolute(filePath)) {
     throw Error("Attempted to dot-prefix an absolute path");
   }
 
@@ -232,19 +222,22 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   customFilePath: string,
   originalModuleSpecifier: LocalModuleRelativePath
 ): RelativeModuleSpecifier | undefined {
-  const customFileDir = path.dirname(customFilePath);
-  const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
+  const customFileDir = path.posix.dirname(customFilePath);
+  const moduleAbsolutePath = path.posix.resolve(customFileDir, originalModuleSpecifier);
 
-  const outputModuleRelativePath = path.relative(originalSourceRoot, moduleAbsolutePath);
-  const outputFileRelativePath = path.relative(customSourceRoot, customFileDir);
+  const outputModuleRelativePath = path.posix.relative(originalSourceRoot, moduleAbsolutePath);
+  const outputFileRelativePath = path.posix.relative(customSourceRoot, customFileDir);
 
-  const outputModuleSpecifier = path.relative(
+  const outputModuleSpecifier = path.posix.relative(
     outputFileRelativePath,
     outputModuleRelativePath
   ) as LocalModuleRelativePath;
 
   // Check if the module is actually contained in the original directory
-  if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
+  if (
+    !outputModuleRelativePath.startsWith("..") &&
+    !path.posix.isAbsolute(outputModuleRelativePath)
+  ) {
     return normalizeRelativeModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
   }
 }

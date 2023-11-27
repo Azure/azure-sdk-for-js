@@ -28,7 +28,6 @@ import { format } from "../prettier";
 import { augmentExports } from "./exports";
 
 let outputProject = new Project();
-let _originalFolderName = "generated";
 
 export async function customize(originalDir: string, customDir: string, outDir: string) {
   // Initialize the state
@@ -39,12 +38,6 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   if (!(await directoryExists(customDir))) {
     return;
   }
-
-  _originalFolderName =
-    originalDir
-      .replace(commonPrefix(originalDir, customDir), "")
-      .replace(/\\/g, "/")
-      .replace(/(?!^)\/+/g, "/") ?? _originalFolderName;
 
   // Bring files only present in custom into the output
   await copyFilesInCustom(originalDir, customDir, outDir);
