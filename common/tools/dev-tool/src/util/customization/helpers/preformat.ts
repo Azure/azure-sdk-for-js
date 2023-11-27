@@ -16,6 +16,8 @@ import {
  * For example, all classes will be grouped together, all interfaces will be grouped together, etc.
  */
 export function sortSourceFileContents(sourceFile: SourceFile) {
+  sourceFile.organizeImports();
+
   // Collect all elements of different types
   const variableStatements = sourceFile.getVariableStatements();
   const interfaces = sourceFile.getInterfaces();
