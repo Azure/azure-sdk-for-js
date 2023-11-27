@@ -11,7 +11,10 @@ import nock from "nock";
 import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
 import { Resource, detectResourcesSync } from "@opentelemetry/resources";
-import { CloudPlatformValues, SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
+import {
+  CloudPlatformValues,
+  SemanticResourceAttributes,
+} from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
 import { azureVmDetector } from "@opentelemetry/resource-detector-azure";
 
@@ -357,13 +360,34 @@ describe("OpenTelemetry Resource", () => {
     process.env = env;
     const config = new InternalConfig();
     process.env = originalEnv;
-    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME], "opentelemetry");
-    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME], "test-site");
-    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID], "test-instance-id");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER], "azure");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION], "test-region");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT], "test-slot");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.HOST_ID], "test-hostname");
+    assert.deepStrictEqual(
+      config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
+      "opentelemetry"
+    );
+    assert.deepStrictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
+      "test-site"
+    );
+    assert.deepStrictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
+      "test-instance-id"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+      "test-region"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
+      "test-slot"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.HOST_ID],
+      "test-hostname"
+    );
     assert.strictEqual(config.resource.attributes["azure.app.service.stamp"], "test-home-stamp");
   });
 
@@ -377,12 +401,30 @@ describe("OpenTelemetry Resource", () => {
     process.env = env;
     const config = new InternalConfig();
     process.env = originalEnv;
-    assert.deepStrictEqual(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME], "opentelemetry");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID], "test-instance-id");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER], "azure");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION], "test-region");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_NAME], "test-site");
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY], "512");
+    assert.deepStrictEqual(
+      config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
+      "opentelemetry"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
+      "test-instance-id"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+      "test-region"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.FAAS_NAME],
+      "test-site"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
+      "512"
+    );
   });
 
   it("Azure VM resource attributes", async () => {
@@ -400,9 +442,15 @@ describe("OpenTelemetry Resource", () => {
       const key = Object.keys(azureResource.attributes)[i];
       assert.strictEqual(azureResource.attributes[key], testAttributes[key]);
     }
-    assert.strictEqual(azureResource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER], "azure");
+    assert.strictEqual(
+      azureResource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure"
+    );
     assert.strictEqual(azureResource.attributes[SemanticResourceAttributes.CLOUD_REGION], "westus");
-    assert.strictEqual(azureResource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM], CloudPlatformValues.AZURE_VM);
+    assert.strictEqual(
+      azureResource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      CloudPlatformValues.AZURE_VM
+    );
     scope.done();
   });
 
@@ -435,174 +483,174 @@ describe("OpenTelemetry Resource", () => {
 
 const vmTestResponse = {
   additionalCapabilities: {
-    hibernationEnabled: 'false',
+    hibernationEnabled: "false",
   },
-  azEnvironment: 'AzurePublicCloud',
-  customData: '',
-  evictionPolicy: '',
+  azEnvironment: "AzurePublicCloud",
+  customData: "",
+  evictionPolicy: "",
   extendedLocation: {
-    name: '',
-    type: '',
+    name: "",
+    type: "",
   },
   host: {
-    id: '',
+    id: "",
   },
   hostGroup: {
-    id: '',
+    id: "",
   },
-  isHostCompatibilityLayerVm: 'true',
-  licenseType: 'Windows_Client',
-  location: 'westus',
-  name: 'examplevmname',
-  offer: 'WindowsServer',
+  isHostCompatibilityLayerVm: "true",
+  licenseType: "Windows_Client",
+  location: "westus",
+  name: "examplevmname",
+  offer: "WindowsServer",
   osProfile: {
-    adminUsername: 'azureuser',
-    computerName: 'examplevmname',
-    disablePasswordAuthentication: 'true',
+    adminUsername: "azureuser",
+    computerName: "examplevmname",
+    disablePasswordAuthentication: "true",
   },
-  osType: 'Windows',
-  placementGroupId: '',
+  osType: "Windows",
+  placementGroupId: "",
   plan: {
-    name: '',
-    product: '',
-    publisher: '',
+    name: "",
+    product: "",
+    publisher: "",
   },
-  platformFaultDomain: '0',
-  platformSubFaultDomain: '',
-  platformUpdateDomain: '0',
-  priority: '',
-  provider: 'Microsoft.Compute',
+  platformFaultDomain: "0",
+  platformSubFaultDomain: "",
+  platformUpdateDomain: "0",
+  priority: "",
+  provider: "Microsoft.Compute",
   publicKeys: [
     {
-      keyData: 'ssh-rsa 0',
-      path: '/home/user/.ssh/authorized_keys0',
+      keyData: "ssh-rsa 0",
+      path: "/home/user/.ssh/authorized_keys0",
     },
     {
-      keyData: 'ssh-rsa 1',
-      path: '/home/user/.ssh/authorized_keys1',
+      keyData: "ssh-rsa 1",
+      path: "/home/user/.ssh/authorized_keys1",
     },
   ],
-  publisher: 'RDFE-Test-Microsoft-Windows-Server-Group',
-  resourceGroupName: 'macikgo-test-may-23',
+  publisher: "RDFE-Test-Microsoft-Windows-Server-Group",
+  resourceGroupName: "macikgo-test-may-23",
   resourceId:
-    '/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname',
+    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
   securityProfile: {
-    encryptionAtHost: 'false',
-    secureBootEnabled: 'true',
-    securityType: 'TrustedLaunch',
-    virtualTpmEnabled: 'true',
+    encryptionAtHost: "false",
+    secureBootEnabled: "true",
+    securityType: "TrustedLaunch",
+    virtualTpmEnabled: "true",
   },
-  sku: '2019-Datacenter',
+  sku: "2019-Datacenter",
   storageProfile: {
     dataDisks: [
       {
-        bytesPerSecondThrottle: '979202048',
-        caching: 'None',
-        createOption: 'Empty',
-        diskCapacityBytes: '274877906944',
-        diskSizeGB: '1024',
+        bytesPerSecondThrottle: "979202048",
+        caching: "None",
+        createOption: "Empty",
+        diskCapacityBytes: "274877906944",
+        diskSizeGB: "1024",
         image: {
-          uri: '',
+          uri: "",
         },
-        isSharedDisk: 'false',
-        isUltraDisk: 'true',
-        lun: '0',
+        isSharedDisk: "false",
+        isUltraDisk: "true",
+        lun: "0",
         managedDisk: {
-          id: '/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampledatadiskname',
-          storageAccountType: 'StandardSSD_LRS',
+          id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampledatadiskname",
+          storageAccountType: "StandardSSD_LRS",
         },
-        name: 'exampledatadiskname',
-        opsPerSecondThrottle: '65280',
+        name: "exampledatadiskname",
+        opsPerSecondThrottle: "65280",
         vhd: {
-          uri: '',
+          uri: "",
         },
-        writeAcceleratorEnabled: 'false',
+        writeAcceleratorEnabled: "false",
       },
     ],
     imageReference: {
-      id: '',
-      offer: 'WindowsServer',
-      publisher: 'MicrosoftWindowsServer',
-      sku: '2019-Datacenter',
-      version: 'latest',
+      id: "",
+      offer: "WindowsServer",
+      publisher: "MicrosoftWindowsServer",
+      sku: "2019-Datacenter",
+      version: "latest",
     },
     osDisk: {
-      caching: 'ReadWrite',
-      createOption: 'FromImage',
+      caching: "ReadWrite",
+      createOption: "FromImage",
       diffDiskSettings: {
-        option: '',
+        option: "",
       },
-      diskSizeGB: '30',
+      diskSizeGB: "30",
       encryptionSettings: {
-        enabled: 'false',
+        enabled: "false",
         diskEncryptionKey: {
           sourceVault: {
-            id: '/subscriptions/test-source-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv',
+            id: "/subscriptions/test-source-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
           },
           secretUrl:
-            'https://test-disk.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx',
+            "https://test-disk.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
         },
         keyEncryptionKey: {
           sourceVault: {
-            id: '/subscriptions/test-key-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv',
+            id: "/subscriptions/test-key-guid/resourceGroups/testrg/providers/Microsoft.KeyVault/vaults/test-kv",
           },
           keyUrl:
-            'https://test-key.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx',
+            "https://test-key.vault.azure.net/secrets/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
         },
       },
       image: {
-        uri: '',
+        uri: "",
       },
       managedDisk: {
-        id: '/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampleosdiskname',
-        storageAccountType: 'StandardSSD_LRS',
+        id: "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/disks/exampleosdiskname",
+        storageAccountType: "StandardSSD_LRS",
       },
-      name: 'exampledatadiskname',
-      osType: 'Windows',
+      name: "exampledatadiskname",
+      osType: "Windows",
       vhd: {
-        uri: '',
+        uri: "",
       },
-      writeAcceleratorEnabled: 'false',
+      writeAcceleratorEnabled: "false",
     },
     resourceDisk: {
-      size: '16384',
+      size: "16384",
     },
   },
-  subscriptionId: 'xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx',
-  tags: 'azsecpack:nonprod;platformsettings.host_environment.service.platform_optedin_for_rootcerts:true',
-  userData: 'Zm9vYmFy',
+  subscriptionId: "xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx",
+  tags: "azsecpack:nonprod;platformsettings.host_environment.service.platform_optedin_for_rootcerts:true",
+  userData: "Zm9vYmFy",
   tagsList: [
     {
-      name: 'azsecpack',
-      value: 'nonprod',
+      name: "azsecpack",
+      value: "nonprod",
     },
     {
-      name: 'platformsettings.host_environment.service.platform_optedin_for_rootcerts',
-      value: 'true',
+      name: "platformsettings.host_environment.service.platform_optedin_for_rootcerts",
+      value: "true",
     },
   ],
-  version: '20.04.202307240',
+  version: "20.04.202307240",
   virtualMachineScaleSet: {
-    id: '/subscriptions/xxxxxxxx-xxxxx-xxx-xxx-xxxx/resourceGroups/resource-group-name/providers/Microsoft.Compute/virtualMachineScaleSets/virtual-machine-scale-set-name',
+    id: "/subscriptions/xxxxxxxx-xxxxx-xxx-xxx-xxxx/resourceGroups/resource-group-name/providers/Microsoft.Compute/virtualMachineScaleSets/virtual-machine-scale-set-name",
   },
-  vmId: '02aab8a4-74ef-476e-8182-f6d2ba4166a6',
-  vmScaleSetName: 'crpteste9vflji9',
-  vmSize: 'Standard_A3',
-  zone: '1',
+  vmId: "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  vmScaleSetName: "crpteste9vflji9",
+  vmSize: "Standard_A3",
+  zone: "1",
 };
 
 const testAttributes: any = {
-  'azure.vm.scaleset.name': 'crpteste9vflji9',
-  'azure.vm.sku': '2019-Datacenter',
-  'cloud.platform': 'azure_vm',
-  'cloud.provider': 'azure',
-  'cloud.region': 'westus',
-  'cloud.resource_id':
-    '/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname',
-  'host.id': '02aab8a4-74ef-476e-8182-f6d2ba4166a6',
-  'host.name': 'examplevmname',
-  'host.type': 'Standard_A3',
-  'os.type': 'Windows',
-  'os.version': '20.04.202307240',
-  'service.instance.id': '02aab8a4-74ef-476e-8182-f6d2ba4166a6',
+  "azure.vm.scaleset.name": "crpteste9vflji9",
+  "azure.vm.sku": "2019-Datacenter",
+  "cloud.platform": "azure_vm",
+  "cloud.provider": "azure",
+  "cloud.region": "westus",
+  "cloud.resource_id":
+    "/subscriptions/xxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx/resourceGroups/macikgo-test-may-23/providers/Microsoft.Compute/virtualMachines/examplevmname",
+  "host.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  "host.name": "examplevmname",
+  "host.type": "Standard_A3",
+  "os.type": "Windows",
+  "os.version": "20.04.202307240",
+  "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
 };
