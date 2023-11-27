@@ -4,8 +4,6 @@
 import * as assert from "assert";
 import * as path from "path";
 import * as sinon from "sinon";
-import * as http from "http";
-import * as https from "https";
 import nock from "nock";
 
 import { InternalConfig } from "../../../../src/shared";
@@ -254,11 +252,6 @@ describe("Library/Config", () => {
   });
 
   describe("constructor", () => {
-    beforeEach(() => {
-      sandbox.stub(http, "request");
-      sandbox.stub(https, "request");
-    });
-
     it("should initialize valid values", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
