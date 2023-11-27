@@ -41,8 +41,10 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   }
 
   _originalFolderName =
-    originalDir.replace(commonPrefix(originalDir, customDir), "").replace(/\\/g, "/") ??
-    _originalFolderName;
+    originalDir
+      .replace(commonPrefix(originalDir, customDir), "")
+      .replace(/\\/g, "/")
+      .replace(/(?!^)\/+/g, "/") ?? _originalFolderName;
 
   // Bring files only present in custom into the output
   await copyFilesInCustom(originalDir, customDir, outDir);
