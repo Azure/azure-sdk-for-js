@@ -316,7 +316,7 @@ export function getResourceLocation<TState>(
   state: RestorableOperationState<TState>
 ): string | undefined {
   const loc = accessBodyProperty(res, "resourceLocation");
-  if (loc !== undefined) {
+  if (loc && typeof loc === "string") {
     state.config.resourceLocation = loc;
   }
   return state.config.resourceLocation;
