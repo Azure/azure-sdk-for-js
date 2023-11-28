@@ -13,9 +13,8 @@ jobs:
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
           SkipCheckoutNone: true
-          Paths:
-            - eng/
 
+      - pwsh: Get-Location; Get-ChildItem . 
       - task: Powershell@2
         inputs:
           pwsh: true
