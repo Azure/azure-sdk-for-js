@@ -19,7 +19,7 @@ try {
   $pesterConfig = New-PesterConfiguration @{ 
     Run = @{ 
       Throw = $true; 
-      Path  = "$PSScriptRoot/tests/Docs-Onboarding.tests.ps1" 
+      Path  = "$PSScriptRoot/tests/RexValidation.tests.ps1" 
     } 
   }
   Invoke-Pester -Configuration $pesterConfig
