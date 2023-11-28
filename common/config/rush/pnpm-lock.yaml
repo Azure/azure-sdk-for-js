@@ -1157,6 +1157,42 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/communication-common@2.3.0:
+    resolution: {integrity: sha512-KqpdV1AsojDcmISMnvv9MTE8lNRcgz+OQukp2mFl/cm4aKjzROrGcSlayU6p9A51knRGwgoS6hXkaUdqU5cXow==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.6.1
+      events: 3.3.0
+      jwt-decode: 3.1.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/communication-phone-numbers@1.2.0:
+    resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/communication-common': 2.3.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -6329,6 +6365,10 @@ packages:
     dependencies:
       jwa: 2.0.0
       safe-buffer: 5.2.1
+    dev: false
+
+  /jwt-decode@3.1.2:
+    resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
   /jwt-decode@4.0.0:
@@ -16117,10 +16157,11 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-wNGEhZeQN3sF2c71zIJ1hbFxL6iUhrj2hIf0o+e1PzOKHhAWhjzGLg0Fk9dyFpvX1i1RXlzplOtmvcevJOnfhA==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-tEuTcmk8QZp5J/wiR3Ta3JyifvQnKAyjZYmPExibw6DHSOX/YLRcngZc2PZcmwKMlIYsRLLz95CxZfcxpetiKw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
+      '@azure/communication-phone-numbers': 1.2.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18233,7 +18274,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-Lj15j+IFPXNJotoVhQtAurBpIEQW/JCdQRGYxB03zYaiNb2GI/07Bq5ZlZJRMxb8lwgnplT2Xq0k5IJPzjT6Nw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-MuCTGxlBHAgRG60wMaIRdu0iQQURgMoojNknvE8VGefA1OvqzRH51LNodDEkUKelUPUXVFgqoA8aZBmSRmBm8w==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
