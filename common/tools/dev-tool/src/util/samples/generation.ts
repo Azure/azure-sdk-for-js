@@ -84,10 +84,10 @@ export async function makeSampleGenerationInfo(
   projectInfo: ProjectInfo,
   sampleSourcesPath: string,
   topLevelDirectory: string,
-  onError: () => void
+  onError: () => void,
 ): Promise<SampleGenerationInfo> {
   const sampleSources = await collect(
-    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts"))
+    findMatchingFiles(sampleSourcesPath, (name) => name.endsWith(".ts") && !name.endsWith(".d.ts")),
   );
 
   const sampleConfiguration = getSampleConfiguration(projectInfo.packageJson);
@@ -105,11 +105,9 @@ export async function makeSampleGenerationInfo(
 
   const requireInScope = (moduleSpecifier: string) => {
     try {
-      return require(path.join(
-        projectInfo.path,
-        "node_modules",
-        moduleSpecifier.split("/").join(path.sep)
-      ));
+      return require(
+        path.join(projectInfo.path, "node_modules", moduleSpecifier.split("/").join(path.sep)),
+      );
     } catch {
       return require(moduleSpecifier);
     }
@@ -129,10 +127,10 @@ export async function makeSampleGenerationInfo(
   if (!sampleConfiguration.productSlugs && !sampleConfiguration.disableDocsMs) {
     log.error("No extra product slugs provided (`productSlugs` in the sample configuration).");
     log.warn(
-      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform."
+      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform.",
     );
     log.warn(
-      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.'
+      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.',
     );
     onError();
   }
@@ -177,7 +175,7 @@ export async function makeSampleGenerationInfo(
           [name]: contents,
         };
       },
-      {} as SampleConfiguration["customSnippets"]
+      {} as SampleConfiguration["customSnippets"],
     ),
     computeSampleDependencies(outputKind: OutputKind) {
       // Store the `@types/*` packages the TS samples might need.
@@ -193,10 +191,10 @@ export async function makeSampleGenerationInfo(
                 packageJson.dependencies[dependency];
               if (dependencyVersion === undefined) {
                 log.error(
-                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`
+                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`,
                 );
                 log.error(
-                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`
+                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`,
                 );
               }
 
@@ -245,7 +243,7 @@ export async function makeSampleGenerationInfo(
 export async function createReadme(
   outputKind: OutputKind,
   info: SampleGenerationInfo,
-  publicationDirectory: string
+  publicationDirectory: string,
 ): Promise<string> {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
 
@@ -275,7 +273,7 @@ export async function createReadme(
  */
 export async function makeSamplesFactory(
   projectInfo: ProjectInfo,
-  sourcePath?: string
+  sourcePath?: string,
 ): Promise<FileTreeFactory> {
   let hadError = false;
 
@@ -344,7 +342,7 @@ export async function makeSamplesFactory(
           dir(".", [
             dir("typescript", [
               file("README.md", () =>
-                createReadme(OutputKind.TypeScript, info, path.relative(repoRoot, outputDirectory))
+                createReadme(OutputKind.TypeScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
               // All of the tsconfigs we use for samples should be the same.
@@ -353,16 +351,16 @@ export async function makeSamplesFactory(
               // We copy the samples sources in to the `src` folder on the typescript side
               dir("src", [
                 ...info.moduleInfos.map(({ relativeSourcePath, filePath }) =>
-                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath)))
+                  file(relativeSourcePath, () => postProcess(fs.readFileSync(filePath))),
                 ),
                 ...dtsFiles.map(([relative, absolute]) =>
-                  file(relative, fs.readFileSync(absolute))
+                  file(relative, fs.readFileSync(absolute)),
                 ),
               ]),
             ]),
             dir("javascript", [
               file("README.md", () =>
-                createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory))
+                createReadme(OutputKind.JavaScript, info, path.relative(repoRoot, outputDirectory)),
               ),
               file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
               copy("sample.env", path.join(projectInfo.path, "sample.env")),
@@ -371,7 +369,7 @@ export async function makeSamplesFactory(
                 // Only include the modules if they were not skipped
                 .filter(({ azSdkTags: { "skip-javascript": skip } }) => !skip)
                 .map(({ relativeSourcePath, jsModuleText }) =>
-                  file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
+                  file(relativeSourcePath.replace(/\.ts$/, ".js"), () => postProcess(jsModuleText)),
                 ),
             ]),
             // Copy extraFiles by reducing all configured destinations for each input file
@@ -380,11 +378,11 @@ export async function makeSamplesFactory(
                 ...accum,
                 ...destinations.map((dest) => copy(dest, path.resolve(projectInfo.path, source))),
               ],
-              [] as FileTreeFactory[]
+              [] as FileTreeFactory[],
             ),
-          ])
-        )
-      )
-    )
+          ]),
+        ),
+      ),
+    ),
   );
 }

@@ -43,7 +43,7 @@ export function safeClean(worker: FileTreeFactory): FileTreeFactory {
 
       if (await git.hasDiff(basePath)) {
         throw new Error(
-          `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`
+          `the directory ${basePath} exists and is dirty (according to \`git\`); commit or stash your changes first`,
         );
       }
 
@@ -83,7 +83,7 @@ export function temp(worker: FileTreeFactory): FileTreeFactory {
  */
 export function dir(
   name: string,
-  contents: FileTreeFactory | Iterable<FileTreeFactory> | AsyncIterable<FileTreeFactory>
+  contents: FileTreeFactory | Iterable<FileTreeFactory> | AsyncIterable<FileTreeFactory>,
 ): FileTreeFactory {
   return async (basePath) => {
     // Create the directory for this model

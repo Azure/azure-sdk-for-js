@@ -68,7 +68,7 @@ async function postTransform(outText: string): Promise<string> {
  */
 export async function convert(
   srcText: string,
-  transpileOptions?: ts.TranspileOptions
+  transpileOptions?: ts.TranspileOptions,
 ): Promise<string> {
   // TypeScript doesn't preserve newlines in compiled JS output,
   // but we can pre-process each blank line by replacing it with a special

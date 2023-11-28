@@ -82,7 +82,7 @@ export function add(...paths: string[]): Promise<void> {
  */
 export function getConfig(
   key: string,
-  options: { global?: boolean } = {}
+  options: { global?: boolean } = {},
 ): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const globalArg = options.global ? ["--global"] : [];
@@ -114,7 +114,7 @@ export function currentBranch(): Promise<string> {
     let output = "";
     command.stdout.on("data", (data) => (output += data.toString()));
     command.on("exit", (code) =>
-      code === 0 ? resolve(output.trim()) : reject("git exited nonzero")
+      code === 0 ? resolve(output.trim()) : reject("git exited nonzero"),
     );
     command.on("error", reject);
   });

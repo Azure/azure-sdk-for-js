@@ -188,19 +188,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -210,25 +210,25 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
@@ -264,7 +264,7 @@ function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
     }
 
     const originalImport = originalFile.getImportDeclaration(
-      customImport.getModuleSpecifierValue()
+      customImport.getModuleSpecifierValue(),
     );
 
     if (!originalImport) {

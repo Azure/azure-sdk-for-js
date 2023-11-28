@@ -49,9 +49,9 @@ export default createMigration(
 
         await writeFile(
           packageJsonPath,
-          await format(JSON.stringify(packageJson, null, 2), "json")
+          await format(JSON.stringify(packageJson, null, 2), "json"),
         );
       }
     },
-  }
+  },
 );
