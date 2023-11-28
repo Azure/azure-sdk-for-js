@@ -141,7 +141,7 @@ export default leafCommand(commandInfo, async (options) => {
   // Get the instantiated template and write it to the migrations folder.
   const result = migrationTemplate(template);
 
-  const formattedResult = format(result, "typescript");
+  const formattedResult = await format(result, "typescript");
 
   await ensureDir(path.dirname(migrationFile));
   await writeFile(migrationFile, formattedResult);

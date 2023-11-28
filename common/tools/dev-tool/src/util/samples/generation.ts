@@ -242,14 +242,14 @@ export async function makeSampleGenerationInfo(
  * Calls the template to instantiate the sample README for this configuration
  * and output kind.
  */
-export function createReadme(
+export async function createReadme(
   outputKind: OutputKind,
   info: SampleGenerationInfo,
   publicationDirectory: string
-): string {
+): Promise<string> {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
 
-  return instantiateSampleReadme({
+  return await instantiateSampleReadme({
     frontmatter: info.disableDocsMs
       ? undefined
       : {

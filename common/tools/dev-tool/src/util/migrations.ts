@@ -609,7 +609,7 @@ export async function updateMigrationDate(
   (packageJson[METADATA_KEY] ??= {}).migrationDate = migration.date.toISOString();
 
   // Format the file with prettier
-  const contents = format(JSON.stringify(packageJson, null, 2), "json");
+  const contents = await format(JSON.stringify(packageJson, null, 2), "json");
 
   await writeFile(packageJsonPath, contents);
 }

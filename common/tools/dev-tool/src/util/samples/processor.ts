@@ -113,7 +113,7 @@ export async function processSources(
 
     // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
     // above and the CommonJS transforms (see transforms.ts).
-    const jsModuleText = convert(sourceText, {
+    const jsModuleText = await convert(sourceText, {
       fileName: source,
       transformers: {
         before: [sourceProcessor],

@@ -133,7 +133,11 @@ export function copy(name: string, source: string): FileTreeFactory {
  * - a string to be encoded as UTF-8 and written.
  * - a deferred computation (function/thunk) that yields one of the above.
  */
-export type FileContents = Buffer | string | (() => Buffer | string);
+export type FileContents =
+  | Buffer
+  | string
+  | (() => Buffer | string)
+  | (() => Promise<Buffer | string>);
 
 /**
  * A file tree factory that creates a file with the given contents.
@@ -142,8 +146,8 @@ export type FileContents = Buffer | string | (() => Buffer | string);
  * @param contents - a `FileContents` representing the data to write
  */
 export function file(name: string, contents: FileContents): FileTreeFactory {
-  const getContentsAsBuffer = (): Buffer => {
-    const immediateContents = typeof contents === "function" ? contents() : contents;
+  const getContentsAsBuffer = async (): Promise<Buffer> => {
+    const immediateContents = typeof contents === "function" ? await contents() : contents;
     return Buffer.isBuffer(immediateContents)
       ? immediateContents
       : Buffer.from(immediateContents, "utf8");
@@ -152,6 +156,6 @@ export function file(name: string, contents: FileContents): FileTreeFactory {
   return async (basePath) => {
     const dirName = path.resolve(basePath, path.dirname(name));
     await fs.ensureDir(dirName);
-    return fs.writeFile(path.join(basePath, name), getContentsAsBuffer());
+    return fs.writeFile(path.join(basePath, name), await getContentsAsBuffer());
   };
 }

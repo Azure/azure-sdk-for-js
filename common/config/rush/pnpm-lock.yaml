@@ -2877,6 +2877,13 @@ packages:
       '@types/serve-static': 1.15.5
     dev: false
 
+  /@types/fs-extra@11.0.4:
+    resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
+    dependencies:
+      '@types/jsonfile': 6.1.4
+      '@types/node': 18.18.13
+    dev: false
+
   /@types/fs-extra@8.1.5:
     resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
     dependencies:
@@ -2916,6 +2923,12 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: false
+
+  /@types/jsonfile@6.1.4:
+    resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
+    dependencies:
+      '@types/node': 18.18.13
     dev: false
 
   /@types/jsonwebtoken@9.0.5:
@@ -3020,8 +3033,11 @@ packages:
     resolution: {integrity: sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==}
     dev: false
 
-  /@types/prettier@2.7.3:
-    resolution: {integrity: sha512-+68kP9yzs4LMp7VNh8gdzMSPZFL44MLGqiHWvttYJe+6qnuVr4Ek9wSBQoveqY/r+LwjCcU29kNVkidwim+kYA==}
+  /@types/prettier@3.0.0:
+    resolution: {integrity: sha512-mFMBfMOz8QxhYVbuINtswBp9VL2b4Y0QqYHwqLz3YbgtfAcat2Dl6Y1o4e22S/OVE6Ebl9m7wWiMT2lSbAs1wA==}
+    deprecated: This is a stub types definition. prettier provides its own type definitions, so you do not need this installed.
+    dependencies:
+      prettier: 3.1.0
     dev: false
 
   /@types/priorityqueuejs@1.0.4:
@@ -3042,10 +3058,6 @@ packages:
 
   /@types/semaphore@1.1.4:
     resolution: {integrity: sha512-W+KOVSGHKo5yoPXG69RFIKOdmvAcrAo2qnRrcDv80kIcxDnEUQ+c3IVKq0Jkp+BhhYfrbthPY9cXWFL0L9uzuw==}
-    dev: false
-
-  /@types/semver@7.3.13:
-    resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: false
 
   /@types/semver@7.5.6:
@@ -3556,6 +3568,13 @@ packages:
 
   /autorest@3.7.0:
     resolution: {integrity: sha512-E6RXXd6S8Kyc0oNY7Ar0IARSMTodIrww7FBR0FZSuQT0J8P3udvqXFexr2K290fr8qm7kAl7OUsWq08FTbIJoA==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
+  /autorest@3.7.1:
+    resolution: {integrity: sha512-6q17NtosQZPqBkIOUnaOPedf3PDIBF7Ha1iEGRhTqZF6TG2Q/1E3ID/D+ePIIzZDKvW01p/2pENq/oiBWH9IGQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
@@ -4492,7 +4511,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231127
+      typescript: 5.4.0-dev.20231128
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4501,7 +4520,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231127
+      typescript: 5.4.0-dev.20231128
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -5329,8 +5348,8 @@ packages:
       universalify: 2.0.1
     dev: false
 
-  /fs-extra@11.1.1:
-    resolution: {integrity: sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==}
+  /fs-extra@11.2.0:
+    resolution: {integrity: sha512-PmDi3uwK5nFuXh7XDTlVnS17xJS7vW36is2+w3xcv8SVxiB4NyATf4ctkVY5bkSjX0Y4nbvZCq1/EjtEyr9ktw==}
     engines: {node: '>=14.14'}
     dependencies:
       graceful-fs: 4.2.11
@@ -8261,10 +8280,10 @@ packages:
       glob: 10.3.10
     dev: false
 
-  /rollup-plugin-polyfill-node@0.12.0(rollup@3.29.4):
-    resolution: {integrity: sha512-PWEVfDxLEKt8JX1nZ0NkUAgXpkZMTb85rO/Ru9AQ69wYW8VUCfDgP4CGRXXWYni5wDF0vIeR1UoF3Jmw/Lt3Ug==}
+  /rollup-plugin-polyfill-node@0.13.0(rollup@3.29.4):
+    resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
-      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0
+      rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
       '@rollup/plugin-inject': 5.0.5(rollup@3.29.4)
       rollup: 3.29.4
@@ -9238,8 +9257,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231127:
-    resolution: {integrity: sha512-uMH221WFT99TGfR5vMcI1AaoMc9CnpzMFps1zxzLkdweS+IKrF6SlMK0y5fYztaf0BdNOHcdpyyET9cEoJy8+w==}
+  /typescript@5.4.0-dev.20231128:
+    resolution: {integrity: sha512-9qkF438icXJz8XXZ38mDJfUTTAvVZptHGBEkwqB2QaO8p6cQuiYvghMHk5o2bZFHS5VcrAwYtpEuekd1iSTmBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9867,7 +9886,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9913,7 +9932,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9955,7 +9974,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10188,7 +10207,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       dotenv: 8.6.0
       eslint: 8.54.0
@@ -10260,7 +10279,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10352,7 +10371,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10834,7 +10853,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11498,7 +11517,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11723,7 +11742,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14008,7 +14027,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15301,7 +15320,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@types/chai': 4.3.11
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16498,7 +16517,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17656,7 +17675,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-IwT7V+rIkURT9fFne2yDG9Pqa2DC+9PKmSMXqfONrV7cbIiGFxx6CoMYAQINaY5f82M+DEi9MNEeDj+Xu5cZaA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-ta/vZagzkMgIO5lCoIBNl0feRRrtzU9NEHpMLqBmNermq3UdmDhc2dv+PkUh9tIZsmib0JzXH3bVp/HGHKsATQ==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -17671,12 +17690,12 @@ packages:
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
-      '@types/fs-extra': 9.0.13
+      '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      '@types/prettier': 2.7.3
-      '@types/semver': 7.3.13
+      '@types/prettier': 3.0.0
+      '@types/semver': 7.5.6
       autorest: 3.7.0
       axios: 1.6.2
       builtin-modules: 3.3.0
@@ -17691,15 +17710,15 @@ packages:
       downlevel-dts: 0.10.1
       env-paths: 2.2.1
       eslint: 8.54.0
-      fs-extra: 11.1.1
+      fs-extra: 11.2.0
       karma: 6.4.2(debug@4.3.4)
       minimist: 1.2.8
-      mkdirp: 1.0.4
+      mkdirp: 3.0.1
       mocha: 10.2.0
-      prettier: 2.8.8
-      rimraf: 3.0.2
+      prettier: 3.1.0
+      rimraf: 5.0.5
       rollup: 3.29.4
-      rollup-plugin-polyfill-node: 0.12.0(rollup@3.29.4)
+      rollup-plugin-polyfill-node: 0.13.0(rollup@3.29.4)
       rollup-plugin-visualizer: 5.9.3(rollup@3.29.4)
       semver: 7.5.4
       strip-json-comments: 5.0.1
@@ -17727,7 +17746,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18133,7 +18152,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18178,7 +18197,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18681,7 +18700,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
       '@types/uuid': 8.3.4
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18790,7 +18809,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18836,7 +18855,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18882,7 +18901,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18928,7 +18947,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20054,7 +20073,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20099,7 +20118,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.18.13
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3

@@ -101,7 +101,7 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
+  const formattedContent = await format(content, "typescript");
   return await writeFile(filepath, formattedContent);
 }
 
