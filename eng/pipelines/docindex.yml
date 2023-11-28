@@ -4,6 +4,37 @@ variables:
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
+  - job: UpgradeRexTool
+    timeoutInMinutes: 10
+    pool:
+      vmImage: ubuntu-22.04
+    
+    steps:
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          SkipCheckoutNone: true
+          Paths:
+            - eng/
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/docs/Update-RexValidationTool.ps1
+        displayName: Update JS REX Validation Tool
+
+      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+        parameters:
+          PRBranchName: docs/rex-tool-upgrade
+          # Force push as this task updates a single file and history is not
+          # necessary for changes in this branch.
+          PushArgs: -f
+          PRTitle: Upgrade JS REX Validation Tool
+          PRBody: |
+            This PR upgrades the JS REX Validation Tool to the latest version.
+            Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+          # TODO: Remove before merging to main
+          OpenAsDraft: true
+
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
     pool:
