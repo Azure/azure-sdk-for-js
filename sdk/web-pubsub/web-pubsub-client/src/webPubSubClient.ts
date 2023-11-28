@@ -16,12 +16,12 @@ import {
   OnServerDataMessageArgs,
   OnStoppedArgs,
   WebPubSubRetryOptions,
+  SendToGroupOptions,
+  SendEventOptions,
   WebPubSubClientOptions,
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
-  SendToGroupOptions,
-  SendEventOptions,
 } from "./models";
 import {
   ConnectedMessage,
@@ -332,7 +332,7 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send custom event to server with ack
+   * Send custom event to server.
    * @param eventName - The event name
    * @param content - The data content
    * @param dataType - The data type
@@ -461,7 +461,7 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send message to group with ack.
+   * Send message to group.
    * @param groupName - The group name
    * @param content - The data content
    * @param dataType - The data type
