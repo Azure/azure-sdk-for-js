@@ -171,7 +171,7 @@ export interface OperationState<TResult> {
 export type CancelOnProgress = () => void;
 
 
-export interface PromiseWithSimplePollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult>, SimplePollerLike<TState, TResult> { }
+export interface SimplePollerPromise<TState extends OperationState<TResult>, TResult> extends Promise<TResult>, SimplePollerLike<TState, TResult> { }
 
 /**
  * A simple poller interface.

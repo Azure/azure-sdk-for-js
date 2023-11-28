@@ -4,7 +4,7 @@
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import { POLL_INTERVAL_IN_MS } from "./constants";
-import { OperationState, BuildCreatePollerOptions, Operation, CreatePollerOptions, PromiseWithSimplePollerLike, RestorableOperationState, SimplePollerLike, StateProxy } from "./models";
+import { OperationState, BuildCreatePollerOptions, Operation, CreatePollerOptions, SimplePollerPromise, RestorableOperationState, SimplePollerLike, StateProxy } from "./models";
 import { deserializeState, initOperation, pollOperation } from "./operation";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
@@ -46,7 +46,7 @@ export function buildCreatePollerOption1<TResponse, TResult, TState extends Oper
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>
-) => PromiseWithSimplePollerLike<TState, TResult> {
+) => SimplePollerPromise<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -197,10 +197,10 @@ export function buildCreatePollerOption1<TResponse, TResult, TState extends Oper
     // The polling will be triggered automatically when calling pollUntilDone()
     const returnPromise = poller.pollUntilDone();
     // We could either delegate operations to promise/poller or directly bind then/catch/finally to the promise
-    (poller as PromiseWithSimplePollerLike<TState, TResult>).then = returnPromise.then.bind(returnPromise);
-    (poller as PromiseWithSimplePollerLike<TState, TResult>).catch = returnPromise.catch.bind(returnPromise);
-    (poller as PromiseWithSimplePollerLike<TState, TResult>).finally = returnPromise.finally.bind(returnPromise);
-    return poller as PromiseWithSimplePollerLike<TState, TResult>;
+    (poller as SimplePollerPromise<TState, TResult>).then = returnPromise.then.bind(returnPromise);
+    (poller as SimplePollerPromise<TState, TResult>).catch = returnPromise.catch.bind(returnPromise);
+    (poller as SimplePollerPromise<TState, TResult>).finally = returnPromise.finally.bind(returnPromise);
+    return poller as SimplePollerPromise<TState, TResult>;
   };
 }
 
@@ -216,7 +216,7 @@ export function buildCreatePollerOption2<TResponse, TResult, TState extends Oper
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>
-) => PromiseWithSimplePollerLike<TState, TResult> {
+) => SimplePollerPromise<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -272,7 +272,7 @@ export function buildCreatePollerOption2<TResponse, TResult, TState extends Oper
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    const promiseWithPoller: PromiseWithSimplePollerLike<TState, TResult> = {
+    const promiseWithPoller: SimplePollerPromise<TState, TResult> = {
       getOperationState: () => state,
       getResult: () => state.result,
       isDone: () => ["succeeded", "failed", "canceled"].includes(state.status),
