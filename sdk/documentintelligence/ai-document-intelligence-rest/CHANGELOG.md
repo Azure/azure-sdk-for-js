@@ -74,7 +74,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
   - `split: "auto"`
 
-    Let service determine where to split. It is possible for a single page to contain multiple documents (in the future). Such behavior is already implemented in prebuilt-us.tax.w2.
+    Let service determine where to split.
 
   - `split: "none"`
 
