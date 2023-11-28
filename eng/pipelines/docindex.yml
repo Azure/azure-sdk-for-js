@@ -4,117 +4,115 @@ variables:
 jobs:
   # - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
-  - job: UpgradeRexTool
-    timeoutInMinutes: 10
-    pool:
-      vmImage: ubuntu-22.04
+  # - job: UpgradeRexTool
+  #   timeoutInMinutes: 10
+  #   pool:
+  #     vmImage: ubuntu-22.04
     
+  #   steps:
+  #     - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+  #       parameters:
+  #         SkipCheckoutNone: true
+
+  #     - task: Powershell@2
+  #       inputs:
+  #         pwsh: true
+  #         filePath: eng/scripts/docs/Update-RexValidationTool.ps1
+  #       displayName: Update JS REX Validation Tool
+
+  #     - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+  #       parameters:
+  #         PRBranchName: docs/rex-tool-upgrade
+  #         # Force push as this task updates a single file and history is not
+  #         # necessary for changes in this branch.
+  #         PushArgs: -f
+  #         PRTitle: Upgrade JS REX Validation Tool
+  #         PRBody: |
+  #           This PR upgrades the JS REX Validation Tool to the latest version.
+  #           Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+
+  - job: UpdateDocsMsBuildConfig
+    timeoutInMinutes: 90
+    pool:
+      vmImage: ubuntu-20.04
+    variables:
+      DocRepoLocation: $(Pipeline.Workspace)/docs
+      DocRepoOwner: MicrosoftDocs
+      DocRepoName: azure-docs-sdk-node
     steps:
+      # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
         parameters:
           SkipCheckoutNone: true
+          Paths:
+            - ci-configs/
+            - metadata/
+            - docs-ref-mapping/
+            - docs-ref-services/
+          Repositories:
+            - Name: $(DocRepoOwner)/$(DocRepoName)
+              WorkingDirectory: $(DocRepoLocation)
+              # TODO: Testing value, remove when done
+              Commitish: djurek/onboarding-test-rex
+
+      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
 
       - task: Powershell@2
         inputs:
           pwsh: true
-          filePath: eng/scripts/docs/Update-RexValidationTool.ps1
-        displayName: Update JS REX Validation Tool
+          filePath: eng/common/scripts/Update-DocsMsPackageMonikers.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Move deprecated packages to legacy moniker
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
 
-      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Update Docs Onboarding for main branch
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Generate Service Level Readme for main branch
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC for main branch
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Verify-RequiredDocsJsonMembers.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+        displayName: Verify Required Docs Json Members 
+
+      # Push changes to docs repo
+      - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
         parameters:
-          PRBranchName: docs/rex-tool-upgrade
-          # Force push as this task updates a single file and history is not
-          # necessary for changes in this branch.
-          PushArgs: -f
-          PRTitle: Upgrade JS REX Validation Tool
-          PRBody: |
-            This PR upgrades the JS REX Validation Tool to the latest version.
-            Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
-          # TODO: Remove before merging to main
-          OpenAsDraft: true
+          WorkingDirectory: $(DocRepoLocation)
 
-  # - job: UpdateDocsMsBuildConfig
-  #   timeoutInMinutes: 90
-  #   pool:
-  #     vmImage: ubuntu-20.04
-  #   variables:
-  #     DocRepoLocation: $(Pipeline.Workspace)/docs
-  #     DocRepoOwner: MicrosoftDocs
-  #     DocRepoName: azure-docs-sdk-node
-  #   steps:
-  #     # Sync docs repo (this can be sparse)
-  #     - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-  #       parameters:
-  #         SkipCheckoutNone: true
-  #         Paths:
-  #           - ci-configs/
-  #           - metadata/
-  #           - docs-ref-mapping/
-  #           - docs-ref-services/
-  #         Repositories:
-  #           - Name: $(DocRepoOwner)/$(DocRepoName)
-  #             WorkingDirectory: $(DocRepoLocation)
-  #             # TODO: Testing value, remove when done
-  #             Commitish: djurek/onboarding-test-rex
-
-  #     - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
-
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/common/scripts/Update-DocsMsPackageMonikers.ps1
-  #         arguments: -DocRepoLocation $(DocRepoLocation)
-  #       displayName: Move deprecated packages to legacy moniker
-  #       condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
-
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-  #         arguments: -DocRepoLocation $(DocRepoLocation)
-  #       displayName: Update Docs Onboarding for main branch
-  #       condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
-
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
-  #         arguments: -DocRepoLocation $(DocRepoLocation)
-  #       displayName: Generate Service Level Readme for main branch
-  #       condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
-
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/common/scripts/Update-DocsMsToc.ps1
-  #         arguments: >-
-  #           -DocRepoLocation $(DocRepoLocation)
-  #           -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
-  #       displayName: Generate ToC for main branch
-  #       condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
-
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/common/scripts/Verify-RequiredDocsJsonMembers.ps1
-  #         arguments: >-
-  #           -DocRepoLocation $(DocRepoLocation)
-  #       displayName: Verify Required Docs Json Members 
-
-  #     # Push changes to docs repo
-  #     - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
-  #       parameters:
-  #         WorkingDirectory: $(DocRepoLocation)
-
-  #     - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-  #       parameters:
-  #         # TODO: Testing value, use $(DefaultBranch) when done
-  #         BaseRepoBranch: djurek/rex-tests
-  #         BaseRepoOwner: $(DocRepoOwner)
-  #         CommitMsg: "Update docs CI configuration"
-  #         TargetRepoName: $(DocRepoName)
-  #         TargetRepoOwner: $(DocRepoOwner)
-  #         WorkingDirectory: $(DocRepoLocation)
+      - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+        parameters:
+          # TODO: Testing value, use $(DefaultBranch) when done
+          BaseRepoBranch: djurek/rex-tests
+          BaseRepoOwner: $(DocRepoOwner)
+          CommitMsg: "Update docs CI configuration Build: $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+          TargetRepoName: $(DocRepoName)
+          TargetRepoOwner: $(DocRepoOwner)
+          WorkingDirectory: $(DocRepoLocation)
 
   #     # # Prepare daily docs CI
   #     # - template: /eng/common/pipelines/templates/steps/set-daily-docs-branch-name.yml
