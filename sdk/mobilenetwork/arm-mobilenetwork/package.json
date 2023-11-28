@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for MobileNetworkManagementClient.",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "engines": {
     "node": ">=16.0.0"
   },
