@@ -25,6 +25,8 @@ jobs:
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
+              # TODO: Testing value, remove when done
+              Commitish: djurek/onboarding-test-rex
 
       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
 
@@ -77,6 +79,7 @@ jobs:
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
+          # TODO: Testing value, use $(DefaultBranch) when done
           BaseRepoBranch: djurek/rex-tests
           BaseRepoOwner: $(DocRepoOwner)
           CommitMsg: "Update docs CI configuration"
