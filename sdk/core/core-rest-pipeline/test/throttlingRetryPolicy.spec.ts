@@ -13,7 +13,6 @@ import {
   createPipelineRequest,
   throttlingRetryPolicy,
 } from "../src";
-import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
@@ -275,7 +274,7 @@ describe("throttlingRetryPolicy", function () {
   it("throttlingRetryPolicy should honor abort signal", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
-      abortSignal: AbortController.timeout(100), // test should end at 100ms
+      abortSignal: AbortSignal.timeout(100), // test should end at 100ms
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
