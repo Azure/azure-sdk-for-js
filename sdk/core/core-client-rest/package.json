@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/core-client",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Core library for interfacing with Azure Rest Clients",
   "sdk-type": "client",
   "type": "module",
@@ -78,7 +78,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.25",

@@ -6,7 +6,6 @@ import { Pipeline, createEmptyPipeline } from "./pipeline.js";
 import { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
-
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";
@@ -15,6 +14,7 @@ import { proxyPolicy } from "./policies/proxyPolicy.js";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
 import { tracingPolicy } from "./policies/tracingPolicy.js";
+import { multipartPolicy } from "./policies/multipartPolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -89,6 +89,10 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
+  // The multipart policy is added after policies with no phase, so that
+  // policies can be added between it and formDataPolicy to modify
+  // properties (e.g., making the boundary constant in recorded tests).
+  pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
   if (isNode) {

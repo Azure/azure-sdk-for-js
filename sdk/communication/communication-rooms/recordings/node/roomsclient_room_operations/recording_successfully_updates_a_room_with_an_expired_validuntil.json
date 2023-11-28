@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/identities?api-version=2022-10-01",
+      "RequestUri": "https://endpoint/identities?api-version=2023-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "34",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0f0ea3de-4b01-45eb-9113-ef99cc095264",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "06e7176f-d86b-403f-bf4a-1a2b5b431181",
         "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
-        "x-ms-date": "Wed, 20 Sep 2023 22:49:00 GMT"
+        "x-ms-date": "Tue, 24 Oct 2023 13:07:39 GMT"
       },
       "RequestBody": {
         "createTokenWithScopes": [
@@ -22,17 +22,16 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-08-01, 2023-10-01",
-        "Connection": "keep-alive",
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01, 2022-10-01, 2023-10-01",
         "Content-Length": "220",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 20 Sep 2023 22:49:00 GMT",
-        "MS-CV": "4DKed7apBk2Pt74JCSYFbA.0",
+        "Date": "Tue, 24 Oct 2023 13:07:36 GMT",
+        "MS-CV": "5dRARXUcAkOnOeCJmAEnzg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20230920T224900Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000exwx",
+        "X-Azure-Ref": "0mcE3ZQAAAAC7FkEOjaTwSpNMVMHVvkE3U1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
-        "x-ms-client-request-id": "0f0ea3de-4b01-45eb-9113-ef99cc095264",
+        "x-ms-client-request-id": "06e7176f-d86b-403f-bf4a-1a2b5b431181",
         "X-Processing-Time": "21ms"
       },
       "ResponseBody": {
@@ -40,8 +39,8 @@
           "id": "Sanitized"
         },
         "accessToken": {
-          "token": "faketoken",
-          "expiresOn": "2023-09-21T22:49:00.2761396\u002B00:00"
+          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTgxNTY0NDIuNTQxfQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "expiresOn": "2023-10-25T13:07:37.1847023\u002B00:00"
         }
       }
     },
@@ -55,16 +54,16 @@
         "Connection": "keep-alive",
         "Content-Length": "130",
         "Content-Type": "application/json",
-        "Repeatability-First-Sent": "Wed, 20 Sep 2023 22:49:00 GMT",
-        "Repeatability-Request-ID": "97e5d511-d716-402c-bce8-a7af02846eb9",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "9f71d26c-bfa9-40a2-b81e-8ee63ec549a9",
-        "x-ms-content-sha256": "UXIOhe0siPliskKYDme6FGvsSvqtDmVqLll6kr48ZDY=",
-        "x-ms-date": "Wed, 20 Sep 2023 22:49:00 GMT"
+        "Repeatability-First-Sent": "Tue, 24 Oct 2023 13:07:39 GMT",
+        "Repeatability-Request-ID": "353c68fb-756f-4678-9fd3-661476bb78ea",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "03b41c8a-52be-43b6-9088-0ac34f54788b",
+        "x-ms-content-sha256": "4a0sDLHuQAa8sVZbluEqhh065FYcYYmjcVHYeoVPTgE=",
+        "x-ms-date": "Tue, 24 Oct 2023 13:07:39 GMT"
       },
       "RequestBody": {
-        "validFrom": "2023-09-20T22:48:47.000Z",
-        "validUntil": "2023-09-20T22:53:47.000Z",
+        "validFrom": "2023-10-24T13:07:22.000Z",
+        "validUntil": "2023-10-24T13:12:22.000Z",
         "participants": {
           "Sanitized": {
             "role": "Presenter"
@@ -75,27 +74,26 @@
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 20 Sep 2023 22:49:00 GMT",
-        "Location": "99499128525291607",
-        "MS-CV": "aerNy\u002BfQfkmy1tEHnNuIig.0",
+        "Date": "Tue, 24 Oct 2023 13:07:36 GMT",
+        "Location": "99488521176024564",
+        "MS-CV": "7hrSnfQGsEWxuXd\u002BdpKKGw.0",
         "Repeatability-Result": "accepted",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230920T224900Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000exx2",
+        "X-Azure-Ref": "0mcE3ZQAAAACdiSVuRquYR7LJBdI1y\u002B2/U1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99499128525291607",
-        "createdAt": "2023-09-20T22:49:00.4826471\u002B00:00",
-        "validFrom": "2023-09-20T22:48:47\u002B00:00",
-        "validUntil": "2023-09-20T22:53:47\u002B00:00",
+        "id": "99488521176024564",
+        "createdAt": "2023-10-24T13:07:37.4539937\u002B00:00",
+        "validFrom": "2023-10-24T13:07:22\u002B00:00",
+        "validUntil": "2023-10-24T13:12:22\u002B00:00",
         "pstnDialOutEnabled": false
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms/99499128525291607?api-version=2023-10-30-preview",
+      "RequestUri": "https://endpoint/rooms/99488521176024564?api-version=2023-10-30-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -104,66 +102,64 @@
         "Connection": "keep-alive",
         "Content-Length": "80",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "ca2d1d3b-dcc2-4c96-baa0-38efaae15f15",
-        "x-ms-content-sha256": "coMKXQLMham8cApOGMUY6Y/rvJbj1i/Ge9PpwuKBxPk=",
-        "x-ms-date": "Wed, 20 Sep 2023 22:49:00 GMT"
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "26cced1a-f2cc-4ada-a41f-60e70a1a63db",
+        "x-ms-content-sha256": "fyfzpsgsSqnBdjHdgZGj/oY2tgVToJfK1lJuaNlqTIE=",
+        "x-ms-date": "Tue, 24 Oct 2023 13:07:39 GMT"
       },
       "RequestBody": {
-        "validFrom": "2023-09-20T22:48:47.000Z",
-        "validUntil": "2023-09-20T22:53:47.000Z"
+        "validFrom": "2023-10-24T13:07:22.000Z",
+        "validUntil": "2023-10-24T13:12:22.000Z"
       },
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
-        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 20 Sep 2023 22:49:00 GMT",
-        "MS-CV": "ATSfTBvvU0O96k7xdJ6d2A.0",
+        "Date": "Tue, 24 Oct 2023 13:07:37 GMT",
+        "MS-CV": "Ee\u002BSzMmq30OQvIKGT07\u002BCw.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "x-azure-ref": "20230920T224900Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000exz3",
+        "X-Azure-Ref": "0mcE3ZQAAAACb/N7USLpBSrxdcFiSRgkxU1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
-        "id": "99499128525291607",
-        "createdAt": "2023-09-20T22:49:00.4826471\u002B00:00",
-        "validFrom": "2023-09-20T22:48:47\u002B00:00",
-        "validUntil": "2023-09-20T22:53:47\u002B00:00",
+        "id": "99488521176024564",
+        "createdAt": "2023-10-24T13:07:37.4539937\u002B00:00",
+        "validFrom": "2023-10-24T13:07:22\u002B00:00",
+        "validUntil": "2023-10-24T13:12:22\u002B00:00",
         "pstnDialOutEnabled": false
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms/99499128525291607?api-version=2023-10-30-preview",
+      "RequestUri": "https://endpoint/rooms/99488521176024564?api-version=2023-10-30-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.1 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a52db6ac-2abd-4f18-8f8a-f6010a848b66",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "bc0bdb97-182f-455e-ae11-6b0aabe68f15",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 20 Sep 2023 22:49:00 GMT"
+        "x-ms-date": "Tue, 24 Oct 2023 13:07:40 GMT"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
-        "Connection": "keep-alive",
-        "Date": "Wed, 20 Sep 2023 22:49:01 GMT",
-        "MS-CV": "OMZfFjZwBUSW2RA0zN6z1A.0",
+        "Date": "Tue, 24 Oct 2023 13:07:37 GMT",
+        "MS-CV": "Cy5sWC1bxUa2z4jch5mMlg.0",
         "Request-Context": "appId=",
-        "x-azure-ref": "20230920T224900Z-fckmxgbqv10x90xv9zvchk7ke8000000092000000000ey2e",
+        "X-Azure-Ref": "0msE3ZQAAAADPAigu/1qgR6V5gpso\u002BWzpU1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "validFrom": "Wed Sep 20 2023 15:48:47 GMT-0700 (Pacific Daylight Saving Time)",
-    "validUntil": "Wed Sep 20 2023 15:53:47 GMT-0700 (Pacific Daylight Saving Time)"
+    "validFrom": "Tue Oct 24 2023 16:07:22 GMT\u002B0300 (Eastern European Summer Time)",
+    "validUntil": "Tue Oct 24 2023 16:12:22 GMT\u002B0300 (Eastern European Summer Time)"
   }
 }

@@ -61,11 +61,11 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.38.0",
+    "@microsoft/api-extractor": "^7.38.3",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.0.0-beta.3",
-    "@vitest/coverage-v8": "^1.0.0-beta.3",
-    "@vitest/coverage-istanbul": "^1.0.0-beta.3",
+    "@vitest/browser": "^1.0.0-beta.5",
+    "@vitest/coverage-v8": "^1.0.0-beta.5",
+    "@vitest/coverage-istanbul": "^1.0.0-beta.5",
     "dotenv": "^16.3.1",
     "eslint": "^8.52.0",
     "playwright": "^1.39.0",
@@ -73,8 +73,8 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.7.0",
     "typescript": "~5.2.0",
-    "vitest": "1.0.0-beta.3",
-    "webdriverio": "^8.20.4"
+    "vitest": "1.0.0-beta.5",
+    "webdriverio": "^8.24.3"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

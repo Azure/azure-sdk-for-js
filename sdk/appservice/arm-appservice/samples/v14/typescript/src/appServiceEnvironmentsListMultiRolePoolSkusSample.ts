@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get available SKUs for scaling a multi-role pool.
  *
  * @summary Description for Get available SKUs for scaling a multi-role pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_ListMultiRolePoolSkus.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_ListMultiRolePoolSkus.json
  */
 async function getAvailableSkUsForScalingAMultiRolePool() {
   const subscriptionId =

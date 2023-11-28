@@ -27,6 +27,19 @@ describe("sendRequest", () => {
       await sendRequest("POST", mockBaseUrl, mockPipeline, { body: foo });
     });
 
+    it("should send Uint8Array as bytes for octet-stream content type", async () => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.body, foo);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: foo,
+        contentType: "application/octet-stream",
+      });
+    });
+
     it("should handle request body as string", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       const expectedBody = "foo";

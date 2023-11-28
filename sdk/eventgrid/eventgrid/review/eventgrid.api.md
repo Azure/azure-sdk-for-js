@@ -125,6 +125,9 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
     properties: {
         [propertyName: string]: any;
     };
+    metadata: {
+        [propertyName: string]: string;
+    };
     participants: AcsChatThreadParticipant[];
 };
 
@@ -137,6 +140,9 @@ export type AcsChatThreadEventBase = AcsChatEventBase & {
 // @public
 export interface AcsChatThreadParticipant {
     displayName: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     participantCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
@@ -144,6 +150,9 @@ export interface AcsChatThreadParticipant {
 export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     properties: {
         [propertyName: string]: any;
     };
@@ -1811,6 +1820,25 @@ export interface ResourceNotificationsOperationalDetails {
 }
 
 // @public
+export interface ResourceNotificationsResourceDeletedDetails {
+    id: string;
+    name: string;
+    type: string;
+}
+
+// @public
+export interface ResourceNotificationsResourceDeletedEventData {
+    operationalDetails: ResourceNotificationsOperationalDetails;
+    resourceDetails: ResourceNotificationsResourceDeletedDetails;
+}
+
+// @public
+export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+// @public
+export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
+// @public
 export interface ResourceNotificationsResourceUpdatedDetails {
     id: string;
     location: string;
@@ -1818,7 +1846,9 @@ export interface ResourceNotificationsResourceUpdatedDetails {
     properties: {
         [propertyName: string]: any;
     };
-    tags: string;
+    tags: {
+        [propertyName: string]: string;
+    };
     type: string;
 }
 
@@ -2242,6 +2272,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
     "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
+    "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
+    "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
     "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
     "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
     "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;

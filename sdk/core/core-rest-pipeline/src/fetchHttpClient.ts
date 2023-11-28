@@ -8,27 +8,10 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
+} from "./interfaces";
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -128,7 +111,7 @@ async function buildPipelineResponse(
     status: httpResponse.status,
   };
 
-  const bodyStream = isReadableStream(httpResponse.body)
+  const bodyStream = isWebReadableStream(httpResponse.body)
     ? buildBodyStream(httpResponse.body, {
         onProgress: request.onDownloadProgress,
         onEnd: abortControllerCleanup,
@@ -253,7 +236,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(body)
+  return isWebReadableStream(body)
     ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
     : { streaming: false, body };
 }

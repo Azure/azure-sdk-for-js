@@ -37,7 +37,7 @@ class HttpHeadersImpl implements HttpHeaders {
    * @param value - The value of the header to set.
    */
   public set(name: string, value: string | number | boolean): void {
-    this._headersMap.set(normalizeName(name), { name, value: String(value) });
+    this._headersMap.set(normalizeName(name), { name, value: String(value).trim() });
   }
 
   /**

@@ -13,12 +13,14 @@ declare global {
 
 export {
   Agent,
+  BodyPart,
   FormDataMap,
   FormDataValue,
   HttpClient,
   HttpHeaders,
   HttpMethods,
   KeyObject,
+  MultipartRequestBody,
   PipelineRequest,
   PipelineResponse,
   PipelineRetryOptions,
@@ -60,8 +62,9 @@ export {
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName,
-} from "./policies/setClientRequestIdPolicy.js";
+} from "./policies/setClientRequestIdPolicy";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy.js";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
 export {
   redirectPolicy,
@@ -110,4 +113,10 @@ export {
   auxiliaryAuthenticationHeaderPolicy,
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
-} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
+} from "./policies/auxiliaryAuthenticationHeaderPolicy";
+export {
+  createFile,
+  createFileFromStream,
+  CreateFileOptions,
+  CreateFileFromStreamOptions,
+} from "./util/file.js";
