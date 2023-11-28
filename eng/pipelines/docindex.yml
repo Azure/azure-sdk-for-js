@@ -14,7 +14,6 @@ jobs:
         parameters:
           SkipCheckoutNone: true
 
-      - pwsh: Get-Location; Get-ChildItem . 
       - task: Powershell@2
         inputs:
           pwsh: true
