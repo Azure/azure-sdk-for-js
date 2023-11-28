@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Reset counters
  *
  * @summary Reset counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_resetCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_resetCounters_MaximumSet_Gen.json
  */
 async function postRulesResetCountersMaximumSetGen() {
   const globalRulestackName = "lrs1";
@@ -42,7 +42,7 @@ async function postRulesResetCountersMaximumSetGen() {
  * This sample demonstrates how to Reset counters
  *
  * @summary Reset counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_resetCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_resetCounters_MinimumSet_Gen.json
  */
 async function postRulesResetCountersMinimumSetGen() {
   const globalRulestackName = "lrs1";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all event subscriptions that have been created for a specific resource.
  *
  * @summary List all event subscriptions that have been created for a specific resource.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/EventSubscriptions_ListByResource.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/EventSubscriptions_ListByResource.json
  */
 async function eventSubscriptionsListByResource() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns details of database connections for a static site
  *
  * @summary Returns details of database connections for a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetStaticSiteDatabaseConnectionsWithDetails.json
  */
 async function listFullDetailsOfDatabaseConnectionsForTheStaticSite() {
   const subscriptionId =

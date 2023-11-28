@@ -174,7 +174,9 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
 
   if (ArrayBuffer.isView(body)) {
     if (body instanceof Uint8Array) {
-      return { body: binaryArrayToString(body) };
+      return firstType === "application/octet-stream"
+        ? { body }
+        : { body: binaryArrayToString(body) };
     } else {
       return { body: JSON.stringify(body) };
     }
