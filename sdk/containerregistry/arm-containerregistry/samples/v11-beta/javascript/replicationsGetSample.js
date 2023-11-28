@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the properties of the specified replication.
  *
  * @summary Gets the properties of the specified replication.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/ReplicationGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationGet.json
  */
 async function replicationGet() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all private endpoint connections in a container registry.
  *
  * @summary List all private endpoint connections in a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/PrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/PrivateEndpointConnectionList.json
  */
 async function privateEndpointConnectionList() {
   const subscriptionId =
