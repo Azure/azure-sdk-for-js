@@ -95,9 +95,9 @@ describe("#StandardMetricsHandler", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // assert.ok(exportStub.called);
+    assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
@@ -211,9 +211,9 @@ describe("#StandardMetricsHandler", () => {
     clientSpan.attributes[SemanticAttributes.PEER_SERVICE] = "testPeerService";
     autoCollect.recordSpan(clientSpan);
 
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // assert.ok(exportStub.called);
+    assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
