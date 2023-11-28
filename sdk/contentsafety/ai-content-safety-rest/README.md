@@ -40,7 +40,7 @@ You can find the endpoint for your Azure AI Content Safety service resource usin
 az cognitiveservices account show --name "resource-name" --resource-group "resource-group-name" --query "properties.endpoint"
 ```
 
-#### Get the API key
+#### Create a ContentSafetyClient with AzureKeyCredential
 
 The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home) or by running the following [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show) command:
 
@@ -48,14 +48,14 @@ The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
 ```
 
-#### Create a ContentSafetyClient with AzureKeyCredential
-
 To use an API key as the `credential` parameter, pass the key as a string into an instance of `AzureKeyCredential`.
 
 ```typescript
+import ContentSafetyClient from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
-
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 ```
@@ -76,8 +76,10 @@ Set the values of the client ID, tenant ID, and client secret of the AAD applica
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
 ```typescript
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
+import ContentSafetyClient from "@azure-rest/ai-content-safety";
+import { DefaultAzureCredential } from "@azure/identity";
 
+const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const client = ContentSafetyClient(endpoint, new DefaultAzureCredential());
 ```
 

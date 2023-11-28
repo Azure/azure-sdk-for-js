@@ -5,6 +5,7 @@
 ### Features Added
 
 - Support AAD Authentication
+- Support 8 severity levels output for Text Analyze
 
 ### Breaking Changes
 
