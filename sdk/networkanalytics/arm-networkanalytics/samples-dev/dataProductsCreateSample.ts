@@ -31,14 +31,6 @@ async function dataProductsCreateMaximumSetGen() {
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const resource: DataProduct = {
-    consumptionEndpoints: {},
-    currentMinorVersion: "1.0.1",
-    customerEncryptionKey: {
-      keyName: "keyName",
-      keyVaultUri: "https://KeyVault.vault.azure.net",
-      keyVersion: "keyVersion"
-    },
-    customerManagedKeyEncryptionEnabled: "Enabled",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
@@ -46,33 +38,43 @@ async function dataProductsCreateMaximumSetGen() {
       }
     },
     location: "eastus",
-    majorVersion: "1.0.0",
-    managedResourceGroupConfiguration: {
-      name: "managedResourceGroupName",
-      location: "eastus"
+    properties: {
+      consumptionEndpoints: {},
+      currentMinorVersion: "1.0.1",
+      customerEncryptionKey: {
+        keyName: "keyName",
+        keyVaultUri: "https://KeyVault.vault.azure.net",
+        keyVersion: "keyVersion"
+      },
+      customerManagedKeyEncryptionEnabled: "Enabled",
+      majorVersion: "1.0.0",
+      managedResourceGroupConfiguration: {
+        name: "managedResourceGroupName",
+        location: "eastus"
+      },
+      networkacls: {
+        allowedQueryIpRangeList: ["1.1.1.1"],
+        defaultAction: "Allow",
+        ipRules: [{ action: "Allow", value: "1.1.1.1" }],
+        virtualNetworkRule: [
+          {
+            action: "Allow",
+            id:
+              "/subscriptions/subscriptionId/resourcegroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/virtualNetworkName/subnets/subnetName",
+            state: ""
+          }
+        ]
+      },
+      owners: ["abc@micros.com"],
+      privateLinksEnabled: "Disabled",
+      product: "MCC",
+      provisioningState: "Succeeded",
+      publicNetworkAccess: "Enabled",
+      publisher: "Microsoft",
+      purviewAccount: "testpurview",
+      purviewCollection: "134567890",
+      redundancy: "Disabled"
     },
-    networkacls: {
-      allowedQueryIpRangeList: ["1.1.1.1"],
-      defaultAction: "Allow",
-      ipRules: [{ action: "Allow", value: "1.1.1.1" }],
-      virtualNetworkRule: [
-        {
-          action: "Allow",
-          id:
-            "/subscriptions/subscriptionId/resourcegroups/resourceGroupName/providers/Microsoft.Network/virtualNetworks/virtualNetworkName/subnets/subnetName",
-          state: ""
-        }
-      ]
-    },
-    owners: ["abc@micros.com"],
-    privateLinksEnabled: "Disabled",
-    product: "MCC",
-    provisioningState: "Succeeded",
-    publicNetworkAccess: "Enabled",
-    publisher: "Microsoft",
-    purviewAccount: "testpurview",
-    purviewCollection: "134567890",
-    redundancy: "Disabled",
     tags: { userSpecifiedKeyName: "userSpecifiedKeyValue" }
   };
   const credential = new DefaultAzureCredential();
@@ -100,9 +102,11 @@ async function dataProductsCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSe
   const dataProductName = "dataproduct01";
   const resource: DataProduct = {
     location: "eastus",
-    majorVersion: "1.0.0",
-    product: "MCC",
-    publisher: "Microsoft",
+    properties: {
+      majorVersion: "1.0.0",
+      product: "MCC",
+      publisher: "Microsoft"
+    },
     tags: { userSpecifiedKeyName: "userSpecifiedKeyValue" }
   };
   const credential = new DefaultAzureCredential();

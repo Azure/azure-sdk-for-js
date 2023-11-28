@@ -72,9 +72,11 @@ describe("NetworkAnalytics test", () => {
       resourcename,
       {
         location,
-        majorVersion: "1.0.0",
-        product: "MCC",
-        publisher: "Microsoft",
+        properties: {
+          majorVersion: "1.0.0",
+          product: "MCC",
+          publisher: "Microsoft"
+        }
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);

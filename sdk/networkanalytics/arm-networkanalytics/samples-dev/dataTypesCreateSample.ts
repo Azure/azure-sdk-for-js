@@ -32,11 +32,13 @@ async function dataTypesCreateMaximumSetGen() {
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
   const resource: DataType = {
-    databaseCacheRetention: 23,
-    databaseRetention: 6,
-    provisioningState: "Succeeded",
-    state: "STARTED",
-    storageOutputRetention: 27
+    properties: {
+      databaseCacheRetention: 23,
+      databaseRetention: 6,
+      provisioningState: "Succeeded",
+      state: "STARTED",
+      storageOutputRetention: 27
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);

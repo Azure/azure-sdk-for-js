@@ -31,17 +31,19 @@ async function dataProductsUpdateMaximumSetGen() {
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const properties: DataProductUpdate = {
-    currentMinorVersion: "1.0.1",
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
         "/subscriptions/subid/resourceGroups/resourceGroupName/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1": {}
       }
     },
-    owners: ["abc@micros.com", "def@micros.com"],
-    privateLinksEnabled: "Disabled",
-    purviewAccount: "testpurview",
-    purviewCollection: "134567890",
+    properties: {
+      currentMinorVersion: "1.0.1",
+      owners: ["abc@micros.com", "def@micros.com"],
+      privateLinksEnabled: "Disabled",
+      purviewAccount: "testpurview",
+      purviewCollection: "134567890"
+    },
     tags: { userSpecifiedKeyName: "userSpecifiedKeyValue" }
   };
   const credential = new DefaultAzureCredential();

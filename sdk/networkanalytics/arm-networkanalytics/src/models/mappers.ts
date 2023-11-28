@@ -242,6 +242,157 @@ export const DataProductListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DataProductProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataProductProperties",
+    modelProperties: {
+      resourceGuid: {
+        serializedName: "resourceGuid",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      publisher: {
+        serializedName: "publisher",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      product: {
+        serializedName: "product",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      majorVersion: {
+        serializedName: "majorVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      owners: {
+        serializedName: "owners",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      redundancy: {
+        serializedName: "redundancy",
+        type: {
+          name: "String"
+        }
+      },
+      purviewAccount: {
+        serializedName: "purviewAccount",
+        type: {
+          name: "String"
+        }
+      },
+      purviewCollection: {
+        serializedName: "purviewCollection",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinksEnabled: {
+        serializedName: "privateLinksEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      publicNetworkAccess: {
+        serializedName: "publicNetworkAccess",
+        type: {
+          name: "String"
+        }
+      },
+      customerManagedKeyEncryptionEnabled: {
+        serializedName: "customerManagedKeyEncryptionEnabled",
+        type: {
+          name: "String"
+        }
+      },
+      customerEncryptionKey: {
+        serializedName: "customerEncryptionKey",
+        type: {
+          name: "Composite",
+          className: "EncryptionKeyDetails"
+        }
+      },
+      networkacls: {
+        serializedName: "networkacls",
+        type: {
+          name: "Composite",
+          className: "DataProductNetworkAcls"
+        }
+      },
+      managedResourceGroupConfiguration: {
+        serializedName: "managedResourceGroupConfiguration",
+        type: {
+          name: "Composite",
+          className: "ManagedResourceGroupConfiguration"
+        }
+      },
+      availableMinorVersions: {
+        serializedName: "availableMinorVersions",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      currentMinorVersion: {
+        serializedName: "currentMinorVersion",
+        type: {
+          name: "String"
+        }
+      },
+      documentation: {
+        serializedName: "documentation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      consumptionEndpoints: {
+        serializedName: "consumptionEndpoints",
+        type: {
+          name: "Composite",
+          className: "ConsumptionEndpointsProperties"
+        }
+      },
+      keyVaultUrl: {
+        serializedName: "keyVaultUrl",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EncryptionKeyDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -622,6 +773,35 @@ export const DataProductsCatalogListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const DataProductsCatalogProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataProductsCatalogProperties",
+    modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      publishers: {
+        serializedName: "publishers",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PublisherInformation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PublisherInformation: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -722,8 +902,24 @@ export const DataProductUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataProductUpdateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const DataProductUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataProductUpdateProperties",
+    modelProperties: {
       owners: {
-        serializedName: "properties.owners",
+        serializedName: "owners",
         type: {
           name: "Sequence",
           element: {
@@ -734,25 +930,25 @@ export const DataProductUpdate: coreClient.CompositeMapper = {
         }
       },
       purviewAccount: {
-        serializedName: "properties.purviewAccount",
+        serializedName: "purviewAccount",
         type: {
           name: "String"
         }
       },
       purviewCollection: {
-        serializedName: "properties.purviewCollection",
+        serializedName: "purviewCollection",
         type: {
           name: "String"
         }
       },
       privateLinksEnabled: {
-        serializedName: "properties.privateLinksEnabled",
+        serializedName: "privateLinksEnabled",
         type: {
           name: "String"
         }
       },
       currentMinorVersion: {
-        serializedName: "properties.currentMinorVersion",
+        serializedName: "currentMinorVersion",
         type: {
           name: "String"
         }
@@ -908,31 +1104,101 @@ export const DataTypeListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const DataTypeUpdate: coreClient.CompositeMapper = {
+export const DataTypeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DataTypeUpdate",
+    className: "DataTypeProperties",
     modelProperties: {
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       state: {
-        serializedName: "properties.state",
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      stateReason: {
+        serializedName: "stateReason",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       storageOutputRetention: {
-        serializedName: "properties.storageOutputRetention",
+        serializedName: "storageOutputRetention",
         type: {
           name: "Number"
         }
       },
       databaseCacheRetention: {
-        serializedName: "properties.databaseCacheRetention",
+        serializedName: "databaseCacheRetention",
         type: {
           name: "Number"
         }
       },
       databaseRetention: {
-        serializedName: "properties.databaseRetention",
+        serializedName: "databaseRetention",
+        type: {
+          name: "Number"
+        }
+      },
+      visualizationUrl: {
+        serializedName: "visualizationUrl",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataTypeUpdate: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataTypeUpdate",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataTypeUpdateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const DataTypeUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataTypeUpdateProperties",
+    modelProperties: {
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String"
+        }
+      },
+      storageOutputRetention: {
+        serializedName: "storageOutputRetention",
+        type: {
+          name: "Number"
+        }
+      },
+      databaseCacheRetention: {
+        serializedName: "databaseCacheRetention",
+        type: {
+          name: "Number"
+        }
+      },
+      databaseRetention: {
+        serializedName: "databaseRetention",
         type: {
           name: "Number"
         }
@@ -1141,150 +1407,18 @@ export const DataProduct: coreClient.CompositeMapper = {
     className: "DataProduct",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DataProductProperties"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
           name: "Composite",
           className: "ManagedServiceIdentity"
-        }
-      },
-      resourceGuid: {
-        serializedName: "properties.resourceGuid",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      publisher: {
-        serializedName: "properties.publisher",
-        type: {
-          name: "String"
-        }
-      },
-      product: {
-        serializedName: "properties.product",
-        type: {
-          name: "String"
-        }
-      },
-      majorVersion: {
-        serializedName: "properties.majorVersion",
-        type: {
-          name: "String"
-        }
-      },
-      owners: {
-        serializedName: "properties.owners",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      redundancy: {
-        serializedName: "properties.redundancy",
-        type: {
-          name: "String"
-        }
-      },
-      purviewAccount: {
-        serializedName: "properties.purviewAccount",
-        type: {
-          name: "String"
-        }
-      },
-      purviewCollection: {
-        serializedName: "properties.purviewCollection",
-        type: {
-          name: "String"
-        }
-      },
-      privateLinksEnabled: {
-        serializedName: "properties.privateLinksEnabled",
-        type: {
-          name: "String"
-        }
-      },
-      publicNetworkAccess: {
-        serializedName: "properties.publicNetworkAccess",
-        type: {
-          name: "String"
-        }
-      },
-      customerManagedKeyEncryptionEnabled: {
-        serializedName: "properties.customerManagedKeyEncryptionEnabled",
-        type: {
-          name: "String"
-        }
-      },
-      customerEncryptionKey: {
-        serializedName: "properties.customerEncryptionKey",
-        type: {
-          name: "Composite",
-          className: "EncryptionKeyDetails"
-        }
-      },
-      networkacls: {
-        serializedName: "properties.networkacls",
-        type: {
-          name: "Composite",
-          className: "DataProductNetworkAcls"
-        }
-      },
-      managedResourceGroupConfiguration: {
-        serializedName: "properties.managedResourceGroupConfiguration",
-        type: {
-          name: "Composite",
-          className: "ManagedResourceGroupConfiguration"
-        }
-      },
-      availableMinorVersions: {
-        serializedName: "properties.availableMinorVersions",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      currentMinorVersion: {
-        serializedName: "properties.currentMinorVersion",
-        type: {
-          name: "String"
-        }
-      },
-      documentation: {
-        serializedName: "properties.documentation",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      consumptionEndpoints: {
-        serializedName: "properties.consumptionEndpoints",
-        type: {
-          name: "Composite",
-          className: "ConsumptionEndpointsProperties"
-        }
-      },
-      keyVaultUrl: {
-        serializedName: "properties.keyVaultUrl",
-        readOnly: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -1297,23 +1431,11 @@ export const DataProductsCatalog: coreClient.CompositeMapper = {
     className: "DataProductsCatalog",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      },
-      publishers: {
-        serializedName: "properties.publishers",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "PublisherInformation"
-            }
-          }
+          name: "Composite",
+          className: "DataProductsCatalogProperties"
         }
       }
     }
@@ -1326,49 +1448,11 @@ export const DataType: coreClient.CompositeMapper = {
     className: "DataType",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      },
-      state: {
-        serializedName: "properties.state",
-        type: {
-          name: "String"
-        }
-      },
-      stateReason: {
-        serializedName: "properties.stateReason",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      storageOutputRetention: {
-        serializedName: "properties.storageOutputRetention",
-        type: {
-          name: "Number"
-        }
-      },
-      databaseCacheRetention: {
-        serializedName: "properties.databaseCacheRetention",
-        type: {
-          name: "Number"
-        }
-      },
-      databaseRetention: {
-        serializedName: "properties.databaseRetention",
-        type: {
-          name: "Number"
-        }
-      },
-      visualizationUrl: {
-        serializedName: "properties.visualizationUrl",
-        readOnly: true,
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "DataTypeProperties"
         }
       }
     }

@@ -32,10 +32,12 @@ async function dataTypesUpdateMaximumSetGen() {
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
   const properties: DataTypeUpdate = {
-    databaseCacheRetention: 16,
-    databaseRetention: 9,
-    state: "STARTED",
-    storageOutputRetention: 30
+    properties: {
+      databaseCacheRetention: 16,
+      databaseRetention: 9,
+      state: "STARTED",
+      storageOutputRetention: 30
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
