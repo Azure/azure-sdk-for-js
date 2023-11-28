@@ -53,7 +53,7 @@ jobs:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
               # TODO: Testing value, remove when done
-              Commitish: djurek/onboarding-test-rex
+              Commitish: djurek/rex-tests
 
       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
 
