@@ -20,9 +20,7 @@ import {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
-  SendToGroupFireAndForgetOptions,
   SendToGroupOptions,
-  SendEventFireAndForgetOptions,
   SendEventOptions,
 } from "./models";
 import {
@@ -52,9 +50,6 @@ enum WebPubSubClientState {
   Connected = "Connected",
   Recovering = "Recovering",
 }
-
-type SendToGroupOptionsInternal = SendToGroupOptions | SendToGroupFireAndForgetOptions;
-type SendEventOptionsInternal = SendEventOptions | SendEventFireAndForgetOptions;
 
 /**
  * Types which can be serialized and sent as JSON.
@@ -337,20 +332,6 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send custom event to server fire and forget
-   * @param eventName - The event name
-   * @param content - The data content
-   * @param dataType - The data type
-   * @param options - The options
-   * @param abortSignal - The abort signal
-   */
-  public async sendEvent(
-    eventName: string,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-    options: SendEventFireAndForgetOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
-  ): Promise<void>;
-  /**
    * Send custom event to server with ack
    * @param eventName - The event name
    * @param content - The data content
@@ -363,13 +344,7 @@ export class WebPubSubClient {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendEventOptions
-  ): Promise<WebPubSubResult>;
-  public async sendEvent(
-    eventName: string,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-    options?: SendEventOptionsInternal
-  ): Promise<void | WebPubSubResult> {
+  ): Promise<WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendEventAttempt(eventName, content, dataType, options),
       options?.abortSignal
@@ -380,14 +355,10 @@ export class WebPubSubClient {
     eventName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendEventOptionsInternal
-  ): Promise<void | WebPubSubResult> {
+    options?: SendEventOptions
+  ): Promise<WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     if (!fireAndForget) {
-      let ackId = undefined;
-      if (options && "ackId" in options) {
-        ackId = options.ackId;
-      }
       return await this._sendMessageWithAckId(
         (id) => {
           return {
@@ -398,7 +369,7 @@ export class WebPubSubClient {
             event: eventName,
           } as SendEventMessage;
         },
-        ackId,
+        options?.ackId,
         options?.abortSignal
       );
     }
@@ -411,6 +382,7 @@ export class WebPubSubClient {
     } as SendEventMessage;
 
     await this._sendMessage(message, options?.abortSignal);
+    return { isDuplicated: false };
   }
 
   /**
@@ -489,20 +461,6 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send message to group fire and forget.
-   * @param groupName - The group name
-   * @param content - The data content
-   * @param dataType - The data type
-   * @param options - The options
-   * @param abortSignal - The abort signal
-   */
-  public sendToGroup(
-    groupName: string,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-    options: SendToGroupFireAndForgetOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
-  ): Promise<void>;
-  /**
    * Send message to group with ack.
    * @param groupName - The group name
    * @param content - The data content
@@ -510,18 +468,12 @@ export class WebPubSubClient {
    * @param options - The options
    * @param abortSignal - The abort signal
    */
-  public sendToGroup(
-    groupName: string,
-    content: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType,
-    options?: SendToGroupOptions
-  ): Promise<WebPubSubResult>;
   public async sendToGroup(
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptionsInternal
-  ): Promise<void | WebPubSubResult> {
+    options?: SendToGroupOptions
+  ): Promise<WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendToGroupAttempt(groupName, content, dataType, options),
       options?.abortSignal
@@ -532,15 +484,11 @@ export class WebPubSubClient {
     groupName: string,
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
-    options?: SendToGroupOptionsInternal
+    options?: SendToGroupOptions
   ): Promise<WebPubSubResult> {
     const fireAndForget = options?.fireAndForget ?? false;
     const noEcho = options?.noEcho ?? false;
     if (!fireAndForget) {
-      let ackId = undefined;
-      if (options && "ackId" in options) {
-        ackId = options.ackId;
-      }
       return await this._sendMessageWithAckId(
         (id) => {
           return {
@@ -552,7 +500,7 @@ export class WebPubSubClient {
             noEcho: noEcho,
           } as SendToGroupMessage;
         },
-        ackId,
+        options?.ackId,
         options?.abortSignal
       );
     }
@@ -566,7 +514,7 @@ export class WebPubSubClient {
     } as SendToGroupMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
+    return { isDuplicated: false };
   }
 
   private _getWebSocketClientFactory(): WebSocketClientFactoryLike {

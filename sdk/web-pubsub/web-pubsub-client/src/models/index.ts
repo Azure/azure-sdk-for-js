@@ -102,25 +102,7 @@ export interface LeaveGroupOptions {
 }
 
 /**
- * Send to group operation options for fire-and-forget
- */
-export interface SendToGroupFireAndForgetOptions {
-  /**
-   * Whether the message needs to echo to sender
-   */
-  noEcho?: boolean;
-  /**
-   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
-   */
-  fireAndForget: true;
-  /**
-   * The abort signal
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
- * Send to group operation options for non fire-and-forget
+ * Send to group operation options
  */
 export interface SendToGroupOptions {
   /**
@@ -130,7 +112,7 @@ export interface SendToGroupOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget?: false;
+  fireAndForget?: boolean;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -142,27 +124,13 @@ export interface SendToGroupOptions {
 }
 
 /**
- * Send event operation options for fire-and-forget
- */
-export interface SendEventFireAndForgetOptions {
-  /**
-   * If true, the message won't contains ackId. No AckMessage will be returned from the service.
-   */
-  fireAndForget: true;
-  /**
-   * The abort signal
-   */
-  abortSignal?: AbortSignalLike;
-}
-
-/**
- * Send event operation options for non fire-and-forget
+ * Send event operation options
  */
 export interface SendEventOptions {
   /**
    * If true, the message won't contains ackId. No AckMessage will be returned from the service.
    */
-  fireAndForget?: false;
+  fireAndForget?: boolean;
   /**
    * The optional ackId. If not specified, client will generate one.
    */
@@ -245,9 +213,9 @@ export interface OnRejoinGroupFailedArgs {
  */
 export interface WebPubSubResult {
   /**
-   * The ack message from the service
+   * The ack message from the service. If the message is fire-and-forget, this will be undefined.
    */
-  ackId: number;
+  ackId?: number;
   /**
    * Whether the message is duplicated.
    */

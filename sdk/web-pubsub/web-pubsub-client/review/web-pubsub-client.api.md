@@ -139,12 +139,6 @@ export interface OnStoppedArgs {
 export type RetryMode = "Exponential" | "Fixed";
 
 // @public
-export interface SendEventFireAndForgetOptions {
-    abortSignal?: AbortSignalLike;
-    fireAndForget: true;
-}
-
-// @public
 export interface SendEventMessage extends WebPubSubMessageBase {
     ackId?: number;
     data: JSONTypes | ArrayBuffer;
@@ -157,7 +151,7 @@ export interface SendEventMessage extends WebPubSubMessageBase {
 export interface SendEventOptions {
     abortSignal?: AbortSignalLike;
     ackId?: number;
-    fireAndForget?: false;
+    fireAndForget?: boolean;
 }
 
 // @public
@@ -175,13 +169,6 @@ export interface SendMessageErrorOptions {
 }
 
 // @public
-export interface SendToGroupFireAndForgetOptions {
-    abortSignal?: AbortSignalLike;
-    fireAndForget: true;
-    noEcho?: boolean;
-}
-
-// @public
 export interface SendToGroupMessage extends WebPubSubMessageBase {
     ackId?: number;
     data: JSONTypes | ArrayBuffer;
@@ -195,7 +182,7 @@ export interface SendToGroupMessage extends WebPubSubMessageBase {
 export interface SendToGroupOptions {
     abortSignal?: AbortSignalLike;
     ackId?: number;
-    fireAndForget?: false;
+    fireAndForget?: boolean;
     noEcho?: boolean;
 }
 
@@ -259,9 +246,7 @@ export class WebPubSubClient {
     on(event: "server-message", listener: (e: OnServerDataMessageArgs) => void): void;
     on(event: "group-message", listener: (e: OnGroupDataMessageArgs) => void): void;
     on(event: "rejoin-group-failed", listener: (e: OnRejoinGroupFailedArgs) => void): void;
-    sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options: SendEventFireAndForgetOptions): Promise<void>;
     sendEvent(eventName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendEventOptions): Promise<WebPubSubResult>;
-    sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options: SendToGroupFireAndForgetOptions): Promise<void>;
     sendToGroup(groupName: string, content: JSONTypes | ArrayBuffer, dataType: WebPubSubDataType, options?: SendToGroupOptions): Promise<WebPubSubResult>;
     start(options?: StartOptions): Promise<void>;
     stop(): void;
@@ -325,7 +310,7 @@ export interface WebPubSubMessageBase {
 
 // @public
 export interface WebPubSubResult {
-    ackId: number;
+    ackId?: number;
     isDuplicated: boolean;
 }
 
