@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
  *
  * @summary Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetInboundNetworkDependenciesEndpoints.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetInboundNetworkDependenciesEndpoints.json
  */
 async function getTheNetworkEndpointsOfAllInboundDependenciesOfAnAppServiceEnvironment() {
   const subscriptionId =

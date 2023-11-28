@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates or updates a certificate and associates with key vault secret.
  *
  * @summary Description for Creates or updates a certificate and associates with key vault secret.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/UpdateAppServiceCertificate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/UpdateAppServiceCertificate.json
  */
 async function updateCertificate() {
   const subscriptionId =

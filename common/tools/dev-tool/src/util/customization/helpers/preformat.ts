@@ -50,6 +50,7 @@ export function sortSourceFileContents(sourceFile: SourceFile) {
   typeAliases.forEach((typeAlias) => typeAlias.remove());
   classes.forEach((classDeclaration) => classDeclaration.remove());
   functions.forEach((functionDeclaration) => functionDeclaration.remove());
+  enums.forEach((enumDeclaration) => enumDeclaration.remove());
 
   // Add elements back to the source file in the desired order
   interfaceStructures.forEach((interfaceDeclaration) =>

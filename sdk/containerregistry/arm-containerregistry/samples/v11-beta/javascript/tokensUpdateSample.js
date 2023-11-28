@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a token with the specified parameters.
  *
  * @summary Updates a token with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/TokenUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/TokenUpdate.json
  */
 async function tokenUpdate() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Commit rulestack configuration
  *
  * @summary Commit rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_commit_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_commit_MaximumSet_Gen.json
  */
 async function globalRulestackCommitMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -30,7 +30,7 @@ async function globalRulestackCommitMaximumSetGen() {
  * This sample demonstrates how to Commit rulestack configuration
  *
  * @summary Commit rulestack configuration
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_commit_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_commit_MinimumSet_Gen.json
  */
 async function globalRulestackCommitMinimumSetGen() {
   const globalRulestackName = "praval";

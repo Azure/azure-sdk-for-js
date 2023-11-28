@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function operationsListMaximumSetGen() {
  * This sample demonstrates how to List the operations for the provider
  *
  * @summary List the operations for the provider
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
   const subscriptionId =

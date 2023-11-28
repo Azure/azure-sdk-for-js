@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listPredefinedUrlCategories_MaximumSet_Gen.json
  */
 async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -39,7 +39,7 @@ async function globalRulestackListPredefinedUrlCategoriesMaximumSetGen() {
  * This sample demonstrates how to List predefined URL categories for rulestack
  *
  * @summary List predefined URL categories for rulestack
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_listPredefinedUrlCategories_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listPredefinedUrlCategories_MinimumSet_Gen.json
  */
 async function globalRulestackListPredefinedUrlCategoriesMinimumSetGen() {
   const globalRulestackName = "praval";

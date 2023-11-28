@@ -24,6 +24,8 @@ import {
   AgentPoolCreateOrUpdateOptionalParams,
   AgentPoolCreateOrUpdateResponse,
   AgentPoolDeleteOptionalParams,
+  AgentPoolDeleteResponse,
+  AgentPoolPatch,
   AgentPoolUpdateOptionalParams,
   AgentPoolUpdateResponse,
   AgentPoolListByProvisionedClusterOptionalParams,
@@ -43,35 +45,33 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   }
 
   /**
-   * Gets the agent pool in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Gets the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     agentPoolName: string,
     options?: AgentPoolGetOptionalParams
   ): Promise<AgentPoolGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
+      { connectedClusterResourceUri, agentPoolName, options },
       getOperationSpec
     );
   }
 
   /**
-   * Creates the agent pool in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Creates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
@@ -122,13 +122,7 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: {
-        resourceGroupName,
-        resourceName,
-        agentPoolName,
-        agentPool,
-        options
-      },
+      args: { connectedClusterResourceUri, agentPoolName, agentPool, options },
       spec: createOrUpdateOperationSpec
     });
     const poller = await createHttpPoller<
@@ -144,23 +138,21 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   }
 
   /**
-   * Creates the agent pool in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Creates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     agentPoolName: string,
     agentPool: AgentPool,
     options?: AgentPoolCreateOrUpdateOptionalParams
   ): Promise<AgentPoolCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
-      resourceGroupName,
-      resourceName,
+      connectedClusterResourceUri,
       agentPoolName,
       agentPool,
       options
@@ -169,58 +161,208 @@ export class AgentPoolOperationsImpl implements AgentPoolOperations {
   }
 
   /**
-   * Deletes the agent pool in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Deletes the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
-    resourceName: string,
+  async beginDelete(
+    connectedClusterResourceUri: string,
     agentPoolName: string,
     options?: AgentPoolDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, options },
-      deleteOperationSpec
-    );
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolDeleteResponse>,
+      AgentPoolDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AgentPoolDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { connectedClusterResourceUri, agentPoolName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolDeleteResponse,
+      OperationState<AgentPoolDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates the agent pool in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Deletes the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
-   * @param agentPool The agentPool resource definition
    * @param options The options parameters.
    */
-  update(
-    resourceGroupName: string,
-    resourceName: string,
+  async beginDeleteAndWait(
+    connectedClusterResourceUri: string,
     agentPoolName: string,
-    agentPool: AgentPool,
-    options?: AgentPoolUpdateOptionalParams
-  ): Promise<AgentPoolUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, agentPoolName, agentPool, options },
-      updateOperationSpec
+    options?: AgentPoolDeleteOptionalParams
+  ): Promise<AgentPoolDeleteResponse> {
+    const poller = await this.beginDelete(
+      connectedClusterResourceUri,
+      agentPoolName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
-   * Gets the agent pools in the Hybrid AKS provisioned cluster
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Updates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource patch definition
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    connectedClusterResourceUri: string,
+    agentPoolName: string,
+    agentPool: AgentPoolPatch,
+    options?: AgentPoolUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AgentPoolUpdateResponse>,
+      AgentPoolUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AgentPoolUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { connectedClusterResourceUri, agentPoolName, agentPool, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AgentPoolUpdateResponse,
+      OperationState<AgentPoolUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the agent pool in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
+   * @param agentPoolName Parameter for the name of the agent pool in the provisioned cluster
+   * @param agentPool The agentPool resource patch definition
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    connectedClusterResourceUri: string,
+    agentPoolName: string,
+    agentPool: AgentPoolPatch,
+    options?: AgentPoolUpdateOptionalParams
+  ): Promise<AgentPoolUpdateResponse> {
+    const poller = await this.beginUpdate(
+      connectedClusterResourceUri,
+      agentPoolName,
+      agentPool,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets the agent pools in the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   listByProvisionedCluster(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: AgentPoolListByProvisionedClusterOptionalParams
   ): Promise<AgentPoolListByProvisionedClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { connectedClusterResourceUri, options },
       listByProvisionedClusterOperationSpec
     );
   }
@@ -230,7 +372,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -243,9 +385,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.connectedClusterResourceUri,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -253,7 +393,7 @@ const getOperationSpec: coreClient.OperationSpec = {
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -276,9 +416,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.connectedClusterResourceUri,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -287,11 +425,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AgentPoolDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AgentPoolDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AgentPoolDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AgentPoolDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -299,9 +447,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.connectedClusterResourceUri,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept],
@@ -309,26 +455,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools/{agentPoolName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools/{agentPoolName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.AgentPool
     },
+    201: {
+      bodyMapper: Mappers.AgentPool
+    },
     202: {
+      bodyMapper: Mappers.AgentPool
+    },
+    204: {
       bodyMapper: Mappers.AgentPool
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.agentPool,
+  requestBody: Parameters.agentPool1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.connectedClusterResourceUri,
     Parameters.agentPoolName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -337,7 +487,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const listByProvisionedClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/agentPools",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
   httpMethod: "GET",
   responses: {
     200: {
@@ -348,12 +498,7 @@ const listByProvisionedClusterOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
+  urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
