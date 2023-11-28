@@ -119,8 +119,6 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
-              variables:
-                DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
               strategy:
                 runOnce:
                   deploy:
@@ -148,7 +146,6 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
-                          DocValidationImageId: "$(DocValidationImageId)"
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -282,8 +279,7 @@ stages:
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
-      variables:
-        DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
+
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
@@ -314,6 +310,5 @@ stages:
               - metadata/
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
-            DocValidationImageId: "$(DocValidationImageId)"
 
         - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml
