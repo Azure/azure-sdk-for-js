@@ -48,7 +48,7 @@ describe("NetworkAnalytics test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MicrosoftNetworkAnalytics(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -65,4 +65,44 @@ describe("NetworkAnalytics test", () => {
     }
     assert.notEqual(resArray.length, 0);
   });
+
+  it("dataProducts create test", async function () {
+    const res = await client.dataProducts.beginCreateAndWait(
+      resourceGroup,
+      resourcename,
+      {
+        location,
+        majorVersion: "1.0.0",
+        product: "MCC",
+        publisher: "Microsoft",
+      },
+      testPollingOptions);
+    assert.equal(res.name, resourcename);
+  }).timeout(3600000);
+
+  it("dataProducts get test", async function () {
+    const res = await client.dataProducts.get(
+      resourceGroup,
+      resourcename);
+    assert.equal(res.name, resourcename);
+  });
+
+  it("dataProducts list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("dataProducts delete test", async function () {
+    const resArray = new Array();
+    const res = await client.dataProducts.beginDeleteAndWait(resourceGroup, resourcename
+    )
+    for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
 })
