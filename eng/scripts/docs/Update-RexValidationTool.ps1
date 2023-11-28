@@ -11,26 +11,26 @@ if ($latestPackageVersion -eq $CurrentVersion) {
   exit 0
 }
 
-# Install the latest version of the package
+Write-Host "A new version of $PackageName is available: $latestPackageVersion"
+
 npm install -g "$PackageName@$latestPackageVersion"
 
-# Run Rex tests
-$pesterConfig = New-PesterConfiguration @{ 
-  Run = @{ 
-    Throw = $true; 
-    Path  = "$PSScriptRoot/tests/Docs-Onboarding.tests.ps1" 
-  } 
-}
-
 try { 
+  $pesterConfig = New-PesterConfiguration @{ 
+    Run = @{ 
+      Throw = $true; 
+      Path  = "$PSScriptRoot/tests/Docs-Onboarding.tests.ps1" 
+    } 
+  }
   Invoke-Pester -Configuration $pesterConfig
 }
-catch { 
-  Write-Error "REX tests failed. Exiting."
+catch {
+  Write-Host "REX tests failed. Exiting."
+  Write-Host $_.Exception.Message
+  Write-Error $_
   exit 1
 }
 
-# Update the version file
 Set-Content `
   -Path "$PSScriptRoot/type2docfx.version.txt" `
   -Value $latestPackageVersion
