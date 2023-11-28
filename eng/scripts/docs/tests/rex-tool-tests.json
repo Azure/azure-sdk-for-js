@@ -24,7 +24,7 @@
     "Package": "@azure/identity-cache-persistence@1.0.0",
     "Name": "@azure/identity-cache-persistence",
     "Version": "1.0.0",
-    "ExpectedResult": false,
+    "ExpectedResult": true,
     "Comment": "Valid as of 2.x, passes build"
   },
   {
