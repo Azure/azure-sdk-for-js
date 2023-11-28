@@ -18,7 +18,7 @@ jobs:
       - task: Powershell@2
         inputs:
           pwsh: true
-          filePath: eng/common/scripts/docs/Update-RexValidationTool.ps1
+          filePath: eng/scripts/docs/Update-RexValidationTool.ps1
         displayName: Update JS REX Validation Tool
 
       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
