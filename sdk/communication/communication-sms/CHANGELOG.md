@@ -8,6 +8,7 @@
 
 - Updated to `@azure/core-tracing` 1.0.
 - Updated to `@azure/communication-common` 2.2.0.
+- Updated to `@azure/core-rest-pipeline` 1.8.0.
 
 ## 1.2.0-beta.1 (2022-05-10)
 
