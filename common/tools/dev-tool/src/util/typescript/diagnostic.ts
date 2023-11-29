@@ -17,7 +17,7 @@ export type EmitError = (message: string, node: ts.Node, suggest?: string) => vo
  */
 export function createDiagnosticEmitter(
   sourceFile: ts.SourceFile,
-  onError?: (e: string) => void
+  onError?: (e: string) => void,
 ): EmitError {
   const diagnosticHost = {
     getNewLine: () => EOL,

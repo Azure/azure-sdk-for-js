@@ -39,12 +39,12 @@ describe("Interfaces", () => {
     expect(originalFile.getInterface("myInterface")?.getProperties()).to.have.lengthOf(2);
     expect(originalFile.getInterface("myInterface")?.getProperty("foo")).to.not.be.undefined;
     expect(
-      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText()
+      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText(),
     ).to.equal("string");
 
     expect(originalFile.getInterface("myInterface")?.getProperty("bar")).to.not.be.undefined;
     expect(
-      originalFile.getInterface("myInterface")?.getProperty("bar")?.getType().getText()
+      originalFile.getInterface("myInterface")?.getProperty("bar")?.getType().getText(),
     ).to.equal("number");
   });
 
@@ -68,11 +68,11 @@ describe("Interfaces", () => {
 
     expect(originalFile.getInterface("myInterface")?.getProperty("bar")).to.be.undefined;
     expect(
-      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText()
+      originalFile.getInterface("myInterface")?.getProperty("foo")?.getType().getText(),
     ).to.equal("string");
 
     expect(
-      originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText()
+      originalFile.getInterface("myInterface")?.getProperty("baz")?.getType().getText(),
     ).to.equal("boolean");
   });
 
@@ -84,7 +84,7 @@ describe("Interfaces", () => {
     originalFile.addInterface({
       name: "Human",
       properties: [{ name: "pets", type: "Dog[]" }],
-    })
+    });
     customFile.addInterface({
       name: "Pet",
       docs: ["@azsdk-rename(Dog)"],
@@ -96,6 +96,8 @@ describe("Interfaces", () => {
 
     expect(originalFile.getInterface("Dog")).to.be.undefined;
     expect(originalFile.getInterface("Pet")).not.to.be.undefined;
-    expect(originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText()).to.equal("Pet[]");
+    expect(originalFile.getInterface("Human")?.getProperty("pets")?.getType().getText()).to.equal(
+      "Pet[]",
+    );
   });
 });
