@@ -32,7 +32,7 @@
     "@azure/communication-identity": "^1.0.0"
   },
   "devDependencies": {
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.0",
     "rimraf": "latest"
   }
 }

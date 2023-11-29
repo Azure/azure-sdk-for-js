@@ -127,7 +127,7 @@
     "safe-buffer": "^5.2.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

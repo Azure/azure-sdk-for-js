@@ -115,7 +115,7 @@
     "process": "^0.11.10",
     "rimraf": "^3.0.0",
     "stream": "^0.0.2",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.0",
     "uuid": "^8.3.0",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"
