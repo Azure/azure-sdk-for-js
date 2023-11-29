@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a LocalRulesResource
  *
  * @summary Create a LocalRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function localRulesCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -78,7 +78,7 @@ async function localRulesCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a LocalRulesResource
  *
  * @summary Create a LocalRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRules_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulesCreateOrUpdateMinimumSetGen() {
   const subscriptionId =

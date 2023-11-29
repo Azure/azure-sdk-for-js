@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the Hybrid AKS virtual networks by subscription
  *
  * @summary Lists the Hybrid AKS virtual networks by subscription
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListVirtualNetworkBySubscription.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/ListVirtualNetworkBySubscription.json
  */
 async function listVirtualNetworkBySubscription() {
   const subscriptionId =
@@ -24,7 +24,7 @@ async function listVirtualNetworkBySubscription() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworksOperations.listBySubscription()) {
+  for await (let item of client.virtualNetworks.listBySubscription()) {
     resArray.push(item);
   }
   console.log(resArray);

@@ -63,7 +63,7 @@ export const interval: OperationQueryParameter = {
   mapper: {
     serializedName: "interval",
     type: {
-      name: "TimeSpan"
+      name: "String"
     }
   }
 };

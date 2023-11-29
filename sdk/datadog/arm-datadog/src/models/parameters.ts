@@ -17,7 +17,8 @@ import {
   DatadogMonitorResource as DatadogMonitorResourceMapper,
   DatadogMonitorResourceUpdateParameters as DatadogMonitorResourceUpdateParametersMapper,
   MonitoringTagRules as MonitoringTagRulesMapper,
-  DatadogSingleSignOnResource as DatadogSingleSignOnResourceMapper
+  DatadogSingleSignOnResource as DatadogSingleSignOnResourceMapper,
+  MonitoredSubscriptionProperties as MonitoredSubscriptionPropertiesMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -61,7 +62,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -97,6 +98,17 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const datadogOrganizationId: OperationQueryParameter = {
+  parameterPath: "datadogOrganizationId",
+  mapper: {
+    serializedName: "datadogOrganizationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -170,4 +182,9 @@ export const configurationName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const body6: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: MonitoredSubscriptionPropertiesMapper
 };

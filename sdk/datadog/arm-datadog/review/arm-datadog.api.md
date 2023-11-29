@@ -6,12 +6,49 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type CreatedByType = string;
+
+// @public
+export interface CreateResourceSupportedProperties {
+    readonly creationSupported?: boolean;
+    readonly name?: string;
+}
+
+// @public
+export interface CreateResourceSupportedResponse {
+    properties?: CreateResourceSupportedProperties;
+}
+
+// @public (undocumented)
+export interface CreateResourceSupportedResponseList {
+    // (undocumented)
+    value?: CreateResourceSupportedResponse[];
+}
+
+// @public
+export interface CreationSupported {
+    get(datadogOrganizationId: string, options?: CreationSupportedGetOptionalParams): Promise<CreationSupportedGetResponse>;
+    list(datadogOrganizationId: string, options?: CreationSupportedListOptionalParams): PagedAsyncIterableIterator<CreateResourceSupportedResponse>;
+}
+
+// @public
+export interface CreationSupportedGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedGetResponse = CreateResourceSupportedResponse;
+
+// @public
+export interface CreationSupportedListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CreationSupportedListResponse = CreateResourceSupportedResponseList;
 
 // @public
 export interface DatadogAgreementProperties {
@@ -128,11 +165,12 @@ export interface DatadogMonitorResourceUpdateParameters {
 export interface DatadogOrganizationProperties {
     apiKey?: string;
     applicationKey?: string;
+    cspm?: boolean;
     enterpriseAppId?: string;
-    readonly id?: string;
+    id?: string;
     linkingAuthCode?: string;
     linkingClientId?: string;
-    readonly name?: string;
+    name?: string;
     redirectUri?: string;
 }
 
@@ -238,6 +276,15 @@ export enum KnownMonitoringStatus {
 }
 
 // @public
+export enum KnownOperation {
+    Active = "Active",
+    AddBegin = "AddBegin",
+    AddComplete = "AddComplete",
+    DeleteBegin = "DeleteBegin",
+    DeleteComplete = "DeleteComplete"
+}
+
+// @public
 export enum KnownProvisioningState {
     Accepted = "Accepted",
     Canceled = "Canceled",
@@ -256,6 +303,14 @@ export enum KnownSingleSignOnStates {
     Enable = "Enable",
     Existing = "Existing",
     Initial = "Initial"
+}
+
+// @public
+export enum KnownStatus {
+    Active = "Active",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    InProgress = "InProgress"
 }
 
 // @public
@@ -334,7 +389,11 @@ export class MicrosoftDatadogClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    creationSupported: CreationSupported;
+    // (undocumented)
     marketplaceAgreements: MarketplaceAgreements;
+    // (undocumented)
+    monitoredSubscriptions: MonitoredSubscriptions;
     // (undocumented)
     monitors: Monitors;
     // (undocumented)
@@ -370,6 +429,80 @@ export interface MonitoredResourceListResponse {
 }
 
 // @public
+export interface MonitoredSubscription {
+    error?: string;
+    status?: Status;
+    subscriptionId?: string;
+    tagRules?: MonitoringTagRulesProperties;
+}
+
+// @public
+export interface MonitoredSubscriptionProperties {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SubscriptionList;
+    readonly type?: string;
+}
+
+// @public (undocumented)
+export interface MonitoredSubscriptionPropertiesList {
+    // (undocumented)
+    value?: MonitoredSubscriptionProperties[];
+}
+
+// @public
+export interface MonitoredSubscriptions {
+    beginCreateorUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsCreateorUpdateResponse>, MonitoredSubscriptionsCreateorUpdateResponse>>;
+    beginCreateorUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsCreateorUpdateOptionalParams): Promise<MonitoredSubscriptionsCreateorUpdateResponse>;
+    beginDelete(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitoredSubscriptionsUpdateResponse>, MonitoredSubscriptionsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsUpdateOptionalParams): Promise<MonitoredSubscriptionsUpdateResponse>;
+    get(resourceGroupName: string, monitorName: string, configurationName: string, options?: MonitoredSubscriptionsGetOptionalParams): Promise<MonitoredSubscriptionsGetResponse>;
+    list(resourceGroupName: string, monitorName: string, options?: MonitoredSubscriptionsListOptionalParams): PagedAsyncIterableIterator<MonitoredSubscriptionProperties>;
+}
+
+// @public
+export interface MonitoredSubscriptionsCreateorUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsCreateorUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface MonitoredSubscriptionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsGetResponse = MonitoredSubscriptionProperties;
+
+// @public
+export interface MonitoredSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MonitoredSubscriptionsListResponse = MonitoredSubscriptionPropertiesList;
+
+// @public
+export interface MonitoredSubscriptionsUpdateOptionalParams extends coreClient.OperationOptions {
+    body?: MonitoredSubscriptionProperties;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type MonitoredSubscriptionsUpdateResponse = MonitoredSubscriptionProperties;
+
+// @public
 export type MonitoringStatus = string;
 
 // @public
@@ -389,6 +522,7 @@ export interface MonitoringTagRulesListResponse {
 
 // @public
 export interface MonitoringTagRulesProperties {
+    automuting?: boolean;
     logRules?: LogRules;
     metricRules?: MetricRules;
     readonly provisioningState?: ProvisioningState;
@@ -407,11 +541,11 @@ export interface MonitorProperties {
 
 // @public
 export interface Monitors {
-    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
+    beginCreate(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsCreateResponse>, MonitorsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsCreateOptionalParams): Promise<MonitorsCreateResponse>;
-    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<PollerLike<PollOperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<MonitorsUpdateResponse>, MonitorsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, monitorName: string, options?: MonitorsUpdateOptionalParams): Promise<MonitorsUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, options?: MonitorsGetOptionalParams): Promise<MonitorsGetResponse>;
     getDefaultKey(resourceGroupName: string, monitorName: string, options?: MonitorsGetDefaultKeyOptionalParams): Promise<MonitorsGetDefaultKeyResponse>;
@@ -565,8 +699,12 @@ export type MonitorsUpdateResponse = DatadogMonitorResource;
 
 // @public
 export interface MonitorUpdateProperties {
+    cspm?: boolean;
     monitoringStatus?: MonitoringStatus;
 }
+
+// @public
+export type Operation = string;
 
 // @public
 export interface OperationDisplay {
@@ -618,7 +756,7 @@ export interface ResourceSku {
 
 // @public
 export interface SingleSignOnConfigurations {
-    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SingleSignOnConfigurationsCreateOrUpdateResponse>, SingleSignOnConfigurationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsCreateOrUpdateOptionalParams): Promise<SingleSignOnConfigurationsCreateOrUpdateResponse>;
     get(resourceGroupName: string, monitorName: string, configurationName: string, options?: SingleSignOnConfigurationsGetOptionalParams): Promise<SingleSignOnConfigurationsGetResponse>;
     list(resourceGroupName: string, monitorName: string, options?: SingleSignOnConfigurationsListOptionalParams): PagedAsyncIterableIterator<DatadogSingleSignOnResource>;
@@ -658,6 +796,15 @@ export type SingleSignOnConfigurationsListResponse = DatadogSingleSignOnResource
 
 // @public
 export type SingleSignOnStates = string;
+
+// @public
+export type Status = string;
+
+// @public
+export interface SubscriptionList {
+    monitoredSubscriptionList?: MonitoredSubscription[];
+    operation?: Operation;
+}
 
 // @public
 export interface SystemData {

@@ -9,8 +9,7 @@
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log("Running get setting only if changed sample");
@@ -30,7 +29,7 @@ async function main() {
   const unchangedResponse = await client.getConfigurationSetting(addedSetting, {
     // onlyIfChanged allows us to say "get me the value only if it doesn't match the one I already have"
     // this allows us to avoid transferring the setting if nothing has changed.
-    onlyIfChanged: true
+    onlyIfChanged: true,
   });
 
   // we return the response so you can still inspect the returned headers. The body, however, is blank
@@ -46,7 +45,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -59,3 +58,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

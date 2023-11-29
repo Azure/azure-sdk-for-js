@@ -3,9 +3,9 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ContainerServiceFleetClient.",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.5.4",
@@ -38,10 +38,12 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "esm": "^3.2.18",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "ts-node": "^10.0.0",
     "@azure/dev-tool": "^1.0.0"
   },
@@ -64,6 +66,7 @@
     "src/**/*.ts",
     "README.md",
     "LICENSE",
+    "rollup.config.js",
     "tsconfig.json",
     "review/*",
     "CHANGELOG.md",

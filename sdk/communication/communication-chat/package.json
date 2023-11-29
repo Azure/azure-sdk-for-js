@@ -56,7 +56,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/",
   "sideEffects": false,
@@ -85,8 +85,8 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^16.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
@@ -106,11 +106,11 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
-    "typescript": "~5.0.0",
+    "sinon": "^17.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "ts-node": "^10.0.0",
     "esm": "^3.2.18"
