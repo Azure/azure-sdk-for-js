@@ -56,8 +56,8 @@ export default async (...args: string[]): Promise<boolean> => {
         };
 
         return [commandName, () => Promise.resolve(moduleSham)];
-      })
-    )
+      }),
+    ),
   );
 
   return executor(...args);

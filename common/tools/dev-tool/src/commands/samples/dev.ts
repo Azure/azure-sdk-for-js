@@ -12,7 +12,7 @@ const log = createPrinter("dev-samples");
 
 export const commandInfo = makeCommandInfo(
   "dev",
-  "link samples to local sources for access to IntelliSense during development"
+  "link samples to local sources for access to IntelliSense during development",
 );
 
 export default leafCommand(commandInfo, async () => {

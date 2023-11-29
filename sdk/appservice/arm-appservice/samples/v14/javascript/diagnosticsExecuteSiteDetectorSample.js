@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Execute Detector
  *
  * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ExecuteSiteDetector.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ExecuteSiteDetector.json
  */
 async function executeSiteDetector() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function executeSiteDetector() {
  * This sample demonstrates how to Description for Execute Detector
  *
  * @summary Description for Execute Detector
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ExecuteSiteDetectorSlot.json
  */
 async function executeSiteSlotDetector() {
   const subscriptionId =

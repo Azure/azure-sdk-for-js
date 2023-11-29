@@ -34,7 +34,7 @@ export const commandInfo = makeCommandInfo(
       kind: "string",
       shortName: "o",
     },
-  }
+  },
 );
 
 /**
@@ -133,19 +133,19 @@ export default leafCommand(
         log.info(`Migrating project ${project.packageName}`);
 
         const migrationReports = await runUnattendedMigrationPass(
-          path.resolve(root, project.projectFolder)
+          path.resolve(root, project.projectFolder),
         );
 
         manifest[serviceFolder].projects[project.packageName] = migrationReports;
 
         // The pass succeeded if the last migration in the reports is a success or skip.
         const passSucceeded = ["success", "skipped"].includes(
-          migrationReports[migrationReports.length - 1].exitState.kind
+          migrationReports[migrationReports.length - 1].exitState.kind,
         );
 
         if (!passSucceeded) {
           log.error(
-            `Failed to migrate '${project.packageName}' in service folder '${serviceFolder}'.`
+            `Failed to migrate '${project.packageName}' in service folder '${serviceFolder}'.`,
           );
           failed = true;
           anyServiceFolderFailed = true;
@@ -170,7 +170,7 @@ export default leafCommand(
 
     if (anyServiceFolderFailed) {
       log.error(
-        "Some service folders failed to migrate. Please check the migration manifest for details."
+        "Some service folders failed to migrate. Please check the migration manifest for details.",
       );
       return false;
     } else {
@@ -178,5 +178,5 @@ export default leafCommand(
     }
 
     return true;
-  }
+  },
 );

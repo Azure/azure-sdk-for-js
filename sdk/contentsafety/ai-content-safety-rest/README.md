@@ -2,7 +2,7 @@
 
 [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) detects harmful user-generated and AI-generated content in applications and services. Content Safety includes text and image APIs that allow you to detect material that is harmful.
 
-**Please rely on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
 
@@ -40,7 +40,7 @@ You can find the endpoint for your Azure AI Content Safety service resource usin
 az cognitiveservices account show --name "resource-name" --resource-group "resource-group-name" --query "properties.endpoint"
 ```
 
-#### Get the API key
+#### Create a ContentSafetyClient with AzureKeyCredential
 
 The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home) or by running the following [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show) command:
 
@@ -48,16 +48,39 @@ The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
 ```
 
-#### Create a ContentSafetyClient with AzureKeyCredential
-
 To use an API key as the `credential` parameter, pass the key as a string into an instance of `AzureKeyCredential`.
 
 ```typescript
+import ContentSafetyClient from "@azure-rest/ai-content-safety";
+import { AzureKeyCredential } from "@azure/core-auth";
+
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
-
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
+```
+
+#### Create a ContentSafetyClient with Azure Active Directory (AAD) token credential
+
+To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
+provide an instance of the desired credential type obtained from the
+[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+
+After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
+As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+can be used to authenticate the client.
+
+Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
+AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+
+```typescript
+import ContentSafetyClient from "@azure-rest/ai-content-safety";
+import { DefaultAzureCredential } from "@azure/identity";
+
+const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
+const client = ContentSafetyClient(endpoint, new DefaultAzureCredential());
 ```
 
 ## Key concepts
@@ -84,14 +107,22 @@ Content Safety recognizes four distinct categories of objectionable content.
 Classification can be multi-labeled. For example, when a text sample goes through the text moderation model, it could be classified as both Sexual content and Violence.
 
 ### Severity levels
+
 Every harm category the service applies also comes with a severity level rating. The severity level is meant to indicate the severity of the consequences of showing the flagged content.
 
-| Severity | Label  |
-| -------- | ------ |
-| 0        | Safe   |
-| 2        | Low    |
-| 4        | Medium |
-| 6        | High   |
+**Text**: The current version of the text model supports the full 0-7 severity scale. The classifier detects amongst all severities along this scale. If the user specifies, it can return severities in the trimmed scale of 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [text content severity levels definitions][text_severity_levels] for details.
+
+- [0,1] -> 0
+- [2,3] -> 2
+- [4,5] -> 4
+- [6,7] -> 6
+
+**Image**: The current version of the image model supports the trimmed version of the full 0-7 severity scale. The classifier only returns severities 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [image content severity levels definitions][image_severity_levels] for details.
+
+- [0,1] -> 0
+- [2,3] -> 2
+- [4,5] -> 4
+- [6,7] -> 6
 
 ### Text blocklist management
 Following operations are supported to manage your text blocklist:
@@ -119,7 +150,7 @@ The following section provides several code snippets covering some of the most c
 #### Analyze text without blocklists
 
 ```typescript
-import ContentSafetyClient, { AnalyzeTextOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -129,8 +160,8 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const text = "This is a sample text";
-const analyzeTextOption: AnalyzeTextOptions = { text: text };
-const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
+const analyzeTextOption = { text: text };
+const analyzeTextParameters = { body: analyzeTextOption };
 
 const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
@@ -138,16 +169,16 @@ if (isUnexpected(result)) {
   throw result;
 }
 
-console.log("Hate severity: ", result.body.hateResult?.severity);
-console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity);
-console.log("Sexual severity: ", result.body.sexualResult?.severity);
-console.log("Violence severity: ", result.body.violenceResult?.severity);
+for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+  const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+}
 ```
 
 #### Analyze text with blocklists
 
 ```typescript
-import ContentSafetyClient, { AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -158,11 +189,11 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const inputText = "This is a sample to test text with blocklist.";
-const analyzeTextParameters: AnalyzeTextParameters = {
+const analyzeTextParameters = {
   body: {
     text: inputText,
     blocklistNames: [blocklistName],
-    breakByBlocklists: false
+    haltOnBlocklistHit: false
   }
 };
 
@@ -173,10 +204,9 @@ if (isUnexpected(result)) {
 }
 
 console.log("Blocklist match results: ");
-if (result.body.blocklistsMatchResults) {
-  for (const blocklistMatchResult of result.body.blocklistsMatchResults) {
-    console.log("Block item was hit in text, Offset=", blocklistMatchResult.offset, ", Length=", blocklistMatchResult.length);
-    console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blockItemId, ", BlockItemText: ", blocklistMatchResult.blockItemText);
+if (result.body.blocklistsMatch) {
+  for (const blocklistMatchResult of result.body.blocklistsMatch) {
+    console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
   }
 }
 ```
@@ -184,8 +214,10 @@ if (result.body.blocklistsMatchResults) {
 ### Analyze image
 
 ```typescript
-import ContentSafetyClient, { AnalyzeImageOptions, AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
+import fs from "fs";
+import path from "path";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
 const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
@@ -197,8 +229,8 @@ const image_path = path.resolve(__dirname, "./samples-dev/example-data/image.png
 
 const imageBuffer = fs.readFileSync(image_path);
 const base64Image = imageBuffer.toString("base64");
-const analyzeImageOption: AnalyzeImageOptions = { image: { content: base64Image } };
-const analyzeImageParameters: AnalyzeImageParameters = { body: analyzeImageOption };
+const analyzeImageOption = { image: { content: base64Image } };
+const analyzeImageParameters = { body: analyzeImageOption };
 
 const result = await client.path("/image:analyze").post(analyzeImageParameters);
 
@@ -206,10 +238,10 @@ if (isUnexpected(result)) {
   throw result;
 }
 
-console.log("Hate severity: ", result.body.hateResult?.severity);
-console.log("SelfHarm severity: ", result.body.selfHarmResult?.severity);
-console.log("Sexual severity: ", result.body.sexualResult?.severity);
-console.log("Violence severity: ", result.body.violenceResult?.severity);
+for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+  const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+}
 ```
 
 ### Manage text blocklist
@@ -320,7 +352,7 @@ console.log("Deleted blocklist: ", blocklistName);
 #### Add blockItems
 
 ```typescript
-import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -332,9 +364,9 @@ const client = ContentSafetyClient(endpoint, credential);
 const blocklistName = "TestBlocklist";
 const blockItemText1 = "sample";
 const blockItemText2 = "text";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText1
@@ -347,16 +379,16 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
   }
 };
 
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
 
 if (isUnexpected(result)) {
   throw result;
 }
 
 console.log("Block items added: ");
-if (result.body.value) {
-  for (const blockItem of result.body.value) {
-    console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+if (result.body.blocklistItems) {
+  for (const blockItem of result.body.blocklistItems) {
+    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
   }
 }
 ```
@@ -375,7 +407,7 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 
-const result = await client.path("/text/blocklists/{blocklistName}/blockItems", blocklistName).get();
+const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
 
 if (isUnexpected(result)) {
   throw result;
@@ -384,7 +416,7 @@ if (isUnexpected(result)) {
 console.log("List block items: ");
 if (result.body.value) {
   for (const blockItem of result.body.value) {
-    console.log("BlockItemId: ", blockItem.blockItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
   }
 }
 ```
@@ -392,7 +424,7 @@ if (result.body.value) {
 #### Get blockItem
 
 ```typescript
-import ContentSafetyClient, { AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -403,9 +435,9 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText
@@ -413,26 +445,26 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
     ]
   }
 };
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-if (isUnexpected(result) || result.body.value === undefined) {
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+if (isUnexpected(result) || result.body.blocklistItems === undefined) {
   throw new Error("Block item not added.");
 }
-const blockItemId = result.body.value[0].blockItemId;
+const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const blockItem = await client.path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId).get();
+const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
 
 if (isUnexpected(blockItem)) {
   throw blockItem;
 }
 
 console.log("Get blockitem: ");
-console.log("BlockItemId: ", blockItem.body.blockItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
+console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
 ```
 
 #### Remove blockItems
 
 ```typescript
-import ContentSafetyClient, { RemoveBlockItemsParameters, AddBlockItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -443,9 +475,9 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addBlockItemsParameters: AddBlockItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
-    blockItems: [
+    blocklistItems: [
       {
         description: "Test block item 1",
         text: blockItemText
@@ -453,18 +485,18 @@ const addBlockItemsParameters: AddBlockItemsParameters = {
     ]
   }
 };
-const result = await client.path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName).post(addBlockItemsParameters);
-if (isUnexpected(result) || result.body.value === undefined) {
+const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+if (isUnexpected(result) || result.body.blocklistItems === undefined) {
   throw new Error("Block item not added.");
 }
-const blockItemId = result.body.value[0].blockItemId;
+const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const removeBlockItemsParameters: RemoveBlockItemsParameters = {
+const removeBlocklistItemsParameters = {
   body: {
-    blockItemIds: [blockItemId]
+    blocklistItemIds: [blockItemId]
   }
 };
-const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName).post(removeBlockItemsParameters);
+const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
 
 if (isUnexpected(removeBlockItem)) {
   throw removeBlockItem;

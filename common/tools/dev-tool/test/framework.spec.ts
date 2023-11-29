@@ -39,10 +39,10 @@ describe("Command Framework", () => {
             commandInfo: { name: "fail", description: "a command that fails" },
             default: leafCommand(
               { name: "fail", description: "a command that fails" },
-              async () => false
+              async () => false,
             ),
           }),
-        }
+        },
       );
 
       assert.isTrue(await dispatcher("sub"));
@@ -69,7 +69,7 @@ describe("Command Framework", () => {
     it("simple", () => {
       const opts: SimpleExpectedOptionsType = parseOptions(
         ["--simpleArg", "test"],
-        simpleCommandInfo.options
+        simpleCommandInfo.options,
       );
       assert.equal(opts.simpleArg, "test");
     });
@@ -91,7 +91,7 @@ describe("Command Framework", () => {
               }),
               commandInfo: nestedOptions,
             }),
-        }
+        },
       );
 
       assert.isTrue(await command("nested", "--internal", "--", "test1", "test2"));
