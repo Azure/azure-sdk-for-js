@@ -63,6 +63,7 @@ module.exports = function (config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
+      "AZURE_SUBSCRIPTION_ID",
       "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
       "CONTENT_SAFETY_ENDPOINT",
