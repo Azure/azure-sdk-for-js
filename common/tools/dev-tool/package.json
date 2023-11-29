@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "description": "A helpful command for azure-sdk-for-js developers",
   "sdk-type": "utility",
+  "type": "module",
   "bin": {
-    "dev-tool": "launch.js",
-    "dtx": "dtx.js"
+    "dev-tool": "launch.mjs",
+    "dtx": "dtx.mjs"
   },
   "files": [
     "src"

@@ -13,11 +13,11 @@
  * old JavaScript, it is simple enough.
  */
 
-const path = require("path");
+import { join, relative, dirname } from "path";
 const cwd = process.cwd();
 
 // This is the calling module, which will be the node repl context.
-const main = require.main || module.parent;
+const main = require.main || module.children[0];
 
 // We need to know which package name to monkey patch
 const { name: hostPackageName } = main.require("./package.json");
@@ -26,7 +26,7 @@ const { name: hostPackageName } = main.require("./package.json");
 // that is what the ts-node invocation will use, and we need to agree with it on syntax brands.
 const ts =
   hostPackageName === "@azure/dev-tool"
-    ? require(path.join(cwd, "node_modules", "typescript"))
+    ? require(join(cwd, "node_modules", "typescript"))
     : main.require("typescript");
 
 // If we're bootstrapping a dev-tool command, we need to patch the package from
@@ -34,7 +34,7 @@ const ts =
 // self-hosting situation where dev-tool calls itself from its own scripts.
 const packageNameToPatch =
   hostPackageName === "@azure/dev-tool"
-    ? require(path.join(cwd, "package.json")).name
+    ? require(join(cwd, "package.json")).name
     : hostPackageName;
 
 if (process.env.DEBUG) {
@@ -46,7 +46,8 @@ if (process.env.DEBUG) {
   );
 }
 
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 
 /**
  * The transformer we will use to handle imports of the host package.
@@ -65,12 +66,12 @@ const makeTransformers = () => ({
           if (ts.isImportDeclaration(node) && node.moduleSpecifier.text === packageNameToPatch) {
             // rewrite the import to use a relative path
             const oldName = node.moduleSpecifier.text;
-            const base = sourceFile.path.includes("dist-esm") ? path.join(cwd, "dist-esm") : cwd;
-            node.moduleSpecifier.text = path.relative(
+            const base = sourceFile.path.includes("dist-esm") ? join(cwd, "dist-esm") : cwd;
+            node.moduleSpecifier.text = relative(
               // This is marked internal in the TS API, need to make sure there's not a better way
               // to get the path from the sourceFile node
-              path.dirname(sourceFile.path),
-              path.join(base, "src", "index"),
+              dirname(sourceFile.path),
+              join(base, "src", "index"),
             );
             console.log(
               `[dev-tool/register] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`,
