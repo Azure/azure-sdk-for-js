@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 
+/** The result format of an audio task */
 export type AudioResultFormat =
   /** This format will return an JSON structure containing a single \"text\" with the transcription. */
   | "json"
@@ -28,7 +29,7 @@ export interface AudioResultVerboseJson extends AudioResultSimpleJson {
   /** Language detected in the source audio file. */
   language: string;
   /** Duration. */
-  duration: string;
+  duration: number;
   /** Segments. */
   segments: AudioSegment[];
 }
@@ -50,7 +51,7 @@ export interface AudioSegment {
   /** Temperature. */
   temperature: number;
   /** Average log probability. */
-  averageLogProb: number;
+  avgLogprob: number;
   /** Compression ratio. */
   compressionRatio: number;
   /** Probability of 'no speech'. */
@@ -61,6 +62,7 @@ export interface AudioSegment {
   seek: number;
 }
 
+/** The options for an audio transcription request */
 export interface GetAudioTranscriptionOptions extends OperationOptions {
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
   prompt?: string;
@@ -76,6 +78,7 @@ export interface GetAudioTranscriptionOptions extends OperationOptions {
   model?: string;
 }
 
+/** The options for an audio translation request */
 export interface GetAudioTranslationOptions extends OperationOptions {
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
   prompt?: string;

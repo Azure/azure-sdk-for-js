@@ -14,7 +14,9 @@ import {
 import {
   ManagedGrafana as ManagedGrafanaMapper,
   ManagedGrafanaUpdateParameters as ManagedGrafanaUpdateParametersMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  ManagedPrivateEndpointModel as ManagedPrivateEndpointModelMapper,
+  ManagedPrivateEndpointUpdateParameters as ManagedPrivateEndpointUpdateParametersMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-08-01",
+    defaultValue: "2023-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -152,4 +154,25 @@ export const privateLinkResourceName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const managedPrivateEndpointName: OperationURLParameter = {
+  parameterPath: "managedPrivateEndpointName",
+  mapper: {
+    serializedName: "managedPrivateEndpointName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const requestBodyParameters2: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: ManagedPrivateEndpointModelMapper
+};
+
+export const requestBodyParameters3: OperationParameter = {
+  parameterPath: "requestBodyParameters",
+  mapper: ManagedPrivateEndpointUpdateParametersMapper
 };

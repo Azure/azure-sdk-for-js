@@ -80,12 +80,12 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
  */
 function getTestProxyBinary(): TestProxyBinary {
   const result = AVAILABLE_TEST_PROXY_BINARIES.find(
-    ({ platform, architecture }) => platform === process.platform && architecture === process.arch
+    ({ platform, architecture }) => platform === process.platform && architecture === process.arch,
   );
 
   if (!result) {
     throw new Error(
-      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`
+      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`,
     );
   }
 
@@ -189,7 +189,7 @@ const execPromise = promisify(exec);
 async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
   const { stdout } = await execPromise(
     `${await getTestProxyExecutable()} config locate -a assets.json`,
-    { cwd: project.path }
+    { cwd: project.path },
   );
   const lines = stdout.split("\n");
 
@@ -206,7 +206,7 @@ export async function linkRecordingsDirectory() {
   const trueRecordingsDirectory = path.join(
     recordingsDirectory,
     projectRelativeToRoot,
-    "recordings/"
+    "recordings/",
   );
   const relativeRecordingsDirectory = path.relative(project.path, trueRecordingsDirectory);
 
@@ -218,7 +218,7 @@ export async function linkRecordingsDirectory() {
       await fs.unlink(symlinkLocation);
     } else {
       log.warn(
-        "Could not create symbolic link to recordings directory: a file exists at _recordings already."
+        "Could not create symbolic link to recordings directory: a file exists at _recordings already.",
       );
       return;
     }
@@ -235,11 +235,11 @@ export async function linkRecordingsDirectory() {
 
 export async function runMigrationScript(
   project: ProjectInfo,
-  initialPush: boolean
+  initialPush: boolean,
 ): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
-    "eng/common/testproxy/onboarding/generate-assets-json.ps1"
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
   );
 
   const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
@@ -283,7 +283,7 @@ export async function isProxyToolActive(): Promise<boolean> {
     log.info(
       `Proxy tool seems to be active at http://localhost:${
         process.env.TEST_PROXY_HTTP_PORT ?? 5000
-      }\n`
+      }\n`,
     );
     return true;
   } catch (error: any) {
@@ -300,7 +300,7 @@ async function getTargetVersion() {
   try {
     const contentInVersionFile = await fs.readFile(
       `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8"
+      "utf-8",
     );
 
     const tag = contentInVersionFile.trim();
@@ -312,7 +312,7 @@ async function getTargetVersion() {
     return tag;
   } catch (_: any) {
     log.warn(
-      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );
     return "latest";
   }

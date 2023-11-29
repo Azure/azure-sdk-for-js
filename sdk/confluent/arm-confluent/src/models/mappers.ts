@@ -426,6 +426,13 @@ export const OrganizationResource: coreClient.CompositeMapper = {
           name: "Composite",
           className: "UserDetail"
         }
+      },
+      linkOrganization: {
+        serializedName: "properties.linkOrganization",
+        type: {
+          name: "Composite",
+          className: "LinkOrganization"
+        }
       }
     }
   }
@@ -458,7 +465,7 @@ export const OfferDetail: coreClient.CompositeMapper = {
       },
       planId: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 200
         },
         serializedName: "planId",
         required: true,
@@ -468,7 +475,7 @@ export const OfferDetail: coreClient.CompositeMapper = {
       },
       planName: {
         constraints: {
-          MaxLength: 50
+          MaxLength: 200
         },
         serializedName: "planName",
         required: true,
@@ -486,9 +493,37 @@ export const OfferDetail: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      termId: {
+        constraints: {
+          MaxLength: 50
+        },
+        serializedName: "termId",
+        type: {
+          name: "String"
+        }
+      },
+      privateOfferId: {
+        constraints: {
+          MaxLength: 255
+        },
+        serializedName: "privateOfferId",
+        type: {
+          name: "String"
+        }
+      },
+      privateOfferIds: {
+        serializedName: "privateOfferIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       status: {
         serializedName: "status",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -529,6 +564,34 @@ export const UserDetail: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      userPrincipalName: {
+        serializedName: "userPrincipalName",
+        type: {
+          name: "String"
+        }
+      },
+      aadEmail: {
+        serializedName: "aadEmail",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkOrganization: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkOrganization",
+    modelProperties: {
+      token: {
+        serializedName: "token",
+        required: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -544,6 +607,861 @@ export const OrganizationResourceUpdate: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ValidationResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidationResponse",
+    modelProperties: {
+      info: {
+        serializedName: "info",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const ListAccessRequestModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ListAccessRequestModel",
+    modelProperties: {
+      searchFilters: {
+        serializedName: "searchFilters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AccessListUsersSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListUsersSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ConfluentListMetadata: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ConfluentListMetadata",
+    modelProperties: {
+      first: {
+        serializedName: "first",
+        type: {
+          name: "String"
+        }
+      },
+      last: {
+        serializedName: "last",
+        type: {
+          name: "String"
+        }
+      },
+      prev: {
+        serializedName: "prev",
+        type: {
+          name: "String"
+        }
+      },
+      next: {
+        serializedName: "next",
+        type: {
+          name: "String"
+        }
+      },
+      totalSize: {
+        serializedName: "total_size",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const UserRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
+        }
+      },
+      fullName: {
+        serializedName: "full_name",
+        type: {
+          name: "String"
+        }
+      },
+      authType: {
+        serializedName: "auth_type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MetadataEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetadataEntity",
+    modelProperties: {
+      self: {
+        serializedName: "self",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resource_name",
+        type: {
+          name: "String"
+        }
+      },
+      createdAt: {
+        serializedName: "created_at",
+        type: {
+          name: "String"
+        }
+      },
+      updatedAt: {
+        serializedName: "updated_at",
+        type: {
+          name: "String"
+        }
+      },
+      deletedAt: {
+        serializedName: "deleted_at",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessListServiceAccountsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListServiceAccountsSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ServiceAccountRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ServiceAccountRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceAccountRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      displayName: {
+        serializedName: "display_name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessListInvitationsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListInvitationsSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "InvitationRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const InvitationRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "InvitationRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
+        }
+      },
+      authType: {
+        serializedName: "auth_type",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      acceptedAt: {
+        serializedName: "accepted_at",
+        type: {
+          name: "String"
+        }
+      },
+      expiresAt: {
+        serializedName: "expires_at",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessInviteUserAccountModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessInviteUserAccountModel",
+    modelProperties: {
+      organizationId: {
+        serializedName: "organizationId",
+        type: {
+          name: "String"
+        }
+      },
+      email: {
+        serializedName: "email",
+        type: {
+          name: "String"
+        }
+      },
+      upn: {
+        serializedName: "upn",
+        type: {
+          name: "String"
+        }
+      },
+      invitedUserDetails: {
+        serializedName: "invitedUserDetails",
+        type: {
+          name: "Composite",
+          className: "AccessInvitedUserDetails"
+        }
+      }
+    }
+  }
+};
+
+export const AccessInvitedUserDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessInvitedUserDetails",
+    modelProperties: {
+      invitedEmail: {
+        serializedName: "invitedEmail",
+        type: {
+          name: "String"
+        }
+      },
+      authType: {
+        serializedName: "auth_type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessListEnvironmentsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListEnvironmentsSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EnvironmentRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EnvironmentRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EnvironmentRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      displayName: {
+        serializedName: "display_name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccessListClusterSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListClusterSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClusterRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ClusterRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      displayName: {
+        serializedName: "display_name",
+        type: {
+          name: "String"
+        }
+      },
+      spec: {
+        serializedName: "spec",
+        type: {
+          name: "Composite",
+          className: "ClusterSpecEntity"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "Composite",
+          className: "ClusterStatusEntity"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterSpecEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterSpecEntity",
+    modelProperties: {
+      displayName: {
+        serializedName: "display_name",
+        type: {
+          name: "String"
+        }
+      },
+      availability: {
+        serializedName: "availability",
+        type: {
+          name: "String"
+        }
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String"
+        }
+      },
+      zone: {
+        serializedName: "zone",
+        type: {
+          name: "String"
+        }
+      },
+      region: {
+        serializedName: "region",
+        type: {
+          name: "String"
+        }
+      },
+      kafkaBootstrapEndpoint: {
+        serializedName: "kafka_bootstrap_endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      httpEndpoint: {
+        serializedName: "http_endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      apiEndpoint: {
+        serializedName: "api_endpoint",
+        type: {
+          name: "String"
+        }
+      },
+      config: {
+        serializedName: "config",
+        type: {
+          name: "Composite",
+          className: "ClusterConfigEntity"
+        }
+      },
+      environment: {
+        serializedName: "environment",
+        type: {
+          name: "Composite",
+          className: "ClusterEnvironmentEntity"
+        }
+      },
+      network: {
+        serializedName: "network",
+        type: {
+          name: "Composite",
+          className: "ClusterNetworkEntity"
+        }
+      },
+      byok: {
+        serializedName: "byok",
+        type: {
+          name: "Composite",
+          className: "ClusterByokEntity"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterConfigEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterConfigEntity",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterEnvironmentEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterEnvironmentEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      environment: {
+        serializedName: "environment",
+        type: {
+          name: "String"
+        }
+      },
+      related: {
+        serializedName: "related",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resource_name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterNetworkEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterNetworkEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      environment: {
+        serializedName: "environment",
+        type: {
+          name: "String"
+        }
+      },
+      related: {
+        serializedName: "related",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resource_name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterByokEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterByokEntity",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      related: {
+        serializedName: "related",
+        type: {
+          name: "String"
+        }
+      },
+      resourceName: {
+        serializedName: "resource_name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterStatusEntity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ClusterStatusEntity",
+    modelProperties: {
+      phase: {
+        serializedName: "phase",
+        type: {
+          name: "String"
+        }
+      },
+      cku: {
+        serializedName: "cku",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AccessListRoleBindingsSuccessResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccessListRoleBindingsSuccessResponse",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "ConfluentListMetadata"
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RoleBindingRecord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const RoleBindingRecord: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleBindingRecord",
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Composite",
+          className: "MetadataEntity"
+        }
+      },
+      principal: {
+        serializedName: "principal",
+        type: {
+          name: "String"
+        }
+      },
+      roleName: {
+        serializedName: "role_name",
+        type: {
+          name: "String"
+        }
+      },
+      crnPattern: {
+        serializedName: "crn_pattern",
+        type: {
+          name: "String"
         }
       }
     }

@@ -6,7 +6,7 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/confluent/arm-confluent) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-confluent) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-confluent?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-confluent) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

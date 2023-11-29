@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { GetCompletionsOptions, GetEmbeddingsOptions } from "../generated/src/models/options.js";
+import { GetCompletionsOptions, GetEmbeddingsOptions } from "../customizations/models/options.js";
 import { OpenAIClientOptions } from "../generated/src/index.js";
 import {
   getAudioTranscription,
@@ -25,7 +25,6 @@ import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
 import { GetChatCompletionsOptions } from "./api/models.js";
 import { ImageGenerationOptions } from "./models/options.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { formDataPolicyName, formDataWithFileUploadPolicy } from "./api/policies/formDataPolicy.js";
 import {
   AudioResult,
   AudioResultFormat,
@@ -146,9 +145,6 @@ export class OpenAIClient {
             ],
           }),
     });
-
-    this._client.pipeline.removePolicy({ name: formDataPolicyName });
-    this._client.pipeline.addPolicy(formDataWithFileUploadPolicy());
   }
 
   private setModel(model: string, options: { model?: string }): void {
@@ -170,7 +166,7 @@ export class OpenAIClient {
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
-    return getCompletions(this._client, prompt, deploymentName, options);
+    return getCompletions(this._client, deploymentName, { prompt, ...options }, options);
   }
 
   /**
@@ -202,7 +198,7 @@ export class OpenAIClient {
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
-    return getEmbeddings(this._client, input, deploymentName, options);
+    return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
   }
 
   /**

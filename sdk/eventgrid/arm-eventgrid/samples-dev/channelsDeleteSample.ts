@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an existing channel.
  *
  * @summary Delete an existing channel.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Channels_Delete.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Channels_Delete.json
  */
 async function channelsDelete() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get Diagnostics Categories
  *
  * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ListSiteDiagnosticCategories.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ListSiteDiagnosticCategories.json
  */
 async function listAppDiagnosticCategories() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function listAppDiagnosticCategories() {
  * This sample demonstrates how to Description for Get Diagnostics Categories
  *
  * @summary Description for Get Diagnostics Categories
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_ListSiteDiagnosticCategoriesSlot.json
  */
 async function listAppSlotDiagnosticCategories() {
   const subscriptionId =

@@ -1,16 +1,22 @@
 # Release History
 
-## 1.0.0-beta.18 ()
+## 1.0.0-beta.19 ()
 
-### Features Added
+### Other Changes
 
-### Breaking Changes
+- Statsbeat will stop being exported when user iKey is invalid.
+
+## 1.0.0-beta.18 (2023-11-09)
 
 ### Bugs Fixed
 
 - Fix Feature and Instrumentation Statsbeat type value.
 
 ### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
 
 ## 1.0.0-beta.17 (2023-10-09)
 

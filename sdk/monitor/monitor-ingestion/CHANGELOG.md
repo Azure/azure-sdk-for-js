@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- React-Native support for `zlib` via the `pako` package.
+
 ### Other Changes
 
 ## 1.0.0 (2023-02-15)
