@@ -93,7 +93,7 @@ export interface AdmRegistrationDescription extends AdmRegistrationDescriptionCo
  * @returns A created ADM registration description.
  */
 export function createAdmRegistrationDescription(
-  description: AdmRegistrationDescriptionCommon
+  description: AdmRegistrationDescriptionCommon,
 ): AdmRegistrationDescription {
   return {
     ...description,
@@ -125,7 +125,7 @@ export interface AdmTemplateRegistrationDescription
  * @returns A created ADM template registration description.
  */
 export function createAdmTemplateRegistrationDescription(
-  description: AdmTemplateRegistrationDescriptionCommon
+  description: AdmTemplateRegistrationDescriptionCommon,
 ): AdmTemplateRegistrationDescription {
   return {
     ...description,
@@ -159,7 +159,7 @@ export interface AppleRegistrationDescription extends AppleRegistrationDescripti
  * @returns A created Apple registration description.
  */
 export function createAppleRegistrationDescription(
-  description: AppleRegistrationDescriptionCommon
+  description: AppleRegistrationDescriptionCommon,
 ): AppleRegistrationDescription {
   return {
     ...description,
@@ -206,7 +206,7 @@ export interface AppleTemplateRegistrationDescription
  * @returns A created Apple template registration description.
  */
 export function createAppleTemplateRegistrationDescription(
-  description: AppleTemplateRegistrationDescriptionCommon
+  description: AppleTemplateRegistrationDescriptionCommon,
 ): AppleTemplateRegistrationDescription {
   return {
     ...description,
@@ -242,7 +242,7 @@ export interface BaiduRegistrationDescription extends BaiduRegistrationDescripti
  * @returns A created Baidu registration description.
  */
 export function createBaiduRegistrationDescription(
-  description: BaiduRegistrationDescriptionCommon
+  description: BaiduRegistrationDescriptionCommon,
 ): BaiduRegistrationDescription {
   return {
     ...description,
@@ -274,7 +274,7 @@ export interface BaiduTemplateRegistrationDescription
  * @returns A created Baidu template registration description.
  */
 export function createBaiduTemplateRegistrationDescription(
-  description: BaiduTemplateRegistrationDescriptionCommon
+  description: BaiduTemplateRegistrationDescriptionCommon,
 ): BaiduTemplateRegistrationDescription {
   return {
     ...description,
@@ -318,7 +318,7 @@ export interface BrowserRegistrationDescription extends BrowserRegistrationDescr
  * @returns A created Web Push registration description.
  */
 export function createBrowserRegistrationDescription(
-  description: BrowserRegistrationDescriptionCommon
+  description: BrowserRegistrationDescriptionCommon,
 ): BrowserRegistrationDescription {
   return {
     ...description,
@@ -350,7 +350,7 @@ export interface BrowserTemplateRegistrationDescription
  * @returns A created Web Push template registration description.
  */
 export function createBrowserTemplateRegistrationDescription(
-  description: BrowserTemplateRegistrationDescriptionCommon
+  description: BrowserTemplateRegistrationDescriptionCommon,
 ): BrowserTemplateRegistrationDescription {
   return {
     ...description,
@@ -384,7 +384,7 @@ export interface GcmRegistrationDescription extends GcmRegistrationDescriptionCo
  * @returns A created GCM registration description.
  */
 export function createFcmLegacyRegistrationDescription(
-  description: GcmRegistrationDescriptionCommon
+  description: GcmRegistrationDescriptionCommon,
 ): GcmRegistrationDescription {
   return {
     ...description,
@@ -416,7 +416,7 @@ export interface GcmTemplateRegistrationDescription
  * @returns A created GCM template registration description.
  */
 export function createFcmLegacyTemplateRegistrationDescription(
-  description: GcmTemplateRegistrationDescriptionCommon
+  description: GcmTemplateRegistrationDescriptionCommon,
 ): GcmTemplateRegistrationDescription {
   return {
     ...description,
@@ -515,7 +515,7 @@ export interface WindowsRegistrationDescription extends WindowsRegistrationDescr
  * @returns A created Windows registration description.
  */
 export function createWindowsRegistrationDescription(
-  description: WindowsRegistrationDescriptionCommon
+  description: WindowsRegistrationDescriptionCommon,
 ): WindowsRegistrationDescription {
   return {
     ...description,
@@ -552,7 +552,7 @@ export interface WindowsTemplateRegistrationDescription
  * @returns A created Windows template registration description.
  */
 export function createWindowsTemplateRegistrationDescription(
-  description: WindowsTemplateRegistrationDescriptionCommon
+  description: WindowsTemplateRegistrationDescriptionCommon,
 ): WindowsTemplateRegistrationDescription {
   return {
     ...description,
@@ -586,7 +586,7 @@ export interface XiaomiRegistrationDescription extends XiaomiRegistrationDescrip
  * @returns A created Xiaomi registration description.
  */
 export function createXiaomiRegistrationDescription(
-  description: XiaomiRegistrationDescriptionCommon
+  description: XiaomiRegistrationDescriptionCommon,
 ): XiaomiRegistrationDescription {
   return {
     ...description,
@@ -618,7 +618,7 @@ export interface XiaomiTemplateRegistrationDescription
  * @returns A created Xiaomi template registration description.
  */
 export function createXiaomiTemplateRegistrationDescription(
-  description: XiaomiTemplateRegistrationDescriptionCommon
+  description: XiaomiTemplateRegistrationDescriptionCommon,
 ): XiaomiTemplateRegistrationDescription {
   return {
     ...description,

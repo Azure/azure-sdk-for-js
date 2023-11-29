@@ -16,7 +16,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       shortName: "i",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {

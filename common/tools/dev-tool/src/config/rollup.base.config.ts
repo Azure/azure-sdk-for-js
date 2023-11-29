@@ -96,15 +96,18 @@ function ignoreExternalModules(warning: RollupWarning): boolean {
   );
 }
 
-function createWarningInhibitors({ ignoreMissingNodeBuiltins }: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupWarning) => boolean> {return [
-  ignoreChaiCircularDependency,
-  ignoreRheaPromiseCircularDependency,
-  ignoreNiseSinonEval,
-  ignoreOpenTelemetryCircularDependency,
-  ignoreOpenTelemetryThisIsUndefined,
-  ignoreMissingExportsFromEmpty,
-  ...ignoreMissingNodeBuiltins ? [ignoreExternalModules] : [],
-];
+function createWarningInhibitors({
+  ignoreMissingNodeBuiltins,
+}: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupWarning) => boolean> {
+  return [
+    ignoreChaiCircularDependency,
+    ignoreRheaPromiseCircularDependency,
+    ignoreNiseSinonEval,
+    ignoreOpenTelemetryCircularDependency,
+    ignoreOpenTelemetryThisIsUndefined,
+    ignoreMissingExportsFromEmpty,
+    ...(ignoreMissingNodeBuiltins ? [ignoreExternalModules] : []),
+  ];
 }
 
 interface MakeOnWarnForTestingOptions {
@@ -115,7 +118,9 @@ interface MakeOnWarnForTestingOptions {
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-export function makeOnWarnForTesting(opts: MakeOnWarnForTestingOptions = {}): (warning: RollupWarning, warn: WarningHandlerWithDefault) => void {
+export function makeOnWarnForTesting(
+  opts: MakeOnWarnForTestingOptions = {},
+): (warning: RollupWarning, warn: WarningHandlerWithDefault) => void {
   const warningInhibitors = createWarningInhibitors(opts);
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
@@ -206,7 +211,7 @@ const defaultConfigurationOptions: ConfigurationOptions = {
 
 export function makeConfig(
   pkg: PackageJson,
-  options?: Partial<ConfigurationOptions>
+  options?: Partial<ConfigurationOptions>,
 ): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,

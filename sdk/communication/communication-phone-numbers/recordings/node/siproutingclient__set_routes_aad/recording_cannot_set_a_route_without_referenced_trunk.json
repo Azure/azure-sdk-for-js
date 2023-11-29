@@ -10,8 +10,9 @@
         "Connection": "keep-alive",
         "Content-Length": "120",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "routes": [
@@ -26,23 +27,23 @@
       },
       "StatusCode": 422,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Type": "application/json",
-        "Date": "Fri, 10 Mar 2023 08:32:58 GMT",
-        "MS-CV": "4QODDosIbkaB3CA8SwO\u002BqA.0",
+        "Date": "Wed, 22 Nov 2023 10:05:00 GMT",
+        "MS-CV": "TOHqyXPxp0W9x02vPmQEnw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0OusKZAAAAABSSlKEvPVRRot2GFa07\u002BiQUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0TNJdZQAAAADwoWLBbD0USohs8nScKhmdUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "263ms"
+        "X-Processing-Time": "359ms"
       },
       "ResponseBody": {
         "error": {
           "code": "UnprocessableConfiguration",
           "message": "One or more request inputs are not valid.",
           "innererror": {
-            "code": "MissingDomain",
-            "message": "Missing Domain for coresponding Trunk"
+            "code": "MissingTrunk",
+            "message": "Route targeting a missing trunk."
           }
         }
       }
@@ -55,28 +56,29 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.9.2 Node/v18.13.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-05-01-preview, 2022-09-01-preview, 2023-01-01-preview, 2023-03-01",
+        "api-supported-versions": "2023-03-01, 2023-04-01-preview",
         "Content-Length": "192",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 10 Mar 2023 08:32:59 GMT",
-        "MS-CV": "hjOY/HiEtkesS\u002Bb1NE8oRA.0",
+        "Date": "Wed, 22 Nov 2023 10:05:00 GMT",
+        "MS-CV": "dgelbCXmYEajPU5OS9ajeg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0O\u002BsKZAAAAADHzfAAAwtwRpCCRHVrJ1lvUFJHMDFFREdFMDkxNQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "X-Azure-Ref": "0TdJdZQAAAAARjyHJi/cURqmO/Ps4eGmYUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "177ms"
+        "X-Processing-Time": "204ms"
       },
       "ResponseBody": {
         "trunks": {
-          "test4dd91357fa03469bafc888d0e988c959.sanitized.sbc.test": {
+          "testbd497c85bd30437d8b34955976e1f0c2.sanitized.sbc.test": {
             "sipSignalingPort": 8239
           },
-          "test896356e504e640808031b836e4eceda4.sanitized.sbc.test": {
+          "test005b7bfdf78b48deaae67a3550f57440.sanitized.sbc.test": {
             "sipSignalingPort": 7348
           }
         },
@@ -85,7 +87,7 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test71ccda795693474da525496112145898.sanitized.sbc.test",
-    "fqdn-2": "test6c6fee7625d5491d8c6ae9e64af73b54.sanitized.sbc.test"
+    "fqdn-1": "test989dedf92fcf457bafd4d5c60224abce.sanitized.sbc.test",
+    "fqdn-2": "testa51d9147dd1b4717a84240ad2e758875.sanitized.sbc.test"
   }
 }

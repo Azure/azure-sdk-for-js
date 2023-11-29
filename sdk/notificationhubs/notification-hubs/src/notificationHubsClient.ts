@@ -61,7 +61,7 @@ export class NotificationHubsClient {
   constructor(
     connectionString: string,
     hubName: string,
-    options: NotificationHubsClientOptions = {}
+    options: NotificationHubsClientOptions = {},
   ) {
     this._client = createClientContext(connectionString, hubName, options);
   }
@@ -74,7 +74,7 @@ export class NotificationHubsClient {
    */
   createOrUpdateInstallation(
     installation: Installation,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return createOrUpdateInstallationMethod(this._client, installation, options);
   }
@@ -87,7 +87,7 @@ export class NotificationHubsClient {
    */
   deleteInstallation(
     installationId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return deleteInstallationMethod(this._client, installationId, options);
   }
@@ -112,7 +112,7 @@ export class NotificationHubsClient {
   updateInstallation(
     installationId: string,
     patches: JsonPatch[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return updateInstallationMethod(this._client, installationId, patches, options);
   }
@@ -135,7 +135,7 @@ export class NotificationHubsClient {
    */
   createRegistration(
     registration: RegistrationDescription,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RegistrationDescription> {
     return createRegistrationMethod(this._client, registration, options);
   }
@@ -148,7 +148,7 @@ export class NotificationHubsClient {
    */
   createOrUpdateRegistration(
     registration: RegistrationDescription,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RegistrationDescription> {
     return createOrUpdateRegistrationMethod(this._client, registration, options);
   }
@@ -161,7 +161,7 @@ export class NotificationHubsClient {
    */
   updateRegistration(
     registration: RegistrationDescription,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RegistrationDescription> {
     return updateRegistrationMethod(this._client, registration, options);
   }
@@ -175,7 +175,7 @@ export class NotificationHubsClient {
    */
   deleteRegistration(
     registrationId: string,
-    options: EntityOperationOptions = {}
+    options: EntityOperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return deleteRegistration(this._client, registrationId, options);
   }
@@ -188,7 +188,7 @@ export class NotificationHubsClient {
    */
   getRegistration(
     registrationId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RegistrationDescription> {
     return getRegistrationMethod(this._client, registrationId, options);
   }
@@ -199,7 +199,7 @@ export class NotificationHubsClient {
    * @returns A paged async iterable containing all of the registrations for the notification hub.
    */
   listRegistrations(
-    options: RegistrationQueryLimitOptions = {}
+    options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsMethod(this._client, options);
   }
@@ -212,7 +212,7 @@ export class NotificationHubsClient {
    */
   listRegistrationsByChannel(
     channel: RegistrationChannel,
-    options: RegistrationQueryLimitOptions = {}
+    options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsByChannelMethod(this._client, channel, options);
   }
@@ -225,7 +225,7 @@ export class NotificationHubsClient {
    */
   listRegistrationsByTag(
     tag: string,
-    options: RegistrationQueryLimitOptions = {}
+    options: RegistrationQueryLimitOptions = {},
   ): PagedAsyncIterableIterator<RegistrationDescription> {
     return listRegistrationsByTagMethod(this._client, tag, options);
   }
@@ -238,7 +238,7 @@ export class NotificationHubsClient {
    */
   sendNotification(
     notification: Notification,
-    options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false }
+    options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false },
   ): Promise<NotificationHubsMessageResponse> {
     return sendNotificationMethod(this._client, notification, options);
   }
@@ -254,7 +254,7 @@ export class NotificationHubsClient {
   scheduleNotification(
     scheduledTime: Date,
     notification: Notification,
-    options: ScheduleNotificationOptions = {}
+    options: ScheduleNotificationOptions = {},
   ): Promise<NotificationHubsMessageResponse> {
     return scheduleNotificationMethod(this._client, scheduledTime, notification, options);
   }
@@ -267,7 +267,7 @@ export class NotificationHubsClient {
    */
   cancelScheduledNotification(
     notificationId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubsResponse> {
     return cancelScheduledNotificationMethod(this._client, notificationId, options);
   }
@@ -291,7 +291,7 @@ export class NotificationHubsClient {
    */
   getNotificationOutcomeDetails(
     notificationId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationDetails> {
     return getNotificationOutcomeDetailsMethod(this._client, notificationId, options);
   }
@@ -304,7 +304,7 @@ export class NotificationHubsClient {
    */
   getNotificationHubJob(
     jobId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubJob> {
     return getNotificationHubJobMethod(this._client, jobId, options);
   }
@@ -317,7 +317,7 @@ export class NotificationHubsClient {
    */
   beginSubmitNotificationHubJob(
     notificationHubJob: NotificationHubJob,
-    options: PolledOperationOptions = {}
+    options: PolledOperationOptions = {},
   ): Promise<NotificationHubJobPoller> {
     return beginSubmitNotificationHubJobMethod(this._client, notificationHubJob, options);
   }
@@ -330,7 +330,7 @@ export class NotificationHubsClient {
    */
   submitNotificationHubJob(
     job: NotificationHubJob,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<NotificationHubJob> {
     return submitNotificationHubJobMethod(this._client, job, options);
   }
