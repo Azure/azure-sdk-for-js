@@ -9,7 +9,7 @@
 
 ### Breaking Changes
 
-- Contract change for AnalyzeText, AnalyzeImage, Blocklist management related methods
+- Contract change for AnalyzeText, AnalyzeImage, Blocklist management related parameters
 
 ### Bugs Fixed
 
