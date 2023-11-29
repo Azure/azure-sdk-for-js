@@ -38,7 +38,7 @@ async function kustoClustersCreateOrUpdate() {
       value: [
         {
           languageExtensionCustomImageName: "customImage8",
-          languageExtensionImageName: "Python_Custom_Image",
+          languageExtensionImageName: "PythonCustomImage",
           languageExtensionName: "PYTHON"
         },
         { languageExtensionImageName: "R", languageExtensionName: "R" }
