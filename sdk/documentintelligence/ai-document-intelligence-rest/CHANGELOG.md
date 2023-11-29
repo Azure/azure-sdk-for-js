@@ -88,7 +88,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 
-  ```ts
+  ```json
   {
     "content": "$123.45",
     "confidence": 0.995,
