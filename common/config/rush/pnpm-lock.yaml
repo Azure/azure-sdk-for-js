@@ -3610,16 +3610,6 @@ packages:
     engines: {node: '>=0.11'}
     dev: false
 
-  /axios@1.6.1:
-    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
-    dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: false
-
   /b4a@1.6.4:
     resolution: {integrity: sha512-fpWrvyVHEKyeEvbKZTVOeZF3VSKKWtJxFIxX/jaVPf+cLbGUSitjb49pHLqPV2BUNNZ0LcoeEGfE/YCpyDYHIw==}
     dev: false
@@ -17749,7 +17739,6 @@ packages:
       '@types/prettier': 3.0.0
       '@types/semver': 7.5.6
       autorest: 3.7.0
-      axios: 1.6.2
       builtin-modules: 3.3.0
       c8: 8.0.1
       chai: 4.3.10
