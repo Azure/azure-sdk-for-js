@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the properties of the specified credential set resource.
  *
  * @summary Gets the properties of the specified credential set resource.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/CredentialSetGet.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/CredentialSetGet.json
  */
 async function credentialSetGet() {
   const subscriptionId =

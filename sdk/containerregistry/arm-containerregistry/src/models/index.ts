@@ -886,6 +886,8 @@ export interface RegistryUpdateParameters {
   networkRuleBypassOptions?: NetworkRuleBypassOptions;
   /** Enables registry-wide pull from unauthenticated clients. */
   anonymousPullEnabled?: boolean;
+  /** Determines whether registry artifacts are indexed for metadata search. */
+  metadataSearch?: MetadataSearch;
 }
 
 /** The result of a request to get container registry quota usages. */
@@ -2156,6 +2158,8 @@ export interface Registry extends Resource {
   zoneRedundancy?: ZoneRedundancy;
   /** Enables registry-wide pull from unauthenticated clients. */
   anonymousPullEnabled?: boolean;
+  /** Determines whether registry artifacts are indexed for metadata search. */
+  metadataSearch?: MetadataSearch;
 }
 
 /** An object that represents a replication for a container registry. */
@@ -3268,6 +3272,24 @@ export enum KnownZoneRedundancy {
  * **Disabled**
  */
 export type ZoneRedundancy = string;
+
+/** Known values of {@link MetadataSearch} that the service accepts. */
+export enum KnownMetadataSearch {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for MetadataSearch. \
+ * {@link KnownMetadataSearch} can be used interchangeably with MetadataSearch,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type MetadataSearch = string;
 
 /** Known values of {@link RegistryUsageUnit} that the service accepts. */
 export enum KnownRegistryUsageUnit {

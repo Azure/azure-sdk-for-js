@@ -1412,6 +1412,12 @@ export enum KnownLogLevel {
 }
 
 // @public
+export enum KnownMetadataSearch {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownNetworkRuleBypassOptions {
     AzureServices = "AzureServices",
     None = "None"
@@ -1644,6 +1650,9 @@ export interface LoginServerProperties {
 
 // @public
 export type LogLevel = string;
+
+// @public
+export type MetadataSearch = string;
 
 // @public
 export type NetworkRuleBypassOptions = string;
@@ -2249,6 +2258,7 @@ export interface Registry extends Resource {
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
     readonly loginServer?: string;
+    metadataSearch?: MetadataSearch;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;
@@ -2298,6 +2308,7 @@ export interface RegistryUpdateParameters {
     dataEndpointEnabled?: boolean;
     encryption?: EncryptionProperty;
     identity?: IdentityProperties;
+    metadataSearch?: MetadataSearch;
     networkRuleBypassOptions?: NetworkRuleBypassOptions;
     networkRuleSet?: NetworkRuleSet;
     policies?: Policies;
