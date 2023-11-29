@@ -25,7 +25,27 @@ async function monitorsCreate() {
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName);
+  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName, {
+    body: {
+      properties: {
+        datadogOrganizationProperties: {
+          name: "testdatadogOrganization",
+        },
+        userInfo: {
+          name: "Alice",
+          emailAddress: "alice@microsoft.com",
+          phoneNumber: "123-456-7890",
+        },
+      },
+      sku: {
+        name: "free_Monthly",
+      },
+      identity: {
+        type: "SystemAssigned",
+      },
+      location: "West US 2",
+    },
+  });
   console.log(result);
 }
 

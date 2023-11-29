@@ -29,7 +29,7 @@ async function singleSignOnConfigurationsCreateOrUpdate() {
   const result = await client.singleSignOnConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

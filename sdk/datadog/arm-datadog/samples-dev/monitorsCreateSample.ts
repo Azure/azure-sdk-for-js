@@ -31,7 +31,28 @@ async function monitorsCreate() {
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.monitors.beginCreateAndWait(
     resourceGroupName,
-    monitorName
+    monitorName,
+    {
+      body: {
+        properties: {
+          datadogOrganizationProperties: {
+            name: "testdatadogOrganization"
+          },
+          userInfo: {
+            name: "Alice",
+            emailAddress: "alice@microsoft.com",
+            phoneNumber: "123-456-7890"
+          }
+        },
+        sku: {
+          name: "free_Monthly"
+        },
+        identity: {
+          type: "SystemAssigned"
+        },
+        location: "West US 2"
+      }
+    }
   );
   console.log(result);
 }

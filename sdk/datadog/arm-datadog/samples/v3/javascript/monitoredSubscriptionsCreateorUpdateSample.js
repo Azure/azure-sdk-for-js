@@ -29,7 +29,7 @@ async function monitorsAddMonitoredSubscriptions() {
   const result = await client.monitoredSubscriptions.beginCreateorUpdateAndWait(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }
