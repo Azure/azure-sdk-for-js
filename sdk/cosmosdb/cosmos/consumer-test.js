@@ -1,8 +1,7 @@
 const execa = require("execa");
-
+// Temporarily Removing 4.1 from the list of versions to pass pipeline
 // let tsVersionsToCheckCompatibility = ["4.1"];
 let tsVersionsToCheckCompatibility = [];
-
 
 if (!process.env.SKIP_LATEST) {
   tsVersionsToCheckCompatibility.push("latest");
