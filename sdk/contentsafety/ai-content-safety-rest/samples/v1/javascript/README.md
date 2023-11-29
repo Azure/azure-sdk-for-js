@@ -1,4 +1,4 @@
-# ContentSafety client library samples for JavaScript (Beta)
+# ContentSafety client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for ContentSafety in some common scenarios.
 
@@ -46,9 +46,9 @@ npx cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sampleanalyzeimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleAnalyzeImage.js
-[sampleanalyzetext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleAnalyzeText.js
-[samplemanageblocklist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1-beta/javascript/sampleManageBlocklist.js
+[sampleanalyzeimage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleAnalyzeImage.js
+[sampleanalyzetext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleAnalyzeText.js
+[samplemanageblocklist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/contentsafety/ai-content-safety-rest/samples/v1/javascript/sampleManageBlocklist.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/contentsafety/ai-content-safety-rest/README.md
