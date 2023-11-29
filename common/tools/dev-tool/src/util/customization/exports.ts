@@ -10,7 +10,7 @@ export async function augmentExports(customFile: SourceFile, originalFile: Sourc
     const [original] = originalExports.filter(
       (e) =>
         e.getModuleSpecifier()?.getLiteralValue() ===
-        customExport.getModuleSpecifier()?.getLiteralValue()
+        customExport.getModuleSpecifier()?.getLiteralValue(),
     );
     if (original) {
       const exports = customExport.getNamedExports().map((e) => ({

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to
  *
  * @summary
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListOperations.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/ListOperations.json
  */
 async function listOperations() {
   const subscriptionId =

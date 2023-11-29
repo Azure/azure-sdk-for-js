@@ -12,6 +12,7 @@ import {
   TypeAliasDeclaration,
   SourceFile,
   ImportDeclaration,
+  Directory,
 } from "ts-morph";
 import { augmentFunctions } from "./functions";
 import { augmentClasses } from "./classes";
@@ -20,7 +21,7 @@ import { sortSourceFileContents } from "./helpers/preformat";
 import { addHeaderToFiles } from "./helpers/addFileHeaders";
 import { resolveProject } from "../resolveProject";
 import { augmentTypeAliases } from "./aliases";
-import { setCustomizationState, resetCustomizationState } from "./state";
+import { setCustomizationState, resetCustomizationState, getCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
@@ -100,7 +101,7 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
+  const formattedContent = await format(content, "typescript");
   return await writeFile(filepath, formattedContent);
 }
 
@@ -187,19 +188,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -209,68 +210,115 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
-  augmentImports(
-    originalDeclarationsMap.imports,
-    customVirtualSourceFile.getImportDeclarations(),
-    originalVirtualSourceFile
-  );
+  augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
 
   augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
-  removeSelfImports(originalVirtualSourceFile);
+  originalVirtualSourceFile.fixMissingImports();
   sortSourceFileContents(originalVirtualSourceFile);
-
+  copyCustomImports(customVirtualSourceFile, originalVirtualSourceFile);
   return originalVirtualSourceFile.getFullText();
 }
 
-function removeSelfImports(originalFile: SourceFile) {
-  const originalPathObject = path.parse(originalFile.getFilePath()); // /.../src/file.ts
-  removeFileExtension(originalPathObject);
-  const originalPath = path.format(originalPathObject); // src/file
+function isGeneratedImport(importDeclaration: ImportDeclaration) {
+  const regex = new RegExp(`^../(?:../)*${_originalFolderName}(?:/.*)?$`);
 
-  for (const originalImport of originalFile.getImportDeclarations()) {
-    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./file.js
-    removeFileExtension(modulePathObject);
-    const modulePath = path.format(modulePathObject); // ./file
+  return regex.test(importDeclaration.getModuleSpecifierValue());
+}
 
-    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath); // /.../src/, ./file -> /.../src/file
+function transformGeneratedImport(moduleSpecifier: string) {
+  const regex = new RegExp(`^(../)+(?:../)*${_originalFolderName}(?:/(.*))?$`);
+  return moduleSpecifier.replace(regex, "./$2");
+}
 
-    if (moduleAbsolutePath === originalPath) {
-      originalImport.remove();
+function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
+  for (const customImport of customFile.getImportDeclarations()) {
+    if (isSelfImport(customImport.getModuleSpecifierValue(), originalFile)) {
+      continue;
     }
-  }
-
-  function removeFileExtension(parsedPath: path.ParsedPath): void {
-    if (parsedPath.ext.length) {
-      parsedPath.base = parsedPath.base.slice(0, -parsedPath.ext.length);
-      parsedPath.ext = "";
+    if (isGeneratedImport(customImport)) {
+      const newModuleSpecifier = transformGeneratedImport(customImport.getModuleSpecifierValue());
+      customImport.setModuleSpecifier(newModuleSpecifier);
+      originalFile.addImportDeclaration(customImport.getStructure());
     }
+
+    const originalImport = originalFile.getImportDeclaration(
+      customImport.getModuleSpecifierValue(),
+    );
+
+    if (!originalImport) {
+      originalFile.addImportDeclaration(customImport.getStructure());
+    }
+
+    if (originalImport?.getNamespaceImport()) {
+      continue;
+    }
+
+    const originalNamedImports = originalImport?.getNamedImports().map((i) => i.getName()) || [];
+
+    const allImports = new Set<string>(originalNamedImports);
+    for (const customNamedImport of customImport.getNamedImports()) {
+      allImports.add(customNamedImport.getText());
+    }
+
+    originalImport?.removeNamedImports();
+    originalImport?.addNamedImports(Array.from(allImports));
   }
+  originalFile.organizeImports();
 }
 
 function commonPrefix(a: string, b: string) {
   let i = 0;
   while (i < a.length && i < b.length && a[i] === b[i]) i++;
   return a.slice(0, i);
+}
+
+function isSelfImport(module: string, file: SourceFile): boolean {
+  const { customDir, originalDir } = getCustomizationState();
+  let projectPath = file.getDirectory();
+  while (projectPath.getRelativePathTo(customDir).startsWith("..")) {
+    projectPath = projectPath.getParent() as Directory;
+  }
+  // e.g: ./sources/generated/src
+  const relativeOriginal = originalDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
+  // e.g: ./sources/customizations
+  const relativeCustom = customDir.replace(/\\/g, "/").replace(projectPath.getPath(), ".");
+  // e.g: ./sources/
+  const prefix = commonPrefix(relativeOriginal, relativeCustom);
+  // e.g generated/src
+  let originalSuffix = relativeOriginal.substring(prefix.length);
+  // e.g generated/src/
+  originalSuffix = originalSuffix.endsWith("/") ? originalSuffix : originalSuffix + "/";
+  // e.g folder/file.js (with the original module being ../../generated/src/folder/file.js)
+  const index = module.search(originalSuffix);
+  if (index < 0) {
+    return false;
+  }
+  const moduleRelative = module.substring(index + originalSuffix.length);
+  const sanitizedPath = file.getFilePath().replace(/\\/g, "/").replace(/\.ts$/, ".js");
+  if (sanitizedPath.endsWith(moduleRelative)) {
+    return true;
+  }
+  return false;
 }
