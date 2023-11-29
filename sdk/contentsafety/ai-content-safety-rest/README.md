@@ -107,14 +107,22 @@ Content Safety recognizes four distinct categories of objectionable content.
 Classification can be multi-labeled. For example, when a text sample goes through the text moderation model, it could be classified as both Sexual content and Violence.
 
 ### Severity levels
+
 Every harm category the service applies also comes with a severity level rating. The severity level is meant to indicate the severity of the consequences of showing the flagged content.
 
-| Severity | Label  |
-| -------- | ------ |
-| 0        | Safe   |
-| 2        | Low    |
-| 4        | Medium |
-| 6        | High   |
+**Text**: The current version of the text model supports the full 0-7 severity scale. The classifier detects amongst all severities along this scale. If the user specifies, it can return severities in the trimmed scale of 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [text content severity levels definitions][text_severity_levels] for details.
+
+- [0,1] -> 0
+- [2,3] -> 2
+- [4,5] -> 4
+- [6,7] -> 6
+
+**Image**: The current version of the image model supports the trimmed version of the full 0-7 severity scale. The classifier only returns severities 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [image content severity levels definitions][image_severity_levels] for details.
+
+- [0,1] -> 0
+- [2,3] -> 2
+- [4,5] -> 4
+- [6,7] -> 6
 
 ### Text blocklist management
 Following operations are supported to manage your text blocklist:
