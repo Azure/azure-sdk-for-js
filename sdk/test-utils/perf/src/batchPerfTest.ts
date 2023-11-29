@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike, AbortController } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { TestProxyHttpClient, testProxyHttpPolicy } from "./testProxyHttpClient";
 import { PerfTestBase } from "./perfTestBase";
 import { AdditionalPolicyConfig } from "@azure/core-client";
