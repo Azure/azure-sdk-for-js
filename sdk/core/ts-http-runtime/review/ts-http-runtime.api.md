@@ -184,6 +184,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
+export function createRestError(response: PathUncheckedResponse): RestError;
+
+// @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public

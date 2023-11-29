@@ -1,14 +1,15 @@
 # Release History
 
-## 1.0.0-beta.2 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 
+- Support AAD Authentication
+- Support 8 severity levels output for Text Analyze
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- Contract change for AnalyzeText, AnalyzeImage, Blocklist management related parameters
 
 ## 1.0.0-beta.1 (2023-09-28)
 

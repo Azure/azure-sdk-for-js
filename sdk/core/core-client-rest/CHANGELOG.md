@@ -4,11 +4,7 @@
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Add an overload for `createRestError` to accept `PathUncheckedResponse` only.
 
 ## 1.1.5 (2023-11-20)
 

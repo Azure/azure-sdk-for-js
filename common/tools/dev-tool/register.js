@@ -42,7 +42,7 @@ if (process.env.DEBUG) {
     "[dev-tool/register] patching module loader from:",
     __dirname,
     "; package:",
-    packageNameToPatch
+    packageNameToPatch,
   );
 }
 
@@ -70,15 +70,15 @@ const makeTransformers = () => ({
               // This is marked internal in the TS API, need to make sure there's not a better way
               // to get the path from the sourceFile node
               path.dirname(sourceFile.path),
-              path.join(base, "src", "index")
+              path.join(base, "src", "index"),
             );
             console.log(
-              `[dev-tool/register] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`
+              `[dev-tool/register] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`,
             );
           }
           return node;
         },
-        transformationContext
+        transformationContext,
       ),
   ],
 });

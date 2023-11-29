@@ -5,7 +5,7 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { ContentSafetyClient, isUnexpected, paginate, TextBlockItemOutput } from "../../src";
+import { ContentSafetyClient, isUnexpected, paginate, TextBlocklistItemOutput } from "../../src";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import fs from "fs";
 import path from "path";
@@ -44,14 +44,15 @@ describe("Content Safety Client Test", () => {
       body: {
         text: "This is a sample text",
         categories: ["Hate"],
+        outputType: "FourSeverityLevels",
       },
     });
     if (isUnexpected(response)) {
       throw new Error(response.body?.error.message);
     }
     assert.strictEqual(response.status, "200");
-    assert.equal(response.body.hateResult?.category, "Hate");
-    assert.notExists(response.body.selfHarmResult);
+    assert.equal(response.body.categoriesAnalysis[0]?.category, "Hate");
+    assert.notExists(response.body.categoriesAnalysis[1]);
   });
 
   it("analyze image", async function () {
@@ -73,14 +74,15 @@ describe("Content Safety Client Test", () => {
           content: base64Image,
         },
         categories: ["Sexual"],
+        outputType: "FourSeverityLevels",
       },
     });
     if (isUnexpected(response)) {
       throw new Error(response.body?.error.message);
     }
     assert.strictEqual(response.status, "200");
-    assert.equal(response.body.sexualResult?.category, "Sexual");
-    assert.notExists(response.body.violenceResult);
+    assert.equal(response.body.categoriesAnalysis[0]?.category, "Sexual");
+    assert.notExists(response.body.categoriesAnalysis[1]);
   });
 
   it("create blocklist", async function () {
@@ -101,10 +103,10 @@ describe("Content Safety Client Test", () => {
 
   it("add block items", async function () {
     const addBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}:addBlockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
       .post({
         body: {
-          blockItems: [
+          blocklistItems: [
             {
               description: "Test block item 1",
               text: blockItemText1,
@@ -124,7 +126,7 @@ describe("Content Safety Client Test", () => {
       throw new Error(addBlockItemsResponse.body?.error.message);
     }
     assert.strictEqual(addBlockItemsResponse.status, "200");
-    assert.isArray(addBlockItemsResponse.body.value);
+    assert.isArray(addBlockItemsResponse.body.blocklistItems);
 
     if (!isPlaybackMode()) {
       await sleep(30000);
@@ -134,15 +136,16 @@ describe("Content Safety Client Test", () => {
   it("analyze text with blocklist", async function () {
     const analyzeTextResponse = await client.path("/text:analyze").post({
       body: {
-        text: "This is a sample to test text with blocklist.",
+        text: "This is a sample to test.",
         blocklistNames: [blocklistName],
-        breakByBlocklists: false,
+        haltOnBlocklistHit: true,
       },
     });
     if (isUnexpected(analyzeTextResponse)) {
       throw new Error(analyzeTextResponse.body?.error.message);
     }
     assert.strictEqual(analyzeTextResponse.status, "200");
+    assert.isArray(analyzeTextResponse.body.blocklistsMatch);
   });
 
   it("list text blocklists", async function () {
@@ -167,36 +170,36 @@ describe("Content Safety Client Test", () => {
 
   it("list block items", async function () {
     const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get();
     if (isUnexpected(listBlockItemsResponse)) {
       throw new Error(listBlockItemsResponse.body?.error.message);
     }
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.isArray(listBlockItemsResponse.body.value);
-    blockItemId = listBlockItemsResponse.body.value[1].blockItemId;
+    blockItemId = listBlockItemsResponse.body.value[1].blocklistItemId;
   });
 
   it("list block items with pagination helper", async function () {
     const dataSources = await client
-      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get();
     if (isUnexpected(dataSources)) {
       throw new Error(dataSources.body?.error.message);
     }
     const iter = paginate(client, dataSources);
-    const items: TextBlockItemOutput[] = [];
+    const items: TextBlocklistItemOutput[] = [];
     for await (const item of <
-      PagedAsyncIterableIterator<TextBlockItemOutput, TextBlockItemOutput[], PageSettings>
+      PagedAsyncIterableIterator<TextBlocklistItemOutput, TextBlocklistItemOutput[], PageSettings>
     >iter) {
       items.push(item);
     }
-    assert.equal(items[1].blockItemId, blockItemId);
+    assert.equal(items[1].blocklistItemId, blockItemId);
   });
 
   it("list block items with pagination 1", async function () {
     const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
         queryParameters: {
           top: 10,
@@ -216,7 +219,7 @@ describe("Content Safety Client Test", () => {
 
   it("list block items with pagination 2", async function () {
     const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
         queryParameters: {
           top: 10,
@@ -229,7 +232,7 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.equal(listBlockItemsResponse.body.value.length, 1);
-    assert.equal(listBlockItemsResponse.body.value[0].blockItemId, blockItemId);
+    assert.equal(listBlockItemsResponse.body.value[0].blocklistItemId, blockItemId);
     const nextLink = listBlockItemsResponse.body.nextLink;
     const skip = nextLink?.split("skip=")[1].split("&")[0];
     assert.equal(skip, "2");
@@ -237,7 +240,7 @@ describe("Content Safety Client Test", () => {
 
   it("list block items with pagination 3", async function () {
     const listBlockItemsResponse = await client
-      .path("/text/blocklists/{blocklistName}/blockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
       .get({
         queryParameters: {
           top: 10,
@@ -250,27 +253,31 @@ describe("Content Safety Client Test", () => {
     }
     assert.strictEqual(listBlockItemsResponse.status, "200");
     assert.equal(listBlockItemsResponse.body.value.length, 3);
-    assert.equal(listBlockItemsResponse.body.value[1].blockItemId, blockItemId);
+    assert.equal(listBlockItemsResponse.body.value[1].blocklistItemId, blockItemId);
     assert.notExists(listBlockItemsResponse.body.nextLink);
   });
 
   it("get block item", async function () {
     const getBlockItemResponse = await client
-      .path("/text/blocklists/{blocklistName}/blockItems/{blockItemId}", blocklistName, blockItemId)
+      .path(
+        "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
+        blocklistName,
+        blockItemId
+      )
       .get();
     if (isUnexpected(getBlockItemResponse)) {
       throw new Error(getBlockItemResponse.body?.error.message);
     }
     assert.strictEqual(getBlockItemResponse.status, "200");
-    assert.equal(getBlockItemResponse.body.blockItemId, blockItemId);
+    assert.equal(getBlockItemResponse.body.blocklistItemId, blockItemId);
   });
 
   it("remove block item", async function () {
     const removeBlockItemResponse = await client
-      .path("/text/blocklists/{blocklistName}:removeBlockItems", blocklistName)
+      .path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName)
       .post({
         body: {
-          blockItemIds: [blockItemId],
+          blocklistItemIds: [blockItemId],
         },
       });
     if (isUnexpected(removeBlockItemResponse)) {
