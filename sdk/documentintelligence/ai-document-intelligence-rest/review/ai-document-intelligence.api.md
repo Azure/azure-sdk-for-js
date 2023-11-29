@@ -18,6 +18,7 @@ import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { SimplePollerLike } from '@azure/core-lro';
+import { SimplePollerPromise } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -1123,6 +1124,9 @@ export function getLongRunningPoller<TResult extends AnalyzeDocumentFromStreamLo
 
 // @public (undocumented)
 export function getLongRunningPoller<TResult extends ClassifyDocumentFromStreamLogicalResponse | ClassifyDocumentFromStreamDefaultResponse>(client: Client, initialResponse: ClassifyDocumentFromStream202Response | ClassifyDocumentFromStreamDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+
+// @public (undocumented)
+export function getLongRunningPollerSync<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): SimplePollerPromise<OperationState<TResult>, TResult>;
 
 // @public (undocumented)
 export interface GetModel {

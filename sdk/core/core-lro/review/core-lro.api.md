@@ -23,6 +23,9 @@ export interface CreateHttpPollerOptions<TResult, TState> {
     withOperationLocation?: (operationLocation: string) => void;
 }
 
+// @public (undocumented)
+export function createHttpPollerPromise<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): SimplePollerPromise<TState, TResult>;
+
 // @public
 export interface LongRunningOperation<T = unknown> {
     requestMethod?: string;
@@ -174,6 +177,10 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
     }): Promise<TResult>;
     stopPolling(): void;
     toString(): string;
+}
+
+// @public (undocumented)
+export interface SimplePollerPromise<TState extends OperationState<TResult>, TResult> extends Promise<TResult>, SimplePollerLike<TState, TResult> {
 }
 
 // (No @packageDocumentation comment for this package)

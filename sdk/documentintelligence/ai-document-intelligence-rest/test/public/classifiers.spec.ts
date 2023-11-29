@@ -10,6 +10,7 @@ import DocumentIntelligence, {
   DocumentClassifierDetailsOutput,
   DocumentIntelligenceClient,
   getLongRunningPoller,
+  getLongRunningPollerSync,
   isUnexpected,
 } from "../../src";
 import { assert } from "chai";
@@ -27,8 +28,8 @@ describe("classifiers", () => {
     recorder = await createRecorder(this);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
-      assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
-      { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
+      "https://endpoint",
+      { key: "api_key" },
       recorder.configureClientOptions({})
     );
   });
@@ -76,9 +77,9 @@ describe("classifiers", () => {
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      const poller = getLongRunningPoller(client, initialResponse);
+      const result = await getLongRunningPollerSync(client, initialResponse);
       const response = (
-        (await (await poller).pollUntilDone()).body as DocumentClassifierBuildOperationDetailsOutput
+        (result).body as DocumentClassifierBuildOperationDetailsOutput
       ).result;
       if (!response) {
         throw new Error("Expected a DocumentClassifierDetailsOutput response.");
@@ -91,7 +92,7 @@ describe("classifiers", () => {
     return _classifier;
   }
 
-  it("build classifier", async function (this: Context) {
+  it.only("build classifier", async function (this: Context) {
     const classifier = await requireClassifier();
 
     assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);

@@ -8,7 +8,9 @@ import {
   LroResponse,
   OperationState,
   SimplePollerLike,
+  SimplePollerPromise,
   createHttpPoller,
+  createHttpPollerPromise
 } from "@azure/core-lro";
 import {
   AnalyzeDocumentFromStream202Response,
@@ -67,8 +69,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentFromStreamDefaultResponse
+  | AnalyzeDocumentFromStreamLogicalResponse
+  | AnalyzeDocumentFromStreamDefaultResponse
 >(
   client: Client,
   initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
@@ -76,8 +78,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentFromStreamDefaultResponse
+  | ClassifyDocumentFromStreamLogicalResponse
+  | ClassifyDocumentFromStreamDefaultResponse
 >(
   client: Client,
   initialResponse:
@@ -113,6 +115,36 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
 
   options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
   return createHttpPoller(poller, options);
+}
+
+export function getLongRunningPollerSync<TResult extends HttpResponse>(
+  client: Client,
+  initialResponse: TResult,
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {}
+): SimplePollerPromise<OperationState<TResult>, TResult> {
+  const poller: LongRunningOperation<TResult> = {
+    requestMethod: initialResponse.request.method,
+    requestPath: initialResponse.request.url,
+    sendInitialRequest: async () => {
+      // In the case of Rest Clients we are building the LRO poller object from a response that's the reason
+      // we are not triggering the initial request here, just extracting the information from the
+      // response we were provided.
+      return getLroResponse(initialResponse);
+    },
+    sendPollRequest: async (path) => {
+      // This is the callback that is going to be called to poll the service
+      // to get the latest status. We use the client provided and the polling path
+      // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
+      // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
+      const response = await client.pathUnchecked(path ?? initialResponse.request.url).get();
+      const lroResponse = getLroResponse(response as TResult);
+      lroResponse.rawResponse.headers["x-ms-original-url"] = initialResponse.request.url;
+      return lroResponse;
+    },
+  };
+
+  options.resolveOnUnsuccessful = options.resolveOnUnsuccessful ?? true;
+  return createHttpPollerPromise(poller, options);
 }
 
 /**
