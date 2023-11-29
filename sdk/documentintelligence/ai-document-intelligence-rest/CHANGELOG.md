@@ -52,7 +52,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
     });
   ```
 
-  Tables, paragraphs and formulas are represented accordingly and may have breaking changes with regards to the content that you may have received using the older `@azure/ai-form-recognizer` library, that relies on older service API versions.
+  Tables, paragraphs, styles, and formulas are represented accordingly and may have breaking changes with regard to the content that you may have received using the older `@azure/ai-form-recognizer` library, which relies on older service API versions.
 
 - **Query Fields**
 
