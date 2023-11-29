@@ -6,9 +6,6 @@
  */
 
 import ContentSafetyClient, {
-  AnalyzeImageParameters,
-  AnalyzeImageOptions,
-  ImageCategoriesAnalysisOutput,
   isUnexpected,
 } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -30,8 +27,8 @@ async function main() {
 
   const imageBuffer = fs.readFileSync(image_path);
   const base64Image = imageBuffer.toString("base64");
-  const analyzeImageOption: AnalyzeImageOptions = { image: { content: base64Image } };
-  const analyzeImageParameters: AnalyzeImageParameters = { body: analyzeImageOption };
+  const analyzeImageOption = { image: { content: base64Image } };
+  const analyzeImageParameters = { body: analyzeImageOption };
 
   const result = await client.path("/image:analyze").post(analyzeImageParameters);
 
@@ -40,7 +37,7 @@ async function main() {
   }
 
   for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-    const imageCategoriesAnalysisOutput: ImageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
     console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
   }
 }

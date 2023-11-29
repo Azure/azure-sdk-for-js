@@ -7,9 +7,6 @@
 
 import ContentSafetyClient, {
   CreateOrUpdateTextBlocklistParameters,
-  AddOrUpdateBlocklistItemsParameters,
-  AnalyzeTextParameters,
-  RemoveBlocklistItemsParameters,
   isUnexpected
 } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -47,7 +44,7 @@ async function addBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText1 = "sample";
   const blockItemText2 = "text";
-  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -79,7 +76,7 @@ async function addBlockItems() {
 async function analyzeTextWithBlocklists() {
   const blocklistName = "TestBlocklist";
   const inputText = "This is a sample to test text with blocklist.";
-  const analyzeTextParameters: AnalyzeTextParameters = {
+  const analyzeTextParameters = {
     body: {
       text: inputText,
       blocklistNames: [blocklistName],
@@ -149,7 +146,7 @@ async function listBlockItems() {
 async function getBlockItem() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -178,7 +175,7 @@ async function getBlockItem() {
 async function removeBlockItems() {
   const blocklistName = "TestBlocklist";
   const blockItemText = "sample";
-  const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+  const addOrUpdateBlocklistItemsParameters = {
     body: {
       blocklistItems: [
         {
@@ -194,7 +191,7 @@ async function removeBlockItems() {
   }
   const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-  const removeBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
+  const removeBlocklistItemsParameters = {
     body: {
       blocklistItemIds: [blockItemId]
     }

@@ -142,7 +142,7 @@ The following section provides several code snippets covering some of the most c
 #### Analyze text without blocklists
 
 ```typescript
-import ContentSafetyClient, { AnalyzeTextOptions, AnalyzeTextParameters, TextCategoriesAnalysisOutput, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -152,8 +152,8 @@ const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
 const text = "This is a sample text";
-const analyzeTextOption: AnalyzeTextOptions = { text: text };
-const analyzeTextParameters: AnalyzeTextParameters = { body: analyzeTextOption };
+const analyzeTextOption = { text: text };
+const analyzeTextParameters = { body: analyzeTextOption };
 
 const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
@@ -162,7 +162,7 @@ if (isUnexpected(result)) {
 }
 
 for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-  const textCategoriesAnalysisOutput: TextCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
   console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
 }
 ```
@@ -170,7 +170,7 @@ for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
 #### Analyze text with blocklists
 
 ```typescript
-import ContentSafetyClient, { AnalyzeTextParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -181,7 +181,7 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const inputText = "This is a sample to test text with blocklist.";
-const analyzeTextParameters: AnalyzeTextParameters = {
+const analyzeTextParameters = {
   body: {
     text: inputText,
     blocklistNames: [blocklistName],
@@ -206,7 +206,7 @@ if (result.body.blocklistsMatch) {
 ### Analyze image
 
 ```typescript
-import ContentSafetyClient, { AnalyzeImageOptions, AnalyzeTextParameters, ImageCategoriesAnalysisOutput, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 import fs from "fs";
 import path from "path";
@@ -221,8 +221,8 @@ const image_path = path.resolve(__dirname, "./samples-dev/example-data/image.png
 
 const imageBuffer = fs.readFileSync(image_path);
 const base64Image = imageBuffer.toString("base64");
-const analyzeImageOption: AnalyzeImageOptions = { image: { content: base64Image } };
-const analyzeImageParameters: AnalyzeImageParameters = { body: analyzeImageOption };
+const analyzeImageOption = { image: { content: base64Image } };
+const analyzeImageParameters = { body: analyzeImageOption };
 
 const result = await client.path("/image:analyze").post(analyzeImageParameters);
 
@@ -231,7 +231,7 @@ if (isUnexpected(result)) {
 }
 
 for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-  const imageCategoriesAnalysisOutput: ImageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+  const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
   console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
 }
 ```
@@ -344,7 +344,7 @@ console.log("Deleted blocklist: ", blocklistName);
 #### Add blockItems
 
 ```typescript
-import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -356,7 +356,7 @@ const client = ContentSafetyClient(endpoint, credential);
 const blocklistName = "TestBlocklist";
 const blockItemText1 = "sample";
 const blockItemText2 = "text";
-const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
     blocklistItems: [
       {
@@ -416,7 +416,7 @@ if (result.body.value) {
 #### Get blockItem
 
 ```typescript
-import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -427,7 +427,7 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
     blocklistItems: [
       {
@@ -456,7 +456,7 @@ console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockIt
 #### Remove blockItems
 
 ```typescript
-import ContentSafetyClient, { AddOrUpdateBlocklistItemsParameters, RemoveBlocklistItemsParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
@@ -467,7 +467,7 @@ const client = ContentSafetyClient(endpoint, credential);
 
 const blocklistName = "TestBlocklist";
 const blockItemText = "sample";
-const addOrUpdateBlocklistItemsParameters: AddOrUpdateBlocklistItemsParameters = {
+const addOrUpdateBlocklistItemsParameters = {
   body: {
     blocklistItems: [
       {
@@ -483,7 +483,7 @@ if (isUnexpected(result) || result.body.blocklistItems === undefined) {
 }
 const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const removeBlocklistItemsParameters: RemoveBlocklistItemsParameters = {
+const removeBlocklistItemsParameters = {
   body: {
     blocklistItemIds: [blockItemId]
   }
@@ -516,3 +516,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 ### Additional documentation
 
 For more extensive documentation on Azure Content Safety, see the [Azure AI Content Safety](https://learn.microsoft.com/azure/ai-services/content-safety/overview) on docs.microsoft.com.
+
+## Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
