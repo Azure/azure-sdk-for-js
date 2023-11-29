@@ -2,34 +2,34 @@ trigger: none
 variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 jobs:
-  # - template: /eng/common/pipelines/templates/jobs/docindex.yml
+  - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
-  # - job: UpgradeRexTool
-  #   timeoutInMinutes: 10
-  #   pool:
-  #     vmImage: ubuntu-22.04
+  - job: UpgradeRexTool
+    timeoutInMinutes: 10
+    pool:
+      vmImage: ubuntu-22.04
     
-  #   steps:
-  #     - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-  #       parameters:
-  #         SkipCheckoutNone: true
+    steps:
+      - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+        parameters:
+          SkipCheckoutNone: true
 
-  #     - task: Powershell@2
-  #       inputs:
-  #         pwsh: true
-  #         filePath: eng/scripts/docs/Update-RexValidationTool.ps1
-  #       displayName: Update JS REX Validation Tool
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/scripts/docs/Update-RexValidationTool.ps1
+        displayName: Update JS REX Validation Tool
 
-  #     - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
-  #       parameters:
-  #         PRBranchName: docs/rex-tool-upgrade
-  #         # Force push as this task updates a single file and history is not
-  #         # necessary for changes in this branch.
-  #         PushArgs: -f
-  #         PRTitle: Upgrade JS REX Validation Tool
-  #         PRBody: |
-  #           This PR upgrades the JS REX Validation Tool to the latest version.
-  #           Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
+      - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
+        parameters:
+          PRBranchName: docs/rex-tool-upgrade
+          # Force push as this task updates a single file and history is not
+          # necessary for changes in this branch.
+          PushArgs: -f
+          PRTitle: Upgrade JS REX Validation Tool
+          PRBody: |
+            This PR upgrades the JS REX Validation Tool to the latest version.
+            Testing was done in $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)
 
   - job: UpdateDocsMsBuildConfig
     timeoutInMinutes: 90
@@ -52,8 +52,6 @@ jobs:
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
-              # TODO: Testing value, remove when done
-              Commitish: djurek/rex-tests
 
       - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
 
@@ -106,75 +104,74 @@ jobs:
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
-          # TODO: Testing value, use $(DefaultBranch) when done
-          BaseRepoBranch: djurek/rex-tests
+          BaseRepoBranch: $(DefaultBranch)
           BaseRepoOwner: $(DocRepoOwner)
           CommitMsg: "Update docs CI configuration Build: $(System.CollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
           TargetRepoName: $(DocRepoName)
           TargetRepoOwner: $(DocRepoOwner)
           WorkingDirectory: $(DocRepoLocation)
 
-  #     # # Prepare daily docs CI
-  #     # - template: /eng/common/pipelines/templates/steps/set-daily-docs-branch-name.yml
-  #     #   parameters:
-  #     #     DailyBranchVariableName: DailyDocsBranchName
-  #     # - pwsh: |
-  #     #     $ErrorActionPreference = "Continue"
-  #     #     git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
-  #     #     $LASTEXITCODE = 0 # This ignores any error from git checkout
-  #     #     git status
-  #     #   displayName: Checkout daily branch if it exists
-  #     #   workingDirectory: $(DocRepoLocation)
-  #     # - task: Powershell@2
-  #     #   inputs:
-  #     #     pwsh: true
-  #     #     filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-  #     #     arguments: -DocRepoLocation $(DocRepoLocation)
-  #     #   displayName: Update Docs Onboarding for Daily docs
+      # Prepare daily docs CI
+      - template: /eng/common/pipelines/templates/steps/set-daily-docs-branch-name.yml
+        parameters:
+          DailyBranchVariableName: DailyDocsBranchName
+      - pwsh: |
+          $ErrorActionPreference = "Continue"
+          git checkout "origin/$(DailyDocsBranchName)" 2>&1 | Out-Null
+          $LASTEXITCODE = 0 # This ignores any error from git checkout
+          git status
+        displayName: Checkout daily branch if it exists
+        workingDirectory: $(DocRepoLocation)
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Update Docs Onboarding for Daily docs
 
-  #     # - task: Powershell@2
-  #     #   inputs:
-  #     #     pwsh: true
-  #     #     filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
-  #     #     arguments: -DocRepoLocation $(DocRepoLocation)
-  #     #   displayName: Generate Service Level Readme for Daily docs
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Generate Service Level Readme for Daily docs
 
-  #     # - task: Powershell@2
-  #     #   inputs:
-  #     #     pwsh: true
-  #     #     filePath: eng/common/scripts/Update-DocsMsToc.ps1
-  #     #     arguments: >-
-  #     #       -DocRepoLocation $(DocRepoLocation)
-  #     #       -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
-  #     #   displayName: Generate ToC for Daily docs
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC for Daily docs
 
-  #     # - task: Powershell@2
-  #     #   inputs:
-  #     #     pwsh: true
-  #     #     filePath: eng/common/scripts/Verify-RequiredDocsJsonMembers.ps1
-  #     #     arguments: >-
-  #     #       -DocRepoLocation $(DocRepoLocation)
-  #     #   displayName: Verify Required Docs Json Members
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Verify-RequiredDocsJsonMembers.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+        displayName: Verify Required Docs Json Members
 
-  #     # - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
-  #     #   parameters:
-  #     #     BaseRepoBranch: $(DailyDocsBranchName)
-  #     #     BaseRepoOwner: $(DocRepoOwner)
-  #     #     CommitMsg: "Update targeting packages based on release metadata. (Daily docs)"
-  #     #     TargetRepoName: $(DocRepoName)
-  #     #     TargetRepoOwner: $(DocRepoOwner)
-  #     #     WorkingDirectory: $(DocRepoLocation)
-  #     #     ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
-  #     #     PushArgs: -f
+      - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+        parameters:
+          BaseRepoBranch: $(DailyDocsBranchName)
+          BaseRepoOwner: $(DocRepoOwner)
+          CommitMsg: "Update targeting packages based on release metadata. (Daily docs)"
+          TargetRepoName: $(DocRepoName)
+          TargetRepoOwner: $(DocRepoOwner)
+          WorkingDirectory: $(DocRepoLocation)
+          ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
+          PushArgs: -f
 
-  #     # - task: PowerShell@2
-  #     #   displayName: Queue Docs CI build
-  #     #   inputs:
-  #     #     pwsh: true
-  #     #     filePath: eng/common/scripts/Queue-Pipeline.ps1
-  #     #     arguments: >
-  #     #       -Organization "apidrop"
-  #     #       -Project "Content%20CI"
-  #     #       -DefinitionId 3452
-  #     #       -AuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
-  #     #       -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
+      - task: PowerShell@2
+        displayName: Queue Docs CI build
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Queue-Pipeline.ps1
+          arguments: >
+            -Organization "apidrop"
+            -Project "Content%20CI"
+            -DefinitionId 3452
+            -AuthToken "$(azuresdk-apidrop-devops-queue-build-pat)"
+            -BuildParametersJson '{"params":"{ \"target_repo\": { \"url\": \"https://github.com/MicrosoftDocs/azure-docs-sdk-node\", \"branch\": \"$(DailyDocsBranchName)\", \"folder\": \"./\" }, \"source_repos\": [] }"}'
