@@ -15,6 +15,11 @@ Write-Host "A new version of $PackageName is available: $latestPackageVersion"
 
 npm install -g "$PackageName@$latestPackageVersion"
 
+if ($LASTEXITCODE) {
+  Write-Host "Failed to install $PackageName@$latestPackageVersion. Exiting."
+  exit 1
+}
+
 try { 
   $pesterConfig = New-PesterConfiguration @{ 
     Run = @{ 
