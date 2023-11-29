@@ -35,7 +35,7 @@ async function subvolumesCreate() {
     poolName,
     volumeName,
     subvolumeName,
-    body
+    body,
   );
   console.log(result);
 }

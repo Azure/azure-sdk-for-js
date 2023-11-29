@@ -31,7 +31,7 @@ async function volumesRestoreStatus() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }

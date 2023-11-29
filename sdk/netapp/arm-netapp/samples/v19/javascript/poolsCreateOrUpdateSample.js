@@ -36,7 +36,7 @@ async function poolsCreateOrUpdate() {
     resourceGroupName,
     accountName,
     poolName,
-    body
+    body,
   );
   console.log(result);
 }

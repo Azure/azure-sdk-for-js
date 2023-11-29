@@ -448,7 +448,7 @@ async function volumeGroupsCreateOracle() {
     resourceGroupName,
     accountName,
     volumeGroupName,
-    body
+    body,
   );
   console.log(result);
 }
@@ -656,7 +656,7 @@ async function volumeGroupsCreateSapHana() {
     resourceGroupName,
     accountName,
     volumeGroupName,
-    body
+    body,
   );
   console.log(result);
 }

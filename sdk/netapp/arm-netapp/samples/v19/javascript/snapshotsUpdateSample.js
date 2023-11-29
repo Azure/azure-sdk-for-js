@@ -35,7 +35,7 @@ async function snapshotsUpdate() {
     poolName,
     volumeName,
     snapshotName,
-    body
+    body,
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function volumeQuotaRulesGet() {
     accountName,
     poolName,
     volumeName,
-    volumeQuotaRuleName
+    volumeQuotaRuleName,
   );
   console.log(result);
 }

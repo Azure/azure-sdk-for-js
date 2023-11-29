@@ -34,7 +34,7 @@ async function volumesBreakReplication() {
     accountName,
     poolName,
     volumeName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -36,7 +36,7 @@ async function volumesAuthorizeReplication() {
     accountName,
     poolName,
     volumeName,
-    body
+    body,
   );
   console.log(result);
 }

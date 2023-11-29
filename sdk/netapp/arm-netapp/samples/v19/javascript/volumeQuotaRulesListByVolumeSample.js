@@ -32,7 +32,7 @@ async function volumeQuotaRulesList() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName
+    volumeName,
   )) {
     resArray.push(item);
   }

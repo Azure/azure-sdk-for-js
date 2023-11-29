@@ -29,7 +29,7 @@ async function snapshotPoliciesDelete() {
   const result = await client.snapshotPolicies.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    snapshotPolicyName
+    snapshotPolicyName,
   );
   console.log(result);
 }

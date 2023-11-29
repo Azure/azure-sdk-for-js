@@ -33,7 +33,7 @@ async function snapshotsGet() {
     accountName,
     poolName,
     volumeName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }

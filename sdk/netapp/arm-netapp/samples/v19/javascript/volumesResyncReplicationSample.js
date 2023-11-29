@@ -31,7 +31,7 @@ async function volumesResyncReplication() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }

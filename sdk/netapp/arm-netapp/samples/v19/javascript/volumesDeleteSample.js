@@ -31,7 +31,7 @@ async function volumesDelete() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }

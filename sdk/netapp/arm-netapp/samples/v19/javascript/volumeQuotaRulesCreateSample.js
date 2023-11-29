@@ -40,7 +40,7 @@ async function volumeQuotaRulesCreate() {
     poolName,
     volumeName,
     volumeQuotaRuleName,
-    body
+    body,
   );
   console.log(result);
 }

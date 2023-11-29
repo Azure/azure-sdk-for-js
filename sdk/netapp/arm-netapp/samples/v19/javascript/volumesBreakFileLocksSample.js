@@ -37,7 +37,7 @@ async function volumesBreakFileLocks() {
     accountName,
     poolName,
     volumeName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function volumesUpdate() {
     accountName,
     poolName,
     volumeName,
-    body
+    body,
   );
   console.log(result);
 }

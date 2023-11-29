@@ -37,7 +37,7 @@ async function backupPoliciesCreate() {
     resourceGroupName,
     accountName,
     backupPolicyName,
-    body
+    body,
   );
   console.log(result);
 }

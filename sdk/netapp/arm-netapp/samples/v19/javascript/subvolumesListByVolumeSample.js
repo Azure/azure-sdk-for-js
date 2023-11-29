@@ -32,7 +32,7 @@ async function subvolumesList() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName
+    volumeName,
   )) {
     resArray.push(item);
   }

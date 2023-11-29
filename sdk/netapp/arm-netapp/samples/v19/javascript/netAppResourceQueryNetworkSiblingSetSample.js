@@ -30,7 +30,7 @@ async function networkSiblingSetQuery() {
   const result = await client.netAppResource.queryNetworkSiblingSet(
     location,
     networkSiblingSetId,
-    subnetId
+    subnetId,
   );
   console.log(result);
 }

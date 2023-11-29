@@ -31,7 +31,7 @@ async function poolsUpdate() {
     resourceGroupName,
     accountName,
     poolName,
-    body
+    body,
   );
   console.log(result);
 }
