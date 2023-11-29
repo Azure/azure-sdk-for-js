@@ -7,7 +7,10 @@ BeforeDiscovery {
 BeforeAll {
   . $PSScriptRoot/../../../common/scripts/common.ps1
 
-  # Returns 
+  # Returns a package info object with Name and Version properties
+  # "@microsoft/sample-package@1.2.3" -> @{ Name = "@microsoft/sample-package"; Version = "1.2.3" }
+  # "@microsoft/sample-package"       -> @{ Name = "@microsoft/sample-package"; Version = "" }
+  # "sample-package@1.2.3"            -> @{ Name = "sample-package"; Version = "1.2.3" }
   function getPackageInfo($packageName) { 
     $output = @{ Name = $packageName; Version = '' }
 
