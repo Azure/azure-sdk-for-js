@@ -7,7 +7,7 @@ import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:browser",
-  "runs the browser tests using karma with the default and the provided options; starts the proxy-tool in record and playback modes"
+  "runs the browser tests using karma with the default and the provided options; starts the proxy-tool in record and playback modes",
 );
 
 export default leafCommand(commandInfo, async (options) => {
