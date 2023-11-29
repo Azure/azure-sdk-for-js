@@ -470,6 +470,9 @@ dependencies:
   '@rush-temp/arm-network-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-network-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-network-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-networkanalytics':
+    specifier: file:./projects/arm-networkanalytics.tgz
+    version: file:projects/arm-networkanalytics.tgz
   '@rush-temp/arm-networkcloud':
     specifier: file:./projects/arm-networkcloud.tgz
     version: file:projects/arm-networkcloud.tgz
@@ -14120,6 +14123,33 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-networkanalytics.tgz:
+    resolution: {integrity: sha512-WbRUbDTJCJVlmVilj1D6xG08o8m9Qmz33FbtOqa3ZSict+ARrPe2oUkCiL9Q88qz1/nt1niPOgftduhhRpdh5g==, tarball: file:projects/arm-networkanalytics.tgz}
+    name: '@rush-temp/arm-networkanalytics'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.18.13
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.1(@types/node@18.18.13)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-networkcloud.tgz:
