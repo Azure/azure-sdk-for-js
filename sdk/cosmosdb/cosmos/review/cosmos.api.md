@@ -206,7 +206,7 @@ export class ClientContext {
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal, correlatedActivityId?: string): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
@@ -232,7 +232,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -246,6 +246,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         startEpk?: string | undefined;
         endEpk?: string | undefined;
+        correlatedActivityId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -447,6 +448,7 @@ export const Constants: {
         PageSize: string;
         ItemCount: string;
         ActivityId: string;
+        CorrelatedActivityId: string;
         PreTriggerInclude: string;
         PreTriggerExclude: string;
         PostTriggerInclude: string;
@@ -1626,7 +1628,9 @@ export class QueryIterator<T> {
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
+    // (undocumented)
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
+    getCorrelatedId(): string;
     hasMoreResults(): boolean;
     reset(): void;
 }

@@ -107,7 +107,8 @@ export class Items {
 
     const fetchFunction: FetchFunctionCallback = async (
       diagnosticNode: DiagnosticNodeInternal,
-      innerOptions: FeedOptions
+      innerOptions: FeedOptions,
+      correlatedActivityId: string
     ) => {
       const response = await this.clientContext.queryFeed({
         path,
@@ -118,6 +119,7 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
         diagnosticNode,
+        correlatedActivityId,
       });
       return response;
     };

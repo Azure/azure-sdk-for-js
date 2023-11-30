@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 /// <reference lib="esnext.asynciterable" />
-
+import { v4 } from "uuid";
+const uuid = v4;
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
@@ -38,6 +39,7 @@ export class QueryIterator<T> {
   private queryExecutionContext: ExecutionContext;
   private queryPlanPromise: Promise<Response<PartitionedQueryExecutionInfo>>;
   private isInitialized: boolean;
+  private correlatedActivityId: string;
   /**
    * @hidden
    */
@@ -80,7 +82,12 @@ export class QueryIterator<T> {
    * }
    * ```
    */
+  public getCorrelatedId(): string {
+    return this.correlatedActivityId;
+  }
+
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
+    this.correlatedActivityId = uuid();
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
@@ -136,6 +143,7 @@ export class QueryIterator<T> {
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
+    this.correlatedActivityId = uuid();
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
@@ -163,6 +171,8 @@ export class QueryIterator<T> {
    * before returning the first batch of responses.
    */
   public async fetchNext(): Promise<FeedResponse<T>> {
+    this.correlatedActivityId = uuid();
+    this.reset();
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -208,7 +218,8 @@ export class QueryIterator<T> {
     this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
-      this.fetchFunctions
+      this.fetchFunctions,
+      this.correlatedActivityId
     );
   }
 
@@ -286,7 +297,8 @@ export class QueryIterator<T> {
           this.resourceLink,
           this.query,
           this.options,
-          diagnosticNode
+          diagnosticNode,
+          this.correlatedActivityId
         )
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }

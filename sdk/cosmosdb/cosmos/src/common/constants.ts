@@ -76,6 +76,7 @@ export const Constants = {
 
     // Request sender generated. Simply echoed by backend.
     ActivityId: "x-ms-activity-id",
+    CorrelatedActivityId: "x-ms-cosmos-correlated-activityid",
     PreTriggerInclude: "x-ms-documentdb-pre-trigger-include",
     PreTriggerExclude: "x-ms-documentdb-pre-trigger-exclude",
     PostTriggerInclude: "x-ms-documentdb-post-trigger-include",
