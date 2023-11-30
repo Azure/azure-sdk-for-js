@@ -298,7 +298,9 @@
         "ssml",
         "Ssml",
         "answeredby",
-        "playsourcacheid"
+        "playsourcacheid",
+        "sipx",
+        "sipuui"
       ]
     },
     {
