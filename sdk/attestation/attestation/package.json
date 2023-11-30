@@ -27,13 +27,6 @@
     ]
   },
   "types": "types/latest/attestation.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "types/3.1/attestation.d.ts"
-      ]
-    }
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -41,8 +34,7 @@
     "build:nodebrowser": "dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -66,7 +58,6 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -115,7 +106,6 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
