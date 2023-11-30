@@ -62,4 +62,16 @@ describe("ResourceHealth test", () => {
     const res = await client.operations.list();
     console.log(res);
   });
+
+  it("availabilityStatuses listBySubscriptionId test", async function () {
+    const resArray = new Array();
+    for await (let item of client.availabilityStatuses.listBySubscriptionId(
+      {
+        expand: "recommendedactions"
+      }
+    )) {
+      resArray.push(item);
+    }
+    console.log(resArray);
+  });
 })

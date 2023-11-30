@@ -29,7 +29,7 @@ async function listEventsByTenantId() {
   const resArray = new Array();
   for await (let item of client.impactedResources.listByTenantIdAndEventId(
     eventTrackingId,
-    options
+    options,
   )) {
     resArray.push(item);
   }

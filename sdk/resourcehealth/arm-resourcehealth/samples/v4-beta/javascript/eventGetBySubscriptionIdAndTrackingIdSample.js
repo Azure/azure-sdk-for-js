@@ -31,7 +31,7 @@ async function securityAdvisoriesEventBySubscriptionIdAndTrackingId() {
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const result = await client.eventOperations.getBySubscriptionIdAndTrackingId(
     eventTrackingId,
-    options
+    options,
   );
   console.log(result);
 }

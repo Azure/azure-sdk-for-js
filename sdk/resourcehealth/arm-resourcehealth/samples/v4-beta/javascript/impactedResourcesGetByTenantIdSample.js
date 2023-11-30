@@ -25,7 +25,7 @@ async function impactedResourcesGet() {
   const client = new MicrosoftResourceHealth(credential);
   const result = await client.impactedResources.getByTenantId(
     eventTrackingId,
-    impactedResourceName
+    impactedResourceName,
   );
   console.log(result);
 }

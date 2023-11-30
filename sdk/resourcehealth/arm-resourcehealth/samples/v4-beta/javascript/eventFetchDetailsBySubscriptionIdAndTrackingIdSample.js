@@ -23,9 +23,8 @@ async function eventDetailsBySubscriptionIdAndTrackingId() {
   const eventTrackingId = "eventTrackingId";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
-  const result = await client.eventOperations.fetchDetailsBySubscriptionIdAndTrackingId(
-    eventTrackingId
-  );
+  const result =
+    await client.eventOperations.fetchDetailsBySubscriptionIdAndTrackingId(eventTrackingId);
   console.log(result);
 }
 

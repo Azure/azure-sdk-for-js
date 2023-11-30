@@ -24,7 +24,7 @@ async function listSecurityAdvisoryImpactedResourcesByTenantId() {
   const client = new MicrosoftResourceHealth(credential);
   const resArray = new Array();
   for await (let item of client.securityAdvisoryImpactedResources.listByTenantIdAndEventId(
-    eventTrackingId
+    eventTrackingId,
   )) {
     resArray.push(item);
   }

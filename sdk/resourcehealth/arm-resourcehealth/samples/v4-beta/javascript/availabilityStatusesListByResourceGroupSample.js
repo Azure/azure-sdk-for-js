@@ -30,7 +30,7 @@ async function listByResourceGroup() {
   const resArray = new Array();
   for await (let item of client.availabilityStatuses.listByResourceGroup(
     resourceGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

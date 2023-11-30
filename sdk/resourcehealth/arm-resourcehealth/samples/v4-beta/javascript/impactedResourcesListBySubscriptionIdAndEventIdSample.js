@@ -30,7 +30,7 @@ async function listImpactedResourcesBySubscriptionId() {
   const resArray = new Array();
   for await (let item of client.impactedResources.listBySubscriptionIdAndEventId(
     eventTrackingId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
