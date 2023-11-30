@@ -31,6 +31,9 @@ import {
   ContinuousDtmfRecognitionOptions,
   SendDtmfTonesOptions,
   CallAutomationEventProcessor,
+  CreateCallOptions,
+  AnswerCallOptions,
+  PlayOptions,
 } from "../src";
 
 // Current directory imports
@@ -385,7 +388,9 @@ describe("Call Media Client Live Tests", function () {
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -408,8 +413,13 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "playAudioCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -417,7 +427,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOption: AnswerCallOptions = { operationContext: "playAudioAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -430,7 +445,8 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    await callConnection.getCallMedia().play(playSource, [testUser2]);
+    const playOption: PlayOptions = { operationContext: "playAudio" };
+    await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent);
     await callConnection.hangUp(true);
@@ -447,8 +463,13 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "playToAllCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -456,7 +477,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOption: AnswerCallOptions = { operationContext: "playToAllAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -469,7 +495,8 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    await callConnection.getCallMedia().playToAll(playSource);
+    const playOption: PlayOptions = { operationContext: "playToAllAudio" };
+    await callConnection.getCallMedia().playToAll(playSource, playOption);
 
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent);
@@ -488,8 +515,13 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "CancelMediaCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -497,7 +529,12 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOption: AnswerCallOptions = { operationContext: "CancelMediaAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -510,7 +547,8 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    await callConnection.getCallMedia().playToAll(playSource);
+    const playOption: PlayOptions = { operationContext: "CancelplayToAllAudio" };
+    await callConnection.getCallMedia().playToAll(playSource, playOption);
     await callConnection.getCallMedia().cancelAllOperations();
 
     const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);

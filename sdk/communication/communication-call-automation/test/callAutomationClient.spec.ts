@@ -14,7 +14,13 @@ import {
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "../src";
 import {
   createRecorder,
   createTestUser,
@@ -213,7 +219,9 @@ describe("Call Automation Main Client Live Tests", function () {
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -236,8 +244,13 @@ describe("Call Automation Main Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -245,7 +258,14 @@ describe("Call Automation Main Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOptions: AnswerCallOptions = {
+        operationContext: "operationContextAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -263,8 +283,13 @@ describe("Call Automation Main Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextRejectCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId

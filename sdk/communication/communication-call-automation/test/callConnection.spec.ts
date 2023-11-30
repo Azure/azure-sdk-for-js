@@ -22,6 +22,11 @@ import {
   RemoveParticipantEventResult,
   CancelAddParticipantEventResult,
   CancelAddParticipantSucceeded,
+  CreateCallOptions,
+  AnswerCallOptions,
+  AddParticipantOptions,
+  RemoveParticipantsOption,
+  CancelAddParticipantOperationOptions,
 } from "../src";
 import Sinon, { SinonStubbedInstance } from "sinon";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
@@ -343,7 +348,9 @@ describe("CallConnection Live Tests", function () {
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {}
+      } catch (e) {
+        console.log(e);
+      }
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -366,14 +373,25 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const createCallOption: CreateCallOptions = { operationContext: "listParticipantsCreateCall" };
+
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOptions: AnswerCallOptions = { operationContext: "listParticipantsAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -392,14 +410,25 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const createCallOption: CreateCallOptions = { operationContext: "addParticipantsCreateCall" };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
+
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOptions: AnswerCallOptions = { operationContext: "addParticipantsAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
@@ -409,7 +438,8 @@ describe("CallConnection Live Tests", function () {
     const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
     const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
 
-    const addResult = await callConnection.addParticipant(participantInvite);
+    const addParticipantOptions: AddParticipantOptions = { operationContext: "addParticipants" };
+    const addResult = await callConnection.addParticipant(participantInvite, addParticipantOptions);
     assert.isDefined(addResult);
 
     const anotherReceiverCallAutomationClient: CallAutomationClient = createCallAutomationClient(
@@ -418,9 +448,13 @@ describe("CallConnection Live Tests", function () {
     );
     const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
     if (anotherIncomingCallContext) {
+      const answerCallOption2: AddParticipantOptions = {
+        operationContext: "addParticipantsAnswer2",
+      };
       await anotherReceiverCallAutomationClient.answerCall(
         anotherIncomingCallContext,
-        callBackUrl2
+        callBackUrl2,
+        answerCallOption2
       );
     }
     const participantAddedEvent = await waitForEvent(
@@ -443,19 +477,35 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const createCallOption: CreateCallOptions = { operationContext: "removeParticipantCreateCall" };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOption: AnswerCallOptions = { operationContext: "removeParticipantsAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
-    const removeResult = await callConnection.removeParticipant(testUser2);
+    const removeParticipantOptions: RemoveParticipantsOption = {
+      operationContext: "removeParticipants",
+    };
+    const removeResult = await callConnection.removeParticipant(
+      testUser2,
+      removeParticipantOptions
+    );
     assert.isDefined(removeResult);
 
     // A call needs at least 2 participants, removing one of the only 2 participants would end the call.
@@ -540,14 +590,24 @@ describe("CallConnection Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const createCallOption: CreateCallOptions = { operationContext: "cancelAddCreateCall" };
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 10000);
     callConnectionId = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
       : "";
     assert.isDefined(incomingCallContext);
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOption: AnswerCallOptions = { operationContext: "cancelAddCreateAnswer" };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOption
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 10000);
     assert.isDefined(callConnectedEvent);
@@ -555,14 +615,21 @@ describe("CallConnection Live Tests", function () {
     const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
     const participantInvite: CallInvite = { targetParticipant: testUser3 };
 
-    const addResult = await callConnection.addParticipant(participantInvite);
+    const addParticipantOptions: AddParticipantOptions = { operationContext: "cancelAdd" };
+    const addResult = await callConnection.addParticipant(participantInvite, addParticipantOptions);
     assert.isDefined(addResult);
 
     // ensure invitation is sent out
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
 
     // cancel add participant
-    await callConnection.cancelAddParticipantOperation(addResult.invitationId!);
+    const cancelParticipantOption: CancelAddParticipantOperationOptions = {
+      operationContext: "cancelOp",
+    };
+    await callConnection.cancelAddParticipantOperation(
+      addResult.invitationId!,
+      cancelParticipantOption
+    );
 
     const addParticipantCancelledEvent = (await waitForEvent(
       "CancelAddParticipantSucceeded",
