@@ -237,9 +237,3 @@ export function mergeModuleDeclarations(
 
   return originalVirtualSourceFile.getFullText();
 }
-
-function commonPrefix(a: string, b: string) {
-  let i = 0;
-  while (i < a.length && i < b.length && a[i] === b[i]) i++;
-  return a.slice(0, i);
-}

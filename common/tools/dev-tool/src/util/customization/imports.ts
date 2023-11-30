@@ -58,17 +58,7 @@ export function augmentImports(
   customImports: ImportDeclaration[],
   originalFile: SourceFile
 ) {
-  const originalFilePath = path.posix.format(path.parse(originalFile.getFilePath()));
   const importMap = new Map<string, ImportDeclaration>();
-  originalImports.forEach((importDecl, _moduleSpecifier) => {
-    const moduleSpecifier = _moduleSpecifier as ModuleSpecifier;
-    const normalizedModuleSpecifier = isRelativeModuleSpecifier(moduleSpecifier)
-      ? normalizeRelativeModuleSpecifier(moduleSpecifier, originalFilePath)
-      : moduleSpecifier;
-    importDecl.setModuleSpecifier(normalizedModuleSpecifier);
-    importMap.set(normalizedModuleSpecifier, importDecl);
-  });
-
   removeConflictingIdentifiers(Array.from(originalImports.values()), customImports);
 
   customImports.forEach((customImportDecl) =>
@@ -80,9 +70,8 @@ export function augmentImports(
 }
 
 function removeSelfImports(originalFile: SourceFile) {
-  const filePath = path.posix.format(path.parse(originalFile.getFilePath()));
-  const filePathObject = path.posix.parse(filePath);
-  const filePathWithoutExt = removeFileExtension(filePath);
+  const filePath = originalFile.getFilePath();
+  const filePathWithoutExt = path.normalize(removeFileExtension(filePath));
 
   originalFile
     .getImportDeclarations()
@@ -91,14 +80,17 @@ function removeSelfImports(originalFile: SourceFile) {
 
   function isSelfImport(originalImport: ImportDeclaration) {
     const modulePath = originalImport.getModuleSpecifierValue() as ModuleSpecifier;
-    const moduleAbsolutePath = path.posix.resolve(filePathObject.dir, modulePath);
-    return removeFileExtension(moduleAbsolutePath) === filePathWithoutExt;
+    const moduleResolvedPath = path.normalize(path.join(path.dirname(filePath), modulePath));
+    return removeFileExtension(moduleResolvedPath) === filePathWithoutExt;
   }
 }
 
 function removeFileExtension(filePath: string): string {
-  const filePathObject = path.posix.parse(filePath);
-  return filePath.slice(0, -filePathObject.ext.length);
+  const filePathObject = path.parse(filePath);
+  if (filePathObject.ext.length > 0) {
+    return filePath.slice(0, -filePathObject.ext.length);
+  }
+  return filePath;
 }
 
 function removeEmptyImports(originalFile: SourceFile) {
@@ -137,9 +129,7 @@ function mergeImportIntoFile(
     customImportDecl: ImportDeclaration
   ): RelativeModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
-    const customFilePath = path.posix.format(
-      path.parse(customImportDecl.getSourceFile().getFilePath())
-    );
+    const customFilePath = customImportDecl.getSourceFile().getFilePath();
     const moduleSpecifierFromCustomFile =
       customImportDecl.getModuleSpecifierValue() as ModuleSpecifier;
     if (!isRelativeModuleSpecifier(moduleSpecifierFromCustomFile)) {
@@ -152,7 +142,7 @@ function mergeImportIntoFile(
         customDir,
         customFilePath,
         moduleSpecifierFromCustomFile
-      ) ?? normalizeRelativeModuleSpecifier(moduleSpecifierFromCustomFile, customFilePath);
+      ) ?? normalizeRelativeModuleSpecifier(moduleSpecifierFromCustomFile);
 
     return fixedModuleSpecifier;
   }
@@ -185,21 +175,17 @@ function isRelativeModuleSpecifier<T extends ModuleSpecifier>(
 }
 
 function normalizeRelativeModuleSpecifier<T extends LocalModuleRelativePath>(
-  moduleSpecifier: T,
-  filePath: string
+  moduleSpecifier: T
 ): T & RelativeModuleSpecifier {
-  const fileDir = path.posix.dirname(filePath);
-  const modulePath = path.posix.resolve(fileDir, moduleSpecifier);
-  const normalizedModuleSpecifier = path.posix.relative(fileDir, modulePath) as T &
-    LocalModuleRelativePath;
+  const posixStyle = moduleSpecifier.split("\\").join("/");
 
-  return prefixRelativePathWithDot(normalizedModuleSpecifier);
+  return prefixRelativePathWithDot(posixStyle);
 }
 
 function prefixRelativePathWithDot<T extends string>(
   filePath: string
 ): T & DotPrefixedRelativePath {
-  if (path.posix.isAbsolute(filePath)) {
+  if (path.isAbsolute(filePath)) {
     throw Error("Attempted to dot-prefix an absolute path");
   }
 
@@ -222,23 +208,18 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   customFilePath: string,
   originalModuleSpecifier: LocalModuleRelativePath
 ): RelativeModuleSpecifier | undefined {
-  const customFileDir = path.posix.dirname(customFilePath);
-  const moduleAbsolutePath = path.posix.resolve(customFileDir, originalModuleSpecifier);
-
-  const outputModuleRelativePath = path.posix.relative(originalSourceRoot, moduleAbsolutePath);
-  const outputFileRelativePath = path.posix.relative(customSourceRoot, customFileDir);
-
-  const outputModuleSpecifier = path.posix.relative(
+  const customFileDir = path.dirname(customFilePath);
+  const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
+  const outputModuleRelativePath = path.relative(originalSourceRoot, moduleAbsolutePath);
+  const outputFileRelativePath = path.relative(customSourceRoot, customFileDir);
+  const outputModuleSpecifier = path.relative(
     outputFileRelativePath,
     outputModuleRelativePath
   ) as LocalModuleRelativePath;
 
   // Check if the module is actually contained in the original directory
-  if (
-    !outputModuleRelativePath.startsWith("..") &&
-    !path.posix.isAbsolute(outputModuleRelativePath)
-  ) {
-    return normalizeRelativeModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
+  if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
+    return normalizeRelativeModuleSpecifier(outputModuleSpecifier);
   }
 }
 
