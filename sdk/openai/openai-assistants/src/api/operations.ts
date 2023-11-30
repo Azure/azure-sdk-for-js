@@ -67,45 +67,45 @@ import {
 import { createFile } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
 import {
-  CreateAssistantOptions,
-  ListAssistantsOptions,
-  RetrieveAssistantOptions,
-  ModifyAssistantOptions,
-  DeleteAssistantOptions,
-  CreateAssistantFileOptions,
-  ListAssistantFilesOptions,
-  RetrieveAssistantFileOptions,
-  DeleteAssistantFileOptions,
-  CreateThreadOptions,
-  RetrieveThreadOptions,
-  ModifyThreadOptions,
-  DeleteThreadOptions,
-  CreateMessageOptions,
-  ListMessagesOptions,
-  RetrieveMessageOptions,
-  ModifyMessageOptions,
-  ListMessageFilesOptions,
-  RetrieveMessageFileOptions,
-  CreateRunOptions,
-  ListRunsOptions,
-  RetrieveRunOptions,
-  ModifyRunOptions,
-  SubmitRunToolOutputsOptions,
-  CancelRunOptions,
-  CreateThreadAndRunOptions,
-  RetrieveRunStepOptions,
-  ListRunStepsOptions,
-  ListFilesOptions,
-  UploadFileOptions,
-  DeleteFileOptions,
-  RetrieveFileOptions,
-  RetrieveFileContentOptions,
+  AssistantsCreateAssistantOptions,
+  AssistantsListAssistantsOptions,
+  AssistantsRetrieveAssistantOptions,
+  AssistantsModifyAssistantOptions,
+  AssistantsDeleteAssistantOptions,
+  AssistantsCreateAssistantFileOptions,
+  AssistantsListAssistantFilesOptions,
+  AssistantsRetrieveAssistantFileOptions,
+  AssistantsDeleteAssistantFileOptions,
+  AssistantThreadsCreateThreadOptions,
+  AssistantThreadsRetrieveThreadOptions,
+  AssistantThreadsModifyThreadOptions,
+  AssistantThreadsDeleteThreadOptions,
+  AssistantMessagesCreateMessageOptions,
+  AssistantMessagesListMessagesOptions,
+  AssistantMessagesRetrieveMessageOptions,
+  AssistantMessagesModifyMessageOptions,
+  AssistantMessagesListMessageFilesOptions,
+  AssistantMessagesRetrieveMessageFileOptions,
+  AssistantRunsCreateRunOptions,
+  AssistantRunsListRunsOptions,
+  AssistantRunsRetrieveRunOptions,
+  AssistantRunsModifyRunOptions,
+  AssistantRunsSubmitRunToolOutputsOptions,
+  AssistantRunsCancelRunOptions,
+  AssistantRunsCreateThreadAndRunOptions,
+  RunStepsRetrieveRunStepOptions,
+ RunStepsListRunStepsOptions,
+  FilesListFilesOptions,
+  FilesUploadFileOptions,
+  FilesDeleteFileOptions,
+  FilesRetrieveFileOptions,
+  FilesRetrieveFileContentOptions,
 } from "../models/options.js";
 
 export function _createAssistantSend(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} }
+  options: AssistantsCreateAssistantOptions = { requestOptions: {} }
 ): StreamableMethod<CreateAssistant200Response> {
   return context
     .path("/assistants")
@@ -153,7 +153,7 @@ export async function _createAssistantDeserialize(
 export async function createAssistant(
   context: Client,
   body: AssistantCreationOptions,
-  options: CreateAssistantOptions = { requestOptions: {} }
+  options: AssistantsCreateAssistantOptions = { requestOptions: {} }
 ): Promise<Assistant> {
   const result = await _createAssistantSend(context, body, options);
   return _createAssistantDeserialize(result);
@@ -161,7 +161,7 @@ export async function createAssistant(
 
 export function _listAssistantsSend(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} }
+  options: AssistantsListAssistantsOptions = { requestOptions: {} }
 ): StreamableMethod<ListAssistants200Response> {
   return context
     .path("/assistants")
@@ -206,7 +206,7 @@ export async function _listAssistantsDeserialize(
 /** Returns a list of assistants. */
 export async function listAssistants(
   context: Client,
-  options: ListAssistantsOptions = { requestOptions: {} }
+  options: AssistantsListAssistantsOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<Assistant>> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
@@ -215,7 +215,7 @@ export async function listAssistants(
 export function _retrieveAssistantSend(
   context: Client,
   assistantId: string,
-  options: RetrieveAssistantOptions = { requestOptions: {} }
+  options: AssistantsRetrieveAssistantOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -247,7 +247,7 @@ export async function _retrieveAssistantDeserialize(
 export async function retrieveAssistant(
   context: Client,
   assistantId: string,
-  options: RetrieveAssistantOptions = { requestOptions: {} }
+  options: AssistantsRetrieveAssistantOptions = { requestOptions: {} }
 ): Promise<Assistant> {
   const result = await _retrieveAssistantSend(context, assistantId, options);
   return _retrieveAssistantDeserialize(result);
@@ -257,7 +257,7 @@ export function _modifyAssistantSend(
   context: Client,
   assistantId: string,
   modificationOptions: AssistantModificationOptions,
-  options: ModifyAssistantOptions = { requestOptions: {} }
+  options: AssistantsModifyAssistantOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -304,7 +304,7 @@ export async function modifyAssistant(
   context: Client,
   assistantId: string,
   modificationOptions: AssistantModificationOptions,
-  options: ModifyAssistantOptions = { requestOptions: {} }
+  options: AssistantsModifyAssistantOptions = { requestOptions: {} }
 ): Promise<Assistant> {
   const result = await _modifyAssistantSend(
     context,
@@ -318,7 +318,7 @@ export async function modifyAssistant(
 export function _deleteAssistantSend(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} }
+  options: AssistantsDeleteAssistantOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteAssistant200Response> {
   return context
     .path("/assistants/{assistantId}", assistantId)
@@ -342,7 +342,7 @@ export async function _deleteAssistantDeserialize(
 export async function deleteAssistant(
   context: Client,
   assistantId: string,
-  options: DeleteAssistantOptions = { requestOptions: {} }
+  options: AssistantsDeleteAssistantOptions = { requestOptions: {} }
 ): Promise<AssistantDeletionStatus> {
   const result = await _deleteAssistantSend(context, assistantId, options);
   return _deleteAssistantDeserialize(result);
@@ -352,7 +352,7 @@ export function _createAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsCreateAssistantFileOptions = { requestOptions: {} }
 ): StreamableMethod<CreateAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files", assistantId)
@@ -382,7 +382,7 @@ export async function createAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: CreateAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsCreateAssistantFileOptions = { requestOptions: {} }
 ): Promise<AssistantFile> {
   const result = await _createAssistantFileSend(
     context,
@@ -396,7 +396,7 @@ export async function createAssistantFile(
 export function _listAssistantFilesSend(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} }
+  options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListAssistantFiles200Response> {
   return context
     .path("/assistants/{assistantId}/files", assistantId)
@@ -436,7 +436,7 @@ export async function _listAssistantFilesDeserialize(
 export async function listAssistantFiles(
   context: Client,
   assistantId: string,
-  options: ListAssistantFilesOptions = { requestOptions: {} }
+  options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<AssistantFile>> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
@@ -446,7 +446,7 @@ export function _retrieveAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: RetrieveAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsRetrieveAssistantFileOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -473,7 +473,7 @@ export async function retrieveAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: RetrieveAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsRetrieveAssistantFileOptions = { requestOptions: {} }
 ): Promise<AssistantFile> {
   const result = await _retrieveAssistantFileSend(
     context,
@@ -488,7 +488,7 @@ export function _deleteAssistantFileSend(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsDeleteAssistantFileOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteAssistantFile200Response> {
   return context
     .path("/assistants/{assistantId}/files/{fileId}", assistantId, fileId)
@@ -513,7 +513,7 @@ export async function deleteAssistantFile(
   context: Client,
   assistantId: string,
   fileId: string,
-  options: DeleteAssistantFileOptions = { requestOptions: {} }
+  options: AssistantsDeleteAssistantFileOptions = { requestOptions: {} }
 ): Promise<AssistantFileDeletionStatus> {
   const result = await _deleteAssistantFileSend(
     context,
@@ -527,7 +527,7 @@ export async function deleteAssistantFile(
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
 ): StreamableMethod<CreateThread200Response> {
   return context
     .path("/threads")
@@ -563,7 +563,7 @@ export async function _createThreadDeserialize(
 export async function createThread(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
 ): Promise<AssistantThread> {
   const result = await _createThreadSend(context, body, options);
   return _createThreadDeserialize(result);
@@ -572,7 +572,7 @@ export async function createThread(
 export function _retrieveThreadSend(
   context: Client,
   threadId: string,
-  options: RetrieveThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsRetrieveThreadOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -598,7 +598,7 @@ export async function _retrieveThreadDeserialize(
 export async function retrieveThread(
   context: Client,
   threadId: string,
-  options: RetrieveThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsRetrieveThreadOptions = { requestOptions: {} }
 ): Promise<AssistantThread> {
   const result = await _retrieveThreadSend(context, threadId, options);
   return _retrieveThreadDeserialize(result);
@@ -607,7 +607,7 @@ export async function retrieveThread(
 export function _modifyThreadSend(
   context: Client,
   threadId: string,
-  options: ModifyThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsModifyThreadOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -636,7 +636,7 @@ export async function _modifyThreadDeserialize(
 export async function modifyThread(
   context: Client,
   threadId: string,
-  options: ModifyThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsModifyThreadOptions = { requestOptions: {} }
 ): Promise<AssistantThread> {
   const result = await _modifyThreadSend(context, threadId, options);
   return _modifyThreadDeserialize(result);
@@ -645,7 +645,7 @@ export async function modifyThread(
 export function _deleteThreadSend(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsDeleteThreadOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteThread200Response> {
   return context
     .path("/threads/{threadId}", threadId)
@@ -669,7 +669,7 @@ export async function _deleteThreadDeserialize(
 export async function deleteThread(
   context: Client,
   threadId: string,
-  options: DeleteThreadOptions = { requestOptions: {} }
+  options: AssistantThreadsDeleteThreadOptions = { requestOptions: {} }
 ): Promise<ThreadDeletionStatus> {
   const result = await _deleteThreadSend(context, threadId, options);
   return _deleteThreadDeserialize(result);
@@ -680,7 +680,7 @@ export function _createMessageSend(
   threadId: string,
   role: AssistantRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesCreateMessageOptions = { requestOptions: {} }
 ): StreamableMethod<CreateMessage200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -721,7 +721,7 @@ export async function createMessage(
   threadId: string,
   role: AssistantRole,
   content: string,
-  options: CreateMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesCreateMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
   const result = await _createMessageSend(
     context,
@@ -736,7 +736,7 @@ export async function createMessage(
 export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} }
+  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessages200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -787,7 +787,7 @@ export async function _listMessagesDeserialize(
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: ListMessagesOptions = { requestOptions: {} }
+  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<AssistantMessage>> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
@@ -797,7 +797,7 @@ export function _retrieveMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: RetrieveMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -835,7 +835,7 @@ export async function retrieveMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: RetrieveMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
   const result = await _retrieveMessageSend(
     context,
@@ -850,7 +850,7 @@ export function _modifyMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ModifyMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -891,7 +891,7 @@ export async function modifyMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ModifyMessageOptions = { requestOptions: {} }
+  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
 ): Promise<AssistantMessage> {
   const result = await _modifyMessageSend(
     context,
@@ -906,7 +906,7 @@ export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} }
+  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessageFiles200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
@@ -947,7 +947,7 @@ export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: ListMessageFilesOptions = { requestOptions: {} }
+  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<AssistantMessageFile>> {
   const result = await _listMessageFilesSend(
     context,
@@ -963,7 +963,7 @@ export function _retrieveMessageFileSend(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: RetrieveMessageFileOptions = { requestOptions: {} }
+  options: AssistantMessagesRetrieveMessageFileOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveMessageFile200Response> {
   return context
     .path(
@@ -996,7 +996,7 @@ export async function retrieveMessageFile(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: RetrieveMessageFileOptions = { requestOptions: {} }
+  options: AssistantMessagesRetrieveMessageFileOptions = { requestOptions: {} }
 ): Promise<AssistantMessageFile> {
   const result = await _retrieveMessageFileSend(
     context,
@@ -1012,7 +1012,7 @@ export function _createRunSend(
   context: Client,
   threadId: string,
   assistantId: string,
-  options: CreateRunOptions = { requestOptions: {} }
+  options: AssistantRunsCreateRunOptions = { requestOptions: {} }
 ): StreamableMethod<CreateRun200Response> {
   return context
     .path("/threads/{threadId}/runs", threadId)
@@ -1085,7 +1085,7 @@ export async function createRun(
   context: Client,
   threadId: string,
   assistantId: string,
-  options: CreateRunOptions = { requestOptions: {} }
+  options: AssistantRunsCreateRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _createRunSend(context, threadId, assistantId, options);
   return _createRunDeserialize(result);
@@ -1094,7 +1094,7 @@ export async function createRun(
 export function _listRunsSend(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} }
+  options: AssistantRunsListRunsOptions = { requestOptions: {} }
 ): StreamableMethod<ListRuns200Response> {
   return context
     .path("/threads/{threadId}/runs", threadId)
@@ -1154,7 +1154,7 @@ export async function _listRunsDeserialize(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options: ListRunsOptions = { requestOptions: {} }
+  options: AssistantRunsListRunsOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<AssistantRun>> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
@@ -1164,7 +1164,7 @@ export function _retrieveRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: RetrieveRunOptions = { requestOptions: {} }
+  options: AssistantRunsRetrieveRunOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -1228,7 +1228,7 @@ export async function retrieveRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: RetrieveRunOptions = { requestOptions: {} }
+  options: AssistantRunsRetrieveRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _retrieveRunSend(context, threadId, runId, options);
   return _retrieveRunDeserialize(result);
@@ -1238,7 +1238,7 @@ export function _modifyRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: ModifyRunOptions = { requestOptions: {} }
+  options: AssistantRunsModifyRunOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -1305,7 +1305,7 @@ export async function modifyRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: ModifyRunOptions = { requestOptions: {} }
+  options: AssistantRunsModifyRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _modifyRunSend(context, threadId, runId, options);
   return _modifyRunDeserialize(result);
@@ -1316,7 +1316,7 @@ export function _submitRunToolOutputsSend(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutputSubmission[],
-  options: SubmitRunToolOutputsOptions = { requestOptions: {} }
+  options: AssistantRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): StreamableMethod<SubmitRunToolOutputs200Response> {
   return context
     .path(
@@ -1393,7 +1393,7 @@ export async function submitRunToolOutputs(
   threadId: string,
   runId: string,
   toolOutputs: ToolOutputSubmission[],
-  options: SubmitRunToolOutputsOptions = { requestOptions: {} }
+  options: AssistantRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _submitRunToolOutputsSend(
     context,
@@ -1409,7 +1409,7 @@ export function _cancelRunSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} }
+  options: AssistantRunsCancelRunOptions = { requestOptions: {} }
 ): StreamableMethod<CancelRun200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
@@ -1473,7 +1473,7 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: CancelRunOptions = { requestOptions: {} }
+  options: AssistantRunsCancelRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _cancelRunSend(context, threadId, runId, options);
   return _cancelRunDeserialize(result);
@@ -1482,7 +1482,7 @@ export async function cancelRun(
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} }
+  options: AssistantRunsCreateThreadAndRunOptions = { requestOptions: {} }
 ): StreamableMethod<CreateThreadAndRun200Response> {
   return context
     .path("/threads/runs")
@@ -1563,7 +1563,7 @@ export async function _createThreadAndRunDeserialize(
 export async function createThreadAndRun(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: CreateThreadAndRunOptions = { requestOptions: {} }
+  options: AssistantRunsCreateThreadAndRunOptions = { requestOptions: {} }
 ): Promise<AssistantRun> {
   const result = await _createThreadAndRunSend(context, body, options);
   return _createThreadAndRunDeserialize(result);
@@ -1574,7 +1574,7 @@ export function _retrieveRunStepSend(
   threadId: string,
   runId: string,
   stepId: string,
-  options: RetrieveRunStepOptions = { requestOptions: {} }
+  options: RunStepsRetrieveRunStepOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveRunStep200Response> {
   return context
     .path(
@@ -1635,7 +1635,7 @@ export async function retrieveRunStep(
   threadId: string,
   runId: string,
   stepId: string,
-  options: RetrieveRunStepOptions = { requestOptions: {} }
+  options: RunStepsRetrieveRunStepOptions = { requestOptions: {} }
 ): Promise<RunStep> {
   const result = await _retrieveRunStepSend(
     context,
@@ -1651,7 +1651,7 @@ export function _listRunStepsSend(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} }
+  options:RunStepsListRunStepsOptions = { requestOptions: {} }
 ): StreamableMethod<ListRunSteps200Response> {
   return context
     .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
@@ -1707,7 +1707,7 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options: ListRunStepsOptions = { requestOptions: {} }
+  options:RunStepsListRunStepsOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<RunStep>> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
@@ -1715,7 +1715,7 @@ export async function listRunSteps(
 
 export function _listFilesSend(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} }
+  options: FilesListFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListFiles200Response> {
   return context
     .path("/files")
@@ -1748,7 +1748,7 @@ export async function _listFilesDeserialize(
 /** Returns a list of files that belong to the user's organization. */
 export async function listFiles(
   context: Client,
-  options: ListFilesOptions = { requestOptions: {} }
+  options: FilesListFilesOptions = { requestOptions: {} }
 ): Promise<FileListResponse> {
   const result = await _listFilesSend(context, options);
   return _listFilesDeserialize(result);
@@ -1758,7 +1758,7 @@ export function _uploadFileSend(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: FilesUploadFileOptions = { requestOptions: {} }
 ): StreamableMethod<UploadFile200Response> {
   return context
     .path("/files")
@@ -1794,7 +1794,7 @@ export async function uploadFile(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: FilesUploadFileOptions = { requestOptions: {} }
 ): Promise<File> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
@@ -1803,7 +1803,7 @@ export async function uploadFile(
 export function _deleteFileSend(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} }
+  options: FilesDeleteFileOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -1828,7 +1828,7 @@ export async function _deleteFileDeserialize(
 export async function deleteFile(
   context: Client,
   fileId: string,
-  options: DeleteFileOptions = { requestOptions: {} }
+  options: FilesDeleteFileOptions = { requestOptions: {} }
 ): Promise<FileDeletionStatus> {
   const result = await _deleteFileSend(context, fileId, options);
   return _deleteFileDeserialize(result);
@@ -1837,7 +1837,7 @@ export async function deleteFile(
 export function _retrieveFileSend(
   context: Client,
   fileId: string,
-  options: RetrieveFileOptions = { requestOptions: {} }
+  options: FilesRetrieveFileOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveFile200Response> {
   return context
     .path("/files/{fileId}", fileId)
@@ -1865,7 +1865,7 @@ export async function _retrieveFileDeserialize(
 export async function retrieveFile(
   context: Client,
   fileId: string,
-  options: RetrieveFileOptions = { requestOptions: {} }
+  options: FilesRetrieveFileOptions = { requestOptions: {} }
 ): Promise<File> {
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
@@ -1874,7 +1874,7 @@ export async function retrieveFile(
 export function _retrieveFileContentSend(
   context: Client,
   fileId: string,
-  options: RetrieveFileContentOptions = { requestOptions: {} }
+  options: FilesRetrieveFileContentOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveFileContent200Response> {
   return context
     .path("/files/{fileId}/content", fileId)
@@ -1897,7 +1897,7 @@ export async function _retrieveFileContentDeserialize(
 export async function retrieveFileContent(
   context: Client,
   fileId: string,
-  options: RetrieveFileContentOptions = { requestOptions: {} }
+  options: FilesRetrieveFileContentOptions = { requestOptions: {} }
 ): Promise<Uint8Array> {
   const result = await _retrieveFileContentSend(context, fileId, options);
   return _retrieveFileContentDeserialize(result);

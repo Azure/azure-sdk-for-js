@@ -125,7 +125,7 @@ export class AssistantsClient {
   /** Creates a new thread for an assistant. */
   createThread(
     body: AssistantThreadCreationOptions = {},
-    options: CreateThreadOptions = { requestOptions: {} }
+    options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
   ): Promise<AssistantThread> {
     return createThread(this._client, body, options);
   }

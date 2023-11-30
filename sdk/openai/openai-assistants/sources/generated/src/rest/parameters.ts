@@ -48,7 +48,7 @@ export type ModifyAssistantParameters = ModifyAssistantBodyParam &
 export type DeleteAssistantParameters = RequestParameters;
 
 export interface CreateAssistantFileBodyParam {
-  body?: { file_id: string };
+  body?: { file_id: file_id };
 }
 
 export type CreateAssistantFileParameters = CreateAssistantFileBodyParam &
@@ -146,7 +146,7 @@ export type RetrieveMessageFileParameters = RequestParameters;
 
 export interface CreateRunBodyParam {
   body?: {
-    assistant_id: string;
+    assistant_id: assistant_id;
     model?: string;
     instructions?: string;
     tools?: Array<ToolDefinition>;
@@ -229,7 +229,7 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
-  body?: { file: File; purpose: string; filename?: string };
+  body?: { file: string; purpose: string; filename?: string };
 }
 
 export interface UploadFileMediaTypesParam {

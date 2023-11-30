@@ -4,7 +4,6 @@
 /** An abstract representation of an input tool definition that an assistant can use. */
 export interface ToolDefinitionOutputParent {
   type: string;
-  function?: FunctionDefinitionOutput;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
@@ -67,7 +66,7 @@ export interface AssistantOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -101,7 +100,7 @@ export interface AssistantFileOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantFileOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -149,21 +148,13 @@ export interface AssistantMessageOutput {
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContentOutput {
+export interface AssistantMessageContentOutputParent {
   type: string;
-/** The image file for this thread message content item. */
-  image_file?: AssistantImageFileOutput;
-  /** The text and associated annotations for this thread message content item. */
-  text?: AssistantMessageTextOutput;
-  /** A list of attached file IDs, ordered by creation date in ascending order. */
-  file_ids?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata?: Record<string, string>;
 }
 
 /** A representation of image file content in a thread message. */
 export interface AssistantMessageImageFileContentOutput
-  extends AssistantMessageContentOutput {
+  extends AssistantMessageContentOutputParent {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -178,7 +169,7 @@ export interface AssistantImageFileOutput {
 
 /** A representation of a textual item of thread message content. */
 export interface AssistantMessageTextContentOutput
-  extends AssistantMessageContentOutput {
+  extends AssistantMessageContentOutputParent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -255,7 +246,7 @@ export interface ThreadDeletionStatusOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessageOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -281,7 +272,7 @@ export interface AssistantMessageFileOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessageFileOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -457,7 +448,7 @@ export interface RunErrorOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantRunOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -548,7 +539,7 @@ export interface RunStepErrorOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfRunStepOutput {
+export interface ListResponseOfOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -604,6 +595,10 @@ export type ToolDefinitionOutput =
   | CodeInterpreterToolDefinitionOutput
   | RetrievalToolDefinitionOutput
   | FunctionToolDefinitionOutput;
+/** An abstract representation of a single item of thread message content. */
+export type AssistantMessageContentOutput =
+  | AssistantMessageImageFileContentOutput
+  | AssistantMessageTextContentOutput;
 /** An abstract representation of an annotation to text thread message content. */
 export type AssistantMessageTextAnnotationOutput =
   | AssistantMessageTextFileAnnotationOutput

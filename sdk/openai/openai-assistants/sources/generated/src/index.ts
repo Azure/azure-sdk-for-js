@@ -4,7 +4,7 @@
 export {
   AssistantsClient,
   AssistantsClientOptions,
-} from "./assistantsClient.js";
+} from "./AssistantsClient.js";
 export {
   AssistantCreationOptions,
   ToolDefinition,
@@ -90,4 +90,3 @@ export {
   FilesOperations,
   RunStepsOperations,
 } from "./classic/index.js";
-export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";

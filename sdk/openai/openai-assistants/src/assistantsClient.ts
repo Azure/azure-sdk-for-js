@@ -26,39 +26,39 @@ import {
   FileDeletionStatus,
 } from "./models/models.js";
 import {
-  CreateAssistantOptions,
-  ListAssistantsOptions,
-  RetrieveAssistantOptions,
-  ModifyAssistantOptions,
-  DeleteAssistantOptions,
-  CreateAssistantFileOptions,
-  ListAssistantFilesOptions,
-  RetrieveAssistantFileOptions,
-  DeleteAssistantFileOptions,
-  CreateThreadOptions,
-  RetrieveThreadOptions,
-  ModifyThreadOptions,
-  DeleteThreadOptions,
-  CreateMessageOptions,
-  ListMessagesOptions,
-  RetrieveMessageOptions,
-  ModifyMessageOptions,
-  ListMessageFilesOptions,
-  RetrieveMessageFileOptions,
-  CreateRunOptions,
-  ListRunsOptions,
-  RetrieveRunOptions,
-  ModifyRunOptions,
-  SubmitRunToolOutputsOptions,
-  CancelRunOptions,
-  CreateThreadAndRunOptions,
-  RetrieveRunStepOptions,
-  ListRunStepsOptions,
-  ListFilesOptions,
-  UploadFileOptions,
-  DeleteFileOptions,
-  RetrieveFileOptions,
-  RetrieveFileContentOptions,
+  AssistantsCreateAssistantOptions,
+  AssistantsListAssistantsOptions,
+  AssistantsRetrieveAssistantOptions,
+  AssistantsModifyAssistantOptions,
+  AssistantsDeleteAssistantOptions,
+  AssistantsCreateAssistantFileOptions,
+  AssistantsListAssistantFilesOptions,
+  AssistantsRetrieveAssistantFileOptions,
+  AssistantsDeleteAssistantFileOptions,
+  AssistantThreadsCreateThreadOptions,
+  AssistantThreadsRetrieveThreadOptions,
+  AssistantThreadsModifyThreadOptions,
+  AssistantThreadsDeleteThreadOptions,
+  AssistantMessagesCreateMessageOptions,
+  AssistantMessagesListMessagesOptions,
+  AssistantMessagesRetrieveMessageOptions,
+  AssistantMessagesModifyMessageOptions,
+  AssistantMessagesListMessageFilesOptions,
+  AssistantMessagesRetrieveMessageFileOptions,
+  AssistantRunsCreateRunOptions,
+  AssistantRunsListRunsOptions,
+  AssistantRunsRetrieveRunOptions,
+  AssistantRunsModifyRunOptions,
+  AssistantRunsSubmitRunToolOutputsOptions,
+  AssistantRunsCancelRunOptions,
+  AssistantRunsCreateThreadAndRunOptions,
+  RunStepsRetrieveRunStepOptions,
+ RunStepsListRunStepsOptions,
+  FilesListFilesOptions,
+  FilesUploadFileOptions,
+  FilesDeleteFileOptions,
+  FilesRetrieveFileOptions,
+  FilesRetrieveFileContentOptions,
 } from "./models/options.js";
 import {
   createAssistants,
@@ -187,14 +187,14 @@ export class AssistantsClient {
   /** Creates an assistant with a model and instructions. */
   createAssistant(
     body: AssistantCreationOptions,
-    options: CreateAssistantOptions = { requestOptions: {} }
+    options: AssistantsCreateAssistantOptions = { requestOptions: {} }
   ): Promise<Assistant> {
     return createAssistant(this._client, body, options);
   }
 
   /** Returns a list of assistants. */
   listAssistants(
-    options: ListAssistantsOptions = { requestOptions: {} }
+    options: AssistantsListAssistantsOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<Assistant>> {
     return listAssistants(this._client, options);
   }
@@ -202,7 +202,7 @@ export class AssistantsClient {
   /** Retrieves an assistant. */
   retrieveAssistant(
     assistantId: string,
-    options: RetrieveAssistantOptions = { requestOptions: {} }
+    options: AssistantsRetrieveAssistantOptions = { requestOptions: {} }
   ): Promise<Assistant> {
     return retrieveAssistant(this._client, assistantId, options);
   }
@@ -211,7 +211,7 @@ export class AssistantsClient {
   modifyAssistant(
     assistantId: string,
     modificationOptions: AssistantModificationOptions,
-    options: ModifyAssistantOptions = { requestOptions: {} }
+    options: AssistantsModifyAssistantOptions = { requestOptions: {} }
   ): Promise<Assistant> {
     return modifyAssistant(
       this._client,
@@ -224,7 +224,7 @@ export class AssistantsClient {
   /** Deletes an assistant. */
   deleteAssistant(
     assistantId: string,
-    options: DeleteAssistantOptions = { requestOptions: {} }
+    options: AssistantsDeleteAssistantOptions = { requestOptions: {} }
   ): Promise<AssistantDeletionStatus> {
     return deleteAssistant(this._client, assistantId, options);
   }
@@ -233,7 +233,7 @@ export class AssistantsClient {
   createAssistantFile(
     assistantId: string,
     fileId: string,
-    options: CreateAssistantFileOptions = { requestOptions: {} }
+    options: AssistantsCreateAssistantFileOptions = { requestOptions: {} }
   ): Promise<AssistantFile> {
     return createAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -241,7 +241,7 @@ export class AssistantsClient {
   /** Returns a list of assistant files. */
   listAssistantFiles(
     assistantId: string,
-    options: ListAssistantFilesOptions = { requestOptions: {} }
+    options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<AssistantFile>> {
     return listAssistantFiles(this._client, assistantId, options);
   }
@@ -250,7 +250,7 @@ export class AssistantsClient {
   retrieveAssistantFile(
     assistantId: string,
     fileId: string,
-    options: RetrieveAssistantFileOptions = { requestOptions: {} }
+    options: AssistantsRetrieveAssistantFileOptions = { requestOptions: {} }
   ): Promise<AssistantFile> {
     return retrieveAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -259,7 +259,7 @@ export class AssistantsClient {
   deleteAssistantFile(
     assistantId: string,
     fileId: string,
-    options: DeleteAssistantFileOptions = { requestOptions: {} }
+    options: AssistantsDeleteAssistantFileOptions = { requestOptions: {} }
   ): Promise<AssistantFileDeletionStatus> {
     return deleteAssistantFile(this._client, assistantId, fileId, options);
   }
@@ -267,7 +267,7 @@ export class AssistantsClient {
   /** Creates a new thread for an assistant. */
   createThread(
     body: AssistantThreadCreationOptions = {},
-    options: CreateThreadOptions = { requestOptions: {} }
+    options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
   ): Promise<AssistantThread> {
     return createThread(this._client, body, options);
   }
@@ -275,7 +275,7 @@ export class AssistantsClient {
   /** Retrieves an existing thread for an assistant. */
   retrieveThread(
     threadId: string,
-    options: RetrieveThreadOptions = { requestOptions: {} }
+    options: AssistantThreadsRetrieveThreadOptions = { requestOptions: {} }
   ): Promise<AssistantThread> {
     return retrieveThread(this._client, threadId, options);
   }
@@ -283,7 +283,7 @@ export class AssistantsClient {
   /** Modifies an existing thread for an assistant. */
   modifyThread(
     threadId: string,
-    options: ModifyThreadOptions = { requestOptions: {} }
+    options: AssistantThreadsModifyThreadOptions = { requestOptions: {} }
   ): Promise<AssistantThread> {
     return modifyThread(this._client, threadId, options);
   }
@@ -291,7 +291,7 @@ export class AssistantsClient {
   /** Deletes a thread. */
   deleteThread(
     threadId: string,
-    options: DeleteThreadOptions = { requestOptions: {} }
+    options: AssistantThreadsDeleteThreadOptions = { requestOptions: {} }
   ): Promise<ThreadDeletionStatus> {
     return deleteThread(this._client, threadId, options);
   }
@@ -301,7 +301,7 @@ export class AssistantsClient {
     threadId: string,
     role: AssistantRole,
     content: string,
-    options: CreateMessageOptions = { requestOptions: {} }
+    options: AssistantMessagesCreateMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
     return createMessage(this._client, threadId, role, content, options);
   }
@@ -309,7 +309,7 @@ export class AssistantsClient {
   /** Returns a list of messages from a thread. */
   listMessages(
     threadId: string,
-    options: ListMessagesOptions = { requestOptions: {} }
+    options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<AssistantMessage>> {
     return listMessages(this._client, threadId, options);
   }
@@ -318,7 +318,7 @@ export class AssistantsClient {
   retrieveMessage(
     threadId: string,
     messageId: string,
-    options: RetrieveMessageOptions = { requestOptions: {} }
+    options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
     return retrieveMessage(this._client, threadId, messageId, options);
   }
@@ -327,7 +327,7 @@ export class AssistantsClient {
   modifyMessage(
     threadId: string,
     messageId: string,
-    options: ModifyMessageOptions = { requestOptions: {} }
+    options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
   ): Promise<AssistantMessage> {
     return modifyMessage(this._client, threadId, messageId, options);
   }
@@ -336,7 +336,7 @@ export class AssistantsClient {
   listMessageFiles(
     threadId: string,
     messageId: string,
-    options: ListMessageFilesOptions = { requestOptions: {} }
+    options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<AssistantMessageFile>> {
     return listMessageFiles(this._client, threadId, messageId, options);
   }
@@ -346,7 +346,7 @@ export class AssistantsClient {
     threadId: string,
     messageId: string,
     fileId: string,
-    options: RetrieveMessageFileOptions = { requestOptions: {} }
+    options: AssistantMessagesRetrieveMessageFileOptions = { requestOptions: {} }
   ): Promise<AssistantMessageFile> {
     return retrieveMessageFile(
       this._client,
@@ -361,7 +361,7 @@ export class AssistantsClient {
   createRun(
     threadId: string,
     assistantId: string,
-    options: CreateRunOptions = { requestOptions: {} }
+    options: AssistantRunsCreateRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return createRun(this._client, threadId, assistantId, options);
   }
@@ -369,7 +369,7 @@ export class AssistantsClient {
   /** Returns a list of runs associated with an assistant thread. */
   listRuns(
     threadId: string,
-    options: ListRunsOptions = { requestOptions: {} }
+    options: AssistantRunsListRunsOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<AssistantRun>> {
     return listRuns(this._client, threadId, options);
   }
@@ -378,7 +378,7 @@ export class AssistantsClient {
   retrieveRun(
     threadId: string,
     runId: string,
-    options: RetrieveRunOptions = { requestOptions: {} }
+    options: AssistantRunsRetrieveRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return retrieveRun(this._client, threadId, runId, options);
   }
@@ -387,7 +387,7 @@ export class AssistantsClient {
   modifyRun(
     threadId: string,
     runId: string,
-    options: ModifyRunOptions = { requestOptions: {} }
+    options: AssistantRunsModifyRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return modifyRun(this._client, threadId, runId, options);
   }
@@ -397,7 +397,7 @@ export class AssistantsClient {
     threadId: string,
     runId: string,
     toolOutputs: ToolOutputSubmission[],
-    options: SubmitRunToolOutputsOptions = { requestOptions: {} }
+    options: AssistantRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return submitRunToolOutputs(
       this._client,
@@ -412,7 +412,7 @@ export class AssistantsClient {
   cancelRun(
     threadId: string,
     runId: string,
-    options: CancelRunOptions = { requestOptions: {} }
+    options: AssistantRunsCancelRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return cancelRun(this._client, threadId, runId, options);
   }
@@ -420,7 +420,7 @@ export class AssistantsClient {
   /** Creates a new assistant thread and immediately starts a run using that new thread. */
   createThreadAndRun(
     body: CreateAndRunThreadOptions,
-    options: CreateThreadAndRunOptions = { requestOptions: {} }
+    options: AssistantRunsCreateThreadAndRunOptions = { requestOptions: {} }
   ): Promise<AssistantRun> {
     return createThreadAndRun(this._client, body, options);
   }
@@ -430,7 +430,7 @@ export class AssistantsClient {
     threadId: string,
     runId: string,
     stepId: string,
-    options: RetrieveRunStepOptions = { requestOptions: {} }
+    options: RunStepsRetrieveRunStepOptions = { requestOptions: {} }
   ): Promise<RunStep> {
     return retrieveRunStep(this._client, threadId, runId, stepId, options);
   }
@@ -439,14 +439,14 @@ export class AssistantsClient {
   listRunSteps(
     threadId: string,
     runId: string,
-    options: ListRunStepsOptions = { requestOptions: {} }
+    options:RunStepsListRunStepsOptions = { requestOptions: {} }
   ): Promise<ListResponseOf<RunStep>> {
     return listRunSteps(this._client, threadId, runId, options);
   }
 
   /** Returns a list of files that belong to the user's organization. */
   listFiles(
-    options: ListFilesOptions = { requestOptions: {} }
+    options: FilesListFilesOptions = { requestOptions: {} }
   ): Promise<FileListResponse> {
     return listFiles(this._client, options);
   }
@@ -455,7 +455,7 @@ export class AssistantsClient {
   uploadFile(
     file: Uint8Array,
     purpose: FilePurpose,
-    options: UploadFileOptions = { requestOptions: {} }
+    options: FilesUploadFileOptions = { requestOptions: {} }
   ): Promise<File> {
     return uploadFile(this._client, file, purpose, options);
   }
@@ -463,7 +463,7 @@ export class AssistantsClient {
   /** Delete a previously uploaded file. */
   deleteFile(
     fileId: string,
-    options: DeleteFileOptions = { requestOptions: {} }
+    options: FilesDeleteFileOptions = { requestOptions: {} }
   ): Promise<FileDeletionStatus> {
     return deleteFile(this._client, fileId, options);
   }
@@ -471,7 +471,7 @@ export class AssistantsClient {
   /** Returns information about a specific file. Does not retrieve file content. */
   retrieveFile(
     fileId: string,
-    options: RetrieveFileOptions = { requestOptions: {} }
+    options: FilesRetrieveFileOptions = { requestOptions: {} }
   ): Promise<File> {
     return retrieveFile(this._client, fileId, options);
   }
@@ -479,7 +479,7 @@ export class AssistantsClient {
   /** Returns the contents of a specified file. */
   retrieveFileContent(
     fileId: string,
-    options: RetrieveFileContentOptions = { requestOptions: {} }
+    options: FilesRetrieveFileContentOptions = { requestOptions: {} }
   ): Promise<Uint8Array> {
     return retrieveFileContent(this._client, fileId, options);
   }

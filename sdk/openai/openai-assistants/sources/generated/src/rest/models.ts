@@ -20,25 +20,24 @@ export interface AssistantCreationOptions {
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinition {
+export interface ToolDefinitionParent {
   type: string;
-  function?: FunctionDefinition;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinition extends ToolDefinition {
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinition extends ToolDefinition {
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinition extends ToolDefinition {
+export interface FunctionToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -78,16 +77,7 @@ export interface AssistantModificationOptions {
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
-  messages?: Array<{
-    /**
-     * The role associated with the assistant thread message.
-     *
-     * Possible values: user, assistant
-     */
-    role: string;
-    /** The list of content items associated with the assistant thread message. */
-    content: string;
-  }>;
+  messages?: Array<AssistantMessage>;
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: TypeSpecRecord;
 }
@@ -119,17 +109,13 @@ export interface AssistantMessage {
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContent {
+export interface AssistantMessageContentParent {
   type: string;
-image_file?: AssistantImageFile;
-  text?: AssistantMessageText;
-  file_ids?: string[];
-  metadata?: Record<string, string>;
 }
 
 /** A representation of image file content in a thread message. */
 export interface AssistantMessageImageFileContent
-  extends AssistantMessageContent {
+  extends AssistantMessageContentParent {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -144,7 +130,7 @@ export interface AssistantImageFile {
 
 /** A representation of a textual item of thread message content. */
 export interface AssistantMessageTextContent
-  extends AssistantMessageContent {
+  extends AssistantMessageContentParent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -224,6 +210,15 @@ export interface CreateAndRunThreadOptions {
   metadata?: TypeSpecRecord;
 }
 
+/** An abstract representation of an input tool definition that an assistant can use. */
+export type ToolDefinition =
+  | CodeInterpreterToolDefinition
+  | RetrievalToolDefinition
+  | FunctionToolDefinition;
+/** An abstract representation of a single item of thread message content. */
+export type AssistantMessageContent =
+  | AssistantMessageImageFileContent
+  | AssistantMessageTextContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type AssistantMessageTextAnnotation =
   | AssistantMessageTextFileAnnotation
