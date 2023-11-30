@@ -769,8 +769,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.IMDS_ENDPOINT = "http://endpoint";
     process.env.IDENTITY_ENDPOINT = "http://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
+    const testTitle = "azure-arc";
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
@@ -838,8 +837,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.IMDS_ENDPOINT = "http://endpoint";
     process.env.IDENTITY_ENDPOINT = "http://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
+    const testTitle = "azure-arc-with-resource-id";
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
@@ -910,8 +908,7 @@ describe("ManagedIdentityCredential", function () {
     process.env.IMDS_ENDPOINT = "http://endpoint";
     process.env.IDENTITY_ENDPOINT = "http://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-invalid-this
-    const testTitle = this.test?.title || `test-Date.time()`;
+    const testTitle = "azure-arc-with-client-id";
     const tempDir = mkdtempSync(join(tmpdir(), testTitle));
     const tempFile = join(tempDir, testTitle);
     const key = "challenge key";
