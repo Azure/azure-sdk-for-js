@@ -3,7 +3,7 @@ import { augmentImports } from "../../src/util/customization/imports";
 import { expect } from "chai";
 import { resetCustomizationState, setCustomizationState } from "../../src/util/customization/state";
 
-describe.only("Imports", () => {
+describe("Imports", () => {
   it("should remove self imports", () => {
     const project = new Project({ useInMemoryFileSystem: true });
     const originalFile = project.createSourceFile("generated/file.ts", "");
