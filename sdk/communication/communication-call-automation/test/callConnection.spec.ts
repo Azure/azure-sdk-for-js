@@ -325,7 +325,7 @@ describe("CallConnection Unit Tests", () => {
   });
 });
 
-describe("CallConnection Live Tests", function () {
+describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;

@@ -27,10 +27,8 @@ import {
   RestSendDtmfTonesCompleted,
   RestSendDtmfTonesFailed,
   Tone,
-  CollectTonesResult,
   RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
-  RecordingType,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -60,36 +58,6 @@ export type CallAutomationEvent =
   | SendDtmfTonesFailed
   | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed;
-
-export {
-  RestAddParticipantSucceeded,
-  RestAddParticipantFailed,
-  RestRemoveParticipantSucceeded,
-  RestRemoveParticipantFailed,
-  RestCallConnected,
-  RestCallDisconnected,
-  RestCallTransferAccepted,
-  RestCallTransferFailed,
-  RestRecordingStateChanged,
-  RestParticipantsUpdated,
-  RestPlayCompleted,
-  RestPlayFailed,
-  RestPlayCanceled,
-  RestRecognizeCompleted,
-  RestRecognizeFailed,
-  RestRecognizeCanceled,
-  RestResultInformation,
-  RestContinuousDtmfRecognitionToneReceived,
-  RestContinuousDtmfRecognitionToneFailed,
-  RestContinuousDtmfRecognitionStopped,
-  RestSendDtmfTonesCompleted,
-  RestSendDtmfTonesFailed,
-  RestCancelAddParticipantSucceeded,
-  RestCancelAddParticipantFailed,
-  CollectTonesResult,
-  Tone,
-  RecordingType,
-};
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
