@@ -64,7 +64,7 @@ describe("ResourceHealth test", () => {
     console.log(res);
   });
 
-  it.only("availabilityStatuses listBySubscriptionId test", async function () {
+  it("availabilityStatuses listBySubscriptionId test", async function () {
     const expand = "recommendedactions";
     const options: AvailabilityStatusesListBySubscriptionIdOptionalParams = {
       expand
