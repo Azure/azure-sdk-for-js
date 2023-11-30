@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2023-10-03-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/5cdce2b17a359c0201b7d1f606114120413aefe3/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/4a12c91e35ff85ea2fbbb3b0bab0d432a68d00df/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -131,4 +131,10 @@ directive:
 - rename-model:
     from: CancelAddParticipantFailed
     to: RestCancelAddParticipantFailed
+- rename-model:
+    from: CallIntelligenceOptions
+    to: CallIntelligenceOptionsInternal
+- rename-model:
+    from: CustomCallingContext
+    to: CustomCallingContextInternal
 ```

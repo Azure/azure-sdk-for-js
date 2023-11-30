@@ -191,7 +191,7 @@ describe("Call Automation Client Unit Tests", () => {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automation Main Client Live Tests", function () {
+describe("Call Automation Main Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -213,9 +213,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {
-        console.log("Call is terminated");
-      }
+      } catch (e) {}
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();

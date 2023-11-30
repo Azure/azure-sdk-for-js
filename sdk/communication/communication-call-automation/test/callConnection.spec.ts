@@ -16,7 +16,7 @@ import {
   TransferCallResult,
   RemoveParticipantResult,
   MuteParticipantResult,
-  CancelAddParticipantResult,
+  CancelAddParticipantOperationResult,
   AddParticipantEventResult,
   TransferCallToParticipantEventResult,
   RemoveParticipantEventResult,
@@ -296,23 +296,23 @@ describe("CallConnection Unit Tests", () => {
 
   it("CancelAddParticipant", async () => {
     const invitationId = "invitationId";
-    const cancelAddParticipantResultMock: CancelAddParticipantResult = {
+    const cancelAddParticipantResultMock: CancelAddParticipantOperationResult = {
       invitationId,
       waitForEventProcessor: async () => {
         return {} as CancelAddParticipantEventResult;
       },
     };
-    callConnection.cancelAddParticipant.returns(
+    callConnection.cancelAddParticipantOperation.returns(
       new Promise((resolve) => {
         resolve(cancelAddParticipantResultMock);
       })
     );
 
     callConnection
-      .cancelAddParticipant(invitationId)
-      .then((result: CancelAddParticipantResult) => {
+      .cancelAddParticipantOperation(invitationId)
+      .then((result: CancelAddParticipantOperationResult) => {
         assert.isNotNull(result);
-        assert.isTrue(callConnection.cancelAddParticipant.calledWith(invitationId));
+        assert.isTrue(callConnection.cancelAddParticipantOperation.calledWith(invitationId));
         assert.equal(result, cancelAddParticipantResultMock);
         return;
       })
@@ -320,7 +320,7 @@ describe("CallConnection Unit Tests", () => {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnection Live Tests", function () {
+describe("CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -343,9 +343,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {
-        console.log("Call is terminated");
-      }
+      } catch (e) {}
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -465,10 +463,10 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
 
-  it("Mute a participant", async function () {
+  it.skip("Skipping to update this test later: Mute a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
-      : "add_participant_and_get_call_props";
+      : "mute_participant";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -564,7 +562,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallConnecti
     await ((ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms)))(3000);
 
     // cancel add participant
-    await callConnection.cancelAddParticipant(addResult.invitationId!);
+    await callConnection.cancelAddParticipantOperation(addResult.invitationId!);
 
     const addParticipantCancelledEvent = (await waitForEvent(
       "CancelAddParticipantSucceeded",

@@ -265,7 +265,7 @@ export async function waitForEvent(
 
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
-    fs.writeFile(`recordings\\${testName}.txt`, eventsToPersist.join("\n"), (err) => {
+    fs.writeFile(`recordings\\${testName}.json`, eventsToPersist.join("\n"), (err) => {
       if (err) throw err;
     });
     // Clear the array for next test to use
@@ -280,10 +280,10 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
     let data: string = "";
     // Different OS has differnt file system path format.
     try {
-      data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
+      data = fs.readFileSync(`recordings\\${testName}.json`, "utf-8");
     } catch (e) {
       console.log("original path doesn't work");
-      data = fs.readFileSync(`recordings/${testName}.txt`, "utf-8");
+      data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
     }
     const eventStrings = data.split("\n");
 

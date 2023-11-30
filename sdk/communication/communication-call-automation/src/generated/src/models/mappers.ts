@@ -73,17 +73,18 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "TranscriptionConfiguration"
         }
       },
-      cognitiveServicesEndpoint: {
-        serializedName: "cognitiveServicesEndpoint",
-        type: {
-          name: "String"
-        }
-      },
-      customContext: {
-        serializedName: "customContext",
+      callIntelligenceOptions: {
+        serializedName: "callIntelligenceOptions",
         type: {
           name: "Composite",
-          className: "CustomContext"
+          className: "CallIntelligenceOptionsInternal"
+        }
+      },
+      customCallingContext: {
+        serializedName: "customCallingContext",
+        type: {
+          name: "Composite",
+          className: "CustomCallingContextInternal"
         }
       }
     }
@@ -266,10 +267,25 @@ export const TranscriptionConfiguration: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomContext: coreClient.CompositeMapper = {
+export const CallIntelligenceOptionsInternal: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomContext",
+    className: "CallIntelligenceOptionsInternal",
+    modelProperties: {
+      cognitiveServicesEndpoint: {
+        serializedName: "cognitiveServicesEndpoint",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomCallingContextInternal: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CustomCallingContextInternal",
     modelProperties: {
       voipHeaders: {
         serializedName: "voipHeaders",
@@ -484,10 +500,11 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           className: "TranscriptionConfiguration"
         }
       },
-      cognitiveServicesEndpoint: {
-        serializedName: "cognitiveServicesEndpoint",
+      callIntelligenceOptions: {
+        serializedName: "callIntelligenceOptions",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "CallIntelligenceOptionsInternal"
         }
       },
       answeredBy: {
@@ -520,11 +537,11 @@ export const RedirectCallRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      customContext: {
-        serializedName: "customContext",
+      customCallingContext: {
+        serializedName: "customCallingContext",
         type: {
           name: "Composite",
-          className: "CustomContext"
+          className: "CustomCallingContextInternal"
         }
       }
     }
@@ -565,11 +582,11 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
           className: "CommunicationIdentifierModel"
         }
       },
-      customContext: {
-        serializedName: "customContext",
+      customCallingContext: {
+        serializedName: "customCallingContext",
         type: {
           name: "Composite",
-          className: "CustomContext"
+          className: "CustomCallingContextInternal"
         }
       },
       operationContext: {
@@ -1122,10 +1139,10 @@ export const SendDtmfTonesResult: coreClient.CompositeMapper = {
   }
 };
 
-export const UpdateTranscriptionDataRequest: coreClient.CompositeMapper = {
+export const UpdateTranscriptionRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "UpdateTranscriptionDataRequest",
+    className: "UpdateTranscriptionRequest",
     modelProperties: {
       locale: {
         serializedName: "locale",
@@ -1205,6 +1222,12 @@ export const StartDialogRequest: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BaseDialog"
+        }
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String"
         }
       },
       operationContext: {
@@ -1367,11 +1390,11 @@ export const AddParticipantRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      customContext: {
-        serializedName: "customContext",
+      customCallingContext: {
+        serializedName: "customCallingContext",
         type: {
           name: "Composite",
-          className: "CustomContext"
+          className: "CustomCallingContextInternal"
         }
       },
       operationCallbackUri: {
@@ -2646,6 +2669,57 @@ export const TranscriptionFailed: coreClient.CompositeMapper = {
   }
 };
 
+export const TranscriptionUpdated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TranscriptionUpdated",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation"
+        }
+      },
+      transcriptionUpdate: {
+        serializedName: "transcriptionUpdate",
+        type: {
+          name: "Composite",
+          className: "TranscriptionUpdate"
+        }
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const RestAddParticipantSucceeded: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3429,11 +3503,17 @@ export const RestContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapp
           className: "RestResultInformation"
         }
       },
-      toneInfo: {
-        serializedName: "toneInfo",
+      sequenceId: {
+        serializedName: "sequenceId",
+        readOnly: true,
         type: {
-          name: "Composite",
-          className: "RestToneInfo"
+          name: "Number"
+        }
+      },
+      tone: {
+        serializedName: "tone",
+        type: {
+          name: "String"
         }
       },
       operationContext: {
@@ -3460,29 +3540,6 @@ export const RestContinuousDtmfRecognitionToneReceived: coreClient.CompositeMapp
       correlationId: {
         serializedName: "correlationId",
         readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RestToneInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestToneInfo",
-    modelProperties: {
-      sequenceId: {
-        serializedName: "sequenceId",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      tone: {
-        serializedName: "tone",
-        required: true,
         type: {
           name: "String"
         }

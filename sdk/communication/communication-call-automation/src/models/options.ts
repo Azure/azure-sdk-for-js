@@ -16,7 +16,8 @@ import {
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
-  CustomContext,
+  CallIntelligenceOptions,
+  CustomCallingContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
@@ -105,20 +106,20 @@ export interface CreateCallOptions extends OperationOptions {
   sourceDisplayName?: string;
   /** The operation context. */
   operationContext?: string;
-  /** The Azure cognitive services end point url. */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The Custom Context. */
-  customContext?: CustomContext;
+  customCallingContext?: CustomCallingContext;
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-  /** The Azure cognitive services end point url. */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** The operation context. */
@@ -129,10 +130,8 @@ export interface AnswerCallOptions extends OperationOptions {
  * Options to redirect call.
  */
 export interface RedirectCallOptions extends OperationOptions {
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -149,8 +148,6 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Used by customer to send custom context to targets. */
-  customContext?: CustomContext;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -158,6 +155,8 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
   operationCallbackUrl?: string;
   /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifier;
+  /** Used by customer to send custom context to targets. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /** Options to add participants. */
@@ -320,7 +319,7 @@ export interface SendDtmfTonesOptions extends OperationOptions {
 }
 
 /** Options for cancelling add participant request. */
-export interface CancelAddParticipantOptions extends OperationOptions {
+export interface CancelAddParticipantOperationOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
   /**

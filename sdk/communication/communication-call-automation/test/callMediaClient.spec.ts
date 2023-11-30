@@ -338,7 +338,6 @@ describe("CallMedia Unit Tests", async function () {
     await callMedia.startHoldMusic(participantToHold, playSource);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
-    console.log(data);
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(data.playSourceInfo.kind, "text");
     assert.equal(data.playSourceInfo.text.text, playSource.text);
@@ -357,13 +356,12 @@ describe("CallMedia Unit Tests", async function () {
     await callMedia.stopHoldMusic(participantToUnhold);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
-    console.log(data);
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media Client Live Tests", function () {
+describe("Call Media Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -387,9 +385,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {
-        console.log("Call is terminated");
-      }
+      } catch (e) {}
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -525,7 +521,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.Call Media C
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it("Trigger DTMF actions", async function () {
+  it.skip("Skipping to update this test later: Trigger DTMF actions", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_and_trigger_dtmf_actions_then_hang_up";

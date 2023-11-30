@@ -30,7 +30,7 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
-import { FileSource, TextSource, SsmlSource } from "./models/models";
+import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
 import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
@@ -364,6 +364,19 @@ export class CallMedia {
 
   /**
    *  Recognize participant input.
+   *  @deprecated This method signature is deprecated. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.
+   *  @param targetParticipant - Target participant.
+   *  @param maxTonesToCollect - Maximum number of DTMF tones to be collected.
+   *  @param options - Different attributes for recognize.
+   * */
+  public async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesToCollect: number,
+    options: CallMediaRecognizeDtmfOptions
+  ): Promise<StartRecognizingResult>;
+
+  /**
+   *  Recognize participant input.
    *  @param targetParticipant - Target participant.
    *  @param options - Different attributes for recognize.
    * */
@@ -374,48 +387,74 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions
+  ): Promise<StartRecognizingResult>;
+  async startRecognizing(
+    targetParticipant: CommunicationIdentifier,
+    maxTonesOrOptions:
+      | number
+      | CallMediaRecognizeDtmfOptions
+      | CallMediaRecognizeChoiceOptions
+      | CallMediaRecognizeSpeechOptions
+      | CallMediaRecognizeSpeechOrDtmfOptions,
+    options?: CallMediaRecognizeDtmfOptions
   ): Promise<StartRecognizingResult> {
-    options.operationContext = options.operationContext ? options.operationContext : uuidv4();
-    await this.callMedia.recognize(
-      this.callConnectionId,
-      this.createRecognizeRequest(targetParticipant, options),
-      {}
-    );
-
-    const startRecognizingResult: StartRecognizingResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const startRecognizingEventResult: StartRecognizingEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RecognizeCompleted" &&
-              event.operationContext === options.operationContext
-            ) {
-              startRecognizingEventResult.isSuccess = true;
-              startRecognizingEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RecognizeFailed" &&
-              event.operationContext === options.operationContext
-            ) {
-              startRecognizingEventResult.isSuccess = false;
-              startRecognizingEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs
-        );
-        return startRecognizingEventResult;
-      },
-    };
-    return startRecognizingResult;
+    if (typeof maxTonesOrOptions === "number" && options) {
+      // Old function signature logic
+      console.warn(
+        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options."
+      );
+      options.maxTonesToCollect = maxTonesOrOptions;
+      await this.callMedia.recognize(
+        this.callConnectionId,
+        this.createRecognizeRequest(targetParticipant, options),
+        {}
+      );
+    } else if (typeof maxTonesOrOptions !== "number" && !options) {
+      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
+        ? maxTonesOrOptions.operationContext
+        : uuidv4();
+      // New function signature logic
+      await this.callMedia.recognize(
+        this.callConnectionId,
+        this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
+        {}
+      );
+      const startRecognizingResult: StartRecognizingResult = {
+        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
+          const startRecognizingEventResult: StartRecognizingEventResult = {
+            isSuccess: false,
+          };
+          await this.callAutomationEventProcessor.waitForEventProcessor(
+            (event) => {
+              if (
+                event.callConnectionId === this.callConnectionId &&
+                event.kind === "RecognizeCompleted" &&
+                event.operationContext === maxTonesOrOptions.operationContext
+              ) {
+                startRecognizingEventResult.isSuccess = true;
+                startRecognizingEventResult.successResult = event;
+                return true;
+              } else if (
+                event.callConnectionId === this.callConnectionId &&
+                event.kind === "RecognizeFailed" &&
+                event.operationContext === maxTonesOrOptions.operationContext
+              ) {
+                startRecognizingEventResult.isSuccess = false;
+                startRecognizingEventResult.failureResult = event;
+                return true;
+              } else {
+                return false;
+              }
+            },
+            abortSignal,
+            timeoutInMs
+          );
+          return startRecognizingEventResult;
+        },
+      };
+      return startRecognizingResult;
+    }
+    throw new Error("Invalid params");
   }
 
   /**
@@ -503,7 +542,7 @@ export class CallMedia {
    * @param options - Additional attributes for send Dtmf tones.
    * */
   public async sendDtmfTones(
-    tones: Tone[],
+    tones: Tone[] | DtmfTone[],
     targetParticipant: CommunicationIdentifier,
     options: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {

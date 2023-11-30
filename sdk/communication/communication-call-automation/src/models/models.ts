@@ -20,6 +20,12 @@ export {
   MediaStreamingConfiguration,
   MediaStreamingContentType,
   MediaStreamingTransportType,
+  RecognitionType,
+  ChoiceResult,
+  DtmfResult,
+  SpeechResult,
+  RecordingState,
+  Tone,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */
@@ -165,7 +171,7 @@ export interface CallInvite {
   readonly sourceCallIdNumber?: PhoneNumberIdentifier;
   sourceDisplayName?: string;
   /** Used by customer to send custom context to targets. */
-  customContext?: CustomContext;
+  customCallingContext?: CustomCallingContext;
 }
 
 /** The locator type of a call. */
@@ -194,79 +200,31 @@ export interface ChannelAffinity {
   targetParticipant: CommunicationIdentifier;
 }
 
-interface CustomContextHeader {
+interface CustomCallingContextHeader {
   key: string;
   value: string;
 }
 
-/** SIPCustomHeader */
-export interface SIPCustomHeader extends CustomContextHeader {}
-
-/** SIPUserToUserHeader */
-export interface SIPUserToUserHeader extends CustomContextHeader {}
-
-/** VoipHeader */
-export interface VoipHeader extends CustomContextHeader {}
-
-/** Custom Context SIP header */
-export class SIPCustomHeader implements CustomContextHeader {
-  // Create a new SIP custom header.
-  constructor(key: string, value: string) {
-    this.key = "X-MS-Custom-" + key;
-    this.value = value;
-  }
+/** VOIP header. */
+export interface VoipHeader extends CustomCallingContextHeader {
+  kind: "voip";
 }
 
-/** Custom Context SIP User-to-User header */
-export class SIPUserToUserHeader implements CustomContextHeader {
-  // Create a new SIP UUI header.
-  constructor(value: string) {
-    this.key = "User-to-User";
-    this.value = value;
-  }
+/** SIP User To User header. */
+export interface SipUserToUserHeader extends CustomCallingContextHeader {
+  kind: "sipuui";
 }
 
-/** Custom Context VOIP header */
-export class VoipHeader implements CustomContextHeader {
-  constructor(key: string, value: string) {
-    this.key = key;
-    this.value = value;
-  }
+/** SIP Custom header. */
+export interface SipCustomHeader extends CustomCallingContextHeader {
+  kind: "sipx";
 }
 
-/** Custom Context */
-export class CustomContext {
-  /** Dictionary of VOIP headers. */
-  public voipHeaders: { [key: string]: string };
+/** Custom Calling Context */
+export type CustomCallingContext = (VoipHeader | SipUserToUserHeader | SipCustomHeader)[];
 
-  /** Dictionary of SIP headers. */
-  public sipHeaders: { [key: string]: string };
-
-  // Creates a new CustomContext.
-  constructor(sipHeaders: { [key: string]: string }, voipHeaders: { [key: string]: string }) {
-    this.sipHeaders = sipHeaders;
-    this.voipHeaders = voipHeaders;
-  }
-
-  /** Add a custom context sip or voip header. */
-  public add(header: CustomContextHeader): void {
-    if (header instanceof SIPUserToUserHeader) {
-      if (this.sipHeaders == null) {
-        throw new Error("Cannot add sip header, SipHeaders is null.");
-      }
-      this.sipHeaders[header.key] = header.value;
-    } else if (header instanceof SIPCustomHeader) {
-      if (this.sipHeaders == null) {
-        throw new Error("Cannot add sip header, SipHeaders is null.");
-      }
-      this.sipHeaders[header.key] = header.value;
-    } else if (header instanceof VoipHeader) {
-      if (this.voipHeaders == null) {
-        throw new Error("Cannot add voip header, VoipHeaders is null");
-      }
-      this.voipHeaders[header.key] = header.value;
-    } else {
-      throw new Error("Unknown custom context header type.");
-    }
-  }
+/** AI options for the call. */
+export interface CallIntelligenceOptions {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
 }

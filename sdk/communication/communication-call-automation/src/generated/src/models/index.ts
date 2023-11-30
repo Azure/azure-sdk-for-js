@@ -34,10 +34,10 @@ export interface CreateCallRequest {
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** Live Transcription Configuration. */
   transcriptionConfiguration?: TranscriptionConfiguration;
-  /** The identifier of the Cognitive Service resource assigned to this call. */
-  cognitiveServicesEndpoint?: string;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomCallingContextInternal;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -100,7 +100,13 @@ export interface TranscriptionConfiguration {
   startTranscription: boolean;
 }
 
-export interface CustomContext {
+/** AI options for the call. */
+export interface CallIntelligenceOptionsInternal {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
+}
+
+export interface CustomCallingContextInternal {
   /** Dictionary of <string> */
   voipHeaders?: { [propertyName: string]: string };
   /** Dictionary of <string> */
@@ -179,8 +185,8 @@ export interface AnswerCallRequest {
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** Live Transcription Configuration. */
   transcriptionConfiguration?: TranscriptionConfiguration;
-  /** The endpoint URL of the Azure Cognitive Services resource attached */
-  cognitiveServicesEndpoint?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
 }
@@ -191,8 +197,8 @@ export interface RedirectCallRequest {
   incomingCallContext: string;
   /** The target identity to redirect the call to. */
   target: CommunicationIdentifierModel;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomCallingContextInternal;
 }
 
 /** The request payload for rejecting the call. */
@@ -207,8 +213,8 @@ export interface RejectCallRequest {
 export interface TransferToParticipantRequest {
   /** The identity of the target where call should be transferred to. */
   targetParticipant: CommunicationIdentifierModel;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomCallingContextInternal;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
   /** Transferee is the participant who is transferred away. */
@@ -398,7 +404,7 @@ export interface SendDtmfTonesResult {
   operationContext?: string;
 }
 
-export interface UpdateTranscriptionDataRequest {
+export interface UpdateTranscriptionRequest {
   /** Defines new locale for transcription. */
   locale: string;
 }
@@ -429,6 +435,11 @@ export interface StopHoldMusicRequest {
 export interface StartDialogRequest {
   /** Defines the dialog. */
   dialog: BaseDialogUnion;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
   /** The value to identify context of the operation. */
   operationContext?: string;
 }
@@ -486,8 +497,8 @@ export interface AddParticipantRequest {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Used by customer to send custom context to targets */
-  customContext?: CustomContext;
+  /** Used by customer to send custom calling context to targets */
+  customCallingContext?: CustomCallingContextInternal;
   /**
    * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -1147,6 +1158,39 @@ export interface TranscriptionFailed {
   readonly correlationId?: string;
 }
 
+export interface TranscriptionUpdated {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 /** The participant successfully added event. */
 export interface RestAddParticipantSucceeded {
   /**
@@ -1647,14 +1691,12 @@ export interface RestContinuousDtmfRecognitionToneReceived {
    */
   readonly resultInformation?: RestResultInformation;
   /**
-   * Define the information for a tone
+   * The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly toneInfo?: RestToneInfo;
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  readonly sequenceId?: number;
+  tone?: Tone;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly operationContext?: string;
   /**
    * Call connection ID.
@@ -1671,13 +1713,6 @@ export interface RestContinuousDtmfRecognitionToneReceived {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly correlationId?: string;
-}
-
-/** The information about the tone. */
-export interface RestToneInfo {
-  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
-  sequenceId: number;
-  tone: Tone;
 }
 
 export interface RestContinuousDtmfRecognitionToneFailed {
@@ -2314,8 +2349,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionFailed = "transcriptionFailed",
   /** TranscriptionResumed */
   TranscriptionResumed = "transcriptionResumed",
-  /** TranscriptionLocaleUpdated */
-  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
+  /** TranscriptionUpdated */
+  TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
   /** UnspecifiedError */
@@ -2330,7 +2365,7 @@ export enum KnownTranscriptionStatus {
  * **transcriptionStarted** \
  * **transcriptionFailed** \
  * **transcriptionResumed** \
- * **transcriptionLocaleUpdated** \
+ * **transcriptionUpdated** \
  * **transcriptionStopped** \
  * **unspecifiedError**
  */
@@ -2355,7 +2390,19 @@ export enum KnownTranscriptionStatusDetails {
   /** SubscriptionStopped */
   SubscriptionStopped = "subscriptionStopped",
   /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError"
+  UnspecifiedError = "unspecifiedError",
+  /** AuthenticationFailure */
+  AuthenticationFailure = "authenticationFailure",
+  /** BadRequest */
+  BadRequest = "badRequest",
+  /** TooManyRequests */
+  TooManyRequests = "tooManyRequests",
+  /** Forbidden */
+  Forbidden = "forbidden",
+  /** ServiceTimeout */
+  ServiceTimeout = "serviceTimeout",
+  /** TranscriptionLocaleUpdated */
+  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated"
 }
 
 /**
@@ -2371,7 +2418,13 @@ export enum KnownTranscriptionStatusDetails {
  * **streamConnectionInterrupted** \
  * **speechServicesConnectionError** \
  * **subscriptionStopped** \
- * **unspecifiedError**
+ * **unspecifiedError** \
+ * **authenticationFailure** \
+ * **badRequest** \
+ * **tooManyRequests** \
+ * **forbidden** \
+ * **serviceTimeout** \
+ * **transcriptionLocaleUpdated**
  */
 export type TranscriptionStatusDetails = string;
 
@@ -2589,7 +2642,7 @@ export interface CallMediaSendDtmfTonesOptionalParams
 export type CallMediaSendDtmfTonesResponse = SendDtmfTonesResult;
 
 /** Optional parameters. */
-export interface CallMediaUpdateTranscriptionDataOptionalParams
+export interface CallMediaUpdateTranscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
@@ -2609,7 +2662,10 @@ export type CallDialogStartDialogResponse = DialogStateResponse;
 
 /** Optional parameters. */
 export interface CallDialogStopDialogOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Opeation callback URI. */
+  operationCallbackUri?: string;
+}
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams

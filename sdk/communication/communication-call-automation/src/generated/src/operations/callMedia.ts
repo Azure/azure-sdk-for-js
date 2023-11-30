@@ -27,8 +27,8 @@ import {
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
   CallMediaSendDtmfTonesResponse,
-  UpdateTranscriptionDataRequest,
-  CallMediaUpdateTranscriptionDataOptionalParams,
+  UpdateTranscriptionRequest,
+  CallMediaUpdateTranscriptionOptionalParams,
   StartHoldMusicRequest,
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
@@ -184,17 +184,17 @@ export class CallMediaImpl implements CallMedia {
   /**
    * API to change transcription language.
    * @param callConnectionId The call connection id
-   * @param updateTranscriptionDataRequest The updateTranscriptionData request
+   * @param updateTranscriptionRequest The UpdateTranscription request
    * @param options The options parameters.
    */
-  updateTranscriptionData(
+  updateTranscription(
     callConnectionId: string,
-    updateTranscriptionDataRequest: UpdateTranscriptionDataRequest,
-    options?: CallMediaUpdateTranscriptionDataOptionalParams
+    updateTranscriptionRequest: UpdateTranscriptionRequest,
+    options?: CallMediaUpdateTranscriptionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, updateTranscriptionDataRequest, options },
-      updateTranscriptionDataOperationSpec
+      { callConnectionId, updateTranscriptionRequest, options },
+      updateTranscriptionOperationSpec
     );
   }
 
@@ -252,7 +252,7 @@ const playOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const startTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:StartTranscription",
+  path: "/calling/callConnections/{callConnectionId}:startTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -268,7 +268,7 @@ const startTranscriptionOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:StopTranscription",
+  path: "/calling/callConnections/{callConnectionId}:stopTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -370,8 +370,8 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateTranscriptionDataOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:updateTranscriptionData",
+const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:updateTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -379,7 +379,7 @@ const updateTranscriptionDataOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.updateTranscriptionDataRequest,
+  requestBody: Parameters.updateTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],

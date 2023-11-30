@@ -28,7 +28,7 @@ import {
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
-  UpdateTranscriptionDataRequest as UpdateTranscriptionDataRequestMapper,
+  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
@@ -217,9 +217,9 @@ export const sendDtmfTonesRequest: OperationParameter = {
   mapper: SendDtmfTonesRequestMapper
 };
 
-export const updateTranscriptionDataRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionDataRequest",
-  mapper: UpdateTranscriptionDataRequestMapper
+export const updateTranscriptionRequest: OperationParameter = {
+  parameterPath: "updateTranscriptionRequest",
+  mapper: UpdateTranscriptionRequestMapper
 };
 
 export const startHoldMusicRequest: OperationParameter = {
@@ -242,6 +242,16 @@ export const dialogId: OperationURLParameter = {
   mapper: {
     serializedName: "dialogId",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const operationCallbackUri: OperationQueryParameter = {
+  parameterPath: ["options", "operationCallbackUri"],
+  mapper: {
+    serializedName: "operationCallbackUri",
     type: {
       name: "String"
     }

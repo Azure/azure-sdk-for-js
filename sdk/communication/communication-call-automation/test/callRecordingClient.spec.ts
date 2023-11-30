@@ -186,7 +186,7 @@ describe("CallRecording Unit Tests", async function () {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy.CallRecording Live Tests", function () {
+describe("CallRecording Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -208,9 +208,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy.CallRecordin
     if (callConnection) {
       try {
         await callConnection.hangUp(true);
-      } catch (e) {
-        console.log("Call is terminated");
-      }
+      } catch (e) {}
     }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
