@@ -113,8 +113,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     );
 
     this.commonProperties = {
-      os: super.os,
-      rp: super.resourceProvider,
+      os: this.os,
+      rp: this.resourceProvider,
       cikey: this.cikey,
       runtimeVersion: this.runtimeVersion,
       language: this.language,
@@ -123,7 +123,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     };
 
     this.attachProperties = {
-      rpId: super.resourceIdentifier,
+      rpId: this.resourceIdentifier,
     };
 
     this.isInitialized = true;
