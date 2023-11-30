@@ -1518,6 +1518,16 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
+  /@azure/msal-node-extensions@1.0.0-alpha.25:
+    resolution: {integrity: sha512-7pOUdE2OZO2omA1DBAJhVGHJo8laqw+x5JgV/XLzyogapduAzps3lbM/G3VV+VuEb0KG1QHkpaOF/6eftPssKw==}
+    engines: {node: '>=10'}
+    requiresBuild: true
+    dependencies:
+      '@azure/msal-common': 7.6.0
+      keytar: 7.9.0
+      node-addon-api: 5.0.0
+    dev: false
+
   /@azure/msal-node-extensions@1.0.7:
     resolution: {integrity: sha512-RAit1BOmxB0lbCV0iQzS08g35NyoQ5/0gi3ALEqByNec5xrCTfAn5uwtA55ZQnvOwUUuxZ3714F9+AUWbA5wSA==}
     engines: {node: 18 || 20}
@@ -3621,16 +3631,6 @@ packages:
   /avsc@5.7.7:
     resolution: {integrity: sha512-9cYNccliXZDByFsFliVwk5GvTq058Fj513CiR4E60ndDwmuXzTJEp/Bp8FyuRmGyYupLjHLs+JA9/CBoVS4/NQ==}
     engines: {node: '>=0.11'}
-    dev: false
-
-  /axios@1.6.2:
-    resolution: {integrity: sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==}
-    dependencies:
-      follow-redirects: 1.15.3(debug@4.3.4)
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
     dev: false
 
   /b4a@1.6.4:
@@ -7291,6 +7291,10 @@ packages:
     resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
     dev: false
 
+  /node-addon-api@5.0.0:
+    resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
+    dev: false
+
   /node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -10046,10 +10050,11 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-mJakXLQdplo7TFG0DAbyRk5wBLrGAt8Y/1Pia2iJ66yK+UYnRUGGVO/fIwY7nvIVAD0ynxIb6n+w8ELAj0fCxQ==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-tr6TEKtR+hZHfvyc6OBnHY3J3l5d6bhy18id7T9krnH5SnFHLFbpKqNFTgzMBBnFRlk/imT6GkA6A1O2cXOY6A==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10136,10 +10141,11 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-EK+h/8OaF0XvWPAg2JzZEUlsHloVH/z/vSgWyrF6t00LiQ2e5lR1RfXJqP0obcNuoyrwSEjJQgWHbfbhRdx+Qg==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-8+6RGiSTH31z91dL1/5sWEvxvl18i/wYIdHqnvz2yhylZf2xJJ7wTyY0gVBmSscKgBEDdBvCowbJz1bbGOlUFQ==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@3.29.4)
@@ -10184,10 +10190,11 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-P19DtPbDsIFjR1OOMS11mWAaqHV0Iqh+krjJ1ST2ty83vuhV/sRDU5l/DRjjghFjgtABl//9WgLqRK0tmv1qsg==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-Vjdy/W4X4TLZdJ0OQvwEuVC4Fl51K72TgrMsBjwqStOUtfElKlm9ZVandeMOtUU8H5hlLUTxLcAf4boL14rG+A==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10396,10 +10403,11 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-A5j3KjK01e9KrXMxyIFnBzakr5FiZqwZKd2vB/mVIhaMd2cMTmu2fgL5F9hyhERiXPsPyvDr2IQNkK8IzKDtag==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-83OPNdLvf7s/uJ8ciVQGcAjxQXjExqyY6jCEjaYu7QHhehG+z84/ogU6zhjhbMQQcR6XdlbMCpjhNLVMUhpWtg==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10583,10 +10591,11 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-RXjilpGLc0MsoFwwZrs1kSRzxSwy9qabFseKXuzCTzZvjq9hl+sqAP2WBOWAVoih/i/n3BRWt2ZMNzOuPZf+NA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-+ODXG36wcm+SwadtXq/VHs4kXmLzg/uTcNLF3fT6qeQUwwXlEcpo1w3pchjwZKM0ggQebOU+l3oRKQtRzbq32w==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -10656,10 +10665,11 @@ packages:
     dev: false
 
   file:projects/arm-agrifood.tgz:
-    resolution: {integrity: sha512-siqI7KGmKdOwARS0+VO8LURs98Hbf+Ie8QHxpuu1dyS6dpPYMCDqgZL5tdLMD4hb2/PxI/J+Kngu1xJwUbN9GQ==, tarball: file:projects/arm-agrifood.tgz}
+    resolution: {integrity: sha512-k3ERTABcZobn3481hmimcF6+9FWz8+FJMotyo7NFBSa/8W29wgTEuVLp7jVbzth+QSJJGAcdu3esfwCti4Wf4Q==, tarball: file:projects/arm-agrifood.tgz}
     name: '@rush-temp/arm-agrifood'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10680,10 +10690,11 @@ packages:
     dev: false
 
   file:projects/arm-analysisservices.tgz:
-    resolution: {integrity: sha512-ocRCs9kY8cAtIuDbWNUtC4Vf7D8yEog52GW90ELrewG01+dOsHZG62Zn4DEe9gRCVoJ7Idrj3QedHwUOejpYhg==, tarball: file:projects/arm-analysisservices.tgz}
+    resolution: {integrity: sha512-OtrC88QoJGrJC9I4jh952/ptrhrYJb9Z3den4UmqcBJlgFSpwKa7Q7ljZem+ZGV14BxXKSbRwF11Hg+iQ4b6Dw==, tarball: file:projects/arm-analysisservices.tgz}
     name: '@rush-temp/arm-analysisservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10726,10 +10737,11 @@ packages:
     dev: false
 
   file:projects/arm-apimanagement.tgz:
-    resolution: {integrity: sha512-47wRTEHH4DoN3bYaaMVAL1tTPGlRO/6vxJgEivzcvESD0tN5x42dDGy1m6i3GaiZSvODBTjE/DWIXj/KIYUzWw==, tarball: file:projects/arm-apimanagement.tgz}
+    resolution: {integrity: sha512-kgGy7E99BY0Lcs1gjFjg1g4t81sXadIX7+5nWN157j5nt83rZlMFMLoi078vWTL86O33dFtmekiwDIZ2sg82tQ==, tarball: file:projects/arm-apimanagement.tgz}
     name: '@rush-temp/arm-apimanagement'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10751,10 +10763,11 @@ packages:
     dev: false
 
   file:projects/arm-appcomplianceautomation.tgz:
-    resolution: {integrity: sha512-CUqjGmv1s/M+vfD7BwFannxYNX/0Xvu0qNmn7QkG26DGQtBObeHxmqca9urMpMbEkqLN7thQoz69lvOuEuHesQ==, tarball: file:projects/arm-appcomplianceautomation.tgz}
+    resolution: {integrity: sha512-w2oxyX2Hf8vfA4+GEqWR63XPOuLmLCEi8H6ZU90ygeIDMNme1NpzFavsPCDqz0xBh5UsnfZ495fWeEGoU0RmCw==, tarball: file:projects/arm-appcomplianceautomation.tgz}
     name: '@rush-temp/arm-appcomplianceautomation'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10775,10 +10788,11 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-NUDJO9U6zQ7FyYhe/3ETDLVJq90VFTT6enzYyinbsYE4uECJyaROl9BLK7X+QUO2eLrvEI5ytA58b9xZ8/kVbA==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-CY+pkcUCRWO0qVpKS63VsGcFdzchT3Rkc4rKzZsxFg5w3iYIjVVDyAMGwamD6nvDh1LGdD/vQ/z+/PXbzIf5JQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10800,10 +10814,11 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-Tm6VlvAl/VVSZO90E488dPlYiKJSK8ABKMLdGX1GV6S8KM/mC9Ma8xbmWoesYtF98sMR1fY3YIA5dnnvqUjPQA==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-fbQepRLxW+cZvlKkb+spCDy/rQvEYis2VCEG2UFSuDiUqxQB91L0EBqcaNxta9U4RPKadSAq21gHJ2um/SUC6Q==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10849,10 +10864,11 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-oFZuffM7TQBCbo2pZLraMHnXFZEs5qBb7JNYzatiXJieypgVUTSet2fsqTxLeNWyDwOqKlh5jogrQAIwPJPoaw==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-+4iYY6oltA/wBq6LpyNyCw8zs1szvmrNOQJ1tBZ88thR3lS9XDxpOsbind8Irym43odq7hRAJxjV7ikUSsCUmA==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10874,10 +10890,11 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-TxH/1P2vgiupSiycjvbd9fuOdyNok+R9JkOJZwoVIHIMWcQL98bRno/EoiLaEJU7afSbO9mQ3+0JBJjzHQ6GyQ==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-ypnAR76w61ycvSU38TCosjeP0Z0D1X+sde3Y0zXEl6hXa7B488yYpcNlGRrLbRwdyzrObeYKtkeTahH6c9SrLg==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -10901,10 +10918,11 @@ packages:
     dev: false
 
   file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-3Ffh4tBpe6cNA2FETOdQX4kLvgQRKv2T7ce0Nw0w3v5pGwZd9P1PP6NXBJsbjO4hIxCOugWAnsaXYw3cv2XxuQ==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-Exc1f3e+qRGJKVap/k5GFrNh0PU/71NPniibYJa8Op7KqZffzv3qAQhmSerAUjp0ldNbNoLPBs5wfbTs1gDnEA==, tarball: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-appservice-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11019,10 +11037,11 @@ packages:
     dev: false
 
   file:projects/arm-authorization.tgz:
-    resolution: {integrity: sha512-/teoyMTLncU7QYqcQEfdO/QW7bULeYg/VM2NMk2OnM5NkSYtOrqs8gdJU+D7/jh+Ajk0UjCyrHtf1OdEJK3sZg==, tarball: file:projects/arm-authorization.tgz}
+    resolution: {integrity: sha512-+bSDrUetyscsdS2aLzRmcIoGJUngkHeBLJka4qq5fw/8FEJ6OHV+vEjqbZembR7KJED+I5no+MDQNovoRneUIg==, tarball: file:projects/arm-authorization.tgz}
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11069,10 +11088,11 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-ZK0GWcuTRPvzpv0E24i8O4C6p64s4fMKTz99I2jjJymH+3yfCMkGwMEC4J0HCpLoOZvYKVy0TczBt2nUHfsN2Q==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-yV8qy6AFS9+RiJU8QI685JTxJ/+XoRwHVVkiiAbx4o1A/JjLKRtRinGIf4vAalIYADTivEOW6GoxPdCNA6os4g==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11094,10 +11114,11 @@ packages:
     dev: false
 
   file:projects/arm-avs.tgz:
-    resolution: {integrity: sha512-NDrfnSn1kUBPObEImHdWVKHwC/FjSn3eqlDicuKz+OZzNptrZYBoL7cjo07nWXiB6Zz8QO2aMzpW9voA4zuY4g==, tarball: file:projects/arm-avs.tgz}
+    resolution: {integrity: sha512-oxVHjSFLGq09KDJlfgiO/V51IvSgdM+rDquyhPFE+dar34GVM0zexBmyheGDIdmjkDNamYr+joHP/DwVxNIhmw==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11119,10 +11140,11 @@ packages:
     dev: false
 
   file:projects/arm-azureadexternalidentities.tgz:
-    resolution: {integrity: sha512-iDMDOtHZ97/MkhFgjirQ17XNtPdmDndgb2HOCjRBklsLWPsQWkjpHiCoQAwWDYBYLbTTq6knqH6VVLFDYsUL6Q==, tarball: file:projects/arm-azureadexternalidentities.tgz}
+    resolution: {integrity: sha512-M4JdJKzC2ex5JOjZ1ieCX4vuL8oVSkJtfZMkJyAQBVMv2g7+uTF4283+oiVm59Nl7XsdbdKda6elZ9Kh/vnNxg==, tarball: file:projects/arm-azureadexternalidentities.tgz}
     name: '@rush-temp/arm-azureadexternalidentities'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11167,10 +11189,11 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-M8LufT4Sfh69jIa0Jga3Nscbtwt8IRlVB8bESS1UHhHiKMriLB7A4mqYEhQ/GGpwE56s2D4DORtB/tDr0woadg==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-KF1F+rJo94A1aEq90oMQAcWBLmH2lDcHeLn/NXc1tc4ptYr2J7MAtzQXC5SYEtYS2Jtqp1GkAcRs/6N1xBHmwA==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11192,10 +11215,11 @@ packages:
     dev: false
 
   file:projects/arm-baremetalinfrastructure.tgz:
-    resolution: {integrity: sha512-EGG3W17fhAN6QzUIAH4UG/NQCctMA6PVzj6pcxdq9HOr/3WjP1HnRs5jb14lAsmqmlFNbs5ulvbm666khBdjOA==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
+    resolution: {integrity: sha512-lDve1hS1zgT03xvKZ4mFZm/PVHEKkiaO8dwiGiMMxFllFPssvFvXMlNg1pAzMEwFjgwrgJGYaIddelGJpnEEyg==, tarball: file:projects/arm-baremetalinfrastructure.tgz}
     name: '@rush-temp/arm-baremetalinfrastructure'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11219,10 +11243,11 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-MNRsEc7Cdk8lkzwrdzO9NVHA/gOpZ+u56gssOrWtFq3XNq+hVOYzFfWkH2q/NS3Wozh+5wbblVwIhPDrJBhN4A==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-DqVVwFzMUVjdNIoiPiVKlnu27j9Nm3XCkHjLJ0LBQ0cayxx5Oti32wIpvyzeEbKr81LyMToTzIPNke/1+nzNUg==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11244,10 +11269,11 @@ packages:
     dev: false
 
   file:projects/arm-billing.tgz:
-    resolution: {integrity: sha512-53HpXSUcmbqdGG5plwLVD868PGxGPSXzMbwgMlOwiQ5ZwsePMGzW+2OyAffHfpN7V4Y+t/scgSWv+W0ZBvxdSg==, tarball: file:projects/arm-billing.tgz}
+    resolution: {integrity: sha512-jr1eFK12CCrzwPnKCbfiNOu/POrTQhu+7EK+N+70ZllihV6GmaL5wPWvXCxGcOBsN3iJY9yAFfYwMrh6XpVZJw==, tarball: file:projects/arm-billing.tgz}
     name: '@rush-temp/arm-billing'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11268,10 +11294,11 @@ packages:
     dev: false
 
   file:projects/arm-billingbenefits.tgz:
-    resolution: {integrity: sha512-fxR7CsNV8f4AhuSHgCcgU6XIMV9+f6Js0N3kxOi+fDE9yPoVhXlSGSCKycXAIE+7PSY6T8Ax8UMsMzeQAA4wBg==, tarball: file:projects/arm-billingbenefits.tgz}
+    resolution: {integrity: sha512-wlH8KtMRAyYZ/x7u2yVCSlx1nx2VX/peZsusYwh+dkreQ1JP+8nzo4eFBrLiR25P083BbLuZh//S7bqskYub8g==, tarball: file:projects/arm-billingbenefits.tgz}
     name: '@rush-temp/arm-billingbenefits'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11292,10 +11319,11 @@ packages:
     dev: false
 
   file:projects/arm-botservice.tgz:
-    resolution: {integrity: sha512-W6ou7vVyMfUiEYvH0wyCpILbxXAMhi+l293WU80zPJ32LOH51pqhcfpP3E0R8J8MSfdpU2XBdAY6rzNlGySCzw==, tarball: file:projects/arm-botservice.tgz}
+    resolution: {integrity: sha512-8kYXx0ZtmByj0m8oYc2R+SG0AO/MDELf7V///biZRLV3vtW5X7xqe01TCHw2NLxpJlyJ/1HZ0xi8pWdCCgoE2A==, tarball: file:projects/arm-botservice.tgz}
     name: '@rush-temp/arm-botservice'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11317,10 +11345,11 @@ packages:
     dev: false
 
   file:projects/arm-cdn.tgz:
-    resolution: {integrity: sha512-lqNE25zilcqqcvUZ8FrPJBEPZRV/2wW30csTkKd8GHb5XtF6QahnnGAGqFzX96CLlKigaDzgw6dSYMx9RwoGFg==, tarball: file:projects/arm-cdn.tgz}
+    resolution: {integrity: sha512-2Z/TdVr3/byWxAJMufoRrBu4pIvH4jaNYDZofdwDc21KtFebNoNuvWhpYO/iHr9CL0HHoEJ86BwtaZKenf9FYg==, tarball: file:projects/arm-cdn.tgz}
     name: '@rush-temp/arm-cdn'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11390,10 +11419,11 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-C/GU5Chdpjl98Kr0E8s6xKmEU9iBpsgBD9C4zCxI6aOPUPUMfoiweNVDUnGzindk+ERj4AA+xwgXB2vVRTmnEA==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-ehlIc9sdRaoNxK6So91Zskn5fYtI46qr8Rib2AAVpXQGWqfVDcG/lJTwZnzwS4VX+gajZEm+y8MPH9kXms+Xsg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -11418,10 +11448,11 @@ packages:
     dev: false
 
   file:projects/arm-cognitiveservices.tgz:
-    resolution: {integrity: sha512-GhYbxkaZfxQRAhXe60u0QOcAyZ5JAYx38PteSo0Frh+c+HXPrVAXguDJNPwIJwPR8pJ+1KT3Ai6gN/ZHf/VztA==, tarball: file:projects/arm-cognitiveservices.tgz}
+    resolution: {integrity: sha512-mj+imqVs180x4PxJpue4A2YcAKjxf4AXbtE58Cb1HfdRBcL0Tl6NoD9inQ6PUtT0uutosdEA/HgT2nyS6Q2scw==, tarball: file:projects/arm-cognitiveservices.tgz}
     name: '@rush-temp/arm-cognitiveservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11516,10 +11547,11 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-gzQ6ikNbxOBBDo8TThS9oxAhv/XfLIk6VwP7SqdIcffjcndOq8cHHmmG+Li8+az9sera1n2jrggfwm6FNq/B5g==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-eUisuzUEGQICywxqvTXxrvbd1p7GYsd+45APBlHw+1X9xWQsF10sguvv1UX1P0ZvgPvOqs1Y/c5w8ewZyQMaqQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11541,10 +11573,11 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-/fsYCj+D6c3PbALmfyGay0YVZ8oGySe2b56dqDPkrdpdxTResBg2qQMBQqESyNmfeCdXBpAfGewdvT0BuSR44Q==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-WMmi5GrMm+QYr1pPVOU9sfqr3fSWtbUPyqYAz0kV/Jih2fEfZjsNFBgyfyv36fBz9lGdT0/y23T9Ui5ZcAGvlQ==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11566,10 +11599,11 @@ packages:
     dev: false
 
   file:projects/arm-compute-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-n1y5GNuX5ttl49SRTAvZgLQPhrdxeZWsV/r7bf3gXuD9QPWzaI1bNqcbROpENxKKIFTAvQ1lY7COrLy2dqLo0w==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-bX5ARk5vGBofxWd7i4VJKqA0/5T7GpkQkFNdNzwX3dcsZuO/WE3gjUr4O7Pn6yuuk2OCJ3HTveGtRv9LdI60wg==, tarball: file:projects/arm-compute-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-compute-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11635,10 +11669,11 @@ packages:
     dev: false
 
   file:projects/arm-confidentialledger.tgz:
-    resolution: {integrity: sha512-NMBGN+p3i+kc2sFIcd9JK9XSr+R9WG/rXztICPBzOgiQqI0e1tome+F8i4jXSsPXltACpUDORVdyeRq6rDyLQQ==, tarball: file:projects/arm-confidentialledger.tgz}
+    resolution: {integrity: sha512-EF39ala1qmHZjcsDVMbFz0Y5STJHyLp6CKsbSdgpEnGNU0q7vTl5beXhCEypdmZUUlCuyM2kGwnbbcAsqDSqtw==, tarball: file:projects/arm-confidentialledger.tgz}
     name: '@rush-temp/arm-confidentialledger'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11660,10 +11695,11 @@ packages:
     dev: false
 
   file:projects/arm-confluent.tgz:
-    resolution: {integrity: sha512-bggOgfwybYLOMmoGf1HNEc/QRF2pxxcn5gnq9D06jHr5nHdFf5fuEgZCprePiLcbPuvV0x2pIPoT5B3788ou8A==, tarball: file:projects/arm-confluent.tgz}
+    resolution: {integrity: sha512-8vx+yVVJDv5kUYmFBGQViuthnkchSVPukYkSvpYniR469kNhelDNsREzjNPgTTbvws1JTM8IyowLckOCrVz1bQ==, tarball: file:projects/arm-confluent.tgz}
     name: '@rush-temp/arm-confluent'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11687,10 +11723,11 @@ packages:
     dev: false
 
   file:projects/arm-connectedvmware.tgz:
-    resolution: {integrity: sha512-55NyBuozUFie9djQ8IqqFB8Lh7IiPM/bKSa5E2IP+yE0aMT3aQJNYLcyeea0TYqcXEPu47y8Xfzu0W3oYK8QBw==, tarball: file:projects/arm-connectedvmware.tgz}
+    resolution: {integrity: sha512-QKb6i4+Ga6q+OMIhOZH7EX9qRnsPMiA9CDcP6uFxQoY0CJCjUhswour+IienVJpHJYjfDtc0sGREDN3GzbhSJA==, tarball: file:projects/arm-connectedvmware.tgz}
     name: '@rush-temp/arm-connectedvmware'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11737,10 +11774,11 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-WSvuwm/vBUrzsRxD5PuUDRf8so1+8fZlox0b2XZf4Y5TgObzQ7+tbzI7chR20mU2+DUry7XRAcIffujkJFhHbw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-9gptIVcTv+mbNM3BhG5qZwRYTaXtfdlGWSYvbu52rdtW/4HefDUmsYb79bnJDDPyw7XThMes5K8h2AZa2e5a2w==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11762,10 +11800,11 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-IlNtJhNxx84POEA/UUjwGivdaSwwFdpMLyymXU/tqYKXKcOQ4M1lK9XRQ4S7AhLJFZ+zAIPNIfgBiCwnUcWxug==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-xTeLwEptDFhPK49RB9u6b0PE4GtcAi8fyh0qaT8MWyKqg8CSTdvz1A4RqjTwBSc3U5UgTQEqKjGpWDebXSWDaw==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11789,10 +11828,11 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-x0VWQX7xveJVTuUgHr5+ttYEFEUUwaUlZL5TlL8QkqXKJ8r9BBw7xurxmZ3yK2ThysNnH9lnMH+YEG+tsp9sBA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-Sv0EImJukikF4jOWAlL75rM9d72MaOzX9T/uV90F2EVSzDinJx3xzG4PWSNqbFPOQP6nc4LTZzv++CtStdkPiA==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11860,10 +11900,11 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-r6OT38Td0rJX7x+jjsjrRwYvdC2eoKf1C/AT9nb3QOX1/PDb/4f/siNpJhRJC06TCW9QQixklP471uUA4t32pw==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-MyFnPMzKfNFmGKrdXar+xui/paQ4rWIV4zOZGb4rDzSOx2hwdVEcp+4EOz4eMeSVgC8JDT9uVMFL67juIjT70g==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11887,10 +11928,11 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-zFietM+13x+h3TRRY5RNcVzmA7SVegEep+UHwfvWGq0gYG/SVOxQp2iZWYsZQTtXCxpqhfXiWAWCuv/LXWDXYQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-6THEEROj1la0EmcBpl/1d64G1+pGaF03ta+FXtxBVM4UVIRfaM6LdEQmlgvd8wqA4q6oxeRlCHp7zCWGownInw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11914,10 +11956,11 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-Mt4BWo9lV0NIcYEIlgjoKacIUhG90T+qrNfgBfVG8YaCpRl5UM8AZ42+y04vz3DzresCoY9p8mhJ+YkEX2dmRA==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-2oXGnxhGSZ3OmYh1FmtTH+YZidE25SJoZrh4+wNPcN+eChkuB62kV+QZgzzltpi7gQZFVyVhV1lZvGqfmeuAiQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11939,10 +11982,11 @@ packages:
     dev: false
 
   file:projects/arm-costmanagement.tgz:
-    resolution: {integrity: sha512-qafujtPfIZvPmbc/FJG+9pKvWvFQQlraZCojpjfxnkST09xfIzd5NsKJSf5ftsnUW61fLmueuV9HTtL8ue8Wdg==, tarball: file:projects/arm-costmanagement.tgz}
+    resolution: {integrity: sha512-KAawMpZ7Liack1pCUyy3VqtkKL2DFqT+iBDW5d6DYo6CNQzs9zH6SKDOow7QkdKD/+ROUm0dtojTaWX7YF5LpA==, tarball: file:projects/arm-costmanagement.tgz}
     name: '@rush-temp/arm-costmanagement'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11965,10 +12009,11 @@ packages:
     dev: false
 
   file:projects/arm-customerinsights.tgz:
-    resolution: {integrity: sha512-J2ydmXcRjUCkJQtM9b+DiSvq9LIXXHfuRlKtqD4wMyEWMx4V1pkfkurcLchDZx6txP8PTnYZUbeO4U7CS/QsWw==, tarball: file:projects/arm-customerinsights.tgz}
+    resolution: {integrity: sha512-mwWpPB1RKp+wK3RHPLMf5hQXj72lXqaAcnXtH14/BjradmryZS0mPYcA7Zi/UCdX95214ph0op+Q9P5sBdmgig==, tarball: file:projects/arm-customerinsights.tgz}
     name: '@rush-temp/arm-customerinsights'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11989,10 +12034,11 @@ packages:
     dev: false
 
   file:projects/arm-dashboard.tgz:
-    resolution: {integrity: sha512-KvF6sIxXpnKk/26aCdeRmMabSsczYYFRsCIyV9F0fQpDx2cogagvAkXSAu4nMnYiP9RXRBZElBVQPdBPfT7ywQ==, tarball: file:projects/arm-dashboard.tgz}
+    resolution: {integrity: sha512-h2co+rIJiLXXtsexDBuQs4kNlSKEGsxEH5e6/1+E01B/zGruXenQ0ts5pCR+rIkGcGBVjPwe+zUIaklWPNPv6g==, tarball: file:projects/arm-dashboard.tgz}
     name: '@rush-temp/arm-dashboard'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12016,10 +12062,11 @@ packages:
     dev: false
 
   file:projects/arm-databox.tgz:
-    resolution: {integrity: sha512-sCWt+vC3rjlgJC14FdS1suuj+VvOrbTAcivZDyntDh9iXt9oGy4KArtiz/dfNB2KST1bGSWSzhgg8bym3L2Gxg==, tarball: file:projects/arm-databox.tgz}
+    resolution: {integrity: sha512-Zqejk90YEJLCu7v+UyH9rauIiZVbpXBWO9RdY8pqLfq9LYOFTrG1oGMYIphE03jmIhQV0yyaDdatCHu4hpwIuQ==, tarball: file:projects/arm-databox.tgz}
     name: '@rush-temp/arm-databox'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12041,10 +12088,11 @@ packages:
     dev: false
 
   file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-HurfeC799syAyJonOtD8R6rZoXXN4bVmUVwIZ69IRCBGFVeI5AJ27lBXXal9p+VWzQl8RmG8HbBojcYArWMeXQ==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-zXIXJXyohrH0FFbDY9GM9YEu2OsV/XjsW2FsgpJg3lJwir/WWn0BydklluqH9Icf934WckhWqePfcMtiFoHWDw==, tarball: file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12066,10 +12114,11 @@ packages:
     dev: false
 
   file:projects/arm-databoxedge.tgz:
-    resolution: {integrity: sha512-gZYq0oMH4F0HgJbSYOIcFs7gmXEvWvFNLKf0hu0WjsjRBAejGGN2EDsicmNaPdzQnB0HYIrOBzAg/OCOkRO6Zg==, tarball: file:projects/arm-databoxedge.tgz}
+    resolution: {integrity: sha512-QF6xUc59Kka4IW879apwJ0YDO4m2utDUagMst9RQm6V81Rg6WV1MDgkl3h0Epk+8ftkDY5y5ruDtaD4uCHPmww==, tarball: file:projects/arm-databoxedge.tgz}
     name: '@rush-temp/arm-databoxedge'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12090,10 +12139,11 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-eHMNLvd3GmQrITLhUdTXIF/8NbCwHwFJwYLiLzxJIrHQI8RLkZ/7JdxN1zVWfYsbpCY+m+Vx5Y+q8ba37+d9oA==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-G+qeIBUeQ2KVWJ//LAwUuaJYdVnXu7m3usLIVRKcwY7WGfByZSwQUzfRjvautDGtiCHXMrQ3XfRfYM/agsYHZg==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12117,10 +12167,11 @@ packages:
     dev: false
 
   file:projects/arm-datacatalog.tgz:
-    resolution: {integrity: sha512-9ucxaxrSU1Iss5FI4X9Gv2zlMduOW5SqKI28N6OlhzSG5YQ0i21N9YrMGzi7ChmZtWTQHu/YERqhaYhnDGj5nA==, tarball: file:projects/arm-datacatalog.tgz}
+    resolution: {integrity: sha512-oWD6uRRY7+JXqInwEydTQJ2MKrS+8sipkpgLUtHSayDljg8ZKAyv+HAdR5ePdxK8KiUC8xizwClgySXk4/J/Dg==, tarball: file:projects/arm-datacatalog.tgz}
     name: '@rush-temp/arm-datacatalog'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12141,10 +12192,11 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-o9Xdm9r4/zWUUoBNvVmgKede3QFdjH/2eKMJYGK0AxZVPCf0UoNWKd+QbdWPvU4nnfDPgqXNc861b05+dUYLSw==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-KzQ7ykYfhOOx5bvgjLXRRTIyWEpHbowOPX3fFSAFtNlwpb4WiiPFddFGdt2gqw0NHDfNcqS+pfN5lO7DpeAGVA==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12166,10 +12218,11 @@ packages:
     dev: false
 
   file:projects/arm-datafactory.tgz:
-    resolution: {integrity: sha512-5b6zKnjp3RxZpphD3pGhYhfUsw17KvjWBIAZ6czqXoAwX2y22xFjF+o1GPfXuVmBR7CJ3IdiWvzofbCwgNWorQ==, tarball: file:projects/arm-datafactory.tgz}
+    resolution: {integrity: sha512-rNjEydaYK2ltiFfcZ2H4Q2nls6LnlGTpDRMBYicNjHLvlCpN3assh/hKjCP5ea/8qXKTylA+h6rDwzVv/8XaAQ==, tarball: file:projects/arm-datafactory.tgz}
     name: '@rush-temp/arm-datafactory'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12193,10 +12246,11 @@ packages:
     dev: false
 
   file:projects/arm-datalake-analytics.tgz:
-    resolution: {integrity: sha512-vVlrJX0i8aN+O87dVNu8F7JeNwHcczuovkXcl3nbmVZcpft6pk7UHU4ipajUoRX225I/2r//I50BF/23bL8Y4Q==, tarball: file:projects/arm-datalake-analytics.tgz}
+    resolution: {integrity: sha512-CgWzys9+xRUJsrZGIW0Z8/dWMowOTA6V/9dOxt9r+HaSLIohP1mrfdAB0DUmAd4TgzaN7O9JePcr28+sbE1i7A==, tarball: file:projects/arm-datalake-analytics.tgz}
     name: '@rush-temp/arm-datalake-analytics'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12217,10 +12271,11 @@ packages:
     dev: false
 
   file:projects/arm-datamigration.tgz:
-    resolution: {integrity: sha512-sYu8DxRjN1eocAyVm4YjfU79LfKQmDjAtpmz5cK74b8fPnVlUkwc9dbp29kuo+53jnnOnCfEIDQPtHE6vkD8LQ==, tarball: file:projects/arm-datamigration.tgz}
+    resolution: {integrity: sha512-TKBopFshHx7yYh5oha98eANl+RajSUNapfRHrSzMjXe5LoEnpYenFNXHk47r0ClfFT8SHzRU8zhCpUs8ESHzqg==, tarball: file:projects/arm-datamigration.tgz}
     name: '@rush-temp/arm-datamigration'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12241,10 +12296,11 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-cfrQe2TV9OIxllQAiz5dvdlLmK145/eF3J2c4/760pK62eLtyfdgmr9taKXybhsIQ7e05rCUoCDPOMiyQPl+7A==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-jHVYae6tvgB7vu9GHl+ygIJI5Zp3BOfedZpmFlXgp29HUfS4cY5AZOeyvWa1h0HOxL+MjvU/iAkazGd38OLLpA==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12266,10 +12322,11 @@ packages:
     dev: false
 
   file:projects/arm-defendereasm.tgz:
-    resolution: {integrity: sha512-ty2QxX+niHf+QO1KlfFAHUqfQCrMUkpJeNxwWNdIAUqONdbH+xqx5FjZ6o5jXwn3sRD/s5ah58l4FMB9wc12MQ==, tarball: file:projects/arm-defendereasm.tgz}
+    resolution: {integrity: sha512-qKme07Mv+szFt8nSYXiAbDT1eksF8aoHIQsXqc5znczX5zOfD2GEifoiwaDzwdkqtF0w/AOyKEuCkYxmDe5Fmg==, tarball: file:projects/arm-defendereasm.tgz}
     name: '@rush-temp/arm-defendereasm'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12291,10 +12348,11 @@ packages:
     dev: false
 
   file:projects/arm-deploymentmanager.tgz:
-    resolution: {integrity: sha512-myNmVqEGLvogEtswoq3V1kqJB959E4+t/TJoqnlioDS9xublTiEU3S4seaoV1J75lq9/7rGNs+DIpWiZIrRAYA==, tarball: file:projects/arm-deploymentmanager.tgz}
+    resolution: {integrity: sha512-dykBNr40d6L6M+ANYejef8arNOY5n1tEOjFw5X8/iPLzrIm3OsTa+S1ZIO99CJeVN2v1lPhF4uAbs6/dLZPZ2w==, tarball: file:projects/arm-deploymentmanager.tgz}
     name: '@rush-temp/arm-deploymentmanager'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12340,10 +12398,11 @@ packages:
     dev: false
 
   file:projects/arm-devcenter.tgz:
-    resolution: {integrity: sha512-IiLRzQ/vBrI7ZpcNsEbOjvjtm3CgBHXMKIgpyCTQymjp0WWghatECrP7KWWRDSFPEZuBoF/udW+o1i0uCJHsDw==, tarball: file:projects/arm-devcenter.tgz}
+    resolution: {integrity: sha512-1PYDooPA8CJOHRa68IMHheoSEwr9x7aPQtnpngbmnPf2LSBAakZCPonbQmNf30RDeBYvlZQNQhT3UxwEzYEqTQ==, tarball: file:projects/arm-devcenter.tgz}
     name: '@rush-temp/arm-devcenter'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12390,10 +12449,11 @@ packages:
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
-    resolution: {integrity: sha512-hHgOmtTazAEwnao35VNG0VTuUyI1ILYYvfn9cRGxjA8I/z1ML1Ox1Gzh06Zy8UdIOZyWzhLkrBKzMmDUCwU2Vw==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-xfgI1km6QQUNhb02EAvt16hp0hWGRP8PctjDxb1aYj7qJpBagqTAZnfQhOnarsXzzSveE81aD5ihS47Ub+JMBQ==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12415,10 +12475,11 @@ packages:
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
-    resolution: {integrity: sha512-19IC1U+UYJiagQM7ghe2YsDu0xYYYuL+QDMLIsBNbPfzVrZmNHS5KElDwfCmOjrcZ2UZWcPP6aqvJFHs/SaEGQ==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-aeylCXzTpWJuSr6Ah1sJd5f6NVbU4bRkngP2S4H9OUzBdeROiDJB2zan6X6o0w5AZeP2txkiFGhiUZh1j5FPBw==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12440,10 +12501,11 @@ packages:
     dev: false
 
   file:projects/arm-devspaces.tgz:
-    resolution: {integrity: sha512-50pH3OUvLxsSfo2vqt4cjvbKIZhM9jd50Ch7tEt20+4ubj9NSzAnfEG8/JNl+0nmyq93KJasTqdzJAu0CkSjNg==, tarball: file:projects/arm-devspaces.tgz}
+    resolution: {integrity: sha512-+9Ab6n8I1/CUkVLadxvLymofDxAsLyhigDV6FaVtWGRliYQtJrZ/Y0fmmBxpsHBza8V+pEhOb7dI2hFs3TwwNA==, tarball: file:projects/arm-devspaces.tgz}
     name: '@rush-temp/arm-devspaces'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12464,10 +12526,11 @@ packages:
     dev: false
 
   file:projects/arm-devtestlabs.tgz:
-    resolution: {integrity: sha512-hWqDtXZxWhG4UyRu1HhrXKq1WVMNTAoiaTNKAx0VMkAz4q4C1GlTYKIKJRS3PKgs2CtzflVAwa3SvRTYHJv3zg==, tarball: file:projects/arm-devtestlabs.tgz}
+    resolution: {integrity: sha512-yOkn+WsJLx/ABElPq02E16NjuHkWItohaU/iYaSy2DEUFaXGVo9DC0LuvSW9JdZLE79dh1KC+CGGn1DvRQp7IA==, tarball: file:projects/arm-devtestlabs.tgz}
     name: '@rush-temp/arm-devtestlabs'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12488,10 +12551,11 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-FvnZ1AEKzNHnOpDrhxpJrSPU8D0wJgTLeu7YBnvWmSvsW4Leh+idcUwBHRElPIPu8PEQ+KmPoTjmi7l9M669Fw==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-DgGkBRsW7f+wZg2lMkSmdwzF5X4VGmi+C7OCP5V0u9sOtPrYrrziQxkLgYTFgU8lsNKC08O7FKUyJOnN3mQUvw==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12513,10 +12577,11 @@ packages:
     dev: false
 
   file:projects/arm-dns-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-lSfAUugiGoDdwbVIS2lJxtB/rEf2cDQYSpwqR/y1RcJpWkwqfjdgvK47Josok4Y6NuXtaoosgkNFQ3AyMUWnIw==, tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-JXbckHMq8X7YqlPfwW1fwA5Bpa5CfQzV0aaLTe6W3blWmo8ogUnuAotBnD2qcLynp74HpHeDt8lr73IY98aUww==, tarball: file:projects/arm-dns-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-dns-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12538,10 +12603,11 @@ packages:
     dev: false
 
   file:projects/arm-dns.tgz:
-    resolution: {integrity: sha512-MR01Sje8p2oEOes6WKpKN8NiKP8m51G0JbaIHS5S5h1GrupaZQevwqWAEU812CEyKyoupX9Y0EIKXtwtWirAdg==, tarball: file:projects/arm-dns.tgz}
+    resolution: {integrity: sha512-429rkHbX+rfJzQkQNXnnoDyEg5INtm9CUtPTV5Ytkxwf5uDq+Zp27aX9eZ5IHwGET5a5rxs5kNnPO5gFcjT0pw==, tarball: file:projects/arm-dns.tgz}
     name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12562,10 +12628,11 @@ packages:
     dev: false
 
   file:projects/arm-dnsresolver.tgz:
-    resolution: {integrity: sha512-+F2MIKIUrC8FT6RzDUKIQ7/aoHO4J7myBRT7ltTsldWc9wgpmCVTFmlx63JvtonGt+i8P00S69/vIpiD2pYoPQ==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-GlO4Lmt31PjGVWPv7KGWUrqPgcvxin0FbE0sCHtgAGsNJkxtDGC9uFhRfq3vBsw1Qvs4eCzElCBVPjPqvg3HHw==, tarball: file:projects/arm-dnsresolver.tgz}
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12587,10 +12654,11 @@ packages:
     dev: false
 
   file:projects/arm-domainservices.tgz:
-    resolution: {integrity: sha512-JPL0wlYTKvsI38CLd5lNKIHjAAOIhN+3N7Qmn3EqFYn5RCC8u0ThCns9MIvpYk4iDkaZPozVj3B5AfRMaaaZWQ==, tarball: file:projects/arm-domainservices.tgz}
+    resolution: {integrity: sha512-chqF+6W2493doFEaIVFTyh1Ajt30S24T1bPya3QRWPpILcmOx/Fc8v0qaP1HgrXTjCLzGHayVtCZ6a3PqFRjKg==, tarball: file:projects/arm-domainservices.tgz}
     name: '@rush-temp/arm-domainservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12611,10 +12679,11 @@ packages:
     dev: false
 
   file:projects/arm-dynatrace.tgz:
-    resolution: {integrity: sha512-DtNOPJwhrboyixoBli3jWJRFl4nl3iOQhHrkh8FETFsIP8WYq/5ZYF1PXOAQGVVbXy/6QDCVC6q65a6ShpB9hw==, tarball: file:projects/arm-dynatrace.tgz}
+    resolution: {integrity: sha512-Avhy531NICpCZCBfHcg+hPEFq0iH0c8j8czP4UkHDX6icM7Ed61sV2otKih23hdUZAsB+RjedYRlh/cuODlq/w==, tarball: file:projects/arm-dynatrace.tgz}
     name: '@rush-temp/arm-dynatrace'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12661,10 +12730,11 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-pfDEREbBX+xm8pnRKMNtVwkDcUT0lGydKyPcoWVWz2PhFvzBeCNmXF4SQjWJw7G6rYOrobh9Xizz7IoD8mkIpg==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-GCy5riN+s1XXR+KweSNbbxjKnyj2rptYRUWw6SbESPGYW3o/alsKW9SOu6mQrLMa+k9QaHq/DNMDXNqbnV1Stw==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12686,10 +12756,11 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-LzlhNkrx3dfF3BEl2pUBGp5EWSZ/i5S1T6tV11Kgn0gbD9FbAKVaiJlnXajz2zyh+8J0Zt8TqnIUbfqhnLWAZQ==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-paB2UTa/ym/LyKRvgueRVSEwKly+RiTM68GLSsEmrlPUFlfTA3OpTjdm7V6HYjYZ9EXB9aHJRAmKAcIAyki58w==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12711,10 +12782,11 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-eOutePzB+EhqSl1kSFCC2KhPjwAWsCh6JxxG5seT6b2QPN+fPKRUf5FrGyallRfZs4p+ovU8LuOuPfKjjaIH+g==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-tjBtJu2eMS159Yn+z4AVN7sHfci8B1emHbgp2ByP5ZihuPaxByq5swFyeak3kM/i30JiIGD7vsnEqwuAYMCPCQ==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12738,10 +12810,11 @@ packages:
     dev: false
 
   file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-vrZklKW3Ud6K18wQYDvilGf9j5KGvgEpMlf2plTq7uzIrDlYB3vKfXFrZmp3U3hfbuQ3L89dfLoOiHpBPn1tGA==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-MqEEobfDU00H3kPa26dXWSx6R1C9zltFLoGolV5/1IGUaxmEvXrcTdZteFrn8ik1K1ldRCpgYbbnOBtPtaLG2g==, tarball: file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12763,10 +12836,11 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-JjSl4nZwYs0ihTKBM2+U66po+cp4d1oMw1QtfwEf/5DoGBkFDGXlhz8tEElHEYwESqj5teE+c5iACT9qlUOLaA==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-zjBEAszvhXFQjyldFLyTclNPYcUyg5XYRzP/VxS26Nt/rikF+6zrB6/H4gRV1f4UEkhEmPOsmSZxyfEuzu2tvg==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12788,10 +12862,11 @@ packages:
     dev: false
 
   file:projects/arm-extendedlocation.tgz:
-    resolution: {integrity: sha512-5/WvVLQb4eBKMsaS3BPo/fXYUXfEknoQSLa/BNK1XhMp500+CZ8khnxlNxe1flt80tEcJdbGr5QPyCilitBFQA==, tarball: file:projects/arm-extendedlocation.tgz}
+    resolution: {integrity: sha512-f9sp+QPsoIuWptx4icS891Fnz4bvYsp75lrGTquLOCkXatFjF+VaotCvvSoyqhXo6RgNEajUvB4cVMlLpkCzHA==, tarball: file:projects/arm-extendedlocation.tgz}
     name: '@rush-temp/arm-extendedlocation'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12862,10 +12937,11 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-ebxkPi/3CkXnuhbjsiAfYyvMkYJrccO86O8wa9AlAYJAdzcvDtCDmAxs3Dl7PXMCLAyFR2aFpT/cO/GG9tMjLw==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-V/oPpgMfNRtXueIt8eNUEiCmWeyPQ4s+AOnXj7n4cnMtYIaKDLy8tGtsE/EePcEJ/mZjFtto/0GuE2ZgSaVTbA==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12887,10 +12963,11 @@ packages:
     dev: false
 
   file:projects/arm-graphservices.tgz:
-    resolution: {integrity: sha512-eCVCh6CoYpafVhWJMxSuzJpxM4Yf0BK8QeC1+vg+jk/mNZz01TShwXzlKorXFLTAOVZk7d61yQEkKM83PW+b2w==, tarball: file:projects/arm-graphservices.tgz}
+    resolution: {integrity: sha512-qBtAEmy9EakW2AGtrHykEzw35vJCY+ACs3mmGbMHFYUSlgBfMansy7Jlf3wYZSWlQHqe1jMw/xPbIsRguLTPDA==, tarball: file:projects/arm-graphservices.tgz}
     name: '@rush-temp/arm-graphservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12912,10 +12989,11 @@ packages:
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-Ifc7DpGeiMdnhyxnA7xsNRYC/RpyLbw5K6aGr73blme69OkDHp/OKaGfj1KFSsJb73kgTtyuGj1hxIVYVOhP2Q==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-nfITb+CqO/xUX8VYCiLUjUkChdj2oK/G+jGw5HRxmW8lqwlmTYURxLhqn8DOs9VY9gMbfDDLi2dNp/YKafFQsQ==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12936,10 +13014,11 @@ packages:
     dev: false
 
   file:projects/arm-hardwaresecuritymodules.tgz:
-    resolution: {integrity: sha512-9CkGYTv9drv7l28Ch91vQPTddATLt0G8P/8nt+1tZFKcgN1UIKobKwT4qMnhkQoB5UI5G5UoGNwKgmG96PcOZA==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
+    resolution: {integrity: sha512-xu9vC+S2z1PzRtQrBdKupiJjcAMGdkwuPdD5FtwIZWXfT6ogUY+nKfIKFRjUHSvOjanV3svC+R/ER0BRGwRw2g==, tarball: file:projects/arm-hardwaresecuritymodules.tgz}
     name: '@rush-temp/arm-hardwaresecuritymodules'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12960,10 +13039,11 @@ packages:
     dev: false
 
   file:projects/arm-hdinsight.tgz:
-    resolution: {integrity: sha512-wAIv7L4dACGlw/OKYHOtWtpbHukhKQqxhQNJX2y+i5o1bB1NCBWUBuAOQLn8zirBCIK+05eLHmPiaAtgC0EOYg==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-ax7rrLI7ov9YaLmkbBotf93PU+9xjZW/InILwoAORZO5jS+Ot6XDTnxsw6iQ4mHnB7dCU8EleB+SnH+uuRKyLQ==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -12985,10 +13065,11 @@ packages:
     dev: false
 
   file:projects/arm-hdinsightcontainers.tgz:
-    resolution: {integrity: sha512-a9kkuakLeUJe3v40xWtZl7DX+PC0Mzs3wJh8Nq+3J+/rmASS0U4WSjmApnx1rPfkBSqGzvpmXAweY9Q3qSsm0Q==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-GWybZlIfCgnGKft6nUbXC1d+xApSumecb5ukjJsyFrqYAdtSO11WqMEieM4y+lteBt1P13qGfnFKrZ+r3ispqw==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13010,10 +13091,11 @@ packages:
     dev: false
 
   file:projects/arm-healthbot.tgz:
-    resolution: {integrity: sha512-Ka476qW9Qj2k6uZaFSqLkgLlc3UXlGOfLGejv3e6XP8hEG2kf2kIx3gkXwZaC7l/tTmd1mkHwSX4WcUtOZK8yg==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-sL+XD7H8YwEF/kpe8H2EsXEhZOBmjQ+oQgivScbgaREdqZnAfPMI8f+fa/CV9LZwC2guTfv5Di6INILCxX6ZNQ==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13034,10 +13116,11 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-mk1N0ogqR7ypaf4DFaXLdxHS9KJf0h4gg7Q3yaPzOpDHdcwnn6bpLNNQ73Ga6gpI6YIBXb+YVh45kl/EGpTPSw==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-C+NGHnRvp/xXIj7dBBBowSOjJoVYnPrQKys14jdjSnJjscJxEVqw7jKRy+1clD/LwAmIGYxUjIEFHCs3X2dPPw==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13058,10 +13141,11 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-T5wXb2XqcFOoxJhiKqHZYkEoOdRTgntFGm7SO2Ck/qkazMpfxMTY5YR8Xw/wzIkvM2lg1O0LCPKpLAHPRrNHVg==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-lALSSHwR4imCPXEkggEB9GBvYf8DqI2oVkQHRdBGNGbGDqRp54jysF1kY2lE3bwBHbrohmfUUGkWARDWSpGhfA==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13110,10 +13194,11 @@ packages:
     dev: false
 
   file:projects/arm-hybridcontainerservice.tgz:
-    resolution: {integrity: sha512-PzYPPdBeRXfsNlUN7u7Cro5oGYHKvfP+IeM2e38XjfqGjYOWHHHRORSsrv9naVKU/MjM9CREjaJrkIycEQmflg==, tarball: file:projects/arm-hybridcontainerservice.tgz}
+    resolution: {integrity: sha512-q4cD7MZkB2AAEA9fzDGce3QjKlv0BTKRLW79GgbKgMB8SGmQrqTL/TkEYW1Uc6oSuflSI0rMGV/V4hmU9A6D6Q==, tarball: file:projects/arm-hybridcontainerservice.tgz}
     name: '@rush-temp/arm-hybridcontainerservice'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13137,10 +13222,11 @@ packages:
     dev: false
 
   file:projects/arm-hybridkubernetes.tgz:
-    resolution: {integrity: sha512-KVFWZbMiv/HsFl5Obz4QqsFmsOWiTVpsiXlrb3VIDZadPLwUsmSo0g8jhOy4Y/VJoWb0biSGif8SmJlKOwV3Mg==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    resolution: {integrity: sha512-ibQgjEsQRDB4ZeyeYO974Z9Q3Q/wWqCSJHVD2LQ9Mgtfe4Vh7zBEuUPYNYc6S7RMROxPEfbIVmuzV8AEga++pQ==, tarball: file:projects/arm-hybridkubernetes.tgz}
     name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13161,10 +13247,11 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-U+TP/Q6AXq4bmKKfVoYheqBPUHGHBRbo4zI0mvoFXGfSRuKLupTvyRxmRsDa0Mzd3DRNfj8HB7JRhVDoHnAGgA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-4TI0AexFtLdcqlLYvvSljX1crU0VF8/C3pcApZrWwyUhRgQJ1lgN/DK+QivYxrEceIKSO5uYajWGp6Z1LOIV8A==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13186,10 +13273,11 @@ packages:
     dev: false
 
   file:projects/arm-iotcentral.tgz:
-    resolution: {integrity: sha512-TKehVwPEfnFMaeOQAJFUKJlQCR7D4dRkpvSqnDJsGc9SMADbRmWQzltBOrTbC0lNyvJFBhBDYcmjAmq83KqinQ==, tarball: file:projects/arm-iotcentral.tgz}
+    resolution: {integrity: sha512-RvxSMWlilR3V082009oboUQ/TI1Ckwa6waqh3QWoK6RQqZhs3CBcncd4mUXGfld3wDE0LsMshje+1kTCEevVMw==, tarball: file:projects/arm-iotcentral.tgz}
     name: '@rush-temp/arm-iotcentral'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13235,10 +13323,11 @@ packages:
     dev: false
 
   file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-A9lekEsuiWwTdw0S0ZwMsIkzXVITjLvpfzDsi/P7vOyMSX4zLc+7p/RVXz8EU4g0Q5lkSFNNU6URs9A8GL/E3g==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-Z7MXpWaQx/BK1x/23QvIRkSkD2sKArgmSUSu0jbIqNbdnq5Qf5Oh6I/sRlgYVZf/gnSS9AA6nkV0eeDH5LJQbA==, tarball: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-iothub-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13260,10 +13349,11 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-uPGpaqiC+UPYvjEVetxxpgG5RdSHEKSkh2Nlqz871ZO/j7CqlKKlfZ8RR2JO+T6hkTy7ADe6tE65wef6iMk1rg==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-RUw/JJPWVXjH+b2zErfVrNA5ZUFVOlMcZrpShxI1txAMT6stNgAN8L08eec1da1CRqoZo55Pnosg/SmD5kT0xw==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13285,10 +13375,11 @@ packages:
     dev: false
 
   file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-UZXHzq0+55lJ87m/LgDB/hBK3aYmd1ORZl/MsYCBJSBqU9fr8uUnUG+YpwepuTWd5JUCo+VVuhKDw+spyvGTsw==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-Sak8m6gM8L777SCcQabmUu843qmsHqGRwyDOhZmzr1Y8WMP78oNj1zAqkD0E776gbK9Ec6jCmm1MgrZRLVGY5g==, tarball: file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-keyvault-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13310,10 +13401,11 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-wTrETtSwJA2HaqmRuTCpKlLzLfEU9pF1X9xDjH18VW56oXUkF7Bn+wUTi5lCJXHm+zYP8nLTouUjiA2AUWjTKA==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-U7RFd4n//k+/e8c7v4domUshasWYYn1dPmW/qzBZuxq7b3Fkgt4dTB8LSm8CcLHRynT8Nbl/K9GMJfyR6ChFbw==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13337,10 +13429,11 @@ packages:
     dev: false
 
   file:projects/arm-kubernetesconfiguration.tgz:
-    resolution: {integrity: sha512-qkOzLt4mz7Vp9VTdfKLRMnzr8vqbp4GTC0aLOoQwuZCW2ltvYnEfVC//5MNTpiBe0ucWcno4mw1kvKpO17bmxQ==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
+    resolution: {integrity: sha512-TuUgsD4n7EYDL665QNXvsrFKpHVVRPwlRdIax3j1V26sdyGNV2yEK1hsbLUW42E85fhhGOcyg4ecHh8uB8zbog==, tarball: file:projects/arm-kubernetesconfiguration.tgz}
     name: '@rush-temp/arm-kubernetesconfiguration'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13362,10 +13455,11 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-FlnYcqqrNyy/GIoBh8w+ZE2znX4gn/ShAiJ3695s1RgggZ2WkGqd2mTui42DSvCtqRVjTC6TIDqAygYPYf1OHg==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-O5CzwP5H28inSpwYVwnadaH6s2gS6Xt0zJjYblXibSUVrU762+RzQdesp0p+Ru20L/iGEMszPP5zVy7k+gVY6A==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13387,10 +13481,11 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-7dvEmYWTFxITmbbiLB5DdHggOfzzQ3ZPvCK+871SSse4QjaxhySj445dQDEcRvN9SjbtXQoI4ubfqUlD5+7ksw==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-trswSL/O01h1sb3uA959eYl54RMmtxIkSBXFwD8JfoQ30RqDLaiwr6B7o1Qpawi305kjepSB15JlThAWoUiypQ==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13436,10 +13531,11 @@ packages:
     dev: false
 
   file:projects/arm-loadtesting.tgz:
-    resolution: {integrity: sha512-0N/I94Eo1EpdrmwqNvx4SjHANuKkpI2YIQIK+bKq7SOiBE65zOXC9SVJ/I73N2f1lBcf2iAwit+yyTukuqep6w==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-908gq9pt1bphLNck3dHGEl6uW6fAkFxfb3eyCY+tI9oM7Eo9GKHYtKH/6A8X4V/rtmyCFvFF2WE1cYbwDcP/Og==, tarball: file:projects/arm-loadtesting.tgz}
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13510,10 +13606,11 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-Eh6vtTue/ko5PffPwxm9iKEkJj7X+SW4C5yHZ+XaOeuiRhb2M6AI27KTz5Y18Wp7MWO9lnjsbZV0dOnF7Ymn2Q==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-6nILt+dLgYUTl/4q0TP/Yd5d3djxC3d1w5Pz8gHP/14rdI/rFSNuLPeSKTJTFZKeD25rG/8j+J0WRy1/uGtD9g==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13535,10 +13632,11 @@ packages:
     dev: false
 
   file:projects/arm-machinelearning.tgz:
-    resolution: {integrity: sha512-M2nNHoCjjLm2IMeLC0EOGqCUkNaC4TGnk9UaLSXzfwN/lHPCaxMGz4ZdZV4S1Ff/+1yrpGpkOgnBdS3QabivvA==, tarball: file:projects/arm-machinelearning.tgz}
+    resolution: {integrity: sha512-RkQZRD5cjGc/sFkm6qxHvdLte5pzFdjaAZ0lj7hp99Er4E+NtpuTW0jIhqbSTos0DUb8sAKJD/+hqk83VtjQPw==, tarball: file:projects/arm-machinelearning.tgz}
     name: '@rush-temp/arm-machinelearning'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13559,10 +13657,11 @@ packages:
     dev: false
 
   file:projects/arm-machinelearningcompute.tgz:
-    resolution: {integrity: sha512-/41bLsqsNPqA1jFwD0ZTFHbHSqO+Tf2xHOxY9ljEI4NDku2vgOsy2ScdMqEDtSCoYdln4enDVY2powvcxaYaww==, tarball: file:projects/arm-machinelearningcompute.tgz}
+    resolution: {integrity: sha512-t0puScZZAua3OYcwwEVekDVsr3H5bNDrfl+xH/DCGqtjZNTzyxmcds8UpBtvnpyweU/8H16JR1peXUHgJQhUPw==, tarball: file:projects/arm-machinelearningcompute.tgz}
     name: '@rush-temp/arm-machinelearningcompute'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13630,10 +13729,11 @@ packages:
     dev: false
 
   file:projects/arm-managedapplications.tgz:
-    resolution: {integrity: sha512-SMDnjgDyr5rameHs7+y2QNHBJHK3GwOgoL7Izc3opuvMWuO0S/bPxXET/tm1NgKPLVt0+3PP9+RwqTQBzH2cGA==, tarball: file:projects/arm-managedapplications.tgz}
+    resolution: {integrity: sha512-SJH8moGt+NmYKLq+4ty28cEo91E5pgECXySDb13vLVAZBbVbZ7VR7KA+A+6H8foN70Aqog84NEXATBczuhJusA==, tarball: file:projects/arm-managedapplications.tgz}
     name: '@rush-temp/arm-managedapplications'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13655,10 +13755,11 @@ packages:
     dev: false
 
   file:projects/arm-managednetworkfabric.tgz:
-    resolution: {integrity: sha512-aa4FOS1r1/5vmIvOCmHWf5MpUj9VWpAeDATAOkXniAQoCRmvk7W/Yb12I/IgMLno0J4QruWPYh3HEsi8BYicWA==, tarball: file:projects/arm-managednetworkfabric.tgz}
+    resolution: {integrity: sha512-4iPzPFOLT/yyP5FjyYE3cy0u4IyiH5CpCKGkr70C8m+OD3qEorwqx8GQPIQaKIGw8ldGBkKSL6X9vU4J2/mzlg==, tarball: file:projects/arm-managednetworkfabric.tgz}
     name: '@rush-temp/arm-managednetworkfabric'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13680,10 +13781,11 @@ packages:
     dev: false
 
   file:projects/arm-managementgroups.tgz:
-    resolution: {integrity: sha512-QIFRHIXSpwUzb2DLLwbs4r3JR+N6RlObpblDCct9xRyNij97b7IaGE964rcZmgpXpST7Pk+ekhCubxl5FGeWaQ==, tarball: file:projects/arm-managementgroups.tgz}
+    resolution: {integrity: sha512-wTAuekhnZmZuuyDXxmluLMEHXZDzD0YznXCHujWv/TVJhSCtJJQqnCFCIilJX1Hry9a/+QmOGDfoh2xjjiDD3A==, tarball: file:projects/arm-managementgroups.tgz}
     name: '@rush-temp/arm-managementgroups'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13754,10 +13856,11 @@ packages:
     dev: false
 
   file:projects/arm-mariadb.tgz:
-    resolution: {integrity: sha512-sug2XbA+ZffVFpDrHWvGdB7X1sUkjsOgRWMh01FyoEvcHW3JA+D7KhntbggVb/M8zSgiJgDZrgbmEedpbSrjkw==, tarball: file:projects/arm-mariadb.tgz}
+    resolution: {integrity: sha512-vSzDq+ekNF2fvVYJySWUTVYmEO0rYCC/hRmQB7jKRrr1L7sXwzmmAUzIEHhYCBrNRtzjoyz9dPUbgoo8NvOmug==, tarball: file:projects/arm-mariadb.tgz}
     name: '@rush-temp/arm-mariadb'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13803,10 +13906,11 @@ packages:
     dev: false
 
   file:projects/arm-mediaservices.tgz:
-    resolution: {integrity: sha512-QsQI3NYRwLm1c8BZzkfcqerfRJeyZAkQL/tqOYrLB0aIqelJaL+wzNmYNZNV9wbCPACYMZ8YsXvE1dXO+8qPsg==, tarball: file:projects/arm-mediaservices.tgz}
+    resolution: {integrity: sha512-JCe9wk68ULfSUscfpF1UX4NiTdHcb+rJmaE4qGYoPIO9Al43e2Ze5+7Cv4u2CBmpgXQl+X45GZ1OvfQlj5f3qQ==, tarball: file:projects/arm-mediaservices.tgz}
     name: '@rush-temp/arm-mediaservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13877,10 +13981,11 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-6MZBQw9dJdg6iXMmKlq7COMUA+Yr2PFCt9KMfPUUx1mUwWegdSx5FI4Kc5iNLBbqLlDpZc7mtcrdg7Qdp2JM6w==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-o5njt659N6LnhWKMcBW94pUuASthX6ugfVujtXIwfBqi05c5JUORiVaslXFC3Md7hKlbZdEPhkDSZiLQ/3bEHg==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@16.18.65)
       '@types/chai': 4.3.10
@@ -13929,10 +14034,11 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-uHNqolyfYFuu3h2ClUCHrW71njwo0NEjcdBP53F+PKqXm9EGwKNWvvFe7LDTkZWmUFrUI3ia7FQ71/gonVHgYw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-I7QRyHkxkvKesZFJv95GWdzkfC4gg3o9Zf0LqJozkhHwfOwqCN6NpIDBkGvnkNsE/Aii45sYahHHmx2S5Dy7Jg==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -13979,10 +14085,11 @@ packages:
     dev: false
 
   file:projects/arm-mysql-flexible.tgz:
-    resolution: {integrity: sha512-Ljqsgq5fzUCZ5FbLFj3O0DBol9nsFaOtB2Bd92DcnBCZt6PZK3zl+UcwxD3DHLa02aalofZ1ZGP8DLa+RZltVA==, tarball: file:projects/arm-mysql-flexible.tgz}
+    resolution: {integrity: sha512-GarbkSf+Fgjr2djQmrmh8/Bx/POxLBFcFH75rhdZIQGj58UBmX4ZAIIzlFu2WFfHX3jkeEkIczfvW2hJ6hajvA==, tarball: file:projects/arm-mysql-flexible.tgz}
     name: '@rush-temp/arm-mysql-flexible'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14004,10 +14111,11 @@ packages:
     dev: false
 
   file:projects/arm-mysql.tgz:
-    resolution: {integrity: sha512-E+nkN1CqaTRlY7gpcI1N9aotWzTF+9uB//xv29f7Glw1je04OMbPQAvEVw54buR4Pu1k1L+LZHUI6EX0peNBhw==, tarball: file:projects/arm-mysql.tgz}
+    resolution: {integrity: sha512-I7Epx9dLt3HonBwSByjs3ZcgLKQx6WbazNeY2B0URJ7pZ47AxLjGTMZA1HN+fWUDDyWZC2JtgvUzNr39q3hbSQ==, tarball: file:projects/arm-mysql.tgz}
     name: '@rush-temp/arm-mysql'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14028,10 +14136,11 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-TZ6D1v/Nv02dYjNku+uU6vdKel3xluxh7f9tBGDiuOQiYdcCkD0Egtzp4N96Utxnvel7S52MTG/Z5bMRsoSmNg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-JuY85pR7uNmqpQRYf6M0GWE91ff4gCo9ogQOq7p4L3clH9H4xIMfM8RJR7+pUCmalg6V5wBSklwJPFWEka0iDw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14053,10 +14162,11 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-oGiTbTAO3FPkAcJEY+Wklhn8oKmy7gPCiJgAaGFN4ItQfaHhSSs2oA4T+W31vhoTflm238KyDiO3aGklXR29dQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-0JOoNH3kIr1+/ypCJ7dSLYHBKCcRUf9jscjtFyPzXXF/ZluhXGQl4DRifegtyVjlgKhe4eUYM5zcl7Oopv71uQ==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14078,10 +14188,11 @@ packages:
     dev: false
 
   file:projects/arm-network-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-Ogh2n2HjogyMHWe38HT+OZnt3WbozJgXRex7VrMaNFy6OEusT9w3IcrG0hF1OX304F9CMwnW7YzIcShKnuiSmA==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-dH1S7kO282L5a7nQbsdLL5vi/+cNwPogSg4qDEgcWcgXDonQEpQvlAzPhayJITVDrFzjhOGKy7DVg3bx7x4SXQ==, tarball: file:projects/arm-network-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-network-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14147,10 +14258,11 @@ packages:
     dev: false
 
   file:projects/arm-networkanalytics.tgz:
-    resolution: {integrity: sha512-WbRUbDTJCJVlmVilj1D6xG08o8m9Qmz33FbtOqa3ZSict+ARrPe2oUkCiL9Q88qz1/nt1niPOgftduhhRpdh5g==, tarball: file:projects/arm-networkanalytics.tgz}
+    resolution: {integrity: sha512-KZUU1ybquvEDlFPTsPTxrPcGHztYtX+mHHY4P9iwz9rRZPV90gsFitigEiVFm86NvB+XgK9+zRxPQSpGSzJQPg==, tarball: file:projects/arm-networkanalytics.tgz}
     name: '@rush-temp/arm-networkanalytics'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14174,10 +14286,11 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-I6XQ88iWP6NNj4DLncSU/9GeuAywo2niDxRlxNCUBbAwy46+5VnYjZb2cVif7TpIrvitW/bCZHk9p7rFKuNWTA==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-oCjFQd6DTvWkUnz/bePDKGTVDtBRX4P5uZjCYZavzcbf2pjv0XXIp34h3i2i8eoqwOPfCByEpzQ/ASjYQf5soQ==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14199,10 +14312,11 @@ packages:
     dev: false
 
   file:projects/arm-networkfunction.tgz:
-    resolution: {integrity: sha512-Z34zqzhjMQDZk772wnk5Tf3ima0oNuSFaNmfytpGL9Anx89rGnCXwAR8BGoE+XNMa6+gfDFcnRec0La+DUTF5A==, tarball: file:projects/arm-networkfunction.tgz}
+    resolution: {integrity: sha512-L6MSrVuDyh+8JLAy7a54qpZnQAdsOz77GfT59pifIlfX6qYA0M2Uz/w+3XiB6jXVF16TeSF/vnPkc1wT1BgXeg==, tarball: file:projects/arm-networkfunction.tgz}
     name: '@rush-temp/arm-networkfunction'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14223,10 +14337,11 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-pR/QUYlHGYFSPUDm7DHqFKuzh+9bf3Fk+dgow060+YTa0FZIepPrFJFPDr1UWT3bRdVlEE7WJyfNNxKqyeTfjQ==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-wVVS6P2Gzmo2EMlE37493ylmsp50XNU/ZJJ80p4L1/xLGJ8lK8rNNz5BdOgjAgs+7O8dL9vX5/lUesctnDvXpw==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14248,10 +14363,11 @@ packages:
     dev: false
 
   file:projects/arm-nginx.tgz:
-    resolution: {integrity: sha512-eAckBXGvgp6dftp38VGX3iP8mtCNC2EJyMrpc0mRBQRx65XQ6yFZNYrx0ojwJhTQqYNnUMJ7qMjJdYJQZKbvjg==, tarball: file:projects/arm-nginx.tgz}
+    resolution: {integrity: sha512-hP2O8USlWuBY+IeEq4VgU/d3FxHu3uL/NtogNQihHGMtf/AiIaeVDTK1Lb1OMxHV+BfksrR/6YNDBq35kPwNRg==, tarball: file:projects/arm-nginx.tgz}
     name: '@rush-temp/arm-nginx'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14275,10 +14391,11 @@ packages:
     dev: false
 
   file:projects/arm-notificationhubs.tgz:
-    resolution: {integrity: sha512-JHndkNpdJWl0Gnvj/3EoudQLx4FmDMV1bFVVX3dROvrdOrnNmJJa08L7E6+oPGTQMz63eMcjfImO2cHfqgQUNQ==, tarball: file:projects/arm-notificationhubs.tgz}
+    resolution: {integrity: sha512-rN7tyedxzNW9C0gOgT206cHF50HIQ7N3UOJ0xY5BTBR6MHoqX2YIhzTVfMj748yxlRnRJXEC8Pf4badNAWw8Ng==, tarball: file:projects/arm-notificationhubs.tgz}
     name: '@rush-temp/arm-notificationhubs'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14299,10 +14416,11 @@ packages:
     dev: false
 
   file:projects/arm-oep.tgz:
-    resolution: {integrity: sha512-G4TDZHWz6ZMuNOEblWTJfqBWfETl/EJO6qFYF9W+Hq1s8+cEYN/6DmNRVS9KlbMY+zHaR1Zd/vWgq5Xo/xpNEQ==, tarball: file:projects/arm-oep.tgz}
+    resolution: {integrity: sha512-gFkLaRzSYOeCcghIoGXEIc9nmCaNgSQtWQpzfd0bF3UT7tsTex9G1rgX9Rn0kUG/S3CZn9xuKucXbkLY6KBBoQ==, tarball: file:projects/arm-oep.tgz}
     name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14323,10 +14441,11 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-nORWi4UhgNecalX8NhyDEQZpP9GGeiLNvxFhSHKhLGnPa80yyahrS6rHf8rZE/wlOE3eWTfm9gU6wIuvfiIi3Q==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-XLM7LkduN6MaEjnp3zcYDitxRDweA/3ra+ZhOUCgh/gqoBCgtpi81I5ku5EeHioEL6sXiINrSpXmy0rDEpqFhw==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14348,10 +14467,11 @@ packages:
     dev: false
 
   file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-1W5pjnXTWQWNhOfC4Hd+8NPqBHuu6zi084KswcdefIHSvGd7Ju4VgLFHzBYGhLcK7+phH2Y7XCg7R1pVoHfrnA==, tarball: file:projects/arm-operations.tgz}
+    resolution: {integrity: sha512-UuykXiaAPATox5WoIaN61k3uFbDfg0KXKSX+dZjWLQwGCNgiqoxmK0LTOAFbc2zZC1bextfffABD51nqeFpOZA==, tarball: file:projects/arm-operations.tgz}
     name: '@rush-temp/arm-operations'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14372,10 +14492,11 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-K91zHSm8CupehxeUcD1rlajwrqnMpf8TrxREcotrPBpF2X4PzxE+U40Wiks9zleaWRYT+O5VmRvtvMxsw2fLaw==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-yD1Ek0R/o7bNgjMML6DAKq8JqtJ13iuE1FxnA+CB+Y2SQ/FVPiycNxp144IZ6MiDausC9lmnh2+xekPrLlF3Vw==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14397,10 +14518,11 @@ packages:
     dev: false
 
   file:projects/arm-paloaltonetworksngfw.tgz:
-    resolution: {integrity: sha512-+xfuIXUMEBqsA9z0i8Hk3gyA7XIJWFBbcO1E7iw6kFB+naQkW3s0dIrxtndM+Sc97YW6Hp+jIc/tvgRjilXgrw==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
+    resolution: {integrity: sha512-iWlLycrW9a/c4yhAA4B/0qqT1AzE6VVYhYnsjS7EWkZMwD8BlJKtJwqtB/vxOPvkZh8cLFyc8+xhk11qI2QgSA==, tarball: file:projects/arm-paloaltonetworksngfw.tgz}
     name: '@rush-temp/arm-paloaltonetworksngfw'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14448,10 +14570,11 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-058WsxcPA0egbQ7qokTE3RVTskYj+8Mkk+PY93DFRMn9zuNFMLH9w5M5EvpHWV0ohRAELjqz5EVYctu3Oovc9g==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-oRNGZ+YV8D47kU3d7lxhMT1LnmCaT5tZ0Ysu5UJkNe9kf9t5n8xHXpUvXLUPq0RSW8H/qYQ+VhsApGTPxUEw2g==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 2.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14523,10 +14646,11 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-w5R/4fkIqx0Ftu6LWBfc810c5rXigFPNNhL6UNctPb5ASFRdAHq0zjKsE6CMCViSSwbIqkcjZeERaMjmZNnIvA==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-9QgUKSFGrpUkvwaJvLPpFVWLNCbNEGOK4CQrBr7JKJ1ZbfzrCiDhVHEaVrpTGTaNOIm/RvZf8NvDKR/I2E4vQA==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14573,10 +14697,11 @@ packages:
     dev: false
 
   file:projects/arm-postgresql-flexible.tgz:
-    resolution: {integrity: sha512-MhkspW3boK37WvFPDM0fm93cW139qYWGT0nf8Mnsf4Fty1RTRGp1OBdWmTVj4qIDJp48OX4xk0nzRfHNzO5MEQ==, tarball: file:projects/arm-postgresql-flexible.tgz}
+    resolution: {integrity: sha512-aal+/jxBqEm3ZCUOFIkbPsbsk8bX17xOvdzsLZ3YVWSHemWihfs2Jlrq29q1yf0KJ5j1Bbzqjm6GGwb6WeN66w==, tarball: file:projects/arm-postgresql-flexible.tgz}
     name: '@rush-temp/arm-postgresql-flexible'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14600,10 +14725,11 @@ packages:
     dev: false
 
   file:projects/arm-postgresql.tgz:
-    resolution: {integrity: sha512-G2qgCCJH/uLQ8H5crgnR4bYy/gCW2ks6lI9JR1KHAGBhxz0JJFJtP1AGoxCgS1paib/8uW5NjRHH1sZ7FAi6Og==, tarball: file:projects/arm-postgresql.tgz}
+    resolution: {integrity: sha512-X3FWW+TKvExNm3l9lMOFVmuIZ9mkU3bfbk4d9pq+r36dh9m8PRZsj/8RBSujRrVvALLztV0M3rRNAlRwZuKqNw==, tarball: file:projects/arm-postgresql.tgz}
     name: '@rush-temp/arm-postgresql'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14624,10 +14750,11 @@ packages:
     dev: false
 
   file:projects/arm-powerbidedicated.tgz:
-    resolution: {integrity: sha512-p6yNPIGPbl9cKfuZQyvYMrCEetivo4gx3CSKEW8Ef6ZWvIFOwT3pnZOzkinlGMWDgEy+qSo7LhhtMRNvj6wCPg==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-oPVjoe+1O5EER76zFp06mb61gWH30VLqMbOfWxcSlmtvhDw1vfT4+5bcqPHRSmonEx+mTK96Mp4rHAde6cV1bg==, tarball: file:projects/arm-powerbidedicated.tgz}
     name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14649,10 +14776,11 @@ packages:
     dev: false
 
   file:projects/arm-powerbiembedded.tgz:
-    resolution: {integrity: sha512-mUboATACwD6jHF4wAeYOZ9nuSvqPhqjM5ULxuJ41fzaS3ESX7Gy0Xqx83cP4a+IABM7gwTaM3fIdxAkDUFHyIA==, tarball: file:projects/arm-powerbiembedded.tgz}
+    resolution: {integrity: sha512-CVBbxNlfW+Vj/YRcCsHjRvQo4dfML1Zt+AFaAhq+0HpuC+ndg+sA+xor+xiI0tXqTZCiRzptV4/n5WVi8+FXEA==, tarball: file:projects/arm-powerbiembedded.tgz}
     name: '@rush-temp/arm-powerbiembedded'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14673,10 +14801,11 @@ packages:
     dev: false
 
   file:projects/arm-privatedns.tgz:
-    resolution: {integrity: sha512-LbDRxF3hjcuxEnaZiffWAV0YyneUB4bsIgm7ACgYfcJPCohB2RD0NMZg+eC+rDZ8myghbzrJDGgeLYsFfsJ2Cw==, tarball: file:projects/arm-privatedns.tgz}
+    resolution: {integrity: sha512-T3S/1HMicVST5970M0bZGYNA7TcWTTNhkUvbatmeki7j8UR3RpOQ3sktOO2evnAlXqIZHEO0J+TWdJnLB+hi/A==, tarball: file:projects/arm-privatedns.tgz}
     name: '@rush-temp/arm-privatedns'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14698,10 +14827,11 @@ packages:
     dev: false
 
   file:projects/arm-purview.tgz:
-    resolution: {integrity: sha512-wFDmHVJchUaudPXjktbDS86GpcZ2+F9+SAPBP1OXBt6UTbJzlvGwnhEkSrX9PblCWTlwEsOKtLZBQyjiAg1DWQ==, tarball: file:projects/arm-purview.tgz}
+    resolution: {integrity: sha512-WWQd4B0nMxJpS2NwkX1hay+Genti3k2955UNtTT5AvAn3l0JiZnir9Z8fFyOpl6I6R/B5Oc2SnMmZyjyc132Iw==, tarball: file:projects/arm-purview.tgz}
     name: '@rush-temp/arm-purview'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14722,10 +14852,11 @@ packages:
     dev: false
 
   file:projects/arm-quantum.tgz:
-    resolution: {integrity: sha512-Lg7x13oeuWRLbSEjQAck65O9Eo1yQwSjh6H4VW06Bb60O7QtGEQCXKUYSNH+wuibrmUXEL1DHG1WPWpAEnrDmA==, tarball: file:projects/arm-quantum.tgz}
+    resolution: {integrity: sha512-LFfbG4hOrqdD6IAQ2bCDyg0EZuQFXiqSz4k4HIYEDC3SMo47qiAbfHHL+Je2IBMqJW8w452hQC6Xn10jWwzscw==, tarball: file:projects/arm-quantum.tgz}
     name: '@rush-temp/arm-quantum'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14747,10 +14878,11 @@ packages:
     dev: false
 
   file:projects/arm-qumulo.tgz:
-    resolution: {integrity: sha512-306lcImA/s/lZCAy0hUrBHqJ+f25iwxsPWgIej7IU8cFdLv28lqral43e6hm+ywHUMctGz3n4SrpUyrf8LkrPA==, tarball: file:projects/arm-qumulo.tgz}
+    resolution: {integrity: sha512-1TgEOJXMp8d/1yj+jLvx2Mg6nq85AzGRlaXWr4TguM4jQxAnMSZEdO0Gbg7Xv/upBO3OQjk4tU8lVwPmQgAr7A==, tarball: file:projects/arm-qumulo.tgz}
     name: '@rush-temp/arm-qumulo'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14772,10 +14904,11 @@ packages:
     dev: false
 
   file:projects/arm-quota.tgz:
-    resolution: {integrity: sha512-dlGRsk8ag0Pd0fUi3NujC38rmOiGCj0uUbPFWstkPtzskjeo7YBqyR63B6mGTrS3Eli2r2ebyQ6mHhywQDNC6A==, tarball: file:projects/arm-quota.tgz}
+    resolution: {integrity: sha512-DaQ2RKgvW4CCU88WfwJqh1AjGLsVIY/KRQoF5IFLTgFt70kabtY82x7Z8wKYLdiBht2mK6E0X25mbiLkLMgOaQ==, tarball: file:projects/arm-quota.tgz}
     name: '@rush-temp/arm-quota'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14799,10 +14932,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-08qltcJMEXiXdZyYEIYxzYTM/nUFmIz5U3FHQLm6V0dx6+LJm5dhk9cv4p/nM4e3tbQUXkRnKc9v8QCxDkmkUw==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-Vkah+13nqznTXublTWuEJhop4jZAmZftvVOKX8l3eNqdYCBoAsLd6+NcFx+B/kMYx39/ZWUlWhsndMMQ89Lb2g==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14824,10 +14958,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices.tgz:
-    resolution: {integrity: sha512-G3kP3UhGzqH+YiMfjH9lS13bZ/VRXGPjwouwphUoGtTGDEw6GdyHbY6JSpmGZuaGBEWBaSUgs+eu5Ej0ZO/wjA==, tarball: file:projects/arm-recoveryservices.tgz}
+    resolution: {integrity: sha512-97TvNpWxr4p8qEV10Jkeds46MUvjgnIsSaaLKIityV+hjFeoztYOp+sRaf6iRXOQZlTMsft4jzFkywPebdOx+Q==, tarball: file:projects/arm-recoveryservices.tgz}
     name: '@rush-temp/arm-recoveryservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14849,10 +14984,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-ScrEDPQ/7dxRomWPb/APiq9TMIRnPOwBxd+MRMd3YIsrxCUJkrwBtINMzPYmdd0XZcNDUsshuuqcraZUBWbyYA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-HuZb7tUpp08nfKRc9DijBqThTPX8wTeiW/EElm/4StOh2hyghhG8DwHGnfhCSmMxzyP/Xybb4TrEreustyB2Og==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14876,10 +15012,11 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesdatareplication.tgz:
-    resolution: {integrity: sha512-mxeU85pSQ6hl42oeCOPNtCYVkBbrDQy/5ZHAZYQfk3VfPOtGRHiR28a9ldmRvYxrZgbVsRqYgx8sgLo/DyW+1w==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
+    resolution: {integrity: sha512-HSXCqCJKzTN9xfROr+mkLaqbtx/SItu6AtuA0OcqeiRyvKJkluih1u2VUgJbA69FbjTuNJJ/23+awzFgzqNCRw==, tarball: file:projects/arm-recoveryservicesdatareplication.tgz}
     name: '@rush-temp/arm-recoveryservicesdatareplication'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14901,10 +15038,11 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-0o1UFqEsetX3g5ACd3P9VFUH9WpUs4pZebO7Z7EpyQh3rstkl90EXFcJEzw/dVHxQQIUKjAWfp6r82OBhVRDhw==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-ugd8ljVo/gjN15fXMxIkyN2WiVKn5zw68cWXGqfS5PtQsRIasBOXxheU41FqbCCL2DlUDHdp/35heHigY/493g==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14926,10 +15064,11 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-eYjL3and3MyXXubGQ6Y4sCvv2jfNK3kwsrBCAorG3AbBdf2fzsZjnrXun1pg6my0ALORTw4qC1dnpTqxMGJeFQ==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-acezpwVP448o1W19Qn/g1IY4afaMIo4hC045wBlNfArWunSQdEo1T0SZ7WOQtQfLPT46e3PAJXZrp6K76vzpCw==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14951,10 +15090,11 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-L94Ff+BNvEIsLserehWRb8eI7IDr7IferxUXSxs07677ZLPFT4+yevPfZAamzbo/xWH/CJZiXz8JMzibuFkIdw==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-eXA9c0W96TAsD9Jl+yAxlr3ZpF5nzoKgwjNTLNKzK6TrCQGxTfA3WE5g8G0yOHD8g+ewrbGI/2kDc9+sUfWdFA==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -14976,10 +15116,11 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-AbgdS4UFcd/eB7RNh2wDZsmYDlnq4EIdvwJ9G+TgwUwKAk6CPdmmNWjwx/SJKmsNDbxQVlaLF2QGzrcNYO8OWw==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-U5oDYTo90gMGpDNd84y8RtiMfjT0uOqzLCEMKj7tjl7XOoWbKg3TYTeP+14uYya1dIpynuVw2lzjTYqPzl7ymA==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15001,10 +15142,11 @@ packages:
     dev: false
 
   file:projects/arm-resourceconnector.tgz:
-    resolution: {integrity: sha512-LoLgWSbwiPt1S7dP1ngRWKyiYYnf/7vT6XgDpm/QvM1vOnaGtqAuKDrZ/LTVZ4wxNPUOfp2Ebu+acRR46KzoDA==, tarball: file:projects/arm-resourceconnector.tgz}
+    resolution: {integrity: sha512-1odIBZ++9iqQETiYMIU8ILz1A2cJUN7jKtT4njMujdxnn7UgO3RrY5hsR4aZkbrRiIy0ybftpbJ2UCJLC9YfFw==, tarball: file:projects/arm-resourceconnector.tgz}
     name: '@rush-temp/arm-resourceconnector'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15075,10 +15217,11 @@ packages:
     dev: false
 
   file:projects/arm-resourcemover.tgz:
-    resolution: {integrity: sha512-q8ID/qQUYqYSJ1pZWZ/+LKQu11+aapPkiegQcn8lHvkCd/EACzOC9bHZ8N4fU4YlZhe5cWVtGcwDFSKnwHzeww==, tarball: file:projects/arm-resourcemover.tgz}
+    resolution: {integrity: sha512-QM9ewsM4Ks+2XMjNEurLsVJQUWqplGUwoR5Nb/2M4PZWwkiEJmjSfPVEdpWDw8joE8Mq2aeu3lpeurP9IOp1tQ==, tarball: file:projects/arm-resourcemover.tgz}
     name: '@rush-temp/arm-resourcemover'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15100,10 +15243,11 @@ packages:
     dev: false
 
   file:projects/arm-resources-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-AfgbEwcZrG9JhI0pp201xzPZxP2ligl6HPcQ/111tGcA7BondnhG3hF/gBtonBYxdlGa7/YrqSOKuZQ+expENw==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-SZ/pVg+FAqORyoq8UYPkXxyLi+Mimyx84A+5KlHtkZKOkKEsDDVMrv4DOIVcKE/5o+siNqjpDTx1aZYJ9Ix2Gg==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-resources-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15150,10 +15294,11 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-4iLlGNSL2+WuAtJ31DfDxsWs1Bcy0Xw7faFJssejzRMo0M1NW9DgYhX0VESprvNRCeuNhft87Yex+8ZNfgBQ8g==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-/t5+gAFX7WNnDoRlihKRasQqe3dZTJFmAK05+VInGiAjkhmKuh6wuNBXtnDfXAe94AfQZNzT6d2exR0jrsv0oA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15175,10 +15320,11 @@ packages:
     dev: false
 
   file:projects/arm-resourcesdeploymentstacks.tgz:
-    resolution: {integrity: sha512-poyL/MzZRUHGkAQJq7AVM8Scr2RMXtfBteombjj/SQknjJFOebLyaaACV3H1qlZBCSpemEWTcuhW35on03wMOw==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
+    resolution: {integrity: sha512-X7rUhN64iAoQglYWtg6xgPvO0n1JYPL0fcDZ6NewFPTtf7EQyFrkpYq1iByM6SQB6ts/CWEAiuD06yxQJNhEcA==, tarball: file:projects/arm-resourcesdeploymentstacks.tgz}
     name: '@rush-temp/arm-resourcesdeploymentstacks'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15200,10 +15346,11 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-qbthjiOrwJZL+IZV6u+un37ythmM+hmnlWgqd36Vhtu73/8qyfUN3RE2P/uWiBmR8H+OmAuuM0kuZx0hYg1scw==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-FjQCeXqzoX2T7Uxn/pANTc3Zxs7Cofx+IbVmLQpGt3viqJzIGDdtc3iEJCh236W4uFQJ0OWF5YeASs6FxPl28Q==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15225,10 +15372,11 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-YRYr55MYRWq8GAk7k8kQVJoRIGqxCsQYXPwdG3pYL+MkokE67u0OZpkBevsTHL3i+db2hbgRGYOJm2KoS743ug==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-IjwX4Ud/kMf22P5x5RPc3ce3jIAHaWM22PRx2r0+nJElz9EpZm+aLoSp6pCTjdtZ5Ps0R76lIWI5ROW52b8qrQ==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15250,10 +15398,11 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-pW6fYDtWlWHwc2rweBXjFS9Rv7cOPIJVSqxmzVf2ah6LOCtWFtW7DHdnFpF7vuWYdQMR7R5Ic5rmKJQNUfvyOA==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-UxcufdBvVLr6cxwYQudYksT4P5D9rAFOyz79IZYExnmSA05sIYItlXX8f5E4lJB6xJWkZcrAYG4pfusbY6eGGw==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15275,10 +15424,11 @@ packages:
     dev: false
 
   file:projects/arm-securitydevops.tgz:
-    resolution: {integrity: sha512-OCQ47FxOtvRQ5QXi6f3Rj30OT3TKctUaAn3V1HosycpeBhOPA50c7oYozYD9O2I+ZzQykLFoQ+bnN4S66OAunQ==, tarball: file:projects/arm-securitydevops.tgz}
+    resolution: {integrity: sha512-2EMy6pvNmfEM+zF/cny41o8mJ5XRwE4MxlDRHPFEYzR3EcVFAqzYWSlww4bZEqXstheUzbNcwVtj0nJsX5xNhQ==, tarball: file:projects/arm-securitydevops.tgz}
     name: '@rush-temp/arm-securitydevops'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15300,10 +15450,11 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-lomrFohkNyCoBPelGsqfpu4ckb4uh7G+AX7rbEkQKFGBaAxTJtCsUdUZDRmPgSvopF6WsNLuGxJct+oH9UOXIA==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-zTjeQICOt8epVOHIK2anALXq0a8ZD1jy2JTZENoBhyotliPuPkfvyYWmh8hsp7qt5agIqkbI9w52pqhabubqSA==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15325,10 +15476,11 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-euDGo4XtcvJGfyIUEGNXebKlzlYTnBttle0pk8AtYft7zxTyuioAZ77TLrHkfkHEBzhEE3O527sRlNgpSqnSEA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-X+PJNgAH5gt181nvOVnJU1u+uOD14rCv+kJJDo/x7n1Q+VjIqFDQEpidT2Xm24a2Ph8f/BfpX7E/XA/xZXc8EA==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15374,10 +15526,11 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-kR28D85jYYRFqkFQ8i7Am8ScuMxX6DRdGg1bXPblEDA+a2VvBoi0FrfriyYIflzKGY0+DmW/sqtdK5HVf0wsnQ==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-yM0HP2VUDY1DT5CSqU1aCyoah7ef35zYcj+KL6Na2zf4z3Self0f7x0sxemkAyxs++9r/RyOl/ws+yyVLfijbw==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15399,10 +15552,11 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric-1.tgz:
-    resolution: {integrity: sha512-PeWR+rN1C/NOQ5QS9I0oM5775EHeSWLSzayeMuhqm5B2Eu0WJKEn/bEXyYlFyt9s00BGby4ykw19Va+yfWLiuQ==, tarball: file:projects/arm-servicefabric-1.tgz}
+    resolution: {integrity: sha512-cIUSGqF22J/36I5bcwLeMFMQrpQGVp4gNix8x6P2A8uO4TURYwnO/0Ry0bXl6WsE1ja0UM4HRWp2i+hy7EMi6w==, tarball: file:projects/arm-servicefabric-1.tgz}
     name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15492,10 +15646,11 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-ssuLky4GbJ/hzsRtuGZHs/P8mENEVOJ9OKjP3wKQM/lkbmGf6PSJFfnLjQ9gDtyTizh/C3gX5IyWdTIUSMWj9w==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-S7Woy1OsRRV7zWVt3VShwZbUfT1M02PFqFXeRvGdb1Cm3/Twon/T8W9lxDol5oRDE75tIOpasNLsqXqeVKuejA==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15542,10 +15697,11 @@ packages:
     dev: false
 
   file:projects/arm-servicenetworking.tgz:
-    resolution: {integrity: sha512-3mfPCDS4q+Vu/weUKq+JlBfySBomkhF/aByXQTNoS4tAi48/qcPEZQRlDAXcQX7wxuba7o/Hj7vCDoA/ETL7Hw==, tarball: file:projects/arm-servicenetworking.tgz}
+    resolution: {integrity: sha512-drWD5io9xkwx7+3IPgpUhbtxotXCiOWv36U7gMIkUOKmlizEvNcr/e/b7Gk88DUPK2ARTHynLG4sUacRYkPylw==, tarball: file:projects/arm-servicenetworking.tgz}
     name: '@rush-temp/arm-servicenetworking'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15569,10 +15725,11 @@ packages:
     dev: false
 
   file:projects/arm-signalr.tgz:
-    resolution: {integrity: sha512-dgjcxzILbO3JSqP+6jbLDE5GB/L3xGdFdrO4UZJ8CS0dA/E44LWtWzVjn2w0B2A4VuLyz+6QLGZ+9JbJIx2sKg==, tarball: file:projects/arm-signalr.tgz}
+    resolution: {integrity: sha512-MuL3HhbOtp3cFb4eJe6HfO/aAjYkPrpJlHReTNv5kbLY+o/Q2eUpkL41Xo0xEMvPti9KzKW2OdRqpTcQaId9tA==, tarball: file:projects/arm-signalr.tgz}
     name: '@rush-temp/arm-signalr'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15594,10 +15751,11 @@ packages:
     dev: false
 
   file:projects/arm-sphere.tgz:
-    resolution: {integrity: sha512-M1irXI6xWsbb71lwYty06YJb4c4oiwH0U18aSCVv7L/NxEKTfnZW9mQiZAww1QvVulRa8KapuKKeGZiFjNCahg==, tarball: file:projects/arm-sphere.tgz}
+    resolution: {integrity: sha512-snHuM0z6D9H4Q+WDvDdcFoQJqMK+ZjZuo6PSFX7DKVsVs7BbfeMZlHD+J3yRaqvIBd+yifdrcOMKNsb9PkXvgQ==, tarball: file:projects/arm-sphere.tgz}
     name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15619,10 +15777,11 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-7XJa7E8AmDNs3Z6QOcK5Q+vRfZcoAHqUTZRSOuLfmndTTS8s9/6ufWm6tKNJ5rmCPMrlh3eyiTwb8zbKaKqVKQ==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-MjeYUJ3wWcZC+sq2sOLK3+9UuZUdSRar72hzZmDSwCz+1YsjVMBUxl8+bK6eznpp8ucQBOQc2LTNdXnWLGhiEA==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15644,10 +15803,11 @@ packages:
     dev: false
 
   file:projects/arm-sqlvirtualmachine.tgz:
-    resolution: {integrity: sha512-I5iVFNmGoW4zxjRITcTQeCnOdgvDeXbvDQny7UKZDILpe2NQYdiXvwTDj1o6wKtMumOS6gFG8qIfcqOWJ8RTBA==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
+    resolution: {integrity: sha512-hQrXLeA5wADbywJzhvQ7Akg4poII49bbKXuNwdQLLcyjDoRywx1+x7WjHGGIFmhiQct+z2XSFCUJPCfH1eKo3g==, tarball: file:projects/arm-sqlvirtualmachine.tgz}
     name: '@rush-temp/arm-sqlvirtualmachine'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15669,10 +15829,11 @@ packages:
     dev: false
 
   file:projects/arm-storage-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-M5R93oKLLp8afS2Bb61ORddMBfRkz02DB8WwRvveoLMVidMslsTkJTUe92YOHFELhbyt2TK1uYwy17L+e037eA==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-xyOjYIV2aoRpIMzmcsBtaj+GTLdJBf06aqbyCBkiBHJcrWa5+/hNNkenslTY3MG1BEzu7vCZWG9RPenEZ/11zA==, tarball: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-storage-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15694,10 +15855,11 @@ packages:
     dev: false
 
   file:projects/arm-storage.tgz:
-    resolution: {integrity: sha512-/dOgwbfRS1KKv5kf1d9Z0Y4lJQUIRDgsKUK+0TI7C87YKIodWx5/hrJfli0JjZtb4f68Limt8aqbAXwNZAOdBw==, tarball: file:projects/arm-storage.tgz}
+    resolution: {integrity: sha512-00AXiG1BVR2WexhhIlAUXcCyMJLE/dV2KOLxBhB33Z/mhARrPkvkv7ZpE3vYJJyILS84/xk2EzUfArFhFOq40g==, tarball: file:projects/arm-storage.tgz}
     name: '@rush-temp/arm-storage'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15719,10 +15881,11 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-CdsKA6CnbPAH1VCdhUqNdadl4nKgEROG0sPzj86DBiWOo2f3I4UwrTXtc0+0IBP5iB53ZCZImtfs4VGF2YsHnw==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-Cmf1MMgI15FDnKVRKVgs1glIYrwYW82ddOQwoMuMuYzI1uZq90GMULXyg0FF0Yyuz5GuBO0GMsq/P00xySxuog==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15769,10 +15932,11 @@ packages:
     dev: false
 
   file:projects/arm-storagemover.tgz:
-    resolution: {integrity: sha512-ktNjN1cks9TYUEy2eA0ayDcjxVBW8f1s9qn9h2AVDWLyCs/NhrngYuKBSOXnsl1l8L4RUPu2et6FBHGl4oBMQQ==, tarball: file:projects/arm-storagemover.tgz}
+    resolution: {integrity: sha512-tyK5xTIHnFql1KNYR/zcPch2FU3fwwTt9zcnHQIP45YyloF7zkIO5W2cNDu2xDaVtpeleulMxpl2dL0zy1xxbQ==, tarball: file:projects/arm-storagemover.tgz}
     name: '@rush-temp/arm-storagemover'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15794,10 +15958,11 @@ packages:
     dev: false
 
   file:projects/arm-storagesync.tgz:
-    resolution: {integrity: sha512-8+voKlcFEtTdBJHN26F45ZstTpF1JkTjrNBY+DB3bMrz7ZtWa9vdBa+XwjvGLUL4SQtmLi1Bb2dp1wpT3Mdq0g==, tarball: file:projects/arm-storagesync.tgz}
+    resolution: {integrity: sha512-RnmEUKnw0KbPfchqVHV9jmMkAxyl4U42el4+5txXpAKtIA8pNSh916dopVkwyCZxI34px6WBYpXwgki9bfmj3A==, tarball: file:projects/arm-storagesync.tgz}
     name: '@rush-temp/arm-storagesync'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15818,10 +15983,11 @@ packages:
     dev: false
 
   file:projects/arm-storsimple1200series.tgz:
-    resolution: {integrity: sha512-JDIPWRIJRqZgJQhqxGCT51Az7afnw3a4t861fU4xiQW9hxwrzpHmvoZ1Uc9+pWkObNZfr2L+dibubkqjpIlzvw==, tarball: file:projects/arm-storsimple1200series.tgz}
+    resolution: {integrity: sha512-k6voJa2MWoJ0DUfJZAxQufSTD1YuuCrKvP6n7MZgX8SVxCGGM/9Zu0flMmEF1UljZygDWhcvWOD8P9bXQHDC6Q==, tarball: file:projects/arm-storsimple1200series.tgz}
     name: '@rush-temp/arm-storsimple1200series'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15842,10 +16008,11 @@ packages:
     dev: false
 
   file:projects/arm-storsimple8000series.tgz:
-    resolution: {integrity: sha512-evbiJ/RcGkZsic9sHJIDEaHGI3WZ49J5/1N1mYW53HnzzjVRLvRklHzYXikbifXAq1oXgr+33f/QZ2Dfv8NlaQ==, tarball: file:projects/arm-storsimple8000series.tgz}
+    resolution: {integrity: sha512-ftNzMktJIC/2xPI9rRj1f1RVlq/+IyOsR+DSia2IwX1hh8wd1jlLNaNqDxIewt38td/rGVZA+d8sHYOBAPwHAw==, tarball: file:projects/arm-storsimple8000series.tgz}
     name: '@rush-temp/arm-storsimple8000series'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15866,10 +16033,11 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-nHE9o4kImfvi95Td9KXFgkfi+N1EqM4lxq4cM1mED1h7D6yBYknG+7vZl9NVC5Z0q/qu+vcgdEvExzVzeIBABQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-l3PTEN4AJoiBU13ZSqaxD+ZUGeOiMFCJ8yaxXGZWjyivPiBBI+73hNKHqK+xqE+yLx/l6hTLCYNKDLcHJGZeOg==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15915,10 +16083,11 @@ packages:
     dev: false
 
   file:projects/arm-subscriptions.tgz:
-    resolution: {integrity: sha512-zr8fx5maIk/IHsW2hxy2/vdLhgzHVo5fqDcROeh77WhVYmBwHBsUuWWmNVpKnsujLOHkkoRrYXzHgG7SY/4Smg==, tarball: file:projects/arm-subscriptions.tgz}
+    resolution: {integrity: sha512-HK73AS0Rz2hlKvSuwiofl99OKnhX8x6m/px2IipeSuuGbCupLPwRkvCLVTjy3Llx6EozZ5LooDo8Qx4iUZsBUw==, tarball: file:projects/arm-subscriptions.tgz}
     name: '@rush-temp/arm-subscriptions'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15939,10 +16108,11 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-PvrzcMohnBB6/rQlgYnNfmhqTEplq7TOre24jPvq7f63K6Ar3XUS8fPMTVleFM+spZoSjki+J/hhxLRNYet+wg==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-WrfTTlMSDEsWG6tqEsrOjK90i/hF9Vp+fhUofQU50jreOUbnijcHIMDhmy97+NVKvtkgMx57g1A6JqcNOjcVwA==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -15964,10 +16134,11 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-9rm1k1/GioOzMtDruvWBhOTxXeB0JJrXDZuW3AkYgJLgJwEddOMKb7BoZPvtWgGAEEDTRUgz/J5quq+nEc6TmA==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-8+iWu72kqBdcB0LCPRnOYXJBgPNxe9MytDH0R50iOaGCAuqxc4gENZjwWLiTr538qDpNkXoqxW1Crd1r9MnuxA==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16013,10 +16184,11 @@ packages:
     dev: false
 
   file:projects/arm-timeseriesinsights.tgz:
-    resolution: {integrity: sha512-iFYKO1gDFUAfrOk059TBF5vSA3sv3a2rMfi15rCPwJdqiahSxKulk2xQxrzdhxn/ufpmseBaRjso0CvnyHm8sQ==, tarball: file:projects/arm-timeseriesinsights.tgz}
+    resolution: {integrity: sha512-AfTaCkUulo8/S6g6dlHQCxuYmiJv2HFgeNIwKuQEyYUAzxBLMLG4oIYtDLwzFy377OsyFRHh2k0cJWfiYC88Sg==, tarball: file:projects/arm-timeseriesinsights.tgz}
     name: '@rush-temp/arm-timeseriesinsights'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16063,10 +16235,11 @@ packages:
     dev: false
 
   file:projects/arm-visualstudio.tgz:
-    resolution: {integrity: sha512-7zVRXq+FbAZBMAWHbYIWnVAY2HxhNrSphU5oarZ3k6sS3E10ptRC1iO4/P/3+qepatM5jyh32cuB+yG6b7ZcQA==, tarball: file:projects/arm-visualstudio.tgz}
+    resolution: {integrity: sha512-japIuzrTyi95rX4QwcgbLPrD+yGmwlR4XZYjPp6MRg95s8KLlcXnNyUeudUgsoQHI93+7+rvzdL2HMpG5NKWXQ==, tarball: file:projects/arm-visualstudio.tgz}
     name: '@rush-temp/arm-visualstudio'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16087,10 +16260,11 @@ packages:
     dev: false
 
   file:projects/arm-vmwarecloudsimple.tgz:
-    resolution: {integrity: sha512-CoZBPQ+ri+mTOAx8mUUnhMkx+yIIMibfIlI65F7I6+M83byjQTX15hqhgWdznp8EBjthpBDHFWJ97k2ryFjrvA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-ae8OL0M/qFHS13oTZpUdS/HsMHK1tTn9k8O7Jh2ZRW1tibT8DOZSIDG601BM6T8OlBdc+x7UDlnvB+kieLJ+TA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16112,10 +16286,11 @@ packages:
     dev: false
 
   file:projects/arm-voiceservices.tgz:
-    resolution: {integrity: sha512-VuCNiK/M1zgTlNYk1TT2w7YNYI6rwUz79Uf7U5xhJcQxCUdpHFuR4Vy++FVyhpFEPSjPpoLqzSGlY0IXSABeZw==, tarball: file:projects/arm-voiceservices.tgz}
+    resolution: {integrity: sha512-V7mf48ZONTDV/Zsm5KdB751GssUQlPwAcvXFMI0daSMFrKHyPt2lDx8be3Ehido6biHIdXRjWB0B4YQTSHPFEA==, tarball: file:projects/arm-voiceservices.tgz}
     name: '@rush-temp/arm-voiceservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16137,10 +16312,11 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-c+PhgOKFlw4LVofq9Sei6csoce3gGCs6hsrq5CpmEg/Kb2aJg994gf6+wCvGQtN4GWLjzAAf9nLdj6Hs7cNAqA==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-ASmjPc/oioW63kM7egQkymfJ7wRqnkOMyleu4BecJy/ITbdB3BkI333jMdUcxVemolWgwQMWuOA/NZlz4/yUiw==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16162,10 +16338,11 @@ packages:
     dev: false
 
   file:projects/arm-webservices.tgz:
-    resolution: {integrity: sha512-JaJup89yW6OAHPKqj1ZI6btp5IwUAC/GV17kw4+FTM34IXrqQ4nVuIKpPI4GIHXjtIO73nWzLk4bm1mWe+vvYA==, tarball: file:projects/arm-webservices.tgz}
+    resolution: {integrity: sha512-kEnEfWZPM/WmI1Uc9G1MHdcPi/gK/mPNPIXphIJKFHU8vbQbf3aOBuWWzLeEU3fqosgVS6qAqAl+ipWIRIPexA==, tarball: file:projects/arm-webservices.tgz}
     name: '@rush-temp/arm-webservices'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16186,10 +16363,11 @@ packages:
     dev: false
 
   file:projects/arm-workloads.tgz:
-    resolution: {integrity: sha512-jfCB71jrqOJl5Vmt0zz6EM6YHVcUIjc0RlyI2xffiSVKQeipaF8VDMHX/PxWAKLlrb5GtM+Ef7sgqh/oYgoUEA==, tarball: file:projects/arm-workloads.tgz}
+    resolution: {integrity: sha512-o3QFG3v2A/GbwV7pAZhxq1bTONXnW4wH+2kjzPuSHKHVINnlmbyQnaDKtipUmvCqq4Pcnf+beCsYRJ2R0E1pfw==, tarball: file:projects/arm-workloads.tgz}
     name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16288,10 +16466,11 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-1X9rmYjfmQzfeEp+6JfrpTk9iGnBOzBbhJK/RX2Lm3jPZz2UC/pvnLy3f8D9ZQDybuRC7dhpenAkrG6VdHxRGg==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-Ll3HK9J110sX4P2wSLQ27LELiWgVY4zR1zwrj2rvKoslWTFUkqAgh8I+A+p/hNGs6f8irXaWW7SabEcx7ySruQ==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16332,10 +16511,11 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-MjF0twcTWH0GW8GWTmzUpZzFZ4TD32wnvykQAz3SVOA538sqAKbpM5JLwqk3g9gsI+hk5g5DJn4AwzoxzoGl7Q==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-I2h3cDWIMqT38ytc7zORRY6FyyvMzNdySwidDjrnIPQCfExkQFjwevC78ENZf4ozEQ4nJZpM0qJ8sBxH+w9UwA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -16380,10 +16560,11 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-i6EUqP0uJ27Ibp3Um0q8DNVRXUiS2apogrDZLUUdK0aTr/0WbsDeqlqkU2ITx0vC9KFIslMKbUqze93y1TntkQ==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-x5b2Of5D5FnLMr7yTT6d1WsplooiwhBLfmAMNsLDfTYyeTL/ZrX6HvlboPhAzHBog6MiJ/SPv5hJxW8xs0xrgg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.22
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16431,10 +16612,11 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-YeDb5PElWeyLkECORE9AsNwe4U5R/VE0ZMf/6mJeoExPA6N3kixpHX/vlpRzIHKCCGE+ywgPugQu2uOysNqmNQ==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-d4jZ2G6RGUgBE6KDXYdwTp9wJ5Sx5pJx+kNUSNax3Q4O4pHoF4/7GW/tptzDRrpr0arGaM1gQ1oJ7ibxwj2CXQ==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/chai-as-promised': 7.1.8
@@ -16523,10 +16705,11 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-2/M9x7gl4Jg0XLMGTpdW5JOjKnUene5+wj8e5rncq3XU3ceNojh80GVQ9/nwX829cbcPbZAla2fpJ5gPHz/2AQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-wBspInoMgtWbpwJVwnXju4lknVWyxQa87MILlevCkoi+ahLUhcfdQRngeMizuPmLlQqDIH+rYbfSV6m42G1G0A==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/msal-node': 1.18.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -16570,10 +16753,11 @@ packages:
     dev: false
 
   file:projects/communication-job-router-1.tgz:
-    resolution: {integrity: sha512-fEPx7xOSIB+qLPLoEOivhFFteU9DDzVd8zgJ/C+OmH/2fkW7MkzivOABAuQxydaryXc3GiG4uRZUa4bnJ6Cn9Q==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-fMxA3BejoxE078hO6QIb3KntJ/AGjzAFN+RQb0Jl/Eff4VIz3F5voWXYVGojafbhL2gAiUA5o5yTHkoOh8qAPQ==, tarball: file:projects/communication-job-router-1.tgz}
     name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -16662,10 +16846,11 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-Isk6dZjFQf677AZKtF4Hj2zq9vbQ67oQyI9w1XepfitC86JlpCMt/YZ5qLSXjn5TEX4EyZ62JkCWGSrlr+757A==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-xNKGr2MQ7EVh2eXWDf/8+4rOWeZthn+SAoOI6ETWgZ/bPGiSlYSCsF33DWwJgzZFgqYeBGY6aXzGduulV9+l9Q==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16709,10 +16894,11 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-WKsNuF80nqlNYyrCNbRzLNQ6fA11s1Wv4vhglZ7Ea67Jp3tbJxthKRZOosOysLl4ieyJeK9eXo0Q4fXa1JdHOg==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-s105E+T+1flcY/KJ6d9G8hu04eV9/NJul2px69N/u1eyj3GxjRLofL+FT69vjqI+YVufhyMpNSBlHFpLdvOHdQ==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16756,10 +16942,11 @@ packages:
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-WNos1OErJwsDuoqHuUeMTKyLDqrKmvPPeFgu+cgUyu0lkSEWHmu1T1roCzJQOVklf4sH3078CKC1fwrk2aTAmQ==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-l7QvDDjVPFDP8lvuN0ZoLmKe7qFNqsD94Rx0zBsLYcifA8JL0o2alamgyGc5iYB4qhAVHqqUrmSg6+7mP0E+xA==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16840,10 +17027,11 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-C0lSTEKvAfDlMJ2hdIYSPdK8y4pQoiYMw+JMy/tWwIDeepj/8EFYdlI4dBvQa7wVxeahfauOGd9fO1ELkUM+ow==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-gpLbvm0kOrfzPIUEeF9uzjERbc+eR/teVNKJ8yDlJKbPKxeR1po99d5xgRv+cPQ3GlIiLtGE1XJXVn/SvCdm0g==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16887,10 +17075,11 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-Pz7ZhzcRlKDc9S2RYcGk/VSLy1n5ag0tdEFqwGd8QPitRQsDHsYU6bCe41M6omkDD7ywwUJZBsphaCRtLeoC0g==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-ktBo8crswaN+3Zc82jdmgAOdeqVpf2veriDT9JEnPzPUPFhc0xNEGuRJOdcSWAjf/lTF0Uid1YUnlC/otkKnEw==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16935,10 +17124,11 @@ packages:
     dev: false
 
   file:projects/communication-tiering.tgz:
-    resolution: {integrity: sha512-AZxJZSEB4dP6ZBjRryspViiNc1JsVuI5yk9Cn3Dgrs/92ajTdVlLyqWigwWPMVLqEoqljR78yDpmWvt6BHU/dQ==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-Cilrar7rp2PFyWrrgIP0EQzNoFPoKb5dZuXGBkwNSx5LDGm+m4XQZH5lcrDf/5KrL+SjgEjW2+zfVE+H/10lVQ==, tarball: file:projects/communication-tiering.tgz}
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -16982,10 +17172,11 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-j8s/isAHw+ctJV0TEXOdAi+ool+1cmo/TeQua8ezDiysEBYxqvS5wlFY4oPwRG4UDK/RiRx9DNYRQQ2KxeXiow==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-J416h+55R7WbR2CpoEtAXWbLHLS2VCzunwsZSOe9sClXuU09MW8s4fXZCkhOZcInE5/t/LXGvmC6CO5AuoL9xQ==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -17058,10 +17249,11 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-P78wY+Ui87WKrwbAy0djHK8vBLQ6DztKEGuEV1vlsJ5JYfiPBVQYy8qam4iqc33g+Wj1kljgf35u18pb6NJ2wg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-x2H43oCbPG4MPHGiP0hhGCzXY0xutLzlnZyAFAhJabvrsqb20s3MMjfhA6NOCJxk/6RM1ixPnvcsVZ/F30YNHw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -17103,7 +17295,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-UgxN5RAC5F0cXWnxLP4RT5H9EoG6NZvrHorOdSYAn/SjeEHYBEtYvc8/IiXtLjfooYGapLrLVBDcQ0eS6VwOiw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-3u/MVN1OUCTBuot9HFnzXqXrLtmrNG/+1tZTCmDgGINkcBAMt5IAWumPl/Da20T7RN6gM0tjSJ34piPs+ZL0QA==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -17149,7 +17341,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-DijCkHJ/ZWVBr5GICB7Eh8oDu9HRqZ8dcy3LFIi8wlGuwTz2CKOJgUk4ImXzl9iUjCCFutAgK5iPv+mlM1UuOA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-LdegBvZqJKL3PTS5NsPwN7EIVX/7E4+BymcZIlhk6h4d6r5R7ABi1GKcySBkroqmX/5An2poDcqiRe8NcYgy7g==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -17177,7 +17369,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-gm0CjdytP0igZTD1VUfuGtJd+HgGH8EaKMlRyXszqmuMryqpI2a9o+aDULaKrQuvHroeD7/SYSRfrHiiBolDbA==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-+xMoVpkFuoKuIKYvouWGk2euDIe6vxr4Hod4RoqUj8PqkQY7yTmSkt6Rz7aSPV+FJUCt5wbqpQ120A7IK2b35Q==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -17220,7 +17412,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-BdXwkm5zJPCI3zJ2i6irA8BwoCajSS6KEJzdssnrIVSYYidEe6xdWj356julh8Fmp+CKcB31KqHQlp86tUi4Ig==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-l5JcGiBFE74jOM/m2lO89TAfw+HSMS95CrJ017gAcL47+zOzh5FPT782t+DW6X3g8VMen5us21X97L3kwCVP6g==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -17260,7 +17452,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-JvDvih7oiDXv3v+CQXoWCGsg00RT9eN7vCt8omIYlOu8HHMKNG+eMc9rbr8lF67WLyYfgCnk3WbiXip6jgfSIw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-fnU+Txsprfn3crLvo4c3P4yZb1H5P1YI4aVLscNw/vHJLrtxsuZ+5YJoOLr17YnrjhYWOSvAM7qS2gl52atCxw==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -17282,7 +17474,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-OEORusUJ5Kcdtc4NrE2RDnn2GxDn7H/6VGjfgirwB5Z43Hk28ixWvfeQjevw28mLDFTaafkLiPaOaMEMn3XCgQ==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-Uq9FoovSrczjBH6yunLJaGgRpeS2ZDhYZThPwsVycBw8tFnA11VupVQjasVfluUF9lpEYY2ZwnoGWbHf093Ztg==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -17347,7 +17539,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-/uasGR5EkQQcBnKwUWUokqGN8dCTtHZaxjZ+kSVtrpItOr3g+hfMr/woxNDICfJEfETkOonF3Tgh6PMO2a//nQ==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-/XHFnzwTkiw8BoLi9VDY0aFfwt/lirsuffvUL2jy4srAi1AM6GE+hTrw9XiKdIG/SuAa4o67Ujdd8amRvPLNQA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -17421,7 +17613,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-ktgZtc9UsU1ymMUNDYTJaa12eXRQkdsx8A2mG3sd9XuIduOPiTBiCpdnG20AEOi0SZeztdT9wDJMy5Hpr5FWJg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-RpPjvOzA5axwy/Q6rLsSAs4cuXSiPN3hSlYgbjXGhBfGkWUcbapzqf4AJ3423EJT3krnApvg15AsWrDVpNECiA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -17556,7 +17748,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-7ze3xvZvXkgnne8cUlqr2IiX5N9HiKoClPV5dyY0NbvZodDYJ2jLmZfqv2L5BK1tpF8Ghcd5Og/a9xW3V7262A==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-XYmNBl06jyj4DgGP9dcOTHt5IxJWWOwtWLXFHYaXYWTYioD3WPA+Wkbs9mwXM28tJmZrnUmNhoGI2dk8Zailuw==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -17642,10 +17834,11 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-4VUuqiq/npBp4obPUKbOubNGHdKZww3TkxM+KyBz6q9pqB1kWcbShEutbA1ZDSROWIZp73W1Q2GEqxVVrmuhrg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-jV6XlId3/CRW+DTZFDjMMI2b3uvXO7eS9OKNWdWVY7gE+LsjBQ7fDeOKUIpyU1r87n8UevJKj8bc4lseNHrwQQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@sinonjs/fake-timers': 11.2.2
@@ -17786,7 +17979,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-ALC43MMXBB8ivMmmaRRR5CcmpGdnB7nsIuN0HrvNOQQYo/q+8FJv+qaWQi90VQNJXBTU5meody1z+fnLEWl1sA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-LzKH1WYpTmMVclWni5WYfKDJ+o3tPsXXGTbQNgqUzTqaA4MODStrzXtkaLDnr3/wwHuvnD70zbAMt9QtKwOWjw==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -17808,7 +18001,6 @@ packages:
       '@types/prettier': 3.0.0
       '@types/semver': 7.5.6
       autorest: 3.7.0
-      axios: 1.6.2
       builtin-modules: 3.3.0
       c8: 8.0.1
       chai: 4.3.10
@@ -17848,10 +18040,11 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-W5jNcBFqVdOLjNerZROXJyFpfPPVAu0Wn+OfP+oY3rfcBr4UZ64u+QKkS+Qzn6lygAm3ZIkLQ2oEdzcEOJbyzw==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-brXycExJAiqmjSvIbK6s+kC2VDRMQTi8+QFlZ4VWLVQM4FZAganjvpKIgXEkzGqqwSckllZjg4+67+83FuImLg==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -17998,10 +18191,11 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-Z+/Ql5Vfc1o9LSkQLSORVl9gF6de7cLzF5U+BiN5tuDFxbCgWYtPuNo/x/paiepBalrc46qHsOA0ISA0IHcSuA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-FN0BZNHzGTsws50Zw8341p3UOrgosa8Ztek4+pIaBRualZW2coSViRRFH54axI19ynQS5tTOKV65YUSbHe4mgg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/async-lock': 1.4.2
@@ -18108,10 +18302,11 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-gnKgpu8r3nk7sxdapO/2DotXA3WxeJSxWLPuHR3EgV6LjKfbjMbccl1eRsf/+awY6DWqpjtB7aamkRjYNb55cg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-FWvX1v3YmsvK45SORK6PDSWvoKIImtmctjrqNKpcvfCXQQEpD9iZCbAdHmrYxgo9AS75+dunS8raDSE+WerQ1g==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/storage-blob': 12.17.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -18159,10 +18354,11 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-BYMXef4M9Kt0FnItW5uk7floeNPfXrYVQvMqV47sjl6DDUykplY8zq9PTMlPdTm8vTcdb5qGDzlfE2OGVQftwA==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-jHPfqrIDNcLGf/ILd6x69E5ghOlkoXwisL+jzj0RoL5yBbc62FlRqUldz4vlKRiGGnA2reMsiwoqQFnllV4wog==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/chai-as-promised': 7.1.8
@@ -18254,10 +18450,11 @@ packages:
     dev: false
 
   file:projects/health-insights-cancerprofiling.tgz:
-    resolution: {integrity: sha512-rm+agZ3GRmrK1qgKkY0+pGxyXK1WmM+cH3D3p3KBNcmBySmPViRgr+2fyYpYfoUwQWkusadwed04kNMfiNpiRQ==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    resolution: {integrity: sha512-Kcpz3AAg06xHgL8bL947t8sDHqa5g6skaUXl8I3kx7Opz5N7WBQNE7Pm2C+K8jKQhLCTMM3xmzO+t1D47KF/ag==, tarball: file:projects/health-insights-cancerprofiling.tgz}
     name: '@rush-temp/health-insights-cancerprofiling'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -18299,10 +18496,11 @@ packages:
     dev: false
 
   file:projects/health-insights-clinicalmatching.tgz:
-    resolution: {integrity: sha512-XKPTMqJqUwRchxw/M+rSgcmNEnNazX8FJ35sPpvUdMR4mZtpV7CSzPOGap4dG+beT2/8AyQ9NwQqxTiGkkhn2A==, tarball: file:projects/health-insights-clinicalmatching.tgz}
+    resolution: {integrity: sha512-3zwcvhdyoNzFz+55+eWRRq901CPWGwlYvjgZiyKmU8g65wSr0R7Wxnaf2+n9NuVm336wBcQyBhJUpS9OEcGksQ==, tarball: file:projects/health-insights-clinicalmatching.tgz}
     name: '@rush-temp/health-insights-clinicalmatching'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -18344,10 +18542,11 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-z4Gi4Tj08Z607swoEZFcfmfjmRP0V+smVNDCpBl5eI0FWiCg9W5A+Q5cyLq3SRf9zcW9u9Ux0pahKqvbzofGhQ==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-rks1l61zr6zXX+wSKOuyAiRUGiZzhTnQiSWa0No8aNqvV1pUiKsqk/qd03WqYLie1538V4JMY/djRWRqWlv+2A==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 2.5.1
       '@azure/msal-node-extensions': 1.0.7
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -18374,12 +18573,12 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-A4zErN0vwUxt1YktTBByWc2cVrAINnuWXZHn3twJYrrED9wYFpSHUg6fH+mUbHuUPuBbaNGo9KeM0hIp9raLlg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-+nvG984cPlktH/Zzk5Xb4PEX1glBQI0vkYq+EfG4BtHiNyBpJ2OrfYdgvlUWhxjXyOkoY9rtri9jFOjD4LgLjQ==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure/msal-node': 2.5.1
-      '@azure/msal-node-extensions': 1.0.7
+      '@azure/msal-node-extensions': 1.0.0-alpha.25
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/jws': 3.2.8
       '@types/mocha': 10.0.4
@@ -18448,10 +18647,11 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-Sl2txB36NCJCNx9Rl1jx+38dhQ+Ctr7MtRpZMwQf0nsLRRo/eiAULt1qBecumXSOZ3LHjwIUocxJDTY2e9/PJg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-7QjbS7kw1GnhX8qrnBtX3/Zq2ZGL7egW0gQkzQ5TEVOXPJy5IbJpIZVr6av3Yy6dHF65bYT7ZH2UibhoG9P0+g==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/keyvault-keys': 4.7.2
       '@azure/msal-browser': 3.5.0
       '@azure/msal-node': 2.5.1
@@ -18600,10 +18800,11 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-sqeHL9LMgt6/ohZNLS2Ux+KXtbTOitJhR4WLth4hO3p1p0SIXayK/DGL9Zos76F469yElkXzymISD/BUnQMKqg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-J4y09W1oP5YjNsgeuQFXa6yIltc/Gp56qNo1hUSbNmptAyDaCXo29bm2FvKihaJwnJkXuXzkAdV9Ga3SwjJh4Q==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-keys': 4.7.2
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -18633,10 +18834,11 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-FhVsiyb9ooOT2X01PyaXTXb93sNlOrjxJ5EmaU3NcgQZNET5C8cp1PwQebLvjhItrnwEfkaLuI+aXLlYtbPVag==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-pp37WyqpREs05Ny1ziEp6uLC9cfcoWHkXEvvqXh7JQLbi54eD7gNPbB16LUwo85BebrxKymPmXhAveQ7pfTwVw==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-secrets': 4.7.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
@@ -18680,10 +18882,11 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-qq4I/bwY2XLuTxBbovGxWY2AgRibCC4BCZ4A8l8mlJpr1qP5aNRLJMB44P8Og6xXyt8REE5mn/aVv96J6+WLvg==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-ppLuSBzgoEzFcqA9YNstoNJT6xe37jHUkvHfFyz2GKwasN8HmUBL4s3w7KAk2Fq1GjfMGXCqn/BGf9+ob7PNpA==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/node': 18.18.9
       c8: 8.0.1
@@ -18710,10 +18913,11 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-0FAlQcSZIvGpruzXp4v9+qFstPoSQ7gCDgEe8TjtcNYfuL8kgna3RyBYEXobllC0gBqi0vbJXDt2RDPE9sK8Gw==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-JGjOIrX9iFW2KtXVzFdvvO8lLl4A8yQw/70fIsyabFarp4UN4G92NQIHnoQAR7OzIRuWaNefT1J8PZSN6N13qg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/mocha': 10.0.4
@@ -18757,10 +18961,11 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-b5aJ8EzG1nxH8vFWJgLMwviT4mmrcZqmsUXmi91rqqjevThohPFpBs7M8Yptf8h8XPdLB1HYgTD12VGKCamOxQ==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-hE+J18V5/dqAFoReb9kDhgRTKdfvNf6TWDtmu2ZIRl2Hs94UqfVVJsZ/oRW7PziVWt8DHO+yUkiMV5TYSZrb5Q==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/mocha': 10.0.4
@@ -18801,10 +19006,11 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-cvd/f2KSA8cePER7o59LQFfBCnqBlFZYJTuEMPUq8AGwUwcKFA+aeiuhtGj9yUaaU5RsnFdMtMWoW9ixb9vz3g==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-aCN9M53DW5q5A3aBggb6oSs3hWERvwe+KGwSBtoAYhhE8Q1lfPgE2skjZxFBYdovpaLrMd1vOxA4gq4MXbVjPg==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -18891,10 +19097,11 @@ packages:
     dev: false
 
   file:projects/maps-common.tgz:
-    resolution: {integrity: sha512-piHdQ3ya4Y/73C1B1VoYpDFa+hC5yBSJj2HkZ5Oggk7MNov4CxQVFjw1WWGKr+L4yRUZROUE895ampYXvmHYkg==, tarball: file:projects/maps-common.tgz}
+    resolution: {integrity: sha512-7g2+bWHfiD4QRnxT6c1HMvitBLQW2NQdFXyKwgco6ctpNzSeoUov8ntxP8C7p74wcCg1UAEJb29vTS+/6HtP6A==, tarball: file:projects/maps-common.tgz}
     name: '@rush-temp/maps-common'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/node': 18.18.9
       downlevel-dts: 0.10.1
@@ -19138,10 +19345,11 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-S5mj/yQzBnqzbFq7FRJBpkoQO9Galm8T0WCNSs/6dNoCXkY7S2/3Gamdeb/F2MYiDGXQgl1P4Qej4cFeGYn0tA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-nS1OgVbPKSgjBqdHFf5fJO2vL6dF/MMK24z5OpXtJxKaMpeEubZt2Sqqxxfhxp7E/SzL91PqW7USzQm9Q/uaBA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -19186,10 +19394,11 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-0AzjVYdEPIkAebZrkiz/T0dMO4f6lNY3qT7vVUCUQpknXWKWHFFxtJXeDBN+Q+ld6GaIYVAa7xphp/0SClcGig==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-yaMhHE9TB85T0EGlp/5vbwBCQplc3lVWRsI7czTZLRfbOSa8ucGZcPSHl1WZok6RZhT63Q9q6bY8bpTac5y+eQ==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@types/node': 18.18.9
       dotenv: 16.3.1
       eslint: 8.53.0
@@ -19206,10 +19415,11 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-6WoQAvFwL+yeqXPYa41BR6K9ZuT2wMKkrwl1q3vW/ndFOB/SYgM+GnYWUKCNiTN/WGmvsZbxUrWjygqLDVSk+w==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-ceNnafN0OSbOrYEW6QV1RbW0aBLbxcQn1z8S363QPs0juoXBuaFvIikw34ZQ0LRljOXRM9UYvI256I8YGJ1qyA==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -19342,10 +19552,11 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-WqNvE429YwD6C/CF9tUrpHTsCzUhD/so6KBRhapoj9kKTWdp6BpeaPpZYirmKd8znNm/JH4SyodM5YnD3leWzA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-QjCB7d/eVVQP3Y2Vq+qnmePzWglJniGkYaygtchyBGSLnTgFBURDtylf5T5qz3+iPx/37TRXQszDyJjHh5m0Dw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@opentelemetry/api': 1.7.0
@@ -19390,10 +19601,11 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-RGdGRMzaHJ64/Da6BsviT76vKBFeqXK7r24sW4dFJPXV9TAXL3YV5NvEvXcUcJpnST2WuwW3o/Vk3eFfAfe9fA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-WLlSdA4jePXOLOX4LK4c3fHAij70rMV9NzytesGVftrkjNhaQLwRCTDPBzPFo+JNUMRK9ieUFmRlJW31MeFuKA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -19435,10 +19647,11 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-+hm2mlm81E0xCtC7jt3u7Rsw8uFgLOhqkDR/ST6QcpGLFqTFBO9IJo4bNCfMQjNtkasEl2V/TkQ5Xxm9mw3NWg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-rx85FOyeOgDOuCU4gZTB6XWVSmMoTeJXBog00SbEfkQDyrFfIRw4AAGn0JnTnbYn1bwz+Uvt/cLxxfNvduyG1A==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/mocha': 10.0.4
@@ -20176,10 +20389,11 @@ packages:
     dev: false
 
   file:projects/purview-sharing.tgz:
-    resolution: {integrity: sha512-4RzMaT3/pTgE6vp0haThiYdHeeiwuDn6VRE88Ds9tMATDirAHkSwPV2XbjRnS8sqLa2i+xy0fkLryrss1X8AaQ==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-WSQJFuLsAcXlw3bziPDRFoXfrxsKCv1FxwYlKqKGnN16tkuMAunKcqL01/9Q1+EpHmLY7scxEMpJNELiCtMFYg==, tarball: file:projects/purview-sharing.tgz}
     name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20497,10 +20711,11 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-9IwPpl2PUrSOXiDrroE2LEAuHG7VcZ8/S+OS5UxV1glkkz+c0buiY/4G9cnHrex9SfRMFLKDhrwOVT1XhHW5pQ==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-k+Y8VE8VpJBfvcsw2nESdJV9sWH4QyBtf22OXmt68H1RHCg7KFNiqvlfoNnBGzbb1NeexnT7RLwpaN7RSzy63Q==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20562,10 +20777,11 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-o1zLt8FS621p5+l3h1x/puSVJbziYMMOQVnSy5Tmg+IJwLa3yJrtHNvJ2vQ019heejUPhXmT5PWZMZYJTjZ44w==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-/jJBRMwfGgN3ZZ3bV1neHyzfKt7sG3ku1GL+G7FSREVsNZFMoA0AnBvqlklEvoVD1g6Si8HjK5ulwxkjv4qs2w==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -20614,10 +20830,11 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-gQLcoctkJuKhvNNFxmCWPQO2C9kKiRIjLDE98H3+8ydoMJrrIyBhBaHRmZi1unF2wvAQb1q7GCWqZK5yrGU4jQ==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-k4/qx4GARNnPguinc8JA8I9xIsZvZTBDhcPynjGU6PdlUsX5/Y4rMD8anTI0BFH3fPRFgrVwEVf87juoYZBSVQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20666,10 +20883,11 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-nfyrr063CjC1ZJzC+BCaSCyTU7Qv1G/NjHeFzgwmOUVEnt3V9nBsV3IqWu/cEoQZQL05ddGtw1qwcv1ljxw6jQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-H8h/ru567F+fhMHzZ5d3T/E2QKKxQZ/2yRqXfVdaylobwqtoiRcIWhzp8NhPE2kCQ3FoDN6DUftHVsBnRi5GCA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20719,10 +20937,11 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-cqlaIJj5gvAcq+aOuoy/tE4u1aQ90OHhGiAyOajuqM85HfugAD9C/csoMZ9I/f5mrN3vxMbe6m4VJQEYl0DeGg==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-fV0s9DjmvOpr74GJanEPwFUTZmASonBcihCrsXsNiGanAet02/b0GxOLtenhiUncOOM4j7SuwMzwi67rh9T+4A==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20772,10 +20991,11 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-CQoevEIqI0BNlDLarKEswvkADjHVrTh1eqQLH7SxLhpVAonMqf4IkO4y/mx44tWpac+BQWu/BpHGH2jXiCWStg==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-sOB5jsyFQwrqlanrEgplL8Vr4yH+GRHA3ZZX5IO1SoPNQSSrmFDDcKTc5jxiJ6q0qAk1bmumL4t4iOcnynGfLQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
@@ -20819,10 +21039,11 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-xXUSOIsYt44UJTVs+xwNcKOBsPWRSOfS0bpa5jfKrUBDkH15nE2fWMLA5qGmA64gcw821zPwmE3XzTXlPIYhVg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-kGeJLtmw0FY/X/SCgFXvYShwphpXVPqDMa7JIhWVFiYFrS5nQs56TPqAh/4PtJrOv390kDbPZUWh2Q6CFmKYgQ==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -20965,10 +21186,11 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-IQ2FcEoJtobDujDRWD3kWqI+kboyZGcuYE0sS85ix3J3MHY5ZFZ7NsgvDxMcuE92JRRVOiwANelYXxpA3RKlxg==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-JWv54L7WNu1tRMDn0IvN4sQfUc8Mt8cuNa0cx2nCgPNPZHi9Lu3cxAQgCLH8WSFeCPDq14eNS1tp8BnD6Jeb8g==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -21289,7 +21511,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-639hGi6iSeMbiHHyzMeIcw5Imc8EhoIghRIp0q5pDs0R3U4ZPBSMN6XECgxaUfK6JxtMqBmEudZTv4SyxZy4yg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-dOvVvEms2bk5MK7+xyDZdzJhgXQjvjpijm8AJDnvNgFK6maXdBe9zuQnB3f27v36pKSK3WrIe8u5FmKnJYu8yw==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -21321,7 +21543,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-lecKklGgFzIi+PR4QvNcK/rmgGNhTwXQKVzSrRhlUB8iGZy+c6j4Ela9C0DqytNzbhDarT1Fv3EVTzieXJBuZA==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-0uZXr1TywcfgaT4ZD+TqIqAeYL6RyqLRW18ufagbipz5QXbFY8Eb9MFpbXioaO91n7z2nvVoxQgJUf2ijxnWRA==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -21471,10 +21693,11 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-Tg3Vr5YZ23wKeVQOj0SXfT19RP6YwLGIim/53SAcKNkyKJ7wghEdVxvhHjg5pXMpkoZSqKaKtxuSBRemvt4r7w==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-yGPzuC8S2d0Wen97ZAYmTVcx1DzGFl/bS1LXDOXZ4ZLBb8XzM8ySF5oR27eLVPPFtaBVetudX5Jru/Rih8RESg==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/chai-as-promised': 7.1.8

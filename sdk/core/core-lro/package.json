@@ -91,7 +91,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
