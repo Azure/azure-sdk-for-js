@@ -298,7 +298,6 @@ describe("Test RU Capping query", function (this: Suite) {
       assert.fail("Must throw exception");
     } catch (err) {
       assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-      assert.ok(err.body);
       assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
     }
 

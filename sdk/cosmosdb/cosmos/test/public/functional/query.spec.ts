@@ -63,7 +63,8 @@ describe("Queries", function (this: Suite) {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
-    before(async function () {
+    beforeEach(async function () {
+      await removeAllDatabases();
       const container = await getTestContainer("Validate QueryIterator Functionality", client);
       const { resource: doc1 } = await container.items.create({ id: "doc1", prop1: "value1" });
       const { resource: doc2 } = await container.items.create({ id: "doc2", prop1: "value2" });
