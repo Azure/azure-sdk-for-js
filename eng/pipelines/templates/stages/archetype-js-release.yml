@@ -119,8 +119,6 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
-              variables:
-                DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
               strategy:
                 runOnce:
                   deploy:
@@ -131,12 +129,9 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
-                      # Pull and build the docker image.
-                      - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
-                        parameters:
-                          ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
-                          ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-                          ImageId: "$(DocValidationImageId)"
+                      
+                      - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -151,7 +146,6 @@ stages:
                             - metadata/
                             - ci-configs/packages-latest.json
                             - ci-configs/packages-preview.json
-                          DocValidationImageId: "$(DocValidationImageId)"
 
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
@@ -285,8 +279,7 @@ stages:
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
-      variables:
-        DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
+
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
@@ -297,12 +290,9 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-        # Pull and build the docker image.
-        - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
-          parameters:
-            ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
-            ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
-            ImageId: "$(DocValidationImageId)"
+
+        - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
+
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
@@ -320,6 +310,5 @@ stages:
               - metadata/
               - ci-configs/packages-latest.json
               - ci-configs/packages-preview.json
-            DocValidationImageId: "$(DocValidationImageId)"
 
         - template: /eng/common/pipelines/templates/steps/docsms-ensure-validation.yml

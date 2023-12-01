@@ -4544,7 +4544,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231129
+      typescript: 5.4.0-dev.20231130
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4553,7 +4553,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231129
+      typescript: 5.4.0-dev.20231130
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9339,8 +9339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231129:
-    resolution: {integrity: sha512-ff8qrYy50SbFp5yGxTKA4xnG/lyUm73GPKWNMYvigDEcwHbOq0ArkvGaHn4EIk6ina1ggsrLVIbBtyhhy2szVA==}
+  /typescript@5.4.0-dev.20231130:
+    resolution: {integrity: sha512-YDc4V66/MiOKq3LZh7onu6+VNKqQZrvzQEKAbWCjSmlVeK8TYEPYlbTmYFJvKbqDHwrxGBayl3egTG/IzyxZMQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17412,10 +17412,11 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-l5JcGiBFE74jOM/m2lO89TAfw+HSMS95CrJ017gAcL47+zOzh5FPT782t+DW6X3g8VMen5us21X97L3kwCVP6g==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-p7F5rH2a2HeeIj2+umoz3AECKV2EF6EHSlbjmHxx2KawhpSZ5dSkFCAeYxqUjGKkQQoHway7FHOrVYMFBu5rJw==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
