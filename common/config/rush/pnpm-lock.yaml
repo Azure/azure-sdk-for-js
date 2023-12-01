@@ -1160,6 +1160,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-cosmosdb@16.0.0-beta.6:
+    resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.12.2
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -11404,11 +11419,12 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-nBA3yIsaCnfOdzVUKOkw9yboEx+29LzSmKuJN8jBICRW0WYhbdlc/uNwAv3k+MEXdtitzPx5xOBeYSB9ZmBAdw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-ehlIc9sdRaoNxK6So91Zskn5fYtI46qr8Rib2AAVpXQGWqfVDcG/lJTwZnzwS4VX+gajZEm+y8MPH9kXms+Xsg==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
@@ -11912,7 +11928,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-7IC3hZe5hhdssZCs9emD8kW7iy4SZiB/jw5MyWeOiUs+PG0RMuJgAPY6tkrwlB4Q3mjSn7vtRVyVhcOEN+UWog==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-6THEEROj1la0EmcBpl/1d64G1+pGaF03ta+FXtxBVM4UVIRfaM6LdEQmlgvd8wqA4q6oxeRlCHp7zCWGownInw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -11920,13 +11936,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
