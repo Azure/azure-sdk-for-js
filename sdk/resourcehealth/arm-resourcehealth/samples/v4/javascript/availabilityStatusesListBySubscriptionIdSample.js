@@ -13,27 +13,28 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Lists impacted resources in the subscription by an event (Security Advisory).
+ * This sample demonstrates how to Lists the current availability status for all the resources in the subscription.
  *
- * @summary Lists impacted resources in the subscription by an event (Security Advisory).
- * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/preview/2023-10-01-preview/examples/SecurityAdvisoryImpactedResources_ListBySubscriptionId_ListByEventId.json
+ * @summary Lists the current availability status for all the resources in the subscription.
+ * x-ms-original-file: specification/resourcehealth/resource-manager/Microsoft.ResourceHealth/stable/2022-10-01/examples/AvailabilityStatuses_ListBySubscriptionId.json
  */
-async function listSecurityAdvisoryImpactedResourcesBySubscriptionId() {
+async function listHealthBySubscriptionId() {
   const subscriptionId = process.env["RESOURCEHEALTH_SUBSCRIPTION_ID"] || "subscriptionId";
-  const eventTrackingId = "BC_1-FXZ";
+  const expand = "recommendedactions";
+  const options = {
+    expand,
+  };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftResourceHealth(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.securityAdvisoryImpactedResources.listBySubscriptionIdAndEventId(
-    eventTrackingId
-  )) {
+  for await (let item of client.availabilityStatuses.listBySubscriptionId(options)) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  listSecurityAdvisoryImpactedResourcesBySubscriptionId();
+  listHealthBySubscriptionId();
 }
 
 main().catch(console.error);

@@ -17,7 +17,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { MicrosoftResourceHealth } from "../src/microsoftResourceHealth";
-import { AvailabilityStatusesListBySubscriptionIdOptionalParams } from "../src/models";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -62,19 +61,5 @@ describe("ResourceHealth test", () => {
   it("operations list test", async function () {
     const res = await client.operations.list();
     console.log(res);
-  });
-
-  it("availabilityStatuses listBySubscriptionId test", async function () {
-    const expand = "recommendedactions";
-    const options: AvailabilityStatusesListBySubscriptionIdOptionalParams = {
-      expand
-    };
-    const resArray = new Array();
-    for await (let item of client.availabilityStatuses.listBySubscriptionId(
-      options
-    )) {
-      resArray.push(item);
-    }
-    console.log(resArray);
   });
 })
