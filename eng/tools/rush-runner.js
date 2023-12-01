@@ -5,17 +5,12 @@ const { spawnSync } = require("child_process");
 
 const reducedDependencyTestMatrix = {
   'core': ['@azure-rest/core-client',
-    '@azure-tests/perf-storage-blob',
     '@azure/ai-text-analytics',
     '@azure/arm-resources',
-    '@azure/dev-tool',
     '@azure/identity',
     '@azure/service-bus',
     '@azure/storage-blob',
     '@azure/template',
-    '@azure/test-utils',
-    '@azure/test-utils-perf',
-    '@azure-tools/test-recorder',
     '@azure/synapse-monitoring'
   ],
   'test-utils': [
