@@ -1,0 +1,10 @@
+{
+  "changes": [
+    {
+      "packageName": "@azure/identity-cache-persistence",
+      "comment": "Bump msal-node-extensions package",
+      "type": "patch"
+    }
+  ],
+  "packageName": "@azure/identity-cache-persistence"
+}
