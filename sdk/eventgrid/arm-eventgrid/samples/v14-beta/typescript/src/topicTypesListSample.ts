@@ -18,14 +18,11 @@ dotenv.config();
  * This sample demonstrates how to List all registered topic types.
  *
  * @summary List all registered topic types.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/TopicTypes_List.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/TopicTypes_List.json
  */
 async function topicTypesList() {
-  const subscriptionId =
-    process.env["EVENTGRID_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new EventGridManagementClient(credential, subscriptionId);
+  const client = new EventGridManagementClient(credential);
   const resArray = new Array();
   for await (let item of client.topicTypes.list()) {
     resArray.push(item);

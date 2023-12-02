@@ -47,8 +47,11 @@ export default createMigration(
 
         delete packageJson["//sampleConfiguration"];
 
-        await writeFile(packageJsonPath, format(JSON.stringify(packageJson, null, 2), "json"));
+        await writeFile(
+          packageJsonPath,
+          await format(JSON.stringify(packageJson, null, 2), "json"),
+        );
       }
     },
-  }
+  },
 );

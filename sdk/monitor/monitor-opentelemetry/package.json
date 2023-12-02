@@ -71,7 +71,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
@@ -106,7 +106,8 @@
     "@opentelemetry/sdk-trace-base": "^1.18.0",
     "@opentelemetry/sdk-trace-node": "^1.18.0",
     "@opentelemetry/semantic-conventions": "^1.18.0",
-    "tslib": "^2.2.0"
+    "tslib": "^2.2.0",
+    "@opentelemetry/resource-detector-azure": "^0.2.1"
   },
   "sideEffects": false,
   "keywords": [

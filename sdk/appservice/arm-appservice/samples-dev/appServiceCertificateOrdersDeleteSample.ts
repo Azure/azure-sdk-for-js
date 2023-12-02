@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Delete an existing certificate order.
  *
  * @summary Description for Delete an existing certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/DeleteAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/DeleteAppServiceCertificateOrder.json
  */
 async function deleteAppServiceCertificateOrder() {
   const subscriptionId =

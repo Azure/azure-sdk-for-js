@@ -140,7 +140,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-09-01",
+    defaultValue: "2023-01-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -904,6 +904,11 @@ export const isFqdn: OperationParameter = {
   mapper: ResourceNameAvailabilityRequestMapper
 };
 
+export const environmentId: OperationParameter = {
+  parameterPath: ["options", "environmentId"],
+  mapper: ResourceNameAvailabilityRequestMapper
+};
+
 export const hostname: OperationQueryParameter = {
   parameterPath: ["options", "hostname"],
   mapper: {
@@ -972,6 +977,21 @@ export const moveResourceEnvelope: OperationParameter = {
 export const validateRequest: OperationParameter = {
   parameterPath: "validateRequest",
   mapper: ValidateRequestMapper
+};
+
+export const location1: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
+    required: true,
+    xmlName: "location",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const staticSitesWorkflowPreviewRequest: OperationParameter = {

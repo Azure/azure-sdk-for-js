@@ -1,6 +1,16 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2023-11-01)
 
 ### Features Added
 
@@ -26,6 +36,3 @@ Using AzureCommunicationRoutingServiceClient:
 - Decline an offer.
 - Get queue statistics.
 
-### Bugs Fixed
-
-### Other Changes

@@ -269,7 +269,7 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetCompletionsOptions extends OperationOptions {
     bestOf?: number;
     echo?: boolean;
@@ -287,7 +287,7 @@ export interface GetCompletionsOptions extends OperationOptions {
     user?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface GetEmbeddingsOptions extends OperationOptions {
     model?: string;
     user?: string;

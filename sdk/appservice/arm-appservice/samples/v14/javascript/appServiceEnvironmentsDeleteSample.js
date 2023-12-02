@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Delete an App Service Environment.
  *
  * @summary Description for Delete an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_Delete.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_Delete.json
  */
 async function deleteAnAppServiceEnvironment() {
   const subscriptionId =

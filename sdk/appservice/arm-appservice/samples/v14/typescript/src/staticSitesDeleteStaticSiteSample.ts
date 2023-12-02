@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Deletes a static site.
  *
  * @summary Description for Deletes a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteStaticSite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/DeleteStaticSite.json
  */
 async function deleteAStaticSite() {
   const subscriptionId =

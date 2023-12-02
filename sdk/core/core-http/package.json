@@ -117,7 +117,7 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/core-util": "^1.1.1",
@@ -144,7 +144,7 @@
     "@types/express": "^4.16.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "@types/tough-cookie": "^4.0.0",
     "@types/trusted-types": "^2.0.0",
     "@types/uuid": "^8.0.0",

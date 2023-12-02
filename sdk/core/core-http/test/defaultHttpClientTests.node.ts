@@ -12,7 +12,6 @@ import { PassThrough, Readable } from "stream";
 import { ReadStream, createReadStream } from "fs";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
 import { fakeTestPasswordPlaceholder, fakeTestSecretPlaceholder } from "@azure/test-utils";
-import { AbortController } from "@azure/abort-controller";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";
 import { assert } from "chai";
