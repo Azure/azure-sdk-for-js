@@ -1,65 +1,80 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/** Describe the combined results of different types of image analysis. */
+/** Represents the outcome of an Image Analysis operation. */
 export interface ImageAnalysisResultOutput {
-  /** A CaptionResult for the image. */
+  /** The generated phrase that describes the content of the analyzed image. */
   captionResult?: CaptionResultOutput;
-  /** A denseCaptionsResult for the image. */
+  /**
+   * The up to 10 generated phrases, the first describing the content of the whole image,
+   * and the others describing the content of different regions of the image.
+   */
   denseCaptionsResult?: DenseCaptionsResultOutput;
-  /** The model used for the analysis */
+  /** Metadata associated with the analyzed image. */
   metadata: ImageMetadataOutput;
-  /** The model used for the analysis */
+  /** The cloud AI model used for the analysis */
   modelVersion: string;
-  /** A list of objects for the image. */
+  /** A list of detected physical objects in the analyzed image, and their location. */
   objectsResult?: ObjectsResultOutput;
-  /** A list of people for the image. */
+  /** A list of detected people in the analyzed image, and their location. */
   peopleResult?: PeopleResultOutput;
-  /** A readResult for the image. */
+  /** The extracted printed and hand-written text in the analyze image. Also knows as OCR. */
   readResult?: ReadResultOutput;
-  /** A list of regions for the image. */
+  /**
+   * A list of crop regions at the desired as aspect ratios (if provided) that can be used as image thumbnails.
+   * These regions preserve as much content as possible from the analyzed image, with priority given to detected faces.
+   */
   smartCropsResult?: SmartCropsResultOutput;
-  /** A list of tags for the image. */
+  /** A list of content tags in the analyzed image. */
   tagsResult?: TagsResultOutput;
 }
 
-/** A brief description of what the image depicts. */
+/** Represents a generated phrase that describes the content of the whole image. */
 export interface CaptionResultOutput {
-  /** The level of confidence the service has in the caption. */
+  /**
+   * A score, in the range of 0 to 1 (inclusive), representing the confidence that this description is accurate.
+   * Higher values indicating higher confidence.
+   */
   confidence: number;
   /** The text of the caption. */
   text: string;
 }
 
-/** A list of captions. */
+/**
+ * Represents a list of up to 10 image captions for different regions of the image.
+ * The first caption always applies to the whole image.
+ */
 export interface DenseCaptionsResultOutput {
-  /** The list of captions. */
+  /** The list of image captions. */
   values: Array<DenseCaptionOutput>;
 }
 
-/** A brief description of what the image depicts. */
+/** Represents a generated phrase that describes the content of the whole image or a region in the image */
 export interface DenseCaptionOutput {
-  /** The level of confidence the service has in the caption. */
+  /**
+   * A score, in the range of 0 to 1 (inclusive), representing the confidence that this description is accurate.
+   * Higher values indicating higher confidence.
+   */
   confidence: number;
   /** The text of the caption. */
   text: string;
-  /** The bounding box of the caption. */
+  /** The image region of which this caption applies. */
   boundingBox: ImageBoundingBoxOutput;
 }
 
-/** A basic rectangle specifying a sub-region of the image */
+/** A basic rectangle specifying a sub-region of the image. */
 export interface ImageBoundingBoxOutput {
-  /** X coordinate */
+  /** X-coordinate of the top left point of the area, in pixels. */
   x: number;
-  /** Y coordinate */
+  /** Y-coordinate of the top left point of the area, in pixels. */
   y: number;
-  /** Width of the box */
+  /** Width of the area, in pixels. */
   w: number;
-  /** Height of the box */
+  /** Height of the area, in pixels. */
   h: number;
 }
 
-/** The image metadata information such as height and width. */
+/** Metadata associated with the analyzed image. */
 export interface ImageMetadataOutput {
   /** The height of the image in pixels. */
   height: number;
@@ -67,139 +82,130 @@ export interface ImageMetadataOutput {
   width: number;
 }
 
-/** Describes detected objects in an image. */
+/** Represents a list of physical object detected in an image and their location. */
 export interface ObjectsResultOutput {
-  /** An array of detected objects. */
+  /** A list of physical object detected in an image and their location. */
   values: Array<DetectedObjectOutput>;
 }
 
-/** Describes a detected object in an image. */
+/** Represents a physical object detected in an image. */
 export interface DetectedObjectOutput {
-  /** Gets a rectangular boundary within which the object was detected. */
+  /** A rectangular boundary where the object was detected. */
   boundingBox: ImageBoundingBoxOutput;
-  /** Classification confidences of the detected object. */
+  /** A single-item list containing the object information. */
   tags: Array<DetectedTagOutput>;
 }
 
-/** An entity observation in the image, along with the confidence score. */
+/**
+ * A content entity observation in the image. A tag can be a physical object, living being, scenery, or action
+ * that appear in the image.
+ */
 export interface DetectedTagOutput {
-  /** The level of confidence that the entity was observed. */
+  /**
+   * A score, in the range of 0 to 1 (inclusive), representing the confidence that this entity was observed.
+   * Higher values indicating higher confidence.
+   */
   confidence: number;
   /** Name of the entity. */
   name: string;
 }
 
-/** An object describing whether the image contains people. */
+/** Represents a list of people detected in an image and their location. */
 export interface PeopleResultOutput {
-  /** An array of detected people. */
+  /** A list of people detected in an image and their location. */
   values: Array<DetectedPersonOutput>;
 }
 
-/** Represents a person detected in an image */
+/** Represents a person detected in an image. */
 export interface DetectedPersonOutput {
-  /** Gets a rectangular boundary within which the person was detected. */
+  /** A rectangular boundary where the person was detected. */
   readonly boundingBox: ImageBoundingBoxOutput;
-  /** Gets the confidence value of the detected person. */
+  /**
+   * A score, in the range of 0 to 1 (inclusive), representing the confidence that this detection was accurate.
+   * Higher values indicating higher confidence.
+   */
   readonly confidence: number;
 }
 
-/** The results of an Read operation. */
+/** The results of a Read (OCR) operation. */
 export interface ReadResultOutput {
-  /** Concatenate string representation of all textual and visual elements in reading order. */
-  content: string;
-  /** A list of analyzed pages. */
-  pages: Array<DocumentPageOutput>;
-  /** The method used to compute string offset and length, possible values include: 'textElements', 'unicodeCodePoint', 'utf16CodeUnit' etc. */
-  stringIndexType: string;
-  /** Extracted font styles. */
-  styles: Array<DocumentStyleOutput>;
-  /** The model used to generate the Read result. */
-  modelVersion: string;
+  /** A list of text blocks in the image. At the moment only one block is returned, containing all the text detected in the image. */
+  blocks: Array<DetectedTextBlockOutput>;
 }
 
-/** The content and layout elements extracted from a page from the input. */
-export interface DocumentPageOutput {
-  /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
-  angle: number;
-  /** The height of the image/PDF in pixels/inches, respectively. */
-  height: number;
-  /** Extracted lines from the page, potentially containing both textual and visual elements. */
-  lines: Array<DocumentLineOutput>;
-  /** 1-based page number in the input document. */
-  pageNumber: number;
-  /** Location of the page in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
-  /** The width of the image/PDF in pixels/inches, respectively. */
-  width: number;
-  /** Extracted words from the page. */
-  words: Array<DocumentWordOutput>;
+/** Represents a single block of detected text in the image. */
+export interface DetectedTextBlockOutput {
+  /** A list of text lines in this block. */
+  lines: Array<DetectedTextLineOutput>;
 }
 
-/** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export interface DocumentLineOutput {
-  /** The bounding box of the line. */
-  boundingBox: number[];
-  /** Concatenated content of the contained elements in reading order. */
-  content: string;
-  /** Location of the line in the reading order concatenated content. */
-  spans: Array<DocumentSpanOutput>;
+/** Represents a single line of text in the image. */
+export interface DetectedTextLineOutput {
+  /** Text content of the detected text line. */
+  text: string;
+  /** A bounding polygon around the text line. At the moment only quadrilaterals are supported (represented by 4 image points). */
+  boundingPolygon: Array<ImagePointOutput>;
+  /** A list of words in this line. */
+  words: Array<DetectedTextWordOutput>;
 }
 
-/** Contiguous region of the concatenated content property, specified as an offset and length. */
-export interface DocumentSpanOutput {
-  /** Number of characters in the content represented by the span. */
-  length: number;
-  /** Zero-based index of the content represented by the span. */
-  offset: number;
+/** Represents the coordinates of a single pixel in the image. */
+export interface ImagePointOutput {
+  /** The horizontal x-coordinate of this point, in pixels. Zero values corresponds to the left-most pixels in the image. */
+  x: number;
+  /** The vertical y-coordinate of this point, in pixels. Zero values corresponds to the top-most pixels in the image. */
+  y: number;
 }
 
 /**
  * A word object consisting of a contiguous sequence of characters. For non-space delimited languages,
  * such as Chinese, Japanese, and Korean, each character is represented as its own word.
  */
-export interface DocumentWordOutput {
-  /** Bounding box of the word. */
-  boundingBox: number[];
-  /** Confidence of correctly extracting the word. */
-  confidence: number;
+export interface DetectedTextWordOutput {
   /** Text content of the word. */
-  content: string;
-  /** Location of the word in the reading order concatenated content. */
-  span: DocumentSpanOutput;
-}
-
-/** An object representing observed text styles. */
-export interface DocumentStyleOutput {
-  /** Confidence of correctly identifying the style. */
+  text: string;
+  /** A bounding polygon around the word. At the moment only quadrilaterals are supported (represented by 4 image points). */
+  boundingPolygon: Array<ImagePointOutput>;
+  /** The level of confidence that the word was detected. Confidence scores span the range of 0.0 to 1.0 (inclusive), with higher values indicating a higher confidence of detection. */
   confidence: number;
-  /** Is content handwritten or not. */
-  isHandwritten: boolean;
-  /** Location of the text elements in the concatenated content the style applies to. */
-  spans: Array<DocumentSpanOutput>;
 }
 
-/** Smart cropping result. */
+/**
+ * Smart cropping result. A list of crop regions at the desired as aspect ratios (if provided) that can be used as image thumbnails.
+ * These regions preserve as much content as possible from the analyzed image, with priority given to detected faces.
+ */
 export interface SmartCropsResultOutput {
-  /** Recommended regions for cropping the image. */
+  /** A list of crop regions. */
   values: Array<CropRegionOutput>;
 }
 
-/** A region identified for smart cropping. There will be one region returned for each requested aspect ratio. */
+/**
+ * A region at the desired aspect ratio that can be used as image thumbnail.
+ * The region preserves as much content as possible from the analyzed image, with priority given to detected faces.
+ */
 export interface CropRegionOutput {
-  /** The aspect ratio of the crop region. */
+  /**
+   * The aspect ratio of the crop region.
+   * Aspect ratio is calculated by dividing the width of the region in pixels by its height in pixels.
+   * The aspect ratio will be in the range 0.75 to 1.8 (inclusive) if provided by the developer during the analyze call.
+   * Otherwise, it will be in the range 0.5 to 2.0 (inclusive).
+   */
   aspectRatio: number;
-  /** The bounding box of the crop region. */
+  /** The bounding box of the region. */
   boundingBox: ImageBoundingBoxOutput;
 }
 
-/** A list of tags with confidence level. */
+/**
+ * A list of entities observed in the image. Tags can be physical objects, living being, scenery, or actions
+ * that appear in the image.
+ */
 export interface TagsResultOutput {
-  /** A list of tags with confidence level. */
+  /** A list of tags. */
   values: Array<DetectedTagOutput>;
 }
 
-/** A JSON document with a URL pointing to the image that is to be analyzed. */
+/** An object holding the publicly reachable URL of an image to analyze. */
 export interface ImageUrlOutput {
-  /** Publicly reachable URL of an image. */
+  /** Publicly reachable URL of an image to analyze. */
   url: string;
 }

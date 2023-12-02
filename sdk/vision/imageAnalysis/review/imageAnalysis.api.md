@@ -16,13 +16,13 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 
 // @public (undocumented)
-export interface AnalyzeFromStream {
-    post(options: AnalyzeFromStreamParameters): StreamableMethod<AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse>;
+export interface AnalyzeFromBuffer {
+    post(options: AnalyzeFromBufferParameters): StreamableMethod<AnalyzeFromBuffer200Response | AnalyzeFromBufferDefaultResponse>;
     post(options: AnalyzeFromUrlParameters): StreamableMethod<AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse>;
 }
 
 // @public
-export interface AnalyzeFromStream200Response extends HttpResponse {
+export interface AnalyzeFromBuffer200Response extends HttpResponse {
     // (undocumented)
     body: ImageAnalysisResultOutput;
     // (undocumented)
@@ -30,41 +30,41 @@ export interface AnalyzeFromStream200Response extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface AnalyzeFromStreamBodyParam {
+export interface AnalyzeFromBufferBodyParam {
     body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromStreamDefaultHeaders {
+export interface AnalyzeFromBufferDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromStreamDefaultResponse extends HttpResponse {
+export interface AnalyzeFromBufferDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & AnalyzeFromStreamDefaultHeaders;
+    headers: RawHttpHeaders & AnalyzeFromBufferDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromStreamMediaTypesParam {
+export interface AnalyzeFromBufferMediaTypesParam {
     contentType: "application/octet-stream";
 }
 
 // @public (undocumented)
-export type AnalyzeFromStreamParameters = AnalyzeFromStreamQueryParam & AnalyzeFromStreamMediaTypesParam & AnalyzeFromStreamBodyParam & RequestParameters;
+export type AnalyzeFromBufferParameters = AnalyzeFromBufferQueryParam & AnalyzeFromBufferMediaTypesParam & AnalyzeFromBufferBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface AnalyzeFromStreamQueryParam {
+export interface AnalyzeFromBufferQueryParam {
     // (undocumented)
-    queryParameters: AnalyzeFromStreamQueryParamProperties;
+    queryParameters: AnalyzeFromBufferQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface AnalyzeFromStreamQueryParamProperties {
+export interface AnalyzeFromBufferQueryParamProperties {
     "gender-neutral-caption"?: boolean;
     "model-version"?: string;
     "smartcrops-aspect-ratios"?: number[];
@@ -170,42 +170,22 @@ export interface DetectedTagOutput {
 }
 
 // @public
-export interface DocumentLineOutput {
-    boundingBox: number[];
-    content: string;
-    spans: Array<DocumentSpanOutput>;
+export interface DetectedTextBlockOutput {
+    lines: Array<DetectedTextLineOutput>;
 }
 
 // @public
-export interface DocumentPageOutput {
-    angle: number;
-    height: number;
-    lines: Array<DocumentLineOutput>;
-    pageNumber: number;
-    spans: Array<DocumentSpanOutput>;
-    width: number;
-    words: Array<DocumentWordOutput>;
+export interface DetectedTextLineOutput {
+    boundingPolygon: Array<ImagePointOutput>;
+    text: string;
+    words: Array<DetectedTextWordOutput>;
 }
 
 // @public
-export interface DocumentSpanOutput {
-    length: number;
-    offset: number;
-}
-
-// @public
-export interface DocumentStyleOutput {
+export interface DetectedTextWordOutput {
+    boundingPolygon: Array<ImagePointOutput>;
     confidence: number;
-    isHandwritten: boolean;
-    spans: Array<DocumentSpanOutput>;
-}
-
-// @public
-export interface DocumentWordOutput {
-    boundingBox: number[];
-    confidence: number;
-    content: string;
-    span: DocumentSpanOutput;
+    text: string;
 }
 
 // @public (undocumented)
@@ -241,6 +221,12 @@ export interface ImageMetadataOutput {
 }
 
 // @public
+export interface ImagePointOutput {
+    x: number;
+    y: number;
+}
+
+// @public
 export interface ImageUrl {
     url: string;
 }
@@ -251,7 +237,7 @@ export interface ImageUrlOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: AnalyzeFromStream200Response | AnalyzeFromStreamDefaultResponse): response is AnalyzeFromStreamDefaultResponse;
+export function isUnexpected(response: AnalyzeFromBuffer200Response | AnalyzeFromUrl200Response | AnalyzeFromBufferDefaultResponse): response is AnalyzeFromBufferDefaultResponse;
 
 // @public
 export interface ObjectsResultOutput {
@@ -265,16 +251,12 @@ export interface PeopleResultOutput {
 
 // @public
 export interface ReadResultOutput {
-    content: string;
-    modelVersion: string;
-    pages: Array<DocumentPageOutput>;
-    stringIndexType: string;
-    styles: Array<DocumentStyleOutput>;
+    blocks: Array<DetectedTextBlockOutput>;
 }
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/imageanalysis:analyze"): AnalyzeFromStream;
+    (path: "/imageanalysis:analyze"): AnalyzeFromBuffer;
 }
 
 // @public

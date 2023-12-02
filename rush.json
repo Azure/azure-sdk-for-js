@@ -2152,15 +2152,14 @@
       "versionPolicyName": "management"
     },
     {
-<<<<<<< HEAD
       "packageName": "@azure/imageAnalysis",
       "projectFolder": "sdk/vision/imageAnalysis",
       "versionPolicyName": "client"
-=======
+    },
+    {
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
->>>>>>> origin/main
     }
   ]
 }

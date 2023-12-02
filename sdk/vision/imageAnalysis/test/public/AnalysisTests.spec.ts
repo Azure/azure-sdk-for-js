@@ -4,7 +4,7 @@ import {
   ImageAnalysisClient,
   CaptionResultOutput,
   ImageAnalysisResultOutput,
-  ReadResultOutput,
+  ImagePointOutput,
   ObjectsResultOutput,
   TagsResultOutput,
 } from "../../src/index.js";
@@ -61,7 +61,7 @@ describe("Analyze Tests", () => {
 
       assert.isNotNull(result);
       assert.equal(result.status, "200");
-      
+
       const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
 
       validateResponse(iaResult, testFeatures, false);
@@ -98,9 +98,9 @@ describe("Analyze Tests", () => {
       assert.isNotNull(result);
 
       assert.equal(result.status, "200");
-      
+
       const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
-      
+
       validateResponse(iaResult, testFeatures, false);
     }
   });
@@ -154,24 +154,75 @@ describe("Analyze Tests", () => {
     if (!testFeatures.includes("Read")) {
       assert.isUndefined(readResult);
     } else {
-      readResult ? validateReadResult(readResult) : assert.fail("readResult is null");
+      readResult ? validateReadResult(iaResult) : assert.fail("readResult is null");
     }
   }
 
-  function validateReadResult(readResult: ReadResultOutput) {
-    assert.isNotNull(readResult);
-    assert.isFalse(readResult.modelVersion.trim() === "");
-    assert.isFalse(readResult.content.trim() === "");
-    for (const onePage of readResult.pages) {
-      assert.isTrue(onePage.height > 0 || onePage.width > 0);
-      for (const oneLine of onePage.lines) {
-        assert.isNotNull(oneLine.boundingBox);
-        const nonZero = oneLine.boundingBox.some((point) => point !== 0);
-        assert.isTrue(nonZero);
+  function validateReadResult(result: ImageAnalysisResultOutput): void {
+    let readResult = result.readResult;
+    if (!readResult) throw new Error('Read result is null');
 
-        assert.isFalse(oneLine.content.trim() === "");
+    let allText: string[] = [];
+    let words = 0;
+    let lines = 0;
+
+    let pagePolygon: ImagePointOutput[] = [
+      { x: 0, y: 0 },
+      { x: 0, y: result.metadata.height },
+      { x: result.metadata.width, y: result.metadata.height },
+      { x: result.metadata.width, y: 0 },
+    ];
+
+    for (let block of readResult.blocks) {
+      for (let oneLine of block.lines) {
+        if (!oneLine.boundingPolygon.every((p) => isInPolygon(p, pagePolygon))) {
+          throw new Error('Bounding polygon is not in the page polygon');
+        }
+
+        words += oneLine.words.length;
+        lines++;
+        allText.push(oneLine.text);
+        for (let word of oneLine.words) {
+          if (word.confidence <= 0 || word.confidence >= 1) {
+            throw new Error('Invalid word confidence value');
+          }
+          if (!oneLine.text.includes(word.text)) {
+            throw new Error('One line text does not contain word text');
+          }
+        }
       }
     }
+
+    if (words !== 6) throw new Error('Words count is not equal to 6');
+    if (lines !== 3) throw new Error('Lines count is not equal to 3');
+    if (allText.join('\n') !== 'Sample text\nHand writing\n123 456\n') {
+      throw new Error('All text content is not equal to the expected value');
+    }
+  }
+
+  function isInPolygon(suspectPoint: ImagePointOutput, polygon: ImagePointOutput[]): boolean {
+    let intersectCount = 0;
+    let points = [...polygon, polygon[0]];
+
+    for (let i = 0; i < points.length - 1; i++) {
+      let p1 = points[i];
+      let p2 = points[i + 1];
+
+      if (
+        (p1.y > suspectPoint.y) !== (p2.y > suspectPoint.y) &&
+        suspectPoint.x < ((p2.x - p1.x) * (suspectPoint.y - p1.y)) / (p2.y - p1.y) + p1.x
+      ) {
+        intersectCount++;
+      }
+    }
+
+    let result = intersectCount % 2 !== 0;
+
+    if (!result) {
+      console.log(`Point ${suspectPoint} is not in polygon ${polygon}`);
+    }
+
+    return result;
   }
 
   function validateMetadata(iaResult: ImageAnalysisResultOutput) {

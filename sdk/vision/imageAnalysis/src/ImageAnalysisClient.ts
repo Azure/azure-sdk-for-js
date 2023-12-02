@@ -8,7 +8,7 @@ import { ImageAnalysisClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of `ImageAnalysisClient`
- * @param endpoint - Supported Cognitive Services endpoints (protocol and hostname, for example:
+ * @param endpoint - Azure AI Computer Vision endpoint (protocol and hostname, for example:
  * https://<resource-name>.cognitiveservices.azure.com).
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -18,8 +18,8 @@ export default function createClient(
   credentials: KeyCredential,
   options: ClientOptions = {}
 ): ImageAnalysisClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
-  options.apiVersion = options.apiVersion ?? "2023-04-01-preview";
+  const baseUrl = options.baseUrl ?? `${endpoint}/unifiedvision`;
+  options.apiVersion = options.apiVersion ?? "2023-10-01";
   const userAgentInfo = `azsdk-js-imageAnalysis-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
