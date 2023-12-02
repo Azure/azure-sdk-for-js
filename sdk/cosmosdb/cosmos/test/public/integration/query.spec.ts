@@ -320,20 +320,20 @@ describe("Test RU Capping query", function (this: Suite) {
         30000
       );
       const data = [
-        { id: "myId1", pk: "pk1", name: "test1" },
-        { id: "myId2", pk: "pk2", name: "test2" },
-        { id: "myId3", pk: "pk2", name: "test2" },
-        { id: "myId4", pk: "pk3", name: "test3" },
-        { id: "myId5", pk: "pk3", name: "test3" },
-        { id: "myId6", pk: "pk3", name: "test3" },
-        { id: "myId7", pk: "pk3", name: "test4" },
-        { id: "myId8", pk: "pk3", name: "test4" },
-        { id: "myId9", pk: "pk4", name: "test5" },
-        { id: "myId10", pk: "pk5", name: "test5" },
-        { id: "myId11", pk: "pk5", name: "test6" },
-        { id: "myId12", pk: "pk6", name: "test7" },
-        { id: "myId13", pk: "pk6", name: "test7" },
-        { id: "myId14", pk: "pk6", name: "test7" },
+        { id: "myId1", pk: "pk1", name: "test1", value: 1 },
+        { id: "myId2", pk: "pk2", name: "test2", value: 1 },
+        { id: "myId3", pk: "pk2", name: "test2", value: 1 },
+        { id: "myId4", pk: "pk3", name: "test3", value: 1 },
+        { id: "myId5", pk: "pk3", name: "test3", value: 1 },
+        { id: "myId6", pk: "pk3", name: "test3", value: 1 },
+        { id: "myId7", pk: "pk3", name: "test4", value: 1 },
+        { id: "myId8", pk: "pk3", name: "test4", value: 1 },
+        { id: "myId9", pk: "pk4", name: "test5", value: 1 },
+        { id: "myId10", pk: "pk5", name: "test5", value: 1 },
+        { id: "myId11", pk: "pk5", name: "test6", value: 1 },
+        { id: "myId12", pk: "pk6", name: "test7", value: 1 },
+        { id: "myId13", pk: "pk6", name: "test7", value: 1 },
+        { id: "myId14", pk: "pk6", name: "test7", value: 1 },
       ];
 
       data.forEach((itemData) => {
@@ -352,7 +352,7 @@ describe("Test RU Capping query", function (this: Suite) {
       queryIterator = createdContainerMultiPartition.items.query(query, queryOptions);
     });
 
-    it("RU Cap breached for a single operation", async function () {
+    it("FetchNext RU Cap breached for a single operation", async function () {
       try {
         await queryIterator.fetchNext({ ruCapPerOperation: 2 });
         assert.fail("Must throw exception");
@@ -363,20 +363,35 @@ describe("Test RU Capping query", function (this: Suite) {
       }
     });
 
-    it("RU Cap breached (Entire data not fetched)", async function () {
+    it("FetchNext RU Cap breached (Entire data not fetched)", async function () {
       try {
         await queryIterator.fetchNext({ ruCapPerOperation: 10 });
         assert.fail("Must throw exception");
       } catch (err) {
-        console.log("This is error: ", err);
         assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
         assert.ok(err.body);
         assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
       }
     });
 
-    it("RU Cap not breached", async function () {
+    it("FetchNext RU Cap not breached", async function () {
       const { resources: results } = await queryIterator.fetchNext({ ruCapPerOperation: 100 });
+      assert.equal(results.length, 7);
+    });
+
+    it("FetchAll RU Cap breached (Entire data not fetched)", async function () {
+      try {
+        await queryIterator.fetchAll({ ruCapPerOperation: 10 });
+        assert.fail("Must throw exception");
+      } catch (err) {
+        assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+        assert.ok(err.body);
+        assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+      }
+    });
+
+    it("FetchAll RU Cap not breached", async function () {
+      const { resources: results } = await queryIterator.fetchAll({ ruCapPerOperation: 100 });
       assert.equal(results.length, 7);
     });
   });

@@ -102,8 +102,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode);
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: OperationOptions,
+    ruConsumed?: RUConsumed
+  ): Promise<Response<any>> {
+    return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumed);
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...

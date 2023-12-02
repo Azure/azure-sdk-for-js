@@ -27,6 +27,7 @@ import {
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { OperationOptions } from "./request/OperationOptions";
+import { RUCapPerOperationExceededErrorCode } from "./request/RUCapPerOperationExceededError";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -278,7 +279,7 @@ export class QueryIterator<T> {
             operationOptions,
             ruConsumed
           );
-        } else if (error.code === "OPERATION_RU_LIMIT_EXCEEDED") {
+        } else if (error.code === RUCapPerOperationExceededErrorCode) {
           error.body.fetchedSoFarResults.forEach((item: any) => {
             this.fetchAllTempResources.push(item);
           });
