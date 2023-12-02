@@ -15,7 +15,7 @@ The Azure AI Search service is well suited for the following application scenari
   custom skills to integrate external processing of your content during
   data ingestion.
 * In a search client application, implement query logic and user experiences
-  similar to commercial web search engines and copilot apps.
+  similar to commercial web search engines and chat-style apps.
 
 Use the Azure.Search.Documents client library to:
 
