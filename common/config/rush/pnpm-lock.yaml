@@ -2014,6 +2014,133 @@ packages:
       - '@types/node'
     dev: false
 
+  /@microsoft/applicationinsights-analytics-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-SUcBfC0zPT1Pm0PyWTbqZPYNYap6C4Rnub/umrpk62UvBz/X78o3gxng2zm5QMGMf9MJtzwb63K8pl+lYpknTQ==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-cfgsync-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-YQUWlw7vGj6JKmWLfSRtiiHQ0A3rIUmCO2K3i+ufGmH6oPPS5jrnQ8F0R9tJd82W0RxqeMmROW6KGcF7zyY1MQ==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-async': 0.3.0
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-channel-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-KfTYY0uZmrQgrz8ErBh1q08eiYfzjUIVzJZHETgEkqv3l2RTndQgpmywDbVNf9wVTB7Mp89ZrFeCciVJFf5geg==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-async': 0.3.0
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-common@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-ahph1fMqyLcZ1twzDKMzpHRgR9zEIyqNhMQxDgQ45ieVD641bZiYVwSlbntSXhGCtr5G5HE02zlEzwSxbx95ng==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-core-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-/x+tkxsVALNWSvwGMyaLwFPdD3p156Pef9WHftXrzrKkJ+685nhrwm9MqHIyEHHpSW09ElOdpJ3rfFVqpKRQyQ==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-async': 0.3.0
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-dependencies-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-awF9Qx6y9mP27Bc/W5NiMMBX12ujKfaDqAw/k0YISyvhHU66lxoaI/1Lnby5hRHYYil+jMtH6FHsstnB+DRS3Q==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-async': 0.3.0
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-properties-js@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-e0Lo408vN5FjaW/6SIIWbeC5H4qTX1sd1qRKVpe2rnZICDNUk6Rane8tJ47yBsO2eBIn8vXPx8JKRK5249yYNg==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/applicationinsights-shims@3.0.1:
+    resolution: {integrity: sha512-DKwboF47H1nb33rSUfjqI6ryX29v+2QWcTrRvcQDA32AZr5Ilkr7whOOSsD1aBzwqX0RJEIP1Z81jfE3NBm/Lg==}
+    dependencies:
+      '@nevware21/ts-utils': 0.10.1
+    dev: false
+
+  /@microsoft/applicationinsights-web-snippet@1.0.1:
+    resolution: {integrity: sha512-2IHAOaLauc8qaAitvWS+U931T+ze+7MNWrDHY47IENP5y2UA0vqJDu67kWZDdpCN1fFC77sfgfB+HV7SrKshnQ==}
+    dev: false
+
+  /@microsoft/applicationinsights-web@3.0.5(tslib@2.6.2):
+    resolution: {integrity: sha512-+jyOGj+pMxTxLBv9pU5zhOqSaYfn7CTN86y9rzZu8CoE3eibNIZFvliICTpLX++1/lYvJgUd1OP8ZGp+xb4JYQ==}
+    peerDependencies:
+      tslib: '*'
+    dependencies:
+      '@microsoft/applicationinsights-analytics-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-cfgsync-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-channel-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-common': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-core-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-dependencies-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-properties-js': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-shims': 3.0.1
+      '@microsoft/dynamicproto-js': 2.0.2
+      '@nevware21/ts-async': 0.3.0
+      '@nevware21/ts-utils': 0.10.1
+      tslib: 2.6.2
+    dev: false
+
+  /@microsoft/dynamicproto-js@2.0.2:
+    resolution: {integrity: sha512-MB8trWaFREpmb037k/d0bB7T2BP7Ai24w1e1tbz3ASLB0/lwphsq3Nq8S9I5AsI5vs4zAQT+SB5nC5/dLYTiOg==}
+    dependencies:
+      '@nevware21/ts-utils': 0.10.1
+    dev: false
+
   /@microsoft/tsdoc-config@0.16.2:
     resolution: {integrity: sha512-OGiIzzoBLgWWR0UdRJX98oYO+XKGf7tiK4Zk6tQ/E4IJqGCe7dvkTvgDZV5cFJUzLGDOjeAXrnZoA6QkVySuxw==}
     dependencies:
@@ -2025,6 +2152,16 @@ packages:
 
   /@microsoft/tsdoc@0.14.2:
     resolution: {integrity: sha512-9b8mPpKrfeGRuhFH5iO1iwCLeIIsV6+H1sRfxbkoGXIyQE2BTsPd9zqSqQJ+pv5sJ/hT5M1zvOFL02MnEezFug==}
+    dev: false
+
+  /@nevware21/ts-async@0.3.0:
+    resolution: {integrity: sha512-ZUcgUH12LN/F6nzN0cYd0F/rJaMLmXr0EHVTyYfaYmK55bdwE4338uue4UiVoRqHVqNW4KDUrJc49iGogHKeWA==}
+    dependencies:
+      '@nevware21/ts-utils': 0.10.1
+    dev: false
+
+  /@nevware21/ts-utils@0.10.1:
+    resolution: {integrity: sha512-pMny25NnF2/MJwdqC3Iyjm2pGIXNxni4AROpcqDeWa+td9JMUY4bUS9uU9XW+BoBRqTLUL+WURF9SOd/6OQzRg==}
     dev: false
 
   /@nodelib/fs.scandir@2.1.5:
@@ -3509,6 +3646,13 @@ packages:
     requiresBuild: true
     dev: false
 
+  /autorest@3.7.1:
+    resolution: {integrity: sha512-6q17NtosQZPqBkIOUnaOPedf3PDIBF7Ha1iEGRhTqZF6TG2Q/1E3ID/D+ePIIzZDKvW01p/2pENq/oiBWH9IGQ==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -4440,7 +4584,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231129
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4449,7 +4593,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231120
+      typescript: 5.4.0-dev.20231129
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9149,8 +9293,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231120:
-    resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.4.0-dev.20231129:
+    resolution: {integrity: sha512-ff8qrYy50SbFp5yGxTKA4xnG/lyUm73GPKWNMYvigDEcwHbOq0ArkvGaHn4EIk6ina1ggsrLVIbBtyhhy2szVA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9778,7 +9928,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9824,7 +9974,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -9866,7 +10016,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10099,7 +10249,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       dotenv: 8.6.0
       eslint: 8.54.0
@@ -10171,7 +10321,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10263,7 +10413,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10743,7 +10893,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11403,7 +11553,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11623,7 +11773,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -13894,7 +14044,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -15178,7 +15328,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -16373,7 +16523,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -17535,7 +17685,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
@@ -17601,7 +17751,7 @@ packages:
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
       '@types/chai': 4.3.10
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18007,7 +18157,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18052,7 +18202,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18555,7 +18705,7 @@ packages:
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
       '@types/uuid': 8.3.4
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18664,7 +18814,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18710,7 +18860,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18756,7 +18906,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18792,7 +18942,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-0c620IRl8qUpuVvlktAvfGJBBPLJ+GYImP9gYMKib/z4p8fLwBqDXIu+PQ9BAZr989jiTWWtIDVGAAzGTq1M0g==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-rQjWla5iqC2+spBVto7uurlHatu/DLuZ87aN78ipQhneziIVkPXxrFBZik8+JhAepgBWTb/O5JodYHF6LZqtJQ==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -18802,7 +18952,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19039,12 +19189,14 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-6YR6D55F3ovHL6wSVEO60zEZJuUqLVcTspExkM5uv2AkR6Z0RL6ePnStH9GnkKg81KkS8KuIfSgrRgQUla+XIg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-E+Z4szsa6FKVUCs6rLjWScS3gt/8JpfV1Q7EnR+wSXWJEhwA2mYbYqC5HSkA/qM/h+hv24G/Tv5cRoEAisDflQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
+      '@microsoft/applicationinsights-web': 3.0.5(tslib@2.6.2)
+      '@microsoft/applicationinsights-web-snippet': 1.0.1
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.45.1
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
@@ -19928,7 +20080,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19973,7 +20125,7 @@ packages:
       '@types/chai': 4.3.10
       '@types/mocha': 10.0.4
       '@types/node': 18.18.10
-      autorest: 3.7.0
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3

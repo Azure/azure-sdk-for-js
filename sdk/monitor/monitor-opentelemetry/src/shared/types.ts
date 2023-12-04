@@ -19,6 +19,14 @@ export interface AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   instrumentationOptions?: InstrumentationOptions;
+  /** Web Snippet Enable */
+  enableWebInstrumentation?: boolean;
+  /** Web Snippet Connection String */
+  webInstrumentationConnectionString?: string;
+  /** Web Snippet Instrumentation Key */
+  webInstrumentationSrc?: string;
+  /** Web Snippet Config */
+  webInstrumentationConfig?: IWebInstrumentationConfig[];
 }
 
 /**
@@ -39,4 +47,19 @@ export interface InstrumentationOptions {
   redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
   redis4?: InstrumentationConfig;
+}
+
+/**
+ * Web Snippet Configuration interface
+ */
+export interface IWebInstrumentationConfig {
+  /**
+   * Name of Application Insights web Instrumentation config to be changed
+   * see more Application Insights web Instrumentation config details at: https://github.com/microsoft/ApplicationInsights-JS#configuration
+   */
+  name: string;
+  /**
+  * value provided to replace the default config value above
+  */
+  value: string | boolean | number;
 }

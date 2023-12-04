@@ -6,6 +6,7 @@ import * as path from "path";
 import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { Logger } from "./logging";
+import { IWebInstrumentationConfig } from "../shared/types";
 
 const ENV_CONFIGURATION_FILE = "APPLICATIONINSIGHTS_CONFIGURATION_FILE";
 const ENV_CONTENT = "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT";
@@ -23,6 +24,14 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions?: InstrumentationOptions;
+
+  public enableWebInstrumentation?: boolean;
+
+  public webInstrumentationConnectionString?: string;
+  
+  public webInstrumentationSrc?: string;
+
+  public webInstrumentationConfig?: IWebInstrumentationConfig[];
 
   private static _instance: JsonConfig;
 
@@ -72,6 +81,10 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
+      this.enableWebInstrumentation = jsonConfig.enableWebInstrumentation;
+      this.webInstrumentationConnectionString = jsonConfig.webInstrumentationConnectionString;
+      this.webInstrumentationSrc = jsonConfig.webInstrumentationSrc;
+      this.webInstrumentationConfig = jsonConfig.webInstrumentationConfig;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }

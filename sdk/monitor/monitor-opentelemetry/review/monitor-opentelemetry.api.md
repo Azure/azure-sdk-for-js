@@ -11,9 +11,14 @@ import { Resource } from '@opentelemetry/resources';
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    enableWebInstrumentation?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
+    // Warning: (ae-forgotten-export) The symbol "IWebInstrumentationConfig" needs to be exported by the entry point index.d.ts
+    webInstrumentationConfig?: IWebInstrumentationConfig[];
+    webInstrumentationConnectionString?: string;
+    webInstrumentationSrc?: string;
 }
 
 // @public
