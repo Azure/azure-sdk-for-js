@@ -1,14 +1,16 @@
 # Release History
 
-## 1.1.5 (Unreleased)
+## 1.1.6 (2023-11-30)
 
 ### Features Added
 
-### Breaking Changes
+- Add an overload for `createRestError` to accept `PathUncheckedResponse` only.
+
+## 1.1.5 (2023-11-20)
 
 ### Bugs Fixed
 
-### Other Changes
+- Keeps request body of raw bytes for requests with `application/octet-stream` content type.
 
 ## 1.1.4 (2023-07-06)
 

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, afterEach, vi } from "vitest";
-import { AbortController } from "@azure/abort-controller";
 import { delay } from "../../src";
 
 describe("delay", function () {

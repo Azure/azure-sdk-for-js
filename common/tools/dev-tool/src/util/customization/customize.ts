@@ -26,6 +26,7 @@ import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
 import { format } from "../prettier";
+import { augmentExports } from "./exports";
 
 let outputProject = new Project();
 let _originalFolderName = "generated";
@@ -36,7 +37,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Bring everything from original into the output
   await copy(originalDir, outDir);
 
-  if (!directoryExists(customDir)) {
+  if (!(await directoryExists(customDir))) {
     return;
   }
 
@@ -45,7 +46,7 @@ export async function customize(originalDir: string, customDir: string, outDir: 
     _originalFolderName;
 
   // Bring files only present in custom into the output
-  copyFilesInCustom(originalDir, customDir, outDir);
+  await copyFilesInCustom(originalDir, customDir, outDir);
 
   const projectInfo = await resolveProject(process.cwd());
 
@@ -82,6 +83,7 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
+    await ensureDir(path.dirname(destPath));
     await copyFile(sourcePath, destPath);
   }
 }
@@ -99,7 +101,7 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
+  const formattedContent = await format(content, "typescript");
   return await writeFile(filepath, formattedContent);
 }
 
@@ -186,19 +188,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -208,28 +210,30 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
+
+  augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
   originalVirtualSourceFile.fixMissingImports();
   sortSourceFileContents(originalVirtualSourceFile);
@@ -260,7 +264,7 @@ function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
     }
 
     const originalImport = originalFile.getImportDeclaration(
-      customImport.getModuleSpecifierValue()
+      customImport.getModuleSpecifierValue(),
     );
 
     if (!originalImport) {

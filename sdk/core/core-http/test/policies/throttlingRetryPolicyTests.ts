@@ -3,7 +3,6 @@
 
 import { AssertionError, assert } from "chai";
 import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src";
-import { AbortController } from "@azure/abort-controller";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";
 import { WebResource } from "../../src/webResource";
@@ -237,7 +236,7 @@ describe("ThrottlingRetryPolicy", () => {
         undefined,
         undefined,
         undefined,
-        AbortController.timeout(100)
+        AbortSignal.timeout(100)
       );
       const mockResponse = {
         headers: new HttpHeaders({

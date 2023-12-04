@@ -56,8 +56,8 @@ import {
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
 import {
-  MetricsBatchResponse as GeneratedMetricsBatchResponse,
-  MetricsBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
+  MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
+  MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
 } from "../generated/metricBatch/src";
 import {
   MetricResultsResponseValuesItem,
@@ -324,9 +324,16 @@ export function convertResponseForMetricBatch(
       const response: MetricResultsResponseValuesItem = {
         startTime: genDef.starttime,
         endTime: genDef.endtime,
+        interval: genDef.interval,
+        namespace: genDef.namespace,
         resourceRegion: genDef.resourceregion,
         resourceId: genDef.resourceid,
-        ...genDef,
+        value: genDef.value.map((genValue) => {
+          return {
+            ...genValue,
+            displayDescription: genValue.displayDescription ?? "",
+          };
+        }),
       };
 
       return response;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src";
 

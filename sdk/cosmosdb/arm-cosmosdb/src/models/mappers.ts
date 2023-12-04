@@ -960,6 +960,24 @@ export const DatabaseAccountUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1867,6 +1885,20 @@ export const ThroughputSettingsResource: coreClient.CompositeMapper = {
       },
       offerReplacePending: {
         serializedName: "offerReplacePending",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      instantMaximumThroughput: {
+        serializedName: "instantMaximumThroughput",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      softAllowedMaximumThroughput: {
+        serializedName: "softAllowedMaximumThroughput",
         readOnly: true,
         type: {
           name: "String"
@@ -3922,11 +3954,40 @@ export const ClusterResourceProperties: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      clusterType: {
+        serializedName: "clusterType",
+        type: {
+          name: "String"
+        }
+      },
       provisionError: {
         serializedName: "provisionError",
         type: {
           name: "Composite",
           className: "CassandraError"
+        }
+      },
+      extensions: {
+        serializedName: "extensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      backupSchedules: {
+        serializedName: "backupSchedules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BackupSchedule"
+            }
+          }
         }
       }
     }
@@ -3990,6 +4051,33 @@ export const CassandraError: coreClient.CompositeMapper = {
         serializedName: "additionalErrorInfo",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupSchedule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupSchedule",
+    modelProperties: {
+      scheduleName: {
+        serializedName: "scheduleName",
+        type: {
+          name: "String"
+        }
+      },
+      cronExpression: {
+        serializedName: "cronExpression",
+        type: {
+          name: "String"
+        }
+      },
+      retentionInHours: {
+        serializedName: "retentionInHours",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -4154,13 +4242,37 @@ export const ListBackups: coreClient.CompositeMapper = {
   }
 };
 
-export const BackupResourceProperties: coreClient.CompositeMapper = {
+export const BackupResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BackupResourceProperties",
+    className: "BackupResource",
     modelProperties: {
-      timestamp: {
-        serializedName: "timestamp",
+      backupId: {
+        serializedName: "backupId",
+        type: {
+          name: "String"
+        }
+      },
+      backupState: {
+        serializedName: "backupState",
+        type: {
+          name: "String"
+        }
+      },
+      backupStartTimestamp: {
+        serializedName: "backupStartTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      backupStopTimestamp: {
+        serializedName: "backupStopTimestamp",
+        type: {
+          name: "DateTime"
+        }
+      },
+      backupExpiryTimestamp: {
+        serializedName: "backupExpiryTimestamp",
         type: {
           name: "DateTime"
         }
@@ -4638,6 +4750,12 @@ export const ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatace
         serializedName: "cpuUsage",
         type: {
           name: "Number"
+        }
+      },
+      isLatestModel: {
+        serializedName: "isLatestModel",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -6844,6 +6962,21 @@ export const ContinuousModeProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const BaseCosmosDataTransferDataSourceSink: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BaseCosmosDataTransferDataSourceSink",
+    modelProperties: {
+      remoteAccountName: {
+        serializedName: "remoteAccountName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataTransferServiceResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7391,6 +7524,24 @@ export const DatabaseAccountGetResults: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -7649,6 +7800,24 @@ export const DatabaseAccountCreateUpdateParameters: coreClient.CompositeMapper =
       },
       minimalTlsVersion: {
         serializedName: "properties.minimalTlsVersion",
+        type: {
+          name: "String"
+        }
+      },
+      customerManagedKeyStatus: {
+        serializedName: "properties.customerManagedKeyStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enablePriorityBasedExecution: {
+        serializedName: "properties.enablePriorityBasedExecution",
+        type: {
+          name: "Boolean"
+        }
+      },
+      defaultPriorityLevel: {
+        serializedName: "properties.defaultPriorityLevel",
         type: {
           name: "String"
         }
@@ -8997,23 +9166,6 @@ export const DataTransferJobGetResults: coreClient.CompositeMapper = {
   }
 };
 
-export const BackupResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BackupResource",
-    modelProperties: {
-      ...ARMProxyResource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "BackupResourceProperties"
-        }
-      }
-    }
-  }
-};
-
 export const DataCenterResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -9322,6 +9474,7 @@ export const CosmosCassandraDataTransferDataSourceSink: coreClient.CompositeMapp
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
       keyspaceName: {
         serializedName: "keyspaceName",
         required: true,
@@ -9350,6 +9503,7 @@ export const CosmosMongoDataTransferDataSourceSink: coreClient.CompositeMapper =
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,
@@ -9378,6 +9532,7 @@ export const CosmosSqlDataTransferDataSourceSink: coreClient.CompositeMapper = {
       DataTransferDataSourceSink.type.polymorphicDiscriminator,
     modelProperties: {
       ...DataTransferDataSourceSink.type.modelProperties,
+      ...BaseCosmosDataTransferDataSourceSink.type.modelProperties,
       databaseName: {
         serializedName: "databaseName",
         required: true,

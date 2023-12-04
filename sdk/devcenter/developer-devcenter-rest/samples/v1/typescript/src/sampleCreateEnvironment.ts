@@ -2,9 +2,10 @@ import { DefaultAzureCredential } from "@azure/identity";
 import {
   ProjectOutput,
   isUnexpected,
-  CatalogItemOutput,
+  CatalogOutput,
   EnvironmentTypeOutput,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
+  EnvironmentDefinitionOutput,
+  CreateOrUpdateEnvironmentParameters,
   getLongRunningPoller,
 } from "@azure-rest/developer-devcenter";
 import createClient from "@azure-rest/developer-devcenter";
@@ -16,9 +17,8 @@ dotenv.config();
  */
 async function createEnvironment() {
   // Build client and fetch required parameters
-  const tenantId = process.env.AZURE_TENANT_ID || "<tenant id>";
-  const devCenter = process.env.AZURE_DEVCENTER_NAME || "<devcenter name>";
-  const client = createClient(tenantId, devCenter, new DefaultAzureCredential());
+  const endpoint = process.env.DEVCENTER_ENDPOINT || "<devcenter name>";
+  const client = createClient(endpoint, new DefaultAzureCredential());
 
   const projectList = await client.path("/projects").get();
   if (isUnexpected(projectList)) {
@@ -31,17 +31,28 @@ async function createEnvironment() {
   }
   const projectName: string = project.name;
 
-  const catalogItemList = await client
-    .path("/projects/{projectName}/catalogItems", projectName)
-    .get();
-  if (isUnexpected(catalogItemList)) {
-    throw new Error(catalogItemList.body.error.message);
+  const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
+  if (isUnexpected(catalogList)) {
+    throw catalogList.body.error;
   }
 
-  let catalogItem: CatalogItemOutput = catalogItemList.body.value[0];
-  if (catalogItem === undefined || catalogItem.name === undefined) {
-    throw new Error("No catalog items found.");
+  const catalog: CatalogOutput = catalogList.body.value[0];
+  const catalogName: string = catalog.name;
+
+  const environmentDefinitionsList = await client
+      .path(
+        "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+        projectName,
+        catalogName
+      )
+      .get();
+
+  if (isUnexpected(environmentDefinitionsList)) {
+    throw environmentDefinitionsList.body.error;
   }
+
+  const environmentDefinition: EnvironmentDefinitionOutput = environmentDefinitionsList.body.value[0];
+  const environmentDefinitionName: string = environmentDefinition.name;
 
   const environmentTypeList = await client
     .path("/projects/{projectName}/environmentTypes", projectName)
@@ -55,19 +66,19 @@ async function createEnvironment() {
     throw new Error("No environment types found.");
   }
 
-  const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
+  const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
     contentType: "application/json",
     body: {
-      catalogItemName: catalogItem.name,
+      environmentDefinitionName: environmentDefinitionName,
       environmentType: environmentType.name,
-      catalogName: catalogItem.catalogName,
+      catalogName: catalogName,
     },
   };
 
   const environmentName = "DevEnvironment";
   const userId = "me";
 
-  // Provision a dev box
+  // Provision an environment
   const environmentCreateResponse = await client
     .path(
       "/projects/{projectName}/users/{userId}/environments/{environmentName}",
@@ -80,27 +91,11 @@ async function createEnvironment() {
     throw new Error(environmentCreateResponse.body.error.message);
   }
 
-  const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
+  const environmentCreatePoller = await getLongRunningPoller(client, environmentCreateResponse);
   const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
   console.log(
     `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
   );
-
-  // Get the deployment outputs
-  const artifactListResult = await client
-    .path(
-      "/projects/{projectName}/users/{userId}/environments/{environmentName}/artifacts",
-      projectName,
-      userId,
-      environmentName
-    )
-    .get();
-  if (isUnexpected(artifactListResult)) {
-    throw new Error(artifactListResult.body.error.message);
-  }
-
-  console.log("Retrieved deployment artifacts:");
-  console.log(artifactListResult.body.value);
 
   // Tear down the environment when finished
   const environmentDeleteResponse = await client
@@ -115,7 +110,7 @@ async function createEnvironment() {
     throw new Error(environmentDeleteResponse.body.error.message);
   }
 
-  const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
+  const environmentDeletePoller = await getLongRunningPoller(client, environmentDeleteResponse);
   await environmentDeletePoller.pollUntilDone();
 
   console.log("Cleaned up environment successfully.");

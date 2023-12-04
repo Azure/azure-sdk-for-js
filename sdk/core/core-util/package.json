@@ -71,7 +71,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -80,7 +80,7 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "1.0.0-beta.3",
+    "@vitest/browser": "^1.0.1",
     "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
@@ -89,7 +89,7 @@
     "playwright": "^1.39.0",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
-    "vitest": "1.0.0-beta.3"
+    "vitest": "^1.0.1"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
