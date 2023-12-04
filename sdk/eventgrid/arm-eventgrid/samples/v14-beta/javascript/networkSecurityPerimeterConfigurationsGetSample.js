@@ -33,7 +33,7 @@ async function networkSecurityPerimeterConfigurationsGet() {
     resourceType,
     resourceName,
     perimeterGuid,
-    associationName
+    associationName,
   );
   console.log(result);
 }

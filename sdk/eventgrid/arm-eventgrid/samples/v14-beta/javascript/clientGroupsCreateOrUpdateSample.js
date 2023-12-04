@@ -34,7 +34,7 @@ async function clientGroupsCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     clientGroupName,
-    clientGroupInfo
+    clientGroupInfo,
   );
   console.log(result);
 }

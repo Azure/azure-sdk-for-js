@@ -29,7 +29,7 @@ async function topicSpacesDelete() {
   const result = await client.topicSpaces.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    topicSpaceName
+    topicSpaceName,
   );
   console.log(result);
 }
