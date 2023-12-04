@@ -147,9 +147,7 @@ export class WebSnippet {
                     // Patch response write method
                     let originalResponseWrite = response.write;
                     let isGetRequest = request.method == "GET";
-                    response.write = function wrap(a: Buffer | string, b?: Function | string,
-                        //TODO: c?:  Function | string
-                        ) {
+                    response.write = function wrap(a: Buffer | string, b?: Function | string) {
                         //only patch GET request
                         try {
                             if (isGetRequest) {
@@ -176,9 +174,8 @@ export class WebSnippet {
                     // Patch response end method for cases when HTML is added there
                     let originalResponseEnd = response.end;
 
-                    response.end = function wrap(a?: Buffer | string | any, b?: Function | string, 
-                        // TODO: c?: Function
-                        ) {
+                    // @ts-ignore
+                    response.end = function wrap(a?: Buffer | string | any, b?: Function) {
                         if (isGetRequest) {
                             try {
                                 if (isGetRequest) {
@@ -216,9 +213,7 @@ export class WebSnippet {
                     let isGetHttpsRequest = req.method == "GET";
                     let originalHttpsResponseWrite = res.write;
                     let originalHttpsResponseEnd = res.end;
-                    res.write = function wrap(a: Buffer | string | any, b?:Function | string,
-                        // TODO: c?: Function
-                        ) {
+                    res.write = function wrap(a: Buffer | string | any, b?:Function | string) {
                         try {
                             if (isGetHttpsRequest) {
                                 let headers =  snippetInjectionHelper.getContentEncodingFromHeaders(res);
@@ -241,9 +236,7 @@ export class WebSnippet {
                         return originalHttpsResponseWrite.apply(res,arguments);
                     }
 
-                    res.end = function wrap(a: Buffer | string | any, b?:Function | string,
-                        // TODO: c?: Function
-                        ) {
+                    res.end = function wrap(a: Buffer | string | any, b?:Function | string) {
                         try {
                             if (isGetHttpsRequest) {
                                 let headers =  snippetInjectionHelper.getContentEncodingFromHeaders(res);
