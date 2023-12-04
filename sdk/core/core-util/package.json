@@ -41,7 +41,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "vitest -c vitest.browser.config.mts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
