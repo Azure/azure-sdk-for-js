@@ -27,7 +27,7 @@ async function partnerDestinationsDelete() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerDestinations.beginDeleteAndWait(
     resourceGroupName,
-    partnerDestinationName
+    partnerDestinationName,
   );
   console.log(result);
 }
