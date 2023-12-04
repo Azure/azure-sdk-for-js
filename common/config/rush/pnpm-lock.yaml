@@ -4544,7 +4544,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231130
+      typescript: 5.4.0-dev.20231203
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4553,7 +4553,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231130
+      typescript: 5.4.0-dev.20231203
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9339,8 +9339,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231130:
-    resolution: {integrity: sha512-YDc4V66/MiOKq3LZh7onu6+VNKqQZrvzQEKAbWCjSmlVeK8TYEPYlbTmYFJvKbqDHwrxGBayl3egTG/IzyxZMQ==}
+  /typescript@5.4.0-dev.20231203:
+    resolution: {integrity: sha512-6Y/R8j4ZKcCbddjtRncKgCKz5RbqfQe04TIfYnUbPq2CKhJVGP6Bvmkm2GVI9lpTZR64c3wvY28k+exT/jBVdQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -16511,7 +16511,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-I2h3cDWIMqT38ytc7zORRY6FyyvMzNdySwidDjrnIPQCfExkQFjwevC78ENZf4ozEQ4nJZpM0qJ8sBxH+w9UwA==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-X4gid4R5xNFUbyw3IPS8JDQJ44uIgg+eOof1lvpB8L/q0Lgnql5P6KMUc45CVsuVj9w9mhjYQQyt1A4OtrWwFA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
