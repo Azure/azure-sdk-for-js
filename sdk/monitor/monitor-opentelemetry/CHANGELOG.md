@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Implement web snippet injection.
+
 ### Breaking Changes
 
 ### Bugs Fixed
