@@ -1123,8 +1123,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@azure/communication-signaling@1.0.0-beta.21:
-    resolution: {integrity: sha512-3y7/U3e/wddWyrV/3w7KPr/xarDg45vf+46drRqWUdGkKBGaaok1PKz9IjNJvk6DrcFjnlfK3/T3RcyvYPdMnA==}
+  /@azure/communication-signaling@1.0.0-beta.23:
+    resolution: {integrity: sha512-K80JlZ6lFAUBxl67hJraYTNOY6dTfk9EYpz39xgiawV2BponogdwLFG2FHbCb7PtlSP4QDpN55yj8f54bgkMyA==}
     engines: {node: '>=8.0.0'}
     dependencies:
       '@azure/core-http': 2.3.2
@@ -3336,6 +3336,13 @@ packages:
     requiresBuild: true
     dev: false
 
+  /autorest@3.7.1:
+    resolution: {integrity: sha512-6q17NtosQZPqBkIOUnaOPedf3PDIBF7Ha1iEGRhTqZF6TG2Q/1E3ID/D+ePIIzZDKvW01p/2pENq/oiBWH9IGQ==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays@1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -4233,7 +4240,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.3.0-dev.20231010
+      typescript: 5.4.0-dev.20231204
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8955,14 +8962,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript@5.3.0-dev.20231010:
-    resolution: {integrity: sha512-oSO2cE/D2+ju7rRavL4A/j6tP/s3Y4W7lDK81PaW3MEi1HpeXbRLObHcxA7Y9s2QuES/1P/81i/YKdB0kssg6w==}
+  /typescript@5.4.0-dev.20231204:
+    resolution: {integrity: sha512-dU/o7cZDKWQcVda27Ht/d38BKIdswGgGI6S//+nmeFhU0LZ7gA5ldCORN0dtOFEwFR98d2TlonmMeNCcyVkqnQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9621,7 +9628,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       csv-parse: 5.5.2
@@ -9666,7 +9673,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -9893,7 +9900,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       dotenv: 8.6.0
       eslint: 8.51.0
       mkdirp: 1.0.4
@@ -9963,7 +9970,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -10053,7 +10060,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -10576,7 +10583,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -11333,7 +11340,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -11578,7 +11585,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -14200,7 +14207,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -15652,7 +15659,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -16721,11 +16728,11 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-PXgVy7h7kH2Zj4wShYTVYY3ZVdil3PpXk/G+FyYMeqXKGbGhKZgXhvDkBze2pXif4eYZqm2HdfRZ3KbqpUXcqw==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-S1wad3b8/8wGjZ5SPatwzpAYrF5urprSSt/felCs+uCJwnf4Cj2d6gE2tBljn7oopa3Isvdv1SXfKmLd6KAsKg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
-      '@azure/communication-signaling': 1.0.0-beta.21
+      '@azure/communication-signaling': 1.0.0-beta.23
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
@@ -18042,7 +18049,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.2.2
+      '@_ts/max': /typescript@5.3.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@rollup/plugin-commonjs': 25.0.5(rollup@3.29.4)
@@ -18106,7 +18113,7 @@ packages:
       '@microsoft/api-extractor': 7.38.0(@types/node@14.18.63)
       '@types/chai': 4.3.7
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -18515,7 +18522,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -18559,7 +18566,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19025,7 +19032,7 @@ packages:
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
       '@types/uuid': 8.3.4
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19133,7 +19140,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19178,7 +19185,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19223,7 +19230,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -19268,7 +19275,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -20375,7 +20382,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -20419,7 +20426,7 @@ packages:
       '@types/chai': 4.3.7
       '@types/mocha': 10.0.2
       '@types/node': 14.18.63
-      autorest: 3.6.3
+      autorest: 3.7.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
