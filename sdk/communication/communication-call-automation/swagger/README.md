@@ -11,10 +11,10 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-01-15-preview
-require: 
-  - https://github.com/williamzhao87/azure-rest-api-specs/blob/5b7321a923a30b83b978e3a30ed1d497e35052fd/specification/communication/data-plane/CallAutomation/readme.md
-package-version: 1.0.0-beta.1
+tag: package-2023-10-03-preview
+require:
+  - https://github.com/Azure/azure-rest-api-specs/blob/4a12c91e35ff85ea2fbbb3b0bab0d432a68d00df/specification/communication/data-plane/CallAutomation/readme.md
+package-version: 1.2.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true
@@ -117,18 +117,24 @@ directive:
     from: ContinuousDtmfRecognitionStopped
     to: RestContinuousDtmfRecognitionStopped
 - rename-model:
-    from: SendDtmfCompleted
-    to: RestSendDtmfCompleted
+    from: SendDtmfTonesCompleted
+    to: RestSendDtmfTonesCompleted
 - rename-model:
-    from: SendDtmfFailed
-    to: RestSendDtmfFailed
+    from: SendDtmfTonesFailed
+    to: RestSendDtmfTonesFailed
 - rename-model:
     from: ToneInfo
     to: RestToneInfo
 - rename-model:
-    from: AddParticipantCancelled
-    to: RestAddParticipantCancelled
+    from: CancelAddParticipantSucceeded
+    to: RestCancelAddParticipantSucceeded
 - rename-model:
     from: CancelAddParticipantFailed
     to: RestCancelAddParticipantFailed
+- rename-model:
+    from: CallIntelligenceOptions
+    to: CallIntelligenceOptionsInternal
+- rename-model:
+    from: CustomCallingContext
+    to: CustomCallingContextInternal
 ```
