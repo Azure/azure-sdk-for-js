@@ -320,34 +320,27 @@ describe("Test RU Capping query", function (this: Suite) {
         30000
       );
       const data = [
-        { id: "myId1", pk: "pk1", name: "test1", value: 1 },
-        { id: "myId2", pk: "pk2", name: "test2", value: 1 },
-        { id: "myId3", pk: "pk2", name: "test2", value: 1 },
-        { id: "myId4", pk: "pk3", name: "test3", value: 1 },
-        { id: "myId5", pk: "pk3", name: "test3", value: 1 },
-        { id: "myId6", pk: "pk3", name: "test3", value: 1 },
-        { id: "myId7", pk: "pk3", name: "test4", value: 1 },
-        { id: "myId8", pk: "pk3", name: "test4", value: 1 },
-        { id: "myId9", pk: "pk4", name: "test5", value: 1 },
-        { id: "myId10", pk: "pk5", name: "test5", value: 1 },
-        { id: "myId11", pk: "pk5", name: "test6", value: 1 },
-        { id: "myId12", pk: "pk6", name: "test7", value: 1 },
-        { id: "myId13", pk: "pk6", name: "test7", value: 1 },
-        { id: "myId14", pk: "pk6", name: "test7", value: 1 },
+        { id: "myId1", pk: "pk1", name: "test1" },
+        { id: "myId2", pk: "pk2", name: "test2" },
+        { id: "myId3", pk: "pk2", name: "test2" },
+        { id: "myId4", pk: "pk3", name: "test3" },
+        { id: "myId5", pk: "pk3", name: "test3" },
+        { id: "myId6", pk: "pk3", name: "test3" },
+        { id: "myId7", pk: "pk3", name: "test4" },
+        { id: "myId8", pk: "pk3", name: "test4" },
+        { id: "myId9", pk: "pk4", name: "test5" },
+        { id: "myId10", pk: "pk5", name: "test5" },
+        { id: "myId11", pk: "pk5", name: "test6" },
+        { id: "myId12", pk: "pk6", name: "test7" },
+        { id: "myId13", pk: "pk6", name: "test7" },
+        { id: "myId14", pk: "pk6", name: "test7" },
       ];
 
       data.forEach((itemData) => {
         createdContainerMultiPartition.items.create(itemData);
       });
 
-      const query =
-        "SELECT count(" +
-        collectionId +
-        ".name) from " +
-        collectionId +
-        " GROUP BY " +
-        collectionId +
-        ".name";
+      const query = `SELECT count(${collectionId}.name) from ${collectionId} GROUP BY ${collectionId}.name`;
       const queryOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 4 };
       queryIterator = createdContainerMultiPartition.items.query(query, queryOptions);
     });
