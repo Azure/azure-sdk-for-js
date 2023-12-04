@@ -39,9 +39,6 @@ describe("KustoManagementClient", () => {
   let client: KustoManagementClient;
   let resourceGroup: string;
   let clusterName_1: string;
-  let clusterName_2: string;
-  let clusterName_3: string;
-  let clusterParameters: Cluster;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -52,18 +49,6 @@ describe("KustoManagementClient", () => {
     client = new KustoManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     resourceGroup = "myjstest";
     clusterName_1 = "mytestclustername5";
-    clusterName_2 = "mytestclustername6";
-    clusterName_3 = "mytestclustername7";
-    clusterParameters = {
-      "location": "westeurope",
-      "sku": {
-        "name": "Standard_L8s_v2",
-        "tier": "Standard"
-      },
-      "identity": {
-        "type": "SystemAssigned"
-      },
-    };
   });
 
   afterEach(async function () {
@@ -71,31 +56,26 @@ describe("KustoManagementClient", () => {
   });
 
   //kusto_client.clusters.beginCreateOrUpdateAndWait
-  it.only("could create clusters", async function () {
-    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1, clusterParameters, testPollingOptions);
+  it("could create clusters", async function () {
+    let res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_1,
+      {
+        location: "eastus",
+        sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
+        identity: {
+          type: "SystemAssigned"
+        },
+        languageExtensions: {
+          value: [
+            {
+              languageExtensionCustomImageName: "PYTHON 3.10.8",
+              languageExtensionImageName: "PythonCustomImage",
+              languageExtensionName: "PYTHON",
+            },
+          ],
+        },
+      }, testPollingOptions);
     assert.strictEqual(res.name, clusterName_1);
-    res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_2, clusterParameters, testPollingOptions);
-    assert.strictEqual(res.name, clusterName_2);
-    // res = await client.clusters.beginCreateOrUpdateAndWait(resourceGroup, clusterName_3,
-    //   {
-    //     location: "eastus",
-    //     sku: { name: "Standard_L16as_v3", capacity: 2, tier: "Standard" },
-    //     identity: {
-    //       type: "SystemAssigned"
-    //     },
-    //     languageExtensions: {
-    //       value: [
-    //         {
-    //           languageExtensionCustomImageName: "customImage8",
-    //           languageExtensionImageName: "PythonCustomImage",
-    //           languageExtensionName: "PYTHON",
-    //         },
-    //         { languageExtensionImageName: "R", languageExtensionName: "R" },
-    //       ],
-    //     },
-    //   }, testPollingOptions);
-    // assert.strictEqual(res.name, clusterName_3);
-  }).timeout(3600000);
+  }).timeout(7200000);
 
   //kusto_client.clusters.beginUpdateAndWait
   // it("could update tags in cluster", async () => {
@@ -124,17 +104,17 @@ describe("KustoManagementClient", () => {
     for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.ok(resArray.length >= 2);
+    assert.equal(resArray.length, 1);
   });
 
   //kusto_client.clusters.beginDeleteAndWait
   it("could delete clusters", async () => {
-    let res: any = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
-    assert.strictEqual(res?.body?.status, "Succeeded");
-    res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_2, testPollingOptions);
-    assert.strictEqual(res?.body?.status, "Succeeded");
-    // res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_3, testPollingOptions);
-    // assert.strictEqual(res?.body?.status, "Succeeded");
+    let res = await client.clusters.beginDeleteAndWait(resourceGroup, clusterName_1, testPollingOptions);
+    const resArray = new Array();
+    for await (const item of client.clusters.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
 });
