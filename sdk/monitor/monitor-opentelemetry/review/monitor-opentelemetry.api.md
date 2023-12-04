@@ -15,7 +15,6 @@ export interface AzureMonitorOpenTelemetryOptions {
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
-    // Warning: (ae-forgotten-export) The symbol "IWebInstrumentationConfig" needs to be exported by the entry point index.d.ts
     webInstrumentationConfig?: IWebInstrumentationConfig[];
     webInstrumentationConnectionString?: string;
     webInstrumentationSrc?: string;
@@ -30,6 +29,12 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
+}
+
+// @public
+export interface IWebInstrumentationConfig {
+    name: string;
+    value: string | boolean | number;
 }
 
 // @public
