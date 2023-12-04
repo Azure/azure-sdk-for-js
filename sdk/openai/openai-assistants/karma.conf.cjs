@@ -1,10 +1,11 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config();
 const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
 process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 module.exports = function (config) {
@@ -14,7 +15,7 @@ module.exports = function (config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["source-map-support", "mocha"],
+    frameworks: ["mocha"],
 
     plugins: [
       "karma-mocha",
@@ -25,18 +26,12 @@ module.exports = function (config) {
       "karma-coverage",
       "karma-sourcemap-loader",
       "karma-junit-reporter",
-      "karma-source-map-support",
     ],
 
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      {
-        pattern: "dist-test/index.browser.js.map",
-        type: "html",
-        included: false,
-        served: true,
-      },
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ],
 
     // list of files / patterns to exclude
@@ -48,19 +43,25 @@ module.exports = function (config) {
       "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "dist-test/index.js": ["coverage"]
+      //"dist-test/index.browser.js": ["coverage"]
     },
 
+    // inject following environment values into browser testing with window.__env__
+    // environment values MUST be exported or set with same console running "karma start"
+    // https://www.npmjs.com/package/karma-env-preprocessor
     envPreprocessor: [
       "TEST_MODE",
       "ENDPOINT",
-      "AZURE_CLIENT_SECRET",
+      "AZURE_API_KEY",
+      "OPENAI_API_KEY",
       "AZURE_CLIENT_ID",
+      "AZURE_CLIENT_SECRET",
       "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
+      "SUBSCRIPTION_ID",
+      "RESOURCE_GROUP",
+      "ACCOUNT_NAME",
     ],
-
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
@@ -100,6 +101,9 @@ module.exports = function (config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
+    // start these browsers
+    // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    // 'ChromeHeadless', 'Chrome', 'Firefox', 'Edge', 'IE'
     // --no-sandbox allows our tests to run in Linux without having to change the system.
     // --disable-web-security allows us to authenticate from the browser without having to write tests using interactive auth, which would be far more complex.
     browsers: ["ChromeHeadlessNoSandbox"],
@@ -112,13 +116,13 @@ module.exports = function (config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
+    singleRun: true,
 
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: 1,
 
-    browserNoActivityTimeout: 60000000,
+    browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
 
