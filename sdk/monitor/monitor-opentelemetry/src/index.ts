@@ -23,13 +23,13 @@ export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./shar
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 let sdk: NodeSDK;
+let webSnippet: WebSnippet | undefined;
 
 /**
  * Initialize Azure Monitor Distro
  * @param options Azure Monitor OpenTelemetry Options
  */
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
-  let webSnippet: WebSnippet | undefined;
   const config = new InternalConfig(options);
 
   if (config.enableWebInstrumentation) {
@@ -69,6 +69,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
  */
 export function shutdownAzureMonitor() {
   sdk?.shutdown();
+  webSnippet?.dispose();
 }
 
 function _setStatsbeatFeatures(config: InternalConfig, webSnippet?: WebSnippet) {

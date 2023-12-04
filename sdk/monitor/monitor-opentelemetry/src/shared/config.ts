@@ -67,6 +67,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     this.enableWebInstrumentation = false;
     this.webInstrumentationConnectionString = "";
     this.webInstrumentationSrc = "";
+    this.webInstrumentationConfig = undefined;
 
     if (options) {
       // Merge default with provided options
@@ -83,6 +84,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       this.enableWebInstrumentation = options.enableWebInstrumentation || this.enableWebInstrumentation;
       this.webInstrumentationConnectionString = options.webInstrumentationConnectionString || this.webInstrumentationConnectionString;
       this.webInstrumentationSrc = options.webInstrumentationSrc || this.webInstrumentationSrc;
+      this.webInstrumentationConfig = options.webInstrumentationConfig || this.webInstrumentationConfig;
     }
     // JSON configuration will take precedence over other settings
     this._mergeConfig();

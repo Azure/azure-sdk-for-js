@@ -49,6 +49,10 @@ export class WebSnippet {
         return this._isInitialized;
     }
 
+    public static getInstance(): WebSnippet {
+        return WebSnippet._instance!;
+    }
+
     private _getWebSnippetIkey(connectionString: string) {
         let iKey = null;
         try {
