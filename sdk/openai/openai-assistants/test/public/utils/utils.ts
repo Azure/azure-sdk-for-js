@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { assert } from "@azure/test-utils";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -11,7 +12,6 @@ import {
 } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
-import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
 import {
   Recorder,
@@ -32,7 +32,7 @@ export async function withDeployments<T>(
 ): Promise<string[]> {
   const errors = [];
   const succeeded = [];
-  //assert.isNotEmpty(deployments, "No deployments found");
+  assert.isNotEmpty(deployments, "No deployments found");
   for (const deployment of deployments) {
     try {
       console.log(`testing with ${deployment}`);
@@ -59,7 +59,7 @@ export async function withDeployments<T>(
   if (errors.length > 0) {
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
-  //assert.isNotEmpty(succeeded, "No deployments succeeded");
+  assert.isNotEmpty(succeeded, "No deployments succeeded");
   console.log(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
   return succeeded;
 }
@@ -106,6 +106,10 @@ async function listDeployments(
   recorder: Recorder
 ): Promise<string[]> {
   const deployments: string[] = [];
+  void subId;
+  void rgName;
+  void accountName;
+  void recorder;
   /*
   const mgmtClient = new CognitiveServicesManagementClient(
     createTestCredential(),
