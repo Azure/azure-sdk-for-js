@@ -4529,7 +4529,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231130
+      typescript: 5.4.0-dev.20231204
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4538,7 +4538,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231130
+      typescript: 5.4.0-dev.20231204
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9324,8 +9324,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231130:
-    resolution: {integrity: sha512-YDc4V66/MiOKq3LZh7onu6+VNKqQZrvzQEKAbWCjSmlVeK8TYEPYlbTmYFJvKbqDHwrxGBayl3egTG/IzyxZMQ==}
+  /typescript@5.4.0-dev.20231204:
+    resolution: {integrity: sha512-dU/o7cZDKWQcVda27Ht/d38BKIdswGgGI6S//+nmeFhU0LZ7gA5ldCORN0dtOFEwFR98d2TlonmMeNCcyVkqnQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15458,7 +15458,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-X+PJNgAH5gt181nvOVnJU1u+uOD14rCv+kJJDo/x7n1Q+VjIqFDQEpidT2Xm24a2Ph8f/BfpX7E/XA/xZXc8EA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-DAfnFx6dpuSZC3hfm+2D5OblM7ok0dPhtUlCSHluLaItq5d3dFV0w1NWaYiu/EmOgkZOlDs4s+KdHgbR5hu5LA==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -15466,10 +15466,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
       '@types/node': 18.18.9
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -16493,7 +16495,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-I2h3cDWIMqT38ytc7zORRY6FyyvMzNdySwidDjrnIPQCfExkQFjwevC78ENZf4ozEQ4nJZpM0qJ8sBxH+w9UwA==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-X4gid4R5xNFUbyw3IPS8JDQJ44uIgg+eOof1lvpB8L/q0Lgnql5P6KMUc45CVsuVj9w9mhjYQQyt1A4OtrWwFA==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
