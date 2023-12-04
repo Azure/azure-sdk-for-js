@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OrganizationResource,
   OrganizationListBySubscriptionOptionalParams,
@@ -33,7 +33,7 @@ export interface Organization {
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
    * List all Organizations under the specified resource group.
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
@@ -42,7 +42,7 @@ export interface Organization {
   ): PagedAsyncIterableIterator<OrganizationResource>;
   /**
    * Get the properties of a specific Organization resource.
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
@@ -53,7 +53,7 @@ export interface Organization {
   ): Promise<OrganizationGetResponse>;
   /**
    * Create Organization resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
@@ -62,14 +62,14 @@ export interface Organization {
     organizationName: string,
     options?: OrganizationCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<OrganizationCreateResponse>,
+    SimplePollerLike<
+      OperationState<OrganizationCreateResponse>,
       OrganizationCreateResponse
     >
   >;
   /**
    * Create Organization resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
@@ -80,7 +80,7 @@ export interface Organization {
   ): Promise<OrganizationCreateResponse>;
   /**
    * Update Organization resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
@@ -91,7 +91,7 @@ export interface Organization {
   ): Promise<OrganizationUpdateResponse>;
   /**
    * Delete Organization resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */
@@ -99,10 +99,10 @@ export interface Organization {
     resourceGroupName: string,
     organizationName: string,
     options?: OrganizationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete Organization resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param options The options parameters.
    */

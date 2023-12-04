@@ -5,6 +5,7 @@
 ### Features Added
 
 - Implement web snippet injection.
+- Use OpenTelemetry resource detectors for App Service, Functions, and VM.
 
 ### Breaking Changes
 

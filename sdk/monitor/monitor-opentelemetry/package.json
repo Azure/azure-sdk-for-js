@@ -107,7 +107,8 @@
     "@opentelemetry/sdk-trace-node": "^1.18.0",
     "@opentelemetry/semantic-conventions": "^1.18.0",
     "tslib": "^2.2.0",
-    "@microsoft/applicationinsights-web-snippet": "^1.0.1"
+    "@microsoft/applicationinsights-web-snippet": "^1.0.1",
+    "@opentelemetry/resource-detector-azure": "^0.2.1"
   },
   "sideEffects": false,
   "keywords": [

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as chai from "chai";
-import { AbortController, AbortError } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";

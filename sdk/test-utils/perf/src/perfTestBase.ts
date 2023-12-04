@@ -10,7 +10,6 @@ import {
   validateOptions,
   ParsedPerfOptions,
 } from "./options";
-import { AbortController } from "@azure/abort-controller";
 import { Snapshot } from "./snapshot";
 
 /**

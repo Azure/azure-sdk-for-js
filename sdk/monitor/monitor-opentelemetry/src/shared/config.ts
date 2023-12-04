@@ -12,6 +12,11 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
 import { IWebInstrumentationConfig } from "./types";
+import {
+  azureAppServiceDetector,
+  azureFunctionsDetector,
+  azureVmDetector,
+} from "@opentelemetry/resource-detector-azure";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
@@ -121,6 +126,14 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     };
     const envResource = detectResourcesSync(detectResourceConfig);
     resource = resource.merge(envResource);
+
+    // Load resource attributes from Azure
+    const azureResource: Resource = detectResourcesSync({
+      detectors: [azureAppServiceDetector, azureFunctionsDetector, azureVmDetector],
+    });
+
+    // Merge resources, azureResource will take precedence
+    resource = resource.merge(azureResource);
     return resource;
   }
 }
