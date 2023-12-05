@@ -10,6 +10,7 @@ import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { WEB_INSTRUMENTATION_DEFAULT_SOURCE, WEB_INSTRUMENTATION_DEPRECATED_SOURCE } from "../types";
 import { IWebInstrumentationConfig } from "../shared/types";
+import { Resource } from "@opentelemetry/resources";
 
 export class WebSnippet {
 
@@ -23,6 +24,7 @@ export class WebSnippet {
     private _webInstrumentationIkey?: string;
     private _clientWebInstrumentationConfig?: IWebInstrumentationConfig[];
     private _clientWebInstrumentationSrc?: string;
+    private _resource: Resource;
 
     constructor(config: InternalConfig) {
         if (!!WebSnippet._instance) {
@@ -39,6 +41,7 @@ export class WebSnippet {
             ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString).instrumentationkey;
         this._clientWebInstrumentationConfig = config.webInstrumentationConfig;
         this._clientWebInstrumentationSrc = config.webInstrumentationSrc;
+        this._resource = config.resource;
 
         if (this._isIkeyValid) {
             this._initialize();
@@ -78,7 +81,7 @@ export class WebSnippet {
     private _getWebInstrumentationReplacedStr() {
         let configStr = this._getClientWebInstrumentationConfigStr(this._clientWebInstrumentationConfig);
         let osStr = prefixHelper.getOsPrefix();
-        let rpStr = prefixHelper.getResourceProvider();
+        let rpStr = prefixHelper.getResourceProvider(this._resource);
         let snippetReplacedStr = `${this._webInstrumentationIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
         let replacedSnippet = webSnippet.replace("INSTRUMENTATION_KEY", snippetReplacedStr);
         if (this._clientWebInstrumentationSrc) {

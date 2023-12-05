@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { Resource } from "@opentelemetry/resources";
+import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import * as http from "http";
 
 export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean {
@@ -28,14 +30,6 @@ export const isLinux = (): boolean => {
   return  process.platform === "linux";
 }
 
-export const isWebApp = (): boolean => {
-  return process.env.WEBSITE_SITE_NAME? true : false;
-}
-
-export const isFunctionApp = (): boolean => {
-  return process.env.FUNCTIONS_WORKER_RUNTIME? true : false;
-}
-
 /**
 * Get prefix for OS
 * Windows system: "w"
@@ -53,8 +47,14 @@ export const getOsPrefix = (): string => {
  * Function App: "f"
  * non-Web and non-Function APP: "u" (unknown)
  */
-export const getResourceProvider = (): string => {
-  return isWebApp() ? "a" : isFunctionApp() ? "f" : "u";
+export const getResourceProvider = (resource: Resource): string => {
+  if (resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM] === "azure_app_service") {
+    return "a";
+  }
+  if (resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM] === "azure_functions") {
+    return "f";
+  }
+  return "u";
 }
 
 /**
