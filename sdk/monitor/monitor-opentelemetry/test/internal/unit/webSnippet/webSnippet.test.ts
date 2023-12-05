@@ -201,7 +201,7 @@ describe("#WebSnippet", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
     let newHtml = webSnippet.InjectWebSnippet(response, validHtml);
-    let osType: string = "";
+    let osType: string = "u";
     if (isWindows()) {
       osType = "w";
     } else if (isLinux()) {
