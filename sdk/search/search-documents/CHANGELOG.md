@@ -1,5 +1,11 @@
 # Release History
 
+## 12.0.1 (Unreleased)
+
+### Bugs Fixed
+
+- Fixed the invalid type narrowing of documents returned by `SearchClient.suggest` [#27984](https://github.com/Azure/azure-sdk-for-js/pull/27984)
+
 ## 12.0.0 (2023-11-13)
 
 ### Features Added
