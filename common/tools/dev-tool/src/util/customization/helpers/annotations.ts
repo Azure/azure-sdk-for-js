@@ -11,7 +11,7 @@ export interface Annotation {
 }
 
 export function getAnnotation(
-  declaration: Declaration | PropertySignature | CallSignatureDeclaration
+  declaration: Declaration | PropertySignature | CallSignatureDeclaration,
 ): Annotation | undefined {
   // Check if the property has a `// @azsdk-remove` comment
   const leadingCommentRanges = declaration.getLeadingCommentRanges();

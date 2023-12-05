@@ -54,7 +54,7 @@ export type StrictAllowMultiple<Opts extends CommandOptions> = {
 export function makeCommandInfo<Opts extends CommandOptions>(
   name: string,
   description: string,
-  options?: Opts
+  options?: Opts,
 ): CommandInfo<StrictAllowMultiple<Opts>> {
   return {
     name,
@@ -72,7 +72,7 @@ export function makeCommandInfo<Opts extends CommandOptions>(
  */
 export function subCommand<Info extends CommandInfo<CommandOptions>>(
   info: Info,
-  commands: CommandLoader
+  commands: CommandLoader,
 ): (...args: string[]) => Promise<boolean> {
   const log = createPrinter(info.name);
   return async (...rawArgs: string[]) => {
@@ -124,7 +124,7 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
  */
 export function leafCommand<Info extends CommandInfo<CommandOptions>>(
   info: Info,
-  handler: (options: ParsedOptions<NonNullable<Info["options"]>>) => Promise<boolean>
+  handler: (options: ParsedOptions<NonNullable<Info["options"]>>) => Promise<boolean>,
 ): (...args: string[]) => Promise<boolean> {
   return async (...args: string[]): Promise<boolean> => {
     const options = parseOptions(args, info.options);

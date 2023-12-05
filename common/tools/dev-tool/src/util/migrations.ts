@@ -109,7 +109,7 @@ export function createMigration(
   id: string,
   date: string,
   description: string,
-  options: Omit<Migration, "id" | "date" | "description"> = {}
+  options: Omit<Migration, "id" | "date" | "description"> = {},
 ): Migration {
   if (MIGRATIONS_BY_ID.has(id)) throw new Error(`A migration with id '${id}' already exists.`);
   let migration: Migration;
@@ -119,7 +119,7 @@ export function createMigration(
       date: new Date(date),
       description,
       ...options,
-    }))
+    })),
   );
 
   // If the date is invalid, we'll throw an error
@@ -237,7 +237,7 @@ export function loadMigrations() {
   return (_loadJob ??= (async function () {
     for await (const f of findMatchingFiles(
       path.resolve(__dirname, "..", "migrations"),
-      (fn) => fn.endsWith(".ts") && !fn.endsWith(".d.ts")
+      (fn) => fn.endsWith(".ts") && !fn.endsWith(".d.ts"),
     )) {
       await import(f);
     }
@@ -284,7 +284,7 @@ function _getStateFilePath(): string {
           process.env.USERNAME ?? userInfo().username,
           "AppData",
           "Local",
-          ...STATE_PATH_SUFFIX
+          ...STATE_PATH_SUFFIX,
         );
       }
     }
@@ -294,7 +294,7 @@ function _getStateFilePath(): string {
         path.join(
           process.env.HOME ?? `/home/${process.env.USER ?? userInfo().username}/`,
           ".local",
-          "state"
+          "state",
         );
 
       debug("Computed Linux XDG state directory:", base);
@@ -306,7 +306,7 @@ function _getStateFilePath(): string {
       const stateFile = path.join(
         process.env.HOME ?? userInfo().homedir,
         "Application Support",
-        ...STATE_PATH_SUFFIX
+        ...STATE_PATH_SUFFIX,
       );
 
       debug("macOS state file path:", stateFile);
@@ -315,7 +315,7 @@ function _getStateFilePath(): string {
     }
     default:
       throw new Error(
-        `Unsupported platform '${process.platform}' (don't know where to put the migration state file)`
+        `Unsupported platform '${process.platform}' (don't know where to put the migration state file)`,
       );
   }
 }
@@ -356,13 +356,13 @@ export async function removeMigrationStateFile(): Promise<void> {
 export async function suspendMigration(
   migration: Migration,
   project: ProjectInfo,
-  phase: SuspendedMigrationState["phase"]
+  phase: SuspendedMigrationState["phase"],
 ) {
   const stateFile = getStateFilePath();
 
   if (await isMigrationSuspended()) {
     throw new Error(
-      "A migration is already suspended. It must be removed before another migration can be suspended."
+      "A migration is already suspended. It must be removed before another migration can be suspended.",
     );
   }
 
@@ -374,7 +374,7 @@ export async function suspendMigration(
       id: migration.id,
       path: project.path,
       phase,
-    } as SuspendedMigrationState)
+    } as SuspendedMigrationState),
   );
 }
 
@@ -459,7 +459,7 @@ export interface MigrationSkippedExitState {
  */
 export async function runMigration(
   project: ProjectInfo,
-  migration: Migration
+  migration: Migration,
 ): Promise<MigrationExitState> {
   const context: MigrationContext = {
     project,
@@ -551,7 +551,7 @@ export async function runMigration(
  */
 export async function validateResumedMigration(
   project: ProjectInfo,
-  migration: Migration
+  migration: Migration,
 ): Promise<MigrationExitState> {
   const context: MigrationContext = {
     project,
@@ -589,7 +589,7 @@ export async function validateResumedMigration(
  */
 export async function updateMigrationDate(
   project: ProjectInfo,
-  migration: Migration
+  migration: Migration,
 ): Promise<void> {
   const packageJsonPath = path.join(project.path, "package.json");
 
@@ -609,7 +609,7 @@ export async function updateMigrationDate(
   (packageJson[METADATA_KEY] ??= {}).migrationDate = migration.date.toISOString();
 
   // Format the file with prettier
-  const contents = format(JSON.stringify(packageJson, null, 2), "json");
+  const contents = await format(JSON.stringify(packageJson, null, 2), "json");
 
   await writeFile(packageJsonPath, contents);
 }

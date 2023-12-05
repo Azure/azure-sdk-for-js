@@ -162,7 +162,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
  * @returns the package info for the SDK project that owns the given directory
  */
 export async function resolveProject(
-  workingDirectory: string = process.cwd()
+  workingDirectory: string = process.cwd(),
 ): Promise<ProjectInfo> {
   if (!fs.existsSync(workingDirectory)) {
     throw new Error(`No such file or directory: ${workingDirectory}`);
@@ -178,7 +178,7 @@ export async function resolveProject(
 
   if (!packageJson.name || !packageJson.version) {
     throw new Error(
-      `Malformed package (did not have a name or version): ${path}, name="${packageJson.name}", version="${packageJson.version}"`
+      `Malformed package (did not have a name or version): ${path}, name="${packageJson.name}", version="${packageJson.version}"`,
     );
   }
 

@@ -88,7 +88,7 @@ export function add(...paths: string[]): Promise<void> {
  */
 export function getConfig(
   key: string,
-  options: { global?: boolean } = {}
+  options: { global?: boolean } = {},
 ): Promise<string | undefined> {
   return new Promise((resolve, reject) => {
     const globalArg = options.global ? ["--global"] : [];

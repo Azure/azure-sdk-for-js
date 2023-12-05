@@ -8,9 +8,7 @@ import {
   JoinGroupOptions,
   LeaveGroupMessage,
   SendEventMessage,
-  SendEventOptions,
   SendToGroupMessage,
-  SendToGroupOptions,
   ServerDataMessage,
   WebPubSubClientOptions,
   WebPubSubResult,
@@ -62,7 +60,7 @@ describe("WebPubSubClient", function () {
           noEcho: false,
         } as SendToGroupMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendToGroup("groupName", "xyz", "text", { ackId: 2 } as SendToGroupOptions),
+          await client.sendToGroup("groupName", "xyz", "text", { ackId: 2 }),
       },
       {
         testName: "send event",
@@ -74,7 +72,7 @@ describe("WebPubSubClient", function () {
           data: "xyz",
         } as SendEventMessage,
         actualMethod: async (client: WebPubSubClient) =>
-          await client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 } as SendEventOptions),
+          await client.sendEvent("sendEvent", "xyz", "text", { ackId: 2 }),
       },
     ];
 

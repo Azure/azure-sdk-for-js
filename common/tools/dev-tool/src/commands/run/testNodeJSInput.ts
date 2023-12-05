@@ -17,7 +17,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to run with test-proxy",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
@@ -27,7 +27,7 @@ export default leafCommand(commandInfo, async (options) => {
       : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
   } --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
   const mochaArgs = updatedArgs?.length
     ? updatedArgs.join(" ")

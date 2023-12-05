@@ -9,7 +9,6 @@ import {
 } from "./utils/utils";
 import { assert, matrix } from "@azure/test-utils";
 import { createRunLroWith, createTestPoller } from "./utils/router";
-import { AbortController } from "@azure/abort-controller";
 
 matrix(
   [

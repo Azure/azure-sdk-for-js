@@ -59,7 +59,7 @@ describe("argument parsing", function () {
           kind: "string",
           description: "",
         },
-      })
+      }),
     );
 
     // Assert type
@@ -78,7 +78,7 @@ describe("argument parsing", function () {
           description: "",
           default: false,
         },
-      })
+      }),
     );
 
     // Assert type
@@ -96,7 +96,7 @@ describe("argument parsing", function () {
           description: "",
           kind: "boolean",
         },
-      })
+      }),
     );
 
     assert.isTrue(parsed.test);

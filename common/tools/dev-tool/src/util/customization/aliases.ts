@@ -6,7 +6,7 @@ import { SourceFile, TypeAliasDeclaration } from "ts-morph";
 export function augmentTypeAliases(
   originalAliases: Map<string, TypeAliasDeclaration>,
   customAliases: TypeAliasDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customAlias of customAliases) {
     const aliasName = customAlias.getName();
@@ -22,7 +22,7 @@ export function augmentTypeAliases(
 export function augmentTypeAlias(
   customTypeAlias: TypeAliasDeclaration,
   originalTypeAlias: TypeAliasDeclaration | undefined,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   // Bring over the custom alias
   originalFile.addTypeAlias(customTypeAlias.getStructure());

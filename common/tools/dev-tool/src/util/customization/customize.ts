@@ -95,7 +95,7 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
+  const formattedContent = await format(content, "typescript");
   await writeFile(filepath, formattedContent);
 }
 
@@ -161,7 +161,7 @@ export async function processFile(customFilePath: string, originalFilePath: stri
 
 export async function processDirectory(customDir: string, originalDir: string): Promise<void> {
   // Note: the originalDir is in reality the output directory but for readability we call it originalDir
-  // since we copied over eveything from the original directory to the output directory avoid
+  // since we copied over everything from the original directory to the output directory avoid
   // overwriting the original files.
   const entries = await readdir(customDir, { withFileTypes: true });
 
@@ -182,19 +182,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -204,31 +204,31 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentImports(
     originalDeclarationsMap.imports,
     customVirtualSourceFile.getImportDeclarations(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentExports(customVirtualSourceFile, originalVirtualSourceFile);

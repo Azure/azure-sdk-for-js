@@ -10,7 +10,7 @@ import semver from "semver";
 export const commandInfo = makeCommandInfo(
   "check-api",
   "ensure API features are compatible with minimum supported TypeScript version",
-  {}
+  {},
 );
 
 const log = createPrinter("check-api");
@@ -48,7 +48,7 @@ function testTsMax(filePaths: string[]): boolean {
   const hadError = diagnostics.some(
     (d) =>
       d.category == tsMax.DiagnosticCategory.Warning ||
-      d.category === tsMax.DiagnosticCategory.Error
+      d.category === tsMax.DiagnosticCategory.Error,
   );
 
   return !hadError;
@@ -85,7 +85,7 @@ function testTsMin(filePaths: string[]): boolean {
   const hadError = diagnostics.some(
     (d) =>
       d.category == tsMin.DiagnosticCategory.Warning ||
-      d.category === tsMin.DiagnosticCategory.Error
+      d.category === tsMin.DiagnosticCategory.Error,
   );
 
   return !hadError;
@@ -96,7 +96,7 @@ export default leafCommand(commandInfo, async () => {
 
   const defaultTypesFile = path.relative(
     process.cwd(),
-    path.resolve(process.cwd(), projectInfo.packageJson.types)
+    path.resolve(process.cwd(), projectInfo.packageJson.types),
   );
 
   log.info("Testing TypeScript minimum version:", tsMin.version);
@@ -124,7 +124,7 @@ export default leafCommand(commandInfo, async () => {
 
     // Look for an entry with a key that our version of TS satisfies
     const firstMatchingVersion = Object.entries(projectInfo.packageJson.typesVersions).find(([v]) =>
-      semver.satisfies(tsVersion, v)
+      semver.satisfies(tsVersion, v),
     );
 
     if (firstMatchingVersion === undefined) {
@@ -144,7 +144,7 @@ export default leafCommand(commandInfo, async () => {
     if (resultFiles === undefined) {
       log.warn(
         `Package's 'typesVersions' entry "${matchingSelector}" matched TypeScript version ${tsVersion},`,
-        `but no pattern in this entry matched the file: ${defaultTypesFile}`
+        `but no pattern in this entry matched the file: ${defaultTypesFile}`,
       );
       log.info("Resolved types file:", defaultTypesFile);
       return [defaultTypesFile];
@@ -152,7 +152,7 @@ export default leafCommand(commandInfo, async () => {
 
     log.info(`Resolved file names: ${resultFiles.join(", ")}`);
     return resultFiles.map((resultFile) =>
-      path.relative(process.cwd(), path.resolve(process.cwd(), resultFile))
+      path.relative(process.cwd(), path.resolve(process.cwd(), resultFile)),
     );
   }
 });
@@ -175,7 +175,7 @@ export default leafCommand(commandInfo, async () => {
 function matchAndExpandMapping(
   candidate: string,
   pattern: string,
-  targets: string[]
+  targets: string[],
 ): string[] | null {
   // The basic structure of this algorithm is to split the input pattern by "*", then sequentially remove each split
   // fragment from the candidate. The parts that aren't matched by split fragments in the candidate are then stored
