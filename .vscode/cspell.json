@@ -296,7 +296,11 @@
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
       "words": [
         "ssml",
-        "Ssml"
+        "Ssml",
+        "answeredby",
+        "playsourcacheid",
+        "sipx",
+        "sipuui"
       ]
     },
     {
@@ -384,14 +388,6 @@
       ]
     },
     {
-      "filename": "sdk/maps/maps-search/review/maps-search.api.md",
-      "words": [
-        "bbox",
-        "Neighbourhood",
-        "Xstr"
-      ]
-    },
-    {
       "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
       "words": [
         "bbox",
@@ -409,7 +405,8 @@
       "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
       "words": [
         "Neighbourhood",
-        "Xstr"
+        "Xstr",
+        "bbox"
       ]
     },
     {
@@ -450,6 +447,14 @@
         "nxdomain",
         "Whois",
         "whois"
+      ]
+    },
+    {
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "words": [
+        "wordprocessingml",
+        "spreadsheetml",
+        "presentationml"
       ]
     }
   ]

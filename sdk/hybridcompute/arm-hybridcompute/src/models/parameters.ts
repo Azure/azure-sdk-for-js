@@ -12,6 +12,11 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  License as LicenseMapper,
+  LicenseUpdate as LicenseUpdateMapper,
+  MachineInstallPatchesParameters as MachineInstallPatchesParametersMapper,
+  LicenseProfile as LicenseProfileMapper,
+  LicenseProfileUpdate as LicenseProfileUpdateMapper,
   MachineExtension as MachineExtensionMapper,
   MachineExtensionUpdate as MachineExtensionUpdateMapper,
   MachineExtensionUpgrade as MachineExtensionUpgradeMapper,
@@ -19,6 +24,23 @@ import {
   TagsResource as TagsResourceMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseMapper
+};
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -47,7 +69,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-10-preview",
+    defaultValue: "2023-06-20-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -85,9 +107,45 @@ export const resourceGroupName: OperationURLParameter = {
   }
 };
 
+export const licenseName: OperationURLParameter = {
+  parameterPath: "licenseName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+")
+    },
+    serializedName: "licenseName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseUpdateMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const machineName: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]"),
+      MaxLength: 54,
+      MinLength: 1
+    },
     serializedName: "machineName",
     required: true,
     type: {
@@ -106,28 +164,77 @@ export const expand: OperationQueryParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const resourceGroupName1: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
   mapper: {
-    serializedName: "nextLink",
+    serializedName: "resourceGroupName",
     required: true,
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const name: OperationURLParameter = {
+  parameterPath: "name",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "name",
+    required: true,
     type: {
       name: "String"
     }
   }
+};
+
+export const installPatchesInput: OperationParameter = {
+  parameterPath: "installPatchesInput",
+  mapper: MachineInstallPatchesParametersMapper
+};
+
+export const expand1: OperationQueryParameter = {
+  parameterPath: ["options", "expand"],
+  mapper: {
+    serializedName: "$expand",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseProfileMapper
+};
+
+export const machineName1: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]+")
+    },
+    serializedName: "machineName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const licenseProfileName: OperationURLParameter = {
+  parameterPath: "licenseProfileName",
+  mapper: {
+    defaultValue: "default",
+    isConstant: true,
+    serializedName: "licenseProfileName",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: LicenseProfileUpdateMapper
 };
 
 export const extensionParameters: OperationParameter = {
@@ -151,19 +258,78 @@ export const extensionParameters1: OperationParameter = {
   mapper: MachineExtensionUpdateMapper
 };
 
-export const expand1: OperationQueryParameter = {
-  parameterPath: ["options", "expand"],
+export const extensionUpgradeParameters: OperationParameter = {
+  parameterPath: "extensionUpgradeParameters",
+  mapper: MachineExtensionUpgradeMapper
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    serializedName: "$expand",
+    serializedName: "location",
+    required: true,
     type: {
       name: "String"
     }
   }
 };
 
-export const extensionUpgradeParameters: OperationParameter = {
-  parameterPath: "extensionUpgradeParameters",
-  mapper: MachineExtensionUpgradeMapper
+export const publisher: OperationURLParameter = {
+  parameterPath: "publisher",
+  mapper: {
+    serializedName: "publisher",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const extensionType: OperationURLParameter = {
+  parameterPath: "extensionType",
+  mapper: {
+    serializedName: "extensionType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    serializedName: "version",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const metadataName: OperationURLParameter = {
+  parameterPath: "metadataName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("[a-zA-Z0-9-_\\.]")
+    },
+    serializedName: "metadataName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const osType: OperationURLParameter = {
+  parameterPath: "osType",
+  mapper: {
+    serializedName: "osType",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const scopeName: OperationURLParameter = {
@@ -177,7 +343,7 @@ export const scopeName: OperationURLParameter = {
   }
 };
 
-export const parameters: OperationParameter = {
+export const parameters4: OperationParameter = {
   parameterPath: "parameters",
   mapper: HybridComputePrivateLinkScopeMapper
 };
@@ -187,7 +353,7 @@ export const privateLinkScopeTags: OperationParameter = {
   mapper: TagsResourceMapper
 };
 
-export const location: OperationURLParameter = {
+export const location1: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
     constraints: {
@@ -212,7 +378,7 @@ export const privateLinkScopeId: OperationURLParameter = {
   }
 };
 
-export const machineName1: OperationURLParameter = {
+export const machineName2: OperationURLParameter = {
   parameterPath: "machineName",
   mapper: {
     constraints: {
@@ -248,7 +414,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters1: OperationParameter = {
+export const parameters5: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };

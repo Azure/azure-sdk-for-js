@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Cancels a workflow run.
  *
  * @summary Cancels a workflow run.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRuns_Cancel.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRuns_Cancel.json
  */
 async function cancelAWorkflowRun() {
   const subscriptionId =

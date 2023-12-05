@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Updates site's Authentication / Authorization settings for apps via the V2 format
  *
  * @summary Description for Updates site's Authentication / Authorization settings for apps via the V2 format
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UpdateAuthSettingsV2.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/UpdateAuthSettingsV2.json
  */
 async function updateAuthSettingsV2() {
   const subscriptionId =

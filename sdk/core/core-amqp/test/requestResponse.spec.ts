@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
   Constants,
@@ -529,7 +529,7 @@ describe("RequestResponseLink", function () {
         assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
       }, 700);
       await link.sendRequest(request, {
-        abortSignal: AbortController.timeout(1000),
+        abortSignal: AbortSignal.timeout(1000),
         requestName: "foo",
       });
       throw new Error(`Test failure`);

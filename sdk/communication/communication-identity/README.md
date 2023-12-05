@@ -86,8 +86,11 @@ const user = await client.createUser();
 
 Use the `getToken` method to issue or refresh a token for an existing user. The method also takes in a list of communication token scopes. Scope options include:
 
-- `chat` (Chat)
-- `voip` (Voice over IP)
+- `chat` (Use this for full access to Chat APIs)
+- `voip` (Use this for full access to Calling APIs)
+- `chat.join` (Access to Chat APIs but without the authorization to create, delete or update chat threads)
+- `chat.join.limited` (A more limited version of chat.join that doesn't allow to add or remove participants)
+- `voip.join` (Access to Calling APIs but without the authorization to start new calls)
 
 ```typescript
 let { token } = await client.getToken(user, ["chat"]);

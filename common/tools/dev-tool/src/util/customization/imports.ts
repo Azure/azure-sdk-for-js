@@ -5,9 +5,9 @@ import { ImportDeclaration } from "ts-morph";
 import { getCustomizationState } from "./state";
 import * as path from "path";
 
-export async function augmentImports(
+export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
-  customImports: ImportDeclaration[]
+  customImports: ImportDeclaration[],
 ) {
   const { customDir, originalDir } = getCustomizationState();
   const importMap: Map<string, ImportDeclaration> = new Map();
@@ -52,7 +52,7 @@ export async function augmentImports(
 export function isPathMovingToOriginal(
   originalPath: string,
   currentFile: string,
-  resolvePath: string
+  resolvePath: string,
 ) {
   // Check if resolvePath is traversing directories upwards
   if (!resolvePath.startsWith("../") && !resolvePath.startsWith('"../')) {

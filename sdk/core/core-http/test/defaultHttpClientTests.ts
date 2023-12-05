@@ -7,7 +7,6 @@ import * as sinon from "sinon";
 import { AssertionError, assert } from "chai";
 import { HttpMockFacade, getHttpMock } from "./mockHttp";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
-import { AbortController } from "@azure/abort-controller";
 import { CommonResponse } from "../src/nodeFetchHttpClient";
 import { Context } from "mocha";
 import { DefaultHttpClient } from "../src/defaultHttpClient";

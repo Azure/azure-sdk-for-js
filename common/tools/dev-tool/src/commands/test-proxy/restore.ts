@@ -7,7 +7,7 @@ import { runTestProxyCommand } from "../../util/testProxyUtils";
 export const commandInfo = makeCommandInfo(
   "test-proxy",
   "restore the assets, referenced by assets.json, from git",
-  {}
+  {},
 );
 
 export default leafCommand(commandInfo, async () => {

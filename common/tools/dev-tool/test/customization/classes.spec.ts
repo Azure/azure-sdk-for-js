@@ -30,7 +30,7 @@ describe("Classes", () => {
  * Original docs
  */
 class MyClass {}
-`
+`,
     );
     customFile = project.createSourceFile(
       "custom.ts",
@@ -39,7 +39,7 @@ class MyClass {}
  * Custom docs
  */
 class MyClass {}
-`
+`,
     );
 
     originalClass = originalFile.getClassOrThrow("MyClass");
@@ -69,7 +69,7 @@ class MyClass {}
       customClass.addProperty({ name: "myProperty", type: "string" });
       augmentClass(originalClass, customClass, originalFile);
       expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
       ).to.equal("string");
     });
 
@@ -80,7 +80,7 @@ class MyClass {}
       augmentClass(originalClass, customClass, originalFile);
       expect(originalFile.getClass("MyClass")?.getProperty(AUGMENT_CLASS_TOKEN)).to.be.undefined;
       expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
       ).to.equal("string");
     });
     it("should replace the original property with the custom property", () => {
@@ -89,7 +89,7 @@ class MyClass {}
       customClass.addProperty({ name: "myProperty", type: "string" });
       augmentClass(originalClass, customClass, originalFile);
       expect(
-        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText()
+        originalFile.getClass("MyClass")?.getProperty("myProperty")?.getType().getText(),
       ).to.equal("string");
     });
   });
@@ -134,7 +134,7 @@ class MyClass {}
       augmentMethod(originalMethod, customMethod, originalClass!);
 
       expect(
-        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText()
+        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText(),
       ).to.equal("number");
     });
 
@@ -152,7 +152,7 @@ class MyClass {}
       augmentMethod(originalMethod, customMethod, originalClass!);
 
       expect(
-        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText()
+        originalFile.getClass("MyClass")?.getMethod("myMethod")?.getReturnType().getText(),
       ).to.equal("number");
     });
 
@@ -280,22 +280,22 @@ class MyClass {}
       expect(originalFile.getClass("MyClass")?.getConstructors().length).to.equal(1);
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs().length).to.equal(1);
       expect(
-        originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription()
+        originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription(),
       ).to.equal("Customized docs");
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("endpoint")).to.not
         .be.undefined;
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("baseUrl")).to.be;
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('custom');"
+        "console.log('custom');",
       );
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('original');"
+        "console.log('original');",
       );
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.not.include(
-        "// @azsdk-constructor-end"
+        "// @azsdk-constructor-end",
       );
       expect(originalFile.getClass("MyClass")?.getConstructors()[0].getText()).to.include(
-        "console.log('finish custom');"
+        "console.log('finish custom');",
       );
     });
   });

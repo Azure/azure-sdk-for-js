@@ -15,10 +15,10 @@ const { debug: parseDebug, error: parseError } = createPrinter("parseOptions");
 export type MaybeMultiple<P, T> = unknown extends P
   ? T | T[]
   : P extends undefined
-  ? T
-  : P extends true
-  ? T[]
-  : T;
+    ? T
+    : P extends true
+      ? T[]
+      : T;
 
 /**
  * The real type of an option parsed from an OptionDescription
@@ -28,8 +28,8 @@ export type OptionFor<Opt extends CommandOptions[string]> = MaybeMultiple<
   Opt extends StringOptionDescription
     ? string
     : Opt extends BooleanOptionDescription
-    ? boolean
-    : string | boolean
+      ? boolean
+      : string | boolean
 >;
 
 /**
@@ -75,7 +75,7 @@ export type ParsedOptions<Opts extends CommandOptions = CommandOptions> = {
  */
 export function parseOptions<Opts extends CommandOptions>(
   args: string[],
-  opts?: Opts
+  opts?: Opts,
 ): ParsedOptions<NonNullable<Opts>> {
   // If options are not provided, use an empty set
   const options: CommandOptions = opts ?? {};
@@ -95,14 +95,14 @@ export function parseOptions<Opts extends CommandOptions>(
         options[key].shortName !== undefined
           ? { ...o, [options[key].shortName as string]: key }
           : o,
-      {}
+      {},
     ),
     // Roll up the default values into the arg parser
     default: {
       ...keys.reduce(
         (o, key) =>
           options[key].default !== undefined ? { ...o, [key]: options[key].default } : o,
-        {}
+        {},
       ),
       help: false,
     },
@@ -119,7 +119,7 @@ export function parseOptions<Opts extends CommandOptions>(
     } else if (typeof value !== expected && typeof value !== "undefined") {
       parseError(`Bad argument: "${key}" = ${value}`);
       throw new Error(
-        `Value of argument "${key}" was a ${typeof value} but a ${expected} was expected.`
+        `Value of argument "${key}" was a ${typeof value} but a ${expected} was expected.`,
       );
     }
   }

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
  * @summary List of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_listAppIds_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAppIds_MaximumSet_Gen.json
  */
 async function globalRulestackListAppIdsMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -48,7 +48,7 @@ async function globalRulestackListAppIdsMaximumSetGen() {
  * This sample demonstrates how to List of AppIds for GlobalRulestack ApiVersion
  *
  * @summary List of AppIds for GlobalRulestack ApiVersion
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/GlobalRulestack_listAppIds_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/GlobalRulestack_listAppIds_MinimumSet_Gen.json
  */
 async function globalRulestackListAppIdsMinimumSetGen() {
   const globalRulestackName = "praval";

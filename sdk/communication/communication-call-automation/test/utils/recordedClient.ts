@@ -51,7 +51,7 @@ if (isNode) {
   dotenv.config();
 }
 
-const envSetupForPlayback: { [k: string]: string } = {
+const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=redacted",
   DISPATCHER_ENDPOINT: "https://redacted.azurewebsites.net",
   SERVICEBUS_STRING:
@@ -60,12 +60,15 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 const fakeToken = generateToken();
-const dispatcherEndpoint: string =
-  env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"];
-const serviceBusConnectionString: string =
-  env["SERVICEBUS_STRING"] ?? envSetupForPlayback["SERVICEBUS_STRING"];
-export const fileSourceUrl: string =
-  env["FILE_SOURCE_URL"] ?? envSetupForPlayback["FILE_SOURCE_URL"];
+const dispatcherEndpoint: string = !isPlaybackMode()
+  ? env["DISPATCHER_ENDPOINT"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  : envSetupForPlayback["DISPATCHER_ENDPOINT"];
+const serviceBusConnectionString: string = !isPlaybackMode()
+  ? env["SERVICEBUS_STRING"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  : envSetupForPlayback["SERVICEBUS_STRING"];
+export const fileSourceUrl: string = !isPlaybackMode()
+  ? env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"]
+  : envSetupForPlayback["FILE_SOURCE_URL"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<
@@ -265,7 +268,7 @@ export async function waitForEvent(
 
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
-    fs.writeFile(`recordings\\${testName}.txt`, eventsToPersist.join("\n"), (err) => {
+    fs.writeFile(`recordings\\${testName}.json`, eventsToPersist.join("\n"), (err) => {
       if (err) throw err;
     });
     // Clear the array for next test to use
@@ -280,10 +283,10 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
     let data: string = "";
     // Different OS has differnt file system path format.
     try {
-      data = fs.readFileSync(`recordings\\${testName}.txt`, "utf-8");
+      data = fs.readFileSync(`recordings\\${testName}.json`, "utf-8");
     } catch (e) {
       console.log("original path doesn't work");
-      data = fs.readFileSync(`recordings/${testName}.txt`, "utf-8");
+      data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
     }
     const eventStrings = data.split("\n");
 

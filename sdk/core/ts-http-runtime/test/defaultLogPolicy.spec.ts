@@ -35,6 +35,7 @@ describe("defaultLogPolicy", function () {
     expectedOrderedPolicies.push(
       "formDataPolicy",
       "userAgentPolicy",
+      "multipartPolicy",
       "defaultRetryPolicy",
       "tracingPolicy"
     );
