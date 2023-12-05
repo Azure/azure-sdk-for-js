@@ -1,17 +1,55 @@
 # Release History
 
-## 1.4.0 (2023-12-04)
+## 1.5.0-beta.1 (Unreleased)
+
+### Breaking Changes
+- Updated `ChatAttachment` properties
+  - `url` becomes optional
+  - `contentType` is removed  
+  - Renamed `AttachmentType` and its enums (`"teamsInlineImage" | "teamsImage" | "file"`) to `ChatAttachmentType` and `"image" | "file" | "unknown"`
+
+### Other Changes
+- Updated @azure/communication-signaling to 1.0.0-beta.23
+
+## 1.4.0-beta.2 (2023-10-10)
 
 ### Features Added
 
-- Added `ChatAttachment` object that contains properties for inline images incoming from Teams Chat Threads.
-- Updated to @azure/communication-signaling@1.0.0-beta.22 with inline image support
+- Updated @azure/communication-common to 2.3.0
+- Updated @azure/communication-signaling to 1.0.0-beta.21
 
 ## 1.3.2 (2023-08-24)
 
 ### Features Added
 
 - Updated to @azure/communication-signaling@1.0.0-beta.20. Added EUDB real-time notification support. `https://*.trouter.teams.microsoft.com` and `https://teams.microsoft.com` needs to be allowed for real-time notifications.
+
+## 1.4.0-beta.1 (2023-08-17)
+
+### Features Added
+
+- Support `metadata` for chat thread and chat participant.
+- Updated @azure/communication-signaling to 1.0.0-beta.19 with thread and participant metadata support.
+
+## 1.3.2-beta.3 (2023-07-18)
+
+### Features Added
+
+- Updated to `@azure/communication-common` 3.0.0-beta.1
+
+## 1.3.2-beta.2 (2023-05-25)
+
+### Features Added
+
+- Added file attachment support
+- Updated @azure/communication-signaling to 1.0.0-beta.18 with file attachment support.
+
+## 1.3.2-beta.1 (2023-04-10)
+
+### Features Added
+
+- Added inline image support
+- Updated @azure/communication-signaling to 1.0.0-beta.17 with inline image support.
 
 ## 1.3.1 (2023-02-28)
 

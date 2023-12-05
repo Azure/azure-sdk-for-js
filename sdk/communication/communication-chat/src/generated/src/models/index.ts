@@ -177,6 +177,8 @@ export interface ChatParticipant {
   displayName?: string;
   /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   shareHistoryTime?: Date;
+  /** Contextual metadata for the chat participant. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** An attachment in a chat message. */
@@ -184,7 +186,7 @@ export interface ChatAttachment {
   /** Id of the attachment */
   id: string;
   /** The type of attachment. */
-  attachmentType: "image";
+  attachmentType: ChatAttachmentType;
   /** The name of the attachment content. */
   name?: string;
   /** The URL where the attachment can be downloaded */
@@ -233,6 +235,8 @@ export interface CreateChatThreadRequest {
   topic: string;
   /** Participants to be added to the chat thread. */
   participants?: ChatParticipant[];
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Result of the create chat thread operation. */
@@ -258,6 +262,8 @@ export interface ChatThreadProperties {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   deletedOn?: Date;
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Collection of chat threads. */
@@ -290,6 +296,8 @@ export interface ChatThreadItem {
 export interface UpdateChatThreadRequest {
   /** Chat thread topic. */
   topic?: string;
+  /** Contextual metadata for the thread. The metadata consists of name/value pairs. The total size of all metadata pairs can be up to 1KB in size. */
+  metadata?: { [propertyName: string]: string };
 }
 
 /** Request payload for typing notifications. */
@@ -349,6 +357,8 @@ export type ChatMessageType =
   | "topicUpdated"
   | "participantAdded"
   | "participantRemoved";
+/** Defines values for ChatAttachmentType. */
+export type ChatAttachmentType = "image" | "file";
 
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsOptionalParams

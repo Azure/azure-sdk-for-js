@@ -24,6 +24,14 @@ export const mockParticipant: RestModel.ChatParticipant = {
   shareHistoryTime: new Date("2020-05-26T18:06:06Z"),
 };
 
+export const mockParticipantWithMetadata: RestModel.ChatParticipant = {
+  communicationIdentifier: mockCommunicationIdentifier,
+  displayName: "displayName",
+  metadata: {
+    userType: "C2",
+  },
+};
+
 export const mockSdkModelParticipant: ChatParticipant = {
   id: {
     communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id as string,
@@ -35,6 +43,7 @@ export const mockSdkModelParticipant: ChatParticipant = {
 export const mockThread: RestModel.ChatThreadProperties = {
   id: "threadid",
   topic: "topic",
+  metadata: { threadType: "primary", secondaryThread: "test-id" },
   createdByCommunicationIdentifier: mockCommunicationIdentifier,
   createdOn: new Date("2020-06-26T18:06:06Z"),
 };
@@ -66,13 +75,37 @@ export const mockMessage: RestModel.ChatMessage = {
   metadata: { tags: "tag" },
 };
 
-export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
-  senderCommunicationIdentifier: mockCommunicationIdentifier,
-  chatMessageId: mockMessage.id,
-  readOn: new Date("2020-06-26T18:06:06Z"),
+export const mockMessageContent: RestModel.ChatMessageContent = {
+  message: "content",
+  topic: "topic",
+  participants: [mockParticipant],
+  attachments: [
+    {
+      id: "id",
+      attachmentType: "image",
+      name: "images",
+      url: "url",
+      previewUrl: "previewUrl",
+    },
+    {
+      id: "id1",
+      attachmentType: "image",
+      name: "picture1.png",
+      url: "url1",
+      previewUrl: "previewUrl1",
+    },
+    {
+      id: "id2",
+      attachmentType: "file",
+      name: "report.docx",
+      url: "url2",
+      previewUrl: "previewUrl2",
+    },
+  ],
+  initiatorCommunicationIdentifier: mockCommunicationIdentifier,
 };
 
-export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
+export const mockMessageWithAttachment: RestModel.ChatMessage = {
   id: "id",
   type: "text",
   version: "version",
@@ -84,9 +117,23 @@ export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
       {
         id: "id",
         attachmentType: "image",
-        name: "",
+        name: "images",
         url: "url",
         previewUrl: "previewUrl",
+      },
+      {
+        id: "id1",
+        attachmentType: "image",
+        name: "picture1.png",
+        url: "url1",
+        previewUrl: "previewUrl1",
+      },
+      {
+        id: "id2",
+        attachmentType: "file",
+        name: "report.docx",
+        url: "url2",
+        previewUrl: "previewUrl2",
       },
     ],
   },
@@ -95,6 +142,12 @@ export const mockMessageWithImageAttachment: RestModel.ChatMessage = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   deletedOn: new Date("2020-06-26T18:06:06Z"),
   metadata: { tags: "tag" },
+};
+
+export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
+  senderCommunicationIdentifier: mockCommunicationIdentifier,
+  chatMessageId: mockMessage.id,
+  readOn: new Date("2020-06-26T18:06:06Z"),
 };
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
