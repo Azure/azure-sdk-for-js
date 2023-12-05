@@ -53,7 +53,7 @@ import {
   AssistantRunsCancelRunOptions,
   AssistantRunsCreateThreadAndRunOptions,
   RunStepsRetrieveRunStepOptions,
- RunStepsListRunStepsOptions,
+  RunStepsListRunStepsOptions,
   FilesListFilesOptions,
   FilesUploadFileOptions,
   FilesDeleteFileOptions,
