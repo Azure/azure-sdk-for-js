@@ -42,7 +42,7 @@ describe("#LiveMetrics", () => {
 
   it("should observe instruments during collection", async () => {
     autoCollect["isCollectingData"] = true;
-    autoCollect.activateMetrics({ collectionInterval: 100 });
+    autoCollect.activateMetrics({ collectionInterval: 50 });
 
     let loggerProvider = new LoggerProvider();
     let logger = loggerProvider.getLogger("testLogger") as any;

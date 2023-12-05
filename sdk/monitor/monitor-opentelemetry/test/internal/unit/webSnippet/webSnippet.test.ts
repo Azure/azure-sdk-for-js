@@ -206,7 +206,7 @@ describe("#WebSnippet", () => {
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
     assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf(expectedStr) >= 0);
+    assert.ok(newHtml.indexOf(expectedStr) >= 0, expectedStr);
   });
 
   it("web snippet injection to buffer", () => {
