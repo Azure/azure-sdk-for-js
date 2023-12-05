@@ -29,6 +29,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions: InstrumentationOptions;
+  /** Enable Live Metrics feature */
+  enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  enableStandardMetrics?: boolean;
 
   private _resource: Resource;
 
@@ -50,6 +54,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
+    this.enableLiveMetrics = false;
+    this.enableStandardMetrics = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -73,6 +79,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
+      this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
     }
     // JSON configuration will take precedence over other settings
     this._mergeConfig();
@@ -83,7 +91,14 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-
+      this.enableLiveMetrics =
+        jsonConfig.enableLiveMetrics !== undefined
+          ? jsonConfig.enableLiveMetrics
+          : this.enableLiveMetrics;
+      this.enableStandardMetrics =
+        jsonConfig.enableStandardMetrics !== undefined
+          ? jsonConfig.enableStandardMetrics
+          : this.enableStandardMetrics;
       this.azureMonitorExporterOptions = Object.assign(
         this.azureMonitorExporterOptions,
         jsonConfig.azureMonitorExporterOptions
