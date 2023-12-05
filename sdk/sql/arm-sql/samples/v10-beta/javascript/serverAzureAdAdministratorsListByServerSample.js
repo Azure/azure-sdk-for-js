@@ -28,7 +28,7 @@ async function getsAListOfAzureActiveDirectoryAdministrator() {
   const resArray = new Array();
   for await (let item of client.serverAzureADAdministrators.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

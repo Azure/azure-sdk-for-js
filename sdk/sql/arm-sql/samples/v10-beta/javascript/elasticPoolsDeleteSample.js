@@ -29,7 +29,7 @@ async function deleteAnElasticPool() {
   const result = await client.elasticPools.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }

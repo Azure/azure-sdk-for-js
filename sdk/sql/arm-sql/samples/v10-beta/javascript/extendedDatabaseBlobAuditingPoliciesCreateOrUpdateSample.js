@@ -34,7 +34,7 @@ async function createOrUpdateAnExtendedDatabaseAzureMonitorAuditingPolicyWithMin
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -74,7 +74,7 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithAllParamete
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -103,7 +103,7 @@ async function createOrUpdateAnExtendedDatabaseBlobAuditingPolicyWithMinimalPara
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

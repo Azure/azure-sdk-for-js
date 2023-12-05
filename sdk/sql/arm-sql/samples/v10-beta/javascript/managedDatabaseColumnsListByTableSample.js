@@ -34,7 +34,7 @@ async function listManagedDatabaseColumns() {
     managedInstanceName,
     databaseName,
     schemaName,
-    tableName
+    tableName,
   )) {
     resArray.push(item);
   }

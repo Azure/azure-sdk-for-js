@@ -29,7 +29,7 @@ async function failoverAnElasticPool() {
   const result = await client.elasticPools.beginFailoverAndWait(
     resourceGroupName,
     serverName,
-    elasticPoolName
+    elasticPoolName,
   );
   console.log(result);
 }

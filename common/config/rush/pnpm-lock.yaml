@@ -15692,7 +15692,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-MjeYUJ3wWcZC+sq2sOLK3+9UuZUdSRar72hzZmDSwCz+1YsjVMBUxl8+bK6eznpp8ucQBOQc2LTNdXnWLGhiEA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-bVhWsimm5jn3YIVZC9YTv7m/qhmxWjRnTuNGmZbE8Qyx0+q01+vdTFMJoOzy/1Nb5028Qz7naGwmV6hvBMl/9A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -15700,10 +15700,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5

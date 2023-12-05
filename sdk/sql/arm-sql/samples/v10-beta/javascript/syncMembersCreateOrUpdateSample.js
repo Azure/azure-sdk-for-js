@@ -44,7 +44,7 @@ async function createANewSyncMember() {
     databaseName,
     syncGroupName,
     syncMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -81,7 +81,7 @@ async function updateASyncMember() {
     databaseName,
     syncGroupName,
     syncMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

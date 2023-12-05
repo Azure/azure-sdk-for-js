@@ -31,7 +31,7 @@ async function updatesAManagedDatabaseWithMaximalProperties() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function updatesAManagedDatabaseWithMinimalProperties() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

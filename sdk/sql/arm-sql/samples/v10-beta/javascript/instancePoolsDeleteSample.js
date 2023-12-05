@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an instance pool
  *
  * @summary Deletes an instance pool
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/DeleteInstancePool.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/DeleteInstancePool.json
  */
 async function deleteAnInstancePool() {
   const subscriptionId =

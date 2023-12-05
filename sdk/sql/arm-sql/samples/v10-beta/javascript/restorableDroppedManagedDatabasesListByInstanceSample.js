@@ -28,7 +28,7 @@ async function listRestorableDroppedDatabasesByManagedInstances() {
   const resArray = new Array();
   for await (let item of client.restorableDroppedManagedDatabases.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

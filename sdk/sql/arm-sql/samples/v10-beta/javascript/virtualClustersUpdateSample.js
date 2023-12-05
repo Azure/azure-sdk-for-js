@@ -29,7 +29,7 @@ async function updateVirtualClusterWithTags() {
   const result = await client.virtualClusters.beginUpdateAndWait(
     resourceGroupName,
     virtualClusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

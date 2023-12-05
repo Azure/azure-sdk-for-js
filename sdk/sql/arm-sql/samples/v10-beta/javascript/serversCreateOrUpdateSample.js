@@ -43,7 +43,7 @@ async function createServer() {
   const result = await client.servers.beginCreateOrUpdateAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
