@@ -24,6 +24,12 @@ import {
   BackupInstancesValidateForBackupResponse,
   BackupInstancesGetBackupInstanceOperationResultOptionalParams,
   BackupInstancesGetBackupInstanceOperationResultResponse,
+  CrossRegionRestoreRequestObject,
+  BackupInstancesTriggerCrossRegionRestoreOptionalParams,
+  BackupInstancesTriggerCrossRegionRestoreResponse,
+  ValidateCrossRegionRestoreRequestObject,
+  BackupInstancesValidateCrossRegionRestoreOptionalParams,
+  BackupInstancesValidateCrossRegionRestoreResponse,
   AzureBackupRehydrationRequest,
   BackupInstancesTriggerRehydrateOptionalParams,
   BackupInstancesTriggerRehydrateResponse,
@@ -210,6 +216,68 @@ export interface BackupInstances {
     operationId: string,
     options?: BackupInstancesGetBackupInstanceOperationResultOptionalParams
   ): Promise<BackupInstancesGetBackupInstanceOperationResultResponse>;
+  /**
+   * Triggers Cross Region Restore for BackupInstance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  beginTriggerCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesTriggerCrossRegionRestoreResponse>,
+      BackupInstancesTriggerCrossRegionRestoreResponse
+    >
+  >;
+  /**
+   * Triggers Cross Region Restore for BackupInstance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for trigger CRR operation
+   * @param options The options parameters.
+   */
+  beginTriggerCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: CrossRegionRestoreRequestObject,
+    options?: BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesTriggerCrossRegionRestoreResponse>;
+  /**
+   * Validates whether Cross Region Restore can be triggered for DataSource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateCrossRegionRestore(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BackupInstancesValidateCrossRegionRestoreResponse>,
+      BackupInstancesValidateCrossRegionRestoreResponse
+    >
+  >;
+  /**
+   * Validates whether Cross Region Restore can be triggered for DataSource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param location The name of the Azure region.
+   * @param parameters Request body for operation
+   * @param options The options parameters.
+   */
+  beginValidateCrossRegionRestoreAndWait(
+    resourceGroupName: string,
+    location: string,
+    parameters: ValidateCrossRegionRestoreRequestObject,
+    options?: BackupInstancesValidateCrossRegionRestoreOptionalParams
+  ): Promise<BackupInstancesValidateCrossRegionRestoreResponse>;
   /**
    * rehydrate recovery point for restore for a BackupInstance
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
