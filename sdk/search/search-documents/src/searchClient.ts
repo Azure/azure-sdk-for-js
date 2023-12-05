@@ -113,7 +113,6 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   public readonly indexName: string;
 
   /**
-   * @internal
    * @hidden
    * A reference to the auto-generated SearchClient
    */
