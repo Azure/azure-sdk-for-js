@@ -836,6 +836,11 @@ export type SearchPick<TModel extends object, TFields extends SelectFields<TMode
   ? TModel
   : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
   ? TModel
+  : // If every field is selected, use the model type directly
+  (<T>() => T extends TFields ? true : false) extends <T>() => T extends SelectFields<TModel>
+      ? true
+      : false
+  ? TModel
   : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
     UnionToIntersection<
       // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
@@ -926,19 +931,21 @@ export type SuggestNarrowedModel<
   ? TModel
   : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
   ? TModel
-  : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-  ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
-    // service by default
-    keyof ExtractDocumentKey<TModel> extends never
-    ? // Return the original model if none of the properties are non-nullable
-      TModel
-    : ExtractDocumentKey<TModel>
-  : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
-  // here
-  TFields extends SelectFields<TModel>
-  ? NarrowedModel<TModel, TFields>
-  : // Unreachable by construction
-    never;
+  : UnionToIntersection<
+      (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
+          // service by default
+          keyof ExtractDocumentKey<TModel> extends never
+          ? // Return the original model if none of the properties are non-nullable
+            TModel
+          : ExtractDocumentKey<TModel>
+        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
+        // here
+        TFields extends SelectFields<TModel>
+        ? NarrowedModel<TModel, TFields>
+        : // Unreachable by construction
+          never
+    >;
 
 /**
  * Extracts answer candidates from the contents of the documents returned in response to a query
