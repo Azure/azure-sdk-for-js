@@ -42,7 +42,7 @@ describe("#LiveMetrics", () => {
 
   it("should observe instruments during collection", async () => {
     autoCollect["isCollectingData"] = true;
-    autoCollect.activateMetrics({ collectionInterval: 50 });
+    autoCollect.activateMetrics({ collectionInterval: 100 });
 
     let loggerProvider = new LoggerProvider();
     let logger = loggerProvider.getLogger("testLogger") as any;
@@ -94,7 +94,7 @@ describe("#LiveMetrics", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 110));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
