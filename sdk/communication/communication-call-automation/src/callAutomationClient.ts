@@ -257,6 +257,7 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!
       ),
@@ -286,6 +287,7 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -307,12 +309,14 @@ export class CallAutomationClient {
     const {
       callIntelligenceOptions,
       mediaStreamingConfiguration,
+      transcriptionConfiguration,
       operationContext,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
       mediaStreamingConfiguration: mediaStreamingConfiguration,
+      transcriptionConfiguration: transcriptionConfiguration,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,

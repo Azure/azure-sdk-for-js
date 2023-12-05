@@ -34,6 +34,8 @@ import {
   CreateCallOptions,
   AnswerCallOptions,
   PlayOptions,
+  StartTranscriptionOptions,
+  StopTranscriptionOptions,
 } from "../src";
 
 // Current directory imports
@@ -360,6 +362,57 @@ describe("CallMedia Unit Tests", async function () {
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful Start Transcription request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const startTranscriptionOptions: StartTranscriptionOptions = {
+      locale: "en-US",
+      operationContext: "test_operation_context",
+    };
+
+    await callMedia.startTranscription(startTranscriptionOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.locale, startTranscriptionOptions.locale);
+    assert.equal(data.operationContext, startTranscriptionOptions.operationContext);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful Stop TranscriptionOptions request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const stopTranscriptionOptions: StopTranscriptionOptions = {
+      operationContext: "test_operation_context",
+    };
+
+    await callMedia.stopTranscription(stopTranscriptionOptions);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.operationContext, stopTranscriptionOptions.operationContext);
+    assert.equal(request.method, "POST");
+  });
+
+  it("makes successful Update Transcription request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const locale = "en-US";
+
+    await callMedia.updateTranscription(locale);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.locale, locale);
     assert.equal(request.method, "POST");
   });
 });

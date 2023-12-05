@@ -74,6 +74,7 @@ export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
 // @public
@@ -205,8 +206,11 @@ export class CallMedia {
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<StartRecognizingResult>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<StartRecognizingResult>;
+    startTranscription(options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     stopHoldMusic(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
+    stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
+    updateTranscription(locale: string): Promise<void>;
 }
 
 // @public
@@ -430,6 +434,7 @@ export interface CreateCallOptions extends OperationOptions {
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
+    transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
 // @public
@@ -872,7 +877,18 @@ export interface StartRecordingOptions extends OperationOptions {
 }
 
 // @public
+export interface StartTranscriptionOptions extends OperationOptions {
+    locale?: string;
+    operationContext?: string;
+}
+
+// @public
 export type StopRecordingOptions = OperationOptions;
+
+// @public
+export interface StopTranscriptionOptions extends OperationOptions {
+    operationContext?: string;
+}
 
 // @public
 export interface TextSource extends PlaySource {
@@ -892,6 +908,17 @@ export interface TextSource extends PlaySource {
 
 // @public
 export type Tone = string;
+
+// @public
+export interface TranscriptionConfiguration {
+    locale: string;
+    startTranscription: boolean;
+    transportType: TranscriptionTransportType;
+    transportUrl: string;
+}
+
+// @public
+export type TranscriptionTransportType = string;
 
 // @public
 export interface TransferCallResult {

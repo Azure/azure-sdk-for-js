@@ -20,6 +20,8 @@ export {
   MediaStreamingConfiguration,
   MediaStreamingContentType,
   MediaStreamingTransportType,
+  TranscriptionConfiguration,
+  TranscriptionTransportType,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
