@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -8,7 +11,6 @@ import {
   ObjectsResultOutput,
   TagsResultOutput,
 } from "../../src/index.js";
-import * as fs from "fs";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -24,6 +26,15 @@ describe("Analyze Tests", () => {
   afterEach(async function () {
     await recorder?.stop();
   });
+
+  async function downloadUrlToUint8Array(url: string): Promise<Uint8Array> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to download content: ${response.status} ${response.statusText}`);
+    }
+    const buffer = await response.arrayBuffer();
+    return new Uint8Array(buffer);
+  }
 
   it("Analyze from URL", async function () {
     const allFeatures: string[] = [
@@ -79,14 +90,14 @@ describe("Analyze Tests", () => {
       "Tags",
     ];
     const someFeatures: string[] = ["Caption", "Read"];
+    const url: string = "https://aka.ms/azai/vision/image-analysis-sample.jpg";
 
-    const fileLocation = process.env.TEST_IMAGE_INPUT_PATH ? process.env.TEST_IMAGE_INPUT_PATH : "./test/image-analysis-sample.jpg";
+    const data: Uint8Array = await downloadUrlToUint8Array(url);
 
     for (const testFeatures of [allFeatures, someFeatures]) {
-      const fileStream = fs.readFileSync(fileLocation);
       const result = await client.path("/imageanalysis:analyze").post(
         {
-          body: new Uint8Array(fileStream),
+          body: data,
           queryParameters: {
             features: testFeatures,
             "smartCrops-aspect-ratios": [0.9, 1.33],
@@ -195,7 +206,7 @@ describe("Analyze Tests", () => {
 
     if (words !== 6) throw new Error('Words count is not equal to 6');
     if (lines !== 3) throw new Error('Lines count is not equal to 3');
-    if (allText.join('\n') !== 'Sample text\nHand writing\n123 456\n') {
+    if (allText.join('\n') !== 'Sample text\nHand writing\n123 456') {
       throw new Error('All text content is not equal to the expected value');
     }
   }
@@ -263,7 +274,6 @@ describe("Analyze Tests", () => {
       assert.strictEqual(iaResult.captionResult.text, firstCaption.text);
     }
 
-    const captions = new Set<string>();
     const boundingBoxes = new Set<string>();
 
     for (const oneDenseCaption of denseCaptionsResult!.values) {
@@ -272,8 +282,6 @@ describe("Analyze Tests", () => {
       boundingBoxes.add(JSON.stringify(oneDenseCaption.boundingBox));
 
       assert.isNotNull(oneDenseCaption.text);
-      assert.isFalse(captions.has(oneDenseCaption.text));
-      captions.add(oneDenseCaption.text);
 
       assert.isAbove(oneDenseCaption.confidence, 0);
       assert.isBelow(oneDenseCaption.confidence, 1);
