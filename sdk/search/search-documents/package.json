@@ -92,6 +92,7 @@
     "@azure/core-http-compat": "^2.0.1",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
+    "type-plus": "^7.6.0",
     "events": "^3.0.0"
   },
   "devDependencies": {
