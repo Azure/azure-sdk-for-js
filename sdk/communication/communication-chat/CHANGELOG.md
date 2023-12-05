@@ -1,14 +1,15 @@
 # Release History
 
-## 1.4.0-beta.3 (Unreleased)
-
-### Features Added
+## 1.5.0-beta.1 (Unreleased)
 
 ### Breaking Changes
-
-### Bugs Fixed
+- Updated `ChatAttachment` properties
+  - `url` becomes optional
+  - `contentType` is removed  
+  - Renamed `AttachmentType` and its enums (`"teamsInlineImage" | "teamsImage" | "file"`) to `ChatAttachmentType` and `"image" | "file" | "unknown"`
 
 ### Other Changes
+- Updated @azure/communication-signaling to 1.0.0-beta.23
 
 ## 1.4.0-beta.2 (2023-10-10)
 

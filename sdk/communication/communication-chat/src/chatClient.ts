@@ -88,6 +88,7 @@ export class ChatClient {
     (options as any).signalingClientOptions = {
       ...(options as any).signalingClientOptions,
       resourceEndpoint: this.endpoint,
+      gatewayApiVersion: this.client.apiVersion,
     };
 
     this.signalingClient = getSignalingClient(

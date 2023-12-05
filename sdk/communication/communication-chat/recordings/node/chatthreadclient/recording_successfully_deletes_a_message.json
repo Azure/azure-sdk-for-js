@@ -1,27 +1,27 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AJSkjP3aPpPaSNVo4v7ZxL0IOcVDpJATab3FPCTV7QXM1%40thread.v2/messages/1692122376975?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3A2DSJlUg7R4ofGKtwIaHygytaHGAciwrHGNzXsjUNZQI1%40thread.v2/messages/1700526847343?api-version=2023-11-15-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "3881e56a-32aa-477b-9e1c-ea5d3af7b861"
+        "User-Agent": "azsdk-js-communication-chat/1.5.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
+        "x-ms-client-request-id": "a4c4ad0d-7823-4990-8302-9a4e9c674b9c"
       },
       "RequestBody": null,
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Date": "Tue, 15 Aug 2023 17:59:37 GMT",
-        "MS-CV": "\u002BX4HhZ0BP0S6n3r6QwRvjg.0",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
+        "Date": "Tue, 21 Nov 2023 00:34:08 GMT",
+        "MS-CV": "mpXBt/ZvrUGk8L6xAFY2YQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Cr3bZAAAAAAmS2iTTvzRTodVnaLjMqakV1NURURHRTAxMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0APtbZQAAAABArofBbSt7QYUBDfqPNnsqV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "247ms"
+        "X-Processing-Time": "336ms"
       },
       "ResponseBody": null
     }

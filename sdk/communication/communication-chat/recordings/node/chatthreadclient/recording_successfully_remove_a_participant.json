@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3AJSkjP3aPpPaSNVo4v7ZxL0IOcVDpJATab3FPCTV7QXM1%40thread.v2/participants/:remove?api-version=2023-07-01-preview",
+      "RequestUri": "https://endpoint/chat/threads/19%3A2DSJlUg7R4ofGKtwIaHygytaHGAciwrHGNzXsjUNZQI1%40thread.v2/participants/:remove?api-version=2023-11-15-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,25 +10,25 @@
         "Connection": "keep-alive",
         "Content-Length": "200",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-chat/1.4.0-beta.1 core-rest-pipeline/1.12.1 Node/v16.14.2 OS/(arm64-Darwin-22.6.0)",
-        "x-ms-client-request-id": "b47f73bb-8a73-42b0-81f0-eb3897ab890c"
+        "User-Agent": "azsdk-js-communication-chat/1.5.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.17.0 OS/(arm64-Darwin-23.1.0)",
+        "x-ms-client-request-id": "4432281f-5e9a-4a90-8917-8243c8cc0d37"
       },
       "RequestBody": {
-        "rawId": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-096a-0e04-343a0d004a9a",
+        "rawId": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f2e-0fe7-99c6-593a0d003e77",
         "communicationUser": {
-          "id": "8:acs:357e39d2-a29a-4bf6-88cc-fda0afc2c0ed_0000001a-9a3c-096a-0e04-343a0d004a9a"
+          "id": "8:acs:dd9753c0-6e62-4f74-ab0f-c94f9723b4eb_0000001c-8f2e-0fe7-99c6-593a0d003e77"
         }
       },
       "StatusCode": 204,
       "ResponseHeaders": {
         "Access-Control-Expose-Headers": "*",
-        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview",
-        "Date": "Tue, 15 Aug 2023 17:59:38 GMT",
-        "MS-CV": "T0ATovuJOkKnprGteaxBfA.0",
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2023-04-01-preview, 2023-07-01-preview, 2023-11-07, 2023-11-15-preview",
+        "Date": "Tue, 21 Nov 2023 00:34:09 GMT",
+        "MS-CV": "xgBhYGvjqUycQsHgNOP\u002BEA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0C73bZAAAAAB5vlS0qMjvQJVIsKFMV2QCV1NURURHRTAxMTkAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0AftbZQAAAADLY\u002BWmuOUJSZyZIvlNTHL5V1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "252ms"
+        "X-Processing-Time": "429ms"
       },
       "ResponseBody": null
     }
