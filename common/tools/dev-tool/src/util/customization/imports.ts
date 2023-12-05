@@ -3,7 +3,7 @@
 
 import { ImportDeclaration, SourceFile } from "ts-morph";
 import { getCustomizationState } from "./state";
-import * as path from "path";
+import path from "../pathUtil";
 
 declare const DOT_PREFIXED_RELATIVE_PATH: unique symbol;
 declare const LOCAL_MODULE_RELATIVE_PATH: unique symbol;
@@ -56,13 +56,23 @@ type ModuleSpecifier =
 export function augmentImports(
   originalImports: Map<string, ImportDeclaration>,
   customImports: ImportDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
+  const originalFilePath = originalFile.getFilePath();
   const importMap = new Map<string, ImportDeclaration>();
+  originalImports.forEach((importDecl, _moduleSpecifier) => {
+    const moduleSpecifier = _moduleSpecifier as ModuleSpecifier;
+    const normalizedModuleSpecifier = isRelativeModuleSpecifier(moduleSpecifier)
+      ? normalizeRelativeModuleSpecifier(moduleSpecifier, originalFilePath)
+      : moduleSpecifier;
+    importDecl.setModuleSpecifier(normalizedModuleSpecifier);
+    importMap.set(normalizedModuleSpecifier, importDecl);
+  });
+
   removeConflictingIdentifiers(Array.from(originalImports.values()), customImports);
 
   customImports.forEach((customImportDecl) =>
-    mergeImportIntoFile(customImportDecl, originalFile, importMap)
+    mergeImportIntoFile(customImportDecl, originalFile, importMap),
   );
 
   removeEmptyImports(originalFile);
@@ -71,7 +81,8 @@ export function augmentImports(
 
 function removeSelfImports(originalFile: SourceFile) {
   const filePath = originalFile.getFilePath();
-  const filePathWithoutExt = path.normalize(removeFileExtension(filePath));
+  const filePathObject = path.parse(filePath);
+  const filePathWithoutExt = removeFileExtension(filePath);
 
   originalFile
     .getImportDeclarations()
@@ -80,17 +91,14 @@ function removeSelfImports(originalFile: SourceFile) {
 
   function isSelfImport(originalImport: ImportDeclaration) {
     const modulePath = originalImport.getModuleSpecifierValue() as ModuleSpecifier;
-    const moduleResolvedPath = path.normalize(path.join(path.dirname(filePath), modulePath));
-    return removeFileExtension(moduleResolvedPath) === filePathWithoutExt;
+    const moduleAbsolutePath = path.normalize(path.join(filePathObject.dir, modulePath));
+    return removeFileExtension(moduleAbsolutePath) === filePathWithoutExt;
   }
 }
 
 function removeFileExtension(filePath: string): string {
   const filePathObject = path.parse(filePath);
-  if (filePathObject.ext.length > 0) {
-    return filePath.slice(0, -filePathObject.ext.length);
-  }
-  return filePath;
+  return filePath.slice(0, -filePathObject.ext.length);
 }
 
 function removeEmptyImports(originalFile: SourceFile) {
@@ -108,7 +116,7 @@ function removeEmptyImports(originalFile: SourceFile) {
 function mergeImportIntoFile(
   customImportDecl: ImportDeclaration,
   originalFile: SourceFile,
-  importMap: Map<string, ImportDeclaration>
+  importMap: Map<string, ImportDeclaration>,
 ) {
   const outputModuleSpecifier = getFixedModuleSpecifier(customImportDecl);
 
@@ -126,7 +134,7 @@ function mergeImportIntoFile(
    * generated module
    */
   function getFixedModuleSpecifier(
-    customImportDecl: ImportDeclaration
+    customImportDecl: ImportDeclaration,
   ): RelativeModuleSpecifier | string {
     const { customDir, originalDir } = getCustomizationState();
     const customFilePath = customImportDecl.getSourceFile().getFilePath();
@@ -141,8 +149,8 @@ function mergeImportIntoFile(
         originalDir,
         customDir,
         customFilePath,
-        moduleSpecifierFromCustomFile
-      ) ?? normalizeRelativeModuleSpecifier(moduleSpecifierFromCustomFile);
+        moduleSpecifierFromCustomFile,
+      ) ?? normalizeRelativeModuleSpecifier(moduleSpecifierFromCustomFile, customFilePath);
 
     return fixedModuleSpecifier;
   }
@@ -158,7 +166,7 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
   if (customNamedImports.length) {
     original.insertNamedImports(
       0,
-      customNamedImports.map((specifier) => specifier.getStructure())
+      customNamedImports.map((specifier) => specifier.getStructure()),
     );
   }
 
@@ -169,21 +177,25 @@ function augmentImportDeclaration(original: ImportDeclaration, custom: ImportDec
 }
 
 function isRelativeModuleSpecifier<T extends ModuleSpecifier>(
-  moduleSpecifier: T
+  moduleSpecifier: T,
 ): moduleSpecifier is T & RelativeModuleSpecifier {
   return moduleSpecifier.startsWith(".");
 }
 
 function normalizeRelativeModuleSpecifier<T extends LocalModuleRelativePath>(
-  moduleSpecifier: T
+  moduleSpecifier: T,
+  filePath: string,
 ): T & RelativeModuleSpecifier {
-  const posixStyle = moduleSpecifier.split("\\").join("/");
+  const fileDir = path.dirname(filePath);
+  const modulePath = path.normalize(path.join(fileDir, moduleSpecifier));
+  const normalizedModuleSpecifier = path.relative(fileDir, modulePath) as T &
+    LocalModuleRelativePath;
 
-  return prefixRelativePathWithDot(posixStyle);
+  return prefixRelativePathWithDot(normalizedModuleSpecifier);
 }
 
 function prefixRelativePathWithDot<T extends string>(
-  filePath: string
+  filePath: string,
 ): T & DotPrefixedRelativePath {
   if (path.isAbsolute(filePath)) {
     throw Error("Attempted to dot-prefix an absolute path");
@@ -206,26 +218,28 @@ function getFixedModuleSpecifierIfImportedFromOriginal(
   originalSourceRoot: string,
   customSourceRoot: string,
   customFilePath: string,
-  originalModuleSpecifier: LocalModuleRelativePath
+  originalModuleSpecifier: LocalModuleRelativePath,
 ): RelativeModuleSpecifier | undefined {
   const customFileDir = path.dirname(customFilePath);
-  const moduleAbsolutePath = path.resolve(customFileDir, originalModuleSpecifier);
+  const moduleAbsolutePath = path.normalize(path.join(customFileDir, originalModuleSpecifier));
+
   const outputModuleRelativePath = path.relative(originalSourceRoot, moduleAbsolutePath);
   const outputFileRelativePath = path.relative(customSourceRoot, customFileDir);
+
   const outputModuleSpecifier = path.relative(
     outputFileRelativePath,
-    outputModuleRelativePath
+    outputModuleRelativePath,
   ) as LocalModuleRelativePath;
 
   // Check if the module is actually contained in the original directory
   if (!outputModuleRelativePath.startsWith("..") && !path.isAbsolute(outputModuleRelativePath)) {
-    return normalizeRelativeModuleSpecifier(outputModuleSpecifier);
+    return normalizeRelativeModuleSpecifier(outputModuleSpecifier, outputFileRelativePath);
   }
 }
 
 function removeConflictingIdentifiers(
   originalImports: ImportDeclaration[],
-  customImports: ImportDeclaration[]
+  customImports: ImportDeclaration[],
 ) {
   // maps the name of the imported symbol to a nullary function that removes the symbol from the
   // original source file
@@ -263,7 +277,7 @@ function removeConflictingIdentifiers(
           ]);
 
         return importRemoveCallbacks;
-      })
+      }),
     );
   }
 }

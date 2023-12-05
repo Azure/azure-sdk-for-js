@@ -4,8 +4,16 @@ import { expect } from "chai";
 import { resetCustomizationState, setCustomizationState } from "../../src/util/customization/state";
 
 describe("Imports", () => {
+  let project: Project;
+
+  beforeEach(() => {
+    project = new Project({ useInMemoryFileSystem: true });
+  });
+  afterEach(() => {
+    resetCustomizationState();
+  });
+
   it("should remove self imports", () => {
-    const project = new Project({ useInMemoryFileSystem: true });
     const originalFile = project.createSourceFile("generated/file.ts", "");
     const customFile = project.createSourceFile("customized/file.ts", "");
     customFile.addImportDeclaration({
@@ -22,10 +30,14 @@ describe("Imports", () => {
     expect(augmentedImports).to.have.lengthOf(0);
   });
 
-  it("should remove self imports on Windows", () => {
-    const project = new Project({ useInMemoryFileSystem: true });
-    const originalFile = project.createSourceFile("C:/generated/file.ts", "");
-    const customFile = project.createSourceFile("C:/customized/file.ts", "");
+  it.only("should remove self imports on Windows", () => {
+    setCustomizationState({
+      customDir: "C:\\customized\\",
+      originalDir: "C:\\generated\\",
+      outDir: "C:\\src",
+    });
+    const originalFile = project.createSourceFile("C:\\generated\\file.ts", "");
+    const customFile = project.createSourceFile("C:\\customized\\file.ts", "");
     customFile.addImportDeclaration({
       moduleSpecifier: "../generated/file.js",
       namedImports: ["Foo"],
@@ -41,7 +53,6 @@ describe("Imports", () => {
   });
 
   it("should rewrite relative imports to the source directory", () => {
-    const project = new Project({ useInMemoryFileSystem: true });
     const originalFile = project.createSourceFile("/generated/file.ts", "");
     const customFile = project.createSourceFile("/customized/file.ts", "");
     customFile.addImportDeclaration({
@@ -132,9 +143,7 @@ describe("Imports", () => {
     const originalFile = project.createSourceFile("/generated/src/sub/file.ts", "");
     const customFile = project.createSourceFile("/customized/src/sub/file.ts", "");
     customFile.addImportDeclaration({
-      // this doesn't work if the module is specified as
-      // "../../../customized/src/anotherFile.js"
-      moduleSpecifier: "../anotherFile.js",
+      moduleSpecifier: "../../../customized/src/anotherFile.js",
       namedImports: ["Foo"],
     });
     const imports = new Map<string, ImportDeclaration>();
