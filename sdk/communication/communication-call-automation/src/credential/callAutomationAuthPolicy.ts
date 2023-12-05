@@ -45,20 +45,20 @@ export function createCustomCallAutomationApiClient(
   internalPipelineOptions: CallAutomationApiClientOptionalParams | undefined,
   url: string
 ): CallAutomationApiClient {
-    // read environment variable for callAutomation auth
-    const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
-    const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
-    let callAutomationApiClient: CallAutomationApiClient;
+  // read environment variable for callAutomation auth
+  const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
+  const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
+  let callAutomationApiClient: CallAutomationApiClient;
 
-    if (customEnabled?.toLowerCase() === "true" && customUrl) {
-      // add custom header for Call Automation auth when flag is true
-      callAutomationApiClient = new CallAutomationApiClient(customUrl, internalPipelineOptions);
-      const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
-      callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
-    } else {
-      callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
-      const authPolicy = createCommunicationAuthPolicy(credential);
-      callAutomationApiClient.pipeline.addPolicy(authPolicy);
-    }
-    return callAutomationApiClient;
+  if (customEnabled?.toLowerCase() === "true" && customUrl) {
+    // add custom header for Call Automation auth when flag is true
+    callAutomationApiClient = new CallAutomationApiClient(customUrl, internalPipelineOptions);
+    const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
+    callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
+  } else {
+    callAutomationApiClient = new CallAutomationApiClient(url, internalPipelineOptions);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    callAutomationApiClient.pipeline.addPolicy(authPolicy);
+  }
+  return callAutomationApiClient;
 }

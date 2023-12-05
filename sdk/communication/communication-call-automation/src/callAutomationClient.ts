@@ -120,7 +120,11 @@ export class CallAutomationClient {
     this.callAutomationEventProcessor = new CallAutomationEventProcessor();
 
     // create api client (using custom api endpoint if available)
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(credential, this.internalPipelineOptions, this.endpoint);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      this.internalPipelineOptions,
+      this.endpoint
+    );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
@@ -143,11 +147,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(
-      this.endpoint,
-      this.credential,
-      this.internalPipelineOptions
-    );
+    return new CallRecording(this.endpoint, this.credential, this.internalPipelineOptions);
   }
 
   /**
