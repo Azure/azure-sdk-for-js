@@ -59,6 +59,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
+          
           const deleteAssistantResponse = await client.deleteAssistant(assistantResponse.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
@@ -104,6 +105,25 @@ describe("OpenAIAssistants", () => {
           assert.equal(messageResponse.role, role);
           assert.equal(messageResponse.content[0].text?.value, content);
           assert.equal(messageResponse.metadata?.foo, metadataValue);
+          const getMessageResponse = await client.retrieveMessage(threadResponse.id, messageResponse.id || "");
+          assert.equal(messageResponse.id, getMessageResponse.id);
+          assert.equal(getMessageResponse.role, role);
+          assert.equal(getMessageResponse.content[0].text?.value, content);
+          assert.equal(getMessageResponse.metadata?.foo, metadataValue);
+
+          const newMetadataValue = "other value";
+          messageOptions.metadata.foo = newMetadataValue;
+
+          const modifyMessageResponse = await client.modifyMessage(threadResponse.id, messageResponse.id || "", messageOptions);
+          assert.equal(messageResponse.id, modifyMessageResponse.id);
+          assert.equal(modifyMessageResponse.metadata?.foo, newMetadataValue);
+
+          const listLength = 1;
+          const oneMessageList = await client.listMessages(threadResponse.id, { limit: listLength });
+          assert.equal(oneMessageList.data.length, listLength);
+          assert.equal(oneMessageList.firstId, oneMessageList.lastId);
+          assert.equal(oneMessageList.firstId, oneMessageList.lastId);
+          assert.equal(oneMessageList.data[0].id, oneMessageList.firstId);
         });
       });
     });
