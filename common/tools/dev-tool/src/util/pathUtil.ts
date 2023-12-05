@@ -34,4 +34,4 @@ const posixPath: path.PlatformPath = { ...path };
   }
 });
 
-export default posixPath;
+export default path;
