@@ -21,7 +21,7 @@ export default createMigration(
       return new Promise((resolve) => {
         resolve(
           ctx.project.packageJson["sdk-type"] === "client" &&
-            ctx.project.packageJson["//sampleConfiguration"] !== undefined
+            ctx.project.packageJson["//sampleConfiguration"] !== undefined,
         );
       });
     },
@@ -48,10 +48,8 @@ export default createMigration(
           packageJson["//sampleConfiguration"];
 
         delete packageJson["//sampleConfiguration"];
-
-        await writeFile(
-          packageJsonPath,
-          await format(JSON.stringify(packageJson, null, 2), "json"),
+        await format(JSON.stringify(packageJson, null, 2), "json").then((formattedPackageJson) =>
+          writeFile(packageJsonPath, formattedPackageJson),
         );
       }
     },

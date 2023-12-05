@@ -30,7 +30,7 @@ describe("Imports", () => {
     expect(augmentedImports).to.have.lengthOf(0);
   });
 
-  it.only("should remove self imports on Windows", () => {
+  it("should remove self imports on Windows", () => {
     setCustomizationState({
       customDir: "C:\\customized\\",
       originalDir: "C:\\generated\\",
@@ -84,8 +84,8 @@ describe("Imports", () => {
 
   it("rewrite relative imports to the source directory on Windows", () => {
     const project = new Project({ useInMemoryFileSystem: true });
-    const originalFile = project.createSourceFile("C:/generated/file.ts", "");
-    const customFile = project.createSourceFile("C:/customized/file.ts", "");
+    const originalFile = project.createSourceFile("C:\\generated\\file.ts", "");
+    const customFile = project.createSourceFile("C:\\customized\\file.ts", "");
     customFile.addImportDeclaration({
       moduleSpecifier: "../generated/anotherFile.js",
       namedImports: ["Foo"],

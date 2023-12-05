@@ -115,7 +115,7 @@ export function parseOptions<Opts extends CommandOptions>(
   function expectType<T extends string | boolean | Array<string | boolean> | undefined>(
     key: string,
     value: T,
-    expected: string
+    expected: string,
   ): void {
     if (Array.isArray(value)) {
       parseError(`Too many arguments for "${key}"`);

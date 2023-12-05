@@ -3,7 +3,7 @@ import path from "path";
 function toPosixWrapper<T extends (...args: any[]) => any>(f: T): T {
   const wrapped = (...args: Parameters<T>): ReturnType<T> => {
     const newArgs = args.map((arg: any) =>
-      typeof arg === "string" ? arg.replace(/\\/g, "/") : arg
+      typeof arg === "string" ? arg.replace(/\\/g, "/") : arg,
     ) as Parameters<T>;
     const fixedOutput = f(...newArgs);
 
@@ -34,4 +34,4 @@ const posixPath: path.PlatformPath = { ...path };
   }
 });
 
-export default path;
+export default posixPath;
