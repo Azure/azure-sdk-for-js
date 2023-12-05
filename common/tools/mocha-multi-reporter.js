@@ -3,7 +3,6 @@
 "use strict";
 
 const Mocha = require("mocha");
-const MochaJUnitReporter = require("mocha-junit-reporter");
 
 /**
  * Usage :
@@ -17,12 +16,11 @@ const MochaJUnitReporter = require("mocha-junit-reporter");
  * @class MultiReporter
  */
 class MultiReporter {
-  constructor(runner) {
+  constructor(runner, options) {
     // Spec reporter is provided as part of mocha library
     // Invoking the spec reporter with the runner
-    new Mocha.reporters.Spec(runner);
-    // Invoking mocha-junit-reporter to generate XML reports of test summaries for CI
-    new MochaJUnitReporter(runner);
+    new Mocha.reporters.Spec(runner, options);
+    new Mocha.reporters.XUnit(runner, options);
   }
 }
 

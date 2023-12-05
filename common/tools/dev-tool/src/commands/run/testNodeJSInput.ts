@@ -21,11 +21,13 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const reporterArgs =
+    "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
   const defaultMochaArgs = `${
     (await isModuleProject())
       ? "-r source-map-support/register.js"
       : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
-  } --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+  } ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
