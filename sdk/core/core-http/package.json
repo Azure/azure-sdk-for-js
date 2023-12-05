@@ -88,7 +88,7 @@
     "test": "npm run clean && tsc -p tsconfig.es.json  && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register -r chai/register-should.js --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 500000 --full-trace --exclude \"test/**/*.browser.ts\" \"test/**/*.ts\""
+    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register -r chai/register-should.js --reporter ../../../common/tools/mocha-multi-reporter.js  --reporter-option output=test-results.xml --timeout 500000 --full-trace --exclude \"test/**/*.browser.ts\" \"test/**/*.ts\""
   },
   "sideEffects": false,
   "nyc": {
