@@ -1,10 +1,10 @@
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
-import * as os from "os";
 import { WebSnippet } from "../../../../src/webSnippet/webSnippet";
 import * as SnippetInjectionHelper from "../../../../src/webSnippet/snippetInjectionHelper";
 import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index";
+import { isLinux, isWindows } from "../../../../src/utils/common";
 
 describe("#WebSnippet", () => {
   var sandbox: sinon.SinonSandbox;
@@ -201,7 +201,12 @@ describe("#WebSnippet", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
     let newHtml = webSnippet.InjectWebSnippet(response, validHtml);
-    let osType = os.type() === "Windows_NT" ? "w" : "l";
+    let osType: string = "";
+    if (isWindows()) {
+      osType = "w";
+    } else if (isLinux()) {
+      osType = "l";
+    }
     let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n key1: "key1",\r\n key2: true,\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
     assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);

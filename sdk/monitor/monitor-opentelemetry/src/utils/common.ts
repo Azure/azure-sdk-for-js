@@ -30,6 +30,10 @@ export const isLinux = (): boolean => {
   return process.platform === "linux";
 };
 
+export const isDarwin = (): boolean => {
+  return process.platform === "darwin";
+};
+
 /**
  * Get prefix for OS
  * Windows system: "w"
