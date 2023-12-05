@@ -32,7 +32,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   public enableWebInstrumentation?: boolean;
 
   public webInstrumentationConnectionString?: string;
-  
+
   public webInstrumentationSrc?: string;
 
   public webInstrumentationConfig?: IWebInstrumentationConfig[];

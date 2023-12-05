@@ -63,7 +63,7 @@ export interface IWebInstrumentationConfig {
    */
   name: string;
   /**
-  * value provided to replace the default config value above
-  */
+   * value provided to replace the default config value above
+   */
   value: string | boolean | number;
 }

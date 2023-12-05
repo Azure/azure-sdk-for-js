@@ -51,7 +51,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   public enableWebInstrumentation: boolean;
 
   public webInstrumentationConnectionString: string;
-  
+
   public webInstrumentationSrc: string;
 
   public webInstrumentationConfig?: IWebInstrumentationConfig[];
@@ -92,10 +92,13 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
-      this.enableWebInstrumentation = options.enableWebInstrumentation || this.enableWebInstrumentation;
-      this.webInstrumentationConnectionString = options.webInstrumentationConnectionString || this.webInstrumentationConnectionString;
+      this.enableWebInstrumentation =
+        options.enableWebInstrumentation || this.enableWebInstrumentation;
+      this.webInstrumentationConnectionString =
+        options.webInstrumentationConnectionString || this.webInstrumentationConnectionString;
       this.webInstrumentationSrc = options.webInstrumentationSrc || this.webInstrumentationSrc;
-      this.webInstrumentationConfig = options.webInstrumentationConfig || this.webInstrumentationConfig;
+      this.webInstrumentationConfig =
+        options.webInstrumentationConfig || this.webInstrumentationConfig;
       this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
       this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
     }
@@ -108,10 +111,22 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      this.enableWebInstrumentation = jsonConfig.enableWebInstrumentation !== undefined ? jsonConfig.enableWebInstrumentation : this.enableWebInstrumentation;
-      this.webInstrumentationConnectionString = jsonConfig.webInstrumentationConnectionString !== undefined ? jsonConfig.webInstrumentationConnectionString : this.webInstrumentationConnectionString;
-      this.webInstrumentationSrc = jsonConfig.webInstrumentationSrc !== undefined ? jsonConfig.webInstrumentationSrc : this.webInstrumentationSrc;
-      this.webInstrumentationConfig = jsonConfig.webInstrumentationConfig !== undefined ? jsonConfig.webInstrumentationConfig : this.webInstrumentationConfig;
+      this.enableWebInstrumentation =
+        jsonConfig.enableWebInstrumentation !== undefined
+          ? jsonConfig.enableWebInstrumentation
+          : this.enableWebInstrumentation;
+      this.webInstrumentationConnectionString =
+        jsonConfig.webInstrumentationConnectionString !== undefined
+          ? jsonConfig.webInstrumentationConnectionString
+          : this.webInstrumentationConnectionString;
+      this.webInstrumentationSrc =
+        jsonConfig.webInstrumentationSrc !== undefined
+          ? jsonConfig.webInstrumentationSrc
+          : this.webInstrumentationSrc;
+      this.webInstrumentationConfig =
+        jsonConfig.webInstrumentationConfig !== undefined
+          ? jsonConfig.webInstrumentationConfig
+          : this.webInstrumentationConfig;
 
       this.enableLiveMetrics =
         jsonConfig.enableLiveMetrics !== undefined

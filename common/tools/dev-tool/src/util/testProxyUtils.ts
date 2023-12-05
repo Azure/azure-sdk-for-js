@@ -279,7 +279,7 @@ export async function startTestProxy(): Promise<TestProxy> {
 export async function isProxyToolActive(): Promise<boolean> {
   try {
     const response = await fetch(
-      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`
+      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
     );
 
     if (!response.ok) {

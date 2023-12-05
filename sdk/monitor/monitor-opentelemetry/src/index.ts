@@ -18,7 +18,11 @@ import {
 } from "./types";
 import { WebSnippet } from "./webSnippet/webSnippet";
 
-export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, IWebInstrumentationConfig } from "./shared/types";
+export {
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+  IWebInstrumentationConfig,
+} from "./shared/types";
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 

@@ -23,22 +23,22 @@ export function ignoreOutgoingRequestHook(request: http.RequestOptions): boolean
 }
 
 export const isWindows = (): boolean => {
-  return  process.platform === "win32";
-}
+  return process.platform === "win32";
+};
 
 export const isLinux = (): boolean => {
-  return  process.platform === "linux";
-}
+  return process.platform === "linux";
+};
 
 /**
-* Get prefix for OS
-* Windows system: "w"
-* Linux system: "l"
-* non-Windows and non-Linux system: "u" (unknown)
-*/
+ * Get prefix for OS
+ * Windows system: "w"
+ * Linux system: "l"
+ * non-Windows and non-Linux system: "u" (unknown)
+ */
 export const getOsPrefix = (): string => {
-  return isWindows()? "w" : isLinux()? "l" : "u";
-}
+  return isWindows() ? "w" : isLinux() ? "l" : "u";
+};
 
 /**
  * TODO: add vm resource provider
@@ -55,7 +55,7 @@ export const getResourceProvider = (resource: Resource): string => {
     return "f";
   }
   return "u";
-}
+};
 
 /**
  * Convert milliseconds to Breeze expected time.
