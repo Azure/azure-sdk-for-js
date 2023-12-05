@@ -15467,7 +15467,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric-1.tgz:
-    resolution: {integrity: sha512-cIUSGqF22J/36I5bcwLeMFMQrpQGVp4gNix8x6P2A8uO4TURYwnO/0Ry0bXl6WsE1ja0UM4HRWp2i+hy7EMi6w==, tarball: file:projects/arm-servicefabric-1.tgz}
+    resolution: {integrity: sha512-7pjyRLOk/8NZyil4uRDCohJk7461Dv/GNebHRet8m6EAEFfLBmZfgdqmyMs569dpz3qKGKAefwWPRuShgXVwgA==, tarball: file:projects/arm-servicefabric-1.tgz}
     name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
@@ -15475,12 +15475,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

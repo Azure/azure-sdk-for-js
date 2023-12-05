@@ -9,7 +9,7 @@
 import {
   ClusterVersionsGetOptionalParams,
   ClusterVersionsGetResponse,
-  Enum14,
+  ClusterVersionsEnvironment,
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetByEnvironmentResponse,
   ClusterVersionsListOptionalParams,
@@ -40,7 +40,7 @@ export interface ClusterVersions {
    */
   getByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     clusterVersion: string,
     options?: ClusterVersionsGetByEnvironmentOptionalParams
   ): Promise<ClusterVersionsGetByEnvironmentResponse>;
@@ -61,7 +61,7 @@ export interface ClusterVersions {
    */
   listByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     options?: ClusterVersionsListByEnvironmentOptionalParams
   ): Promise<ClusterVersionsListByEnvironmentResponse>;
 }
