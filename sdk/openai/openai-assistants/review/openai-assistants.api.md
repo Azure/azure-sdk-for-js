@@ -56,7 +56,7 @@ export interface AssistantFileDeletionStatus {
 
 // @public
 export interface AssistantImageFile {
-    fileId: string;
+    file_id: string;
 }
 
 // @public
@@ -74,6 +74,14 @@ export interface AssistantMessage {
 
 // @public
 export interface AssistantMessageContent {
+    // (undocumented)
+    file_ids?: string[];
+    // (undocumented)
+    image_file?: AssistantImageFile;
+    // (undocumented)
+    metadata?: Record<string, string>;
+    // (undocumented)
+    text?: AssistantMessageText;
     type: string;
 }
 
@@ -144,8 +152,8 @@ export interface AssistantMessageText {
 
 // @public
 export interface AssistantMessageTextAnnotation {
-    endIndex: number;
-    startIndex: number;
+    end_index: number;
+    start_index: number;
     text: string;
     type: string;
 }

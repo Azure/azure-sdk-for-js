@@ -690,3 +690,23 @@ export async function createThreadAndRun(
   const result = await _createThreadAndRunSend(context, body, options);
   return _createThreadAndRunDeserialize(result);
 }
+
+export async function _createMessageDeserialize(
+  result: CreateMessage200Response
+): Promise<AssistantMessage> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    object: result.body["object"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    role: result.body["role"],
+    content: (result.body["content"] ?? []).map((p) => ({ type: p["type"], text: p["text"] || undefined, file_ids: p["file_ids"] || undefined, metadata: p["metadata"] || undefined, image_file: p["image_file"] || undefined })),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    metadata: result.body["metadata"],
+  };
+}

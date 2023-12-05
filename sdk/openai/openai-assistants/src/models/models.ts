@@ -165,12 +165,16 @@ export type AssistantRole = string;
 export interface AssistantMessageContent {
   /** the discriminator possible values image_file, text */
   type: string;
+  image_file?: AssistantImageFile;
+  text?: AssistantMessageText;
+  file_ids?: string[];
+  metadata?: Record<string, string>;
 }
 
 /** An image reference, as represented in thread message content. */
 export interface AssistantImageFile {
   /** The ID for the file associated with this image. */
-  fileId: string;
+  file_id: string;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
@@ -188,9 +192,9 @@ export interface AssistantMessageTextAnnotation {
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
-  startIndex: number;
+  start_index: number;
   /** The last text index associated with this text annotation. */
-  endIndex: number;
+  end_index: number;
 }
 
 /** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */

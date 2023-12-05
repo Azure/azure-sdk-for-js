@@ -35,7 +35,7 @@ describe("OpenAIAssistants", () => {
         client = createClient(authMethod, { recorder });
       });
 
-      describe("createAssistant", function () {
+      describe("all CRUD APIs", function () {
         it("creates, retrieves, lists, modifies, and deletes an assistant", async function () {
           const codeAssistant = {
             tools: [{ type: "code_interpreter" }],
@@ -61,6 +61,49 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
           const deleteAssistantResponse = await client.deleteAssistant(assistantResponse.id);
           assert.equal(deleteAssistantResponse.deleted, true);
+        });
+
+        it("creates, retrieves, modifies, and deletes a thread", async function () {
+          const metadataValue = "bar";
+          const thread = {
+            messages: [],
+            metadata: { "foo": metadataValue },
+          };
+          const threadResponse = await client.createThread(thread);
+          assert.isNotNull(threadResponse.id);
+          assert.equal(threadResponse.metadata.foo, metadataValue);
+          const getThreadResponse = await client.retrieveThread(threadResponse.id);
+          assert.equal(threadResponse.id, getThreadResponse.id);
+          assert.equal(getThreadResponse.metadata.foo, metadataValue);
+          
+          const newMetadataValue = "other value";
+          thread.metadata.foo = newMetadataValue;
+
+          const modifyThreadResponse = await client.modifyThread(threadResponse.id, thread);
+          assert.equal(threadResponse.id, modifyThreadResponse.id);
+          assert.equal(modifyThreadResponse.metadata.foo, newMetadataValue);
+          const deleteThreadResponse = await client.deleteThread(threadResponse.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+        });
+        it("creates, retrieves, modifies, and lists a message", async function () {
+          const thread = {
+            messages: [],
+          };
+          const threadResponse = await client.createThread(thread);
+          assert.isNotNull(threadResponse.id);
+          const role = "user";
+          const content = "explain the fibonacci sequence";
+
+          const metadataValue = "bar";
+          const messageOptions = {
+            file_ids: [],
+            metadata: { "foo": metadataValue},
+          }
+          const messageResponse = await client.createMessage(threadResponse.id, role, content, messageOptions);
+          assert.isNotNull(messageResponse.id);
+          assert.equal(messageResponse.role, role);
+          assert.equal(messageResponse.content[0].text?.value, content);
+          assert.equal(messageResponse.metadata?.foo, metadataValue);
         });
       });
     });

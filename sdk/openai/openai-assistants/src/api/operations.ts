@@ -708,7 +708,7 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({ type: p["type"] })),
+    content: (result.body["content"] ?? []).map((p) => ({ type: p["type"], text: p["text"] || undefined, file_ids: p["file_ids"] || undefined, metadata: p["metadata"] || undefined, image_file: p["image_file"] || undefined })),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],

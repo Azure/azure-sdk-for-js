@@ -198,7 +198,7 @@ export interface AssistantMessageTextOutput {
 }
 
 /** An abstract representation of an annotation to text thread message content. */
-export interface AssistantMessageTextAnnotationOutputParent {
+export interface AssistantMessageTextAnnotationOutput {
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
@@ -210,7 +210,7 @@ export interface AssistantMessageTextAnnotationOutputParent {
 
 /** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
 export interface AssistantMessageTextFileAnnotationOutput
-  extends AssistantMessageTextAnnotationOutputParent {
+  extends AssistantMessageTextAnnotationOutput {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
   /** The file-based citation associated with this annotation. */
@@ -227,7 +227,7 @@ export interface AssistantMessageTextFileCitationOutput {
 
 /** A citation within the message that points to a file located at a specific path. */
 export interface AssistantMessageTextFilePathAnnotationOutput
-  extends AssistantMessageTextAnnotationOutputParent {
+  extends AssistantMessageTextAnnotationOutput {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
@@ -599,10 +599,6 @@ export interface FileDeletionStatusOutput {
   id: string;
 }
 
-/** An abstract representation of an annotation to text thread message content. */
-export type AssistantMessageTextAnnotationOutput =
-  | AssistantMessageTextFileAnnotationOutput
-  | AssistantMessageTextFilePathAnnotationOutput;
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export type RequiredActionOutput = SubmitToolOutputsActionOutput;
 /**

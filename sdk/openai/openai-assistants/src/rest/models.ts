@@ -121,7 +121,7 @@ export interface AssistantMessage {
 /** An abstract representation of a single item of thread message content. */
 export interface AssistantMessageContent {
   type: string;
-image_file?: AssistantImageFile;
+  image_file?: AssistantImageFile;
   text?: AssistantMessageText;
   file_ids?: string[];
   metadata?: Record<string, string>;
