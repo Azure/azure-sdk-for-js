@@ -10,7 +10,6 @@ import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { WEB_INSTRUMENTATION_DEFAULT_SOURCE, WEB_INSTRUMENTATION_DEPRECATED_SOURCE } from "../types";
 import { IWebInstrumentationConfig } from "../shared/types";
-import { Resource } from "@opentelemetry/resources";
 
 export class WebSnippet {
 
@@ -42,7 +41,7 @@ export class WebSnippet {
         this._clientWebInstrumentationSrc = config.webInstrumentationSrc;
 
         if (this._isIkeyValid) {
-            this._initialize(config.resource);
+            this._initialize();
         }
     }
 
@@ -76,10 +75,10 @@ export class WebSnippet {
      * Gets string to inject into the web page
      * @returns The string to inject into the web page
      */
-    private _getWebInstrumentationReplacedStr(resource: Resource) {
+    private _getWebInstrumentationReplacedStr() {
         let configStr = this._getClientWebInstrumentationConfigStr(this._clientWebInstrumentationConfig);
         let osStr = prefixHelper.getOsPrefix();
-        let rpStr = prefixHelper.getResourceProvider(resource);
+        let rpStr = prefixHelper.getResourceProvider();
         let snippetReplacedStr = `${this._webInstrumentationIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
         let replacedSnippet = webSnippet.replace("INSTRUMENTATION_KEY", snippetReplacedStr);
         if (this._clientWebInstrumentationSrc) {
@@ -133,9 +132,9 @@ export class WebSnippet {
         return configStr;
     }
 
-    private _initialize(resource: Resource) {
+    private _initialize() {
         this._isInitialized = true;
-        WebSnippet._snippet = this._getWebInstrumentationReplacedStr(resource);
+        WebSnippet._snippet = this._getWebInstrumentationReplacedStr();
         const originalHttpServer = http.createServer;
         const originalHttpsServer = https.createServer;
 
