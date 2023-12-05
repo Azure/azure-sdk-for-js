@@ -87,8 +87,8 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
       return true;
     }
 
-    const commandName = options.args[0];
-    const commandArgs = options.args.slice(1);
+    const commandName = options.args[0] as string | undefined;
+    const commandArgs = options.args.slice(1) as string[] | undefined;
 
     if (commandName === undefined) {
       log.error("No sub-command provided.");
@@ -98,12 +98,11 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
 
     const extraArgs = options["--"];
 
-    const fullArgs =
-      extraArgs !== undefined && extraArgs.length > 0
-        ? [...commandArgs, "--", ...extraArgs]
-        : commandArgs;
+    const fullArgs = [commandArgs, extraArgs?.length && ["--", extraArgs]]
+      .flat(2)
+      .filter((arg): arg is string => typeof arg === "string");
 
-    log.debug(`$ ${commandName} ${fullArgs.join(" ") ?? ""}`);
+    log.debug(`$ ${commandName} ${fullArgs.join(" ")}`);
 
     if (Object.prototype.hasOwnProperty.call(commands, commandName)) {
       const commandModule = await commands[commandName]();

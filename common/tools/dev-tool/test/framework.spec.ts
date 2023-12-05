@@ -31,17 +31,32 @@ describe("Command Framework", () => {
       const dispatcher = subCommand(
         { name: "test", description: "a sub-command dispatcher" },
         {
-          sub: async () => ({
-            commandInfo: { name: "sub", description: "a leaf command" },
-            default: leafCommand({ name: "sub", description: "a leaf command" }, async () => true),
-          }),
-          fail: async () => ({
-            commandInfo: { name: "fail", description: "a command that fails" },
-            default: leafCommand(
-              { name: "fail", description: "a command that fails" },
-              async () => false
-            ),
-          }),
+          sub: () =>
+            new Promise((resolve) => {
+              resolve({
+                commandInfo: { name: "sub", description: "a leaf command" },
+                default: leafCommand(
+                  { name: "sub", description: "a leaf command" },
+                  () =>
+                    new Promise((resolve) => {
+                      resolve(true);
+                    })
+                ),
+              });
+            }),
+          fail: () =>
+            new Promise((resolve) => {
+              resolve({
+                commandInfo: { name: "fail", description: "a command that fails" },
+                default: leafCommand(
+                  { name: "fail", description: "a command that fails" },
+                  () =>
+                    new Promise((resolve) => {
+                      resolve(false);
+                    })
+                ),
+              });
+            }),
         }
       );
 

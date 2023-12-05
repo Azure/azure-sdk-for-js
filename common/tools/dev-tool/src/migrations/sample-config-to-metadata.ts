@@ -16,12 +16,14 @@ export default createMigration(
   "2023-03-03T23:11:30Z",
   "moves the `//sampleConfiguration` package.json field to the '//metadata' field",
   {
-    async isApplicable(ctx) {
+    isApplicable(ctx) {
       // This migration is only applicable to client packages that have an existing sample configuration
-      return (
-        ctx.project.packageJson["sdk-type"] === "client" &&
-        ctx.project.packageJson["//sampleConfiguration"] !== undefined
-      );
+      return new Promise((resolve) => {
+        resolve(
+          ctx.project.packageJson["sdk-type"] === "client" &&
+            ctx.project.packageJson["//sampleConfiguration"] !== undefined
+        );
+      });
     },
 
     async validate(ctx) {

@@ -236,7 +236,7 @@ export function addMethodToClass(
   if (!isOverload(methodStructure)) {
     classDeclaration.addMethod({
       ...methodStructure,
-      docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
+      docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
     });
   }
 }
@@ -261,7 +261,7 @@ export function getDocs(
   customClass: WithCommentGetter,
   originalClass?: WithCommentGetter
 ): JSDoc[] {
-  return customClass?.getJsDocs() ?? originalClass?.getJsDocs() ?? [];
+  return [customClass.getJsDocs(), originalClass?.getJsDocs()].find((docs) => docs?.length) ?? [];
 }
 
 export function addPropertyToClass(
@@ -272,7 +272,7 @@ export function addPropertyToClass(
   // Insert the class declaration and JSDocs into the target file
   classDeclaration.addProperty({
     ...property.getStructure(),
-    docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
+    docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
   });
 }
 
@@ -284,7 +284,7 @@ export function addClass(
   // Insert the class declaration and JSDocs into the target file
   targetFile.addStatements((writer) => {
     // Write JSDocs
-    jsdoc?.forEach((jsDoc) => {
+    jsdoc.forEach((jsDoc) => {
       writer.writeLine(jsDoc.getText());
     });
 

@@ -29,7 +29,7 @@ declare global {
     version: string;
     "sdk-type"?: "client" | "mgmt" | "perf-test" | "utility";
     description: string;
-    main: string;
+    main?: string;
     types: string;
     exports?: {
       [path: string]: {

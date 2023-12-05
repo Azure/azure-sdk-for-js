@@ -12,11 +12,11 @@ export function augmentInterfaces(
   for (const customInterface of customInterfaces) {
     const annotation = getAnnotation(customInterface);
     const expectedInterfaceName =
-      annotation?.type === "rename" && annotation?.param
+      annotation?.type === "rename" && annotation.param
         ? annotation.param
         : customInterface.getName();
 
-    const originalInterface = originalInterfaces.get(expectedInterfaceName ?? "");
+    const originalInterface = originalInterfaces.get(expectedInterfaceName);
     augmentInterface(customInterface, originalInterface, originalFile);
   }
 }
@@ -101,8 +101,8 @@ function findCallSignature(
 ): CallSignatureDeclaration | undefined {
   function typeEquals(a: Type, b: Type) {
     // Need to handle cases where the type is imported
-    const aStr = a?.getText()?.replace(/import\(".+"\)\./, "");
-    const bStr = b?.getText()?.replace(/import\(".+"\)\./, "");
+    const aStr = a.getText().replace(/import\(".+"\)\./, "");
+    const bStr = b.getText().replace(/import\(".+"\)\./, "");
     return aStr && bStr && aStr === bStr;
   }
   return interfaceDeclaration.getCallSignature((signature) => {

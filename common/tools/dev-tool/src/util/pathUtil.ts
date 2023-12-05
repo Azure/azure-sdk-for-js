@@ -1,31 +1,27 @@
 import path from "path";
 
 function toPosixWrapper<T extends (...args: any[]) => any>(f: T): T {
-  type P = Parameters<T>;
-  type R = ReturnType<T>;
-  const wrapped = (...args: P): R => {
+  const wrapped = (...args: Parameters<T>): ReturnType<T> => {
     const newArgs = args.map((arg: any) =>
-      typeof arg === "string" ? arg.replace(/\\/g, "/") : arg,
-    );
-    const fixedOutput: R = f(...newArgs);
+      typeof arg === "string" ? arg.replace(/\\/g, "/") : arg
+    ) as Parameters<T>;
+    const fixedOutput = f(...newArgs);
 
     if (typeof fixedOutput === "string") {
-      return fixedOutput.replace(/\\/g, "/");
+      return fixedOutput.replace(/\\/g, "/") as ReturnType<T>;
     }
 
     if (typeof fixedOutput === "object") {
-      // node path doesn't need this to be recursive
+      // node path doesn't need this to be deeply recursive
       Object.keys(fixedOutput).forEach(([key, value]) => {
         if (typeof value === "string") {
-          // TODO: why does this cast need to be here
-          (fixedOutput as any)[key] = value.replace(/\\/g, "/");
+          fixedOutput[key] = value.replace(/\\/g, "/");
         }
       });
     }
 
     return fixedOutput;
   };
-  // TODO: why does this cast need to be here
   return wrapped as T;
 }
 

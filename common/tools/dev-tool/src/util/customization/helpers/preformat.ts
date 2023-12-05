@@ -47,12 +47,24 @@ export function sortSourceFileContents(sourceFile: SourceFile) {
   const enumStructures = enums.sort(sortExportedFirst).map((statement) => statement.getStructure());
 
   // Remove elements from the source file
-  variableStatements.forEach((statement) => statement.remove());
-  interfaces.forEach((interfaceDeclaration) => interfaceDeclaration.remove());
-  typeAliases.forEach((typeAlias) => typeAlias.remove());
-  classes.forEach((classDeclaration) => classDeclaration.remove());
-  functions.forEach((functionDeclaration) => functionDeclaration.remove());
-  enums.forEach((enumDeclaration) => enumDeclaration.remove());
+  variableStatements.forEach((statement) => {
+    statement.remove();
+  });
+  interfaces.forEach((interfaceDeclaration) => {
+    interfaceDeclaration.remove();
+  });
+  typeAliases.forEach((typeAlias) => {
+    typeAlias.remove();
+  });
+  classes.forEach((classDeclaration) => {
+    classDeclaration.remove();
+  });
+  functions.forEach((functionDeclaration) => {
+    functionDeclaration.remove();
+  });
+  enums.forEach((enumDeclaration) => {
+    enumDeclaration.remove();
+  });
 
   // Add elements back to the source file in the desired order
   interfaceStructures.forEach((interfaceDeclaration) =>
@@ -85,9 +97,15 @@ function sortClassContents(classDeclaration: ClassDeclaration) {
     .map((constructor) => constructor.getStructure());
 
   // Remove elements from the class
-  properties.forEach((property) => property.remove());
-  methods.forEach((method) => method.remove());
-  constructors.forEach((constructor) => constructor.remove());
+  properties.forEach((property) => {
+    property.remove();
+  });
+  methods.forEach((method) => {
+    method.remove();
+  });
+  constructors.forEach((constructor) => {
+    constructor.remove();
+  });
 
   // Add elements back to the class in the desired order
   propertyStructures.forEach((propertyStructure) =>

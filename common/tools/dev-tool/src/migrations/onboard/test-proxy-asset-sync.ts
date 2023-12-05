@@ -32,9 +32,9 @@ export default createMigration(
 
     // Optional validation
     async validate(ctx) {
-      const assetsJson = JSON.parse(
-        (await readFile(path.join(ctx.project.path, "assets.json"))).toString("utf-8")
-      ) as AssetsJson;
+      const assetsJson: Partial<AssetsJson> = await readFile(
+        path.join(ctx.project.path, "assets.json")
+      ).then((buf) => JSON.parse(buf.toString("utf-8")));
 
       // Check that the assets.json file is well formed and that we didn't get a bad generation.
       if (

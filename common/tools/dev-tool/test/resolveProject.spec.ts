@@ -9,7 +9,7 @@ import path from "path";
 
 import { resolveProject } from "../src/util/resolveProject";
 
-describe("Project Resolution", async () => {
+describe("Project Resolution", () => {
   it("resolution halts at monorepo root", async () => {
     await assert.isRejected(resolveProject(path.join(__dirname, "..", "..")), /monorepo root/);
   });

@@ -123,8 +123,8 @@ export default leafCommand(commandInfo, async () => {
     if (!projectInfo.packageJson.typesVersions) return [defaultTypesFile];
 
     // Look for an entry with a key that our version of TS satisfies
-    const firstMatchingVersion = Object.entries(projectInfo.packageJson.typesVersions!).find(
-      ([v]) => semver.satisfies(tsVersion, v)
+    const firstMatchingVersion = Object.entries(projectInfo.packageJson.typesVersions).find(([v]) =>
+      semver.satisfies(tsVersion, v)
     );
 
     if (firstMatchingVersion === undefined) {

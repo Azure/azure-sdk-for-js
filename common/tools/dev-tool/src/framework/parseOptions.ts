@@ -112,12 +112,16 @@ export function parseOptions<Opts extends CommandOptions>(
 
   const result: ParsedOptions = { help: argMap.help, args: argMap._, "--": argMap["--"] };
 
-  function expectType<T>(key: string, value: T, expected: string): void {
+  function expectType<T extends string | boolean | Array<string | boolean> | undefined>(
+    key: string,
+    value: T,
+    expected: string
+  ): void {
     if (Array.isArray(value)) {
       parseError(`Too many arguments for "${key}"`);
       throw new Error(`More than one value for "${key}" was given, but only one was expected`);
     } else if (typeof value !== expected && typeof value !== "undefined") {
-      parseError(`Bad argument: "${key}" = ${value}`);
+      parseError(`Bad argument: "${key}" = ${value.toString()}`);
       throw new Error(
         `Value of argument "${key}" was a ${typeof value} but a ${expected} was expected.`
       );

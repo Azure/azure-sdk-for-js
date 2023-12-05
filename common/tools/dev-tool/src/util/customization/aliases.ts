@@ -14,7 +14,7 @@ export function augmentTypeAliases(
       const aliasStructure = customAlias.getStructure();
       throw new Error(`Alias doesn't have a name\n${JSON.stringify(aliasStructure)}`);
     }
-    const originalAlias = originalAliases.get(customAlias.getName() ?? "");
+    const originalAlias = originalAliases.get(aliasName);
     augmentTypeAlias(customAlias, originalAlias, originalFile);
   }
 }

@@ -30,7 +30,7 @@ export default leafCommand(commandInfo, async (options) => {
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
   );
   const mochaArgs = updatedArgs?.length
-    ? updatedArgs?.join(" ")
+    ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
     command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
