@@ -117,7 +117,7 @@ export async function getTestProxyExecutable(): Promise<string> {
   }
 
   const targetVersion = await getTargetVersion();
-  const binary = await getTestProxyBinary();
+  const binary = getTestProxyBinary();
 
   // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
   const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
@@ -255,7 +255,7 @@ export interface TestProxy {
 }
 
 export async function startTestProxy(): Promise<TestProxy> {
-  const testProxy = await runCommand(await getTestProxyExecutable(), [
+  const testProxy = runCommand(await getTestProxyExecutable(), [
     "start",
     "--storage-location",
     await resolveRoot(),
@@ -310,9 +310,6 @@ async function getTargetVersion() {
     );
 
     const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
