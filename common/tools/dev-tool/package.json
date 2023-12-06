@@ -85,9 +85,9 @@
     "cross-env": "^7.0.3",
     "downlevel-dts": "~0.10.0",
     "eslint": "^8.54.0",
-    "karma": "^6.4.2",
     "mkdirp": "^3.0.1",
     "mocha": "^10.0.0",
+    "karma": "^6.4.2",
     "rimraf": "^5.0.5"
   }
 }
