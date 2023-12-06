@@ -363,6 +363,9 @@
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
 # PRLabel: %Mgmt
 /sdk/defendereasm/arm-defendereasm/ @qiaozha @MaryGao
