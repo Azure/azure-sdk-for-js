@@ -34,7 +34,9 @@ function makeCommandExecutor(commandName: string): (...args: string[]) => Promis
       const command = spawn(commandPath, args, { stdio: "inherit" });
 
       // If the command exited 0, then we treat that as a success
-      command.on("exit", (code) => resolve(code === 0));
+      command.on("exit", (code) => {
+        resolve(code === 0);
+      });
       command.on("error", reject);
     });
 }

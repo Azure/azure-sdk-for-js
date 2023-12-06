@@ -21,7 +21,7 @@ import * as fs from "fs";
 import { v4 as uuidv4 } from "uuid";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src";
-import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -36,9 +36,11 @@ export class CallRecording {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint
+    );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
