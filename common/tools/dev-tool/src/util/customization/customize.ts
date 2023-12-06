@@ -3,7 +3,7 @@
 
 import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
 import { ensureDir, copy } from "fs-extra";
-import * as path from "path/posix";
+import path from "../pathUtil";
 import {
   Project,
   FunctionDeclaration,
