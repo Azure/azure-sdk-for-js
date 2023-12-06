@@ -1,6 +1,16 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.3.0 (2023-11-30)
 
 ### Features Added
 
@@ -9,10 +19,6 @@
     - `chat.join.limited` (A more limited version of `chat.join` that doesn't allow to add or remove participants)
     - `voip.join` (Access to Calling APIs but without the authorization to start new calls)
 - Added a new API version `2023_10_01` that is now the default API version.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 

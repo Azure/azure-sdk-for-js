@@ -94,7 +94,7 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.3.0",
@@ -128,7 +128,6 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.3.0",
-    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",

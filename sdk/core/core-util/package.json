@@ -71,7 +71,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -99,7 +99,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",

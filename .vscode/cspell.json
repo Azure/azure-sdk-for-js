@@ -296,7 +296,11 @@
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
       "words": [
         "ssml",
-        "Ssml"
+        "Ssml",
+        "answeredby",
+        "playsourcacheid",
+        "sipx",
+        "sipuui"
       ]
     },
     {

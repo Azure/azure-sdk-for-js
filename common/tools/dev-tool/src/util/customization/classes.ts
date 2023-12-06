@@ -19,7 +19,7 @@ export const AUGMENT_CLASS_TOKEN = "___";
 export function augmentClass(
   originalClassDeclaration: ClassDeclaration | undefined,
   customClassDeclaration: ClassDeclaration,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   // If there is no original class declaration, we'll just copy the custom one
   if (!originalClassDeclaration) {
@@ -68,7 +68,7 @@ export function augmentClass(
 
 export function augmentConstructor(
   customConstructor: ConstructorDeclaration,
-  originalClassDeclaration: ClassDeclaration
+  originalClassDeclaration: ClassDeclaration,
 ) {
   addConstructorsToClass(customConstructor, originalClassDeclaration);
 }
@@ -76,7 +76,7 @@ export function augmentConstructor(
 export function augmentMethod(
   originalMethod: MethodDeclaration | undefined,
   customMethod: MethodDeclaration,
-  originalClass: ClassDeclaration
+  originalClass: ClassDeclaration,
 ) {
   const methodComments = getDocs(customMethod, originalMethod);
   // custom is adding a new method this is a new method on the class, we'll add it to original
@@ -100,7 +100,7 @@ export function augmentMethod(
 
 export function isAugmentingConstructor(
   customConstructor: ConstructorDeclaration,
-  originalConstructor?: ConstructorDeclaration
+  originalConstructor?: ConstructorDeclaration,
 ): boolean {
   if (!originalConstructor) {
     // If there is no original constructor, we'll just copy the custom one
@@ -112,7 +112,7 @@ export function isAugmentingConstructor(
 
 export function getConstructorAugmentationParameters(
   customConstructor: ConstructorDeclaration,
-  originalParameters?: ParameterDeclaration[]
+  originalParameters?: ParameterDeclaration[],
 ): Map<string, string> {
   const expectedAugmentationParams = new Map<string, string>();
 
@@ -123,7 +123,7 @@ export function getConstructorAugmentationParameters(
   for (const originalParameter of originalParameters) {
     expectedAugmentationParams.set(
       originalParameter.getName(),
-      `${AUGMENT_CLASS_TOKEN}${originalParameter.getName()}`
+      `${AUGMENT_CLASS_TOKEN}${originalParameter.getName()}`,
     );
   }
 
@@ -142,7 +142,7 @@ export function isAugmentingMethod(customMethod: MethodDeclaration): boolean {
 
 export function convertToPrivateMethod(
   originalMethod: MethodDeclaration,
-  originalClass: ClassDeclaration
+  originalClass: ClassDeclaration,
 ) {
   const methodStructure = originalMethod.getStructure();
   const methodOverloads = originalMethod.getOverloads();
@@ -167,7 +167,7 @@ export function convertToPrivateMethod(
 
 export function addConstructorsToClass(
   customConstructor: ConstructorDeclaration,
-  originalClass: ClassDeclaration
+  originalClass: ClassDeclaration,
 ) {
   const originalConstructor = originalClass
     .getConstructors()
@@ -175,7 +175,7 @@ export function addConstructorsToClass(
   if (isAugmentingConstructor(customConstructor, originalConstructor)) {
     const augmentingParams = getConstructorAugmentationParameters(
       customConstructor,
-      originalConstructor?.getParameters()
+      originalConstructor?.getParameters(),
     );
 
     // Rename the parameters in the original constructor
@@ -208,12 +208,12 @@ export function addConstructorsToClass(
     customConstructor.setBodyText(augmentedConstructorBody);
     originalConstructor?.remove();
     originalClass.addConstructor(
-      customConstructor.getStructure() as ConstructorDeclarationStructure
+      customConstructor.getStructure() as ConstructorDeclarationStructure,
     );
   } else {
     originalConstructor?.remove();
     originalClass.addConstructor(
-      customConstructor.getStructure() as ConstructorDeclarationStructure
+      customConstructor.getStructure() as ConstructorDeclarationStructure,
     );
   }
 }
@@ -221,7 +221,7 @@ export function addConstructorsToClass(
 export function addMethodToClass(
   customMethod: MethodDeclaration,
   classDeclaration: ClassDeclaration,
-  jsdoc: JSDoc[]
+  jsdoc: JSDoc[],
 ) {
   // We need to replace the augmentation call with the private method call
   if (isAugmentingMethod(customMethod) && !isOverload(customMethod.getStructure())) {
@@ -236,7 +236,7 @@ export function addMethodToClass(
   if (!isOverload(methodStructure)) {
     classDeclaration.addMethod({
       ...methodStructure,
-      docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
+      docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
     });
   }
 }
@@ -244,7 +244,7 @@ export function addMethodToClass(
 export function augmentClasses(
   originalClasses: Map<string, ClassDeclaration>,
   customClasses: ClassDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customClass of customClasses) {
     const customClassName = customClass.getName();
@@ -259,32 +259,32 @@ interface WithCommentGetter {
 
 export function getDocs(
   customClass: WithCommentGetter,
-  originalClass?: WithCommentGetter
+  originalClass?: WithCommentGetter,
 ): JSDoc[] {
-  return customClass?.getJsDocs() ?? originalClass?.getJsDocs() ?? [];
+  return [customClass.getJsDocs(), originalClass?.getJsDocs()].find((docs) => docs?.length) ?? [];
 }
 
 export function addPropertyToClass(
   property: PropertyDeclaration,
   classDeclaration: ClassDeclaration,
-  jsdoc: JSDoc[]
+  jsdoc: JSDoc[],
 ) {
   // Insert the class declaration and JSDocs into the target file
   classDeclaration.addProperty({
     ...property.getStructure(),
-    docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
+    docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
   });
 }
 
 export function addClass(
   classDeclaration: ClassDeclaration,
   targetFile: SourceFile,
-  jsdoc: JSDoc[]
+  jsdoc: JSDoc[],
 ) {
   // Insert the class declaration and JSDocs into the target file
   targetFile.addStatements((writer) => {
     // Write JSDocs
-    jsdoc?.forEach((jsDoc) => {
+    jsdoc.forEach((jsDoc) => {
       writer.writeLine(jsDoc.getText());
     });
 
