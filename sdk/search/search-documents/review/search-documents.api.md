@@ -1576,7 +1576,7 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
 // @public
-export type NarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, IsEqual<TModel, any, TModel, IsEqual<TModel, unknown, TModel, IsEqual<TFields, never, never, IsEqual<TFields, SelectFields<TModel>, TModel, SearchPick<TModel, TFields>>>>>>>;
+export type NarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, IsEqual<TModel, any, TModel, IsEqual<TModel, unknown, TModel, IsEqual<TFields, never, never, IsEqual<TFields, SelectFields<TModel>, TModel, SearchPick<TModel, TFields>>>>>>> & {};
 
 // @public
 export interface NGramTokenFilter {
@@ -1804,7 +1804,7 @@ export interface SearchDocumentsResultBase {
 export type SearchField = SimpleField | ComplexField;
 
 // @public
-export type SearchFieldArray<TModel extends object = object> = ReadonlyArray<IsEqual<TModel, object, string, SelectFields<TModel>>>;
+export type SearchFieldArray<TModel extends object = object> = ReadonlyArray<IsEqual<TModel, object, string, SelectFields<TModel>>> & {};
 
 // @public
 export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)";
@@ -2096,7 +2096,7 @@ export type SearchPick<TModel extends object, TFields extends SelectFields<TMode
     [Key in keyof TModel as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
 } : never : never : NonNullable<TModel[FieldName]> extends object ? {
     [Key in keyof TModel as Key & FieldName]: RestPaths extends SelectFields<TModel[Key] & {}> ? SearchPick<TModel[Key] & {}, RestPaths> | Extract<TModel[Key], null> : never;
-} : never : never : TFields extends keyof TModel ? Pick<TModel, TFields> | Extract<TModel, null> : never> & {}>>>>;
+} : never : never : TFields extends keyof TModel ? Pick<TModel, TFields> | Extract<TModel, null> : never>>>>> & {};
 
 // @public
 export type SearchRequestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = BaseSearchRequestOptions<TModel, TFields> & SearchRequestQueryTypeOptions;
@@ -2143,12 +2143,12 @@ export interface SearchSuggester {
 }
 
 // @public
-export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string, TFields>>;
+export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string, TFields>> & {};
 
 // @public
 export type SelectFields<TModel extends object> = IsEqual<TModel, never, string, IsEqual<TModel, any, string, IsEqual<TModel, object, string, TModel extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
     [Key in keyof TModel]: Key extends string ? NonNullable<TModel[Key]> extends object ? NonNullable<TModel[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths ? IsEqual<NextPaths, never, Key, NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key> : never : Key : never;
-}[keyof TModel & string] & string>>>;
+}[keyof TModel & string] & string>>> & {};
 
 // @public
 export interface SemanticConfiguration {
@@ -2344,7 +2344,7 @@ export interface SuggestDocumentsResult<TModel extends object, TFields extends S
 }
 
 // @public (undocumented)
-export type SuggestNarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, UnionToIntersection<IsEqual<TFields, never, keyof ExtractDocumentKey<TModel> extends never ? TModel : ExtractDocumentKey<TModel>, TFields extends SelectFields<TModel> ? NarrowedModel<TModel, TFields> : never>>>>;
+export type SuggestNarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, UnionToIntersection<IsEqual<TFields, never, keyof ExtractDocumentKey<TModel> extends never ? TModel : ExtractDocumentKey<TModel>, TFields extends SelectFields<TModel> ? NarrowedModel<TModel, TFields> : never>>>> & {};
 
 // @public
 export type SuggestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SuggestRequest<TModel, TFields>;
