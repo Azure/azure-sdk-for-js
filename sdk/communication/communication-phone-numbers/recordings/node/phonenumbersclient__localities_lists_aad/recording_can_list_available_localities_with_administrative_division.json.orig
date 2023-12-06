@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,29 +9,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
 <<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
+=======
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+>>>>>>> ericasp/number-lookup-preview
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
 <<<<<<< HEAD
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "10214",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:01:02 GMT",
-        "MS-CV": "y61p7D4PHkuHiEpAAXaZ9g.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0jtawZAAAAAAD1IUOh9VDQazqhNS7UWBSV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "267ms"
-=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "10217",
@@ -42,7 +31,18 @@
         "X-Azure-Ref": "0ldFdZQAAAADAOxQAJWllQp0H3x5T2rSQUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "748ms"
->>>>>>> main
+=======
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "10214",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jul 2023 05:01:02 GMT",
+        "MS-CV": "y61p7D4PHkuHiEpAAXaZ9g.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0jtawZAAAAAAD1IUOh9VDQazqhNS7UWBSV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "267ms"
+>>>>>>> ericasp/number-lookup-preview
       },
       "ResponseBody": {
         "phoneNumberLocalities": [
@@ -125,6 +125,13 @@
           },
           {
             "localizedName": "Fresno",
+            "administrativeDivision": {
+              "localizedName": "CA",
+              "abbreviatedName": "CA"
+            }
+          },
+          {
+            "localizedName": "Irvine",
             "administrativeDivision": {
               "localizedName": "CA",
               "abbreviatedName": "CA"
@@ -264,6 +271,13 @@
             }
           },
           {
+            "localizedName": "Cape Coral",
+            "administrativeDivision": {
+              "localizedName": "FL",
+              "abbreviatedName": "FL"
+            }
+          },
+          {
             "localizedName": "Daytona Beach",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -313,13 +327,6 @@
             }
           },
           {
-            "localizedName": "Port St Lucie",
-            "administrativeDivision": {
-              "localizedName": "FL",
-              "abbreviatedName": "FL"
-            }
-          },
-          {
             "localizedName": "Sarasota",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -335,16 +342,15 @@
           },
           {
 <<<<<<< HEAD
-            "localizedName": "Tampa",
-=======
             "localizedName": "Tallahassee",
->>>>>>> main
             "administrativeDivision": {
               "localizedName": "FL",
               "abbreviatedName": "FL"
             }
           },
           {
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Tampa",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -415,13 +421,6 @@
             }
           },
           {
-            "localizedName": "Iowa City",
-            "administrativeDivision": {
-              "localizedName": "IA",
-              "abbreviatedName": "IA"
-            }
-          },
-          {
             "localizedName": "Mason City",
             "administrativeDivision": {
               "localizedName": "IA",
@@ -451,13 +450,6 @@
           },
           {
             "localizedName": "Aurora",
-            "administrativeDivision": {
-              "localizedName": "IL",
-              "abbreviatedName": "IL"
-            }
-          },
-          {
-            "localizedName": "Bloomington",
             "administrativeDivision": {
               "localizedName": "IL",
               "abbreviatedName": "IL"
@@ -724,6 +716,7 @@
           },
           {
 <<<<<<< HEAD
+=======
             "localizedName": "Pontiac",
             "administrativeDivision": {
               "localizedName": "MI",
@@ -731,8 +724,7 @@
             }
           },
           {
-=======
->>>>>>> main
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Saginaw",
             "administrativeDivision": {
               "localizedName": "MI",
@@ -760,6 +752,7 @@
               "abbreviatedName": "MI"
             }
 <<<<<<< HEAD
+=======
           },
           {
             "localizedName": "Alexandria",
@@ -767,15 +760,14 @@
               "localizedName": "MN",
               "abbreviatedName": "MN"
             }
-=======
->>>>>>> main
+>>>>>>> ericasp/number-lookup-preview
           }
         ],
-        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2023-05-01-preview"
+        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026administrativeDivision=AK\u0026api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026administrativeDivision=AK\u0026api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -783,29 +775,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
 <<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
+=======
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+>>>>>>> ericasp/number-lookup-preview
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
 <<<<<<< HEAD
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "144",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:01:02 GMT",
-        "MS-CV": "fXsW/OsNt0C7m7ngZlpmvA.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0jtawZAAAAABVdT13bMhuQblb2fPVnn94V1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "236ms"
-=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "144",
@@ -816,7 +797,18 @@
         "X-Azure-Ref": "0ltFdZQAAAACOhqpir45eTK9mDAPySYTWUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "755ms"
->>>>>>> main
+=======
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "144",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jul 2023 05:01:02 GMT",
+        "MS-CV": "fXsW/OsNt0C7m7ngZlpmvA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0jtawZAAAAABVdT13bMhuQblb2fPVnn94V1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "236ms"
+>>>>>>> ericasp/number-lookup-preview
       },
       "ResponseBody": {
         "phoneNumberLocalities": [

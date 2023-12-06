@@ -16,6 +16,8 @@ import {
  * For example, all classes will be grouped together, all interfaces will be grouped together, etc.
  */
 export function sortSourceFileContents(sourceFile: SourceFile) {
+  sourceFile.organizeImports();
+
   // Collect all elements of different types
   const variableStatements = sourceFile.getVariableStatements();
   const interfaces = sourceFile.getInterfaces();
@@ -45,21 +47,33 @@ export function sortSourceFileContents(sourceFile: SourceFile) {
   const enumStructures = enums.sort(sortExportedFirst).map((statement) => statement.getStructure());
 
   // Remove elements from the source file
-  variableStatements.forEach((statement) => statement.remove());
-  interfaces.forEach((interfaceDeclaration) => interfaceDeclaration.remove());
-  typeAliases.forEach((typeAlias) => typeAlias.remove());
-  classes.forEach((classDeclaration) => classDeclaration.remove());
-  functions.forEach((functionDeclaration) => functionDeclaration.remove());
-  enums.forEach((enumDeclaration) => enumDeclaration.remove());
+  variableStatements.forEach((statement) => {
+    statement.remove();
+  });
+  interfaces.forEach((interfaceDeclaration) => {
+    interfaceDeclaration.remove();
+  });
+  typeAliases.forEach((typeAlias) => {
+    typeAlias.remove();
+  });
+  classes.forEach((classDeclaration) => {
+    classDeclaration.remove();
+  });
+  functions.forEach((functionDeclaration) => {
+    functionDeclaration.remove();
+  });
+  enums.forEach((enumDeclaration) => {
+    enumDeclaration.remove();
+  });
 
   // Add elements back to the source file in the desired order
   interfaceStructures.forEach((interfaceDeclaration) =>
-    sourceFile.addInterface(interfaceDeclaration)
+    sourceFile.addInterface(interfaceDeclaration),
   );
   typeStructures.forEach((typeAlias) => sourceFile.addTypeAlias(typeAlias));
   classStructures.forEach((classDeclaration) => sourceFile.addClass(classDeclaration));
   functionStructures.forEach((functionDeclaration) =>
-    sourceFile.addFunction(functionDeclaration as FunctionDeclarationStructure)
+    sourceFile.addFunction(functionDeclaration as FunctionDeclarationStructure),
   );
   enumStructures.forEach((enumDeclaration) => sourceFile.addEnum(enumDeclaration));
   variableStructures.forEach((statement) => sourceFile.addVariableStatement(statement));
@@ -83,18 +97,24 @@ function sortClassContents(classDeclaration: ClassDeclaration) {
     .map((constructor) => constructor.getStructure());
 
   // Remove elements from the class
-  properties.forEach((property) => property.remove());
-  methods.forEach((method) => method.remove());
-  constructors.forEach((constructor) => constructor.remove());
+  properties.forEach((property) => {
+    property.remove();
+  });
+  methods.forEach((method) => {
+    method.remove();
+  });
+  constructors.forEach((constructor) => {
+    constructor.remove();
+  });
 
   // Add elements back to the class in the desired order
   propertyStructures.forEach((propertyStructure) =>
-    classDeclaration.addProperty(propertyStructure)
+    classDeclaration.addProperty(propertyStructure),
   );
   methodStructures.forEach((methodStructure) =>
-    classDeclaration.addMethod(methodStructure as MethodDeclarationStructure)
+    classDeclaration.addMethod(methodStructure as MethodDeclarationStructure),
   );
   constructorStructures.forEach((constructorStructure) =>
-    classDeclaration.addConstructor(constructorStructure as ConstructorDeclarationStructure)
+    classDeclaration.addConstructor(constructorStructure as ConstructorDeclarationStructure),
   );
 }

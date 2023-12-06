@@ -100,7 +100,7 @@ const stopDialogOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.operationCallbackUri],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,

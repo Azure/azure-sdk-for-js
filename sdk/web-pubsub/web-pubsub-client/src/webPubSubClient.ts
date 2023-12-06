@@ -16,8 +16,8 @@ import {
   OnServerDataMessageArgs,
   OnStoppedArgs,
   WebPubSubRetryOptions,
-  SendEventOptions,
   SendToGroupOptions,
+  SendEventOptions,
   WebPubSubClientOptions,
   OnRejoinGroupFailedArgs,
   StartOptions,
@@ -91,10 +91,10 @@ export class WebPubSubClient {
 
   /**
    * Create an instance of WebPubSubClient
-   * @param clientAccessUri - The uri to connect
+   * @param clientAccessUrl - The uri to connect
    * @param options - The client options
    */
-  constructor(clientAccessUri: string, options?: WebPubSubClientOptions);
+  constructor(clientAccessUrl: string, options?: WebPubSubClientOptions);
   /**
    * Create an instance of WebPubSubClient
    * @param credential - The credential to use when connecting
@@ -332,11 +332,10 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send custom event to server
+   * Send custom event to server.
    * @param eventName - The event name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -383,7 +382,7 @@ export class WebPubSubClient {
     } as SendEventMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
+    return { isDuplicated: false };
   }
 
   /**
@@ -466,7 +465,6 @@ export class WebPubSubClient {
    * @param groupName - The group name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -475,7 +473,7 @@ export class WebPubSubClient {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendToGroupOptions
-  ): Promise<void | WebPubSubResult> {
+  ): Promise<WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendToGroupAttempt(groupName, content, dataType, options),
       options?.abortSignal
@@ -516,7 +514,7 @@ export class WebPubSubClient {
     } as SendToGroupMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
+    return { isDuplicated: false };
   }
 
   private _getWebSocketClientFactory(): WebSocketClientFactoryLike {
@@ -568,7 +566,7 @@ export class WebPubSubClient {
         if (this._sequenceAckTask != null) {
           this._sequenceAckTask.abort();
         }
-        reject(new Error(e));
+        reject(e);
       });
 
       client.onclose((code: number, reason: string) => {

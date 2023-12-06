@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2023-05-01-preview\u0026top=100",
+      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2022-12-01\u0026top=100",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,28 +9,18 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
 <<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
+=======
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized"
+>>>>>>> ericasp/number-lookup-preview
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
 <<<<<<< HEAD
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Content-Length": "23605",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:00:59 GMT",
-        "MS-CV": "DwwhbWA1p0mLCQXVGpJllw.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0idawZAAAAADoLXVA/EmrSL9L2bh1sEudV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1815ms"
-=======
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Content-Length": "629",
         "Content-Type": "application/json; charset=utf-8",
@@ -40,7 +30,17 @@
         "X-Azure-Ref": "0jtFdZQAAAABkV9ywMTOyQJQ1P\u002BbzZqV2UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "1621ms"
->>>>>>> main
+=======
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Content-Length": "23605",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jul 2023 05:00:59 GMT",
+        "MS-CV": "DwwhbWA1p0mLCQXVGpJllw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0idawZAAAAADoLXVA/EmrSL9L2bh1sEudV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1815ms"
+>>>>>>> ericasp/number-lookup-preview
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -53,8 +53,25 @@
               "calling": "inbound\u002Boutbound",
               "sms": "none"
             },
+            "assignmentType": "application",
+            "purchaseDate": "2021-06-24T15:18:14.7689633\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
             "assignmentType": "person",
-            "purchaseDate": "2023-11-10T08:58:56.2621568\u002B00:00",
+            "purchaseDate": "2021-06-24T06:36:43.2477114\u002B00:00",
             "cost": {
               "amount": 1.0,
               "currencyCode": "USD",
@@ -66,6 +83,7 @@
             "phoneNumber": "\u002B14155550100",
             "countryCode": "US",
 <<<<<<< HEAD
+=======
             "phoneNumberType": "geographic",
             "capabilities": {
               "calling": "inbound\u002Boutbound",
@@ -321,12 +339,16 @@
             "id": "14155550100",
             "phoneNumber": "\u002B14155550100",
             "countryCode": "US",
+>>>>>>> ericasp/number-lookup-preview
             "phoneNumberType": "tollFree",
             "capabilities": {
               "calling": "none",
               "sms": "outbound"
             },
             "assignmentType": "application",
+<<<<<<< HEAD
+            "purchaseDate": "2023-11-10T09:57:45.4485137\u002B00:00",
+=======
             "purchaseDate": "2021-06-23T23:31:47.0550566\u002B00:00",
             "cost": {
               "amount": 2.0,
@@ -372,15 +394,12 @@
             "id": "14155550100",
             "phoneNumber": "\u002B14155550100",
             "countryCode": "US",
-=======
->>>>>>> main
             "phoneNumberType": "tollFree",
             "capabilities": {
               "calling": "outbound",
               "sms": "outbound"
             },
             "assignmentType": "application",
-<<<<<<< HEAD
             "purchaseDate": "2021-06-23T23:31:24.7610118\u002B00:00",
             "cost": {
               "amount": 2.0,
@@ -1283,9 +1302,7 @@
             },
             "assignmentType": "application",
             "purchaseDate": "2021-06-24T00:28:13.2155644\u002B00:00",
-=======
-            "purchaseDate": "2023-11-10T09:57:45.4485137\u002B00:00",
->>>>>>> main
+>>>>>>> ericasp/number-lookup-preview
             "cost": {
               "amount": 2.0,
               "currencyCode": "USD",

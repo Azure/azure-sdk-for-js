@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries?skip=0\u0026maxPageSize=100\u0026api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -9,33 +9,22 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
 <<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Fri, 14 Jul 2023 05:00:51 GMT"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Wed, 22 Nov 2023 10:01:44 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
+=======
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 14 Jul 2023 05:00:51 GMT"
+>>>>>>> ericasp/number-lookup-preview
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
 <<<<<<< HEAD
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "1487",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:00:53 GMT",
-        "MS-CV": "2RR9JnskL0279H0/TwgMqw.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0g9awZAAAAAASM\u002Bq5sXJNS5BFZwylzimGV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2558ms"
-=======
         "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "1968",
@@ -46,7 +35,18 @@
         "X-Azure-Ref": "0h9FdZQAAAACHyG6HxNUHQrf3fOyjEb8xUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "2470ms"
->>>>>>> main
+=======
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "1487",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jul 2023 05:00:53 GMT",
+        "MS-CV": "2RR9JnskL0279H0/TwgMqw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0g9awZAAAAAASM\u002Bq5sXJNS5BFZwylzimGV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "2558ms"
+>>>>>>> ericasp/number-lookup-preview
       },
       "ResponseBody": {
         "countries": [
@@ -56,7 +56,6 @@
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Austria",
             "countryCode": "AT"
           },
@@ -65,7 +64,8 @@
             "countryCode": "BE"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Brazil",
             "countryCode": "BR"
           },
@@ -99,12 +99,12 @@
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Germany",
             "countryCode": "DE"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Hong Kong SAR",
             "countryCode": "HK"
           },
@@ -130,12 +130,12 @@
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Luxembourg",
             "countryCode": "LU"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Malaysia",
             "countryCode": "MY"
           },
@@ -153,12 +153,12 @@
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Norway",
             "countryCode": "NO"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Philippines",
             "countryCode": "PH"
           },
@@ -168,56 +168,56 @@
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Portugal",
             "countryCode": "PT"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Saudi Arabia",
             "countryCode": "SA"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Singapore",
             "countryCode": "SG"
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Slovakia",
             "countryCode": "SK"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "South Africa",
             "countryCode": "ZA"
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Spain",
             "countryCode": "ES"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Sweden",
             "countryCode": "SE"
           },
           {
 <<<<<<< HEAD
-=======
             "localizedName": "Switzerland",
             "countryCode": "CH"
           },
           {
->>>>>>> main
+=======
+>>>>>>> ericasp/number-lookup-preview
             "localizedName": "Taiwan",
             "countryCode": "TW"
           },

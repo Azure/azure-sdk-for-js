@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/:search?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/:search?api-version=2022-12-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -21,10 +21,10 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
 <<<<<<< HEAD
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
+=======
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+>>>>>>> ericasp/number-lookup-preview
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
@@ -38,16 +38,6 @@
       "StatusCode": 400,
       "ResponseHeaders": {
 <<<<<<< HEAD
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Content-Type": "application/json",
-        "Date": "Sat, 15 Jul 2023 04:52:23 GMT",
-        "MS-CV": "aUUyPWeVV0WyV\u002B\u002B7b/xfqg.0",
-        "Strict-Transport-Security": "max-age=2592000",
-        "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ByayZAAAAADFd38ZQlT5SYm1snut2LZvV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-        "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "474ms"
-=======
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Content-Type": "application/json",
         "Date": "Wed, 22 Nov 2023 10:40:15 GMT",
@@ -57,7 +47,17 @@
         "X-Azure-Ref": "0jtpdZQAAAADlgdORyhfmSKoV5qha0dFlUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "1129ms"
->>>>>>> main
+=======
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Content-Type": "application/json",
+        "Date": "Sat, 15 Jul 2023 04:52:23 GMT",
+        "MS-CV": "aUUyPWeVV0WyV\u002B\u002B7b/xfqg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0ByayZAAAAADFd38ZQlT5SYm1snut2LZvV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "474ms"
+>>>>>>> ericasp/number-lookup-preview
       },
       "ResponseBody": {
         "error": {
