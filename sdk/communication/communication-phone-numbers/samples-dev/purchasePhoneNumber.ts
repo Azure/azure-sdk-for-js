@@ -44,6 +44,8 @@ export async function main() {
   // the search is underway so wait to receive the searchId to perform the purchase
   const searchResults = await searchPoller.pollUntilDone();
 
+  const consentToNotResellNumbers = true;
+
   if (searchResults.searchId && searchResults.phoneNumbers && searchResults.phoneNumbers.length) {
     const { searchId, phoneNumbers } = searchResults;
 
@@ -51,7 +53,10 @@ export async function main() {
     console.log(`Id: ${JSON.stringify(searchId)}`);
 
     // get poller to monitor purchase
-    const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
+    const purchasePoller = await client.beginPurchasePhoneNumbers(
+      searchId,
+      consentToNotResellNumbers
+    );
 
     // Purchase is underway.
     await purchasePoller.pollUntilDone();

@@ -18,16 +18,32 @@ import {
   PhoneNumbersListAvailableLocalitiesOptionalParams,
   PhoneNumberOffering,
   PhoneNumbersListOfferingsOptionalParams,
+  PhoneNumbersReservation,
+  PhoneNumbersGetReservationsOptionalParams,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersOptionalParams,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
   PhoneNumbersSearchAvailablePhoneNumbersResponse,
+  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumbersGetSearchResultOptionalParams,
   PhoneNumbersGetSearchResultResponse,
   PhoneNumbersPurchasePhoneNumbersOptionalParams,
   PhoneNumbersPurchasePhoneNumbersResponse,
+  PhoneNumbersCreateReservationOptionalParams,
+  PhoneNumbersCreateReservationResponse,
+  PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersGetReservationResponse,
+  PhoneNumbersDeleteReservationOptionalParams,
+  PhoneNumberCost,
+  PhoneNumbersAddToReservationOptionalParams,
+  PhoneNumbersAddToReservationResponse,
+  PhoneNumbersRemoveFromReservationOptionalParams,
+  PhoneNumbersRemoveFromReservationResponse,
+  PhoneNumbersStartPurchaseOptionalParams,
+  PhoneNumbersStartPurchaseResponse,
   PhoneNumbersGetOperationOptionalParams,
   PhoneNumbersGetOperationResponse,
   PhoneNumbersCancelOperationOptionalParams,
@@ -79,6 +95,13 @@ export interface PhoneNumbers {
     options?: PhoneNumbersListOfferingsOptionalParams
   ): PagedAsyncIterableIterator<PhoneNumberOffering>;
   /**
+   * Get all active reservations.
+   * @param options The options parameters.
+   */
+  listReservations(
+    options?: PhoneNumbersGetReservationsOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumbersReservation>;
+  /**
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
@@ -123,6 +146,16 @@ export interface PhoneNumbers {
     options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
   ): Promise<PhoneNumbersSearchAvailablePhoneNumbersResponse>;
   /**
+   * Searches for available phone numbers to purchase. Note that this does not reserves the numbers in
+   * the response.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  browseAvailableNumbers(
+    countryCode: string,
+    options?: PhoneNumbersBrowseAvailableNumbersOptionalParams
+  ): Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
+  /**
    * Gets a phone number search result by search id.
    * @param searchId The search Id.
    * @param options The options parameters.
@@ -150,6 +183,95 @@ export interface PhoneNumbers {
   beginPurchasePhoneNumbersAndWait(
     options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
   ): Promise<PhoneNumbersPurchasePhoneNumbersResponse>;
+  /**
+   * Initializes a new reservation with a given ID. By default the new reservation is empty, but it can
+   * optionally be created with an initial list of phone numbers.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  createReservation(
+    reservationId: string,
+    options?: PhoneNumbersCreateReservationOptionalParams
+  ): Promise<PhoneNumbersCreateReservationResponse>;
+  /**
+   * Gets a reservation by id
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  getReservation(
+    reservationId: string,
+    options?: PhoneNumbersGetReservationOptionalParams
+  ): Promise<PhoneNumbersGetReservationResponse>;
+  /**
+   * Deletes a reservation by id
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  deleteReservation(
+    reservationId: string,
+    options?: PhoneNumbersDeleteReservationOptionalParams
+  ): Promise<void>;
+  /**
+   * Reserves an available phone number. This will lock the number and make it unavailable for others to
+   * purchase. If the reservation is cancelled or expires, it will be released and made available for
+   * others to purchase.
+   * @param reservationId The id of the reservation.
+   * @param phoneNumber The phone number to remove from the reservation.
+   * @param availablePhoneNumber The phone number in E.164 format, e.g. +11234567890.
+   * @param id The id of the phone number.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param capabilities Capabilities of a phone number.
+   * @param phoneNumberType Represents the number type of the offering.
+   * @param assignmentType Represents the assignment type of the offering. Also known as the use case.
+   * @param cost The incurred cost for a single phone number.
+   * @param options The options parameters.
+   */
+  addToReservation(
+    reservationId: string,
+    phoneNumber: string,
+    availablePhoneNumber: string,
+    id: string,
+    countryCode: string,
+    capabilities: PhoneNumberCapabilities,
+    phoneNumberType: PhoneNumberType,
+    assignmentType: PhoneNumberAssignmentType,
+    cost: PhoneNumberCost,
+    options?: PhoneNumbersAddToReservationOptionalParams
+  ): Promise<PhoneNumbersAddToReservationResponse>;
+  /**
+   * Removes a phone number from a reservation, making it available for others to purchase.
+   * @param reservationId The id of the reservation.
+   * @param phoneNumber The phone number to remove from the reservation.
+   * @param options The options parameters.
+   */
+  removeFromReservation(
+    reservationId: string,
+    phoneNumber: string,
+    options?: PhoneNumbersRemoveFromReservationOptionalParams
+  ): Promise<PhoneNumbersRemoveFromReservationResponse>;
+  /**
+   * Starts the purchase of all phone numbers in the reservation. This is a long running operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  beginStartPurchase(
+    reservationId: string,
+    options?: PhoneNumbersStartPurchaseOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PhoneNumbersStartPurchaseResponse>,
+      PhoneNumbersStartPurchaseResponse
+    >
+  >;
+  /**
+   * Starts the purchase of all phone numbers in the reservation. This is a long running operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  beginStartPurchaseAndWait(
+    reservationId: string,
+    options?: PhoneNumbersStartPurchaseOptionalParams
+  ): Promise<PhoneNumbersStartPurchaseResponse>;
   /**
    * Gets an operation by its id.
    * @param operationId The id of the operation

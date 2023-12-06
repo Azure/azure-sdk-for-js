@@ -34,6 +34,10 @@ import {
   PhoneNumbersListOfferingsNextOptionalParams,
   PhoneNumbersListOfferingsOptionalParams,
   PhoneNumbersListOfferingsResponse,
+  PhoneNumbersReservation,
+  PhoneNumbersGetReservationsNextOptionalParams,
+  PhoneNumbersGetReservationsOptionalParams,
+  PhoneNumbersGetReservationsResponse,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersNextOptionalParams,
   PhoneNumbersListPhoneNumbersOptionalParams,
@@ -42,10 +46,24 @@ import {
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
   PhoneNumbersSearchAvailablePhoneNumbersResponse,
+  PhoneNumbersBrowseAvailableNumbersOptionalParams,
+  PhoneNumbersBrowseAvailableNumbersResponse,
   PhoneNumbersGetSearchResultOptionalParams,
   PhoneNumbersGetSearchResultResponse,
   PhoneNumbersPurchasePhoneNumbersOptionalParams,
   PhoneNumbersPurchasePhoneNumbersResponse,
+  PhoneNumbersCreateReservationOptionalParams,
+  PhoneNumbersCreateReservationResponse,
+  PhoneNumbersGetReservationOptionalParams,
+  PhoneNumbersGetReservationResponse,
+  PhoneNumbersDeleteReservationOptionalParams,
+  PhoneNumberCost,
+  PhoneNumbersAddToReservationOptionalParams,
+  PhoneNumbersAddToReservationResponse,
+  PhoneNumbersRemoveFromReservationOptionalParams,
+  PhoneNumbersRemoveFromReservationResponse,
+  PhoneNumbersStartPurchaseOptionalParams,
+  PhoneNumbersStartPurchaseResponse,
   PhoneNumbersGetOperationOptionalParams,
   PhoneNumbersGetOperationResponse,
   PhoneNumbersCancelOperationOptionalParams,
@@ -59,6 +77,7 @@ import {
   PhoneNumbersListAvailableCountriesNextResponse,
   PhoneNumbersListAvailableLocalitiesNextResponse,
   PhoneNumbersListOfferingsNextResponse,
+  PhoneNumbersGetReservationsNextResponse,
   PhoneNumbersListPhoneNumbersNextResponse
 } from "../models";
 
@@ -346,6 +365,60 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
+   * Get all active reservations.
+   * @param options The options parameters.
+   */
+  public listReservations(
+    options?: PhoneNumbersGetReservationsOptionalParams
+  ): PagedAsyncIterableIterator<PhoneNumbersReservation> {
+    const iter = this.getReservationsPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.getReservationsPagingPage(options, settings);
+      }
+    };
+  }
+
+  private async *getReservationsPagingPage(
+    options?: PhoneNumbersGetReservationsOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<PhoneNumbersReservation[]> {
+    let result: PhoneNumbersGetReservationsResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._getReservations(options);
+      let page = result.reservations || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._getReservationsNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.reservations || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *getReservationsPagingAll(
+    options?: PhoneNumbersGetReservationsOptionalParams
+  ): AsyncIterableIterator<PhoneNumbersReservation> {
+    for await (const page of this.getReservationsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
@@ -598,6 +671,28 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
+   * Searches for available phone numbers to purchase. Note that this does not reserves the numbers in
+   * the response.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param options The options parameters.
+   */
+  async browseAvailableNumbers(
+    countryCode: string,
+    options?: PhoneNumbersBrowseAvailableNumbersOptionalParams
+  ): Promise<PhoneNumbersBrowseAvailableNumbersResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.browseAvailableNumbers",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { countryCode, options },
+          browseAvailableNumbersOperationSpec
+        ) as Promise<PhoneNumbersBrowseAvailableNumbersResponse>;
+      }
+    );
+  }
+
+  /**
    * Gets a phone number search result by search id.
    * @param searchId The search Id.
    * @param options The options parameters.
@@ -698,6 +793,249 @@ export class PhoneNumbersImpl implements PhoneNumbers {
     options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
   ): Promise<PhoneNumbersPurchasePhoneNumbersResponse> {
     const poller = await this.beginPurchasePhoneNumbers(options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Get all active reservations.
+   * @param options The options parameters.
+   */
+  private async _getReservations(
+    options?: PhoneNumbersGetReservationsOptionalParams
+  ): Promise<PhoneNumbersGetReservationsResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._getReservations",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          getReservationsOperationSpec
+        ) as Promise<PhoneNumbersGetReservationsResponse>;
+      }
+    );
+  }
+
+  /**
+   * Initializes a new reservation with a given ID. By default the new reservation is empty, but it can
+   * optionally be created with an initial list of phone numbers.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  async createReservation(
+    reservationId: string,
+    options?: PhoneNumbersCreateReservationOptionalParams
+  ): Promise<PhoneNumbersCreateReservationResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.createReservation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { reservationId, options },
+          createReservationOperationSpec
+        ) as Promise<PhoneNumbersCreateReservationResponse>;
+      }
+    );
+  }
+
+  /**
+   * Gets a reservation by id
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  async getReservation(
+    reservationId: string,
+    options?: PhoneNumbersGetReservationOptionalParams
+  ): Promise<PhoneNumbersGetReservationResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.getReservation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { reservationId, options },
+          getReservationOperationSpec
+        ) as Promise<PhoneNumbersGetReservationResponse>;
+      }
+    );
+  }
+
+  /**
+   * Deletes a reservation by id
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  async deleteReservation(
+    reservationId: string,
+    options?: PhoneNumbersDeleteReservationOptionalParams
+  ): Promise<void> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.deleteReservation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { reservationId, options },
+          deleteReservationOperationSpec
+        ) as Promise<void>;
+      }
+    );
+  }
+
+  /**
+   * Reserves an available phone number. This will lock the number and make it unavailable for others to
+   * purchase. If the reservation is cancelled or expires, it will be released and made available for
+   * others to purchase.
+   * @param reservationId The id of the reservation.
+   * @param phoneNumber The phone number to remove from the reservation.
+   * @param availablePhoneNumber The phone number in E.164 format, e.g. +11234567890.
+   * @param id The id of the phone number.
+   * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param capabilities Capabilities of a phone number.
+   * @param phoneNumberType Represents the number type of the offering.
+   * @param assignmentType Represents the assignment type of the offering. Also known as the use case.
+   * @param cost The incurred cost for a single phone number.
+   * @param options The options parameters.
+   */
+  async addToReservation(
+    reservationId: string,
+    phoneNumber: string,
+    availablePhoneNumber: string,
+    id: string,
+    countryCode: string,
+    capabilities: PhoneNumberCapabilities,
+    phoneNumberType: PhoneNumberType,
+    assignmentType: PhoneNumberAssignmentType,
+    cost: PhoneNumberCost,
+    options?: PhoneNumbersAddToReservationOptionalParams
+  ): Promise<PhoneNumbersAddToReservationResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.addToReservation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          {
+            reservationId,
+            phoneNumber,
+            availablePhoneNumber,
+            id,
+            countryCode,
+            capabilities,
+            phoneNumberType,
+            assignmentType,
+            cost,
+            options
+          },
+          addToReservationOperationSpec
+        ) as Promise<PhoneNumbersAddToReservationResponse>;
+      }
+    );
+  }
+
+  /**
+   * Removes a phone number from a reservation, making it available for others to purchase.
+   * @param reservationId The id of the reservation.
+   * @param phoneNumber The phone number to remove from the reservation.
+   * @param options The options parameters.
+   */
+  async removeFromReservation(
+    reservationId: string,
+    phoneNumber: string,
+    options?: PhoneNumbersRemoveFromReservationOptionalParams
+  ): Promise<PhoneNumbersRemoveFromReservationResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.removeFromReservation",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { reservationId, phoneNumber, options },
+          removeFromReservationOperationSpec
+        ) as Promise<PhoneNumbersRemoveFromReservationResponse>;
+      }
+    );
+  }
+
+  /**
+   * Starts the purchase of all phone numbers in the reservation. This is a long running operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  async beginStartPurchase(
+    reservationId: string,
+    options?: PhoneNumbersStartPurchaseOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<PhoneNumbersStartPurchaseResponse>,
+      PhoneNumbersStartPurchaseResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<PhoneNumbersStartPurchaseResponse> => {
+      return tracingClient.withSpan(
+        "PhoneNumbersClient.beginStartPurchase",
+        options ?? {},
+        async () => {
+          return this.client.sendOperationRequest(args, spec) as Promise<
+            PhoneNumbersStartPurchaseResponse
+          >;
+        }
+      );
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { reservationId, options },
+      spec: startPurchaseOperationSpec
+    });
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts the purchase of all phone numbers in the reservation. This is a long running operation.
+   * @param reservationId The id of the reservation.
+   * @param options The options parameters.
+   */
+  async beginStartPurchaseAndWait(
+    reservationId: string,
+    options?: PhoneNumbersStartPurchaseOptionalParams
+  ): Promise<PhoneNumbersStartPurchaseResponse> {
+    const poller = await this.beginStartPurchase(reservationId, options);
     return poller.pollUntilDone();
   }
 
@@ -1053,6 +1391,27 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
+   * GetReservationsNext
+   * @param nextLink The nextLink from the previous successful call to the GetReservations method.
+   * @param options The options parameters.
+   */
+  private async _getReservationsNext(
+    nextLink: string,
+    options?: PhoneNumbersGetReservationsNextOptionalParams
+  ): Promise<PhoneNumbersGetReservationsNextResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient._getReservationsNext",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { nextLink, options },
+          getReservationsNextOperationSpec
+        ) as Promise<PhoneNumbersGetReservationsNextResponse>;
+      }
+    );
+  }
+
+  /**
    * ListPhoneNumbersNext
    * @param nextLink The nextLink from the previous successful call to the ListPhoneNumbers method.
    * @param options The options parameters.
@@ -1203,6 +1562,32 @@ const searchAvailablePhoneNumbersOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const browseAvailableNumbersOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/countries/{countryCode}/:browse",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersBrowseResult
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      phoneNumberType: ["options", "phoneNumberType"],
+      capabilities: ["options", "capabilities"],
+      assignmentType: ["options", "assignmentType"],
+      phoneNumberPrefixes: ["options", "phoneNumberPrefixes"]
+    },
+    mapper: Mappers.PhoneNumbersBrowseRequest
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.countryCode],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const getSearchResultOperationSpec: coreClient.OperationSpec = {
   path: "/availablePhoneNumbers/searchResults/{searchId}",
   httpMethod: "GET",
@@ -1240,11 +1625,169 @@ const purchasePhoneNumbersOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: {
-    parameterPath: { searchId: ["options", "searchId"] },
+    parameterPath: {
+      searchId: ["options", "searchId"],
+      consentToNotResellNumbers: ["options", "consentToNotResellNumbers"]
+    },
     mapper: { ...Mappers.PhoneNumberPurchaseRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getReservationsOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/reservations",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersReservations
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.apiVersion, Parameters.top],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createReservationOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/reservations/{reservationId}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.PhoneNumbersReservation
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
+    mapper:
+      Mappers.Paths16Yq815AvailablephonenumbersReservationsReservationidPutRequestbodyContentApplicationJsonSchema
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.reservationId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getReservationOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/reservations/{reservationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersReservation
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.reservationId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteReservationOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/reservations/{reservationId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.reservationId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const addToReservationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/availablePhoneNumbers/reservations/{reservationId}/phoneNumbers/{phoneNumber}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersReservation
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      id: ["id"],
+      countryCode: ["countryCode"],
+      availablePhoneNumber: ["availablePhoneNumber"],
+      capabilities: ["capabilities"],
+      phoneNumberType: ["phoneNumberType"],
+      assignmentType: ["assignmentType"],
+      cost: ["cost"]
+    },
+    mapper: { ...Mappers.AvailablePhoneNumber, required: true }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.reservationId,
+    Parameters.phoneNumber
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const removeFromReservationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/availablePhoneNumbers/reservations/{reservationId}/phoneNumbers/{phoneNumber}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersReservation
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.reservationId,
+    Parameters.phoneNumber
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const startPurchaseOperationSpec: coreClient.OperationSpec = {
+  path: "/availablePhoneNumbers/reservations/{reservationId}/:purchase",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.PhoneNumbersStartPurchaseHeaders
+    },
+    201: {
+      headersMapper: Mappers.PhoneNumbersStartPurchaseHeaders
+    },
+    202: {
+      headersMapper: Mappers.PhoneNumbersStartPurchaseHeaders
+    },
+    204: {
+      headersMapper: Mappers.PhoneNumbersStartPurchaseHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: {
+      consentToNotResellNumbers: ["options", "consentToNotResellNumbers"]
+    },
+    mapper: Mappers.PhoneNumbersReservationPurchaseRequest
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.reservationId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -1441,6 +1984,21 @@ const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
+  serializer
+};
+const getReservationsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PhoneNumbersReservations
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listPhoneNumbersNextOperationSpec: coreClient.OperationSpec = {
