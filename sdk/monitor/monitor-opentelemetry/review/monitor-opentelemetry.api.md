@@ -9,17 +9,22 @@ import { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { Resource } from '@opentelemetry/resources';
 
 // @public
+export interface ApplicationInsightsWebInstrumentationOptions {
+    enableWebInstrumentation?: boolean;
+    webInstrumentationConfig?: IWebInstrumentationConfig;
+    webInstrumentationConnectionString?: string;
+    webInstrumentationSrc?: string;
+}
+
+// @public
 export interface AzureMonitorOpenTelemetryOptions {
+    applicationInsightsWebInstrumentationOptions?: ApplicationInsightsWebInstrumentationOptions;
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
-    enableWebInstrumentation?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
-    webInstrumentationConfig?: IWebInstrumentationConfig[];
-    webInstrumentationConnectionString?: string;
-    webInstrumentationSrc?: string;
 }
 
 // @public
@@ -35,8 +40,13 @@ export interface InstrumentationOptions {
 
 // @public
 export interface IWebInstrumentationConfig {
-    name: string;
-    value: string | boolean | number;
+    cfg: string;
+    crossOrigin?: string;
+    ld?: number;
+    name?: string;
+    onInit?: string;
+    src: string;
+    useXhr?: boolean;
 }
 
 // @public

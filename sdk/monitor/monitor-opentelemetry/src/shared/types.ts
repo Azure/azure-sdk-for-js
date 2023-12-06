@@ -23,14 +23,10 @@ export interface AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   instrumentationOptions?: InstrumentationOptions;
-  /** Web Snippet Enable */
-  enableWebInstrumentation?: boolean;
-  /** Web Snippet Connection String */
-  webInstrumentationConnectionString?: string;
-  /** Web Snippet Instrumentation Key */
-  webInstrumentationSrc?: string;
-  /** Web Snippet Config */
-  webInstrumentationConfig?: IWebInstrumentationConfig[];
+  /**
+   * Application Insights Web Instrumentation options (enableWebInstrumentation, webInstrumentationConnectionString, webInstrumentationSrc, webInstrumentationConfig)
+   */
+  applicationInsightsWebInstrumentationOptions?: ApplicationInsightsWebInstrumentationOptions;
 }
 
 /**
@@ -54,16 +50,35 @@ export interface InstrumentationOptions {
 }
 
 /**
+ * Application Insights Web Instrumentation Configuration interface
+ */
+export interface ApplicationInsightsWebInstrumentationOptions {
+  /** Web Snippet Enable */
+  enableWebInstrumentation?: boolean;
+  /** Web Snippet Connection String */
+  webInstrumentationConnectionString?: string;
+  /** Web Snippet Instrumentation Key */
+  webInstrumentationSrc?: string;
+  /** Web Snippet Config */
+  webInstrumentationConfig?: IWebInstrumentationConfig;
+}
+
+/**
  * Web Snippet Configuration interface
  */
 export interface IWebInstrumentationConfig {
-  /**
-   * Name of Application Insights web Instrumentation config to be changed
-   * see more Application Insights web Instrumentation config details at: https://github.com/microsoft/ApplicationInsights-JS#configuration
-   */
-  name: string;
-  /**
-   * value provided to replace the default config value above
-   */
-  value: string | boolean | number;
+  /** The full URL for where to load the SDK from */
+  src: string;
+  /** The global name for the initialized SDK */
+  name?: string;
+  /** Defines the load delay to wait before attempting to load the SDK */
+  ld?: number;
+  /** This setting is used only for reporting SDK load failures */
+  useXhr?: boolean;
+  /** By including this setting, the script tag added to download the SDK will include the crossOrigin attribute with this string value */
+  crossOrigin?: string;
+  /** This callback function which is called after the main SDK script has been successfully loaded and initialized from the CDN (based on the src value), it is passed a reference to the sdk instance that it is being called for and it is also called before the first initial page view */
+  onInit?: string;
+  /** The configuration passed to the Application Insights SDK during initialization */
+  cfg: string; // requires user to convert object -> string
 }

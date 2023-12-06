@@ -1,5 +1,5 @@
-import * as http from "http";
-import * as https from "https";
+const http = require("http");
+const https = require("https");
 import { webSnippet } from "@microsoft/applicationinsights-web-snippet";
 import * as snippetInjectionHelper from "./snippetInjectionHelper";
 import * as prefixHelper from "../utils/common";
@@ -13,7 +13,6 @@ import {
   WEB_INSTRUMENTATION_DEPRECATED_SOURCE,
 } from "../types";
 import { IWebInstrumentationConfig } from "../shared/types";
-import { Resource } from "@opentelemetry/resources";
 
 export class WebSnippet {
   private static _instance: WebSnippet | null;
@@ -24,9 +23,8 @@ export class WebSnippet {
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _webInstrumentationIkey?: string;
-  private _clientWebInstrumentationConfig?: IWebInstrumentationConfig[];
+  private _clientWebInstrumentationConfig?: IWebInstrumentationConfig;
   private _clientWebInstrumentationSrc?: string;
-  private _resource: Resource;
 
   constructor(config: InternalConfig) {
     if (!!WebSnippet._instance) {
@@ -39,15 +37,20 @@ export class WebSnippet {
     // AI URL used to validate if snippet already included
     WebSnippet._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
     WebSnippet._aiDeprecatedUrl = WEB_INSTRUMENTATION_DEPRECATED_SOURCE;
-    let clientWebIkey = this._getWebSnippetIkey(config?.webInstrumentationConnectionString);
-
+    let clientWebIkey;
+    if (config.applicationInsightsWebInstrumentationOptions?.webInstrumentationConnectionString) {
+      clientWebIkey = this._getWebSnippetIkey(
+        config?.applicationInsightsWebInstrumentationOptions?.webInstrumentationConnectionString
+      );
+    }
     this._webInstrumentationIkey =
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientWebInstrumentationConfig = config.webInstrumentationConfig;
-    this._clientWebInstrumentationSrc = config.webInstrumentationSrc;
-    this._resource = config.resource;
+    this._clientWebInstrumentationConfig =
+      config.applicationInsightsWebInstrumentationOptions?.webInstrumentationConfig;
+    this._clientWebInstrumentationSrc =
+      config.applicationInsightsWebInstrumentationOptions?.webInstrumentationSrc;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -91,7 +94,7 @@ export class WebSnippet {
       this._clientWebInstrumentationConfig
     );
     let osStr = prefixHelper.getOsPrefix();
-    let rpStr = prefixHelper.getResourceProvider(this._resource);
+    let rpStr = prefixHelper.getResourceProvider();
     let snippetReplacedStr = `${this._webInstrumentationIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
     let replacedSnippet = webSnippet.replace("INSTRUMENTATION_KEY", snippetReplacedStr);
     if (this._clientWebInstrumentationSrc) {
@@ -111,32 +114,20 @@ export class WebSnippet {
   //      config3: 1,
   //      ...
   //}});
-  private _getClientWebInstrumentationConfigStr(config?: IWebInstrumentationConfig[]) {
+  private _getClientWebInstrumentationConfigStr(config?: IWebInstrumentationConfig) {
     let configStr = "";
     try {
-      if (config != undefined && config.length > 0) {
-        config.forEach((item) => {
-          let key = item.name;
-          if (key === undefined) return;
-          let val = item.value;
+      if (!!config && Object.keys(config).length > 0) {
+        for (let key in config) {
+          const value = config[key as keyof IWebInstrumentationConfig];
           let entry = "";
           // NOTE: users should convert object/function to string themselves
           // Type "function" and "object" will be skipped!
-          switch (typeof val) {
-            case "function":
-              break;
-            case "object":
-              break;
-            case "string":
-              entry = ` ${key}: \"${val}\",\r\n`;
-              configStr += entry;
-              break;
-            default:
-              entry = ` ${key}: ${val},\r\n`;
-              configStr += entry;
-              break;
+          if (typeof value === "string") {
+            entry = ` ${key}: \"${value}\",\r\n`;
+            configStr += entry;
           }
-        });
+        }
       }
     } catch (e) {
       // if has any errors here, web Instrumentation will be disabled.

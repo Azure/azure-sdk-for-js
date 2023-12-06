@@ -22,6 +22,7 @@ export {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   IWebInstrumentationConfig,
+  ApplicationInsightsWebInstrumentationOptions
 } from "./shared/types";
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
@@ -36,7 +37,7 @@ let webSnippet: WebSnippet | undefined;
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
 
-  if (config.enableWebInstrumentation) {
+  if (config.applicationInsightsWebInstrumentationOptions.enableWebInstrumentation) {
     webSnippet = new WebSnippet(config);
   }
   _setStatsbeatFeatures(config, webSnippet);

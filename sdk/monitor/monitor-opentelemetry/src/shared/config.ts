@@ -7,11 +7,14 @@ import {
   detectResourcesSync,
   envDetectorSync,
 } from "@opentelemetry/resources";
-import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
+import {
+  ApplicationInsightsWebInstrumentationOptions,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+} from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
-import { IWebInstrumentationConfig } from "./types";
 import {
   azureAppServiceDetector,
   azureFunctionsDetector,
@@ -48,13 +51,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     return this._resource;
   }
 
-  public enableWebInstrumentation: boolean;
-
-  public webInstrumentationConnectionString: string;
-
-  public webInstrumentationSrc: string;
-
-  public webInstrumentationConfig?: IWebInstrumentationConfig[];
+  public applicationInsightsWebInstrumentationOptions: ApplicationInsightsWebInstrumentationOptions;
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
@@ -75,10 +72,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
-    this.enableWebInstrumentation = false;
-    this.webInstrumentationConnectionString = "";
-    this.webInstrumentationSrc = "";
-    this.webInstrumentationConfig = undefined;
+    this.applicationInsightsWebInstrumentationOptions = {
+      enableWebInstrumentation: false,
+      webInstrumentationConnectionString: "",
+      webInstrumentationSrc: "",
+      webInstrumentationConfig: undefined,
+    };
 
     if (options) {
       // Merge default with provided options
@@ -92,13 +91,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
-      this.enableWebInstrumentation =
-        options.enableWebInstrumentation || this.enableWebInstrumentation;
-      this.webInstrumentationConnectionString =
-        options.webInstrumentationConnectionString || this.webInstrumentationConnectionString;
-      this.webInstrumentationSrc = options.webInstrumentationSrc || this.webInstrumentationSrc;
-      this.webInstrumentationConfig =
-        options.webInstrumentationConfig || this.webInstrumentationConfig;
+      this.applicationInsightsWebInstrumentationOptions = Object.assign(
+        this.applicationInsightsWebInstrumentationOptions,
+        options.applicationInsightsWebInstrumentationOptions
+      );
       this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
       this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
     }
@@ -111,23 +107,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      this.enableWebInstrumentation =
-        jsonConfig.enableWebInstrumentation !== undefined
-          ? jsonConfig.enableWebInstrumentation
-          : this.enableWebInstrumentation;
-      this.webInstrumentationConnectionString =
-        jsonConfig.webInstrumentationConnectionString !== undefined
-          ? jsonConfig.webInstrumentationConnectionString
-          : this.webInstrumentationConnectionString;
-      this.webInstrumentationSrc =
-        jsonConfig.webInstrumentationSrc !== undefined
-          ? jsonConfig.webInstrumentationSrc
-          : this.webInstrumentationSrc;
-      this.webInstrumentationConfig =
-        jsonConfig.webInstrumentationConfig !== undefined
-          ? jsonConfig.webInstrumentationConfig
-          : this.webInstrumentationConfig;
-
+      this.applicationInsightsWebInstrumentationOptions = Object.assign(
+        this.applicationInsightsWebInstrumentationOptions,
+        jsonConfig.applicationInsightsWebInstrumentationOptions
+      );
       this.enableLiveMetrics =
         jsonConfig.enableLiveMetrics !== undefined
           ? jsonConfig.enableLiveMetrics

@@ -3,11 +3,15 @@ import * as http from "http";
 import * as sinon from "sinon";
 import { WebSnippet } from "../../../../src/webSnippet/webSnippet";
 import * as SnippetInjectionHelper from "../../../../src/webSnippet/snippetInjectionHelper";
-import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index";
+import {
+  AzureMonitorOpenTelemetryOptions,
+  shutdownAzureMonitor,
+  useAzureMonitor,
+} from "../../../../src/index";
 import { isLinux, isWindows } from "../../../../src/utils/common";
 
 describe("#WebSnippet", () => {
-  var sandbox: sinon.SinonSandbox;
+  let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
   afterEach(() => {
@@ -22,24 +26,30 @@ describe("#WebSnippet", () => {
   });
 
   it("should initialize the web snippet", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
     };
     useAzureMonitor(config);
     assert.strictEqual(WebSnippet.getInstance().isInitialized(), true);
   });
 
   it("injection should be triggered only in HTML responses", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -71,12 +81,15 @@ describe("#WebSnippet", () => {
   });
 
   it("should inject the web snippet", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -105,12 +118,15 @@ describe("#WebSnippet", () => {
   });
 
   it("injection web snippet should overwrite content length ", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -135,13 +151,16 @@ describe("#WebSnippet", () => {
   });
 
   it("snippet should use provided snippet src url ", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-      webInstrumentationSrc: "WebInstrumentationTestSourceURL",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        webInstrumentationSrc: "WebInstrumentationTestSourceURL",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -169,17 +188,22 @@ describe("#WebSnippet", () => {
   });
 
   it("snippet should use provided config ", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-      webInstrumentationSrc: "WebInstrumentationTestSourceURL",
-      webInstrumentationConfig: [
-        { name: "key1", value: "key1" },
-        { name: "key2", value: true },
-      ],
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+        webInstrumentationSrc: "WebInstrumentationTestSourceURL",
+        webInstrumentationConfig: {
+          src: "WebInstrumentationTestSourceURL",
+          name: "WebInstrumentationTestName",
+          ld: 1000,
+          cfg: "{ config: test }",
+        },
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -207,7 +231,7 @@ describe("#WebSnippet", () => {
     } else if (isLinux()) {
       osType = "l";
     }
-    let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n key1: "key1",\r\n key2: true,\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
+    let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n src: "WebInstrumentationTestSourceURL",\r\n name: "WebInstrumentationTestName",\r\n cfg: "{ config: test }",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
     assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
@@ -215,12 +239,15 @@ describe("#WebSnippet", () => {
   });
 
   it("web snippet injection to buffer", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -249,12 +276,15 @@ describe("#WebSnippet", () => {
   });
 
   it("injection web snippet should overwrite content length using buffer ", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -288,13 +318,15 @@ describe("#WebSnippet", () => {
   });
 
   it("injection should use correct connection string from config", () => {
-    let config = {
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString:
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3330;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+      },
     };
     useAzureMonitor(config);
     let webSnippet = WebSnippet.getInstance();
@@ -317,23 +349,25 @@ describe("#WebSnippet", () => {
     let validHtml = "<html><head></head><body></body></html>";
     assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
     let newHtml = webSnippet.InjectWebSnippet(response, validHtml).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
+    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0, newHtml);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3330"') >= 0);
+    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
   });
 
   it("injection should throw errors when ikey from config is not valid", () => {
-    var infoStub = sandbox.stub(console, "info");
-    let config = {
+    const infoStub = sandbox.stub(console, "info");
+    const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      enableWebInstrumentation: true,
-      webInstrumentationConnectionString:
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeff;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
+      applicationInsightsWebInstrumentationOptions: {
+        enableWebInstrumentation: true,
+        webInstrumentationConnectionString:
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3330ffafffw;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
+      },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    const webSnippet = WebSnippet.getInstance();
 
     assert.equal(webSnippet["_isIkeyValid"], false, "ikey should be set to invalid");
     assert.ok(infoStub.calledOn, "invalid key warning was raised");
