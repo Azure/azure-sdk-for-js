@@ -23,7 +23,7 @@ const { debug } = createPrinter("rollup.base.config");
 
 interface PackageJson {
   name: string;
-  module: string;
+  module?: string;
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
 }
