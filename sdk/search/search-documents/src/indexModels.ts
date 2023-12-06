@@ -753,7 +753,12 @@ export type IndexDocumentsAction<TModel> = {
  *
  * Otherwise, a narrowed `Fields[]` type to be used elsewhere in the consuming type.
  */
-export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string, TFields>>;
+export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string, TFields>> & {
+  // This useless intersection actually prevents the TypeScript language server from
+  // expanding the definition of SearchPick<TModel, Paths> in IntelliSense. Since we're
+  // sure the type always yields an object, this intersection does not alter the type
+  // at all, only the display string of the type.
+};
 
 /**
  * If `TModel` is an untyped object, an untyped string array
@@ -762,7 +767,9 @@ export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string
  */
 export type SearchFieldArray<TModel extends object = object> = ReadonlyArray<
   IsEqual<TModel, object, string, SelectFields<TModel>>
->;
+> & {
+  // ditto
+};
 
 export type UnionToIntersection<Union> =
   // Distribute members of U into parameter position of a union of functions
@@ -825,7 +832,9 @@ export type SelectFields<TModel extends object> =
               string
       >
     >
-  >;
+  > & {
+    // ditto
+  };
 
 /**
  * Deeply pick fields of T using valid Cognitive Search OData $select
@@ -895,16 +904,13 @@ export type SearchPick<TModel extends object, TFields extends SelectFields<TMode
             TFields extends keyof TModel
             ? Pick<TModel, TFields> | Extract<TModel, null>
             : never
-        > & {
-          // This useless intersection actually prevents the TypeScript language server from
-          // expanding the definition of SearchPick<TModel, Paths> in IntelliSense. Since we're
-          // sure the type always yields an object, this intersection does not alter the type
-          // at all, only the display string of the type.
-        }
+        >
       >
     >
   >
->;
+> & {
+  // ditto
+};
 
 export type ExtractDocumentKey<TModel> = {
   [K in keyof TModel as TModel[K] extends string | undefined ? K : never]: TModel[K];
@@ -950,7 +956,9 @@ export type NarrowedModel<
         >
       >
     >
-  >;
+  > & {
+    // ditto
+  };
 
 export type SuggestNarrowedModel<
   TModel extends object,
@@ -983,7 +991,9 @@ export type SuggestNarrowedModel<
       >
     >
   >
->;
+> & {
+  // ditto
+};
 
 /**
  * Extracts answer candidates from the contents of the documents returned in response to a query
