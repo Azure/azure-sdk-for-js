@@ -22,7 +22,7 @@ export {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   IWebInstrumentationConfig,
-  ApplicationInsightsWebInstrumentationOptions
+  ApplicationInsightsWebInstrumentationOptions,
 } from "./shared/types";
 
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
