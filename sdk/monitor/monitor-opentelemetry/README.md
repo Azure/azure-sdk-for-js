@@ -167,9 +167,9 @@ Other OpenTelemetry Instrumentations are available [here](https://github.com/ope
     
 ```
 
-### Application Insights Web SDK Snippet Injection
+### Application Insights Browser SDK Loader
 
-Application Insights Web SDK Snippet Injection allows you to inject the web SDK into node server responses when the following conditions are true:
+Application Insights Browser SDK Loader allows you to inject the web SDK into node server responses when the following conditions are true:
 
 * Response has status code `200`.
 * Response method is `GET`.
