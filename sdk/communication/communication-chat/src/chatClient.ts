@@ -94,7 +94,7 @@ export class ChatClient {
     this.signalingClient = getSignalingClient(
       credential,
       logger,
-      (options as any).signalingClientOptions
+      this.clientOptions.signalingClientOptions
     );
   }
 
