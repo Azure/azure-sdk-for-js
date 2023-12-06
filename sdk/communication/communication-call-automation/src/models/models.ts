@@ -81,7 +81,7 @@ export enum VoiceKind {
 
 /** The PlaySource model. */
 export interface PlaySource {
-  playsourcacheid?: string;
+  playsourcecacheid?: string;
 }
 
 /** The FileSource model. */
