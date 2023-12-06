@@ -1,13 +1,13 @@
 # Release History
 
-## 1.5.0-beta.1 (Unreleased)
+## 1.5.0-beta.1 (2023-12-06)
 
 ### Breaking Changes
 
 - Updated `ChatAttachment` properties
-  - `url` becomes optional
-  - `contentType` is removed
-  - Renamed `AttachmentType` and its enums (`"teamsInlineImage" | "teamsImage" | "file"`) to `ChatAttachmentType` and `"image" | "file" | "unknown"`
+  - The `url` property becomes optional.
+  - The `contentType` property has been removed.
+  - AttachmentType Renaming: `AttachmentType` has been renamed to `ChatAttachmentType`, with its enums simplified to `image`, `file`, and `unknown`, replacing the previous `teamsInlineImage`, `teamsImage`, and `file`.
 
 ### Other Changes
 
