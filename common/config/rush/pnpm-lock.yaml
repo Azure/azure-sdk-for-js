@@ -2013,8 +2013,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.38.3(@types/node@16.18.67):
-    resolution: {integrity: sha512-xt9iYyC5f39281j77JTA9C3ISJpW1XWkCcnw+2vM78CPnro6KhPfwQdPDfwS5JCPNuq0grm8cMdPUOPvrchDWw==}
+  /@microsoft/api-extractor@7.38.4(@types/node@16.18.67):
+    resolution: {integrity: sha512-0SW3Of6os4bAYlHdiD1hJx/ygXr7vRZi92E1pREufNERH87aZ0B9Vhku/4Mj2Oxp58gyV5d18t7uZold6HCSEw==}
     hasBin: true
     dependencies:
       '@microsoft/api-extractor-model': 7.28.2(@types/node@16.18.67)
@@ -2033,8 +2033,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.38.3(@types/node@18.19.2):
-    resolution: {integrity: sha512-xt9iYyC5f39281j77JTA9C3ISJpW1XWkCcnw+2vM78CPnro6KhPfwQdPDfwS5JCPNuq0grm8cMdPUOPvrchDWw==}
+  /@microsoft/api-extractor@7.38.4(@types/node@18.19.2):
+    resolution: {integrity: sha512-0SW3Of6os4bAYlHdiD1hJx/ygXr7vRZi92E1pREufNERH87aZ0B9Vhku/4Mj2Oxp58gyV5d18t7uZold6HCSEw==}
     hasBin: true
     dependencies:
       '@microsoft/api-extractor-model': 7.28.2(@types/node@18.19.2)
@@ -3440,8 +3440,8 @@ packages:
       acorn: 8.11.2
     dev: false
 
-  /acorn-walk@8.3.0:
-    resolution: {integrity: sha512-FS7hV565M5l1R08MXqo8odwMTB02C2UqzB17RVgu9EyuYFBqJZ3/ZY97sQD5FewVu1UyDFc1yztUDrAwT0EypA==}
+  /acorn-walk@8.3.1:
+    resolution: {integrity: sha512-TgUZgYvqZprrl7YldZNoa9OciCAyZR+Ejm9eXzKCmjsF5IKp/wgQ7Z/ZpjpGTIUPwrHQIcYeI8qDh4PsEwxMbw==}
     engines: {node: '>=0.4.0'}
     dev: false
 
@@ -3793,7 +3793,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001566
-      electron-to-chromium: 1.4.601
+      electron-to-chromium: 1.4.606
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
     dev: false
@@ -4582,7 +4582,6 @@ packages:
       semver: 7.5.4
       shelljs: 0.8.5
       typescript: 5.4.0-dev.20231206
-      typescript: 5.4.0-dev.20231205
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -4603,8 +4602,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.601:
-    resolution: {integrity: sha512-SpwUMDWe9tQu8JX5QCO1+p/hChAi9AE9UpoC3rcHVc+gdCGlbT3SGb5I1klgb952HRIyvt9wZhSz9bNBYz9swA==}
+  /electron-to-chromium@1.4.606:
+    resolution: {integrity: sha512-Zdv0XuhfyWZUsQ5Uq59d43ZmZOdoGZNWjeN4WCxxlQaP8crAWdnWcTxfHKcaJl6PW2SWpHx6DsxSx7v6KcGCuw==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -7163,8 +7162,8 @@ packages:
       - supports-color
     dev: false
 
-  /node-abi@3.51.0:
-    resolution: {integrity: sha512-SQkEP4hmNWjlniS5zdnfIXTk1x7Ome85RDzHlTbBtzE97Gfwz/Ipw4v/Ryk20DWIy3yCNVLVlGKApCnmvYoJbA==}
+  /node-abi@3.52.0:
+    resolution: {integrity: sha512-JJ98b02z16ILv7859irtXn4oUaFWADtvkzy2c0IAatNVX2Mc9Yoh8z6hZInn3QwvMEYhHuQloYi+TTQy67SIdQ==}
     engines: {node: '>=10'}
     dependencies:
       semver: 7.5.4
@@ -7679,7 +7678,7 @@ packages:
       minimist: 1.2.8
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
-      node-abi: 3.51.0
+      node-abi: 3.52.0
       pump: 3.0.0
       rc: 1.2.8
       simple-get: 4.0.1
@@ -7881,6 +7880,7 @@ packages:
 
   /puppeteer@19.11.1(typescript@5.2.2):
     resolution: {integrity: sha512-39olGaX2djYUdhaQQHDZ0T0GwEp+5f9UB9HmEP0qHfdQHIq0xGQZuAZ5TLnJIc/88SrPLpEflPC+xUqOTv3c5g==}
+    deprecated: < 21.3.7 is no longer supported
     requiresBuild: true
     dependencies:
       '@puppeteer/browsers': 0.5.0(typescript@5.2.2)
@@ -7900,6 +7900,7 @@ packages:
   /puppeteer@20.9.0(typescript@5.0.4):
     resolution: {integrity: sha512-kAglT4VZ9fWEGg3oLc4/de+JcONuEJhlh3J6f5R1TLkrY/EHHIHxWXDOzXvaxQCtedmyVXBwg8M+P8YCO/wZjw==}
     engines: {node: '>=16.3.0'}
+    deprecated: < 21.3.7 is no longer supported
     requiresBuild: true
     dependencies:
       '@puppeteer/browsers': 1.4.6(typescript@5.0.4)
@@ -8870,7 +8871,7 @@ packages:
       '@tsconfig/node16': 1.0.4
       '@types/node': 16.18.67
       acorn: 8.11.2
-      acorn-walk: 8.3.0
+      acorn-walk: 8.3.1
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
@@ -8901,7 +8902,7 @@ packages:
       '@tsconfig/node16': 1.0.4
       '@types/node': 18.19.2
       acorn: 8.11.2
-      acorn-walk: 8.3.0
+      acorn-walk: 8.3.1
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
@@ -8932,7 +8933,7 @@ packages:
       '@tsconfig/node16': 1.0.4
       '@types/node': 18.19.2
       acorn: 8.11.2
-      acorn-walk: 8.3.0
+      acorn-walk: 8.3.1
       arg: 4.1.3
       create-require: 1.1.1
       diff: 4.0.2
@@ -9084,16 +9085,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
   /typescript@5.4.0-dev.20231206:
     resolution: {integrity: sha512-bKJ5+3jwj4qTzNg7C97rCVLgyyYuzjYh/Pf0zlpOyyq9vpI3TVLO09d1gQ8jS5M+BSLONojTijei0KHmFoBezw==}
-  /typescript@5.4.0-dev.20231205:
-    resolution: {integrity: sha512-jeYaYMtVCDclulasTrZlhlF9k/Xu88FCpff6+BP3YVNbWefdRy/3nmmrAFVC/TqGSrLhhjSRHBn6bw49b9Jxdw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -9598,7 +9597,7 @@ packages:
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9617,7 +9616,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -9638,7 +9636,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9684,7 +9682,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9730,7 +9728,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9776,7 +9774,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9821,7 +9819,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -9861,13 +9859,13 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-HWPpj+lRX4wG5UQXLEf9z7kSzInNjfr5ea7ZVkX9tP4nndinMV/VlskdRhD2m87MhhbnkJaifowufm3F4iPE5w==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-O3HYbRErHDi3r0jnBI9Z1PUKsLMwiB0ZDDdSkVlLvqec7mIuhabn0TOP1Gs+1JqTYfHCBU1dYExL0i/xsfLXzA==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.6.1)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -9916,7 +9914,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -9965,7 +9963,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
@@ -10013,7 +10011,7 @@ packages:
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       autorest: 3.7.1
       c8: 8.0.1
@@ -10039,7 +10037,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -10084,7 +10082,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -10129,7 +10127,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -10176,7 +10174,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -10216,11 +10214,11 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-8stJCBm/KzbCjsdyhhU5V8jt1m0+ng88vXVs3qv37LhXw5nQ/kINdjLv7iktUgRGgoma9QolHBeU5iNOiL7fOQ==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-o4sLzIEwdxJbjys4/KlFTNXkefmr0Ia56LG5WUSz8yRqv8Ar09snYYI2sI7rTkuP7uJ/NW06e7449CHTr0LVqA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.6.1)
       '@types/chai': 4.3.11
       '@types/inquirer': 8.2.10
@@ -10265,7 +10263,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/storage-blob': 12.17.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mime': 3.0.4
       '@types/mocha': 10.0.6
@@ -10318,7 +10316,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-secrets': 4.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -10365,7 +10363,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10391,7 +10389,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10416,7 +10414,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10440,7 +10438,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10463,7 +10461,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10489,7 +10487,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10514,7 +10512,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10540,7 +10538,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10565,7 +10563,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10590,7 +10588,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10616,7 +10614,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -10644,7 +10642,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10669,7 +10667,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -10713,7 +10711,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10737,7 +10735,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10763,7 +10761,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10788,7 +10786,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10814,7 +10812,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10840,7 +10838,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10866,7 +10864,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10890,7 +10888,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10915,7 +10913,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10941,7 +10939,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -10969,7 +10967,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -10995,7 +10993,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11020,7 +11018,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11045,7 +11043,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11071,7 +11069,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11096,7 +11094,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11120,7 +11118,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11139,14 +11137,14 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-sIhDi39qcJvPBl0zqwFS3VtM4MuT++n9H91Kq9JiDv657giVBAMVB22GaFBnxKCFKi1SmS02SDsYPzv+35YA/g==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-2eIbg+mR0LzTsnJ/q6/rBdH6JJcNcPYXbYCt5aJ/7ZnUmNn7G4rZdLy7CVIiYgrH5wCpZ9mr4UL9hH2XzIuSwA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11174,7 +11172,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11199,7 +11197,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11224,7 +11222,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11248,7 +11246,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11273,7 +11271,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11299,7 +11297,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11325,7 +11323,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11350,7 +11348,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -11395,7 +11393,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11421,7 +11419,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11449,7 +11447,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11474,7 +11472,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11500,7 +11498,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11526,7 +11524,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11554,7 +11552,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11581,7 +11579,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -11626,7 +11624,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11648,13 +11646,13 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-Ctm+veLSdAzkrupaHv8TKX7u2ytXCqcLKYZSj8FX70bbpnFTFvVNwNjjBO8/jXx4H9B+9WCIC9wO86iyEno5+A==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-CHd3UEfBCFTPPXwv3FZlLPJEWAwn/qTY/9c6Me2FMGmRgoz2hj6AIhJmINNb+NC8FsirRqXbwamO0ZVUst1Zng==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11682,7 +11680,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11708,7 +11706,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11735,7 +11733,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11760,7 +11758,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11788,7 +11786,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11814,7 +11812,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11840,7 +11838,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11865,7 +11863,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11893,7 +11891,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11918,7 +11916,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11944,7 +11942,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -11972,7 +11970,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -11997,7 +11995,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12022,7 +12020,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12048,7 +12046,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12074,7 +12072,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12098,7 +12096,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12124,7 +12122,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12149,7 +12147,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12175,7 +12173,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12201,7 +12199,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12227,7 +12225,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12252,7 +12250,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12277,7 +12275,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12303,7 +12301,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12329,7 +12327,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12354,7 +12352,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12380,7 +12378,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12405,7 +12403,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12430,7 +12428,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12456,7 +12454,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12482,7 +12480,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12508,7 +12506,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -12536,7 +12534,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12562,7 +12560,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12588,7 +12586,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12613,7 +12611,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12637,7 +12635,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12663,7 +12661,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12689,7 +12687,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12715,7 +12713,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12740,7 +12738,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12765,7 +12763,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12791,7 +12789,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12817,7 +12815,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12842,7 +12840,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12867,7 +12865,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -12894,7 +12892,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12920,7 +12918,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -12948,7 +12946,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12973,7 +12971,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -12999,7 +12997,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13023,7 +13021,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13049,7 +13047,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13075,7 +13073,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13101,7 +13099,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13127,7 +13125,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -13155,7 +13153,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13181,7 +13179,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13207,7 +13205,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13232,7 +13230,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13257,7 +13255,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13282,7 +13280,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13307,7 +13305,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13332,7 +13330,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13358,7 +13356,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13383,7 +13381,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13407,7 +13405,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13432,7 +13430,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13455,7 +13453,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13481,7 +13479,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13507,7 +13505,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13531,7 +13529,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13556,7 +13554,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13582,7 +13580,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13606,7 +13604,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13632,7 +13630,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13657,7 +13655,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13682,7 +13680,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13707,7 +13705,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@16.18.67)
+      '@microsoft/api-extractor': 7.38.4(@types/node@16.18.67)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 16.18.67
@@ -13734,7 +13732,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13760,7 +13758,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13785,7 +13783,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13811,7 +13809,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13837,7 +13835,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13862,7 +13860,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13888,7 +13886,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13914,7 +13912,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -13939,7 +13937,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -13984,7 +13982,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14012,7 +14010,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14038,7 +14036,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14063,7 +14061,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14089,7 +14087,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14117,7 +14115,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14142,7 +14140,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14167,7 +14165,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14193,7 +14191,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14218,7 +14216,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14244,7 +14242,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14271,7 +14269,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14296,7 +14294,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14321,7 +14319,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14346,7 +14344,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14372,7 +14370,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14397,7 +14395,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14423,7 +14421,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14451,7 +14449,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14476,7 +14474,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14502,7 +14500,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14527,7 +14525,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14553,7 +14551,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14578,7 +14576,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14604,7 +14602,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14630,7 +14628,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14658,7 +14656,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14684,7 +14682,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14710,7 +14708,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -14738,7 +14736,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14764,7 +14762,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14790,7 +14788,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14816,7 +14814,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14842,7 +14840,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14868,7 +14866,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14893,7 +14891,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14917,7 +14915,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14943,7 +14941,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14969,7 +14967,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -14994,7 +14992,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15020,7 +15018,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15046,7 +15044,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15072,7 +15070,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15098,7 +15096,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15124,7 +15122,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15150,7 +15148,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15176,7 +15174,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15202,7 +15200,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15227,7 +15225,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15252,7 +15250,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15278,7 +15276,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15302,7 +15300,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       autorest: 3.7.1
@@ -15346,7 +15344,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15372,7 +15370,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15397,7 +15395,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15423,7 +15421,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -15451,7 +15449,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15477,7 +15475,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15503,7 +15501,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15529,7 +15527,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15555,7 +15553,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15581,7 +15579,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15607,7 +15605,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15632,7 +15630,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15658,7 +15656,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15684,7 +15682,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15709,7 +15707,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15734,7 +15732,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15759,7 +15757,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15783,7 +15781,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15809,7 +15807,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15834,7 +15832,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15860,7 +15858,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15885,7 +15883,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15910,7 +15908,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15935,7 +15933,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15961,7 +15959,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -15986,7 +15984,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16012,7 +16010,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16038,7 +16036,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16064,7 +16062,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16089,7 +16087,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16114,7 +16112,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/node': 18.19.2
       chai: 4.3.10
@@ -16138,7 +16136,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -16192,7 +16190,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16236,7 +16234,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16286,7 +16284,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.22
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16337,7 +16335,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -16385,7 +16383,7 @@ packages:
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16432,7 +16430,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/msal-node': 1.18.4
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16478,7 +16476,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16528,7 +16526,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16572,7 +16570,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16620,7 +16618,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16668,7 +16666,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16714,7 +16712,7 @@ packages:
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16753,7 +16751,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16801,7 +16799,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16850,7 +16848,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16898,7 +16896,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16944,7 +16942,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -16975,7 +16973,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -17015,11 +17013,11 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-jv6i/scPE6jZDK4u0T+2aR1PfLlMhAVb1Ihf0zNHIuO/VAxQ7RF2Yp2v5Oqk0PxUHs9MkkzGYZZi6XHboCKz5Q==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-m5PFPA0fWNh00zcdMLQZk/iennSppwNFj9Epv++t8ZbjW8IRg3uoWwHR5xWWa13xePD1DvlrY7zFQ+kxgjk/4g==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/debug': 4.1.12
       '@types/mocha': 10.0.6
@@ -17038,7 +17036,6 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-mocha: 2.0.1
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       process: 0.11.10
       puppeteer: 19.11.1(typescript@5.2.2)
@@ -17061,11 +17058,11 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-e9DQMJ3nH7nBtEtG7q9ZNsSiJtMHgQIn9WfkWO5CnISFRhyLtQl4/Zbbo+FYBUd6wNdDZtkXEtOQ9GMDLxRkug==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-Ts0iG5lZ/Zbbc/op9ko0kASPnRJj78Q+FN/vIwqdqLy13MO0yHVisLbDOc6YvKkK4KlQyY91ajb5/zikgvmGdQ==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17075,7 +17072,6 @@ packages:
       eslint: 8.55.0
       inherits: 2.0.4
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -17089,11 +17085,11 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-nd8MylPd2Cl9zcQKghm6YZJ0V+O+FMg66h3jYcRYdR9+nD57WEdAkjJWDemxuC3ZRivwoM8PBDs4hKmtM8oLYw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-ctq0nAHhp+z6xcyBevLxgQnEOQpr1kxL0BbwxmsuFJES3NMtWGEsxTaSQLpxXPCQNagZDT0kJoB5vnIMjfl9yQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17114,7 +17110,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 17.0.1
@@ -17132,12 +17127,11 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-yYvzFAJajgXh645kKgwxjzAE54puS3ONDZcrtDr5eDmF/IGK1ymka9l7KV/btZDQ4LClCqpkUZd/T4Iyx/5mxg==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-oSR++gCMN7qjeY4/0rAX3+8T1lVuiw3rWfetKJKcDH10kxQHB3rGjIlQkOJii4pTGLiftCmhJYcdTH0xvpIGaA==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17156,7 +17150,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 17.0.1
@@ -17173,17 +17166,16 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-nF5l9anDr5sA1AgUDM3u/HflcXI3ffxBEpjs1RfBLIqC8hmn2IEDD5N3GIvRNiBoUeRwXVpZ39ZHCLg1R8FioA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-DxGCkkFLLezEUo6dq1OQpLY/99IAHEzLrX//R07nKwa9FnfUgzgMPrxt1W9CXb40gTz4iJ/YGDY+4NwpYWsjyQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
       eslint: 8.55.0
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -17194,77 +17186,12 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/core-http.tgz:
-    resolution: {integrity: sha512-/wAi3d9z58zE6jckHn/8arb1vvY3L637c1nWL0IS3qJrF3nd5Csv2NB3YmfrxRF7jPh518yBmdIl8pRGCdWnMg==, tarball: file:projects/core-http.tgz}
-    name: '@rush-temp/core-http'
-    version: 0.0.0
-    dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger-js': 1.3.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@opentelemetry/api': 1.7.0
-      '@types/chai': 4.3.10
-      '@types/express': 4.17.21
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      '@types/node-fetch': 2.6.9
-      '@types/sinon': 17.0.1
-      '@types/tough-cookie': 4.0.5
-      '@types/trusted-types': 2.0.6
-      '@types/tunnel': 0.0.3
-      '@types/uuid': 8.3.4
-      '@types/xml2js': 0.4.14
-      c8: 8.0.1
-      chai: 4.3.10
-      cross-env: 7.0.3
-      downlevel-dts: 0.10.1
-      eslint: 8.53.0
-      esm: 3.2.25
-      express: 4.18.2
-      fetch-mock: 9.11.0(node-fetch@2.7.0)
-      form-data: 4.0.0
-      karma: 6.4.2(debug@4.3.4)
-      karma-chai: 0.1.0(chai@4.3.10)(karma@6.4.2)
-      karma-chrome-launcher: 3.2.0
-      karma-firefox-launcher: 1.3.0
-      karma-mocha: 2.0.1
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
-      node-fetch: 2.7.0
-      npm-run-all: 4.1.5
-      prettier: 2.8.8
-      process: 0.11.10
-      puppeteer: 19.11.1(typescript@5.2.2)
-      regenerator-runtime: 0.13.11
-      rimraf: 3.0.2
-      shx: 0.3.4
-      sinon: 17.0.1
-      tough-cookie: 4.1.3
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
-      tslib: 2.6.2
-      tunnel: 0.0.6
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-      uuid: 8.3.2
-      xhr-mock: 2.5.1
-      xml2js: 0.5.0
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
-      - encoding
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-qFO3CRkJITz/fDmmgzHIaCoQMOS32whm0j2G4l60lsFvDkOQiCxBQoBNUoNrEKVtNia7dFrUqtUOQyVQgveTyQ==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-FYlUYZG8pmSVFJ5F4ifIQcegT5cR5JFoVci2Nr9aTU4OloWtFbdyn174EUnOC70uR+CegqM95tcuXi2hozmlnQ==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       c8: 8.0.1
@@ -17280,7 +17207,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -17296,11 +17222,11 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-qDZhjNGr0epW9e/ArCUcRoKz64xNevIg2veXxWuWakeIrBc5Cjx0yKHWcOLFMF5cDKypA/uDC4usvBAICFrxxA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-cDqFrwCqdhuw4lxQ84Nsb90VhMvKRdMfdRJHYBPY2ZQSSrM2ypa7TYr3Zxvx2FgcEOXLdLZK/HG4gRbCT2KhCw==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17318,7 +17244,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -17334,11 +17259,11 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-dcm3FtwRD07a+0XMTZU/1UO7FDLN6ywgic5tc9j1jseEApp1wERdNKHWYddK/bw3jR2zJlwN4mn7HoO79Bblmw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-5HV09lucKyL0T3fOQ3bN9OwO9PnJSW47ld6EQW2SnkkX2FdHoqYmorJudHZcBIC0RscK1HDGdi6KFiLxiIJ2+Q==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
@@ -17364,7 +17289,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
@@ -17385,11 +17309,11 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-hLg1OD8X3S/dTg98miMlSdhMML6BqVdVvwJiDu+UBsGUN7jAYIMz96D2cfu11WqmA//pTNHTkbCWFBVclstx4A==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-M2Yxe9mXPLB8em/dr5F1dtDxWvzTPpMaaOfmRT8CX58b4UirilDsLHTkfLOw7WkfRN+m2KWCYKlWDDCrjKpYDw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       c8: 8.0.1
@@ -17410,7 +17334,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
@@ -17428,11 +17351,11 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-QTroTSF9vnd6PZS7aMaieEhBD0LacU/ThBNOzHsHI/I7n7UhWor9Nt7txXqULfEqf3qiL2sA/Ku/oaB/jB4gyQ==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-7zREy1uY63dJ0J9f/2Ajb0cPRmWquSqPSR/wv+xjeuGXGu6/FhQkbu0fKxneKinIEHjgzHwynhQ46ppyVhB8QQ==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17451,7 +17374,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 17.0.1
@@ -17469,11 +17391,11 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-8ptJaqKNdqu5pZa6l7GXluFjW5LqmI+8ltaH0aXqXIM7CTs8kdt2evBVmLEXNLa7f//9pSvjcL3U4gwgRkiWgw==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-T1wO1LeqFw5xGs0Pn+AKlrHmb6SmQ9VtD3Pi2bP+EIvYkcHI2GaPTBDj5HXlyHq9MuX1ML+erDclgU0JvYxopg==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -17495,7 +17417,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 17.0.1
@@ -17513,11 +17434,11 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-ZDuwwmEMOEDDitLd3KHdg70vKHUCMzJMuB4ObX1nL5iyiPHEUiQV3wjqUxynZlIvdIYhoImILBZ7KG/YC/LgDQ==, tarball: file:projects/core-xml.tgz}n
+    resolution: {integrity: sha512-X6fJIqcSGTkFJvh16R2vGVwCtsMh1TiOq8Y0otBS+xA6gN3S6HP4jDNzpILYFwz9QICZlH+bYaC0Evh4uwTxow==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17538,7 +17459,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       rimraf: 3.0.2
       ts-node: 10.9.1(@types/node@18.19.2)(typescript@5.2.2)
@@ -17561,7 +17481,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@sinonjs/fake-timers': 11.2.2
       '@types/chai': 4.3.11
       '@types/debug': 4.1.12
@@ -17611,7 +17531,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17659,7 +17579,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17700,13 +17620,13 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-l8E70BSAim/KGTl9znt5a7u3ODRcqlEG++0WYs5d3xt+d9yi1SsEooa4mzaV4ltY4CxRg0t0I2Kx26SseVl3zA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-WNNGYOuly2fJ6M8gD/WpobT6/uCewuH0Z1ZWAV0NZedleLsvJ2bib+6lQM6Gbodig4vPw1bVclTFpN/dL4LMYA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.2
+      '@_ts/max': /typescript@5.3.3
       '@_ts/min': /typescript@4.2.4
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.6.1)
       '@rollup/plugin-inject': 5.0.5(rollup@4.6.1)
       '@rollup/plugin-json': 6.0.1(rollup@4.6.1)
@@ -17766,7 +17686,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17811,7 +17731,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -17917,7 +17837,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/async-lock': 1.4.2
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
@@ -17979,7 +17899,7 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -18028,7 +17948,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/storage-blob': 12.17.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/chai-string': 1.4.5
@@ -18079,7 +17999,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/chai-string': 1.4.5
@@ -18129,7 +18049,7 @@ packages:
     dependencies:
       '@azure/functions': 3.5.1
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18176,7 +18096,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18222,7 +18142,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18269,7 +18189,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/msal-node': 2.6.0
       '@azure/msal-node-extensions': 1.0.8
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       '@types/sinon': 17.0.2
@@ -18299,7 +18219,7 @@ packages:
     dependencies:
       '@azure/msal-node': 2.6.0
       '@azure/msal-node-extensions': 1.0.0-alpha.25
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/jws': 3.2.9
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18335,7 +18255,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/jws': 3.2.9
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18375,7 +18295,7 @@ packages:
       '@azure/keyvault-keys': 4.7.2
       '@azure/msal-browser': 3.6.0
       '@azure/msal-node': 2.6.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/jsonwebtoken': 9.0.5
       '@types/jws': 3.2.9
@@ -18432,7 +18352,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18478,7 +18398,7 @@ packages:
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18527,7 +18447,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-keys': 4.7.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       '@types/sinon': 17.0.2
@@ -18561,7 +18481,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-secrets': 4.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       '@types/sinon': 17.0.2
@@ -18607,7 +18527,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       c8: 8.0.1
       cross-env: 7.0.3
@@ -18639,7 +18559,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       '@types/sinon': 17.0.2
@@ -18687,7 +18607,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       '@types/sinon': 17.0.2
@@ -18732,7 +18652,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18774,11 +18694,11 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-YMELQpBnuy2KyaF57OKXUBWFXaIKNB9tR4B7iX2F75LNqI8xrsS6Op+1098ivNoj0Wo98xd3JE+QR/CrElAjwg==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-jLWWxUjmIln3H5HK9oivzMsH5YKhQQ59Fyjf3hFVQGva+5O8+uNFc67ww2nqfSSy1GT/ET0IXv0EIlOjE/313g==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18798,7 +18718,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
@@ -18822,7 +18741,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       downlevel-dts: 0.10.1
       eslint: 8.55.0
@@ -18843,7 +18762,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18889,7 +18808,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18935,7 +18854,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -18981,7 +18900,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -19025,7 +18944,7 @@ packages:
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -19071,7 +18990,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -19141,7 +19060,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -19190,7 +19109,7 @@ packages:
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.45.1
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
@@ -19225,12 +19144,12 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-TwGHMFQOJLzRleonVHwOXYppgE9K2yR2pRPxGmp++llsdvsaLciRZ0kvTRr/vkVDxXSUyGV2/lrulpTfpfVLnA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-bYSRcoXdwAvBtgnqoYEhMSvSC0QMPv6uUgpRfFAwrXb1amn+u52Jqkh+/2dBHV3dq20zvKUkR2wi25oQYsVcuA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.5.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.45.1
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
@@ -19278,7 +19197,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/sdk-trace-base': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-trace-node': 1.18.1(@opentelemetry/api@1.7.0)
@@ -19326,7 +19245,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -19373,7 +19292,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       builtin-modules: 3.3.0
@@ -19417,7 +19336,7 @@ packages:
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
@@ -19982,7 +19901,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20026,7 +19945,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20070,7 +19989,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20115,7 +20034,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20160,7 +20079,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20206,7 +20125,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/storage-blob': 12.17.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20253,7 +20172,7 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/schema-registry': 1.2.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -20305,7 +20224,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       ajv: 8.12.0
@@ -20348,7 +20267,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
       c8: 8.0.1
@@ -20388,7 +20307,7 @@ packages:
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20437,7 +20356,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
@@ -20502,7 +20421,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20556,7 +20475,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20609,7 +20528,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20663,7 +20582,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20716,7 +20635,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20765,7 +20684,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -20814,7 +20733,7 @@ packages:
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -20861,7 +20780,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -20912,7 +20831,7 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -20960,7 +20879,7 @@ packages:
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -21003,7 +20922,7 @@ packages:
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       cross-env: 7.0.3
       eslint: 8.55.0
@@ -21039,7 +20958,7 @@ packages:
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -21082,7 +21001,7 @@ packages:
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -21127,7 +21046,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.2
@@ -21173,7 +21092,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/node': 18.19.2
       eslint: 8.55.0
       prettier: 2.8.8
@@ -21267,7 +21186,7 @@ packages:
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
@@ -21300,11 +21219,11 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-65IgqX3myZ+cSo7FQeo27HZJtHOK0aPfoTKYiCxZCecek7JCwwc5yL07ssAKP/NT2jwCQOviN2lBBszfKGvXHQ==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-ees6sGMuHaO2Znso5NdhyEfVW38x/J9ggpulwIg0GBxMG1K/A57c5dJRg7u+U0d0i8PNwO1asa+1hoj0nUxTJw==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
@@ -21329,7 +21248,6 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      mocha-junit-reporter: 2.2.1(mocha@10.2.0)
       prettier: 2.8.8
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
@@ -21349,12 +21267,12 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client-protobuf.tgz:
-    resolution: {integrity: sha512-lgvJv9FldV5+QSJ78Vxvidbr2tM+hN5cteOWI8TogEos0OValYDAU4nQcSefAb56xSc0h+IgbMyXq7BiQrI8HA==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
+    resolution: {integrity: sha512-ZQgwHknJXIvkovwXpS4HUssDeH6gvvYlnHrPN9JmAjBHiAYBDOUwdk60ip0dvLkTBwc1tWXE3++2oZjcmzSllg==, tarball: file:projects/web-pubsub-client-protobuf.tgz}
     name: '@rush-temp/web-pubsub-client-protobuf'
     version: 0.0.0
     dependencies:
       '@azure/web-pubsub-client': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/express': 4.17.21
@@ -21417,7 +21335,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/express': 4.17.21
@@ -21474,7 +21392,7 @@ packages:
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.17.41
@@ -21513,7 +21431,7 @@ packages:
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
+      '@microsoft/api-extractor': 7.38.4(@types/node@18.19.2)
       '@types/chai': 4.3.11
       '@types/jsonwebtoken': 9.0.5
       '@types/mocha': 10.0.6
