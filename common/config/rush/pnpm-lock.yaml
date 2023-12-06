@@ -1509,16 +1509,6 @@ packages:
     engines: {node: '>=0.8.0'}
     dev: false
 
-  /@azure/msal-node-extensions@1.0.0-alpha.25:
-    resolution: {integrity: sha512-7pOUdE2OZO2omA1DBAJhVGHJo8laqw+x5JgV/XLzyogapduAzps3lbM/G3VV+VuEb0KG1QHkpaOF/6eftPssKw==}
-    engines: {node: '>=10'}
-    requiresBuild: true
-    dependencies:
-      '@azure/msal-common': 7.6.0
-      keytar: 7.9.0
-      node-addon-api: 5.0.0
-    dev: false
-
   /@azure/msal-node-extensions@1.0.8:
     resolution: {integrity: sha512-h7YxOroWRY/Y5B5NEvLhiwhG2tmOiqiDC91EC4CmtNpkMgH/pbr6Ln0iOJXVhDhz9dzBRCKLUL1Afj5MzHHg1g==}
     engines: {node: 16 || 18 || 20}
@@ -4572,7 +4562,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231206
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4581,7 +4571,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231206
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -7177,10 +7167,6 @@ packages:
     resolution: {integrity: sha512-73sE9+3UaLYYFmDsFZnqCInzPyh3MqIwZO9cw58yIqAZhONrrabrYyYe3TuIqtIiOuTXVhsGau8hcrhhwSsDIQ==}
     dev: false
 
-  /node-addon-api@5.0.0:
-    resolution: {integrity: sha512-CvkDw2OEnme7ybCykJpVcKH+uAOLV2qLqiyla128dN9TkEWfrYmxG6C2boDe5KcNQqZF3orkqzGgOMvZ/JNekA==}
-    dev: false
-
   /node-fetch@2.6.7:
     resolution: {integrity: sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==}
     engines: {node: 4.x || >=6.0.0}
@@ -9083,14 +9069,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231205:
-    resolution: {integrity: sha512-jeYaYMtVCDclulasTrZlhlF9k/Xu88FCpff6+BP3YVNbWefdRy/3nmmrAFVC/TqGSrLhhjSRHBn6bw49b9Jxdw==}
+  /typescript@5.4.0-dev.20231206:
+    resolution: {integrity: sha512-bKJ5+3jwj4qTzNg7C97rCVLgyyYuzjYh/Pf0zlpOyyq9vpI3TVLO09d1gQ8jS5M+BSLONojTijei0KHmFoBezw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17636,7 +17622,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.2
+      '@_ts/max': /typescript@5.3.3
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.6.1)
@@ -18225,12 +18211,12 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-5ZyIwNm/54vfUv/NYYSExJkGkEVt16Aef5gNFxI+9Ueam8oHdlSOSeY9n9PJ5P2FMh4skt/+DnO2Q7RAihH/fw==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-9h+91/4wLrsXUXS5MYq5lH6d6rdKvrne3rZvM5Np+Vjig/FlBL1XP8Hf/JklL+q/UuDHHbOBArdqfhWU8eaEHw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
       '@azure/msal-node': 2.6.0
-      '@azure/msal-node-extensions': 1.0.0-alpha.25
+      '@azure/msal-node-extensions': 1.0.8
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/jws': 3.2.9
       '@types/mocha': 10.0.6
