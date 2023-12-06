@@ -1628,9 +1628,7 @@ export class QueryIterator<T> {
     // (undocumented)
     fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
     fetchNext(): Promise<FeedResponse<T>>;
-    // (undocumented)
     getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
-    getCorrelatedId(): string;
     hasMoreResults(): boolean;
     reset(): void;
 }

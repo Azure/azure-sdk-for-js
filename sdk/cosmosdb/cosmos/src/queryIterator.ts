@@ -82,9 +82,6 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-  public getCorrelatedId(): string {
-    return this.correlatedActivityId;
-  }
 
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.correlatedActivityId = uuid();
