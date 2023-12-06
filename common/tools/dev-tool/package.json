@@ -14,10 +14,10 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf --glob node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc",
     "build:test": "echo Skipped.",
-    "check-format": "prettier --list-different --config ../eslint-plugin-azure-sdk/prettier.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* *.tgz *.log",
     "extract-api": "echo skipped",
-    "format": "prettier --write --config ../eslint-plugin-azure-sdk/prettier.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "lint:fix": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
@@ -85,9 +85,9 @@
     "cross-env": "^7.0.3",
     "downlevel-dts": "~0.10.0",
     "eslint": "^8.54.0",
+    "karma": "^6.4.2",
     "mkdirp": "^3.0.1",
     "mocha": "^10.0.0",
-    "karma": "^6.4.2",
     "rimraf": "^5.0.5"
   }
 }
