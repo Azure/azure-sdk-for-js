@@ -47,7 +47,7 @@ import { tracingClient } from "./generated/src/tracing";
  */
 export class ChatClient {
   private readonly tokenCredential: CommunicationTokenCredential;
-  private readonly clientOptions: ChatClientOptions;
+  private readonly clientOptions: InternalChatClientOptions;
   private readonly client: ChatApiClient;
   private readonly signalingClient: SignalingClient | undefined = undefined;
   private readonly emitter = new EventEmitter();
