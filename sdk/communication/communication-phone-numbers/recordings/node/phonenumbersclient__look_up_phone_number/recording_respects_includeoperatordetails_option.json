@@ -1,0 +1,99 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2023-05-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "33",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "/ezjP3Mtor4OGiaMKaeUtsOelGFmMNL\u002BVAbukk8Na3Y=",
+        "x-ms-date": "Wed, 06 Dec 2023 18:47:08 GMT"
+      },
+      "RequestBody": {
+        "phoneNumbers": [
+          "\u002B14155550100"
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-05-01-preview",
+        "Content-Length": "260",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 06 Dec 2023 18:47:08 GMT",
+        "MS-CV": "\u002BWHtNmhgyke1TBam9lZW3w.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rMFwZQAAAAAyE9usyKtxQb0Dy8kB2txxV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "566ms"
+      },
+      "ResponseBody": {
+        "values": [
+          {
+            "phoneNumber": "\u002B14155550100",
+            "nationalFormat": "(833) 201-6898",
+            "internationalFormat": "\u002B1 833-201-6898",
+            "numberType": "other",
+            "operatorDetails": {
+              "name": "Multiple OCN Listing",
+              "mobileNetworkCode": null,
+              "mobileCountryCode": null
+            },
+            "isoCountryCode": "US"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/operatorInformation/:search?api-version=2023-05-01-preview\u0026options=FormatOnly",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "33",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "/ezjP3Mtor4OGiaMKaeUtsOelGFmMNL\u002BVAbukk8Na3Y=",
+        "x-ms-date": "Wed, 06 Dec 2023 18:47:09 GMT"
+      },
+      "RequestBody": {
+        "phoneNumbers": [
+          "\u002B14155550100"
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-05-01-preview",
+        "Content-Length": "180",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 06 Dec 2023 18:47:08 GMT",
+        "MS-CV": "VmMDCtHWlE2ZkHAZQN21Zw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0rcFwZQAAAACvcVD2QHjgT7SlMoAnCApgV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "19ms"
+      },
+      "ResponseBody": {
+        "values": [
+          {
+            "phoneNumber": "\u002B14155550100",
+            "nationalFormat": "(833) 201-6898",
+            "internationalFormat": "\u002B1 833-201-6898",
+            "numberType": null,
+            "operatorDetails": null,
+            "isoCountryCode": null
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

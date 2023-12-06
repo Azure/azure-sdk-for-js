@@ -8,28 +8,36 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "1487",
+        "Content-Length": "1968",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:00:50 GMT",
-        "MS-CV": "oWm32jeIhUCE/r0F9uf2\u002Bg.0",
+        "Date": "Wed, 06 Dec 2023 18:46:08 GMT",
+        "MS-CV": "Jy7IDvhKZE\u002BOyoeDcusR2w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0gdawZAAAAADhjHyrwzquS7e8v4GxriOOV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0bcFwZQAAAAA\u002BQoRRVDxZTYcN09WNpGuZV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2279ms"
+        "X-Processing-Time": "3015ms"
       },
       "ResponseBody": {
         "countries": [
           {
             "localizedName": "Argentina",
             "countryCode": "AR"
+          },
+          {
+            "localizedName": "Austria",
+            "countryCode": "AT"
+          },
+          {
+            "localizedName": "Belgium",
+            "countryCode": "BE"
           },
           {
             "localizedName": "Brazil",
@@ -64,6 +72,10 @@
             "countryCode": "FR"
           },
           {
+            "localizedName": "Germany",
+            "countryCode": "DE"
+          },
+          {
             "localizedName": "Hong Kong SAR",
             "countryCode": "HK"
           },
@@ -88,6 +100,10 @@
             "countryCode": "KR"
           },
           {
+            "localizedName": "Luxembourg",
+            "countryCode": "LU"
+          },
+          {
             "localizedName": "Malaysia",
             "countryCode": "MY"
           },
@@ -104,6 +120,10 @@
             "countryCode": "NZ"
           },
           {
+            "localizedName": "Norway",
+            "countryCode": "NO"
+          },
+          {
             "localizedName": "Philippines",
             "countryCode": "PH"
           },
@@ -112,20 +132,40 @@
             "countryCode": "PL"
           },
           {
+            "localizedName": "Portugal",
+            "countryCode": "PT"
+          },
+          {
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
+          },
+          {
+            "localizedName": "Saudi Arabia",
+            "countryCode": "SA"
           },
           {
             "localizedName": "Singapore",
             "countryCode": "SG"
           },
           {
+            "localizedName": "Slovakia",
+            "countryCode": "SK"
+          },
+          {
             "localizedName": "South Africa",
             "countryCode": "ZA"
           },
           {
+            "localizedName": "Spain",
+            "countryCode": "ES"
+          },
+          {
             "localizedName": "Sweden",
             "countryCode": "SE"
+          },
+          {
+            "localizedName": "Switzerland",
+            "countryCode": "CH"
           },
           {
             "localizedName": "Taiwan",

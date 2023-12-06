@@ -8,22 +8,22 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "861",
+        "Content-Length": "659",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:01:34 GMT",
-        "MS-CV": "tsNDPEWeTkaAJO3ckzDFbw.0",
+        "Date": "Wed, 06 Dec 2023 18:47:10 GMT",
+        "MS-CV": "o5bdBDclpkKuMIpOyTnsTA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0rtawZAAAAAA\u002B3bctsGzsRLT3hD0A8ALtV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0rcFwZQAAAADuPIOadmq5RbzCPEOzDiyQV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "585ms"
+        "X-Processing-Time": "940ms"
       },
       "ResponseBody": {
         "phoneNumberOfferings": [
@@ -59,19 +59,6 @@
             "availableCapabilities": {
               "calling": "inbound\u002Boutbound",
               "sms": "inbound\u002Boutbound"
-            },
-            "cost": {
-              "amount": 2.0,
-              "currencyCode": "USD",
-              "billingFrequency": "monthly"
-            }
-          },
-          {
-            "phoneNumberType": "tollFree",
-            "assignmentType": "application",
-            "availableCapabilities": {
-              "calling": "inbound\u002Boutbound",
-              "sms": "none"
             },
             "cost": {
               "amount": 2.0,
