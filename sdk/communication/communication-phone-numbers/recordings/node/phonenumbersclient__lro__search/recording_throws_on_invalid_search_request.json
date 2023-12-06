@@ -13,7 +13,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "sM6mIVawQv4GOUQukUphOk5Hsd8Qa/rx37c067vfCgw=",
-        "x-ms-date": "Wed, 06 Dec 2023 18:46:45 GMT"
+        "x-ms-date": "Wed, 06 Dec 2023 21:20:56 GMT"
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
@@ -28,13 +28,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
         "Content-Type": "application/json",
-        "Date": "Wed, 06 Dec 2023 18:46:45 GMT",
-        "MS-CV": "ZRCUcq1oD0iLZUdrou8CVQ.0",
+        "Date": "Wed, 06 Dec 2023 21:20:56 GMT",
+        "MS-CV": "fKUzPrhdSkGR6JrWqeKhTg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0lcFwZQAAAAD4N4kyyeXxRoPDbJrO8vnmV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0uOVwZQAAAAA11SvN1E2USq3IJMBU/AbTV1NURURHRTAxMTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "809ms"
+        "X-Processing-Time": "742ms"
       },
       "ResponseBody": {
         "error": {
