@@ -180,7 +180,7 @@ function testNarrowedClient() {
   const selectNarrowed = ["key", "a", "b/a", "d/b"] as const;
 
   async () => {
-    const suggest = await client.suggest("", "", {});
+    const suggest = await client.suggest("", "");
     for await (const result of suggest.results) {
       testType.equal<(typeof result)["document"], { key?: string }>(true);
       return;
