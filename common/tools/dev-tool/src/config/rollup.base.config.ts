@@ -5,7 +5,7 @@ import {
   LoadResult,
   PluginContext,
   RollupOptions,
-  RollupWarning,
+  RollupLog,
   WarningHandlerWithDefault,
 } from "rollup";
 
@@ -34,13 +34,13 @@ interface PackageJson {
  * A function that can determine whether a rollup warning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
-export type WarningInhibitor = (warning: RollupWarning) => boolean;
+export type WarningInhibitor = (warning: RollupLog) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
   return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
 }
 
-function ignoreNiseSinonEval(warning: RollupWarning): boolean {
+function ignoreNiseSinonEval(warning: RollupLog): boolean {
   return (
     warning.code === "EVAL" &&
     (matchesPathSegments(warning.id, ["node_modules", "nise"]) ||
@@ -48,28 +48,28 @@ function ignoreNiseSinonEval(warning: RollupWarning): boolean {
   );
 }
 
-function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
+function ignoreChaiCircularDependency(warning: RollupLog): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     matchesPathSegments(warning.ids?.[0], ["node_modules", "chai"])
   );
 }
 
-function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
+function ignoreRheaPromiseCircularDependency(warning: RollupLog): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     matchesPathSegments(warning.ids?.[0], ["node_modules", "rhea-promise"])
   );
 }
 
-function ignoreOpenTelemetryCircularDependency(warning: RollupWarning): boolean {
+function ignoreOpenTelemetryCircularDependency(warning: RollupLog): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     matchesPathSegments(warning.ids?.[0], ["node_modules", "@opentelemetry"])
   );
 }
 
-function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
+function ignoreOpenTelemetryThisIsUndefined(warning: RollupLog): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
     matchesPathSegments(warning.id, ["node_modules", "@opentelemetry"])
@@ -81,14 +81,14 @@ function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
  * complain that node-resolve's empty module does not export symbols from them, but as long as the package doesn't
  * actually use those symbols at runtime in the browser tests, it should be fine.
  */
-function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
+function ignoreMissingExportsFromEmpty(warning: RollupLog): boolean {
   return (
     // I absolutely cannot explain why, but node-resolve's internal module ID for empty.js begins with a null byte.
     warning.code === "MISSING_EXPORT" && warning.exporter?.trim() === "\0node-resolve:empty.js"
   );
 }
 
-function ignoreExternalModules(warning: RollupWarning): boolean {
+function ignoreExternalModules(warning: RollupLog): boolean {
   return (
     (warning.code === "MISSING_GLOBAL_NAME" && nodeBuiltins.includes(warning.id!)) ||
     (warning.code === "UNRESOLVED_IMPORT" && nodeBuiltins.includes(warning.exporter!)) ||
@@ -98,7 +98,7 @@ function ignoreExternalModules(warning: RollupWarning): boolean {
 
 function createWarningInhibitors({
   ignoreMissingNodeBuiltins,
-}: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupWarning) => boolean> {
+}: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupLog) => boolean> {
   return [
     ignoreChaiCircularDependency,
     ignoreRheaPromiseCircularDependency,
@@ -120,7 +120,7 @@ interface MakeOnWarnForTestingOptions {
  */
 export function makeOnWarnForTesting(
   opts: MakeOnWarnForTestingOptions = {},
-): (warning: RollupWarning, warn: WarningHandlerWithDefault) => void {
+): (warning: RollupLog, warn: WarningHandlerWithDefault) => void {
   const warningInhibitors = createWarningInhibitors(opts);
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
