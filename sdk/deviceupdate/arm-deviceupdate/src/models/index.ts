@@ -142,6 +142,14 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The CMK encryption settings on the Device Update account. */
+export interface Encryption {
+  /** The URI of the key vault */
+  keyVaultKeyUri?: string;
+  /** The full resourceId of the user assigned identity to be used for key vault access. Identity has to be also assigned to the Account */
+  userAssignedIdentity?: string;
+}
+
 export interface Location {
   name?: string;
   /** Whether the location is primary or failover */
@@ -470,7 +478,7 @@ export interface TrackedResource extends Resource {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 /** Request payload used to update and existing Accounts. */
 export interface AccountUpdate extends TagUpdate {
@@ -493,7 +501,7 @@ export interface GroupInformationProperties
 /** Private endpoint connection proxy details. */
 export interface PrivateEndpointConnectionProxy
   extends ProxyResource,
-  PrivateEndpointConnectionProxyProperties {
+    PrivateEndpointConnectionProxyProperties {
   /**
    * The provisioning state of the private endpoint connection proxy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -503,7 +511,7 @@ export interface PrivateEndpointConnectionProxy
 
 /** Remote private endpoint connection details. */
 export interface PrivateLinkServiceProxyRemotePrivateEndpointConnection
-  extends RemotePrivateEndpointConnection { }
+  extends RemotePrivateEndpointConnection {}
 
 /** Device Update account details. */
 export interface Account extends TrackedResource {
@@ -524,7 +532,9 @@ export interface Account extends TrackedResource {
   /** List of private endpoint connections associated with the account. */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** Device Update Sku */
-  sku?: Sku;
+  sku?: SKU;
+  /** CMK encryption at rest properties */
+  encryption?: Encryption;
   /**
    * Device Update account primary and failover location details
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -571,6 +581,30 @@ export interface GroupInformation extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: GroupIdProvisioningState;
+}
+
+/** Defines headers for Accounts_delete operation. */
+export interface AccountsDeleteHeaders {
+  /** Operation Status Location URI */
+  location?: string;
+}
+
+/** Defines headers for Instances_delete operation. */
+export interface InstancesDeleteHeaders {
+  /** Operation Status Location URI */
+  location?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** Operation Status Location URI */
+  location?: string;
+}
+
+/** Defines headers for PrivateEndpointConnectionProxies_delete operation. */
+export interface PrivateEndpointConnectionProxiesDeleteHeaders {
+  /** Operation Status Location URI */
+  location?: string;
 }
 
 /** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
@@ -724,7 +758,7 @@ export enum KnownSku {
  * **Free** \
  * **Standard**
  */
-export type Sku = string;
+export type SKU = string;
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
@@ -866,35 +900,35 @@ export type ActionType = string;
 
 /** Optional parameters. */
 export interface CheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNameAvailability operation. */
 export type CheckNameAvailabilityOperationResponse = CheckNameAvailabilityResponse;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsListByResourceGroupOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
 export type AccountsListByResourceGroupResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = Account;
 
 /** Optional parameters. */
 export interface AccountsHeadOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the head operation. */
 export type AccountsHeadResponse = {
@@ -936,35 +970,35 @@ export type AccountsUpdateResponse = Account;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccountsListBySubscriptionNextResponse = AccountList;
 
 /** Optional parameters. */
 export interface AccountsListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type AccountsListByResourceGroupNextResponse = AccountList;
 
 /** Optional parameters. */
 export interface InstancesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type InstancesListByAccountResponse = InstanceList;
 
 /** Optional parameters. */
 export interface InstancesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type InstancesGetResponse = Instance;
 
 /** Optional parameters. */
 export interface InstancesHeadOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the head operation. */
 export type InstancesHeadResponse = {
@@ -994,28 +1028,28 @@ export interface InstancesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface InstancesUpdateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type InstancesUpdateResponse = Instance;
 
 /** Optional parameters. */
 export interface InstancesListByAccountNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccountNext operation. */
 export type InstancesListByAccountNextResponse = InstanceList;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateEndpointConnectionsListByAccountResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
@@ -1043,36 +1077,36 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateLinkResourcesListByAccountResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateLinkResourcesGetResponse = GroupInformation;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesListByAccountOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByAccount operation. */
 export type PrivateEndpointConnectionProxiesListByAccountResponse = PrivateEndpointConnectionProxyListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesValidateOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesUpdatePrivateEndpointPropertiesOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionProxiesGetOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type PrivateEndpointConnectionProxiesGetResponse = PrivateEndpointConnectionProxy;
@@ -1100,14 +1134,14 @@ export interface PrivateEndpointConnectionProxiesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationListResult;

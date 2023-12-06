@@ -1,15 +1,22 @@
 # Release History
+    
+## 2.0.0 (2023-12-05)
+    
+**Features**
 
-## 1.1.1 (Unreleased)
+  - Added Interface AccountsDeleteHeaders
+  - Added Interface Encryption
+  - Added Interface InstancesDeleteHeaders
+  - Added Interface PrivateEndpointConnectionProxiesDeleteHeaders
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
+  - Added Type Alias SKU
+  - Interface Account has a new optional parameter encryption
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter sku of interface Account is changed from Sku to SKU
+    
+    
 ## 1.1.0 (2023-01-09)
     
 **Features**
