@@ -121,7 +121,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.2",
     "prettier": "^3.0.3",
     "puppeteer": "^19.2.2",
     "rimraf": "^5.0.5",
