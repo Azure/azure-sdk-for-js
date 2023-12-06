@@ -1,5 +1,5 @@
-const http = require("http");
-const https = require("https");
+import http from "http";
+import https from "https";
 import { webSnippet } from "@microsoft/applicationinsights-web-snippet";
 import * as snippetInjectionHelper from "./snippetInjectionHelper";
 import * as prefixHelper from "../utils/common";
