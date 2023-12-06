@@ -125,6 +125,68 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneMessageList.firstId, oneMessageList.lastId);
           assert.equal(oneMessageList.data[0].id, oneMessageList.firstId);
         });
+        it("uploads, retrieves, and lists a file", async function () {
+          /*
+          const filename = "sample_file_for_upload.txt";
+          const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
+          const uint8 = Uint8Array.from(text.split("").map(x => x.charCodeAt(0)));
+          const uploadedFile = await client.uploadFile(uint8, "assistants", { filename });
+          assert.isNotNull(uploadedFile.id);
+          assert.equal(uploadedFile.filename, filename);
+          assert.equal(uploadedFile.bytes, uint8.length);
+          */
+          const fileList = await client.listFiles();
+          assert.isNotEmpty(fileList.data);
+          assert.isNotNull(fileList.data[0].id);
+        });
+        it("create, lists, retrieves, and cancels a run", async function () {
+          const assistant = await client.createAssistant({
+            model: "gpt-4-1106-preview",
+            name: "JS CI Math Tutor",
+            instructions: "You are a personal math tutor. Write and run code to answer math questions.",
+            tools: [{ type: "code_interpreter" }]
+          });
+          assert.isNotNull(assistant.id);
+          const thread = await client.createThread();
+          assert.isNotNull(thread.id);
+
+          const metadataValue = "bar";
+          const metadata = { foo: metadataValue };
+          const instructions = "Please address the user as Jane Doe. The user has a premium account.";
+          const run = await client.createRun(thread.id, assistant.id, { instructions, metadata });
+          assert.isNotNull(run.id);
+          assert.equal(run.threadId, thread.id);
+          assert.equal(run.assistantId, assistant.id);
+          assert.equal(run.instructions, instructions);
+          assert.equal(run.metadata.foo, metadataValue);
+
+          const listLength = 1;
+          const list = await client.listRuns(thread.id, { limit: listLength });
+          assert.equal(list.data.length, listLength);
+          assert.equal(list.firstId, list.lastId);
+          assert.equal(list.firstId, list.lastId);
+          assert.equal(list.data[0].id, list.firstId);
+
+          const cancel = await client.cancelRun(thread.id, run.id);
+          assert.equal(cancel.id, run.id);
+          assert.equal(cancel.threadId, thread.id);
+          assert.equal(cancel.assistantId, assistant.id);
+          assert.equal(cancel.instructions, instructions);
+          assert.equal(cancel.status, "cancelling");
+
+          const getRun = await client.retrieveRun(thread.id, run.id);
+          assert.equal(getRun.id, run.id);
+          assert.equal(getRun.threadId, thread.id);
+          assert.equal(getRun.assistantId, assistant.id);
+          assert.equal(getRun.instructions, instructions);
+          assert.equal(getRun.metadata.foo, metadataValue);
+
+          const deleteThreadResponse = await client.deleteThread(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
       });
     });
   });
