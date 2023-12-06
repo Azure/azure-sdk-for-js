@@ -39,7 +39,7 @@ export class CallRecording {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint,
+      endpoint
     );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);

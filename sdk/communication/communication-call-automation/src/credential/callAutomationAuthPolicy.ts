@@ -43,7 +43,7 @@ export function createCallAutomationAuthPolicy(
 export function createCustomCallAutomationApiClient(
   credential: KeyCredential | TokenCredential,
   internalPipelineOptions: CallAutomationApiClientOptionalParams | undefined,
-  url: string,
+  url: string
 ): CallAutomationApiClient {
   // read environment variable for callAutomation auth
   const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;

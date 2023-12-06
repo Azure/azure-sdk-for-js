@@ -77,7 +77,7 @@ export class CallConnection {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint,
+      endpoint
     );
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
