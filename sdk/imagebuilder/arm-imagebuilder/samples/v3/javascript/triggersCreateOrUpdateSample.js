@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a trigger for the specified virtual machine image template
  *
  * @summary Create or update a trigger for the specified virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/CreateSourceImageTrigger.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/CreateSourceImageTrigger.json
  */
 async function createOrUpdateASourceImageTypeTrigger() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function createOrUpdateASourceImageTypeTrigger() {
     resourceGroupName,
     imageTemplateName,
     triggerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

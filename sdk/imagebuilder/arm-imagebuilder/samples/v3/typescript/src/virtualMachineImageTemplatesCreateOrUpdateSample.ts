@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a virtual machine image template
  *
  * @summary Create or update a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/CreateImageTemplateLinux.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/CreateImageTemplateLinux.json
  */
 async function createAnImageTemplateForLinux() {
   const subscriptionId =
@@ -80,7 +80,7 @@ async function createAnImageTemplateForLinux() {
  * This sample demonstrates how to Create or update a virtual machine image template
  *
  * @summary Create or update a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/CreateImageTemplateWindows.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/CreateImageTemplateWindows.json
  */
 async function createAnImageTemplateForWindows() {
   const subscriptionId =

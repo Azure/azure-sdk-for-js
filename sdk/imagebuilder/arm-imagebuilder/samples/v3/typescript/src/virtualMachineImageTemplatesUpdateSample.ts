@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
  *
  * @summary Update the tags for this Virtual Machine Image Template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/UpdateImageTemplateToRemoveIdentities.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/UpdateImageTemplateToRemoveIdentities.json
  */
 async function removeIdentitiesForAnImageTemplate() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function removeIdentitiesForAnImageTemplate() {
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
  *
  * @summary Update the tags for this Virtual Machine Image Template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/UpdateImageTemplateTags.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/UpdateImageTemplateTags.json
  */
 async function updateTheTagsForAnImageTemplate() {
   const subscriptionId =

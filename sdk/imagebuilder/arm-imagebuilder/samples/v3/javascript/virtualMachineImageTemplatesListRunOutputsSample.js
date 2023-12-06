@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List all run outputs for the specified Image Template resource
  *
  * @summary List all run outputs for the specified Image Template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/ListRunOutputs.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/ListRunOutputs.json
  */
 async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -27,7 +27,7 @@ async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   const resArray = new Array();
   for await (let item of client.virtualMachineImageTemplates.listRunOutputs(
     resourceGroupName,
-    imageTemplateName
+    imageTemplateName,
   )) {
     resArray.push(item);
   }

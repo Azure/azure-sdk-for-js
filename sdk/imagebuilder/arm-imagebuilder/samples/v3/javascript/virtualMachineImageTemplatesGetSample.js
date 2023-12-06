@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get information about a virtual machine image template
  *
  * @summary Get information about a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/GetImageTemplate.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/GetImageTemplate.json
  */
 async function retrieveAnImageTemplate() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -26,7 +26,7 @@ async function retrieveAnImageTemplate() {
   const client = new ImageBuilderClient(credential, subscriptionId);
   const result = await client.virtualMachineImageTemplates.get(
     resourceGroupName,
-    imageTemplateName
+    imageTemplateName,
   );
   console.log(result);
 }

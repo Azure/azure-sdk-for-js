@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get information about a virtual machine image template
  *
  * @summary Get information about a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/GetImageTemplate.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/GetImageTemplate.json
  */
 async function retrieveAnImageTemplate() {
   const subscriptionId =

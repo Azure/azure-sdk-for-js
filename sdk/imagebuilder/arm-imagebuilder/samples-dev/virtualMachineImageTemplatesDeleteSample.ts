@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a virtual machine image template
  *
  * @summary Delete a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/DeleteImageTemplate.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/DeleteImageTemplate.json
  */
 async function deleteAnImageTemplate() {
   const subscriptionId =

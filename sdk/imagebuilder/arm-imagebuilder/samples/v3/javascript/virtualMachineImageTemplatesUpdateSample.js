@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
  *
  * @summary Update the tags for this Virtual Machine Image Template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/UpdateImageTemplateToRemoveIdentities.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/UpdateImageTemplateToRemoveIdentities.json
  */
 async function removeIdentitiesForAnImageTemplate() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function removeIdentitiesForAnImageTemplate() {
   const result = await client.virtualMachineImageTemplates.beginUpdateAndWait(
     resourceGroupName,
     imageTemplateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function removeIdentitiesForAnImageTemplate() {
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
  *
  * @summary Update the tags for this Virtual Machine Image Template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-07-01/examples/UpdateImageTemplateTags.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/UpdateImageTemplateTags.json
  */
 async function updateTheTagsForAnImageTemplate() {
   const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -53,7 +53,7 @@ async function updateTheTagsForAnImageTemplate() {
   const result = await client.virtualMachineImageTemplates.beginUpdateAndWait(
     resourceGroupName,
     imageTemplateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
