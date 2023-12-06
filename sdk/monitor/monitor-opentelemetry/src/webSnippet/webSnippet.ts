@@ -1,5 +1,5 @@
-const http = require("http");
-const https = require("https");
+import * as http from "http";
+import * as https from "https";
 import { webSnippet } from "@microsoft/applicationinsights-web-snippet";
 import * as snippetInjectionHelper from "./snippetInjectionHelper";
 import * as prefixHelper from "../utils/common";
@@ -154,7 +154,7 @@ export class WebSnippet {
     const originalHttpServer = http.createServer;
     const originalHttpsServer = https.createServer;
 
-    http.createServer = (
+    (http.createServer as any) = (
       requestListener?: (request: IncomingMessage, response: ServerResponse) => void
     ) => {
       const originalRequestListener = requestListener;
@@ -195,8 +195,7 @@ export class WebSnippet {
           // Patch response end method for cases when HTML is added there
           let originalResponseEnd = response.end;
 
-          // @ts-ignore
-          response.end = function wrap(a?: Buffer | string | any, b?: Function) {
+          (response.end as any) = function wrap(a?: Buffer | string | any, b?: Function) {
             if (isGetRequest) {
               try {
                 if (isGetRequest) {
@@ -232,7 +231,7 @@ export class WebSnippet {
       return originalHttpServer(requestListener);
     };
 
-    https.createServer = function (options: any, httpsRequestListener: any): any {
+    (https.createServer as any) = function (options: any, httpsRequestListener: any): any {
       const originalHttpsRequestListener = httpsRequestListener;
       if (originalHttpsRequestListener) {
         httpsRequestListener = function (req: any, res: any) {
