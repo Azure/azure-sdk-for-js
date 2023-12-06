@@ -99,7 +99,7 @@
     "inquirer": "^8.2.4",
     "yargs": "^17.0.1",
     "yargs-parser": "^21.0.1",
-    "rollup": "^3.0.0",
+    "rollup": "^4.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0"
   }
 }
