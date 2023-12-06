@@ -230,7 +230,7 @@ export function getMigrationById(id: string): Migration | undefined {
 }
 
 let LOADED = false;
-let _loadJob: Promise<void>;
+let _loadJob: Promise<void> | undefined;
 export function loadMigrations() {
   if (LOADED) return Promise.resolve();
 
@@ -256,7 +256,7 @@ export interface SuspendedMigrationState {
 
 const STATE_PATH_SUFFIX = ["azsdk-dev-tool", "state", "migration-suspended"];
 
-let _stateFile: string;
+let _stateFile: string | undefined;
 
 /**
  * Gets the path to the state file. This function is cached and the result will only be computed once.
