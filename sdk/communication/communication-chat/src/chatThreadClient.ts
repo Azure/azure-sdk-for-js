@@ -45,6 +45,7 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
+  UpdateChatThreadPropertiesOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -125,6 +126,24 @@ export class ChatThreadClient {
           updatedOptions,
         );
       },
+    );
+  }
+
+  /**
+   * Updates a thread's properties.
+   * @param options - Operation options.
+   */
+  public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateProperties",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.updateChatThreadProperties(
+          this.threadId,
+          options,
+          updatedOptions
+        );
+      }
     );
   }
 

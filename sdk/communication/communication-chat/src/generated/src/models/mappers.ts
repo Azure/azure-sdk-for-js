@@ -503,6 +503,13 @@ export const ChatParticipant: coreClient.CompositeMapper = {
         type: {
           name: "DateTime"
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -521,11 +528,11 @@ export const ChatAttachment: coreClient.CompositeMapper = {
         }
       },
       attachmentType: {
-        defaultValue: "image",
-        isConstant: true,
         serializedName: "attachmentType",
+        required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["image", "file"]
         }
       },
       name: {
@@ -668,6 +675,13 @@ export const CreateChatThreadRequest: coreClient.CompositeMapper = {
             }
           }
         }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
       }
     }
   }
@@ -739,6 +753,13 @@ export const ChatThreadProperties: coreClient.CompositeMapper = {
         serializedName: "deletedOn",
         type: {
           name: "DateTime"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -819,6 +840,13 @@ export const UpdateChatThreadRequest: coreClient.CompositeMapper = {
         serializedName: "topic",
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
