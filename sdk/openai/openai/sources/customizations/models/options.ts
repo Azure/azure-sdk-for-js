@@ -141,7 +141,7 @@ export interface GetCompletionsOptions extends OperationOptions {
 /**
  * This module contains models that we want to live side-by-side with the
  * corresponding generated models. This is useful for providing customer-facing
- * models that has different names/types than the generated models.
+ * models that have different names/types than the generated models.
  */
 
 export interface GetChatCompletionsOptions extends OperationOptions {
