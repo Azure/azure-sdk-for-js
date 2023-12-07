@@ -75,10 +75,6 @@ export class ChatClient {
   ) {
     this.tokenCredential = credential;
     this.clientOptions = { ...options };
-    this.clientOptions.signalingClientOptions = {
-      ...this.clientOptions.signalingClientOptions,
-      resourceEndpoint: this.endpoint,
-    };
 
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -93,6 +89,12 @@ export class ChatClient {
       endpoint: this.endpoint,
       ...internalPipelineOptions,
     });
+
+    this.clientOptions.signalingClientOptions = {
+      ...this.clientOptions.signalingClientOptions,
+      resourceEndpoint: this.endpoint,
+      gatewayApiVersion: this.client.apiVersion,
+    };
 
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     this.client.pipeline.addPolicy(authPolicy);
