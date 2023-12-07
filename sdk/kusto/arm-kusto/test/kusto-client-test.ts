@@ -67,7 +67,7 @@ describe("KustoManagementClient", () => {
         languageExtensions: {
           value: [
             {
-              languageExtensionImageName: "Python3_6_5",
+              languageExtensionImageName: "Python3_10_8",
               languageExtensionName: "PYTHON",
             },
           ],
