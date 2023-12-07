@@ -24,7 +24,7 @@ export function createSimpleEntity(): TableEntity {
 export function createComplexEntity(): TableEntity {
   return {
     partitionKey: "complexEntity",
-    rowKey: uuid(),
+    rowKey: randomUUID(),
     stringTypeProperty: stringValue,
     datetimeTypeProperty: dateProperty,
     GuidTypeProperty: "c9da6455-213d-42c9-9a79-3e9149a57833",
