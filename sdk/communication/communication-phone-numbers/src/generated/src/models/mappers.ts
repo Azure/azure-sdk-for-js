@@ -467,12 +467,6 @@ export const PhoneNumberSearchResult: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      error: {
-        serializedName: "error",
-        type: {
-          name: "String"
-        }
       }
     }
   }

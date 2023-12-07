@@ -63,3 +63,10 @@ directive:
   transform: >
     $["x-ms-client-name"] = "AreaCodeItem";
 ```
+
+### Removed Property error from PhoneNumberSearchResult
+``` yaml
+directive:
+  where-model: PhoneNumberSearchResult
+  remove-property: error
+```
