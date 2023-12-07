@@ -1,0 +1,15 @@
+{
+  "name": "image-analysis-samples",
+  "version": "1.0.0",
+  "description": "Samples for the Azure Image Analysis SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@azure/core-auth": "^1.5.0",
+    "@azure/imageAnalysis": "file:../../azure-imageAnalysis-1.0.0-beta.1.tgz"
+  }
+}

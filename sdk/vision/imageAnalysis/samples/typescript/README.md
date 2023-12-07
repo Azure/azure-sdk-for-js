@@ -1,0 +1,1 @@
+This directory contains TypeScript samples for the Azure Image Analysis SDK.

@@ -1,0 +1,1 @@
+This directory contains JavaScript samples for the Azure Image Analysis SDK.
