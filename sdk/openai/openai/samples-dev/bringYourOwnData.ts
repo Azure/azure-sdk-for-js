@@ -48,11 +48,9 @@ export async function main() {
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          parameters: {
-            endpoint: azureSearchEndpoint,
-            key: azureSearchAdminKey,
-            indexName: azureSearchIndexName,
-          },
+          endpoint: azureSearchEndpoint,
+          key: azureSearchAdminKey,
+          indexName: azureSearchIndexName,
         },
       ],
     },

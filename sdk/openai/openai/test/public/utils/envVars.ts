@@ -20,8 +20,8 @@ export enum EnvironmentVariableNamesForCompletions {
 }
 
 export enum EnvironmentVariableNamesForAzureSearch {
-  ENDPOINT_SEARCH = "AZURE_SEARCH_ENDPOINT",
-  AZURE_API_KEY_SEARCH = "AZURE_SEARCH_KEY",
+  ENDPOINT_SEARCH = "ENDPOINT_SEARCH",
+  AZURE_API_KEY_SEARCH = "AZURE_API_KEY_SEARCH",
   AZURE_SEARCH_INDEX = "AZURE_SEARCH_INDEX",
 }
 

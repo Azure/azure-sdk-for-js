@@ -60,7 +60,7 @@ export async function withDeployments<T>(
       if (!e) continue;
       const errorStr = toString(error);
       if (
-        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429"].includes(
+        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
           error.code
         ) ||
         error.type === "invalid_request_error"
@@ -230,12 +230,8 @@ export async function get(url: string, recorder: Recorder): Promise<PipelineResp
 export function createAzureCognitiveSearchExtension(): AzureCognitiveSearchChatExtensionConfiguration {
   return {
     type: "AzureCognitiveSearch",
-    parameters: {
-      endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
-      key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
-      indexName: assertEnvironmentVariable(
-        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX
-      ),
-    },
+    endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
+    key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
+    indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
   };
 }

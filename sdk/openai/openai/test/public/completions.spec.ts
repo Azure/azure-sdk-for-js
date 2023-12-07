@@ -246,7 +246,7 @@ describe("OpenAI", function () {
             );
           });
 
-          it.skip("bring your own data", async function (this: Context) {
+          it("bring your own data", async function (this: Context) {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
@@ -336,7 +336,7 @@ describe("OpenAI", function () {
             );
           });
 
-          it.skip("bring your own data", async function () {
+          it("bring your own data", async function () {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }

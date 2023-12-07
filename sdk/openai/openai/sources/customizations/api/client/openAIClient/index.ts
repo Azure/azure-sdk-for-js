@@ -13,6 +13,7 @@ import {
 } from "../../../../generated/src/api/client/openAIClient/index.js";
 import { getOaiSSEs } from "../../oaiSse.js";
 import {
+  AzureChatExtensionConfiguration,
   OpenAIContext as Client,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
@@ -326,13 +327,16 @@ function _getChatCompletionsWithAzureExtensionsSend(
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
-  const { functions, functionCall, messages, ...rest } = body;
+  const { functions, functionCall, messages, dataSources, ...rest } = body;
   return context
     .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentName)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
         ...snakeCaseKeys(rest),
+        dataSources: dataSources?.map(
+          ({ type, ...opts }) => ({ type, parameters: opts } as AzureChatExtensionConfiguration)
+        ),
         functions,
         function_call: functionCall,
         messages: messages.map(serializeChatRequestMessage),

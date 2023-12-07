@@ -20,11 +20,6 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
-      before(async function (this: Context) {
-        if (process.version.startsWith("v16")) {
-          this.skip();
-        }
-      });
 
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);

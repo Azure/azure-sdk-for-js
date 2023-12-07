@@ -95,12 +95,6 @@ export interface AzureChatOCREnhancementConfiguration {
 
 // @public
 export interface AzureCognitiveSearchChatExtensionConfiguration {
-    parameters: AzureCognitiveSearchChatExtensionParameters;
-    type: "AzureCognitiveSearch";
-}
-
-// @public
-export interface AzureCognitiveSearchChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptions;
     embeddingDependency?: OnYourDataVectorizationSource;
     embeddingEndpoint?: string;
@@ -116,6 +110,7 @@ export interface AzureCognitiveSearchChatExtensionParameters {
     semanticConfiguration?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureCognitiveSearch";
 }
 
 // @public
@@ -134,12 +129,6 @@ export type AzureCognitiveSearchQueryType = "simple" | "semantic" | "vector" | "
 
 // @public
 export interface AzureCosmosDBChatExtensionConfiguration {
-    parameters: AzureCosmosDBChatExtensionParameters;
-    type: "AzureCosmosDB";
-}
-
-// @public
-export interface AzureCosmosDBChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptions;
     containerName: string;
     databaseName: string;
@@ -150,6 +139,7 @@ export interface AzureCosmosDBChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureCosmosDB";
 }
 
 // @public
@@ -192,12 +182,6 @@ export { AzureKeyCredential }
 
 // @public
 export interface AzureMachineLearningIndexChatExtensionConfiguration {
-    parameters: AzureMachineLearningIndexChatExtensionParameters;
-    type: "AzureMLIndex";
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptions;
     filter?: string;
     inScope?: boolean;
@@ -206,6 +190,7 @@ export interface AzureMachineLearningIndexChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureMLIndex";
     version: string;
 }
 
@@ -460,12 +445,6 @@ export interface ContentFilterSuccessResultsForChoice {
 
 // @public
 export interface ElasticsearchChatExtensionConfiguration {
-    parameters: ElasticsearchChatExtensionParameters;
-    type: "Elasticsearch";
-}
-
-// @public
-export interface ElasticsearchChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptions;
     embeddingDependency?: OnYourDataVectorizationSource;
     endpoint: string;
@@ -476,6 +455,7 @@ export interface ElasticsearchChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "Elasticsearch";
 }
 
 // @public
@@ -626,17 +606,62 @@ export interface MaxTokensFinishDetails {
 }
 
 // @public
-export interface OnYourDataAuthenticationOptions {
-    type: OnYourDataAuthenticationType;
+export interface OnYourDataApiKeyAuthenticationOptions {
+    key: string;
+    type: "APIKey";
 }
+
+// @public
+export type OnYourDataAuthenticationOptions = OnYourDataApiKeyAuthenticationOptions | OnYourDataConnectionStringAuthenticationOptions | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
 
 // @public
 export type OnYourDataAuthenticationType = "APIKey" | "ConnectionString" | "KeyAndKeyId" | "SystemAssignedManagedIdentity" | "UserAssignedManagedIdentity";
 
 // @public
-export interface OnYourDataVectorizationSource {
-    type: OnYourDataVectorizationSourceType;
+export interface OnYourDataConnectionStringAuthenticationOptions {
+    connectionString: string;
+    type: "ConnectionString";
 }
+
+// @public
+export interface OnYourDataDeploymentNameVectorizationSource {
+    deploymentName: string;
+    type: "DeploymentName";
+}
+
+// @public
+export interface OnYourDataEndpointVectorizationSource {
+    authentication: OnYourDataAuthenticationOptions;
+    endpoint: string;
+    type: "Endpoint";
+}
+
+// @public
+export interface OnYourDataKeyAndKeyIdAuthenticationOptions {
+    key: string;
+    keyId: string;
+    type: "KeyAndKeyId";
+}
+
+// @public
+export interface OnYourDataModelIdVectorizationSource {
+    modelId: string;
+    type: "ModelId";
+}
+
+// @public
+export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions {
+    type: "SystemAssignedManagedIdentity";
+}
+
+// @public
+export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions {
+    managedIdentityResourceId: string;
+    type: "UserAssignedManagedIdentity";
+}
+
+// @public
+export type OnYourDataVectorizationSource = OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource;
 
 // @public
 export type OnYourDataVectorizationSourceType = "Endpoint" | "DeploymentName" | "ModelId";
@@ -671,12 +696,6 @@ export class OpenAIKeyCredential implements KeyCredential {
 
 // @public
 export interface PineconeChatExtensionConfiguration {
-    parameters: PineconeChatExtensionParameters;
-    type: "Pinecone";
-}
-
-// @public
-export interface PineconeChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptions;
     embeddingDependency?: OnYourDataVectorizationSource;
     environment: string;
@@ -686,6 +705,7 @@ export interface PineconeChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "Pinecone";
 }
 
 // @public
