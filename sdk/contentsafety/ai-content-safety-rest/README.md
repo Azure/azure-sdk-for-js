@@ -99,8 +99,8 @@ There are different types of analysis available from this service. The following
 
 | Feature                        | Description                                                                                                                                                                                                           |
 | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Text Analysis API              | Scans text for sexual content, violence, hate, and self harm with multi-severity levels.                                                                                                                              |
-| Image Analysis API             | Scans images for sexual content, violence, hate, and self harm with multi-severity levels.                                                                                                                            |
+| Text Analysis API              | Scans text for sexual content, violence, hate, and self-harm with multi-severity levels.                                                                                                                              |
+| Image Analysis API             | Scans images for sexual content, violence, hate, and self-harm with multi-severity levels.                                                                                                                            |
 | Text Blocklist Management APIs | The default AI classifiers are sufficient for most content safety needs. However, you might need to screen for terms that are specific to your use case. You can create blocklists of terms to use with the Text API. |
 
 ### Harm categories
@@ -148,7 +148,7 @@ You can set the blocklists you want to use when analyze text, then you can get b
 
 ## Examples
 
-The following section provides several code snippets covering some of the most common Content Safety service tasks, including:
+The following section provides several code snippets covering some of the most common Content Safety service tasks in both **TypeScript** and **JavaScript**, including:
 
 - [Analyze text](#analyze-text)
 - [Analyze image](#analyze-image)
@@ -158,69 +158,304 @@ The following section provides several code snippets covering some of the most c
 
 #### Analyze text without blocklists
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+async function main() {
+  const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+  const key = "<api_key>";
 
-const credential = new AzureKeyCredential(key);
-const client = ContentSafetyClient(endpoint, credential);
+  const credential = new AzureKeyCredential(key);
+  const client = ContentSafetyClient(endpoint, credential);
 
-const text = "This is a sample text";
-const analyzeTextOption = { text: text };
-const analyzeTextParameters = { body: analyzeTextOption };
+  const text = "This is a sample text";
+  const analyzeTextOption = { text: text };
+  const analyzeTextParameters = { body: analyzeTextOption };
 
-const result = await client.path("/text:analyze").post(analyzeTextParameters);
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+    const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+  }
 }
 
-for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-  const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-  console.log(textCategoriesAnalysisOutput.category, " severity: ", textCategoriesAnalysisOutput.severity)
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+async function main() {
+  const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+  const key = "<api_key>";
+
+  const credential = new AzureKeyCredential(key);
+  const client = ContentSafetyClient(endpoint, credential);
+
+  const text = "This is a sample text";
+  const analyzeTextOption = { text: text };
+  const analyzeTextParameters = { body: analyzeTextOption };
+
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+    const textCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    console.log(
+      textCategoriesAnalysisOutput.category,
+      " severity: ",
+      textCategoriesAnalysisOutput.severity
+    );
+  }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Analyze text with blocklists
 
+TypeScript
+
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
-const inputText = "This is a sample to test text with blocklist.";
-const analyzeTextParameters = {
-  body: {
-    text: inputText,
-    blocklistNames: [blocklistName],
-    haltOnBlocklistHit: false
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters: CreateOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    }
   }
-};
 
-const result = await client.path("/text:analyze").post(analyzeTextParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
 }
 
-console.log("Blocklist match results: ");
-if (result.body.blocklistsMatch) {
-  for (const blocklistMatchResult of result.body.blocklistsMatch) {
-    console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
+async function addBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText1 = "sample";
+  const blockItemText2 = "text";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText1
+        },
+        {
+          description: "Test block item 2",
+          text: blockItemText2
+        }
+      ]
+    }
+  };
+
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Block items added: ");
+  if (result.body.blocklistItems) {
+    for (const blockItem of result.body.blocklistItems) {
+      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+    }
   }
 }
+
+async function analyzeTextWithBlocklists() {
+  const blocklistName = "TestBlocklist";
+  const inputText = "This is a sample to test text with blocklist.";
+  const analyzeTextParameters = {
+    body: {
+      text: inputText,
+      blocklistNames: [blocklistName],
+      haltOnBlocklistHit: false
+    }
+  };
+
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Blocklist match results: ");
+  if (result.body.blocklistsMatch) {
+    for (const blocklistMatchResult of result.body.blocklistsMatch) {
+      console.log("BlocklistName: ", blocklistMatchResult.blocklistName, ", BlockItemId: ", blocklistMatchResult.blocklistItemId, ", BlockItemText: ", blocklistMatchResult.blocklistItemText);
+    }
+  }
+}
+
+(async () => {
+  await createOrUpdateTextBlocklist();
+  await addBlockItems();
+  await analyzeTextWithBlocklists();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    },
+  };
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description
+  );
+}
+
+async function addBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText1 = "sample";
+  const blockItemText2 = "text";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText1,
+        },
+        {
+          description: "Test block item 2",
+          text: blockItemText2,
+        },
+      ],
+    },
+  };
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Block items added: ");
+  if (result.body.blocklistItems) {
+    for (const blockItem of result.body.blocklistItems) {
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description
+      );
+    }
+  }
+}
+
+async function analyzeTextWithBlocklists() {
+  const blocklistName = "TestBlocklist";
+  const inputText = "This is a sample to test text with blocklist.";
+  const analyzeTextParameters = {
+    body: {
+      text: inputText,
+      blocklistNames: [blocklistName],
+      haltOnBlocklistHit: false,
+    },
+  };
+
+  const result = await client.path("/text:analyze").post(analyzeTextParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Blocklist match results: ");
+  if (result.body.blocklistsMatch) {
+    for (const blocklistMatchResult of result.body.blocklistsMatch) {
+      console.log(
+        "BlocklistName: ",
+        blocklistMatchResult.blocklistName,
+        ", BlockItemId: ",
+        blocklistMatchResult.blocklistItemId,
+        ", BlockItemText: ",
+        blocklistMatchResult.blocklistItemText
+      );
+    }
+  }
+}
+
+(async () => {
+  await createOrUpdateTextBlocklist();
+  await addBlockItems();
+  await analyzeTextWithBlocklists();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Analyze image
+
+TypeScript
 
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
@@ -228,290 +463,847 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import fs from "fs";
 import path from "path";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+async function main() {
+  const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+  const key = "<api_key>";
 
-const credential = new AzureKeyCredential(key);
-const client = ContentSafetyClient(endpoint, credential);
+  const credential = new AzureKeyCredential(key);
+  const client = ContentSafetyClient(endpoint, credential);
 
-const image_path = path.resolve(__dirname, "./samples-dev/example-data/image.png");
+  const image_path = path.resolve(__dirname, "./samples-dev/example-data/image.png");
 
-const imageBuffer = fs.readFileSync(image_path);
-const base64Image = imageBuffer.toString("base64");
-const analyzeImageOption = { image: { content: base64Image } };
-const analyzeImageParameters = { body: analyzeImageOption };
+  const imageBuffer = fs.readFileSync(image_path);
+  const base64Image = imageBuffer.toString("base64");
+  const analyzeImageOption = { image: { content: base64Image } };
+  const analyzeImageParameters = { body: analyzeImageOption };
 
-const result = await client.path("/image:analyze").post(analyzeImageParameters);
+  const result = await client.path("/image:analyze").post(analyzeImageParameters);
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+    const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+  }
 }
 
-for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
-  const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-  console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+const fs = require("fs");
+const path = require("path");
+
+async function main() {
+  const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+  const key = "<api_key>";
+
+  const credential = new AzureKeyCredential(key);
+  const client = ContentSafetyClient(endpoint, credential);
+
+  const image_path = path.resolve(__dirname, "./samples-dev/example-data/image.png");
+
+  const imageBuffer = fs.readFileSync(image_path);
+  const base64Image = imageBuffer.toString("base64");
+  const analyzeImageOption = { image: { content: base64Image } };
+  const analyzeImageParameters = { body: analyzeImageOption };
+
+  const result = await client.path("/image:analyze").post(analyzeImageParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
+    const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
+    console.log(
+      imageCategoriesAnalysisOutput.category,
+      " severity: ",
+      imageCategoriesAnalysisOutput.severity
+    );
+  }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Manage text blocklist
 
 #### Create or update text blocklist
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+  
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
-const blocklistDescription = "Test blocklist management.";
-const createOrUpdateTextBlocklistParameters: CreateOrUpdateTextBlocklistParameters = {
-  contentType: "application/merge-patch+json",
-  body: {
-    description: blocklistDescription,
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters: CreateOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    }
   }
+
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
 }
 
-const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
+(async () => {
+  await createOrUpdateTextBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
 
-if (isUnexpected(result)) {
-  throw result;
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    },
+  };
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description
+  );
 }
 
-console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
+(async () => {
+  await createOrUpdateTextBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### List text blocklists
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+  
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const result = await client.path("/text/blocklists").get();
+async function listTextBlocklists() {
+  const result = await client.path("/text/blocklists").get();
 
-if (isUnexpected(result)) {
-  throw result;
-}
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
-console.log("List blocklists: ");
-if (result.body.value) {
-  for (const blocklist of result.body.value) {
-    console.log("BlocklistName: ", blocklist.blocklistName, ", Description: ", blocklist.description);
+  console.log("List blocklists: ");
+  if (result.body.value) {
+    for (const blocklist of result.body.value) {
+      console.log("BlocklistName: ", blocklist.blocklistName, ", Description: ", blocklist.description);
+    }
   }
 }
+
+(async () => {
+  await listTextBlocklists();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function listTextBlocklists() {
+  const result = await client.path("/text/blocklists").get();
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("List blocklists: ");
+  if (result.body.value) {
+    for (const blocklist of result.body.value) {
+      console.log(
+        "BlocklistName: ",
+        blocklist.blocklistName,
+        ", Description: ",
+        blocklist.description
+      );
+    }
+  }
+}
+
+(async () => {
+  await listTextBlocklists();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Get text blocklist
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
+async function getTextBlocklist() {
+  const blocklistName = "TestBlocklist";
 
-const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).get();
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).get();
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Get blocklist: ");
+  console.log("Name: ", result.body.blocklistName, ", Description: ", result.body.description);
 }
 
-console.log("Get blocklist: ");
-console.log("Name: ", result.body.blocklistName, ", Description: ", result.body.description);
+(async () => {
+  await getTextBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function getTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).get();
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Get blocklist: ");
+  console.log("Name: ", result.body.blocklistName, ", Description: ", result.body.description);
+}
+
+(async () => {
+  await getTextBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Delete text blocklist
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
+async function deleteBlocklist() {
+  const blocklistName = "TestBlocklist";
 
-const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).delete();
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).delete();
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Deleted blocklist: ", blocklistName);
 }
 
-console.log("Deleted blocklist: ", blocklistName);
+(async () => {
+  await deleteBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function deleteBlocklist() {
+  const blocklistName = "TestBlocklist";
+
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).delete();
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Deleted blocklist: ", blocklistName);
+}
+
+(async () => {
+  await deleteBlocklist();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Add blockItems
 
+TypeScript
+
 ```typescript
-import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { CreateOrUpdateTextBlocklistParameters, isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
-const blockItemText1 = "sample";
-const blockItemText2 = "text";
-const addOrUpdateBlocklistItemsParameters = {
-  body: {
-    blocklistItems: [
-      {
-        description: "Test block item 1",
-        text: blockItemText1
-      },
-      {
-        description: "Test block item 2",
-        text: blockItemText2
-      }
-    ]
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters: CreateOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    }
   }
-};
 
-const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  const result = await client.path("/text/blocklists/{blocklistName}", blocklistName).patch(createOrUpdateTextBlocklistParameters);
 
-if (isUnexpected(result)) {
-  throw result;
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Blocklist created or updated: Name", result.body.blocklistName, ", Description: ", result.body.description);
 }
 
-console.log("Block items added: ");
-if (result.body.blocklistItems) {
-  for (const blockItem of result.body.blocklistItems) {
-    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+async function addBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText1 = "sample";
+  const blockItemText2 = "text";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText1
+        },
+        {
+          description: "Test block item 2",
+          text: blockItemText2
+        }
+      ]
+    }
+  };
+
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Block items added: ");
+  if (result.body.blocklistItems) {
+    for (const blockItem of result.body.blocklistItems) {
+      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+    }
   }
 }
+
+(async () => {
+  await createOrUpdateTextBlocklist();
+  await addBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function createOrUpdateTextBlocklist() {
+  const blocklistName = "TestBlocklist";
+  const blocklistDescription = "Test blocklist management.";
+  const createOrUpdateTextBlocklistParameters = {
+    contentType: "application/merge-patch+json",
+    body: {
+      description: blocklistDescription,
+    },
+  };
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}", blocklistName)
+    .patch(createOrUpdateTextBlocklistParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log(
+    "Blocklist created or updated: Name",
+    result.body.blocklistName,
+    ", Description: ",
+    result.body.description
+  );
+}
+
+async function addBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText1 = "sample";
+  const blockItemText2 = "text";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText1,
+        },
+        {
+          description: "Test block item 2",
+          text: blockItemText2,
+        },
+      ],
+    },
+  };
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("Block items added: ");
+  if (result.body.blocklistItems) {
+    for (const blockItem of result.body.blocklistItems) {
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description
+      );
+    }
+  }
+}
+
+(async () => {
+  await createOrUpdateTextBlocklist();
+  await addBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### List blockItems
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
+async function listBlockItems() {
+  const blocklistName = "TestBlocklist";
 
-const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
+  const result = await client.path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName).get();
 
-if (isUnexpected(result)) {
-  throw result;
-}
+  if (isUnexpected(result)) {
+    throw result;
+  }
 
-console.log("List block items: ");
-if (result.body.value) {
-  for (const blockItem of result.body.value) {
-    console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+  console.log("List block items: ");
+  if (result.body.value) {
+    for (const blockItem of result.body.value) {
+      console.log("BlockItemId: ", blockItem.blocklistItemId, ", Text: ", blockItem.text, ", Description: ", blockItem.description);
+    }
   }
 }
+
+(async () => {
+  await listBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function listBlockItems() {
+  const blocklistName = "TestBlocklist";
+
+  const result = await client
+    .path("/text/blocklists/{blocklistName}/blocklistItems", blocklistName)
+    .get();
+
+  if (isUnexpected(result)) {
+    throw result;
+  }
+
+  console.log("List block items: ");
+  if (result.body.value) {
+    for (const blockItem of result.body.value) {
+      console.log(
+        "BlockItemId: ",
+        blockItem.blocklistItemId,
+        ", Text: ",
+        blockItem.text,
+        ", Description: ",
+        blockItem.description
+      );
+    }
+  }
+}
+
+(async () => {
+  await listBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Get blockItem
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
-const blockItemText = "sample";
-const addOrUpdateBlocklistItemsParameters = {
-  body: {
-    blocklistItems: [
-      {
-        description: "Test block item 1",
-        text: blockItemText
-      }
-    ]
+async function getBlockItem() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText = "sample";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText
+        }
+      ]
+    }
+  };
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
+    throw new Error("Block item not added.");
   }
-};
-const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
-if (isUnexpected(result) || result.body.blocklistItems === undefined) {
-  throw new Error("Block item not added.");
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
+
+  const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
+
+  if (isUnexpected(blockItem)) {
+    throw blockItem;
+  }
+
+  console.log("Get blockitem: ");
+  console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
 }
-const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const blockItem = await client.path("/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}", blocklistName, blockItemId).get();
+(async () => {
+  await getBlockItem();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
 
-if (isUnexpected(blockItem)) {
-  throw blockItem;
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function getBlockItem() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText = "sample";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText,
+        },
+      ],
+    },
+  };
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
+    throw new Error("Block item not added.");
+  }
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
+
+  const blockItem = await client
+    .path(
+      "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
+      blocklistName,
+      blockItemId
+    )
+    .get();
+
+  if (isUnexpected(blockItem)) {
+    throw blockItem;
+  }
+
+  console.log("Get blockitem: ");
+  console.log(
+    "BlockItemId: ",
+    blockItem.body.blocklistItemId,
+    ", Text: ",
+    blockItem.body.text,
+    ", Description: ",
+    blockItem.body.description
+  );
 }
 
-console.log("Get blockitem: ");
-console.log("BlockItemId: ", blockItem.body.blocklistItemId, ", Text: ", blockItem.body.text, ", Description: ", blockItem.body.description);
+(async () => {
+  await getBlockItem();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 #### Remove blockItems
 
+TypeScript
+
 ```typescript
 import ContentSafetyClient, { isUnexpected  } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
 
-const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
-const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
 
 const credential = new AzureKeyCredential(key);
 const client = ContentSafetyClient(endpoint, credential);
 
-const blocklistName = "TestBlocklist";
-const blockItemText = "sample";
-const addOrUpdateBlocklistItemsParameters = {
-  body: {
-    blocklistItems: [
-      {
-        description: "Test block item 1",
-        text: blockItemText
-      }
-    ]
+async function removeBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText = "sample";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText
+        }
+      ]
+    }
+  };
+  const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
+    throw new Error("Block item not added.");
   }
-};
-const result = await client.path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName).post(addOrUpdateBlocklistItemsParameters);
-if (isUnexpected(result) || result.body.blocklistItems === undefined) {
-  throw new Error("Block item not added.");
-}
-const blockItemId = result.body.blocklistItems[0].blocklistItemId;
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
 
-const removeBlocklistItemsParameters = {
-  body: {
-    blocklistItemIds: [blockItemId]
+  const removeBlocklistItemsParameters = {
+    body: {
+      blocklistItemIds: [blockItemId]
+    }
+  };
+  const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
+
+  if (isUnexpected(removeBlockItem)) {
+    throw removeBlockItem;
   }
-};
-const removeBlockItem = await client.path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName).post(removeBlocklistItemsParameters);
 
-if (isUnexpected(removeBlockItem)) {
-  throw removeBlockItem;
+  console.log("Removed blockItem: ", blockItemText);
 }
 
-console.log("Removed blockItem: ", blockItemText);
+(async () => {
+  await removeBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+JavaScript
+
+```javascript
+const ContentSafetyClient = require("@azure-rest/ai-content-safety").default,
+  { isUnexpected } = require("@azure-rest/ai-content-safety");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+const endpoint = "https://<my-custom-subdomain>.cognitiveservices.azure.com/";
+const key = "<api_key>";
+
+const credential = new AzureKeyCredential(key);
+const client = ContentSafetyClient(endpoint, credential);
+
+async function removeBlockItems() {
+  const blocklistName = "TestBlocklist";
+  const blockItemText = "sample";
+  const addOrUpdateBlocklistItemsParameters = {
+    body: {
+      blocklistItems: [
+        {
+          description: "Test block item 1",
+          text: blockItemText,
+        },
+      ],
+    },
+  };
+  const result = await client
+    .path("/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems", blocklistName)
+    .post(addOrUpdateBlocklistItemsParameters);
+  if (isUnexpected(result) || result.body.blocklistItems === undefined) {
+    throw new Error("Block item not added.");
+  }
+  const blockItemId = result.body.blocklistItems[0].blocklistItemId;
+
+  const removeBlocklistItemsParameters = {
+    body: {
+      blocklistItemIds: [blockItemId],
+    },
+  };
+  const removeBlockItem = await client
+    .path("/text/blocklists/{blocklistName}:removeBlocklistItems", blocklistName)
+    .post(removeBlocklistItemsParameters);
+
+  if (isUnexpected(removeBlockItem)) {
+    throw removeBlockItem;
+  }
+
+  console.log("Removed blockItem: ", blockItemText);
+}
+
+(async () => {
+  await removeBlockItems();
+})().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ## Troubleshooting
