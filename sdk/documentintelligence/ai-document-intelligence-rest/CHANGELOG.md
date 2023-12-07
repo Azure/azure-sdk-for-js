@@ -30,7 +30,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
 - **Markdown content format**
 
-  Supports output with Markdown content format along with the default plain _text_. For now, this is only supported for "prebuilt-layout". Markdown content format is a deemed more friendly format for LLM consumption in a chat or automation use scenarios.
+  Supports output with Markdown content format along with the default plain _text_. For now, this is only supported for "prebuilt-layout". Markdown content format is deemed a more friendly format for LLM consumption in a chat or automation use scenario.
 
   Service follows the GFM spec ([GitHub Flavored Markdown](https://github.github.com/gfm/)) for the Markdown format. Also introduces a new _contentFormat_ property with value "text" or "markdown" to indicate the result content format.
 
@@ -75,7 +75,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
   - `split: "auto"`
 
-    Let service determine where to split. It is possible for a single page to contain multiple documents (in the future). Such behavior is already implemented in prebuilt-us.tax.w2.
+    Let service determine where to split.
 
   - `split: "none"`
 
@@ -89,7 +89,7 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 
 - **prebuilt-receipt** - Currency related fields have been updated. Currency symbol ("$") and code ("USD") are returned along with the amount as shown below.
 
-  ```ts
+  ```json
   {
     "content": "$123.45",
     "confidence": 0.995,
