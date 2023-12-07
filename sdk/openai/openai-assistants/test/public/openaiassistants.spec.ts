@@ -30,6 +30,14 @@ describe("OpenAIAssistants", () => {
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: AssistantsClient;
+      const codeAssistant = {
+        tools: [{ type: "code_interpreter" }],
+        model: "gpt-4-1106-preview",
+        name: "JS CI Math Tutor",
+        description: "Math Tutor for Math Problems",
+        instructions: "You are a personal math tutor. Write and run code to answer math questions.",
+        metadata: { "foo": "bar" },
+      };
 
       beforeEach(async function (this: Context) {
         client = createClient(authMethod, { recorder });
@@ -37,15 +45,6 @@ describe("OpenAIAssistants", () => {
 
       describe("all CRUD APIs", function () {
         it("creates, retrieves, lists, modifies, and deletes an assistant", async function () {
-          const codeAssistant = {
-            tools: [{ type: "code_interpreter" }],
-            model: "gpt-4-1106-preview",
-            name: "JS Math Tutor",
-            description: "Math Tutor for Math Problems",
-            instructions: "You are a personal math tutor. Write and run code to answer math questions.",
-            metadata: { "foo": "bar" },
-          };
-
           const assistantResponse = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
           const getAssistantResponse = await client.retrieveAssistant(assistantResponse.id);
@@ -127,6 +126,7 @@ describe("OpenAIAssistants", () => {
         });
         it("uploads, retrieves, and lists a file", async function () {
           /*
+          // move to node only, currently failing in browser
           const filename = "sample_file_for_upload.txt";
           const text = "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.";
           const uint8 = Uint8Array.from(text.split("").map(x => x.charCodeAt(0)));
@@ -160,6 +160,12 @@ describe("OpenAIAssistants", () => {
           assert.equal(run.instructions, instructions);
           assert.equal(run.metadata.foo, metadataValue);
 
+          const runSteps = await client.listRunSteps(thread.id, run.id);
+          // with no messages, there should be no steps
+          assert.equal(runSteps.data.length, 0);
+          assert.equal(runSteps.firstId, null);
+          assert.equal(runSteps.lastId, null);
+
           const listLength = 1;
           const list = await client.listRuns(thread.id, { limit: listLength });
           assert.equal(list.data.length, listLength);
@@ -186,6 +192,55 @@ describe("OpenAIAssistants", () => {
 
           const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
+        });
+      });
+      describe("user scenarios", function () {
+        it("create and run code interpreter scenario", async function () {
+          const assistant = await client.createAssistant(codeAssistant);
+          assertAssistantEquality(codeAssistant, assistant);
+          const thread = await client.createThread();
+          assert.isNotNull(thread.id);
+          const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
+          const role = "user";
+          const message = await client.createMessage(thread.id, role, question);
+          assert.isNotNull(message.id);
+          assert.equal(message.role, role);
+          assert.equal(message.content[0].text?.value, question);
+
+          const instructions = "Please address the user as Jane Doe. The user has a premium account.";
+          let run = await client.createRun(thread.id, assistant.id, { instructions });
+          assert.isNotNull(run.id);
+          assert.equal(run.threadId, thread.id);
+          assert.equal(run.assistantId, assistant.id);
+          assert.equal(run.instructions, instructions);
+
+          do {
+            await new Promise(r => setTimeout(r, 500));
+            run = await client.retrieveRun(thread.id, run.id);
+            const listLength = 1;
+            const runSteps = await client.listRunSteps(thread.id, run.id, { limit: listLength });
+            if (runSteps.data.length > 0) {
+              const runStep = runSteps.data[0];
+              assert.isNotNull(runStep.id);
+              assert.equal(runSteps.data.length, listLength);
+
+              const runMessage = await client.retrieveRunStep(thread.id, run.id, runStep.id);
+              assert.equal(runStep.id, runMessage.id);
+              assert.equal(runMessage.runId, run.id);
+              assert.equal(runMessage.threadId, thread.id);
+              assert.equal(runMessage.assistantId, assistant.id);
+            }
+
+          } while (run.status === "queued" || run.status === "in_progress")
+          assert.equal(run.status, "completed");
+
+          const runMessages = await client.listMessages(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+            for (const item of runMessageDatum.content) {
+              assert.equal(item.type, "text");
+              assert.isNotEmpty(item.text?.value);
+            }
+          }
         });
       });
     });
