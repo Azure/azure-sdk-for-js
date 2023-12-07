@@ -60,6 +60,9 @@ export type ClientOptions = PipelineOptions & {
 };
 
 // @public
+export function createRestError(response: PathUncheckedResponse): RestError;
+
+// @public
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 
 // @public

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates a new namespace topic with the specified parameters.
  *
  * @summary Asynchronously creates a new namespace topic with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/NamespaceTopics_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopics_CreateOrUpdate.json
  */
 async function namespaceTopicsCreateOrUpdate() {
   const subscriptionId =

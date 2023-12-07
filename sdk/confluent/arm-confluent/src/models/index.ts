@@ -193,6 +193,8 @@ export interface OrganizationResource {
   offerDetail: OfferDetail;
   /** Subscriber detail */
   userDetail: UserDetail;
+  /** Link an existing Confluent organization */
+  linkOrganization?: LinkOrganization;
 }
 
 /** Confluent Offer detail */
@@ -207,11 +209,14 @@ export interface OfferDetail {
   planName: string;
   /** Offer Plan Term unit */
   termUnit: string;
-  /**
-   * SaaS Offer Status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SaaSOfferStatus;
+  /** Offer Plan Term Id */
+  termId?: string;
+  /** Private Offer Id */
+  privateOfferId?: string;
+  /** Array of Private Offer Ids */
+  privateOfferIds?: string[];
+  /** SaaS Offer Status */
+  status?: SaaSOfferStatus;
 }
 
 /** Subscriber detail */
@@ -222,12 +227,312 @@ export interface UserDetail {
   lastName?: string;
   /** Email address */
   emailAddress: string;
+  /** User principal name */
+  userPrincipalName?: string;
+  /** AAD email address */
+  aadEmail?: string;
+}
+
+/** Link an existing Confluent organization */
+export interface LinkOrganization {
+  /** User auth token */
+  token: string;
 }
 
 /** Organization Resource update */
 export interface OrganizationResourceUpdate {
   /** ARM resource tags */
   tags?: { [propertyName: string]: string };
+}
+
+/** Validation response from the provider */
+export interface ValidationResponse {
+  /** Info from the response */
+  info?: { [propertyName: string]: string };
+}
+
+/** List Access Request Model */
+export interface ListAccessRequestModel {
+  /** Search filters for the request */
+  searchFilters?: { [propertyName: string]: string };
+}
+
+/** List users success response */
+export interface AccessListUsersSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the users list */
+  data?: UserRecord[];
+}
+
+/** Metadata of the list */
+export interface ConfluentListMetadata {
+  /** First page of the list */
+  first?: string;
+  /** Last page of the list */
+  last?: string;
+  /** Previous page of the list */
+  prev?: string;
+  /** Next page of the list */
+  next?: string;
+  /** Total size of the list */
+  totalSize?: number;
+}
+
+/** Record of the user */
+export interface UserRecord {
+  /** Type of account */
+  kind?: string;
+  /** Id of the user */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** Email of the user */
+  email?: string;
+  /** Name of the user */
+  fullName?: string;
+  /** Auth type of the user */
+  authType?: string;
+}
+
+/** Metadata of the data record */
+export interface MetadataEntity {
+  /** Self lookup url */
+  self?: string;
+  /** Resource name of the record */
+  resourceName?: string;
+  /** Created Date Time */
+  createdAt?: string;
+  /** Updated Date time */
+  updatedAt?: string;
+  /** Deleted Date time */
+  deletedAt?: string;
+}
+
+/** List service accounts success response */
+export interface AccessListServiceAccountsSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the service accounts list */
+  data?: ServiceAccountRecord[];
+}
+
+/** Record of the service account */
+export interface ServiceAccountRecord {
+  /** Type of account */
+  kind?: string;
+  /** Id of the service account */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** Name of the service account */
+  displayName?: string;
+  /** Description of the service account */
+  description?: string;
+}
+
+/** List invitations success response */
+export interface AccessListInvitationsSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the invitations list */
+  data?: InvitationRecord[];
+}
+
+/** Record of the invitation */
+export interface InvitationRecord {
+  /** Type of account */
+  kind?: string;
+  /** Id of the invitation */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** Email of the user */
+  email?: string;
+  /** Auth type of the user */
+  authType?: string;
+  /** Status of the invitation */
+  status?: string;
+  /** Accepted date time of the invitation */
+  acceptedAt?: string;
+  /** Expiration date time of the invitation */
+  expiresAt?: string;
+}
+
+/** Invite User Account model */
+export interface AccessInviteUserAccountModel {
+  /** Id of the organization */
+  organizationId?: string;
+  /** Email of the logged in user */
+  email?: string;
+  /** Upn of the logged in user */
+  upn?: string;
+  /** Details of the user who is being invited */
+  invitedUserDetails?: AccessInvitedUserDetails;
+}
+
+/** Details of the user being invited */
+export interface AccessInvitedUserDetails {
+  /** UPN/Email of the user who is being invited */
+  invitedEmail?: string;
+  /** Auth type of the user */
+  authType?: string;
+}
+
+/** List environments success response */
+export interface AccessListEnvironmentsSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the environments list */
+  data?: EnvironmentRecord[];
+}
+
+/** Record of the environment */
+export interface EnvironmentRecord {
+  /** Type of environment */
+  kind?: string;
+  /** Id of the environment */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** Display name of the user */
+  displayName?: string;
+}
+
+/** List cluster success response */
+export interface AccessListClusterSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the environments list */
+  data?: ClusterRecord[];
+}
+
+/** Record of the environment */
+export interface ClusterRecord {
+  /** Type of environment */
+  kind?: string;
+  /** Id of the environment */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** Display name of the user */
+  displayName?: string;
+  /** Specification of the cluster */
+  spec?: ClusterSpecEntity;
+  /** Specification of the cluster */
+  status?: ClusterStatusEntity;
+}
+
+/** Spec of the cluster record */
+export interface ClusterSpecEntity {
+  /** The name of the cluster */
+  displayName?: string;
+  /** The availability zone configuration of the cluster */
+  availability?: string;
+  /** The cloud service provider */
+  cloud?: string;
+  /** type of zone availability */
+  zone?: string;
+  /** The cloud service provider region */
+  region?: string;
+  /** The bootstrap endpoint used by Kafka clients to connect to the cluster */
+  kafkaBootstrapEndpoint?: string;
+  /** The cluster HTTP request URL. */
+  httpEndpoint?: string;
+  /** The Kafka API cluster endpoint */
+  apiEndpoint?: string;
+  /** Specification of the cluster */
+  config?: ClusterConfigEntity;
+  /** Specification of the cluster */
+  environment?: ClusterEnvironmentEntity;
+  /** Specification of the cluster */
+  network?: ClusterNetworkEntity;
+  /** Specification of the cluster */
+  byok?: ClusterByokEntity;
+}
+
+/** The configuration of the Kafka cluster */
+export interface ClusterConfigEntity {
+  /** The lifecycle phase of the cluster */
+  kind?: string;
+}
+
+/** The environment to which cluster belongs */
+export interface ClusterEnvironmentEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** Environment of the referred resource */
+  environment?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** The network associated with this object */
+export interface ClusterNetworkEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** Environment of the referred resource */
+  environment?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** The network associated with this object */
+export interface ClusterByokEntity {
+  /** ID of the referred resource */
+  id?: string;
+  /** API URL for accessing or modifying the referred object */
+  related?: string;
+  /** CRN reference to the referred resource */
+  resourceName?: string;
+}
+
+/** Status of the cluster record */
+export interface ClusterStatusEntity {
+  /** The lifecycle phase of the cluster */
+  phase?: string;
+  /** The number of Confluent Kafka Units */
+  cku?: number;
+}
+
+/** List cluster success response */
+export interface AccessListRoleBindingsSuccessResponse {
+  /** Type of response */
+  kind?: string;
+  /** Metadata of the list */
+  metadata?: ConfluentListMetadata;
+  /** Data of the environments list */
+  data?: RoleBindingRecord[];
+}
+
+/** Record of the environment */
+export interface RoleBindingRecord {
+  /** The type of the resource. */
+  kind?: string;
+  /** Id of the role */
+  id?: string;
+  /** Metadata of the record */
+  metadata?: MetadataEntity;
+  /** The principal User or Group to bind the role to */
+  principal?: string;
+  /** The name of the role to bind to the principal */
+  roleName?: string;
+  /** A CRN that specifies the scope and resource patterns necessary for the role to bind */
+  crnPattern?: string;
 }
 
 /** Known values of {@link CreatedByType} that the service accepts. */
@@ -447,6 +752,62 @@ export interface ValidationsValidateOrganizationOptionalParams
 
 /** Contains response data for the validateOrganization operation. */
 export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+/** Optional parameters. */
+export interface ValidationsValidateOrganizationV2OptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateOrganizationV2 operation. */
+export type ValidationsValidateOrganizationV2Response = ValidationResponse;
+
+/** Optional parameters. */
+export interface AccessListUsersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listUsers operation. */
+export type AccessListUsersResponse = AccessListUsersSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessListServiceAccountsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listServiceAccounts operation. */
+export type AccessListServiceAccountsResponse = AccessListServiceAccountsSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessListInvitationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listInvitations operation. */
+export type AccessListInvitationsResponse = AccessListInvitationsSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessInviteUserOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the inviteUser operation. */
+export type AccessInviteUserResponse = InvitationRecord;
+
+/** Optional parameters. */
+export interface AccessListEnvironmentsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listEnvironments operation. */
+export type AccessListEnvironmentsResponse = AccessListEnvironmentsSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessListClustersOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listClusters operation. */
+export type AccessListClustersResponse = AccessListClusterSuccessResponse;
+
+/** Optional parameters. */
+export interface AccessListRoleBindingsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listRoleBindings operation. */
+export type AccessListRoleBindingsResponse = AccessListRoleBindingsSuccessResponse;
 
 /** Optional parameters. */
 export interface ConfluentManagementClientOptionalParams

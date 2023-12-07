@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the container registries under the specified resource group.
  *
  * @summary Lists all the container registries under the specified resource group.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/RegistryListByResourceGroup.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/RegistryListByResourceGroup.json
  */
 async function registryListByResourceGroup() {
   const subscriptionId =

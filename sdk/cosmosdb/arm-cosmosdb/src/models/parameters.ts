@@ -126,7 +126,7 @@ export const accountName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-15-preview",
+    defaultValue: "2023-09-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -626,6 +626,16 @@ export const backupId: OperationURLParameter = {
     required: true,
     type: {
       name: "String"
+    }
+  }
+};
+
+export const xMsForceDeallocate: OperationParameter = {
+  parameterPath: ["options", "xMsForceDeallocate"],
+  mapper: {
+    serializedName: "x-ms-force-deallocate",
+    type: {
+      name: "Boolean"
     }
   }
 };

@@ -16,7 +16,7 @@ const IGNORE = ["node_modules"];
 
 export const commandInfo = makeCommandInfo(
   "run",
-  "execute a sample or all samples within a directory"
+  "execute a sample or all samples within a directory",
 );
 
 /**
@@ -64,7 +64,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   if (sampleConfiguration.skipFolder) {
     log.warn(
-      "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
+      "`skipFolder` is specified in the sample configuration, but it is ignored in this context.",
     );
     log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
   }
@@ -85,7 +85,7 @@ export default leafCommand(commandInfo, async (options) => {
         {
           ignore: IGNORE,
           skips,
-        }
+        },
       )) {
         await runSingle(fileName, errors);
       }
