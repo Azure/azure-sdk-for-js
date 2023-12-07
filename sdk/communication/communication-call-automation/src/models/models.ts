@@ -81,6 +81,9 @@ export enum VoiceKind {
 
 /** The PlaySource model. */
 export interface PlaySource {
+  /** @deprecated Not in use, instead use playsourcecacheid for similar functionality*/
+  playsourcacheid?: string;
+  /** Sets the play source cache id.*/
   playsourcecacheid?: string;
 }
 
