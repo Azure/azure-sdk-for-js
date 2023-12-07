@@ -241,6 +241,126 @@ describe("OpenAIAssistants", () => {
               assert.isNotEmpty(item.text?.value);
             }
           }
+          const deleteThreadResponse = await client.deleteThread(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
+        });
+        it("create and run function scenario for weather bot", async function () {
+          const getFavoriteCity = () => "Atlanta, GA";
+          const getUserFavoriteCityTool = { 
+            type: "function",
+            function: {
+              name: "getUserFavoriteCity",
+              description: "Gets the user's favorite city.",
+              parameters: {
+                type: "object",
+                properties: {}
+              }
+            }
+          }; 
+
+          const getCityNickname = (city: string) => { 
+            switch (city) { 
+              case "Atlanta, GA": 
+                return "The ATL"; 
+              case "Seattle, WA": 
+                return "The Emerald City"; 
+              case "Los Angeles, CA":
+                return "LA"; 
+              default: 
+                return "Unknown"; 
+            }
+          };
+
+          const getCityNicknameTool = { 
+            type: "function",
+            function: {
+              name: "getCityNickname",
+              description: "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.",
+              parameters: { 
+                type: "object",
+                properties: { 
+                  city: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA"
+                  } 
+                }
+              }
+            }
+          };
+
+          const getWeatherAtLocation = (location: string, temperatureUnit = "f") => {
+            switch (location) { 
+              case "Atlanta, GA": 
+                return temperatureUnit === "f" ? "84f" : "26c"; 
+              case "Seattle, WA": 
+                return temperatureUnit === "f" ? "70f" : "21c"; 
+              case "Los Angeles, CA":
+                return temperatureUnit === "f" ? "90f" : "28c"; 
+              default: 
+                return "Unknown"; 
+            }
+          };
+          const getWeatherAtLocationTool = { 
+            type: "function",
+            function: {
+              name: "getWeatherAtLocation",
+              description: "Gets the current weather at a provided location.",
+              parameters: { 
+                type: "object",
+                properties: { 
+                  location: {
+                    type: "string",
+                    description: "The city and state, e.g. San Francisco, CA"
+                  },
+                  temperatureUnit: {
+                    type: "string",
+                    enum: ["f", "c"],
+                  }
+                },
+                required: ["location"]
+              }
+            }
+          };
+
+          const functionAssistant = {
+            model: "gpt-4-1106-preview",
+            name: "JS SDK Test Assistant - Weather",
+            instructions: `You are a weather bot. Use the provided functions to help answer questions.
+                Customize your responses to the user's preferences as much as possible and use friendly
+                nicknames for cities whenever possible.
+            `,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
+          };
+          // REMOVE
+          void getFavoriteCity;
+          void getCityNickname;
+          void getWeatherAtLocation;
+          // END REMOVE
+          const assistant = await client.createAssistant(functionAssistant);
+          assert.isNotNull(assistant.id);
+          const thread = await client.createThread();
+          assert.isNotNull(thread.id);
+          const content = "What's the weather like right now in my favorite city?";
+          const role = "user";
+          const initialMessage = {
+            role,
+            content,
+          };
+          let run = await client.createThreadAndRun({ 
+            assistantId: assistant.id, 
+            thread: { messages: [initialMessage] },
+            tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
+          });
+          assert.isNotNull(run.id);
+
+          const deleteThreadResponse = await client.deleteThread(thread.id);
+          assert.equal(deleteThreadResponse.deleted, true);
+
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
+          assert.equal(deleteAssistantResponse.deleted, true);
         });
       });
     });

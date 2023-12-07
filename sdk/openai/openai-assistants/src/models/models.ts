@@ -124,8 +124,6 @@ export interface AssistantFileDeletionStatus {
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
   messages?: {
-    /** The object type, which is always 'thread.message'. */
-    object: "thread.message";
     /** The role associated with the assistant thread message. */
     role: AssistantRole;
     /** The list of content items associated with the assistant thread message. */

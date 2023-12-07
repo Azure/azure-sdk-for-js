@@ -535,7 +535,6 @@ export function _createThreadSend(
       ...operationOptionsToRequestParameters(options),
       body: {
         messages: (body["messages"] ?? []).map((p) => ({
-          object: p["object"],
           role: p["role"],
           content: p["content"],
         })),

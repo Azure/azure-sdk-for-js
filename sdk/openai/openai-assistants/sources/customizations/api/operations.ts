@@ -2,20 +2,20 @@
 // Licensed under the MIT license.
 
 import {
-  Assistant,
   ListResponseOf,
+} from "../models/models.js";
+import {
+  Assistant,
   AssistantFile,
   AssistantThreadCreationOptions,
   AssistantMessage,
-  AssistantRole,
-  AssistantThread,
   AssistantMessageFile,
   AssistantRun,
   CreateAndRunThreadOptions,
   RunStep,
   FilePurpose,
   File,
-} from "../generated/src/models/models.js";
+} from "../../generated/src/models/models.js";
 import {
   AssistantsContext as Client,
   CancelRun200Response,
@@ -45,13 +45,8 @@ import {
   RetrieveFile200Response,
   RetrieveFileContent200Response,
   RetrieveMessage200Response,
-  RetrieveMessageFile200Response,
-  RetrieveRun200Response,
-  RetrieveRunStep200Response,
-  RetrieveThread200Response,
-  SubmitRunToolOutputs200Response,
   UploadFile200Response,
-} from "../rest/index.js";
+} from "../../generated/src/rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
@@ -85,14 +80,9 @@ import {
   AssistantRunsSubmitRunToolOutputsOptions,
   AssistantRunsCancelRunOptions,
   AssistantRunsCreateThreadAndRunOptions,
-  RunStepsRetrieveRunStepOptions,
- RunStepsListRunStepsOptions,
-  ListFilesOptions,
-  UploadFileOptions,
-  DeleteFileOptions,
-  RetrieveFileOptions,
-  RetrieveFileContentOptions,
-} from "../models/options.js";
+  RunStepsListRunStepsOptions,
+  FilesUploadFileOptions,
+} from "../../generated/src/models/options.js";
 
 export function _listAssistantsSend(
   context: Client,
@@ -176,7 +166,6 @@ export async function _listAssistantFilesDeserialize(
     object: result.body["object"],
     data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       assistantId: p["assistant_id"],
     })),
@@ -560,7 +549,7 @@ export function _uploadFileSend(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: FilesUploadFileOptions = { requestOptions: {} }
 ): StreamableMethod<UploadFile200Response> {
   return context
     .path("/files")
@@ -596,7 +585,7 @@ export async function uploadFile(
   context: Client,
   file: Uint8Array,
   purpose: FilePurpose,
-  options: UploadFileOptions = { requestOptions: {} }
+  options: FilesUploadFileOptions = { requestOptions: {} }
 ): Promise<File> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
@@ -709,4 +698,23 @@ export async function _createMessageDeserialize(
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
   };
+}
+
+export function _createThreadSend(
+  context: Client,
+  body: AssistantThreadCreationOptions,
+  options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
+): StreamableMethod<CreateThread200Response> {
+  return context
+    .path("/threads")
+    .post({
+      ...operationOptionsToRequestParameters(options),
+      body: {
+        messages: (body["messages"] ?? []).map((p) => ({
+          role: p["role"],
+          content: p["content"],
+        })),
+        metadata: body["metadata"],
+      },
+    });
 }

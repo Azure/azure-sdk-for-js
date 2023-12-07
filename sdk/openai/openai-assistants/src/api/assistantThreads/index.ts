@@ -37,7 +37,6 @@ export function _createThreadSend(
         messages: !body["messages"]
           ? body["messages"]
           : body["messages"].map((p) => ({
-              object: p["object"],
               role: p["role"],
               content: p["content"],
             })),

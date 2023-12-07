@@ -3,7 +3,8 @@
 
 import {
   AssistantImageFile,
-  AssistantMessageText
+  AssistantMessageText,
+  AssistantRole,
 } from "../../generated/src/models/models.js";
 
 /** An abstract representation of a single item of thread message content. */
@@ -26,4 +27,31 @@ export interface AssistantMessageTextAnnotation {
   start_index: number;
   /** The last text index associated with this text annotation. */
   end_index: number;
+}
+
+/** The details used to create a new assistant thread. */
+export interface AssistantThreadCreationOptions {
+  /** The messages to associate with the new thread. */
+  messages?: {
+    /** The role associated with the assistant thread message. */
+    role: AssistantRole;
+    /** The list of content items associated with the assistant thread message. */
+    content: string;
+  }[];
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata?: Record<string, string>;
+}
+
+/** The response data for a requested list of items. */
+export interface ListResponseOf<T> {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: T[];
+  /** The first ID represented in this list. */
+  firstId: string;
+  /** The last ID represented in this list. */
+  lastId: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  hasMore: boolean;
 }
