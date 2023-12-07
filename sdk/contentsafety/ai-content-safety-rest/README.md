@@ -46,11 +46,15 @@ az cognitiveservices account show --name "resource-name" --resource-group "resou
 
 #### Create a ContentSafetyClient with AzureKeyCredential
 
+- Step 1: Get the API key
+
 The API key can be found in the [Azure Portal](https://ms.portal.azure.com/#home) or by running the following [Azure CLI](https://learn.microsoft.com/cli/azure/cognitiveservices/account?view=azure-cli-latest#az-cognitiveservices-account-show) command:
 
 ```bash
 az cognitiveservices account keys list --name "<resource-name>" --resource-group "<resource-group-name>"
 ```
+
+- Step 2: Create a ContentSafetyClient with AzureKeyCredential
 
 To use an API key as the `credential` parameter, pass the key as a string into an instance of `AzureKeyCredential`.
 
@@ -115,14 +119,14 @@ Classification can be multi-labeled. For example, when a text sample goes throug
 
 Every harm category the service applies also comes with a severity level rating. The severity level is meant to indicate the severity of the consequences of showing the flagged content.
 
-**Text**: The current version of the text model supports the **full 0-7 severity scale**. The classifier detects amongst all severities along this scale. If the user specifies, it can return severities in the trimmed scale of 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [text content severity levels definitions][text_severity_levels] for details.
+**Text**: The current version of the text model supports the **full 0-7 severity scale**. By default, the response will output 4 values: 0, 2, 4, and 6. Each two adjacent levels are mapped to a single level. Users could use "outputType" in request and set it as "EightSeverityLevels" to get 8 values in output: 0,1,2,3,4,5,6,7. You can refer [text content severity levels definitions](https://learn.microsoft.com/azure/ai-services/content-safety/concepts/harm-categories?tabs=definitions#text-content) for details.
 
 - [0,1] -> 0
 - [2,3] -> 2
 - [4,5] -> 4
 - [6,7] -> 6
 
-**Image**: The current version of the image model supports the **trimmed version of the full 0-7 severity scale**. The classifier only returns severities 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [image content severity levels definitions][image_severity_levels] for details.
+**Image**: The current version of the image model supports the **trimmed version of the full 0-7 severity scale**. The classifier only returns severities 0, 2, 4, and 6; each two adjacent levels are mapped to a single level. You can refer [image content severity levels definitions](https://learn.microsoft.com/azure/ai-services/content-safety/concepts/harm-categories?tabs=definitions#image-content) for details.
 
 - [0,1] -> 0
 - [2,3] -> 2
