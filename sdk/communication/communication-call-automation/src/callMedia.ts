@@ -510,7 +510,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -530,7 +530,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
@@ -644,7 +644,7 @@ export class CallMedia {
   public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -655,7 +655,7 @@ export class CallMedia {
    */
   public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
     const stopTranscriptionRequest: StopTranscriptionRequest = {
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
     };
     return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
   }
