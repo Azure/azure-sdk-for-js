@@ -19,19 +19,11 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
   "types": "core-rest-pipeline.shims.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "core-rest-pipeline.shims.d.ts": [
-        "core-rest-pipeline.shims-3_1.d.ts"
-      ]
-    }
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -53,10 +45,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/3.1/core-rest-pipeline.d.ts",
     "types/latest/core-rest-pipeline.d.ts",
     "core-rest-pipeline.shims.d.ts",
-    "core-rest-pipeline.shims-3_1.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -115,7 +105,6 @@
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
@@ -128,7 +117,6 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.3.0",
-    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",

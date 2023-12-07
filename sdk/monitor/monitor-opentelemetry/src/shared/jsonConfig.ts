@@ -23,6 +23,10 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions?: InstrumentationOptions;
+  /** Enable Live Metrics feature */
+  public enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  public enableStandardMetrics?: boolean;
 
   private static _instance: JsonConfig;
 
@@ -72,6 +76,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
+      this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
+      this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
     } catch (err) {
       Logger.getInstance().info("Missing or invalid JSON config file: ", err);
     }
