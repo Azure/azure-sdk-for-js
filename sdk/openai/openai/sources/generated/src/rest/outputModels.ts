@@ -136,7 +136,7 @@ export interface CompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
+  prompt_filter_results: Array<ContentFilterResultsForPromptOutput>;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -192,7 +192,7 @@ export interface ContentFilterResultDetailsForPromptOutput {
    */
   error?: ErrorModel;
   /** Whether a jailbreak attempt was detected in the prompt. */
-  jailbreak: ContentFilterDetectionResultOutput;
+  jailbreak?: ContentFilterDetectionResultOutput;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -564,6 +564,37 @@ export interface ImageGenerationDataOutput {
   revised_prompt?: string;
 }
 
+/**
+ * Representation of the response data from an embeddings request.
+ * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
+ * recommendations, and other similar scenarios.
+ */
+export interface EmbeddingsOutput {
+  /** Embedding values for the prompts submitted in the request. */
+  data: Array<EmbeddingItemOutput>;
+  /** Usage counts for tokens input using the embeddings API. */
+  usage: EmbeddingsUsageOutput;
+}
+
+/** Representation of a single embeddings relatedness comparison. */
+export interface EmbeddingItemOutput {
+  /**
+   * List of embeddings value for the input prompt. These represent a measurement of the
+   * vector-based relatedness of the provided input.
+   */
+  embedding: number[];
+  /** Index of the prompt to which the EmbeddingItem corresponds. */
+  index: number;
+}
+
+/** Measurement of the amount of tokens used in this request and response. */
+export interface EmbeddingsUsageOutput {
+  /** Number of tokens sent in the original request. */
+  prompt_tokens: number;
+  /** Total number of tokens transacted in this request/response. */
+  total_tokens: number;
+}
+
 /** A polling status update or final response payload for an image operation. */
 export interface BatchImageGenerationOperationResponseOutput {
   /** The ID of the operation. */
@@ -586,7 +617,10 @@ export interface BatchImageGenerationOperationResponseOutput {
 
 /** Represents the request data used to generate images. */
 export interface ImageGenerationOptionsOutput {
-  /** The model to use for image generation. */
+  /**
+   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
+   * inferred as a default.
+   */
   model?: string;
   /** A description of the desired images. */
   prompt: string;
@@ -626,37 +660,6 @@ export interface ImageGenerationOptionsOutput {
   style?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
-}
-
-/**
- * Representation of the response data from an embeddings request.
- * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,
- * recommendations, and other similar scenarios.
- */
-export interface EmbeddingsOutput {
-  /** Embedding values for the prompts submitted in the request. */
-  data: Array<EmbeddingItemOutput>;
-  /** Usage counts for tokens input using the embeddings API. */
-  usage: EmbeddingsUsageOutput;
-}
-
-/** Representation of a single embeddings relatedness comparison. */
-export interface EmbeddingItemOutput {
-  /**
-   * List of embeddings value for the input prompt. These represent a measurement of the
-   * vector-based relatedness of the provided input.
-   */
-  embedding: number[];
-  /** Index of the prompt to which the EmbeddingItem corresponds. */
-  index: number;
-}
-
-/** Measurement of the amount of tokens used in this request and response. */
-export interface EmbeddingsUsageOutput {
-  /** Number of tokens sent in the original request. */
-  prompt_tokens: number;
-  /** Total number of tokens transacted in this request/response. */
-  total_tokens: number;
 }
 
 /**

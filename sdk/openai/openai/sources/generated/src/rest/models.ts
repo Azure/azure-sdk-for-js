@@ -8,6 +8,8 @@ export interface AudioTranscriptionOptions {
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
   file: string;
+  /** The optional filename or descriptive identifier to associate with with the audio data. */
+  filename?: string;
   /**
    * The requested format of the transcription response data, which will influence the content and detail of the result.
    *
@@ -42,6 +44,8 @@ export interface AudioTranslationOptions {
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
    */
   file: string;
+  /** The optional filename or descriptive identifier to associate with with the audio data. */
+  filename?: string;
   /**
    * The requested format of the translation response data, which will influence the content and detail of the result.
    *
@@ -413,7 +417,7 @@ export interface FunctionDefinition {
    * interpreting its parameters.
    */
   description?: string;
-  /** The parameters the functions accepts, described as a JSON Schema object. */
+  /** The parameters the function accepts, described as a JSON Schema object. */
   parameters?: unknown;
 }
 
@@ -432,12 +436,6 @@ export interface FunctionName {
  *   The use of this configuration is compatible only with Azure OpenAI.
  */
 export interface AzureChatExtensionConfigurationParent {
-  /**
-   *   The configuration payload used for the Azure chat extension. The structure payload details are specific to the
-   *   extension being configured.
-   *   Azure chat extensions are only compatible with Azure OpenAI.
-   */
-  parameters: unknown;
   type: string;
 }
 
@@ -447,7 +445,24 @@ export interface AzureChatExtensionConfigurationParent {
  */
 export interface AzureCognitiveSearchChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
-  /** The authentication option to access the data. */
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Azure Cognitive Search.
+   */
+  type: "AzureCognitiveSearch";
+  /** The parameters to use when configuring Azure Cognitive Search. */
+  parameters: AzureCognitiveSearchChatExtensionParameters;
+}
+
+/** Parameters for Azure Cognitive Search when used as an Azure OpenAI chat extension. */
+export interface AzureCognitiveSearchChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
   authentication?: OnYourDataAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
@@ -457,15 +472,12 @@ export interface AzureCognitiveSearchChatExtensionConfiguration
   strictness?: number;
   /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
   roleInformation?: string;
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Cognitive Search.
-   */
-  type: "AzureCognitiveSearch";
   /** The absolute endpoint path for the Azure Cognitive Search resource to use. */
   endpoint: string;
   /** The name of the index to use as available in the referenced Azure Cognitive Search resource. */
   indexName: string;
+  /** The API key to use when interacting with the Azure Cognitive Search resource. */
+  key?: string;
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping?: AzureCognitiveSearchIndexFieldMappingOptions;
   /**
@@ -483,36 +495,36 @@ export interface AzureCognitiveSearchChatExtensionConfiguration
   /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
   embeddingKey?: string;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataEmbeddingDependency;
+  embeddingDependency?: OnYourDataVectorizationSource;
 }
 
-/** The authentication options for Azure OpenAI on your data. */
+/** The authentication options for Azure OpenAI On Your Data. */
 export interface OnYourDataAuthenticationOptionsParent {
   type: string;
 }
 
-/** The authentication option using API key. */
+/** The authentication options for Azure OpenAI On Your Data when using an API key. */
 export interface OnYourDataApiKeyAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
-  /** The Authentication type of API key. */
+  /** The authentication type of API key. */
   type: "APIKey";
   /** The API key to use for authentication. */
   key: string;
 }
 
-/** The authentication option using connection string. */
+/** The authentication options for Azure OpenAI On Your Data when using a connection string. */
 export interface OnYourDataConnectionStringAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
-  /** The Authentication type of connection string. */
+  /** The authentication type of connection string. */
   type: "ConnectionString";
   /** The connection string to use for authentication. */
   connectionString: string;
 }
 
-/** The authentication option using Elasticsearch key and keyId pair. */
+/** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch key and key ID pair. */
 export interface OnYourDataKeyAndKeyIdAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
-  /** The Authentication type of Elasticsearch key and keyId pair. */
+  /** The authentication type of Elasticsearch key and key ID pair. */
   type: "KeyAndKeyId";
   /** The key to use for authentication. */
   key: string;
@@ -520,17 +532,17 @@ export interface OnYourDataKeyAndKeyIdAuthenticationOptions
   keyId: string;
 }
 
-/** The authentication option using system-assigned managed identity. */
+/** The authentication options for Azure OpenAI On Your Data when using a system-assigned managed identity. */
 export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
-  /** The Authentication type of system-assigned managed identity. */
+  /** The authentication type of system-assigned managed identity. */
   type: "SystemAssignedManagedIdentity";
 }
 
-/** The authentication option using user-assigned managed identity. */
+/** The authentication options for Azure OpenAI On Your Data when using a user-assigned managed identity. */
 export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions
   extends OnYourDataAuthenticationOptionsParent {
-  /** The Authentication type of user-assigned managed identity. */
+  /** The authentication type of user-assigned managed identity. */
   type: "UserAssignedManagedIdentity";
   /** The resource ID of the user-assigned managed identity to use for authentication. */
   managedIdentityResourceId: string;
@@ -554,15 +566,18 @@ export interface AzureCognitiveSearchIndexFieldMappingOptions {
   imageVectorFields?: string[];
 }
 
-/** Embedding dependency for vector search. */
-export interface OnYourDataEmbeddingDependencyParent {
+/** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
+export interface OnYourDataVectorizationSourceParent {
   type: string;
 }
 
-/** The embedding dependency based on endpoint URL */
-export interface OnYourDataEmbeddingEndpointDependency
-  extends OnYourDataEmbeddingDependencyParent {
-  /** The embedding dependency based on endpoint URL */
+/**
+ * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
+ * on a public Azure OpenAI endpoint call for embeddings.
+ */
+export interface OnYourDataEndpointVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
+  /** The type of vectorization source to use. Always 'Endpoint' for this type. */
   type: "Endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
   endpoint: string;
@@ -570,31 +585,54 @@ export interface OnYourDataEmbeddingEndpointDependency
   authentication: OnYourDataAuthenticationOptions;
 }
 
-/** The embedding dependency based on deployment name */
-export interface OnYourDataEmbeddingDeploymentNameDependency
-  extends OnYourDataEmbeddingDependencyParent {
-  /** The embedding dependency based on deployment name */
+/**
+ * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
+ * on an internal embeddings model deployment name in the same Azure OpenAI resource.
+ */
+export interface OnYourDataDeploymentNameVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
+  /** The type of vectorization source to use. Always 'DeploymentName' for this type. */
   type: "DeploymentName";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
   deploymentName: string;
 }
 
-/** The embedding dependency based on model id */
-export interface OnYourDataEmbeddingModelIdDependency
-  extends OnYourDataEmbeddingDependencyParent {
-  /** The embedding dependency based on model id */
+/**
+ * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
+ * on a search service model ID. Currently only supported by Elasticsearch®.
+ */
+export interface OnYourDataModelIdVectorizationSource
+  extends OnYourDataVectorizationSourceParent {
+  /** The type of vectorization source to use. Always 'ModelId' for this type. */
   type: "ModelId";
-  /** The embedding model id build inside the search service. Currently only supported by Elasticsearch. */
+  /** The embedding model ID build inside the search service. Currently only supported by Elasticsearch®. */
   modelId: string;
 }
 
 /**
- * A specific representation of configurable options for Azure Machine Learning index when using it as an Azure OpenAI chat
- * extension.
+ * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
+ * OpenAI chat extension.
  */
 export interface AzureMachineLearningIndexChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
-  /** The authentication option to access the data. */
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Azure Machine Learning vector index.
+   */
+  type: "AzureMLIndex";
+  /** The parameters for the Azure Machine Learning vector index chat extension. */
+  parameters: AzureMachineLearningIndexChatExtensionParameters;
+}
+
+/** Parameters for the Azure Machine Learning vector index chat extension. */
+export interface AzureMachineLearningIndexChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
   authentication?: OnYourDataAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
@@ -604,18 +642,13 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration
   strictness?: number;
   /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
   roleInformation?: string;
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Machine Learning index.
-   */
-  type: "AzureMLIndex";
-  /** The resource id of the Azure Machine Learning project. */
+  /** The resource ID of the Azure Machine Learning project. */
   projectResourceId: string;
-  /** The Azure Machine Learning index name. */
+  /** The Azure Machine Learning vector index name. */
   name: string;
-  /** The version of the Azure Machine Learning index. */
+  /** The version of the Azure Machine Learning vector index. */
   version: string;
-  /** Search filter. Only supported if the MLIndex is of type AzureSearch. */
+  /** Search filter. Only supported if the Azure Machine Learning vector index is of type AzureSearch. */
   filter?: string;
 }
 
@@ -625,7 +658,27 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration
  */
 export interface AzureCosmosDBChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
-  /** The authentication option to access the data. */
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Azure Cosmos DB.
+   */
+  type: "AzureCosmosDB";
+  /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
+  parameters: AzureCosmosDBChatExtensionParameters;
+}
+
+/**
+ * Parameters to use when configuring Azure OpenAI On Your Data chat extensions when using Azure Cosmos DB for
+ * MongoDB vCore.
+ */
+export interface AzureCosmosDBChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
   authentication?: OnYourDataAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
@@ -635,21 +688,16 @@ export interface AzureCosmosDBChatExtensionConfiguration
   strictness?: number;
   /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
   roleInformation?: string;
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Cosmos DB.
-   */
-  type: "AzureCosmosDB";
-  /** The database name of Azure Cosmos DB. */
+  /** The MongoDB vCore database name to use with Azure Cosmos DB. */
   databaseName: string;
-  /** The container name name of Azure Cosmos DB. */
+  /** The name of the Azure Cosmos DB resource container. */
   containerName: string;
-  /** The index name name of Azure Cosmos DB. */
+  /** The MongoDB vCore index name to use with Azure Cosmos DB. */
   indexName: string;
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: AzureCosmosDBFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataEmbeddingDependency;
+  embeddingDependency?: OnYourDataVectorizationSource;
 }
 
 /** Optional settings to control how fields are processed when using a configured Azure Cosmos DB resource. */
@@ -664,7 +712,24 @@ export interface AzureCosmosDBFieldMappingOptions {
  */
 export interface ElasticsearchChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
-  /** The authentication option to access the data. */
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Elasticsearch®.
+   */
+  type: "Elasticsearch";
+  /** The parameters to use when configuring Elasticsearch®. */
+  parameters: ElasticsearchChatExtensionParameters;
+}
+
+/** Parameters to use when configuring Elasticsearch® as an Azure OpenAI chat extension. */
+export interface ElasticsearchChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
   authentication?: OnYourDataAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
@@ -674,28 +739,23 @@ export interface ElasticsearchChatExtensionConfiguration
   strictness?: number;
   /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
   roleInformation?: string;
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Elasticsearch.
-   */
-  type: "Elasticsearch";
-  /** The endpoint of Elasticsearch. */
+  /** The endpoint of Elasticsearch®. */
   endpoint: string;
-  /** The index name of Elasticsearch. */
+  /** The index name of Elasticsearch®. */
   indexName: string;
-  /** The index field mapping options of Elasticsearch. */
+  /** The index field mapping options of Elasticsearch®. */
   fieldsMapping?: ElasticsearchIndexFieldMappingOptions;
   /**
-   * The query type of Elasticsearch.
+   * The query type of Elasticsearch®.
    *
    * Possible values: simple, vector
    */
   queryType?: string;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataEmbeddingDependency;
+  embeddingDependency?: OnYourDataVectorizationSource;
 }
 
-/** Optional settings to control how fields are processed when using a configured Elasticsearch resource. */
+/** Optional settings to control how fields are processed when using a configured Elasticsearch® resource. */
 export interface ElasticsearchIndexFieldMappingOptions {
   /** The name of the index field to use as a title. */
   titleField?: string;
@@ -717,7 +777,24 @@ export interface ElasticsearchIndexFieldMappingOptions {
  */
 export interface PineconeChatExtensionConfiguration
   extends AzureChatExtensionConfigurationParent {
-  /** The authentication option to access the data. */
+  /**
+   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
+   * default value for Pinecone.
+   */
+  type: "Pinecone";
+  /** The parameters to use when configuring Azure OpenAI chat extensions. */
+  parameters: PineconeChatExtensionParameters;
+}
+
+/** Parameters for configuring Azure OpenAI Pinecone chat extensions. */
+export interface PineconeChatExtensionParameters {
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
   authentication?: OnYourDataAuthenticationOptions;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
@@ -727,19 +804,14 @@ export interface PineconeChatExtensionConfiguration
   strictness?: number;
   /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
   roleInformation?: string;
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Pinecone.
-   */
-  type: "Pinecone";
   /** The environment name of Pinecone. */
   environment: string;
-  /** The index name name of Pinecone. */
+  /** The name of the Pinecone database index. */
   indexName: string;
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: PineconeFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataEmbeddingDependency;
+  embeddingDependency?: OnYourDataVectorizationSource;
 }
 
 /** Optional settings to control how fields are processed when using a configured Pinecone resource. */
@@ -810,7 +882,10 @@ export interface ChatCompletionsNamedFunctionToolSelection
 
 /** Represents the request data used to generate images. */
 export interface ImageGenerationOptions {
-  /** The model to use for image generation. */
+  /**
+   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
+   * inferred as a default.
+   */
   model?: string;
   /** A description of the desired images. */
   prompt: string;
@@ -906,18 +981,18 @@ export type AzureChatExtensionConfiguration =
   | AzureCosmosDBChatExtensionConfiguration
   | ElasticsearchChatExtensionConfiguration
   | PineconeChatExtensionConfiguration;
-/** The authentication options for Azure OpenAI on your data. */
+/** The authentication options for Azure OpenAI On Your Data. */
 export type OnYourDataAuthenticationOptions =
   | OnYourDataApiKeyAuthenticationOptions
   | OnYourDataConnectionStringAuthenticationOptions
   | OnYourDataKeyAndKeyIdAuthenticationOptions
   | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
-/** Embedding dependency for vector search. */
-export type OnYourDataEmbeddingDependency =
-  | OnYourDataEmbeddingEndpointDependency
-  | OnYourDataEmbeddingDeploymentNameDependency
-  | OnYourDataEmbeddingModelIdDependency;
+/** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
+export type OnYourDataVectorizationSource =
+  | OnYourDataEndpointVectorizationSource
+  | OnYourDataDeploymentNameVectorizationSource
+  | OnYourDataModelIdVectorizationSource;
 /** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
 export type ChatCompletionsToolDefinition =
   ChatCompletionsFunctionToolDefinition;

@@ -14,14 +14,25 @@ import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AuthMethod } from "./recordedClient.js";
 import {
   Recorder,
   assertEnvironmentVariable,
   isLiveMode,
   isRecordMode,
 } from "@azure-tools/test-recorder";
-import { OpenAIKeyCredential } from "../../../src/index.js";
+import {
+  AzureCognitiveSearchChatExtensionConfiguration,
+  OpenAIKeyCredential,
+} from "../../../src/index.js";
+import {
+  EnvironmentVariableNamesAzureCommon,
+  EnvironmentVariableNamesForAzureSearch,
+  EnvironmentVariableNamesForCompletions,
+  EnvironmentVariableNamesForDalle,
+  EnvironmentVariableNamesForWhisper,
+  EnvironmentVariableNamesOpenAI,
+} from "./envVars.js";
+import { AuthMethod, DeploymentType } from "../types.js";
 
 function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
@@ -35,9 +46,10 @@ export async function withDeployments<T>(
   const errors = [];
   const succeeded = [];
   assert.isNotEmpty(deployments, "No deployments found");
+  let i = 0;
   for (const deployment of deployments) {
     try {
-      console.log(`testing with ${deployment}`);
+      console.log(`[${++i}/${deployments.length}] testing with ${deployment}`);
       const res = await run(deployment);
       if (!isRecordMode()) {
         validate(res);
@@ -48,7 +60,9 @@ export async function withDeployments<T>(
       if (!e) continue;
       const errorStr = toString(error);
       if (
-        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded"].includes(error.code) ||
+        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429"].includes(
+          error.code
+        ) ||
         error.type === "invalid_request_error"
       ) {
         console.log(`Handled error: ${errorStr}`);
@@ -94,9 +108,10 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
   const response = await sendRequestWithRecorder(request, recorder);
 
   const body = JSON.parse(response.bodyAsText as string);
-  const models = body.data
-    .map((model: { id: string }) => model.id)
-    .filter((id: string) => !id.match(/fine/));
+  type Model = { id: string; owned_by: string };
+  const models = (body.data as Model[])
+    .filter(({ owned_by }) => ["system", "openai"].includes(owned_by))
+    .map(({ id }) => id);
   console.log(`Available models (${models.length}): ${models.join(", ")}`);
   return models;
 }
@@ -160,18 +175,36 @@ export function getSucceeded(
   }
 }
 
-export async function getDeployments(recorder: Recorder): Promise<string[]> {
+function getAccountNameFromResourceType(deploymentType: DeploymentType): string {
+  switch (deploymentType) {
+    case "completions":
+      return assertEnvironmentVariable(
+        EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS
+      );
+    case "dalle":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForDalle.ACCOUNT_NAME_DALLE);
+    case "whisper":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForWhisper.ACCOUNT_NAME_WHISPER);
+  }
+}
+
+export async function getDeployments(
+  deploymentType: DeploymentType,
+  recorder: Recorder
+): Promise<string[]> {
   return listDeployments(
-    assertEnvironmentVariable("SUBSCRIPTION_ID"),
-    assertEnvironmentVariable("RESOURCE_GROUP"),
-    assertEnvironmentVariable("ACCOUNT_NAME"),
+    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
+    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),
+    getAccountNameFromResourceType(deploymentType),
     recorder
   );
 }
 
 export async function getModels(recorder: Recorder): Promise<string[]> {
   return listOpenAIModels(
-    new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+    new OpenAIKeyCredential(
+      assertEnvironmentVariable(EnvironmentVariableNamesOpenAI.OPENAI_API_KEY)
+    ),
     recorder
   );
 }
@@ -182,4 +215,27 @@ export async function bufferAsyncIterable<T>(iter: AsyncIterable<T>): Promise<T[
     result.push(item);
   }
   return result;
+}
+
+export async function get(url: string, recorder: Recorder): Promise<PipelineResponse> {
+  const request = createPipelineRequest({
+    url,
+    method: "GET",
+    headers: createHttpHeaders(),
+    streamResponseStatusCodes: new Set([200]),
+  });
+  return sendRequestWithRecorder(request, recorder);
+}
+
+export function createAzureCognitiveSearchExtension(): AzureCognitiveSearchChatExtensionConfiguration {
+  return {
+    type: "AzureCognitiveSearch",
+    parameters: {
+      endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
+      key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
+      indexName: assertEnvironmentVariable(
+        EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX
+      ),
+    },
+  };
 }

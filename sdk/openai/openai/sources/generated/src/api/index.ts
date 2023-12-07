@@ -6,16 +6,3 @@ export {
   OpenAIClientOptions,
   OpenAIContext,
 } from "./OpenAIContext.js";
-export {
-  getAudioTranscriptionAsPlainText,
-  getAudioTranscriptionAsResponseObject,
-  getAudioTranslationAsPlainText,
-  getAudioTranslationAsResponseObject,
-  getCompletions,
-  getChatCompletions,
-  getChatCompletionsWithAzureExtensions,
-  getImageGenerations,
-  getAzureBatchImageGenerationOperationStatus,
-  beginAzureBatchImageGeneration,
-  getEmbeddings,
-} from "./operations.js";

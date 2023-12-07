@@ -10,9 +10,9 @@ import {
   GetChatCompletionsParameters,
   GetChatCompletionsWithAzureExtensionsParameters,
   GetImageGenerationsParameters,
+  GetEmbeddingsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
   BeginAzureBatchImageGenerationParameters,
-  GetEmbeddingsParameters,
 } from "./parameters.js";
 import {
   GetAudioTranscriptionAsPlainText200Response,
@@ -31,12 +31,12 @@ import {
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationDefaultResponse,
-  GetEmbeddings200Response,
-  GetEmbeddingsDefaultResponse,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -129,6 +129,13 @@ export interface GetImageGenerations {
   >;
 }
 
+export interface GetEmbeddings {
+  /** Return the embeddings for a given prompt. */
+  post(
+    options?: GetEmbeddingsParameters
+  ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
+}
+
 export interface GetAzureBatchImageGenerationOperationStatus {
   /** Returns the status of the images operation */
   get(
@@ -147,13 +154,6 @@ export interface BeginAzureBatchImageGeneration {
     | BeginAzureBatchImageGeneration202Response
     | BeginAzureBatchImageGenerationDefaultResponse
   >;
-}
-
-export interface GetEmbeddings {
-  /** Return the embeddings for a given prompt. */
-  post(
-    options?: GetEmbeddingsParameters
-  ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
 export interface Routes {
@@ -187,6 +187,11 @@ export interface Routes {
     path: "/deployments/{deploymentId}/images/generations",
     deploymentId: string
   ): GetImageGenerations;
+  /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
+  (
+    path: "/deployments/{deploymentId}/embeddings",
+    deploymentId: string
+  ): GetEmbeddings;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/operations/images/{operationId}",
@@ -194,11 +199,6 @@ export interface Routes {
   ): GetAzureBatchImageGenerationOperationStatus;
   /** Resource for '/images/generations:submit' has methods for the following verbs: post */
   (path: "/images/generations:submit"): BeginAzureBatchImageGeneration;
-  /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
-  (
-    path: "/deployments/{deploymentId}/embeddings",
-    deploymentId: string
-  ): GetEmbeddings;
 }
 
 export type OpenAIContext = Client & {
