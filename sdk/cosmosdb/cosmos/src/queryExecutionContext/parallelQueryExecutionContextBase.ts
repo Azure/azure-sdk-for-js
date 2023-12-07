@@ -63,13 +63,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private correlatedActivityId?: string
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
     this.query = query;
     this.options = options;
     this.partitionedQueryExecutionInfo = partitionedQueryExecutionInfo;
+    this.correlatedActivityId = correlatedActivityId;
     this.diagnosticNodeWrapper = {
       consumed: false,
       diagnosticNode: new DiagnosticNodeInternal(
@@ -536,7 +538,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.collectionLink,
       sqlQuerySpec,
       partitionKeyTargetRange,
-      options
+      options,
+      this.correlatedActivityId
     );
   }
 }

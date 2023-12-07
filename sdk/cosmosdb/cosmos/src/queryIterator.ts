@@ -281,7 +281,8 @@ export class QueryIterator<T> {
       this.resourceLink,
       this.query,
       this.options,
-      queryPlan
+      queryPlan,
+      this.correlatedActivityId
     );
   }
 
