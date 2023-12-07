@@ -52,8 +52,6 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
     });
   ```
 
-  Tables, paragraphs and formulas are represented accordingly and may have breaking changes with regards to the content that you may have received using the older `@azure/ai-form-recognizer` library, that relies on older service API versions.
-
 - **Query Fields**
 
   When this feature flag is specified, the service will further extract the values of the fields specified via the queryFields query parameter to supplement any existing fields defined by the model as fallback.
@@ -62,7 +60,10 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
   await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
     contentType: "application/json",
     body: { urlSource: "..." },
-    queryParameters: { queryFields: ["NumberOfGuests", "StoreNumber"] }, // <-- new query parameter
+    queryParameters: {
+      features: ["queryFields"],
+      queryFields: ["NumberOfGuests", "StoreNumber"],
+    }, // <-- new query parameter
   });
   ```
 
@@ -105,6 +106,8 @@ The new `"2023-10-31-preview"` service version comes with some new features and 
 **Retirements/Deprecations**
 
 - `"prebuilt-businessCard"` model is retired.
-- `"prebuilt-document"` model is retired, this model is essentially `"prebuilt-layout"` with `features=keyValuePairs` specified. _(This is only supported as an optional feature for "prebuilt-layout" and "prebuilt-invoice".)_
+- `"prebuilt-document"` model is retired, this model is essentially `"prebuilt-layout"` with `features: ["keyValuePairs"]` specified. _(This is only supported as an optional feature for "prebuilt-layout" and "prebuilt-invoice".)_
 
 If you wish to still use these models, please rely on the older `@azure/ai-form-recognizer` library through the older service API versions.
+
+If you were using the old `@azure/ai-form-recognizer` package, please refer [MIGRATION_GUIDE.MD](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md) for more details.
