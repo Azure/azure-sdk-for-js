@@ -23,29 +23,32 @@ async function monitorsCreate() {
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
+  const body = {
+    name: "myMonitor",
+    location: "West US",
+    properties: {
+      datadogOrganizationProperties: {
+        name: "myOrg",
+        cspm: false,
+        enterpriseAppId: "00000000-0000-0000-0000-000000000000",
+        id: "myOrg123",
+        linkingAuthCode: "someAuthCode",
+        linkingClientId: "00000000-0000-0000-0000-000000000000",
+      },
+      monitoringStatus: "Enabled",
+      userInfo: {
+        name: "Alice",
+        emailAddress: "alice@microsoft.com",
+        phoneNumber: "123-456-7890",
+      },
+    },
+    sku: { name: "free_Monthly" },
+    tags: { environment: "Dev" },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName, {
-    body: {
-      properties: {
-        datadogOrganizationProperties: {
-          name: "testdatadogOrganization",
-        },
-        userInfo: {
-          name: "Alice",
-          emailAddress: "alice@microsoft.com",
-          phoneNumber: "123-456-7890",
-        },
-      },
-      sku: {
-        name: "free_Monthly",
-      },
-      identity: {
-        type: "SystemAssigned",
-      },
-      location: "West US 2",
-    },
-  });
+  const result = await client.monitors.beginCreateAndWait(resourceGroupName, monitorName, options);
   console.log(result);
 }
 

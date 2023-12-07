@@ -24,12 +24,55 @@ async function monitorsUpdateMonitoredSubscriptions() {
   const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const configurationName = "default";
+  const body = {
+    properties: {
+      monitoredSubscriptionList: [
+        {
+          status: "Active",
+          subscriptionId: "/subscriptions/00000000-0000-0000-0000-000000000000",
+          tagRules: {
+            automuting: true,
+            logRules: {
+              filteringTags: [
+                { name: "Environment", action: "Include", value: "Prod" },
+                { name: "Environment", action: "Exclude", value: "Dev" },
+              ],
+              sendAadLogs: false,
+              sendResourceLogs: true,
+              sendSubscriptionLogs: true,
+            },
+            metricRules: { filteringTags: [] },
+          },
+        },
+        {
+          status: "Failed",
+          subscriptionId: "/subscriptions/00000000-0000-0000-0000-000000000001",
+          tagRules: {
+            automuting: true,
+            logRules: {
+              filteringTags: [
+                { name: "Environment", action: "Include", value: "Prod" },
+                { name: "Environment", action: "Exclude", value: "Dev" },
+              ],
+              sendAadLogs: false,
+              sendResourceLogs: true,
+              sendSubscriptionLogs: true,
+            },
+            metricRules: { filteringTags: [] },
+          },
+        },
+      ],
+      operation: "AddComplete",
+    },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.monitoredSubscriptions.beginUpdateAndWait(
     resourceGroupName,
     monitorName,
     configurationName,
+    options,
   );
   console.log(result);
 }
