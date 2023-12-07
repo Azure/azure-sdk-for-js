@@ -18,20 +18,20 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Content-Length": "32076",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
+        "Content-Length": "32067",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Jul 2023 04:52:03 GMT",
-        "MS-CV": "aQ7BLDodEUiu7qWsSb2KJQ.0",
+        "Date": "Thu, 07 Dec 2023 17:37:16 GMT",
+        "MS-CV": "iWfXvGYOWkiYjYIwx3GfFQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "08yWyZAAAAAA1\u002B02/mKluQJDd7\u002BYuvQgPV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0ywJyZQAAAAACsTfWt6zCTYnGNrcTbrx8V1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1285ms"
+        "X-Processing-Time": "1702ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -41,7 +41,7 @@
             "countryCode": "US",
             "phoneNumberType": "geographic",
             "capabilities": {
-              "calling": "inbound\u002Boutbound",
+              "calling": "inbound",
               "sms": "none"
             },
             "assignmentType": "application",
@@ -1757,20 +1757,20 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Content-Length": "32341",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
+        "Content-Length": "32320",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Jul 2023 04:52:04 GMT",
-        "MS-CV": "TLSK23Rdd0arm\u002BW4SM09ng.0",
+        "Date": "Thu, 07 Dec 2023 17:37:17 GMT",
+        "MS-CV": "bQN/BVB8/k2ENLQa8LY8KQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09CWyZAAAAADqIgU\u002BPRc4Qoj5o0bKfrh5V1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0zAJyZQAAAABkNyHnF2MnRpUnsniYesczV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1307ms"
+        "X-Processing-Time": "1733ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -3259,8 +3259,8 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "inbound\u002Boutbound",
-              "sms": "inbound\u002Boutbound"
+              "calling": "inbound",
+              "sms": "none"
             },
             "assignmentType": "application",
             "purchaseDate": "2021-06-23T23:19:17.7166571\u002B00:00",
@@ -3496,20 +3496,20 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
-        "Content-Length": "12086",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
+        "Content-Length": "12397",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Sat, 15 Jul 2023 04:52:06 GMT",
-        "MS-CV": "hDjkjC4bVEOR37wjdvPqHw.0",
+        "Date": "Thu, 07 Dec 2023 17:37:19 GMT",
+        "MS-CV": "piJ13tp0DUG\u002BZpYVQQHpEQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "09SWyZAAAAAAioDj9xLKDTIb/VoaEF1SpV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0zgJyZQAAAADYiKTHv9GxS5k6JjAcLMkUV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1409ms"
+        "X-Processing-Time": "1599ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -3966,6 +3966,23 @@
             },
             "assignmentType": "application",
             "purchaseDate": "2021-06-23T23:49:12.0653887\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "none",
+              "sms": "inbound\u002Boutbound"
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2023-10-26T13:04:04.8678374\u002B00:00",
             "cost": {
               "amount": 2.0,
               "currencyCode": "USD",

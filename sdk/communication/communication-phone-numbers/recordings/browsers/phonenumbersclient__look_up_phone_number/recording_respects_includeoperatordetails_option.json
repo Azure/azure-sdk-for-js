@@ -5,15 +5,23 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "33",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "/ezjP3Mtor4OGiaMKaeUtsOelGFmMNL\u002BVAbukk8Na3Y=",
-        "x-ms-date": "Thu, 07 Dec 2023 17:36:31 GMT",
+        "x-ms-date": "Thu, 07 Dec 2023 17:39:34 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
@@ -26,12 +34,12 @@
         "api-supported-versions": "2023-05-01-preview, 2024-03-01",
         "Content-Length": "260",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Dec 2023 17:36:31 GMT",
-        "MS-CV": "H/WvK2ka0k\u002BqKm2UDr\u002Bd6w.0",
+        "Date": "Thu, 07 Dec 2023 17:39:33 GMT",
+        "MS-CV": "\u002BhOOMktKTky6LjOEEG\u002BamQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0ngJyZQAAAACceylnqk7DQr7lGIm28FplV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0VgNyZQAAAACovKNxlDLeT4YfgotpY\u002Bx4V1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "523ms"
+        "X-Processing-Time": "433ms"
       },
       "ResponseBody": {
         "values": [
@@ -55,15 +63,23 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "33",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.1 OS/(x64-Windows_NT-10.0.22621)",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "/ezjP3Mtor4OGiaMKaeUtsOelGFmMNL\u002BVAbukk8Na3Y=",
-        "x-ms-date": "Thu, 07 Dec 2023 17:36:31 GMT",
+        "x-ms-date": "Thu, 07 Dec 2023 17:39:35 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
@@ -76,12 +92,12 @@
         "api-supported-versions": "2023-05-01-preview, 2024-03-01",
         "Content-Length": "180",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Dec 2023 17:36:31 GMT",
-        "MS-CV": "myNJevcM3kG51hRJBrz6IA.0",
+        "Date": "Thu, 07 Dec 2023 17:39:34 GMT",
+        "MS-CV": "JRWvk97oMEGz0K1jf3yw0w.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0nwJyZQAAAAD77M7pD4VPQrzITupJZfBDV1NURURHRTA4MDcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0VgNyZQAAAACuIZqHOd\u002BoQJ\u002BNiJDvlPF2V1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "20ms"
+        "X-Processing-Time": "21ms"
       },
       "ResponseBody": {
         "values": [
