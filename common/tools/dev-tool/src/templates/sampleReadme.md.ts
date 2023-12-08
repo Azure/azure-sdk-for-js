@@ -155,13 +155,13 @@ function createReadmeLink(info: SampleReadmeConfiguration) {
 /**
  * Creates a README for a sample package from a SampleReadmeConfiguration.
  */
-export default async (info: SampleReadmeConfiguration): Promise<string> => {
+export default (info: SampleReadmeConfiguration): Promise<string> => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
 
   const language = info.useTypeScript ? "TypeScript" : "JavaScript";
 
-  return await format(
+  return format(
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}${info.isBeta ? " (Beta)" : ""}
 
