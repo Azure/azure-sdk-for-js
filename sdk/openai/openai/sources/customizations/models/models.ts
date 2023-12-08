@@ -11,7 +11,6 @@ import {
   AzureCosmosDBChatExtensionParameters,
   AzureCosmosDBFieldMappingOptions,
   AzureMachineLearningIndexChatExtensionParameters,
-  ChatMessageImageUrl,
   ChatRole,
   CompletionsFinishReason,
   CompletionsLogProbabilityModel,
@@ -565,9 +564,6 @@ export type OnYourDataVectorizationSourceType = "Endpoint" | "DeploymentName" | 
 /** The type of Elasticsearch® retrieval query that should be executed when using it as an Azure OpenAI chat extension. */
 /** "simple", "vector" */
 export type ElasticsearchQueryType = "simple" | "vector";
-/** The valid response formats Chat Completions can provide. Used to enable JSON mode. */
-/** "text", "json_object" */
-export type ChatCompletionsResponseFormat = "text" | "json_object";
 /** Represents a generic policy for how a chat completions tool may be selected. */
 /** "auto", "none" */
 export type ChatCompletionsToolSelectionPreset = "auto" | "none";
@@ -909,4 +905,38 @@ export interface PineconeChatExtensionConfiguration {
   fieldsMapping: PineconeFieldMappingOptions;
   /** The embedding dependency for vector search. */
   embeddingDependency?: OnYourDataVectorizationSource;
+}
+/** The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
+content that adheres to a specific schema. */
+export interface ChatCompletionsTextResponseFormat {
+  /** The object type, which is always 'text' for this object. */
+  type: "text";
+}
+/** A response format for Chat Completions that restricts responses to emitting valid JSON objects.
+ */
+export interface ChatCompletionsJsonResponseFormat {
+  /** The object type, which is always 'json_object' for this object. */
+  type: "json_object";
+}
+
+/** The valid response formats Chat Completions can provide. Used to enable JSON mode. */
+export type ChatCompletionsResponseFormat =
+  | ChatCompletionsTextResponseFormat
+  | ChatCompletionsJsonResponseFormat;
+
+/** A representation of the possible image detail levels for image-based chat completions message content. */
+/** "auto", "low", "high" */
+export type ChatMessageImageDetailLevel = "auto" | "low" | "high";
+
+/** An internet location from which the model may retrieve an image. */
+export interface ChatMessageImageUrl {
+  /** The URL of the image. */
+  url: string;
+  /**
+   * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
+   * accuracy.
+   *
+   * Possible values: auto, low, high
+   */
+  detail?: ChatMessageImageDetailLevel;
 }

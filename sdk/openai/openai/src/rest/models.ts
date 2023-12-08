@@ -270,7 +270,7 @@ export interface ChatCompletionsOptions {
    *
    * Possible values: text, json_object
    */
-  response_format?: string;
+  response_format?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
   tools?: Array<ChatCompletionsToolDefinition>;
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
@@ -996,3 +996,21 @@ export type OnYourDataVectorizationSource =
 export type ChatCompletionsToolDefinition = ChatCompletionsFunctionToolDefinition;
 /** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
 export type ChatCompletionsNamedToolSelection = ChatCompletionsNamedFunctionToolSelection;
+
+/** The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
+content that adheres to a specific schema. */
+export interface ChatCompletionsTextResponseFormat {
+  /** The object type, which is always 'text' for this object. */
+  type: "text";
+}
+/** A response format for Chat Completions that restricts responses to emitting valid JSON objects.
+ */
+export interface ChatCompletionsJsonResponseFormat {
+  /** The object type, which is always 'json_object' for this object. */
+  type: "json_object";
+}
+
+/** The valid response formats Chat Completions can provide. Used to enable JSON mode. */
+export type ChatCompletionsResponseFormat =
+  | ChatCompletionsTextResponseFormat
+  | ChatCompletionsJsonResponseFormat;

@@ -193,7 +193,7 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
+                (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
                 assertChatCompletions
               ),
               chatCompletionDeployments,
@@ -259,13 +259,86 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   client.getChatCompletions(deploymentName, byodMessages, {
                     azureExtensionOptions: {
                       extensions: [createAzureCognitiveSearchExtension()],
                     },
                   }),
                 assertChatCompletions
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
+
+          it("doesn't call tools if toolChoice is set to none", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [{ role: "user", content: "What's the weather like in Boston?" }],
+                    {
+                      toolChoice: "none",
+                      tools: [{ type: "function", function: getCurrentWeather }],
+                    }
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  assert.isEmpty(res.choices[0].message?.toolCalls);
+                  assert.isUndefined(res.choices[0].message?.functionCall);
+                }
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
+
+          it("respects json_object responseFormat", async function () {
+            if (authMethod !== "OpenAIKey") {
+              this.skip();
+            }
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [
+                      {
+                        role: "user",
+                        content:
+                          "Answer the following question in JSON format: What are the capital cities in Africa?",
+                      },
+                    ],
+                    { responseFormat: { type: "json_object" } }
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  const content = res.choices[0].message?.content;
+                  if (!content) assert.fail("Undefined content");
+                  try {
+                    JSON.parse(content);
+                  } catch (e) {
+                    assert.fail(`Invalid JSON: ${content}`);
+                  }
+                }
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -285,9 +358,9 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(client.listChatCompletions(deploymentName, pirateMessages)),
-                async (res) =>
+                (res) =>
                   assertChatCompletionsList(res, {
                     // The API returns an empty choice in the first event for some
                     // reason. This should be fixed in the API.
@@ -304,9 +377,6 @@ describe("OpenAI", function () {
           });
 
           it("calls functions", async function () {
-            const weatherMessages = [
-              { role: "user", content: "What's the weather like in Boston?" } as const,
-            ];
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(
@@ -316,11 +386,15 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(
-                    client.listChatCompletions(deploymentName, weatherMessages, {
-                      functions: [getCurrentWeather],
-                    })
+                    client.listChatCompletions(
+                      deploymentName,
+                      [{ role: "user", content: "What's the weather like in Boston?" }],
+                      {
+                        functions: [getCurrentWeather],
+                      }
+                    )
                   ),
                 (res) =>
                   assertChatCompletionsList(res, {
@@ -349,7 +423,7 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(
                     client.listChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {

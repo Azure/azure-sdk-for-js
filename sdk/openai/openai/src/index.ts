@@ -111,4 +111,6 @@ export {
   OnYourDataModelIdVectorizationSource,
   OnYourDataSystemAssignedManagedIdentityAuthenticationOptions,
   OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
+  ChatCompletionsTextResponseFormat,
+  ChatCompletionsJsonResponseFormat,
 } from "./models/index.js";

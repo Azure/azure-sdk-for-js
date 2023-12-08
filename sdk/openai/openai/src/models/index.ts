@@ -113,6 +113,8 @@ export {
   OnYourDataModelIdVectorizationSource,
   OnYourDataSystemAssignedManagedIdentityAuthenticationOptions,
   OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
+  ChatCompletionsTextResponseFormat,
+  ChatCompletionsJsonResponseFormat,
 } from "./models.js";
 export {
   ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions,

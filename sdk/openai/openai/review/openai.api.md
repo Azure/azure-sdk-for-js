@@ -229,6 +229,11 @@ export interface ChatCompletionsFunctionToolDefinition {
 }
 
 // @public
+export interface ChatCompletionsJsonResponseFormat {
+    type: "json_object";
+}
+
+// @public
 export interface ChatCompletionsNamedFunctionToolSelection {
     name: string;
     type: "function";
@@ -238,7 +243,12 @@ export interface ChatCompletionsNamedFunctionToolSelection {
 export type ChatCompletionsNamedToolSelection = ChatCompletionsToolSelectionPreset | ChatCompletionsNamedFunctionToolSelection;
 
 // @public
-export type ChatCompletionsResponseFormat = "text" | "json_object";
+export type ChatCompletionsResponseFormat = ChatCompletionsTextResponseFormat | ChatCompletionsJsonResponseFormat;
+
+// @public
+export interface ChatCompletionsTextResponseFormat {
+    type: "text";
+}
 
 // @public
 export type ChatCompletionsToolCall = ChatCompletionsFunctionToolCall;
@@ -262,11 +272,11 @@ export interface ChatMessageImageContentItem {
 }
 
 // @public
-export type ChatMessageImageDetailLevel = string;
+export type ChatMessageImageDetailLevel = "auto" | "low" | "high";
 
 // @public
 export interface ChatMessageImageUrl {
-    detail?: string;
+    detail?: ChatMessageImageDetailLevel;
     url: string;
 }
 
