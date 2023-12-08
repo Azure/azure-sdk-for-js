@@ -6,11 +6,8 @@ import {
   AzureChatEnhancementConfiguration,
   AzureChatEnhancements,
   AzureChatExtensionsMessageContext,
-  AzureCognitiveSearchChatExtensionParameters,
   AzureCognitiveSearchIndexFieldMappingOptions,
-  AzureCosmosDBChatExtensionParameters,
   AzureCosmosDBFieldMappingOptions,
-  AzureMachineLearningIndexChatExtensionParameters,
   ChatRole,
   CompletionsFinishReason,
   CompletionsLogProbabilityModel,
@@ -19,10 +16,8 @@ import {
   ContentFilterCitedDetectionResult,
   ContentFilterDetectionResult,
   ContentFilterResult,
-  ElasticsearchChatExtensionParameters,
   ElasticsearchIndexFieldMappingOptions,
   FunctionCall,
-  PineconeChatExtensionParameters,
   PineconeFieldMappingOptions,
 } from "../../generated/src/models/models.js";
 
@@ -419,76 +414,6 @@ export interface AzureExtensionsOptions {
   extensions?: AzureChatExtensionConfiguration[];
   /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
   enhancements?: AzureChatEnhancementConfiguration;
-}
-
-/**
- * A specific representation of configurable options for Azure Cognitive Search when using it as an Azure OpenAI chat
- * extension.
- */
-export interface AzureCognitiveSearchChatExtensionConfiguration {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Cognitive Search.
-   */
-  type: "AzureCognitiveSearch";
-  /** The parameters to use when configuring Azure Cognitive Search. */
-  parameters: AzureCognitiveSearchChatExtensionParameters;
-}
-
-/**
- * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
- * OpenAI chat extension.
- */
-export interface AzureMachineLearningIndexChatExtensionConfiguration {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Machine Learning vector index.
-   */
-  type: "AzureMLIndex";
-  /** The parameters for the Azure Machine Learning vector index chat extension. */
-  parameters: AzureMachineLearningIndexChatExtensionParameters;
-}
-
-/**
- * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
- * extension.
- */
-export interface AzureCosmosDBChatExtensionConfiguration {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Cosmos DB.
-   */
-  type: "AzureCosmosDB";
-  /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
-  parameters: AzureCosmosDBChatExtensionParameters;
-}
-
-/**
- * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
- * extension.
- */
-export interface ElasticsearchChatExtensionConfiguration {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Elasticsearch®.
-   */
-  type: "Elasticsearch";
-  /** The parameters to use when configuring Elasticsearch®. */
-  parameters: ElasticsearchChatExtensionParameters;
-}
-
-/**
- * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
- * extension.
- */
-export interface PineconeChatExtensionConfiguration {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Pinecone.
-   */
-  type: "Pinecone";
-  /** The parameters to use when configuring Azure OpenAI chat extensions. */
-  parameters: PineconeChatExtensionParameters;
 }
 
 /**
