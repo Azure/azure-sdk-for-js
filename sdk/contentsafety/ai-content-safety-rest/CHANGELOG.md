@@ -14,18 +14,18 @@ Contract change for AnalyzeText, AnalyzeImage, Blocklist management related para
 #### AnalyzeText
 
 - AnalyzeTextOptions
-  - Renamed breakByBlocklists to haltOnBlocklistHit
-  - Add outputType
+  - Renamed `breakByBlocklists` to `haltOnBlocklistHit`
+  - Add `outputType`
 - AnalyzeTextResultOutput
-  - Renamed blocklistsMatchResults to blocklistsMatch
-  - Replaced TextAnalyzeSeverityResultOutput by TextCategoriesAnalysisOutput
+  - Renamed `blocklistsMatchResults` to `blocklistsMatch`
+  - Replaced `TextAnalyzeSeverityResultOutput` by `TextCategoriesAnalysisOutput`
 
 #### AnalyzeImage
 
 - AnalyzeImageOptions
-  - Add outputType
+  - Add `outputType`
 - AnalyzeImageResultOutput
-  - Replaced ImageAnalyzeSeverityResultOutput by ImageCategoriesAnalysisOutput
+  - Replaced `ImageAnalyzeSeverityResultOutput` by `ImageCategoriesAnalysisOutput`
 
 #### Blocklist management
 
