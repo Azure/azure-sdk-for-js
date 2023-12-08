@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.8",
+  "version": "1.0.0-beta.9",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
@@ -70,6 +70,7 @@
     "types/openai.d.ts",
     "types/src",
     "README.md",
+    "CHANGELOG.md",
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
