@@ -8,8 +8,11 @@ export {
   getAudioTranscription,
   getAudioTranslation,
   getImages,
-} from "./operations.js";
-export { getEmbeddings, getCompletions } from "../../generated/src/api/operations.js";
+} from "./client/openAIClient/index.js";
+export {
+  getEmbeddings,
+  getCompletions,
+} from "../../generated/src/api/client/openAIClient/index.js";
 export {
   createOpenAI,
   OpenAIContext,
