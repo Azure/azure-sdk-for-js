@@ -16,7 +16,7 @@ import {
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import GeographyPoint from "./geographyPoint";
-import { IsEqual, IsNever } from "type-plus";
+import { IsAny, IsEqual, IsNever, IsUnknown } from "type-plus";
 
 /**
  * Options for performing the count operation on the index.
@@ -789,13 +789,11 @@ export type ExcludedODataTypes = Date | GeographyPoint;
  */
 export type SelectFields<TModel extends object> =
   // If T is never, any, or object, resolves to string
-  IsEqual<
+  IsNever<
     TModel,
-    never,
     string,
-    IsEqual<
+    IsAny<
       TModel,
-      any,
       string,
       IsEqual<
         TModel,
@@ -817,9 +815,8 @@ export type SelectFields<TModel extends object> =
                     : // Extract subpaths from T[Key]
                     SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths
                     ? // This check is required to avoid distributing `never` over the condition
-                      IsEqual<
+                      IsNever<
                         NextPaths,
-                        never,
                         Key,
                         NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key
                       >
@@ -844,13 +841,11 @@ export type SearchPick<TModel extends object, TFields extends SelectFields<TMode
   TModel,
   object,
   TModel,
-  IsEqual<
+  IsAny<
     TFields,
-    any,
     TModel,
-    IsEqual<
+    IsNever<
       TFields,
-      never,
       TModel,
       IsEqual<
         TFields,
@@ -924,25 +919,21 @@ export type NarrowedModel<
   TFields extends SelectFields<TModel> = SelectFields<TModel>
 > =
   // If the model isn't specified, the type is the same as the input type
-  IsEqual<
+  IsNever<
     TModel,
-    never,
     TModel,
     IsEqual<
       TModel,
       object,
       TModel,
-      IsEqual<
+      IsAny<
         TModel,
-        any,
         TModel,
-        IsEqual<
+        IsUnknown<
           TModel,
-          unknown,
           TModel,
-          IsEqual<
+          IsNever<
             TFields,
-            never,
             // If fields aren't specified, this object can't exist
             never,
             IsEqual<
@@ -963,18 +954,16 @@ export type NarrowedModel<
 export type SuggestNarrowedModel<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>
-> = IsEqual<
+> = IsNever<
   TModel,
-  never,
   TModel,
   IsEqual<
     TModel,
     object,
     TModel,
     UnionToIntersection<
-      IsEqual<
+      IsNever<
         TFields,
-        never,
         // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
         // service by default
         keyof ExtractDocumentKey<TModel> extends never

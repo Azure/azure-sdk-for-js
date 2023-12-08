@@ -8,8 +8,10 @@
 
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import { IsAny } from 'type-plus';
 import { IsEqual } from 'type-plus';
 import { IsNever } from 'type-plus';
+import { IsUnknown } from 'type-plus';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -1576,7 +1578,7 @@ export type MicrosoftStemmingTokenizerLanguage = "arabic" | "bangla" | "bulgaria
 export type MicrosoftTokenizerLanguage = "bangla" | "bulgarian" | "catalan" | "chineseSimplified" | "chineseTraditional" | "croatian" | "czech" | "danish" | "dutch" | "english" | "french" | "german" | "greek" | "gujarati" | "hindi" | "icelandic" | "indonesian" | "italian" | "japanese" | "kannada" | "korean" | "malay" | "malayalam" | "marathi" | "norwegianBokmaal" | "polish" | "portuguese" | "portugueseBrazilian" | "punjabi" | "romanian" | "russian" | "serbianCyrillic" | "serbianLatin" | "slovenian" | "spanish" | "swedish" | "tamil" | "telugu" | "thai" | "ukrainian" | "urdu" | "vietnamese";
 
 // @public
-export type NarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, IsEqual<TModel, any, TModel, IsEqual<TModel, unknown, TModel, IsEqual<TFields, never, never, IsEqual<TFields, SelectFields<TModel>, TModel, SearchPick<TModel, TFields>>>>>>> & {};
+export type NarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsNever<TModel, TModel, IsEqual<TModel, object, TModel, IsAny<TModel, TModel, IsUnknown<TModel, TModel, IsNever<TFields, never, IsEqual<TFields, SelectFields<TModel>, TModel, SearchPick<TModel, TFields>>>>>>> & {};
 
 // @public
 export interface NGramTokenFilter {
@@ -2092,7 +2094,7 @@ export type SearchMode = "any" | "all";
 export type SearchOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SearchRequestOptions<TModel, TFields>;
 
 // @public
-export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> = IsEqual<TModel, object, TModel, IsEqual<TFields, any, TModel, IsEqual<TFields, never, TModel, IsEqual<TFields, SelectFields<TModel>, TModel, UnionToIntersection<TFields extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof TModel & string ? NonNullable<TModel[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
+export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> = IsEqual<TModel, object, TModel, IsAny<TFields, TModel, IsNever<TFields, TModel, IsEqual<TFields, SelectFields<TModel>, TModel, UnionToIntersection<TFields extends `${infer FieldName}/${infer RestPaths}` ? FieldName extends keyof TModel & string ? NonNullable<TModel[FieldName]> extends Array<infer Elem> ? Elem extends object ? RestPaths extends SelectFields<Elem> ? {
     [Key in keyof TModel as Key & FieldName]: Array<SearchPick<Elem, RestPaths>>;
 } : never : never : NonNullable<TModel[FieldName]> extends object ? {
     [Key in keyof TModel as Key & FieldName]: RestPaths extends SelectFields<TModel[Key] & {}> ? SearchPick<TModel[Key] & {}, RestPaths> | Extract<TModel[Key], null> : never;
@@ -2146,8 +2148,8 @@ export interface SearchSuggester {
 export type SelectArray<TFields = never> = ReadonlyArray<IsNever<TFields, string, TFields>> & {};
 
 // @public
-export type SelectFields<TModel extends object> = IsEqual<TModel, never, string, IsEqual<TModel, any, string, IsEqual<TModel, object, string, TModel extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
-    [Key in keyof TModel]: Key extends string ? NonNullable<TModel[Key]> extends object ? NonNullable<TModel[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths ? IsEqual<NextPaths, never, Key, NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key> : never : Key : never;
+export type SelectFields<TModel extends object> = IsNever<TModel, string, IsAny<TModel, string, IsEqual<TModel, object, string, TModel extends Array<infer Elem> ? Elem extends object ? SelectFields<Elem> : never : {
+    [Key in keyof TModel]: Key extends string ? NonNullable<TModel[Key]> extends object ? NonNullable<TModel[Key]> extends ExcludedODataTypes ? Key : SelectFields<NonNullable<TModel[Key]>> extends infer NextPaths ? IsNever<NextPaths, Key, NextPaths extends string ? Key | `${Key}/${NextPaths}` : Key> : never : Key : never;
 }[keyof TModel & string] & string>>> & {};
 
 // @public
@@ -2344,7 +2346,7 @@ export interface SuggestDocumentsResult<TModel extends object, TFields extends S
 }
 
 // @public (undocumented)
-export type SuggestNarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsEqual<TModel, never, TModel, IsEqual<TModel, object, TModel, UnionToIntersection<IsEqual<TFields, never, keyof ExtractDocumentKey<TModel> extends never ? TModel : ExtractDocumentKey<TModel>, TFields extends SelectFields<TModel> ? NarrowedModel<TModel, TFields> : never>>>> & {};
+export type SuggestNarrowedModel<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = IsNever<TModel, TModel, IsEqual<TModel, object, TModel, UnionToIntersection<IsNever<TFields, keyof ExtractDocumentKey<TModel> extends never ? TModel : ExtractDocumentKey<TModel>, TFields extends SelectFields<TModel> ? NarrowedModel<TModel, TFields> : never>>>> & {};
 
 // @public
 export type SuggestOptions<TModel extends object, TFields extends SelectFields<TModel> = SelectFields<TModel>> = OperationOptions & SuggestRequest<TModel, TFields>;
