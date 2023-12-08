@@ -8,7 +8,7 @@ features and changes to the client library.
 ### Features Added
 
 - `-1106` model feature support for `gpt-35-turbo` and `gpt-4-turbo`, including use of `seed`, `system_fingerprint`, parallel function calling via tools, "JSON mode" for guaranteed function outputs, and more
-- `dall-e-3` image generation capabilities via `getImageGenerations`, featuring higher model quality, automatic prompt revisions by `gpt-4`, and customizable quality/style settings
+- `dall-e-3` image generation capabilities via `getImages`, featuring higher model quality, automatic prompt revisions by `gpt-4`, and customizable quality/style settings
 - Greatly expanded "On Your Data" capabilities in Azure OpenAI, including many new data source options and authentication mechanisms
 - Early support for `gpt-4-vision-preview`, which allows the hybrid use of text and images as input to enable scenarios like "describe this image for me"
 - Support for Azure enhancements to `gpt-4-vision-preview` results that include grounding and OCR features
