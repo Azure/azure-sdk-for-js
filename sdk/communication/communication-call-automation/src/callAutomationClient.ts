@@ -6,7 +6,6 @@ import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import {
   parseClientArguments,
   isKeyCredential,
-  createCommunicationAuthPolicy,
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
@@ -39,7 +38,7 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { v4 as uuidv4 } from "uuid";
-import { createCallAutomationAuthPolicy } from "./credential/callAutomationAuthPolicy";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
 import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
 /**
@@ -69,6 +68,7 @@ export class CallAutomationClient {
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
   private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
+  private readonly endpoint: string;
   /**
    * Initializes a new instance of the CallAutomationClient class.
    * @param connectionString - Connection string to connect to an Azure Communication Service resource.
@@ -112,29 +112,19 @@ export class CallAutomationClient {
     };
 
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
+    this.endpoint = url;
 
     this.credential = credential;
 
     // create event processor
     this.callAutomationEventProcessor = new CallAutomationEventProcessor();
 
-    // read environment variable for callAutomation auth
-    const customEnabled = process.env.COMMUNICATION_CUSTOM_ENDPOINT_ENABLED;
-    const customUrl = process.env.COMMUNICATION_CUSTOM_URL;
-
-    if (customEnabled?.toLowerCase() === "true" && customUrl) {
-      // add custom header for Call Automation auth when flag is true
-      this.callAutomationApiClient = new CallAutomationApiClient(
-        customUrl,
-        this.internalPipelineOptions
-      );
-      const callAutomationAuthPolicy = createCallAutomationAuthPolicy(credential, url);
-      this.callAutomationApiClient.pipeline.addPolicy(callAutomationAuthPolicy);
-    } else {
-      this.callAutomationApiClient = new CallAutomationApiClient(url, this.internalPipelineOptions);
-      const authPolicy = createCommunicationAuthPolicy(credential);
-      this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
-    }
+    // create api client (using custom api endpoint if available)
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      this.internalPipelineOptions,
+      this.endpoint
+    );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
   }
@@ -146,7 +136,7 @@ export class CallAutomationClient {
   public getCallConnection(callConnectionId: string): CallConnection {
     return new CallConnection(
       callConnectionId,
-      this.callAutomationApiClient.endpoint,
+      this.endpoint,
       this.credential,
       this.callAutomationEventProcessor,
       this.internalPipelineOptions
@@ -157,11 +147,7 @@ export class CallAutomationClient {
    * Initializes a new instance of CallRecording.
    */
   public getCallRecording(): CallRecording {
-    return new CallRecording(
-      this.callAutomationApiClient.endpoint,
-      this.credential,
-      this.internalPipelineOptions
-    );
+    return new CallRecording(this.endpoint, this.credential, this.internalPipelineOptions);
   }
 
   /**
@@ -205,7 +191,7 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         callConnectionId,
-        this.callAutomationApiClient.endpoint,
+        this.endpoint,
         this.credential,
         this.callAutomationEventProcessor,
         this.internalPipelineOptions
@@ -257,6 +243,7 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!
       ),
@@ -286,6 +273,7 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -307,12 +295,14 @@ export class CallAutomationClient {
     const {
       callIntelligenceOptions,
       mediaStreamingConfiguration,
+      transcriptionConfiguration,
       operationContext,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
       mediaStreamingConfiguration: mediaStreamingConfiguration,
+      transcriptionConfiguration: transcriptionConfiguration,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,
@@ -339,7 +329,7 @@ export class CallAutomationClient {
       };
       const callConnection = new CallConnection(
         callConnectionId,
-        this.callAutomationApiClient.endpoint,
+        this.endpoint,
         this.credential,
         this.callAutomationEventProcessor,
         this.internalPipelineOptions
