@@ -4,7 +4,13 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { ChatRequestMessage, OpenAIClient } from "../../src/index.js";
+import {
+  ChatCompletionsFunctionToolCall,
+  ChatRequestAssistantMessage,
+  ChatRequestMessage,
+  ChatRequestToolMessage,
+  OpenAIClient,
+} from "../../src/index.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
 
 describe("README samples", () => {
@@ -89,6 +95,72 @@ describe("README samples", () => {
       const completion = choices[0].text;
       assert.isDefined(completion);
     });
+
+    it("Use chat tools", async function () {
+      const deploymentName = "gpt-35-turbo-0613-plugins";
+
+      const getCurrentWeather = {
+        name: "get_current_weather",
+        description: "Get the current weather in a given location",
+        parameters: {
+          type: "object",
+          properties: {
+            location: {
+              type: "string",
+              description: "The city and state, e.g. San Francisco, CA",
+            },
+            unit: {
+              type: "string",
+              enum: ["celsius", "fahrenheit"],
+            },
+          },
+          required: ["location"],
+        },
+      };
+
+      const messages = [{ role: "user", content: "What is the weather like in Boston?" } as const];
+
+      const options = {
+        tools: [
+          {
+            type: "function",
+            function: getCurrentWeather,
+          } as const,
+        ],
+      };
+      const result = await client.getChatCompletions(deploymentName, messages, options);
+      function applyToolCall({
+        function: call,
+        id,
+      }: ChatCompletionsFunctionToolCall): ChatRequestToolMessage {
+        if (call.name === "get_current_weather") {
+          const { location, unit } = JSON.parse(call.arguments);
+          return {
+            role: "tool",
+            content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
+            toolCallId: id,
+          };
+        }
+        throw new Error(`Unknown tool call: ${call.name}`);
+      }
+      const choice = result.choices[0];
+      const responseMessage = choice.message;
+      if (responseMessage?.role === "assistant") {
+        const requestedToolCalls = responseMessage?.toolCalls;
+        if (requestedToolCalls?.length) {
+          const toolCallResolutionMessages = [
+            ...messages,
+            responseMessage as ChatRequestAssistantMessage,
+            ...requestedToolCalls.map(applyToolCall),
+          ];
+          const finalResult = await client.getChatCompletions(
+            deploymentName,
+            toolCallResolutionMessages
+          );
+          assert.isDefined(finalResult.choices[0].message?.content);
+        }
+      }
+    });
   });
 
   describe("Dall-E", function () {
@@ -109,6 +181,30 @@ describe("README samples", () => {
       for (const image of results.data) {
         assert.isString(image.url);
       }
+    });
+
+    // FIXME: The model currently responds with: Invalid content type. image_url is only supported by certain models
+    it.skip("Chat with images", async function () {
+      const url =
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
+      const deploymentName = "gpt-4-1106-preview";
+      const messages: ChatRequestMessage[] = [
+        {
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              imageUrl: {
+                url,
+                detail: "auto",
+              },
+            },
+          ],
+        },
+      ];
+
+      const result = await client.getChatCompletions(deploymentName, messages);
+      assert.isString(result.choices[0].message?.content);
     });
   });
 });
