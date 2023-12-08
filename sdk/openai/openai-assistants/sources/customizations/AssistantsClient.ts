@@ -2,9 +2,16 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { ListResponseOf } from "./models/models.js";
 import { AssistantsClientOptions } from "../generated/src/index.js";
+import {
+  Assistant,
+  AssistantThread,
+} from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
+import { listAssistants } from "./api/operations.js";
+import { createThread } from "../generated/src/api/assistantThreads/index.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 
 function createOpenAIEndpoint(version: number): string {
@@ -129,5 +136,13 @@ export class AssistantsClient {
   ): Promise<AssistantThread> {
     return createThread(this._client, body, options);
   }
+
+  /** Returns a list of assistants. */
+  listAssistants(
+    options: AssistantsListAssistantsOptions = { requestOptions: {} }
+  ): Promise<ListResponseOf<Assistant>> {
+    return listAssistants(this._client, options);
+  }
+
 
 }
