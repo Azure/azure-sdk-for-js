@@ -3,158 +3,168 @@
 
 import {
   ChatCompletionsOptions as GeneratedChatCompletionsOptions,
-  ChatMessage,
-  Completions,
   ImageGenerations,
-  ImageLocation,
-} from "../../generated/src/models/models.js";
-import { GetCompletionsOptions } from "../models/options.js";
-import { _getCompletionsSend } from "../../generated/src/api/operations.js";
-import { getOaiSSEs } from "./oaiSse.js";
+} from "../../../../generated/src/models/models.js";
+import { GetChatCompletionsOptions, GetCompletionsOptions } from "../../../models/options.js";
 import {
-  BeginAzureBatchImageGeneration202Response,
-  BeginAzureBatchImageGenerationDefaultResponse,
-  BeginAzureBatchImageGenerationLogicalResponse,
+  _getCompletionsSend,
+  _getImageGenerationsDeserialize,
+  _getImageGenerationsSend,
+} from "../../../../generated/src/api/client/openAIClient/index.js";
+import { getOaiSSEs } from "../../oaiSse.js";
+import {
+  AzureChatExtensionConfiguration,
   OpenAIContext as Client,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
-  ImageGenerationsOutput,
-  ImagePayloadOutput,
-  getLongRunningPoller,
+  GetCompletions200Response,
+  GetCompletionsDefaultResponse,
   isUnexpected,
-  ChatMessage as GeneratedChatMessage,
-} from "../../generated/src/rest/index.js";
+  ChatCompletionsOptions as RestChatCompletionsOptions,
+  ChatRequestMessage as RestChatRequestMessage,
+} from "../../../../generated/src/rest/index.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { ChatCompletions } from "../models/models.js";
+import { ChatCompletions, ChatRequestMessage, Completions } from "../../../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
-import { ImageGenerationOptions } from "../models/options.js";
-import { ImageGenerationOptions as GeneratedImageGenerationOptions } from "../../generated/src/models/models.js";
-import { renameKeysToCamelCase } from "./util.js";
+import { GetImagesOptions } from "../../../models/options.js";
+import { camelCaseKeys, snakeCaseKeys } from "../../util.js";
 import {
   AudioResult,
   AudioResultFormat,
   AudioResultSimpleJson,
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
-} from "../models/audio.js";
+} from "../../../models/audio.js";
 import { createFile } from "@azure/core-rest-pipeline";
-import {
-  BeginAzureBatchImageGenerationOptions as GeneratedBatchImageGenerationOptions,
-  GetChatCompletionsOptions as GeneratedGetChatCompletionsOptions,
-} from "../../generated/src/models/options.js";
-import { GetChatCompletionsOptions } from "./models.js";
+import { ClientOpenAIClientGetChatCompletionsOptions } from "../../../../generated/src/models/options.js";
+
+export async function _getChatCompletionsDeserialize(
+  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+): Promise<ChatCompletions> {
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  return getChatCompletionsResult(result.body);
+}
+
+export async function _getCompletionsDeserialize(
+  result: GetCompletions200Response | GetCompletionsDefaultResponse
+): Promise<Completions> {
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
+  return getCompletionsResult(result.body);
+}
 
 export function listCompletions(
   context: Client,
-  prompt: string[],
   deploymentName: string,
+  prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} }
 ): AsyncIterable<Omit<Completions, "usage">> {
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
     deploymentName,
     {
       prompt,
-      ...options,
+      ...rest,
       stream: true,
     },
-    options
+    { abortSignal, onResponse, requestOptions, tracingOptions }
   );
   return getOaiSSEs(response, getCompletionsResult);
 }
 
+export async function getCompletions(
+  context: Client,
+  deploymentName: string,
+  prompt: string[],
+  options: GetCompletionsOptions = { requestOptions: {} }
+): Promise<Completions> {
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const response = await _getCompletionsSend(
+    context,
+    deploymentName,
+    {
+      prompt,
+      ...rest,
+    },
+    { abortSignal, onResponse, requestOptions, tracingOptions }
+  );
+  return _getCompletionsDeserialize(response);
+}
+
 export async function getImages(
   context: Client,
+  deploymentName: string,
   prompt: string,
-  options: ImageGenerationOptions = { requestOptions: {} }
+  options: GetImagesOptions = { requestOptions: {} }
 ): Promise<ImageGenerations> {
-  const response = await _beginAzureBatchImageGenerationSend(
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+  const result = await _getImageGenerationsSend(
     context,
-    { prompt, ...options },
-    options
+    deploymentName,
+    { prompt, ...rest },
+    { abortSignal, onResponse, requestOptions, tracingOptions }
   );
-
-  if (isUnexpected(response)) {
-    // Check for response from OpenAI
-    const body = response.body as unknown as ImageGenerations;
-    if (body.created && body.data) {
-      return body;
-    }
-    throw response.body.error;
-  }
-
-  if (response.status === "202") {
-    const poller = await getLongRunningPoller(
-      context,
-      response as BeginAzureBatchImageGeneration202Response
-    );
-    const result = await poller.pollUntilDone();
-    return getImageResultsDeserialize(result);
-  } else {
-    return getImageResultsDeserialize(response);
-  }
+  return _getImageGenerationsDeserialize(result);
 }
 
-function convertResultTypes({ created, data }: ImageGenerationsOutput): ImageGenerations {
-  if (typeof (data[0] as ImageLocation).url === "string") {
-    return {
-      created: new Date(created),
-      data: data as ImageLocation[],
-    };
-  } else {
-    return {
-      created: new Date(created),
-      data: data.map((item) => {
-        return {
-          base64Data: (item as ImagePayloadOutput).b64_json,
-        };
-      }),
-    };
-  }
-}
-
-function getImageResultsDeserialize(
-  response:
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationDefaultResponse
-    | BeginAzureBatchImageGenerationLogicalResponse
-): ImageGenerations {
-  if (isUnexpected(response) || !response.body.result) {
-    throw response.body.error;
-  }
-  const result = response.body.result;
-  return convertResultTypes(result);
-}
 function _getChatCompletionsSendX(
   context: Client,
-  messages: ChatMessage[],
   deploymentName: string,
-  options: GetChatCompletionsOptions = { requestOptions: {} }
+  messages: ChatRequestMessage[],
+  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} }
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
-  return options.azureExtensionOptions?.extensions
+  const {
+    azureExtensionOptions,
+    abortSignal,
+    onResponse,
+    requestOptions,
+    tracingOptions,
+    ...rest
+  } = options;
+  const coreOptions = {
+    abortSignal,
+    onResponse,
+    requestOptions,
+    tracingOptions,
+  };
+  const azure = {
+    ...(!azureExtensionOptions?.extensions
+      ? {}
+      : { dataSources: azureExtensionOptions.extensions }),
+    ...(!azureExtensionOptions?.enhancements
+      ? {}
+      : { enhancements: azureExtensionOptions.enhancements }),
+  };
+  return azure.dataSources || azure.enhancements
     ? _getChatCompletionsWithAzureExtensionsSend(
         context,
         deploymentName,
-        { messages, ...options, dataSources: options.azureExtensionOptions?.extensions },
         {
-          ...options,
-        }
+          messages,
+          ...rest,
+          ...azure,
+        },
+        coreOptions
       )
-    : _getChatCompletionsSend(context, deploymentName, { messages, ...options }, options);
+    : _getChatCompletionsSend(context, deploymentName, { messages, ...rest }, coreOptions);
 }
 
 export function listChatCompletions(
   context: Client,
-  messages: ChatMessage[],
   deploymentName: string,
+  messages: ChatRequestMessage[],
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): AsyncIterable<ChatCompletions> {
-  const response = _getChatCompletionsSendX(context, messages, deploymentName, {
+  const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,
   });
@@ -168,15 +178,12 @@ export function listChatCompletions(
  */
 export async function getChatCompletions(
   context: Client,
-  messages: ChatMessage[],
-  deploymentId: string,
+  deploymentName: string,
+  messages: ChatRequestMessage[],
   options: GetChatCompletionsOptions = { requestOptions: {} }
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSendX(context, messages, deploymentId, options);
-  if (isUnexpected(result)) {
-    throw result.body.error;
-  }
-  return getChatCompletionsResult(result.body);
+  const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
+  return _getChatCompletionsDeserialize(result);
 }
 
 /**
@@ -220,26 +227,29 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
   const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { temperature, prompt, model, ...rest } = options;
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentId}/audio/translations", deploymentName)
+    .pathUnchecked("deployments/{deploymentName}/audio/translations", deploymentName)
     .post({
+      ...operationOptionsToRequestParameters({
+        abortSignal,
+        onResponse,
+        tracingOptions,
+        requestOptions,
+      }),
+      contentType: "multipart/form-data",
       body: {
         file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format && { response_format }),
-        ...(temperature !== undefined ? { temperature } : {}),
-        ...(prompt && { prompt }),
-        ...(model && { model }),
+        response_format,
+        ...snakeCaseKeys(rest),
       },
-      ...rest,
-      contentType: "multipart/form-data",
     });
   if (status !== "200") {
     throw body.error;
   }
   return response_format !== "verbose_json"
     ? body
-    : (renameKeysToCamelCase(body) as AudioResult<Format>);
+    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
 }
 
 /**
@@ -283,117 +293,103 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
   const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
-  const { temperature, language, prompt, model, ...rest } = options;
+  const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const { body, status } = await context
-    .pathUnchecked("deployments/{deploymentId}/audio/transcriptions", deploymentName)
+    .pathUnchecked("deployments/{deploymentName}/audio/transcriptions", deploymentName)
     .post({
+      ...operationOptionsToRequestParameters({
+        abortSignal,
+        onResponse,
+        tracingOptions,
+        requestOptions,
+      }),
+      contentType: "multipart/form-data",
       body: {
         file: createFile(fileContent, "placeholder.wav"),
-        ...(response_format && { response_format }),
-        ...(language && { language }),
-        ...(temperature !== undefined ? { temperature } : {}),
-        ...(prompt && { prompt }),
-        ...(model && { model }),
+        response_format,
+        ...snakeCaseKeys(rest),
       },
-      ...rest,
-      contentType: "multipart/form-data",
     });
   if (status !== "200") {
     throw body.error;
   }
   return response_format !== "verbose_json"
     ? body
-    : (renameKeysToCamelCase(body) as AudioResult<Format>);
+    : (camelCaseKeys(body) as unknown as AudioResult<Format>);
 }
 
-export function _getChatCompletionsWithAzureExtensionsSend(
+function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
-  deploymentId: string,
-  body: GeneratedChatCompletionsOptions,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+  deploymentName: string,
+  body: GeneratedChatCompletionsOptions & { messages: ChatRequestMessage[] },
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
+  const { functions, functionCall, messages, dataSources, ...rest } = body;
   return context
-    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
+    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentName)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: parseChatMessage(body.messages),
-        functions: body["functions"],
-        function_call: body["functionCall"],
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        stream: body["stream"],
-        model: body["model"],
-        dataSources: body["dataSources"],
-      },
+        ...snakeCaseKeys(rest),
+        dataSources: dataSources?.map(
+          ({ type, ...opts }) => ({ type, parameters: opts } as AzureChatExtensionConfiguration)
+        ),
+        functions,
+        function_call: functionCall,
+        messages: messages.map(serializeChatRequestMessage),
+      } as RestChatCompletionsOptions,
     });
 }
 
-export function _getChatCompletionsSend(
+function serializeChatRequestMessage(message: ChatRequestMessage): RestChatRequestMessage {
+  if (message.content === undefined) {
+    message.content = null;
+  }
+  switch (message.role) {
+    case "assistant": {
+      const { functionCall, toolCalls, ...rest } = message;
+      return {
+        ...snakeCaseKeys(rest),
+        ...(!toolCalls || toolCalls.length === 0 ? {} : { tool_calls: toolCalls }),
+        ...(functionCall ? { function_call: functionCall } : {}),
+      };
+    }
+    default: {
+      return snakeCaseKeys(message);
+    }
+  }
+}
+
+function _getChatCompletionsSend(
   context: Client,
-  deploymentId: string,
-  body: GeneratedChatCompletionsOptions,
-  options: GeneratedGetChatCompletionsOptions = { requestOptions: {} }
+  deploymentName: string,
+  body: GeneratedChatCompletionsOptions & { messages: ChatRequestMessage[] },
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
+  const { functions, functionCall, messages, ...rest } = body;
+  return context.path("/deployments/{deploymentId}/chat/completions", deploymentName).post({
     ...operationOptionsToRequestParameters(options),
     body: {
-      messages: parseChatMessage(body.messages),
-      functions: body["functions"],
-      function_call: body["functionCall"],
-      max_tokens: body["maxTokens"],
-      temperature: body["temperature"],
-      top_p: body["topP"],
-      logit_bias: body["logitBias"],
-      user: body["user"],
-      n: body["n"],
-      stop: body["stop"],
-      presence_penalty: body["presencePenalty"],
-      frequency_penalty: body["frequencyPenalty"],
-      stream: body["stream"],
-      model: body["model"],
-      dataSources: body["dataSources"],
-    },
+      ...snakeCaseKeys(rest),
+      functions,
+      function_call: functionCall,
+      messages: messages.map(serializeChatRequestMessage),
+    } as RestChatCompletionsOptions,
   });
 }
 
-function parseChatMessage(messages: ChatMessage[]): GeneratedChatMessage[] {
-  return messages.map((p: ChatMessage) => ({
-    role: p.role,
-    content: p.content ?? null,
-    name: p.name,
-    function_call: p.functionCall,
-    context: p.context,
-  }));
+export async function _getChatCompletionsWithAzureExtensionsDeserialize(): Promise<any> {
+  return {} as any;
 }
 
-function _beginAzureBatchImageGenerationSend(
-  context: Client,
-  body: GeneratedImageGenerationOptions,
-  options: GeneratedBatchImageGenerationOptions = { requestOptions: {} }
-): StreamableMethod<
-  | BeginAzureBatchImageGeneration202Response
-  | BeginAzureBatchImageGenerationDefaultResponse
-  | BeginAzureBatchImageGenerationLogicalResponse
-> {
-  return context.path("/images/generations:submit").post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      prompt: body["prompt"],
-      n: body["n"],
-      size: body["size"],
-      response_format: body["responseFormat"],
-      user: body["user"],
-    },
-  });
+export async function getChatCompletionsWithAzureExtensions(
+  _context: unknown,
+  _deploymentId: unknown,
+  _body: unknown,
+  _options: unknown
+): Promise<unknown> {
+  return {} as any;
 }
