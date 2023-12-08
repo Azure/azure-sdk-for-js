@@ -20,6 +20,9 @@ import {
   SpeechOptions,
   StartHoldMusicRequest,
   StopHoldMusicRequest,
+  StartTranscriptionRequest,
+  StopTranscriptionRequest,
+  UpdateTranscriptionRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -38,6 +41,8 @@ import {
   SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
+  StartTranscriptionOptions,
+  StopTranscriptionOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -507,7 +512,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -527,7 +532,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
@@ -632,5 +637,43 @@ export class CallMedia {
     };
 
     return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
+  }
+
+  /**
+   * Starts transcription in the call
+   * @param options - Additional attributes for start transcription.
+   */
+  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
+    const startTranscriptionRequest: StartTranscriptionRequest = {
+      locale: options.locale,
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+    };
+    return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
+  }
+
+  /**
+   * Stops transcription in the call.
+   * @param options - Additional attributes for stop transcription.
+   */
+  public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
+    const stopTranscriptionRequest: StopTranscriptionRequest = {
+      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+    };
+    return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
+  }
+
+  /**
+   * Update transcription language.
+   * @param locale - Defines new locale for transcription.
+   */
+  public async updateTranscription(locale: string): Promise<void> {
+    const updateTranscriptionRequest: UpdateTranscriptionRequest = {
+      locale: locale,
+    };
+    return this.callMedia.updateTranscription(
+      this.callConnectionId,
+      updateTranscriptionRequest,
+      {}
+    );
   }
 }
