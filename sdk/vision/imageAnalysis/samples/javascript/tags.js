@@ -1,15 +1,33 @@
-const { ComputerVisionClient, AzureKeyCredential } = require('@azure/cognitiveservices-computervision');
-const { DefaultAzureCredential } = require('@azure/identity');
+const { ImageAnalysisClient } = require('@azure/imageanalysis');
+const createClient = require('@azure/imageanalysis').default;
+const { AzureKeyCredential } = require('@azure/core-auth');
 
-let key = '<your_Azure_Cognitive_Services_key>';
-let endpoint = '<your_endpoint>';
 
-const computerVisionClient = new ComputerVisionClient(new AzureKeyCredential(key), endpoint);
+const endpoint = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
+const key = process.env['VISION_KEY'] || '<your_key>';
+const credential = new AzureKeyCredential(key);
 
-async function analyzeImageForTags(url) {
-  const result = await computerVisionClient.analyzeImage(url, { visualFeatures: ['Tags'] });
+const client = createClient (endpoint, credential);
 
-  console.log(`Tags: ${result.tags.map(tag => `${tag.name} (${tag.confidence})`).join(', ')});
-}
+const feature = [
+  'Tags'
+];
 
-analyzeImageForTags('https://example.com/image.jpg');
+const imageUrl = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+
+client.path('/imageanalysis:analyze').post({
+  body: { url: imageUrl },
+  queryParameters: { features: feature},
+  contentType: 'application/json'
+}).then(result => {
+  const iaResult = result.body;
+
+  // Process the response
+  if (iaResult.tagsResult.values.length > 0) {
+    iaResult.tagsResult.values.forEach(tag => {
+      console.log(`Tag: ${tag.name} with confidence of ${tag.confidence}`);
+    });
+  } else {
+    console.log('No tags detected.');
+  }
+});

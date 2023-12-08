@@ -10,6 +10,8 @@
   "license": "MIT",
   "dependencies": {
     "@azure/cognitiveservices-computervision": "^7.0.0",
+    "@azure/core-auth": "^1.5.0",
+    "@azure/imageAnalysis": "file:../../azure-imageAnalysis-1.0.0-beta.1.tgz",
     "typescript": "^4.1.2"
   }
 }

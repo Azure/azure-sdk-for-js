@@ -1,14 +1,13 @@
-const { ImageAnalysisClient } = require('@azure/imageanalysis');
-const createClient = require('@azure/imageanalysis').default;
-const { AzureKeyCredential } = require('@azure/core-auth');
+import createImageAnalysisClient, { ImageAnalysisClient, ImageAnalysisResultOutput } from '@azure/imageAnalysis';
+import { AzureKeyCredential } from '@azure/core-auth';
 
-const endpoint = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
-const key = process.env['VISION_KEY'] || '<your_key>';
+const endpoint: string = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
+const key: string = process.env['VISION_KEY'] || '<your_key>';
 const credential = new AzureKeyCredential(key);
 
-const client = createClient (endpoint, credential);
+const client: ImageAnalysisClient = createImageAnalysisClient(endpoint, credential);
 
-const features = [
+const features: string[] = [
   'Caption',
   'DenseCaptions',
   'Objects',
@@ -17,21 +16,21 @@ const features = [
   'SmartCrops',
   'Tags'
 ];
-const imageUrl = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-async function analyzeImageFromUrl() {
+async function analyzeImageFromUrl(): Promise<void> {
   const result = await client.path('/imageanalysis:analyze').post({
     body: {
-        url: imageUrl
+      url: imageUrl
     },
     queryParameters: {
-        features: features,
-        'smartCrops-aspect-ratios': [0.9, 1.33]
+      features: features,
+      'smartCrops-aspect-ratios': [0.9, 1.33]
     },
     contentType: 'application/json'
-    });
+  });
 
-  const iaResult = result.body;
+  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
 
   console.log(`Model Version: ${iaResult.modelVersion}`);
   console.log(`Image Metadata: ${JSON.stringify(iaResult.metadata)}`);
