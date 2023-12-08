@@ -64,7 +64,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    private correlatedActivityId?: string
+    private correlatedActivityId: string
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;

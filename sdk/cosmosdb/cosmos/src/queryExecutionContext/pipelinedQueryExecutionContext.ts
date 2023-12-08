@@ -49,7 +49,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.collectionLink,
           this.query,
           this.options,
-          this.partitionedQueryExecutionInfo
+          this.partitionedQueryExecutionInfo,
+          correlatedActivityId
         )
       );
     } else {

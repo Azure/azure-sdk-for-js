@@ -39,7 +39,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   }
   private state: STATES;
   private nextFetchFunction: Promise<Response<any>>;
-  private correlatedActivityId?: string;
+  private correlatedActivityId: string;
   /**
    * Provides the basic Query Execution Context.
    * This wraps the internal logic query execution using provided fetch functions
@@ -54,7 +54,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   constructor(
     options: FeedOptions,
     fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    correlatedActivityId?: string
+    correlatedActivityId: string
   ) {
     this.resources = [];
     this.currentIndex = 0;

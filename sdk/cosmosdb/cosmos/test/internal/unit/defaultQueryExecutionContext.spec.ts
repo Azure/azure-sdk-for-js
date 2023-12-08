@@ -34,7 +34,9 @@ describe("defaultQueryExecutionContext", function () {
       bufferItems: false,
     };
 
-    const context = new DefaultQueryExecutionContext(options, fetchFunction);
+    const correlatedId = "random-id";
+
+    const context = new DefaultQueryExecutionContext(options, fetchFunction, correlatedId);
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
@@ -73,8 +75,8 @@ describe("defaultQueryExecutionContext", function () {
     const options: FeedOptions = {
       bufferItems: true,
     };
-
-    const context = new DefaultQueryExecutionContext(options, fetchFunction);
+    const correlatedId = "random-id";
+    const context = new DefaultQueryExecutionContext(options, fetchFunction, correlatedId);
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 

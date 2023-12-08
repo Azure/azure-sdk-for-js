@@ -211,7 +211,9 @@ export class ClientContext {
     }
 
     if (query !== undefined) {
-      request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+      if (resourceType === ResourceType.item) {
+        request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+      }
       request.headers[HttpHeaders.IsQuery] = "true";
       request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
       if (typeof query === "string") {
@@ -262,7 +264,9 @@ export class ClientContext {
       request.operationType
     );
     request.headers = await this.buildHeaders(request);
-    request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+    if (resourceType === ResourceType.item) {
+      request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+    }
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.SupportedQueryFeatures] =
