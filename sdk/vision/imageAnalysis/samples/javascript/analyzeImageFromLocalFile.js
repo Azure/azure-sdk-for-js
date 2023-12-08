@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 const fs = require('fs');
 const { ImageAnalysisClient } = require('@azure/imageanalysis');
 const createClient = require('@azure/imageanalysis').default;
