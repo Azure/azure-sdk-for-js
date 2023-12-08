@@ -3,7 +3,7 @@
 ## 1.0.0-beta.14 (2023-12-05)
 
 ### Other Changes
-- Fix runNotebook sessionId from int to string
+- Fix runNotebook sessionId from number to string
 - Fix placeholder links causing 404s
 - Sync expression Support From DataFactory To Synapse
 
