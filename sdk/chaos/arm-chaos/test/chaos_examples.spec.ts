@@ -58,7 +58,7 @@ describe("Chaos test", () => {
     cos_client = new CosmosDBManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
-    experimentName = "exampleExperiment1";
+    experimentName = "exampleExperiment11";
     cosmosdbName = "test-123aaa"
     parentProviderNamespace = "Microsoft.DocumentDB";
     parentResourceType = "databaseAccounts";
@@ -73,11 +73,11 @@ describe("Chaos test", () => {
     const cosmosdb_res = await cos_client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroup, cosmosdbName, {
       databaseAccountOfferType: "Standard",
       locations: [
-        {
-          failoverPriority: 2,
-          locationName: "southcentralus",
-          isZoneRedundant: false
-        },
+        // {
+        //   failoverPriority: 2,
+        //   locationName: "southcentralus",
+        //   isZoneRedundant: false
+        // },
         {
           locationName: "eastus",
           failoverPriority: 1

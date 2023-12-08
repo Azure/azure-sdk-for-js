@@ -48,7 +48,7 @@ function shellSplit(args: string): Promise<string[]> {
   });
 }
 
-describe("argument parsing", async function () {
+describe("argument parsing", function () {
   before(silenceLogger);
 
   it("simple option", async () => {
