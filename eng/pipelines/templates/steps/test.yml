@@ -21,12 +21,24 @@ steps:
   - script: |
       node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
+    env:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential-readonly)
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI'))) }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential)
+        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
       node eng/tools/rush-runner.js build:test "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
-    displayName: "Build test assets"
+    displayName: "Build test assets"      
+    env:
+      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential-readonly)
+      ${{ if and(eq(variables['System.TeamProject'], 'internal'), or(eq(variables['Build.Reason'], 'IndividualCI'), eq(variables['Build.Reason'], 'BatchedCI'))) }}:
+        RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential)
+        RUSH_BUILD_CACHE_WRITE_ALLOWED: 1
 
   - template: ../steps/use-node-test-version.yml
 

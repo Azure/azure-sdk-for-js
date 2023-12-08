@@ -101,6 +101,8 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build libraries"
+        env:
+          RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential-readonly)
 
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
@@ -108,6 +110,8 @@ jobs:
           node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
         displayName: "Build test assets"
         condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+        env:
+          RUSH_BUILD_CACHE_CREDENTIAL: $(js-rush-blob-build-cache-credential-readonly)
 
       - script: |
           npm install
