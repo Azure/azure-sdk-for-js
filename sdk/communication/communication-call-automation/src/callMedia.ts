@@ -91,7 +91,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.File,
         file: fileSource,
-        playSourceCacheId: playSource.playsourcecacheid,
+        playSourceCacheId: playSource.playSourceCacheId ? playSource.playSourceCacheId : playSource.playsourcacheid,
       };
     } else if (playSource.kind === "textSource") {
       const textSource: TextSourceInternal = {
@@ -104,7 +104,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Text,
         text: textSource,
-        playSourceCacheId: playSource.playsourcecacheid,
+        playSourceCacheId: playSource.playSourceCacheId ? playSource.playSourceCacheId : playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
@@ -114,7 +114,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Ssml,
         ssml: ssmlSource,
-        playSourceCacheId: playSource.playsourcecacheid,
+        playSourceCacheId: playSource.playSourceCacheId ? playSource.playSourceCacheId : playSource.playsourcacheid,
       };
     }
     throw new Error("Invalid play source");
