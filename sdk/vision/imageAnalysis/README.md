@@ -144,7 +144,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/ai-image-analysis/ai-image-analysis/samples) directory for detailed examples that demonstrate how to use the client libraries.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/vision/imageAnalysis/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
