@@ -22,7 +22,7 @@ Usually, you'd put a shell command for provisioning the necessary Azure services
 Install the Image Analysis client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-image-analysis
+npm install @azure/imageAnalysis
 ```
 
 ### Browser support
@@ -52,6 +52,7 @@ Create a section for each top-level service concept you want to explain.
 Here's an example of how to create an `ImageAnalysisClient` instance using a key-based authentication and an Azure Active Directory authentication.
 
 #### Key-based authentication
+
 ```javascript Snippet:ImageAnalysisAuthKey
 const { ImageAnalysisClient, KeyCredential } = require("@azure/ai-image-analysis");
 
@@ -63,6 +64,7 @@ const client = new ImageAnalysisClient(endpoint, credential);
 ```
 
 #### Azure Active Directory authentication
+
 ```javascript Snippet:ImageAnalysisAuthAAD
 const { ImageAnalysisClient } = require("@azure/ai-image-analysis");
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -81,18 +83,18 @@ const imageUrl = "https://example.com/image.jpg";
 const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
 
 async function analyzeImageFromUrl() {
-    const result = await client.path("/imageanalysis:analyze").post({
+  const result = await client.path("/imageanalysis:analyze").post({
     body: {
-        url: imageUrl
+      url: imageUrl,
     },
     queryParameters: {
-        features: features,
-        "smartCrops-aspect-ratios": [0.9, 1.33]
+      features: features,
+      "smartCrops-aspect-ratios": [0.9, 1.33],
     },
-    contentType: "application/json"
-    });
+    contentType: "application/json",
+  });
 
-    console.log("Image analysis result:", result.body);
+  console.log("Image analysis result:", result.body);
 }
 
 analyzeImageFromUrl();
@@ -109,18 +111,18 @@ const imagePath = "./path/to/your/image.jpg";
 const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
 
 async function analyzeImageFromFile() {
-    const imageBuffer = fs.readFileSync(imagePath);
+  const imageBuffer = fs.readFileSync(imagePath);
 
-    const result = await client.path("/imageanalysis:analyze").post({
+  const result = await client.path("/imageanalysis:analyze").post({
     body: imageBuffer,
     queryParameters: {
-        features: features,
-        "smartCrops-aspect-ratios": [0.9, 1.33]
+      features: features,
+      "smartCrops-aspect-ratios": [0.9, 1.33],
     },
-    contentType: "application/octet-stream"
-    });
+    contentType: "application/octet-stream",
+  });
 
-    console.log("Image analysis result:", result.body);
+  console.log("Image analysis result:", result.body);
 }
 
 analyzeImageFromFile();
@@ -142,7 +144,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai-image-analysis/ai-image-analysis/samples) directory for detailed examples that demonstrate how to use the client libraries.
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/ai-image-analysis/ai-image-analysis/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
@@ -152,15 +154,13 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fai-image-analysis%2Fai-image-analysis%2FREADME.png)
-
 ## Key concepts
 
 Once you've initialized an `ImageAnalysisClient`, you need to select one or more visual features to analyze. The options are specified by the enum class `VisualFeatures`. The following features are supported:
 
 1. `VisualFeatures.Caption`: Generate a human-readable sentence that describes the content of an image.
 1. `VisualFeatures.Read`: Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
-1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image. 
+1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image.
 1. `VisualFeatures.Tags`: Extract content tags for thousands of recognizable objects, living beings, scenery, and actions that appear in images.
 1. `VisualFeatures.Objects`: Object detection. This is similar to tagging, but focused on detecting physical objects in the image and returning their location.
 1. `VisualFeatures.SmartCrops`: Used to find a representative sub-region of the image for thumbnail generation, with priority given to include faces.
@@ -171,5 +171,6 @@ For more information about these features, see [Image Analysis overview][image_a
 ### Analyze from image buffer or URL
 
 The `ImageAnalysisClient` a method `Analyze` that has two overloads:
-* `Analyze (BianryData ...`: Analyze an image from an input object. The client will upload the image to the service as part of the REST request. 
-* `Analyze (Uri ...)`: Analyze an image from a publicly-accessible URL, via the `Uri` object. The client will send the image URL to the service. The service will download the image.
+
+- `Analyze (BianryData ...`: Analyze an image from an input object. The client will upload the image to the service as part of the REST request.
+- `Analyze (Uri ...)`: Analyze an image from a publicly-accessible URL, via the `Uri` object. The client will send the image URL to the service. The service will download the image.

@@ -61,7 +61,7 @@ npx cross-env VISION_ENDPOINT="<Computer Vision endpoint>" node analyzeImageFrom
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for more information about the APIs that are available in the clients.
 
 [analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/analyzeImageFromLocalFile.js
 [analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/analyzeImageFromUrl.js
@@ -73,5 +73,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/tags.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-vision
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azureaivision]: https://docs.microsoft.com/azure/ai-vision/quick-create-portal
+[createinstance_azureaivision]: https://portal.azure.com/#view/Microsoft_Azure_Marketplace/GalleryItemDetailsBladeNopdl/id/Microsoft.CognitiveServicesComputerVision
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/imageAnalysis/README.md

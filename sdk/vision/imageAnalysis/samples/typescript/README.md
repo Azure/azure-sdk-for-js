@@ -62,12 +62,12 @@ node analyzeImageFromLocalFile.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env VISION_ENDPOINT="<Computer Vision endpoint>" node dist/analyzeImageFromLocalFile.js
+npx cross-env VISION_ENDPOINT="<Computer Vision endpoint>" VISION_KEY="<your vision key>" node analyzeImageFromLocalFile.js
 ```
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for more information about the APIs that are available in the clients.
 
 [analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/analyzeImageFromLocalFile.ts
 [analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/analyzeImageFromUrl.ts
