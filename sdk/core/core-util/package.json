@@ -15,19 +15,11 @@
     "./dist-esm/src/uuidUtils.js": "./dist-esm/src/uuidUtils.native.js"
   },
   "types": "types/latest/core-util.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -50,7 +42,6 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/core-util.d.ts",
-    "types/3.1/core-util.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -85,7 +76,6 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
@@ -99,7 +89,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",

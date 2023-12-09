@@ -39,7 +39,6 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:samples": "echo Obsolete.",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:nodebrowser": "dev-tool run bundle",
@@ -138,7 +137,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
