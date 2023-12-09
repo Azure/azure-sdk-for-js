@@ -6,6 +6,9 @@ const { ImageAnalysisClient } = require('@azure/imageanalysis');
 const createClient = require('@azure/imageanalysis').default;
 const { AzureKeyCredential } = require('@azure/core-auth');
 
+// Load the .env file if it exists
+require("dotenv").config();
+
 const endpoint = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
 const key = process.env['VISION_KEY'] || '<your_key>';
 const credential = new AzureKeyCredential(key);
