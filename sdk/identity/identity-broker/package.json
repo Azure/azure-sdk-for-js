@@ -79,7 +79,6 @@
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "puppeteer": "^20.5.0",
     "rimraf": "^5.0.1",
     "typescript": "~5.0.0",
