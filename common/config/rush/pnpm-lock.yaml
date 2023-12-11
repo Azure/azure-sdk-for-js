@@ -1157,21 +1157,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/arm-compute@21.2.0:
-    resolution: {integrity: sha512-ySwLS2rHvvWTl03t0I0gJR8zLkShV/zAxZ2dRKPbm9043d7G9IXwATrUXGOqW6sQnBOOF1STriLQS6aDB03eoA==}
-    engines: {node: '>=14.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.5.0
-      '@azure/core-client': 1.7.3
-      '@azure/core-lro': 2.5.4
-      '@azure/core-paging': 1.5.0
-      '@azure/core-rest-pipeline': 1.12.2
-      tslib: 2.6.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -11291,7 +11276,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-qd4ravymZboyTYih9gJoKNduJTo17lz1lKoQCzjocEF5Fjw4EJdPe8Foo/Ub5MJdwF2Y7VIU0c2RuH9zZH65mw==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-zXzkb4wA9xbe2xs61W40vq61Ua53X5CZlLKdMu8iqZ3B1S7l6ejHEMvjXfvNWpjQBlrjdRa+A1fYnisjBsCCSg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -12967,12 +12952,11 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-El+a4OnVggntGI5eNb8uJA3MSSpadk3CzRzft3ume2lxvMSylG+YU7orqab2qI6YrAw0BrUkh0PzZLNUwpNYtQ==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-4TI0AexFtLdcqlLYvvSljX1crU0VF8/C3pcApZrWwyUhRgQJ1lgN/DK+QivYxrEceIKSO5uYajWGp6Z1LOIV8A==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/arm-compute': 21.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@types/chai': 4.3.11
@@ -17274,6 +17258,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
@@ -19303,7 +19288,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-SBh33BHh7UCJRfrPeWs9ky1jscx5gaTvwT0g0iNYobJyZ+5gwut5LzTArOoenrDbCfMjwVvB/dEGwUGGruDEnA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-BCPftaN0UsxcqxMRzt/6Kl2DM5f/eiu2oRBwGAhtysjJHssngHcv5dGL5Hz7gLZsz+21NsLrG42QLTlg6v8WRw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20320,7 +20305,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-swT1rtDl6L6IfSpMjkxNWlMImIkyV2CkPkMO7dHRNh8DcvizEhClOIV7EcwA35Q+bRVmZeSyvm4gr+saJ9IU0g==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-eBut8TWLuzGhQPVukHk9Ok847zH8oyzDE3cHfJYDgjj0C9RNWFSSzwBSmBh73I6SmG1yUWihrq1p9xNRGDi/Bg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

@@ -8,6 +8,7 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+
 import { OperationOptions } from "@azure-rest/core-client";
 
 /** Simple transcription response */
@@ -64,8 +65,6 @@ export interface GetAudioTranscriptionOptions extends OperationOptions {
   temperature?: number;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The options for an audio translation request */
@@ -78,13 +77,10 @@ export interface GetAudioTranslationOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The result format of an audio task */
 export type AudioResultFormat =
-  /** This format will return an JSON structure containing a single \"text\" with the transcription. */
   | "json"
   /** This format will return an JSON structure containing an enriched structure with the transcription. */
   | "verbose_json"
