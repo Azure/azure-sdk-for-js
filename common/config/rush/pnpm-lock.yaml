@@ -4139,8 +4139,8 @@ packages:
       yargs: 16.2.0
     dev: false
 
-  /core-js@3.33.3:
-    resolution: {integrity: sha512-lo0kOocUlLKmm6kv/FswQL8zbkH7mVsLJ/FULClOhv8WRVmKLVcs6XPNQAzstfeJTCHMyButEwG+z1kHxHoDZw==}
+  /core-js@3.34.0:
+    resolution: {integrity: sha512-aDdvlDder8QmY91H88GzNi9EtQi2TjvQhpCX6B1v/dAZHU1AuLgHvRh54RiOerpEhEW46Tkf+vgAViB/CWC0ag==}
     requiresBuild: true
     dev: false
 
@@ -4515,7 +4515,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231210
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -4524,7 +4524,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231205
+      typescript: 5.4.0-dev.20231210
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -5164,7 +5164,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.5
       '@babel/runtime': 7.23.5
-      core-js: 3.33.3
+      core-js: 3.34.0
       debug: 4.3.4(supports-color@8.1.1)
       glob-to-regexp: 0.4.1
       is-subset: 0.1.1
@@ -9248,14 +9248,14 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
+  /typescript@5.3.3:
+    resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231205:
-    resolution: {integrity: sha512-jeYaYMtVCDclulasTrZlhlF9k/Xu88FCpff6+BP3YVNbWefdRy/3nmmrAFVC/TqGSrLhhjSRHBn6bw49b9Jxdw==}
+  /typescript@5.4.0-dev.20231210:
+    resolution: {integrity: sha512-bvcnD6rhU4q0TAh4FEs0ja7xaSSguJLzzXhqx8xeG+OUQwrXcE2GbXO1gMu0z5FK/zGYxnJlkMFvEMSdzRlH8Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13162,7 +13162,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-SHZfWH9j07CsW9WWte05lJv5AaLofNBFAjpeoAxMpo5VY2M91A0S6nZYI3vsxkKv8+ktinca73DzsKPdGpnaug==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-LaetMwvYvnVIg+DWwuK/ZCBlBEfRPdKqASMMjChc8+3vrzYr4FcM/GGajMrlKETf87wgv46UcS/VA3oZ0YUfUg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -17535,6 +17535,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
@@ -17901,7 +17902,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.2
+      '@_ts/max': /typescript@5.3.3
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@rollup/plugin-commonjs': 25.0.7(rollup@3.29.4)
