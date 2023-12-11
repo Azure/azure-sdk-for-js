@@ -13,6 +13,8 @@ import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
 import path from "path";
 import { readFile } from "fs-extra";
+import { readdir } from "fs/promises";
+import AdmZip from "adm-zip";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
@@ -41,12 +43,18 @@ export default leafCommand(commandInfo, async () => {
     return false;
   }
 
+  log.debug(`  mainEntryPointFilePath: ${extractorConfigObject.mainEntryPointFilePath}`);
+  log.debug(`  publicTrimmedFilePath: ${extractorConfigObject?.dtsRollup?.publicTrimmedFilePath}`);
+  log.debug(`  apiJsonFilePath: ${extractorConfigObject.docModel?.apiJsonFilePath}`);
+  log.debug(`  reportFileName: ${extractorConfigObject.apiReport?.reportFileName}`);
+  log.debug(`  reportTempFolder: ${extractorConfigObject.apiReport?.reportTempFolder}`);
+
   let succeed = true;
   // sub path exports extraction
   const exports = packageJson["exports"];
   if (exports) {
     for (const exprt of Object.keys(exports)) {
-      log.debug(`extracting Api for "${exprt}"`, exprt);
+      log.debug(`extracting Api for "${exprt}"`);
       const suffix = getSuffix(exprt);
       const newPublicTrimmedPath = extractorConfigObject.dtsRollup.publicTrimmedFilePath.replace(
         ".d.ts",
@@ -126,5 +134,17 @@ export default leafCommand(commandInfo, async () => {
       );
     }
   }
+
+  // Add api.json files to zip archive
+  const unscopedPackageName = projectInfo.name.split("/")[1];
+  const reportTempDir  = path.join(projectInfo.path, "temp");
+  const files = (await readdir(reportTempDir)).filter(f => f.endsWith("api.json"));
+  const zip = new AdmZip();
+  for (const file of files) {
+    log.debug(`adding ${file} to zip archive`);
+    zip.addLocalFile(path.join(reportTempDir, file));
+  }
+  zip.writeZip(path.join(reportTempDir, `${unscopedPackageName}.zip`));
+
   return succeed;
 });
