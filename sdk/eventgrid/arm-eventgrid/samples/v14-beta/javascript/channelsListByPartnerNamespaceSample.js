@@ -28,7 +28,7 @@ async function channelsListByPartnerNamespace() {
   const resArray = new Array();
   for await (let item of client.channels.listByPartnerNamespace(
     resourceGroupName,
-    partnerNamespaceName
+    partnerNamespaceName,
   )) {
     resArray.push(item);
   }
