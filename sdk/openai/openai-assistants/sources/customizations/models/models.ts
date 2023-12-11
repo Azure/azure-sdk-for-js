@@ -5,7 +5,50 @@ import {
   AssistantImageFile,
   AssistantMessageText,
   AssistantRole,
+  RequiredAction,
+  RunError,
+  RunStatus,
+  ToolDefinition
 } from "../../generated/src/models/models.js";
+
+
+/** Data representing a single evaluation run of an assistant thread. */
+export interface AssistantRun {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The ID of the thread associated with this run. */
+  threadId: string;
+  /** The ID of the assistant associated with the thread this run was performed against. */
+  assistantId: string;
+  /** The status of the assistant thread run. */
+  status: RunStatus;
+  /** The details of the action required for the assistant thread run to continue. */
+  requiredAction?: RequiredAction;
+  /** The last error, if any, encountered by this assistant thread run. */
+  lastError?: RunError;
+  /** The ID of the model to use. */
+  model: string;
+  /** The overriden system instructions used for this assistant thread run. */
+  instructions: string;
+  /** The overriden enabled tools used for this assistant thread run. */
+  tools: ToolDefinition[];
+  /** A list of attached file IDs, ordered by creation date in ascending order. */
+  fileIds: string[];
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata: Record<string, string>;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt: Date;
+  /** The Unix timestamp, in seconds, representing when this item expires. */
+  expiresAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this item was started. */
+  startedAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this completed. */
+  completedAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this was cancelled. */
+  cancelledAt: Date | null;
+  /** The Unix timestamp, in seconds, representing when this failed. */
+  failedAt: Date | null;
+}
 
 /** Information about a file attached to an assistant thread message. */
 export interface AssistantMessageFile {

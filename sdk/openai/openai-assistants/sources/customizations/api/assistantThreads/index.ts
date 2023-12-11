@@ -1,7 +1,9 @@
 
 import {
-  AssistantsContext as Client,
   AssistantThreadCreationOptions,
+} from "../../rest/models.js";
+import {
+  AssistantsContext as Client,
   CreateThread200Response,
 } from "../../../generated/src/rest/index.js";
 import {
