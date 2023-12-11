@@ -8,6 +8,7 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { EventMessage, iterateSseStream } from "@azure/core-sse";

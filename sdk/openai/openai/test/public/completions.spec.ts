@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
@@ -13,16 +13,15 @@ import {
 } from "./utils/asserts.js";
 import {
   bufferAsyncIterable,
+  createAzureCognitiveSearchExtension,
   getDeployments,
   getModels,
   getSucceeded,
-  sendRequestWithRecorder,
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
-import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { getImageDimensions } from "./utils/getImageDimensions.js";
-import { OpenAIClient, ImageLocation, ChatMessage } from "../../src/index.js";
+import { ChatRequestMessage, OpenAIClient } from "../../src/index.js";
+import { AuthMethod } from "./types.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -32,15 +31,13 @@ describe("OpenAI", function () {
   beforeEach(async function (this: Context) {
     recorder = await startRecorder(this.currentTest);
     if (!deployments.length || !models.length) {
-      deployments = await getDeployments(recorder);
+      deployments = await getDeployments("completions", recorder);
       models = await getModels(recorder);
     }
   });
 
   afterEach(async function () {
-    if (recorder) {
-      await recorder.stop();
-    }
+    await recorder.stop();
   });
 
   matrix([["AzureAPIKey", "OpenAIKey", "AAD"]] as const, async function (authMethod: AuthMethod) {
@@ -48,7 +45,7 @@ describe("OpenAI", function () {
       let client: OpenAIClient;
 
       beforeEach(async function (this: Context) {
-        client = createClient(authMethod, { recorder });
+        client = createClient(authMethod, "completions", { recorder });
       });
 
       describe("getCompletions", function () {
@@ -56,7 +53,7 @@ describe("OpenAI", function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,
-            async (deploymentName) => client.getCompletions(deploymentName, prompt),
+            (deploymentName) => client.getCompletions(deploymentName, prompt),
             assertCompletions
           );
         });
@@ -146,17 +143,23 @@ describe("OpenAI", function () {
 
       describe("chat completions", function () {
         const pirateMessages = [
-          { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-          { role: "user", content: "Can you help me?" },
-          { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-          { role: "user", content: "What's the best way to train a parrot?" },
+          {
+            role: "system",
+            content: "You are a helpful assistant. You will talk like a pirate.",
+          } as const,
+          { role: "user", content: "Can you help me?" } as const,
+          {
+            role: "assistant",
+            content: "Arrrr! Of course, me hearty! What can I do for ye?",
+          } as const,
+          { role: "user", content: "What's the best way to train a parrot?" } as const,
         ];
         const byodMessages = [
           {
             role: "user",
             content:
               "What's the most common feedback we received from our customers about the product?",
-          },
+          } as const,
         ];
         const getCurrentWeather = {
           name: "get_current_weather",
@@ -190,7 +193,7 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
+                (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
                 assertChatCompletions
               ),
               chatCompletionDeployments,
@@ -210,7 +213,7 @@ describe("OpenAI", function () {
                   chatCompletionModels
                 ),
                 async (deploymentName) => {
-                  const weatherMessages: ChatMessage[] = [
+                  const weatherMessages: ChatRequestMessage[] = [
                     { role: "user", content: "What's the weather like in Boston?" },
                   ];
                   const result = await client.getChatCompletions(deploymentName, weatherMessages, {
@@ -222,7 +225,7 @@ describe("OpenAI", function () {
                     assert.fail("Undefined function call");
                   }
                   const functionArgs = JSON.parse(responseMessage.functionCall.arguments);
-                  weatherMessages.push(responseMessage);
+                  weatherMessages.push(responseMessage as ChatRequestMessage);
                   weatherMessages.push({
                     role: "function",
                     name: responseMessage.functionCall.name,
@@ -243,7 +246,7 @@ describe("OpenAI", function () {
             );
           });
 
-          it.skip("bring your own data", async function (this: Context) {
+          it("bring your own data", async function (this: Context) {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
@@ -256,22 +259,86 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   client.getChatCompletions(deploymentName, byodMessages, {
                     azureExtensionOptions: {
-                      extensions: [
-                        {
-                          type: "AzureCognitiveSearch",
-                          parameters: {
-                            endpoint: assertEnvironmentVariable("AZURE_SEARCH_ENDPOINT"),
-                            key: assertEnvironmentVariable("AZURE_SEARCH_KEY"),
-                            indexName: assertEnvironmentVariable("AZURE_SEARCH_INDEX"),
-                          },
-                        },
-                      ],
+                      extensions: [createAzureCognitiveSearchExtension()],
                     },
                   }),
                 assertChatCompletions
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
+
+          it("doesn't call tools if toolChoice is set to none", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [{ role: "user", content: "What's the weather like in Boston?" }],
+                    {
+                      toolChoice: "none",
+                      tools: [{ type: "function", function: getCurrentWeather }],
+                    }
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  assert.isEmpty(res.choices[0].message?.toolCalls);
+                  assert.isUndefined(res.choices[0].message?.functionCall);
+                }
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod
+            );
+          });
+
+          it("respects json_object responseFormat", async function () {
+            if (authMethod !== "OpenAIKey") {
+              this.skip();
+            }
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [
+                      {
+                        role: "user",
+                        content:
+                          "Answer the following question in JSON format: What are the capital cities in Africa?",
+                      },
+                    ],
+                    { responseFormat: { type: "json_object" } }
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: false });
+                  const content = res.choices[0].message?.content;
+                  if (!content) assert.fail("Undefined content");
+                  try {
+                    JSON.parse(content);
+                  } catch (e) {
+                    assert.fail(`Invalid JSON: ${content}`);
+                  }
+                }
               ),
               chatCompletionDeployments,
               chatCompletionModels,
@@ -291,9 +358,9 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(client.listChatCompletions(deploymentName, pirateMessages)),
-                async (res) =>
+                (res) =>
                   assertChatCompletionsList(res, {
                     // The API returns an empty choice in the first event for some
                     // reason. This should be fixed in the API.
@@ -310,9 +377,6 @@ describe("OpenAI", function () {
           });
 
           it("calls functions", async function () {
-            const weatherMessages: ChatMessage[] = [
-              { role: "user", content: "What's the weather like in Boston?" },
-            ];
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(
@@ -322,11 +386,15 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(
-                    client.listChatCompletions(deploymentName, weatherMessages, {
-                      functions: [getCurrentWeather],
-                    })
+                    client.listChatCompletions(
+                      deploymentName,
+                      [{ role: "user", content: "What's the weather like in Boston?" }],
+                      {
+                        functions: [getCurrentWeather],
+                      }
+                    )
                   ),
                 (res) =>
                   assertChatCompletionsList(res, {
@@ -342,7 +410,7 @@ describe("OpenAI", function () {
             );
           });
 
-          it.skip("bring your own data", async function () {
+          it("bring your own data", async function () {
             if (authMethod === "OpenAIKey") {
               this.skip();
             }
@@ -355,20 +423,11 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                async (deploymentName) =>
+                (deploymentName) =>
                   bufferAsyncIterable(
                     client.listChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {
-                        extensions: [
-                          {
-                            type: "AzureCognitiveSearch",
-                            parameters: {
-                              endpoint: assertEnvironmentVariable("AZURE_SEARCH_ENDPOINT"),
-                              key: assertEnvironmentVariable("AZURE_SEARCH_KEY"),
-                              indexName: assertEnvironmentVariable("AZURE_SEARCH_INDEX"),
-                            },
-                          },
-                        ],
+                        extensions: [createAzureCognitiveSearchExtension()],
                       },
                     })
                   ),
@@ -379,56 +438,6 @@ describe("OpenAI", function () {
               authMethod
             );
           });
-        });
-      });
-
-      describe("getEmbeddings", function () {
-        it("embeddings test", async function () {
-          const prompt = ["This is text to be embedded"];
-          const modelName = "text-embedding-ada-002";
-          const embeddings = await client.getEmbeddings(modelName, prompt);
-          assert.isNotNull(embeddings.data);
-          assert.equal(embeddings.data.length > 0, true);
-          assert.isNotNull(embeddings.data[0].embedding);
-          assert.equal(embeddings.data[0].embedding.length > 0, true);
-          assert.isNotNull(embeddings.usage);
-        });
-      });
-
-      describe("getImages", function () {
-        it("gets images with the expected dimensions", async function () {
-          const prompt = "monkey eating banana";
-          const numberOfImages = 2;
-          const height = 256;
-          const width = 256;
-          const size = `${height}x${width}`;
-
-          async function checkSize(imageUrl: string): Promise<void> {
-            const set = new Set<number>();
-            const request = createPipelineRequest({
-              url: imageUrl,
-              method: "GET",
-              headers: createHttpHeaders(),
-              streamResponseStatusCodes: set.add(200),
-            });
-
-            const response = await sendRequestWithRecorder(request, recorder);
-            const dimensions = await getImageDimensions(response);
-            assert.isDefined(dimensions, "Unable to get dimensions");
-            assert.equal(dimensions?.height, height, "Height does not match");
-            assert.equal(dimensions?.width, width, "Width does not match");
-          }
-          const imageLinks = await client.getImages(prompt, {
-            n: numberOfImages,
-            size: size,
-          });
-          assert.isNotNull(imageLinks);
-          assert.equal(imageLinks.data.length, numberOfImages);
-
-          for (const image of imageLinks.data as ImageLocation[]) {
-            assert.isDefined(image.url, "Image generation result URL is not defined");
-            await checkSize(image.url);
-          }
         });
       });
     });
