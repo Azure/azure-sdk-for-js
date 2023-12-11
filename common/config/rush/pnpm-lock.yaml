@@ -2901,6 +2901,12 @@ packages:
     resolution: {integrity: sha512-vxhUy4J8lyeyinH7Azl1pdd43GJhZH/tP2weN8TntQblOY+A0XbT8DJk1/oCPuOOyg/Ja757rG0CgHcWC8OfMA==}
     dev: false
 
+  /@types/adm-zip@0.5.5:
+    resolution: {integrity: sha512-YCGstVMjc4LTY5uK9/obvxBya93axZOVOyf2GSUulADzmLhYE45u2nAssCs/fWBs1Ifq5Vat75JTPwd5XZoPJw==}
+    dependencies:
+      '@types/node': 18.19.3
+    dev: false
+
   /@types/argparse@1.0.38:
     resolution: {integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==}
     dev: false
@@ -17466,7 +17472,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-waaCPLA9nLpzpMV6OKtwnaM7B/ENF7cCT4hoXpiODfmgPuCXUujRI55UfoxmSHlwaurYxCio34EO0388TOEYog==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-BvRiQLTToExX52kOXiXDzjzBOsQiw71bc3fao5BkGSJ2tM4bHRHF6DaO/mlY52YBsK1MEzggV36+NYFpftFSJg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -17478,6 +17484,7 @@ packages:
       '@rollup/plugin-json': 6.0.1(rollup@4.8.0)
       '@rollup/plugin-multi-entry': 6.0.1(rollup@4.8.0)
       '@rollup/plugin-node-resolve': 15.2.3(rollup@4.8.0)
+      '@types/adm-zip': 0.5.5
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
