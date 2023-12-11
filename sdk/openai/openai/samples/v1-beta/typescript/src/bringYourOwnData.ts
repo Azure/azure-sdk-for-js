@@ -27,7 +27,7 @@ const messages = [
   {
     role: "user",
     content: "What's the most common feedback we received from our customers about the product?",
-  },
+  } as const,
 ];
 
 export async function main() {
@@ -47,11 +47,9 @@ export async function main() {
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          parameters: {
-            endpoint: azureSearchEndpoint,
-            key: azureSearchAdminKey,
-            indexName: azureSearchIndexName,
-          },
+          endpoint: azureSearchEndpoint,
+          key: azureSearchAdminKey,
+          indexName: azureSearchIndexName,
         },
       ],
     },

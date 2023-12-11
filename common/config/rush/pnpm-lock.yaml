@@ -17277,6 +17277,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.3(@types/node@18.19.2)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
@@ -17545,7 +17546,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-Chjab8gM283uMO86CO1zZm+ovd5Yp8FyTHHlLRczbBs4Ht08wmahCmihdmMwwOIGW7e1RJqey5jSV64U1KZKqA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-sSstFNgoKSiT044+C6MttI9RG3O73vLH3y/REy25uY9KhC+ENqEDuClhMmvpv8eCwqUMNXisggVCtyuXK69bpg==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -19306,7 +19307,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-SBh33BHh7UCJRfrPeWs9ky1jscx5gaTvwT0g0iNYobJyZ+5gwut5LzTArOoenrDbCfMjwVvB/dEGwUGGruDEnA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-BCPftaN0UsxcqxMRzt/6Kl2DM5f/eiu2oRBwGAhtysjJHssngHcv5dGL5Hz7gLZsz+21NsLrG42QLTlg6v8WRw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -19546,7 +19547,7 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-4mM/JDYRRuuDDjZtEg3rBioWuqOquXG70wcTTO6AdfbYY8ARjurpG93HkAto1Fj6O+e6Jn2ZBpwI1qgJJ2BDEg==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-w/SHh7KAxI2+dTRJzSZk+MqJtT+NxUi0P80rwGttYG+JoKXY1kek+XNe/ZKHsFa1pZ5qwstZI4uZpIaLFQFBqA==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
@@ -19893,7 +19894,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-dMbTJPNZSBmNc1VrwtI5exnIF/r76bH76ivlj1LkvWtIWU5AU4R7vW5Z9/u8ExEirbKZtIms115sUeeAHNnq3w==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-rv2+ly48oewO41wRZ8BwMySTEu2RfvnI17kPK5dL4ogx2q2LDQFFREfuAOoP0prc7lBLMlpX/PUw41w00HcDKQ==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -20323,7 +20324,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-swT1rtDl6L6IfSpMjkxNWlMImIkyV2CkPkMO7dHRNh8DcvizEhClOIV7EcwA35Q+bRVmZeSyvm4gr+saJ9IU0g==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-eBut8TWLuzGhQPVukHk9Ok847zH8oyzDE3cHfJYDgjj0C9RNWFSSzwBSmBh73I6SmG1yUWihrq1p9xNRGDi/Bg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -21126,7 +21127,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-Eu0YOhGEUqwLb8pRJRyuSN1X3HhzWC5/I/T55HPI24d+Wvj7mxjJyK7BYV90YKFCI4+W3xVN/rIIRSu2GhCmpw==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-fAeYK8D4vBH/pNBj4jTTL7tzt6WQhQqIgjXIf1ni8c5dyeYJgFSbHMpl8jwvmwn/Qv2SyxcX2Z2f0a4+HT0tcg==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
