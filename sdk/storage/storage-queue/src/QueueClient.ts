@@ -648,6 +648,11 @@ export class QueueClient extends StorageClient {
    * If the queue already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
+   * Please be noted: function logic relies on header 'x-ms-errorcode'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async createIfNotExists(
@@ -671,7 +676,8 @@ export class QueueClient extends StorageClient {
         ...response,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "QueueAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "QueueAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a queue only if it does not already exist.",
@@ -697,6 +703,11 @@ export class QueueClient extends StorageClient {
    * Deletes the specified queue permanently if it exists.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
+   * Please be noted: function logic relies on header 'x-ms-errorcode'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async deleteIfExists(
@@ -710,7 +721,8 @@ export class QueueClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "QueueNotFound") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "QueueNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a queue only if it exists.",

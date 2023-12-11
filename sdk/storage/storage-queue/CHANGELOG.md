@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Changed QueueClient.createIfNotExists and QueueClient.deleteIfExists to check both header 'x-ms-error-code' and error code in response body. Fixed issue [27913](https://github.com/Azure/azure-sdk-for-js/issues/27913).
+
 ### Other Changes
 
 ## 12.16.0 (2023-11-09)

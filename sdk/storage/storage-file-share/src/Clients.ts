@@ -710,6 +710,11 @@ export class ShareClient extends StorageClient {
    * the same name already exists, it is not changed.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-share
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set the account's CORS rules
+   * to expose header 'x-ms-error-code' to help the function to tell whether
+   * the error is expected.
+   *
    * @param options -
    */
   public async createIfNotExists(
@@ -723,7 +728,8 @@ export class ShareClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "ShareAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ShareAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a share only if it doesn't already exist.",
@@ -1009,6 +1015,10 @@ export class ShareClient extends StorageClient {
    * Marks the specified share for deletion if it exists. The share and any directories or files
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-share
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
    *
    * @param options -
    */
@@ -1023,7 +1033,8 @@ export class ShareClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "ShareNotFound") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ShareNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a share only if it exists.",
@@ -1830,6 +1841,11 @@ export class ShareDirectoryClient extends StorageClient {
    * If the directory already exists, it is not modified.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-directory
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async createIfNotExists(
@@ -1843,7 +1859,8 @@ export class ShareDirectoryClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "ResourceAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ResourceAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message:
@@ -2189,6 +2206,11 @@ export class ShareDirectoryClient extends StorageClient {
    * deleted.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-directory
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async deleteIfExists(
@@ -2202,10 +2224,8 @@ export class ShareDirectoryClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (
-        e.details?.errorCode === "ResourceNotFound" ||
-        e.details?.errorCode === "ParentNotFound"
-      ) {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ResourceNotFound" || errorCode === "ParentNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a directory only if it exists.",
@@ -4162,6 +4182,11 @@ export class ShareFileClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.   *
+   *
    * @param options -
    */
   public async deleteIfExists(
@@ -4175,10 +4200,8 @@ export class ShareFileClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (
-        e.details?.errorCode === "ResourceNotFound" ||
-        e.details?.errorCode === "ParentNotFound"
-      ) {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ResourceNotFound" || errorCode === "ParentNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a file only if it exists.",

@@ -815,6 +815,11 @@ export class ContainerClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-container
    * Naming rules: @see https://learn.microsoft.com/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async createIfNotExists(
@@ -829,7 +834,8 @@ export class ContainerClient extends StorageClient {
         _response: res._response, // _response is made non-enumerable
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "ContainerAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ContainerAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message:
@@ -1009,6 +1015,11 @@ export class ContainerClient extends StorageClient {
    * contained within it are later deleted during garbage collection.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-container
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options - Options to Container Delete operation.
    */
   public async deleteIfExists(
@@ -1024,7 +1035,8 @@ export class ContainerClient extends StorageClient {
         _response: res._response, // _response is made non-enumerable
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "ContainerNotFound") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "ContainerNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a container only if it exists.",

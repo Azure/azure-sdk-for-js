@@ -1281,6 +1281,11 @@ export class BlobClient extends StorageClient {
    * applications. Vice versa new blobs might be added by other clients or applications after this
    * function completes.
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options - options to Exists operation.
    */
   public async exists(options: BlobExistsOptions = {}): Promise<boolean> {
@@ -1298,13 +1303,15 @@ export class BlobClient extends StorageClient {
       if (e.statusCode === 404) {
         // Expected exception when checking blob existence
         return false;
-      } else if (
-        e.statusCode === 409 &&
-        (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
-          e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
-      ) {
-        // Expected exception when checking blob existence
-        return true;
+      } else if (e.statusCode === 409) {
+        const errorCode = e.details?.errorCode ?? e.details?.code;
+        if (
+          errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
+          errorCode === BlobDoesNotUseCustomerSpecifiedEncryption
+        ) {
+          // Expected exception when checking blob existence
+          return true;
+        }
       }
 
       span.setStatus({
@@ -1405,6 +1412,11 @@ export class BlobClient extends StorageClient {
    * Blob operation.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-blob
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options - Optional options to Blob Delete operation.
    */
   public async deleteIfExists(
@@ -1419,7 +1431,8 @@ export class BlobClient extends StorageClient {
         _response: res._response, // _response is made non-enumerable
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "BlobNotFound") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "BlobNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a blob or snapshot only if it exists.",
@@ -2781,6 +2794,11 @@ export class AppendBlobClient extends BlobClient {
    * If the blob with the same name already exists, the content of the existing blob will remain unchanged.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param options -
    */
   public async createIfNotExists(
@@ -2799,7 +2817,8 @@ export class AppendBlobClient extends BlobClient {
         _response: res._response, // _response is made non-enumerable
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "BlobAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist.",
@@ -5136,6 +5155,11 @@ export class PageBlobClient extends BlobClient {
    * of the existing blob will remain unchanged.
    * @see https://docs.microsoft.com/rest/api/storageservices/put-blob
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param size - size of the page blob.
    * @param options -
    */
@@ -5157,7 +5181,8 @@ export class PageBlobClient extends BlobClient {
         _response: res._response, // _response is made non-enumerable
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "BlobAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.code;
+      if (errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist.",

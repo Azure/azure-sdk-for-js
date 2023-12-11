@@ -377,6 +377,11 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/create
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param resourceType - Resource type, "directory" or "file".
    * @param options -
    */
@@ -397,7 +402,8 @@ export class DataLakePathClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "PathAlreadyExists") {
+      const errorCode = e.details?.errorCode ?? e.details?.error?.code;
+      if (errorCode === "PathAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist.",
@@ -503,6 +509,11 @@ export class DataLakePathClient extends StorageClient {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/delete
    *
+   * Please be noted: function logic relies on header 'x-ms-error-code'.
+   * If you invoke the function in a browser environment, it's recommanded to set
+   * the account's CORS rules to expose header 'x-ms-error-code' to help the
+   * function to tell whether the error is expected.
+   *
    * @param recursive - Required and valid only when the resource is a directory. If "true", all paths beneath the directory will be deleted.
    * @param options -
    */
@@ -519,7 +530,8 @@ export class DataLakePathClient extends StorageClient {
         ...res,
       };
     } catch (e: any) {
-      if (e.details?.errorCode === "PathNotFound") {
+      const errorCode = e.details?.errorCode ?? e.details?.error?.code;
+      if (errorCode === "PathNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a directory or file only if it exists.",

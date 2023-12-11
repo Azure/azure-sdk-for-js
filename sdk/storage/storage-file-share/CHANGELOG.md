@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Changed ShareClient.createIfNotExists, ShareClient.deleteIfExists, ShareFileClient.createIfNotExists, ShareDirectoryClient.deleteIfExists and ShareFileClient.deleteIfExists to check both header 'x-ms-error-code' and error code in response body. Fixed issue [27913](https://github.com/Azure/azure-sdk-for-js/issues/27913).
+
 ### Other Changes
 
 ## 12.17.0 (2023-11-09)
