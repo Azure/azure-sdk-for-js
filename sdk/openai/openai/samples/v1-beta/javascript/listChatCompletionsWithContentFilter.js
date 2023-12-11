@@ -16,19 +16,21 @@ require("dotenv").config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-const messages = [
-  { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-  { role: "user", content: "Can you help me?" },
-  { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-  { role: "user", content: "What's the best way to train a parrot?" },
-];
-
 async function main() {
   console.log("== Get completions Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const events = await client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  const events = client.listChatCompletions(
+    deploymentId,
+    [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
+    { maxTokens: 128 },
+  );
 
   for await (const event of events) {
     for (const choice of event.choices) {
@@ -39,19 +41,19 @@ async function main() {
       }
       if (choice.contentFilterResults.error) {
         console.log(
-          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`
+          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`,
         );
       } else {
         const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
         console.log(`Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`);
         console.log(
-          `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`
+          `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`,
         );
         console.log(
-          `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`
+          `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`,
         );
         console.log(
-          `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`
+          `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`,
         );
       }
     }
