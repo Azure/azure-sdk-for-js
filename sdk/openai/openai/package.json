@@ -21,8 +21,8 @@
       "import": "./dist-esm/src/api/index.js"
     },
     "./models": {
-      "types": "./types/src/api/models.d.ts",
-      "import": "./dist-esm/src/api/models.js"
+      "types": "./types/src/models.d.ts",
+      "import": "./dist-esm/src/models.js"
     },
     "./rest": {
       "types": "./types/src/rest/index.d.ts",
