@@ -8,8 +8,9 @@ import {
   AudioTranslationOutput,
   CompletionsOutput,
   ChatCompletionsOutput,
-  BatchImageGenerationOperationResponseOutput,
+  ImageGenerationsOutput,
   EmbeddingsOutput,
+  BatchImageGenerationOperationResponseOutput,
 } from "./outputModels.js";
 
 /** The request has succeeded. */
@@ -142,6 +143,40 @@ export interface GetChatCompletionsWithAzureExtensionsDefaultResponse
 }
 
 /** The request has succeeded. */
+export interface GetImageGenerations200Response extends HttpResponse {
+  status: "200";
+  body: ImageGenerationsOutput;
+}
+
+export interface GetImageGenerationsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetImageGenerationsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetImageGenerationsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetEmbeddings200Response extends HttpResponse {
+  status: "200";
+  body: EmbeddingsOutput;
+}
+
+export interface GetEmbeddingsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetEmbeddingsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface GetAzureBatchImageGenerationOperationStatus200Response
   extends HttpResponse {
   status: "200";
@@ -191,21 +226,4 @@ export interface BeginAzureBatchImageGenerationLogicalResponse
   extends HttpResponse {
   status: "200";
   body: BatchImageGenerationOperationResponseOutput;
-}
-
-/** The request has succeeded. */
-export interface GetEmbeddings200Response extends HttpResponse {
-  status: "200";
-  body: EmbeddingsOutput;
-}
-
-export interface GetEmbeddingsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetEmbeddingsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
 }

@@ -34,19 +34,11 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "types": "types/latest/template.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "types/3.1/template.d.ts"
-      ]
-    }
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run build:test && api-extractor run --local && npm run build:types",
+    "build": "npm run build:test && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -70,7 +62,6 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "CHANGELOG.md",
     "LICENSE"
@@ -114,7 +105,6 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
@@ -129,7 +119,6 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
