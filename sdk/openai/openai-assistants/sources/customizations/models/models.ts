@@ -7,6 +7,36 @@ import {
   AssistantRole,
 } from "../../generated/src/models/models.js";
 
+/** Information about a file attached to an assistant thread message. */
+export interface AssistantMessageFile {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt: Date;
+  /** The ID of the message that this file is attached to. */
+  messageId: string;
+}
+
+/** A single message within an assistant thread. */
+export interface AssistantMessage {
+  /** The identifier, which can be referenced in API endpoints. */
+  id?: string;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt?: Date;
+  /** The ID of the thread that this message belongs to. */
+  threadId?: string;
+  /** The role associated with the assistant thread message. */
+  role: AssistantRole;
+  /** The list of content items associated with the assistant thread message. */
+  content: AssistantMessageContent[];
+  /** If applicable, the ID of the assistant that authored this message. */
+  assistantId?: string;
+  /** If applicable, the ID of the run associated with the authoring of this message. */
+  runId?: string;
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata?: Record<string, string>;
+}
+
 /** An abstract representation of a single item of thread message content. */
 export interface AssistantMessageContent {
   /** the discriminator possible values image_file, text */
