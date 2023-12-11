@@ -248,12 +248,14 @@ describe("OpenAIAssistants", () => {
           assert.equal(deleteAssistantResponse.deleted, true);
         });
         it("create and run function scenario for weather bot", async function () {
+          const favoriteCityFunctionName = "getUserFavoriteCity";
+          const favoriteCityFunctionDescription = "Gets the user's favorite city.";
           const getFavoriteCity = () => "Atlanta, GA";
           const getUserFavoriteCityTool = { 
             type: "function",
             function: {
-              name: "getUserFavoriteCity",
-              description: "Gets the user's favorite city.",
+              name: favoriteCityFunctionName,
+              description: favoriteCityFunctionDescription,
               parameters: {
                 type: "object",
                 properties: {}
@@ -274,11 +276,13 @@ describe("OpenAIAssistants", () => {
             }
           };
 
+          const getCityNicknameFunctionName = "getCityNickname";
+          const getCityNicknameFunctionDescription = "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.";
           const getCityNicknameTool = { 
             type: "function",
             function: {
-              name: "getCityNickname",
-              description: "Gets the nickname for a city, e.g. 'LA' for 'Los Angeles, CA'.",
+              name: getCityNicknameFunctionName,
+              description: getCityNicknameFunctionDescription,
               parameters: { 
                 type: "object",
                 properties: { 
@@ -303,11 +307,13 @@ describe("OpenAIAssistants", () => {
                 return "Unknown"; 
             }
           };
+          const getWeatherFunctionName = "getWeatherAtLocation";
+          const getWeatherFunctionDescription = "Gets the current weather at a provided location.";
           const getWeatherAtLocationTool = { 
             type: "function",
             function: {
-              name: "getWeatherAtLocation",
-              description: "Gets the current weather at a provided location.",
+              name: getWeatherFunctionName,
+              description: getWeatherFunctionDescription,
               parameters: { 
                 type: "object",
                 properties: { 
@@ -325,36 +331,84 @@ describe("OpenAIAssistants", () => {
             }
           };
 
+          const getResolvedToolOutput = (toolCall: { id: string, function?: any }): { output: string } => {
+              const toolOutput = { toolCallId: toolCall.id, output: "" };
+              if (toolCall["function"]) {
+                  const functionCall = toolCall["function"];
+                  const functionName = functionCall.name;
+                  const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
+                  switch (functionName) {
+                      case favoriteCityFunctionName:
+                          // assert.equal(functionDescription, favoriteCityFunctionDescription);
+                          toolOutput.output = getFavoriteCity();
+                          break;
+                      case getCityNicknameFunctionName:
+                          // assert.equal(functionDescription, getCityNicknameFunctionDescription);
+                          toolOutput.output = getCityNickname(functionArgs["city"]);
+                          break;
+                      case getWeatherFunctionName:
+                          // assert.equal(functionDescription, getWeatherFunctionDescription);
+                          toolOutput.output = getWeatherAtLocation(functionArgs.location, functionArgs.temperatureUnit);
+                          break;
+                      default:
+                          toolOutput.output = `Unknown function: ${functionName}`;
+                          break;
+                  }
+              }
+
+              return toolOutput;
+          };
+
+          const instructions = `You are a weather bot. Use the provided functions to help answer questions.
+              Customize your responses to the user's preferences as much as possible and use friendly
+              nicknames for cities whenever possible.
+          `;
           const functionAssistant = {
             model: "gpt-4-1106-preview",
             name: "JS SDK Test Assistant - Weather",
-            instructions: `You are a weather bot. Use the provided functions to help answer questions.
-                Customize your responses to the user's preferences as much as possible and use friendly
-                nicknames for cities whenever possible.
-            `,
+            instructions,
             tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
           };
-          // REMOVE
-          void getFavoriteCity;
-          void getCityNickname;
-          void getWeatherAtLocation;
-          // END REMOVE
           const assistant = await client.createAssistant(functionAssistant);
           assert.isNotNull(assistant.id);
           const thread = await client.createThread();
           assert.isNotNull(thread.id);
           const content = "What's the weather like right now in my favorite city?";
           const role = "user";
-          const initialMessage = {
-            role,
-            content,
-          };
-          let run = await client.createThreadAndRun({ 
-            assistantId: assistant.id, 
-            thread: { messages: [initialMessage] },
+          const message = await client.createMessage(thread.id, role, content);
+          assert.isNotNull(message.id);
+          assert.equal(message.threadId, thread.id);
+          let run = await client.createRun(thread.id, assistant.id, {
             tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
           });
           assert.isNotNull(run.id);
+
+          await new Promise(r => setTimeout(r, 2500));
+          do {
+            await new Promise(r => setTimeout(r, 500));
+            run = await client.retrieveRun(thread.id, run.id);
+            assert.equal(run.instructions, instructions);
+            
+            if (run.status === "requires_action" && run.requiredAction?.type === "submit_tool_outputs") {
+              const toolOutputs = [];
+
+              assert.notEqual(run.requiredAction?.submitToolOutputs?.tool_calls, undefined);
+              if (run.requiredAction?.submitToolOutputs?.tool_calls !== undefined) {
+                for (const toolCall of run.requiredAction.submitToolOutputs.tool_calls) {
+                  toolOutputs.push(getResolvedToolOutput(toolCall));
+                }
+              }
+              run = await client.submitRunToolOutputs(thread.id, run.id, toolOutputs);
+            }
+          } while (run.status === "queued" || run.status === "in_progress")
+
+          const runMessages = await client.listMessages(thread.id);
+          for (const runMessageDatum of runMessages.data) {
+              for (const item of runMessageDatum.content) {
+                assert.equal(item.type, "text");
+                assert.isNotEmpty(item.text?.value);
+              }
+          }
 
           const deleteThreadResponse = await client.deleteThread(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
