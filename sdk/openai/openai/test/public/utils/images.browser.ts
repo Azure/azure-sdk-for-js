@@ -8,7 +8,9 @@ interface Dimensions {
   height: number;
 }
 
-export async function getImageDimensions(response: PipelineResponse): Promise<Dimensions> {
+export async function getImageDimensionsFromResponse(
+  response: PipelineResponse
+): Promise<Dimensions> {
   const blob = await response.blobBody;
   if (!blob) {
     throw new Error("Cannot find browser body");

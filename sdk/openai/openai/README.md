@@ -6,12 +6,12 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 
 Use the client library for Azure OpenAI to:
 
-* [Create a completion for text][get_completions_sample]
 * [Create a chat completion with ChatGPT][list_chat_completion_sample]
 * [Create a text embedding for comparisons][msdocs_openai_embedding]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images][get_images_sample]
 * [Transcribe and Translate audio files][transcribe_audio_sample]
+* [Create a legacy completion for text][get_completions_sample]
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
@@ -20,9 +20,11 @@ Checkout the following examples:
 - [Multiple Completions](#generate-multiple-completions-with-subscription-key)
 - [Chatbot](#generate-chatbot-response)
 - [Summarize Text](#summarize-text-with-completion)
+- [Use Chat Tools](#use-chat-tools)
 - [Generate Images](#generate-images-with-dall-e-image-generation-models)
 - [Analyze Business Data](#analyze-business-data)
 - [Transcribe and Translate audio files](#transcribe-and-translate-audio-files)
+- [Chat with images using gpt-4-vision-preview](#chat-with-images-using-gpt-4-vision-preview)
 
 Key links:
 
@@ -273,6 +275,90 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 ```
+
+### Use chat tools
+
+**Tools** extend chat completions by allowing an assistant to invoke defined functions and other capabilities in the
+process of fulfilling a chat completions request. To use chat tools, start by defining a function tool:
+
+```js
+const getCurrentWeather = {
+    name: "get_current_weather",
+    description: "Get the current weather in a given location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state, e.g. San Francisco, CA",
+        },
+        unit: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+        },
+      },
+      required: ["location"],
+    },
+  };
+```
+
+With the tool defined, include that new definition in the options for a chat completions request:
+
+```js
+const deploymentName = "gpt-35-turbo-1106";
+const messages = [{ role: "user", content: "What is the weather like in Boston?" }];
+const options = {
+    tools: [
+      {
+        type: "function",
+        function: getCurrentWeather,
+      },
+    ],
+  };
+const events = client.getChatCompletions(deploymentId, messages, options);
+```
+
+When the assistant decides that one or more tools should be used, the response message includes one or more "tool
+calls" that must all be resolved via "tool messages" on the subsequent request. This resolution of tool calls into
+new request messages can be thought of as a sort of "callback" for chat completions.
+
+```js
+// Purely for convenience and clarity, this function handles tool call responses.
+function applyToolCall({ function: call, id }) {
+    if (call.name === "get_current_weather") {
+      const { location, unit } = JSON.parse(call.arguments);
+      // In a real application, this would be a call to a weather API with location and unit parameters
+      return {
+        role: "tool",
+        content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
+        toolCallId: id,
+      }
+    }
+    throw new Error(`Unknown tool call: ${call.name}`);
+}
+```
+
+To provide tool call resolutions to the assistant to allow the request to continue, provide all prior historical
+context -- including the original system and user messages, the response from the assistant that included the tool
+calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
+
+```js
+const choice = result.choices[0];
+const responseMessage = choice.message;
+if (responseMessage?.role === "assistant") {
+  const requestedToolCalls = responseMessage?.toolCalls;
+  if (requestedToolCalls?.length) {
+    const toolCallResolutionMessages = [
+      ...messages,
+      responseMessage,
+      ...requestedToolCalls.map(applyToolCall),
+    ];
+    const result = await client.getChatCompletions(deploymentName, toolCallResolutionMessages);
+    // continue handling the response as normal
+  }
+}
+```
+
 ### Generate images with DALL-E image generation models
 
 This example generates batch images from a given input prompt.
@@ -284,11 +370,12 @@ async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
 
+  const deploymentName = "dalle-3";
   const prompt = "a monkey eating a banana";
-  const size = "256x256";
-  const n = 3;
+  const size = "1024x1024";
+  const n = 1;
   
-  const results = await client.getImages(prompt, { n, size });
+  const results = await client.getImages(deploymentName, prompt, { n, size });
 
   for (const image of results.data) {
     console.log(`Image generation result URL: ${image.url}`);
@@ -327,11 +414,9 @@ async function main(){
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          parameters: {
-            endpoint: "<Azure Cognitive Search endpoint>",
-            key: "<Azure Cognitive Search admin key>",
-            indexName: "<Azure Cognitive Search index name>",
-          },
+          endpoint: "<Azure Cognitive Search endpoint>",
+          key: "<Azure Cognitive Search admin key>",
+          indexName: "<Azure Cognitive Search index name>",
         },
       ],
     },
@@ -375,6 +460,32 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+```
+
+### Chat with images using gpt-4-vision-preview
+
+The `gpt-4-vision-preview` model allows you to use images as input components into chat completions.
+
+To do this, provide distinct content items on the user message(s) for the chat completions request:
+
+```js
+const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+const deploymentName = "gpt-4-1106-preview";
+const messages: ChatRequestMessage[] = [{role: "user", content: [{
+  type: "image_url",
+  imageUrl: {
+    url,
+    detail: "auto"
+  }
+}]}];
+```
+
+Chat Completions will then proceed as usual, though the model may report the more informative `finish_details` in lieu
+of `finish_reason`:
+
+```js
+const result = await client.getChatCompletions(deploymentName, messages);
+console.log(`Chatbot: ${result.choices[0].message?.content}`);
 ```
 
 ## Troubleshooting
