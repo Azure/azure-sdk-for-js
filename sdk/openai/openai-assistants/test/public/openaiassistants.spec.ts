@@ -331,6 +331,9 @@ describe("OpenAIAssistants", () => {
             }
           };
 
+          let favoriteCityCalled = false;
+          let nicknameCalled = false;
+          let weatherCalled = false;
           const getResolvedToolOutput = (toolCall: { id: string, function?: any }): { output: string } => {
               const toolOutput = { toolCallId: toolCall.id, output: "" };
               if (toolCall["function"]) {
@@ -339,16 +342,16 @@ describe("OpenAIAssistants", () => {
                   const functionArgs = JSON.parse(functionCall["arguments"] ?? {});
                   switch (functionName) {
                       case favoriteCityFunctionName:
-                          // assert.equal(functionDescription, favoriteCityFunctionDescription);
                           toolOutput.output = getFavoriteCity();
+                          favoriteCityCalled = true;
                           break;
                       case getCityNicknameFunctionName:
-                          // assert.equal(functionDescription, getCityNicknameFunctionDescription);
                           toolOutput.output = getCityNickname(functionArgs["city"]);
+                          nicknameCalled = true;
                           break;
                       case getWeatherFunctionName:
-                          // assert.equal(functionDescription, getWeatherFunctionDescription);
                           toolOutput.output = getWeatherAtLocation(functionArgs.location, functionArgs.temperatureUnit);
+                          weatherCalled = true;
                           break;
                       default:
                           toolOutput.output = `Unknown function: ${functionName}`;
@@ -381,12 +384,15 @@ describe("OpenAIAssistants", () => {
           let run = await client.createRun(thread.id, assistant.id, {
             tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
           });
-          assert.isNotNull(run.id);
+          const runId = run.id
+          assert.isNotNull(runId);
 
-          await new Promise(r => setTimeout(r, 2500));
           do {
             await new Promise(r => setTimeout(r, 500));
             run = await client.retrieveRun(thread.id, run.id);
+            assert.equal(run.id, runId);
+            assert.equal(run.threadId, thread.id);
+            assert.equal(run.assistantId, assistant.id);
             assert.equal(run.instructions, instructions);
             
             if (run.status === "requires_action" && run.requiredAction?.type === "submit_tool_outputs") {
@@ -401,6 +407,10 @@ describe("OpenAIAssistants", () => {
               run = await client.submitRunToolOutputs(thread.id, run.id, toolOutputs);
             }
           } while (run.status === "queued" || run.status === "in_progress")
+
+          assert.equal(favoriteCityCalled, true);
+          assert.equal(nicknameCalled, true);
+          assert.equal(weatherCalled, true);
 
           const runMessages = await client.listMessages(thread.id);
           for (const runMessageDatum of runMessages.data) {
