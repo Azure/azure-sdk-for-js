@@ -2,12 +2,16 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { Pipeline } from "@azure/core-rest-pipeline";
 import {
+  EmbeddingsOptions,
   Embeddings,
+  CompletionsOptions,
   Completions,
-  ChatMessage,
+  ChatCompletionsOptions,
   ChatCompletions,
   BatchImageGenerationOperationResponse,
+  ImageGenerationOptions,
 } from "./models/models.js";
 import {
   GetEmbeddingsOptions,
@@ -33,6 +37,8 @@ export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
 export class OpenAIClient {
   private _client: OpenAIContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
   /** Azure OpenAI APIs for completions and search */
   constructor(
@@ -41,15 +47,16 @@ export class OpenAIClient {
     options: OpenAIClientOptions = {}
   ) {
     this._client = createOpenAI(endpoint, credential, options);
+    this.pipeline = this._client.pipeline;
   }
 
   /** Return the embeddings for a given prompt. */
   getEmbeddings(
-    input: string[],
     deploymentId: string,
+    body: EmbeddingsOptions,
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
-    return getEmbeddings(this._client, input, deploymentId, options);
+    return getEmbeddings(this._client, deploymentId, body, options);
   }
 
   /**
@@ -58,11 +65,11 @@ export class OpenAIClient {
    * provided prompt data.
    */
   getCompletions(
-    prompt: string[],
     deploymentId: string,
+    body: CompletionsOptions,
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
-    return getCompletions(this._client, prompt, deploymentId, options);
+    return getCompletions(this._client, deploymentId, body, options);
   }
 
   /**
@@ -71,11 +78,11 @@ export class OpenAIClient {
    * provided prompt data.
    */
   getChatCompletions(
-    messages: ChatMessage[],
     deploymentId: string,
+    body: ChatCompletionsOptions,
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
-    return getChatCompletions(this._client, messages, deploymentId, options);
+    return getChatCompletions(this._client, deploymentId, body, options);
   }
 
   /**
@@ -84,16 +91,16 @@ export class OpenAIClient {
    * other augmentations to the base chat completions capabilities.
    */
   getChatCompletionsWithAzureExtensions(
-    messages: ChatMessage[],
     deploymentId: string,
+    body: ChatCompletionsOptions,
     options: GetChatCompletionsWithAzureExtensionsOptions = {
       requestOptions: {},
     }
   ): Promise<ChatCompletions> {
     return getChatCompletionsWithAzureExtensions(
       this._client,
-      messages,
       deploymentId,
+      body,
       options
     );
   }
@@ -114,9 +121,9 @@ export class OpenAIClient {
 
   /** Starts the generation of a batch of images from a text caption */
   beginAzureBatchImageGeneration(
-    prompt: string,
+    body: ImageGenerationOptions,
     options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
   ): Promise<BatchImageGenerationOperationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
+    return beginAzureBatchImageGeneration(this._client, body, options);
   }
 }

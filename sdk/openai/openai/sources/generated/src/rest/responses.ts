@@ -100,13 +100,6 @@ export interface GetAzureBatchImageGenerationOperationStatusDefaultResponse
     GetAzureBatchImageGenerationOperationStatusDefaultHeaders;
 }
 
-/** The final response for long-running getAzureBatchImageGenerationOperationStatus operation */
-export interface GetAzureBatchImageGenerationOperationStatusLogicalResponse
-  extends HttpResponse {
-  status: "200";
-  body: BatchImageGenerationOperationResponseOutput;
-}
-
 export interface BeginAzureBatchImageGeneration202Headers {
   /** The location for monitoring the operation state. */
   "operation-location": string;

@@ -3,9 +3,11 @@
 
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export {
+  EmbeddingsOptions,
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,
+  CompletionsOptions,
   Completions,
   PromptFilterResult,
   ContentFilterResults,
@@ -15,6 +17,7 @@ export {
   CompletionsLogProbabilityModel,
   CompletionsFinishReason,
   CompletionsUsage,
+  ChatCompletionsOptions,
   ChatMessage,
   ChatRole,
   FunctionCall,
@@ -31,6 +34,7 @@ export {
   ImageLocation,
   ImagePayload,
   AzureOpenAIOperationState,
+  ImageGenerationOptions,
   ImageSize,
   ImageGenerationResponseFormat,
   GetEmbeddingsOptions,

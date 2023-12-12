@@ -11,7 +11,6 @@ import {
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusLogicalResponse,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationLogicalResponse,
@@ -45,7 +44,6 @@ export function isUnexpected(
 export function isUnexpected(
   response:
     | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
 ): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
 export function isUnexpected(
@@ -65,7 +63,6 @@ export function isUnexpected(
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusLogicalResponse
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
     | BeginAzureBatchImageGeneration202Response
     | BeginAzureBatchImageGenerationLogicalResponse
