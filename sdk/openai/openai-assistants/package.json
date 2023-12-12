@@ -10,7 +10,10 @@
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "openai",
+    "ai",
+    "assistants"
   ],
   "license": "MIT",
   "type": "module",
