@@ -2,8 +2,6 @@
 
 The Azure OpenAI Assistants client library for JavaScript is an adaptation of OpenAI's REST APIs that provides an idiomatic interface and rich integration with the rest of the Azure SDK ecosystem. It can connect to Azure OpenAI resources or to the non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure OpenAI development.```
 
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
-
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure/openai-assistants)
