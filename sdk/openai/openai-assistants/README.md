@@ -28,11 +28,10 @@ If you'd like to use the Azure OpenAI JS client library to connect to non-Azure 
 from a developer account at https://platform.openai.com/.
 ### Install the `@azure/openai-assistants` package
 
-Install the Azure Assistants REST client REST client library for JavaScript with `npm`:
+Install the Azure OpenAI Assistants client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/openai-assistants
-```
 
 ### Create and authenticate a `AssistantsClient`
 
