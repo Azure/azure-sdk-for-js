@@ -46,9 +46,7 @@ Use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retri
 
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
-## Usage
-
-### Overview
+## Key concepts
 
 See [OpenAI's "how assistants work"](https://platform.openai.com/docs/assistants/how-it-works) documentation for an
 overview of the concepts and relationships used with assistants. This overview closely follows
