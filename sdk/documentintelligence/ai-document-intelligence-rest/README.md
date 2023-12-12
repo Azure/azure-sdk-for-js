@@ -4,11 +4,15 @@ Extracts content, layout, and structured data from documents.
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
+> NOTE: Form Recognizer has been rebranded to Document Intelligence. Please check the [Migration Guide from `@azure/ai-form-recognizer` to `@azure-rest/ai-document-intelligence`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md).
+
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-intelligence)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples)
+- [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md)
+- [Migration Guide from Form Recognizer](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md)
 
 ## Getting started
 
@@ -62,32 +66,6 @@ import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
 const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"], {
   key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"],
 });
-```
-
-## Get Info
-
-```ts
-const response = await client.path("/info").get();
-if (isUnexpected(response)) {
-  throw response.body.error;
-}
-console.log(response.body.customDocumentModels.limit);
-// 20000
-```
-
-## List Document Models
-
-```ts
-import { paginate } from "@azure-rest/ai-document-intelligence";
-const response = await client.path("/documentModels").get();
-if (isUnexpected(response)) {
-  throw response.body.error;
-}
-
-const modelsInAccount: string[] = [];
-for await (const model of paginate(client, response)) {
-  console.log(model.modelId);
-}
 ```
 
 ## Document Models
@@ -155,6 +133,63 @@ console.log(result);
 // }
 ```
 
+### Markdown content format
+
+Supports output with Markdown content format along with the default plain _text_. For now, this is only supported for "prebuilt-layout". Markdown content format is deemed a more friendly format for LLM consumption in a chat or automation use scenario.
+
+Service follows the GFM spec ([GitHub Flavored Markdown](https://github.github.com/gfm/)) for the Markdown format. Also introduces a new _contentFormat_ property with value "text" or "markdown" to indicate the result content format.
+
+```ts
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"], {
+  key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"],
+});
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      urlSource:
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/6704eff082aaaf2d97c1371a28461f512f8d748a/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
+    },
+    queryParameters: { outputContentFormat: "markdown" }, // <-- new query parameter
+  });
+```
+
+### Query Fields
+
+When this feature flag is specified, the service will further extract the values of the fields specified via the queryFields query parameter to supplement any existing fields defined by the model as fallback.
+
+```ts
+await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
+  contentType: "application/json",
+  body: { urlSource: "..." },
+  queryParameters: {
+    features: ["queryFields"],
+    queryFields: ["NumberOfGuests", "StoreNumber"],
+  }, // <-- new query parameter
+});
+```
+
+### Split Options
+
+In the previous API versions supported by the older `@azure/ai-form-recognizer` library, document splitting and classification operation (`"/documentClassifiers/{classifierId}:analyze"`) always tried to split the input file into multiple documents.
+
+To enable a wider set of scenarios, service introduces a "split" query parameter with the new "2023-10-31-preview" service version. The following values are supported:
+
+- `split: "auto"`
+
+  Let service determine where to split.
+
+- `split: "none"`
+
+  The entire file is treated as a single document. No splitting is performed.
+
+- `split: "perPage"`
+
+  Each page is treated as a separate document. Each empty page is kept as its own document.
+
 ## Document Classifiers #Build
 
 ```ts
@@ -207,6 +242,32 @@ console.log(response);
 //    },
 //    apiVersion: '2023-10-31-preview'
 //  }
+```
+
+## Get Info
+
+```ts
+const response = await client.path("/info").get();
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
+console.log(response.body.customDocumentModels.limit);
+// 20000
+```
+
+## List Document Models
+
+```ts
+import { paginate } from "@azure-rest/ai-document-intelligence";
+const response = await client.path("/documentModels").get();
+if (isUnexpected(response)) {
+  throw response.body.error;
+}
+
+const modelsInAccount: string[] = [];
+for await (const model of paginate(client, response)) {
+  console.log(model.modelId);
+}
 ```
 
 ## Troubleshooting
