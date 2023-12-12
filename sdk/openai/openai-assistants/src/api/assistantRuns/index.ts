@@ -68,7 +68,10 @@ export async function _createRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : {
+          type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -210,7 +213,10 @@ export async function _retrieveRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : {
+          type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -372,7 +378,10 @@ export async function _submitRunToolOutputsDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : {
+          type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -542,7 +551,10 @@ export async function _createThreadAndRunDeserialize(
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : {
+          type: result.body.required_action?.["type"],
+          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
