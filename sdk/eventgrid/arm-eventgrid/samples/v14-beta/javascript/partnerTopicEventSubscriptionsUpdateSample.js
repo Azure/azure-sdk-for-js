@@ -42,7 +42,7 @@ async function partnerTopicEventSubscriptionsUpdate() {
     resourceGroupName,
     partnerTopicName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

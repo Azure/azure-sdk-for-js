@@ -631,8 +631,9 @@ export interface PlayResult {
 
 // @public
 export interface PlaySource {
-    // (undocumented)
-    playsourcecacheid?: string;
+    // @deprecated (undocumented)
+    playsourcacheid?: string;
+    playSourceCacheId?: string;
 }
 
 // @public

@@ -31,7 +31,7 @@ async function privateEndpointConnectionsGet() {
     resourceGroupName,
     parentType,
     parentName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

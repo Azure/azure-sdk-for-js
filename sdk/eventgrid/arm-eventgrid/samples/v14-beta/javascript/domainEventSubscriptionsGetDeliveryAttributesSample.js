@@ -29,7 +29,7 @@ async function domainEventSubscriptionsGetDeliveryAttributes() {
   const result = await client.domainEventSubscriptions.getDeliveryAttributes(
     resourceGroupName,
     domainName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

@@ -28,7 +28,7 @@ async function systemTopicEventSubscriptionsListBySystemTopic() {
   const resArray = new Array();
   for await (let item of client.systemTopicEventSubscriptions.listBySystemTopic(
     resourceGroupName,
-    systemTopicName
+    systemTopicName,
   )) {
     resArray.push(item);
   }
