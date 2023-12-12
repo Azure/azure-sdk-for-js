@@ -1,13 +1,44 @@
 # Release History
-## 1.5.0-beta.2 (Unreleased)
 
-### Breaking Changes
+## 1.5.1 (Unreleased)
 
 ### Features Added
+
+### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.5.0 (2023-11-07)
+
+### Features Added
+
+- With the new API version `2023-10-01`, the configuration snapshot feature is generally available. 
+  
+  This feature allows you to create snapshots by specifying key and label filters. These filters help capture the necessary configuration settings from your App Configuration instance, creating an immutable, composed view of the configuration store. 
+  
+  The filtered configuration settings are stored as a snapshot with the name provided during its creation.
+`AppConfigurationClient` is enhanced to support new operations such as create, list archive, and recover operations with snapshots.
+  
+  See [`snapshot.ts`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/snapshot.ts) for more information now how to use snapshots.
+
+### Bugs Fixed
+
+- To match the input type, change the output representation of `label` and `contentType` from `null` to `undefined` when these properties are empty or not defined in the configuration setting object. [#27622](https://github.com/Azure/azure-sdk-for-js/pull/27622)
+
+## 1.5.0-beta.2 (2023-10-10)
+
+### Features Added
+
+- Allow setting `updateIntervalInMs` in `CreateSnapshotOptions`
+
+### Other Changes
+
+- Rename `Snapshot` -> `ConfigurationSnapshot`
+- Rename the properties `retentionPeriod` -> `retentionPeriodInSeconds`, `size` -> `sizeInBytes` for `ConfigurationSnapshot`
+- Rename the type `CompositionType` -> `SnapshotComposition`, `SnapshotStatus` -> `ConfigurationSnapshotStatus`
+- Update the method signature for `archiveSnapshot` and `updateSnapshot` to take in a snapshot name as a parameter
 
 ## 1.5.0-beta.1 (2023-07-14)
 

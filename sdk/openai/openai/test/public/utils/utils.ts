@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { logger } from "./logger.js";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -15,46 +14,69 @@ import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
 import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AuthMethod } from "./recordedClient.js";
 import {
   Recorder,
   assertEnvironmentVariable,
   isLiveMode,
-  isPlaybackMode,
+  isRecordMode,
 } from "@azure-tools/test-recorder";
-import { OpenAIKeyCredential } from "../../../src/index.js";
+import {
+  AzureCognitiveSearchChatExtensionConfiguration,
+  OpenAIKeyCredential,
+} from "../../../src/index.js";
+import {
+  EnvironmentVariableNamesAzureCommon,
+  EnvironmentVariableNamesForAzureSearch,
+  EnvironmentVariableNamesForCompletions,
+  EnvironmentVariableNamesForDalle,
+  EnvironmentVariableNamesForWhisper,
+  EnvironmentVariableNamesOpenAI,
+} from "./envVars.js";
+import { AuthMethod, DeploymentType } from "../types.js";
 
-export async function withDeployment<T>(
+function toString(error: any): string {
+  return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
+}
+
+export async function withDeployments<T>(
   deployments: string[],
-  run: (model: string) => Promise<T>
+  run: (model: string) => Promise<T>,
+  validate: (result: T) => void
 ): Promise<string[]> {
   const errors = [];
   const succeeded = [];
   assert.isNotEmpty(deployments, "No deployments found");
+  let i = 0;
   for (const deployment of deployments) {
     try {
-      logger.verbose(`testing with ${deployment}`);
-      await run(deployment);
+      console.log(`[${++i}/${deployments.length}] testing with ${deployment}`);
+      const res = await run(deployment);
+      if (!isRecordMode()) {
+        validate(res);
+      }
       succeeded.push(deployment);
     } catch (e) {
       const error = e as any;
       if (!e) continue;
+      const errorStr = toString(error);
       if (
-        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded"].includes(error.code) ||
+        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
+          error.code
+        ) ||
         error.type === "invalid_request_error"
       ) {
-        logger.verbose(error.toString());
+        console.log(`Handled error: ${errorStr}`);
         continue;
       }
-      logger.warning(`Error in deployment ${deployment}: ${error.toString()}`);
-      errors.push(error instanceof Error ? error.toString() : JSON.stringify(error));
+      console.warn(`Error in deployment ${deployment}: ${errorStr}`);
+      errors.push(errorStr);
     }
   }
   if (errors.length > 0) {
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
   assert.isNotEmpty(succeeded, "No deployments succeeded");
-  logger.info(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
+  console.log(`Succeeded with (${succeeded.length}): ${succeeded.join(", ")}`);
   return succeeded;
 }
 
@@ -65,7 +87,9 @@ export async function sendRequestWithRecorder(
   const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
   if (!isLiveMode()) {
-    pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
+    for (const p of recorder.configureClientOptions({}).additionalPolicies ?? []) {
+      pipeline.addPolicy(p.policy);
+    }
   }
   return pipeline.sendRequest(client, request);
 }
@@ -84,8 +108,11 @@ async function listOpenAIModels(cred: KeyCredential, recorder: Recorder): Promis
   const response = await sendRequestWithRecorder(request, recorder);
 
   const body = JSON.parse(response.bodyAsText as string);
-  const models = body.data.map((model: { id: string }) => model.id);
-  logger.verbose(`Available models (${models.length}): ${models.join(", ")}`);
+  type Model = { id: string; owned_by: string };
+  const models = (body.data as Model[])
+    .filter(({ owned_by }) => ["system", "openai"].includes(owned_by))
+    .map(({ id }) => id);
+  console.log(`Available models (${models.length}): ${models.join(", ")}`);
   return models;
 }
 
@@ -107,7 +134,7 @@ async function listDeployments(
       deployments.push(deploymentName);
     }
   }
-  logger.verbose(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
+  console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
   return deployments;
 }
 
@@ -148,18 +175,63 @@ export function getSucceeded(
   }
 }
 
-export async function getDeployments(recorder: Recorder): Promise<string[]> {
+function getAccountNameFromResourceType(deploymentType: DeploymentType): string {
+  switch (deploymentType) {
+    case "completions":
+      return assertEnvironmentVariable(
+        EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS
+      );
+    case "dalle":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForDalle.ACCOUNT_NAME_DALLE);
+    case "whisper":
+      return assertEnvironmentVariable(EnvironmentVariableNamesForWhisper.ACCOUNT_NAME_WHISPER);
+  }
+}
+
+export async function getDeployments(
+  deploymentType: DeploymentType,
+  recorder: Recorder
+): Promise<string[]> {
   return listDeployments(
-    assertEnvironmentVariable("SUBSCRIPTION_ID"),
-    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("RESOURCE_GROUP"),
-    isPlaybackMode() ? "openai-shared" : assertEnvironmentVariable("ACCOUNT_NAME"),
+    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
+    assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),
+    getAccountNameFromResourceType(deploymentType),
     recorder
   );
 }
 
 export async function getModels(recorder: Recorder): Promise<string[]> {
   return listOpenAIModels(
-    new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+    new OpenAIKeyCredential(
+      assertEnvironmentVariable(EnvironmentVariableNamesOpenAI.OPENAI_API_KEY)
+    ),
     recorder
   );
+}
+
+export async function bufferAsyncIterable<T>(iter: AsyncIterable<T>): Promise<T[]> {
+  const result: T[] = [];
+  for await (const item of iter) {
+    result.push(item);
+  }
+  return result;
+}
+
+export async function get(url: string, recorder: Recorder): Promise<PipelineResponse> {
+  const request = createPipelineRequest({
+    url,
+    method: "GET",
+    headers: createHttpHeaders(),
+    streamResponseStatusCodes: new Set([200]),
+  });
+  return sendRequestWithRecorder(request, recorder);
+}
+
+export function createAzureCognitiveSearchExtension(): AzureCognitiveSearchChatExtensionConfiguration {
+  return {
+    type: "AzureCognitiveSearch",
+    endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
+    key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
+    indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
+  };
 }

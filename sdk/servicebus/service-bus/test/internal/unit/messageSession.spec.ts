@@ -509,7 +509,7 @@ describe("Message session unit tests", () => {
         async (_message) => {
           /* empty body */
         },
-        (errorArgs) => {
+        async (errorArgs) => {
           errors.push({
             message: errorArgs.error.message,
             code: (errorArgs.error as ServiceBusError).code,
@@ -530,7 +530,7 @@ describe("Message session unit tests", () => {
 
     it("processCreditError doesn't log or forward AbortError's", () => {
       let onErrorCalled = false;
-      messageSession["_onError"] = (_err) => {
+      messageSession["_onError"] = async (_err) => {
         onErrorCalled = true;
       };
 
@@ -542,7 +542,7 @@ describe("Message session unit tests", () => {
 
     it("processCreditError forwards non-retryable errors", () => {
       let err: ServiceBusError | Error | undefined;
-      messageSession["_onError"] = (errArgs) => {
+      messageSession["_onError"] = async (errArgs) => {
         err = errArgs.error;
       };
 

@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_Snapshot.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_Snapshot.json
  */
 async function createManagedClusterUsingAnAgentPoolSnapshot() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -31,7 +32,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
         count: 3,
         creationData: {
           sourceResourceId:
-            "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1",
         },
         enableFips: true,
         enableNodePublicIP: true,
@@ -42,7 +43,7 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: false,
     enableRbac: true,
@@ -79,10 +80,11 @@ async function createManagedClusterUsingAnAgentPoolSnapshot() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_ManagedNATGateway.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_ManagedNATGateway.json
  */
 async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -100,7 +102,7 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -137,10 +139,11 @@ async function createManagedClusterWithAksManagedNatGatewayAsOutboundType() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_AzureKeyvaultSecretsProvider.json
  */
 async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -163,7 +166,7 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -200,10 +203,11 @@ async function createManagedClusterWithAzureKeyVaultSecretsProviderAddon() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_DedicatedHostGroup.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_DedicatedHostGroup.json
  */
 async function createManagedClusterWithDedicatedHostGroup() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -215,14 +219,14 @@ async function createManagedClusterWithDedicatedHostGroup() {
         count: 3,
         enableNodePublicIP: true,
         hostGroupID:
-          "/subscriptions/subid1/resourcegroups/rg/providers/Microsoft.Compute/hostGroups/hostgroup1",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg/providers/Microsoft.Compute/hostGroups/hostgroup1",
         osType: "Linux",
         vmSize: "Standard_DS2_v2",
       },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: false,
     enableRbac: true,
@@ -259,10 +263,11 @@ async function createManagedClusterWithDedicatedHostGroup() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_EnableEncryptionAtHost.json
  */
 async function createManagedClusterWithEncryptionAtHostEnabled() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -281,7 +286,7 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -318,10 +323,11 @@ async function createManagedClusterWithEncryptionAtHostEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_EnabledFIPS.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_EnabledFIPS.json
  */
 async function createManagedClusterWithFipsEnabledOS() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -340,7 +346,7 @@ async function createManagedClusterWithFipsEnabledOS() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: false,
     enableRbac: true,
@@ -377,10 +383,11 @@ async function createManagedClusterWithFipsEnabledOS() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_GPUMIG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_GPUMIG.json
  */
 async function createManagedClusterWithGpumig() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -399,7 +406,7 @@ async function createManagedClusterWithGpumig() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -442,10 +449,11 @@ async function createManagedClusterWithGpumig() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_HTTPProxy.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_HTTPProxy.json
  */
 async function createManagedClusterWithHttpProxyConfigured() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -463,7 +471,7 @@ async function createManagedClusterWithHttpProxyConfigured() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -506,10 +514,11 @@ async function createManagedClusterWithHttpProxyConfigured() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_Premium.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_Premium.json
  */
 async function createManagedClusterWithLongTermSupport() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -565,10 +574,11 @@ async function createManagedClusterWithLongTermSupport() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_NodePublicIPPrefix.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_NodePublicIPPrefix.json
  */
 async function createManagedClusterWithNodePublicIPPrefix() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -581,14 +591,14 @@ async function createManagedClusterWithNodePublicIPPrefix() {
         enableNodePublicIP: true,
         mode: "System",
         nodePublicIPPrefixID:
-          "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.Network/publicIPPrefixes/public-ip-prefix",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/publicIPPrefixes/public-ip-prefix",
         osType: "Linux",
         vmSize: "Standard_DS2_v2",
       },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -625,10 +635,11 @@ async function createManagedClusterWithNodePublicIPPrefix() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_OSSKU.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_OSSKU.json
  */
 async function createManagedClusterWithOssku() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -647,7 +658,7 @@ async function createManagedClusterWithOssku() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -690,10 +701,11 @@ async function createManagedClusterWithOssku() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_PPG.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_PPG.json
  */
 async function createManagedClusterWithPpg() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -707,13 +719,13 @@ async function createManagedClusterWithPpg() {
         mode: "System",
         osType: "Linux",
         proximityPlacementGroupID:
-          "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.Compute/proximityPlacementGroups/ppg1",
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/proximityPlacementGroups/ppg1",
         vmSize: "Standard_DS2_v2",
       },
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -750,10 +762,11 @@ async function createManagedClusterWithPpg() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_PodIdentity.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_PodIdentity.json
  */
 async function createManagedClusterWithPodIdentityEnabled() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -771,7 +784,7 @@ async function createManagedClusterWithPodIdentityEnabled() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -809,10 +822,11 @@ async function createManagedClusterWithPodIdentityEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_DisableRunCommand.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_DisableRunCommand.json
  */
 async function createManagedClusterWithRunCommandDisabled() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -867,10 +881,11 @@ async function createManagedClusterWithRunCommandDisabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_SecurityProfile.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_SecurityProfile.json
  */
 async function createManagedClusterWithSecurityProfileConfigured() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -922,10 +937,11 @@ async function createManagedClusterWithSecurityProfileConfigured() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_EnableUltraSSD.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_EnableUltraSSD.json
  */
 async function createManagedClusterWithUltraSsdEnabled() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -944,7 +960,7 @@ async function createManagedClusterWithUltraSsdEnabled() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -981,10 +997,11 @@ async function createManagedClusterWithUltraSsdEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_UserAssignedNATGateway.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_UserAssignedNATGateway.json
  */
 async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1002,7 +1019,7 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -1038,10 +1055,11 @@ async function createManagedClusterWithUserAssignedNatGatewayAsOutboundType() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_PrivateClusterPublicFQDN.json
  */
 async function createManagedPrivateClusterWithPublicFqdnSpecified() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1099,10 +1117,11 @@ async function createManagedPrivateClusterWithPublicFqdnSpecified() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_PrivateClusterFQDNSubdomain.json
  */
 async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1122,7 +1141,7 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
     apiServerAccessProfile: {
       enablePrivateCluster: true,
       privateDNSZone:
-        "/subscriptions/subid1/resourcegroups/rg1/providers/Microsoft.Network/privateDnsZones/privatelink.location1.azmk8s.io",
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Network/privateDnsZones/privatelink.location1.azmk8s.io",
     },
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     enablePodSecurityPolicy: true,
@@ -1161,10 +1180,11 @@ async function createManagedPrivateClusterWithFqdnSubdomainSpecified() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_UpdateWithEnableAzureRBAC.json
  */
 async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1184,7 +1204,7 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
@@ -1221,10 +1241,11 @@ async function createOrUpdateAadManagedClusterWithEnableAzureRbac() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_Update.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_Update.json
  */
 async function createOrUpdateManagedCluster() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1252,14 +1273,14 @@ async function createOrUpdateManagedCluster() {
       skipNodesWithSystemPods: "false",
     },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
           {},
       },
     },
@@ -1302,10 +1323,94 @@ async function createOrUpdateManagedCluster() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_UpdateWithAHUB.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_AzureServiceMesh.json
+ */
+async function createOrUpdateManagedClusterWithAzureServiceMesh() {
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
+  const resourceName = "clustername1";
+  const parameters = {
+    addonProfiles: {
+      azureKeyvaultSecretsProvider: {
+        config: { enableSecretRotation: "true", rotationPollInterval: "2m" },
+        enabled: true,
+      },
+    },
+    agentPoolProfiles: [
+      {
+        name: "nodepool1",
+        type: "VirtualMachineScaleSets",
+        count: 3,
+        enableNodePublicIP: true,
+        mode: "System",
+        osType: "Linux",
+        vmSize: "Standard_DS2_v2",
+      },
+    ],
+    autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
+    diskEncryptionSetID:
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+    dnsPrefix: "dnsprefix1",
+    enablePodSecurityPolicy: true,
+    enableRbac: true,
+    kubernetesVersion: "",
+    linuxProfile: {
+      adminUsername: "azureuser",
+      ssh: { publicKeys: [{ keyData: "keydata" }] },
+    },
+    location: "location1",
+    networkProfile: {
+      loadBalancerProfile: { managedOutboundIPs: { count: 2 } },
+      loadBalancerSku: "standard",
+      outboundType: "loadBalancer",
+    },
+    serviceMeshProfile: {
+      istio: {
+        certificateAuthority: {
+          plugin: {
+            certChainObjectName: "cert-chain",
+            certObjectName: "ca-cert",
+            keyObjectName: "ca-key",
+            keyVaultId:
+              "/subscriptions/854c9ddb-fe9e-4aea-8d58-99ed88282881/resourceGroups/ddama-test/providers/Microsoft.KeyVault/vaults/my-akv",
+            rootCertObjectName: "root-cert",
+          },
+        },
+        components: {
+          egressGateways: [{ enabled: true, nodeSelector: { istio: "egress" } }],
+          ingressGateways: [{ enabled: true, mode: "Internal" }],
+        },
+      },
+      mode: "Istio",
+    },
+    servicePrincipalProfile: { clientId: "clientid", secret: "secret" },
+    sku: { name: "Basic", tier: "Free" },
+    tags: { archv2: "", tier: "production" },
+    windowsProfile: {
+      adminPassword: "replacePassword1234$",
+      adminUsername: "azureuser",
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ContainerServiceClient(credential, subscriptionId);
+  const result = await client.managedClusters.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    resourceName,
+    parameters
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates or updates a managed cluster.
+ *
+ * @summary Creates or updates a managed cluster.
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_UpdateWithAHUB.json
  */
 async function createOrUpdateManagedClusterWithEnableAhub() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1324,14 +1429,14 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
           {},
       },
     },
@@ -1369,10 +1474,11 @@ async function createOrUpdateManagedClusterWithEnableAhub() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_UpdateWindowsGmsa.json
  */
 async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1391,14 +1497,14 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
     ],
     autoScalerProfile: { scaleDownDelayAfterAdd: "15m", scanInterval: "20s" },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
           {},
       },
     },
@@ -1436,10 +1542,11 @@ async function createOrUpdateManagedClusterWithWindowsGMsaEnabled() {
  * This sample demonstrates how to Creates or updates a managed cluster.
  *
  * @summary Creates or updates a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/ManagedClustersCreate_DualStackNetworking.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersCreate_DualStackNetworking.json
  */
 async function createOrUpdateManagedClusterWithDualStackNetworking() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const parameters = {
@@ -1467,14 +1574,14 @@ async function createOrUpdateManagedClusterWithDualStackNetworking() {
       skipNodesWithSystemPods: "false",
     },
     diskEncryptionSetID:
-      "/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.Compute/diskEncryptionSets/des",
     dnsPrefix: "dnsprefix1",
     enablePodSecurityPolicy: true,
     enableRbac: true,
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/subid1/resourceGroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rgName1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
           {},
       },
     },
@@ -1530,6 +1637,7 @@ async function main() {
   createManagedPrivateClusterWithFqdnSubdomainSpecified();
   createOrUpdateAadManagedClusterWithEnableAzureRbac();
   createOrUpdateManagedCluster();
+  createOrUpdateManagedClusterWithAzureServiceMesh();
   createOrUpdateManagedClusterWithEnableAhub();
   createOrUpdateManagedClusterWithWindowsGMsaEnabled();
   createOrUpdateManagedClusterWithDualStackNetworking();

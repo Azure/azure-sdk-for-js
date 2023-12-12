@@ -16,8 +16,16 @@ import {
 import * as coreAuth from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { setContinuationToken } from "./pagingHelper";
-import { ApplicationsImpl, ApplicationDefinitionsImpl } from "./operations";
-import { Applications, ApplicationDefinitions } from "./operationsInterfaces";
+import {
+  ApplicationsImpl,
+  ApplicationDefinitionsImpl,
+  JitRequestsImpl
+} from "./operations";
+import {
+  Applications,
+  ApplicationDefinitions,
+  JitRequests
+} from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
@@ -33,7 +41,7 @@ import {
 export class ApplicationClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ApplicationClient class.
@@ -45,12 +53,26 @@ export class ApplicationClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ApplicationClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ApplicationClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ApplicationClientOptionalParams | string,
+    options?: ApplicationClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -62,7 +84,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-managedapplications/2.1.1`;
+    const packageDetails = `azsdk-js-arm-managedapplications/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,9 +137,10 @@ export class ApplicationClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2018-06-01";
+    this.apiVersion = options.apiVersion || "2021-07-01";
     this.applications = new ApplicationsImpl(this);
     this.applicationDefinitions = new ApplicationDefinitionsImpl(this);
+    this.jitRequests = new JitRequestsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -230,6 +253,7 @@ export class ApplicationClient extends coreClient.ServiceClient {
 
   applications: Applications;
   applicationDefinitions: ApplicationDefinitions;
+  jitRequests: JitRequests;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -240,6 +264,9 @@ const listOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -253,9 +280,11 @@ const listOperationsNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OperationListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

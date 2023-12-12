@@ -5,10 +5,10 @@ import assert from "assert";
 import {
   Container,
   CosmosClient,
+  CosmosDbDiagnosticLevel,
   CosmosDiagnostics,
   Database,
   DatabaseDefinition,
-  extractPartitionKey,
   FailedRequestAttemptDiagnostic,
   GatewayStatistics,
   MetadataLookUpDiagnostic,
@@ -33,6 +33,7 @@ import {
 } from "../../../src/diagnostics/DiagnosticNodeInternal";
 import { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { extractPartitionKeys } from "../../../src/extractPartitionKey";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -78,8 +79,10 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
   }
 }
 
-export function createDummyDiagnosticNode(): DiagnosticNodeInternal {
-  return new DiagnosticNodeInternal(DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
+export function createDummyDiagnosticNode(
+  diagnosticLevel: CosmosDbDiagnosticLevel = CosmosDbDiagnosticLevel.info
+): DiagnosticNodeInternal {
+  return new DiagnosticNodeInternal(diagnosticLevel, DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
 }
 
 /**
@@ -154,17 +157,17 @@ export function validateDiagnostics(
 ): void {
   expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
 
-  validateRequestStartTimeedForDiagnostics(spec, diagnostics);
+  validateRequestStartTimeForDiagnostics(spec, diagnostics);
 
-  validateRequestDurationedForDiagnostics(spec, diagnostics);
+  validateRequestDurationForDiagnostics(spec, diagnostics);
 
   validateRequestPayloadSizeForDiagnostics(diagnostics);
 
   validateRetriesForDiagnostics(spec, diagnostics, parallelExecutions);
 
-  validateMetadataCallsedForDiagnostics(spec, diagnostics, parallelExecutions);
+  validateMetadataCallsForDiagnostics(spec, diagnostics, parallelExecutions);
 
-  validateLocationEndpointsContactededForDiagnostics(spec, diagnostics);
+  validateLocationEndpointsContactedForDiagnostics(spec, diagnostics);
 
   validateGatewayStatisticsForDiagnostics(spec, diagnostics, parallelExecutions);
 
@@ -264,7 +267,11 @@ function verifyForOverlappingRanges(
   ranges: MetadataLookUpDiagnostic[] | FailedRequestAttemptDiagnostic[] | GatewayStatistics[],
   msg: string
 ): void {
-  ranges.sort((a, b) => a.startTimeUTCInMs - b.startTimeUTCInMs); // Sort ranges by start time
+  ranges.sort((a, b) =>
+    a.startTimeUTCInMs === b.startTimeUTCInMs
+      ? a.durationInMs - b.durationInMs
+      : a.startTimeUTCInMs - b.startTimeUTCInMs
+  ); // Sort ranges by start time
   for (let i = 1; i < ranges.length; i++) {
     expect(
       ranges[i].startTimeUTCInMs,
@@ -276,7 +283,7 @@ function verifyForOverlappingRanges(
   }
 }
 
-function validateLocationEndpointsContactededForDiagnostics(
+function validateLocationEndpointsContactedForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
@@ -292,7 +299,7 @@ function validateLocationEndpointsContactededForDiagnostics(
   }
 }
 
-function validateMetadataCallsedForDiagnostics(
+function validateMetadataCallsForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics,
   parallelExecutions: boolean
@@ -366,7 +373,7 @@ function validateRequestPayloadSizeForDiagnostics(diagnostics: CosmosDiagnostics
   ).to.be.greaterThanOrEqual(totalRequestPayloadForGatewayRequests);
 }
 
-function validateRequestDurationedForDiagnostics(
+function validateRequestDurationForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
@@ -387,7 +394,7 @@ function validateRequestDurationedForDiagnostics(
   }
 }
 
-function validateRequestStartTimeedForDiagnostics(
+function validateRequestStartTimeForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics
 ): void {
@@ -451,7 +458,7 @@ export async function bulkReadItems(
 ): Promise<void[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
 
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id, partitionKey).read();
@@ -467,7 +474,7 @@ export async function bulkReplaceItems(
 ): Promise<any[]> {
   return Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
       const { resource: doc } = await container.item(document.id, partitionKey).replace(document);
       const { _etag: _1, _ts: _2, ...expectedModifiedDocument } = document; // eslint-disable-line @typescript-eslint/no-unused-vars
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -484,7 +491,7 @@ export async function bulkDeleteItems(
 ): Promise<void> {
   await Promise.all(
     documents.map(async (document) => {
-      const partitionKey = extractPartitionKey(document, partitionKeyDef);
+      const partitionKey = extractPartitionKeys(document, partitionKeyDef);
 
       await container.item(document.id, partitionKey).delete();
     })

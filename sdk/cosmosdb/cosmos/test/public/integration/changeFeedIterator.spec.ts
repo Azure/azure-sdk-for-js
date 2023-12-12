@@ -5,8 +5,9 @@ import { Suite } from "mocha";
 import { ChangeFeedIteratorOptions, ChangeFeedStartFrom, RequestOptions } from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
-import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import { getTestContainer, removeAllDatabases, testForDiagnostics } from "../common/TestHelpers";
 import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange";
+import { getCurrentTimestampInMs } from "../../../src/utils/time";
 
 describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -173,6 +174,28 @@ describe("Change Feed Iterator", function (this: Suite) {
         if (items.length === 0) break;
         assert.notEqual(items.length, 0, "New changes should be fetched");
       }
+    });
+
+    it("check diagnostic for readNext operation.", async function () {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        maxItemCount: 10,
+        changeFeedStartFrom: ChangeFeedStartFrom.Now(["0", 0]),
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+      await container.items.create({ id: `diagnostic1`, key1: `0`, key2: 0 });
+      const startTimestamp = getCurrentTimestampInMs();
+      await testForDiagnostics(
+        async () => {
+          return iterator.readNext();
+        },
+        {
+          retryCount: 0,
+          metadataCallCount: 4,
+          locationEndpointsContacted: 1,
+          requestStartTimeUTCInMsLowerLimit: startTimestamp,
+          requestDurationInMsUpperLimit: getCurrentTimestampInMs() - startTimestamp,
+        }
+      );
     });
   });
 

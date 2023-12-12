@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create and start a packet capture on the specified VM.
  *
  * @summary Create and start a packet capture on the specified VM.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/NetworkWatcherPacketCaptureCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/NetworkWatcherPacketCaptureCreate.json
  */
 async function createPacketCapture() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

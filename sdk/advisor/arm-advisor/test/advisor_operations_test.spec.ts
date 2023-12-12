@@ -18,7 +18,6 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { AdvisorManagementClient } from "../src/advisorManagementClient";
 import { RecommendationsListOptionalParams } from "../src/models";
-import { settings } from "cluster";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",

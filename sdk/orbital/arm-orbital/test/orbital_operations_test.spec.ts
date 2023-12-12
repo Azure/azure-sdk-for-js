@@ -121,7 +121,7 @@ describe("orbital test", () => {
 
   it("contactProfiles delete test", async function () {
     const resArray = new Array();
-    const res = await client.contactProfiles.beginDeleteAndWait(resourceGroup, resourcename)
+    const res = await client.contactProfiles.beginDeleteAndWait(resourceGroup, resourcename, testPollingOptions)
     for await (let item of client.contactProfiles.list(resourceGroup)) {
       resArray.push(item);
     }
@@ -175,7 +175,7 @@ describe("orbital test", () => {
 
   it("spacecrafts delete test", async function () {
     const resArray = new Array();
-    const res = await client.spacecrafts.beginDeleteAndWait(resourceGroup, resourcename1)
+    const res = await client.spacecrafts.beginDeleteAndWait(resourceGroup, resourcename1, testPollingOptions)
     for await (let item of client.spacecrafts.list(resourceGroup)) {
       resArray.push(item);
     }

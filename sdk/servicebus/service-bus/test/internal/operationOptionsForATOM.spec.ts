@@ -5,7 +5,6 @@ import { assert } from "@azure/test-utils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
-import * as dotenv from "dotenv";
 import { ServiceBusAdministrationClient } from "../../src";
 import { EnvVarNames, getEnvVars } from "../public/utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
@@ -15,8 +14,6 @@ import { NamespaceResourceSerializer } from "../../src/serializers/namespaceReso
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
-
-dotenv.config();
 
 const env = getEnvVars();
 

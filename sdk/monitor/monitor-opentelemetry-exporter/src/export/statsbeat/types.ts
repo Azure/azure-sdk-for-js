@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export class NetworkStatsbeat {
   public time: number | undefined;
 
@@ -50,18 +53,19 @@ export const MAX_STATSBEAT_FAILURES = 3;
 
 export const StatsbeatResourceProvider = {
   appsvc: "appsvc",
+  aks: "aks",
   functions: "functions",
   vm: "vm",
   unknown: "unknown",
 };
 
 export enum StatsbeatCounter {
-  SUCCESS_COUNT = "Request Success Count",
-  FAILURE_COUNT = "Request Failure Count",
-  RETRY_COUNT = "Retry Count",
-  THROTTLE_COUNT = "Throttle Count",
-  EXCEPTION_COUNT = "Exception Count",
-  AVERAGE_DURATION = "Request Duration",
+  SUCCESS_COUNT = "Request_Success_Count",
+  FAILURE_COUNT = "Request_Failure_Count",
+  RETRY_COUNT = "Retry_Count",
+  THROTTLE_COUNT = "Throttle_Count",
+  EXCEPTION_COUNT = "Exception_Count",
+  AVERAGE_DURATION = "Request_Duration",
   ATTACH = "Attach",
   FEATURE = "Feature",
 }
@@ -122,6 +126,6 @@ export interface VirtualMachineInfo {
 }
 
 export enum StatsbeatFeatureType {
-  FEATURE = "Feature",
-  INSTRUMENTATION = "Instrumentation",
+  FEATURE = 0,
+  INSTRUMENTATION = 1,
 }

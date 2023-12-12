@@ -5,20 +5,20 @@ import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-export
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.0.0-beta.3";
-export const DEFAULT_ROLE_NAME = "Web";
-process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
-
 /**
  * Azure Monitor OpenTelemetry Options
  */
 export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
-  azureMonitorExporterConfig?: AzureMonitorExporterOptions;
+  azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /** OpenTelemetry Resource */
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
+  /** Enable Live Metrics feature */
+  enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  enableStandardMetrics?: boolean;
   /**
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */

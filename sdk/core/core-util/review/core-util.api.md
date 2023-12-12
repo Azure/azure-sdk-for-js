@@ -7,6 +7,22 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
+export type AbortablePromiseBuilder<T> = (abortOptions: {
+    abortSignal?: AbortSignalLike;
+}) => Promise<T>;
+
+// @public
+export interface AbortOptions {
+    abortErrorMsg?: string;
+    abortSignal?: AbortSignalLike;
+}
+
+// @public
+export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
+    abortSignal?: AbortSignalLike;
+}): Promise<T[number]>;
+
+// @public
 export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
 
 // @public
@@ -16,9 +32,7 @@ export function computeSha256Hmac(key: string, stringToSign: string, encoding: "
 export function createAbortablePromise<T>(buildPromise: (resolve: (value: T | PromiseLike<T>) => void, reject: (reason?: any) => void) => void, options?: CreateAbortablePromiseOptions): Promise<T>;
 
 // @public
-export interface CreateAbortablePromiseOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface CreateAbortablePromiseOptions extends AbortOptions {
     cleanupBeforeAbort?: () => void;
 }
 
@@ -26,13 +40,11 @@ export interface CreateAbortablePromiseOptions {
 export function delay(timeInMs: number, options?: DelayOptions): Promise<void>;
 
 // @public
-export interface DelayOptions {
-    abortErrorMsg?: string;
-    abortSignal?: AbortSignalLike;
+export interface DelayOptions extends AbortOptions {
 }
 
 // @public
-export type EncodingType = "utf-8" | "base64" | "base64url";
+export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";
 
 // @public
 export function getErrorMessage(e: unknown): string;

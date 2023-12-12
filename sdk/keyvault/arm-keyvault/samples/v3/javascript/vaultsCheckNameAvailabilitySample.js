@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks that the vault name is valid and is not already in use.
  *
  * @summary Checks that the vault name is valid and is not already in use.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/checkVaultNameAvailability.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/checkVaultNameAvailability.json
  */
 async function validateAVaultName() {
   const subscriptionId =

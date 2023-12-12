@@ -7,8 +7,9 @@ import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scope
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import {
+  checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
@@ -112,8 +113,11 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
-    this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants
     );
     this.timeout = options?.processTimeoutInMs;
@@ -146,11 +150,15 @@ export class AzurePowerShellCredential implements TokenCredential {
       const results = await runCommands([
         [
           powerShellCommand,
+          "-NoProfile",
+          "-NonInteractive",
           "-Command",
           "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
         ],
         [
           powerShellCommand,
+          "-NoProfile",
+          "-NonInteractive",
           "-Command",
           `Get-AzAccessToken ${tenantSection} -ResourceUrl "${resource}" | ConvertTo-Json`,
         ],
@@ -168,7 +176,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -185,7 +193,9 @@ export class AzurePowerShellCredential implements TokenCredential {
         this.additionallyAllowedTenantIds
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
       try {
         ensureValidScopeForDevTimeCreds(scope, logger);
         logger.getToken.info(`Using the scope ${scope}`);

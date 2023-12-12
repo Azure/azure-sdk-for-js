@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { ResourceMoverServiceAPI } = require("@azure/arm-resourcemover");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Computes, resolves and validate the dependencies of the moveResources in the move collection.
  *
  * @summary Computes, resolves and validate the dependencies of the moveResources in the move collection.
- * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2021-08-01/examples/MoveCollections_ResolveDependencies.json
+ * x-ms-original-file: specification/resourcemover/resource-manager/Microsoft.Migrate/stable/2023-08-01/examples/MoveCollections_ResolveDependencies.json
  */
 async function moveCollectionsResolveDependencies() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["RESOURCEMOVER_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["RESOURCEMOVER_RESOURCE_GROUP"] || "rg1";
   const moveCollectionName = "movecollection1";
   const credential = new DefaultAzureCredential();
   const client = new ResourceMoverServiceAPI(credential, subscriptionId);
@@ -30,4 +31,8 @@ async function moveCollectionsResolveDependencies() {
   console.log(result);
 }
 
-moveCollectionsResolveDependencies().catch(console.error);
+async function main() {
+  moveCollectionsResolveDependencies();
+}
+
+main().catch(console.error);

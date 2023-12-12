@@ -5,7 +5,7 @@
   "description": "An isomorphic client library for the Azure Conversational Language Understanding service.",
   "version": "1.0.0-beta.2",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/core-lro": "^2.2.0",
@@ -31,7 +31,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.1.0",
+    "@azure/identity": "^3.3.0",
     "@azure/logger": "^1.0.3",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
@@ -39,9 +39,9 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
@@ -57,17 +57,17 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "karma-source-map-support": "~1.4.0",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "mocha": "^10.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
     "mkdirp": "^1.0.4",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "uglify-js": "^3.4.9",
-    "rimraf": "^3.0.0"
+    "rimraf": "^3.0.0",
+    "esm": "^3.2.18"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md",
   "repository": "github:Azure/azure-sdk-for-js",

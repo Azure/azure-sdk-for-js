@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets a named operation for a network trace capturing (or deployment slot, if specified).
  *
  * @summary Description for Gets a named operation for a network trace capturing (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetWebSiteNetworkTraceOperation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetWebSiteNetworkTraceOperation.json
  */
 async function getTheCurrentStatusOfANetworkTraceOperationForASite() {
   const subscriptionId =

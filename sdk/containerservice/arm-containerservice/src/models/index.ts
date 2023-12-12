@@ -911,10 +911,72 @@ export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
   metricAnnotationsAllowList?: string;
 }
 
+/** Service mesh profile for a managed cluster. */
+export interface ServiceMeshProfile {
+  /** Mode of the service mesh. */
+  mode: ServiceMeshMode;
+  /** Istio service mesh configuration. */
+  istio?: IstioServiceMesh;
+}
+
+/** Istio service mesh configuration. */
+export interface IstioServiceMesh {
+  /** Istio components configuration. */
+  components?: IstioComponents;
+  /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
+  certificateAuthority?: IstioCertificateAuthority;
+  /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade */
+  revisions?: string[];
+}
+
+/** Istio components configuration. */
+export interface IstioComponents {
+  /** Istio ingress gateways. */
+  ingressGateways?: IstioIngressGateway[];
+  /** Istio egress gateways. */
+  egressGateways?: IstioEgressGateway[];
+}
+
+/** Istio ingress gateway configuration. For now, we support up to one external ingress gateway named `aks-istio-ingressgateway-external` and one internal ingress gateway named `aks-istio-ingressgateway-internal`. */
+export interface IstioIngressGateway {
+  /** Mode of an ingress gateway. */
+  mode: IstioIngressGatewayMode;
+  /** Whether to enable the ingress gateway. */
+  enabled: boolean;
+}
+
+/** Istio egress gateway configuration. */
+export interface IstioEgressGateway {
+  /** Whether to enable the egress gateway. */
+  enabled: boolean;
+  /** NodeSelector for scheduling the egress gateway. */
+  nodeSelector?: { [propertyName: string]: string };
+}
+
+/** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
+export interface IstioCertificateAuthority {
+  /** Plugin certificates information for Service Mesh. */
+  plugin?: IstioPluginCertificateAuthority;
+}
+
+/** Plugin certificates information for Service Mesh. */
+export interface IstioPluginCertificateAuthority {
+  /** The resource ID of the Key Vault. */
+  keyVaultId?: string;
+  /** Intermediate certificate object name in Azure Key Vault. */
+  certObjectName?: string;
+  /** Intermediate certificate private key object name in Azure Key Vault. */
+  keyObjectName?: string;
+  /** Root certificate object name in Azure Key Vault. */
+  rootCertObjectName?: string;
+  /** Certificate chain object name in Azure Key Vault. */
+  certChainObjectName?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -1364,6 +1426,173 @@ export interface SnapshotListResult {
   readonly nextLink?: string;
 }
 
+/** Holds an array of MeshRevisionsProfiles */
+export interface MeshRevisionProfileList {
+  /** Array of service mesh add-on revision profiles for all supported mesh modes. */
+  value?: MeshRevisionProfile[];
+  /**
+   * The URL to get the next set of mesh revision profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Mesh revision profile properties for a mesh */
+export interface MeshRevisionProfileProperties {
+  meshRevisions?: MeshRevision[];
+}
+
+/** Holds information on upgrades and compatibility for given major.minor mesh release. */
+export interface MeshRevision {
+  /** The revision of the mesh release. */
+  revision?: string;
+  /** List of revisions available for upgrade of a specific mesh revision */
+  upgrades?: string[];
+  /** List of items this revision of service mesh is compatible with, and their associated versions. */
+  compatibleWith?: CompatibleVersions[];
+}
+
+/** Version information about a product/service that is compatible with a service mesh revision. */
+export interface CompatibleVersions {
+  /** The product/service name. */
+  name?: string;
+  /** Product/service versions compatible with a service mesh add-on revision. */
+  versions?: string[];
+}
+
+/** Holds an array of MeshUpgradeProfiles */
+export interface MeshUpgradeProfileList {
+  /** Array of supported service mesh add-on upgrade profiles. */
+  value?: MeshUpgradeProfile[];
+  /**
+   * The URL to get the next set of mesh upgrade profile.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** List of trusted access role bindings */
+export interface TrustedAccessRoleBindingListResult {
+  /** Role binding list */
+  value?: TrustedAccessRoleBinding[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** List of trusted access roles */
+export interface TrustedAccessRoleListResult {
+  /**
+   * Role list
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TrustedAccessRole[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Trusted access role definition. */
+export interface TrustedAccessRole {
+  /**
+   * Resource type of Azure resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceType?: string;
+  /**
+   * Name of role, name is unique under a source resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rules?: TrustedAccessRoleRule[];
+}
+
+/** Rule for trusted access role */
+export interface TrustedAccessRoleRule {
+  /**
+   * List of allowed verbs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly verbs?: string[];
+  /**
+   * List of allowed apiGroups
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiGroups?: string[];
+  /**
+   * List of allowed resources
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: string[];
+  /**
+   * List of allowed names
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceNames?: string[];
+  /**
+   * List of allowed nonResourceURLs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nonResourceURLs?: string[];
+}
+
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile
   extends ManagedClusterAgentPoolProfileProperties {
@@ -1381,6 +1610,22 @@ export interface TrackedResource extends Resource {
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Defines binding between a resource and role */
+export interface TrustedAccessRoleBinding extends Resource {
+  /**
+   * The current provisioning state of trusted access role binding.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TrustedAccessRoleBindingProvisioningState;
+  /** The ARM resource ID of source resource that trusted access is configured for. */
+  sourceResourceId: string;
+  /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
+  roles: string[];
 }
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
@@ -1493,6 +1738,9 @@ export interface AgentPool extends SubResource {
   hostGroupID?: string;
 }
 
+/** Mesh upgrade profile properties for a major.minor release. */
+export interface MeshUpgradeProfileProperties extends MeshRevision {}
+
 /** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
   /** The managed cluster SKU. */
@@ -1596,6 +1844,13 @@ export interface ManagedCluster extends TrackedResource {
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
   /** Azure Monitor addon profiles for monitoring the managed cluster. */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
+  /** Service mesh profile for a managed cluster. */
+  serviceMeshProfile?: ServiceMeshProfile;
+  /**
+   * The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceUID?: string;
 }
 
 /** Managed cluster Access Profile. */
@@ -1640,6 +1895,18 @@ export interface Snapshot extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly enableFips?: boolean;
+}
+
+/** Mesh revision profile for a mesh. */
+export interface MeshRevisionProfile extends ProxyResource {
+  /** Mesh revision profile properties for a mesh */
+  properties?: MeshRevisionProfileProperties;
+}
+
+/** Upgrade profile for given mesh. */
+export interface MeshUpgradeProfile extends ProxyResource {
+  /** Mesh upgrade profile properties for a major.minor release. */
+  properties?: MeshUpgradeProfileProperties;
 }
 
 /** Defines headers for ManagedClusters_delete operation. */
@@ -1721,6 +1988,12 @@ export interface AgentPoolsDeleteHeaders {
 export interface AgentPoolsUpgradeNodeImageVersionHeaders {
   /** URL to query for status of the operation. */
   azureAsyncOperation?: string;
+}
+
+/** Defines headers for TrustedAccessRoleBindings_delete operation. */
+export interface TrustedAccessRoleBindingsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
 }
 
 /** Known values of {@link KubernetesSupportPlan} that the service accepts. */
@@ -2335,6 +2608,42 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link ServiceMeshMode} that the service accepts. */
+export enum KnownServiceMeshMode {
+  /** Istio deployed as an AKS addon. */
+  Istio = "Istio",
+  /** Mesh is disabled. */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for ServiceMeshMode. \
+ * {@link KnownServiceMeshMode} can be used interchangeably with ServiceMeshMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Istio**: Istio deployed as an AKS addon. \
+ * **Disabled**: Mesh is disabled.
+ */
+export type ServiceMeshMode = string;
+
+/** Known values of {@link IstioIngressGatewayMode} that the service accepts. */
+export enum KnownIstioIngressGatewayMode {
+  /** The ingress gateway is assigned a public IP address and is publicly accessible. */
+  External = "External",
+  /** The ingress gateway is assigned an internal IP address and cannot is accessed publicly. */
+  Internal = "Internal"
+}
+
+/**
+ * Defines values for IstioIngressGatewayMode. \
+ * {@link KnownIstioIngressGatewayMode} can be used interchangeably with IstioIngressGatewayMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **External**: The ingress gateway is assigned a public IP address and is publicly accessible. \
+ * **Internal**: The ingress gateway is assigned an internal IP address and cannot is accessed publicly.
+ */
+export type IstioIngressGatewayMode = string;
+
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   /** User */
@@ -2502,6 +2811,33 @@ export enum KnownSnapshotType {
  * **NodePool**: The snapshot is a snapshot of a node pool.
  */
 export type SnapshotType = string;
+
+/** Known values of {@link TrustedAccessRoleBindingProvisioningState} that the service accepts. */
+export enum KnownTrustedAccessRoleBindingProvisioningState {
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for TrustedAccessRoleBindingProvisioningState. \
+ * {@link KnownTrustedAccessRoleBindingProvisioningState} can be used interchangeably with TrustedAccessRoleBindingProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Canceled** \
+ * **Deleting** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Updating**
+ */
+export type TrustedAccessRoleBindingProvisioningState = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
@@ -2737,6 +3073,34 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsOptional
 export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
+export interface ManagedClustersListMeshRevisionProfilesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshRevisionProfiles operation. */
+export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersGetMeshRevisionProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMeshRevisionProfile operation. */
+export type ManagedClustersGetMeshRevisionProfileResponse = MeshRevisionProfile;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshUpgradeProfilesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshUpgradeProfiles operation. */
+export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMeshUpgradeProfile operation. */
+export type ManagedClustersGetMeshUpgradeProfileResponse = MeshUpgradeProfile;
+
+/** Optional parameters. */
 export interface ManagedClustersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2756,6 +3120,20 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsNextOpti
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
 export type ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshRevisionProfilesNext operation. */
+export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+
+/** Optional parameters. */
+export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMeshUpgradeProfilesNext operation. */
+export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListByManagedClusterOptionalParams
@@ -2965,6 +3343,65 @@ export interface SnapshotsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type SnapshotsListByResourceGroupNextResponse = SnapshotListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRolesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRolesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

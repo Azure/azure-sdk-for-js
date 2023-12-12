@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Policy,
   ReplicationPoliciesListNextOptionalParams,
@@ -176,8 +180,8 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     input: CreatePolicyInput,
     options?: ReplicationPoliciesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesCreateResponse>,
       ReplicationPoliciesCreateResponse
     >
   > {
@@ -187,7 +191,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     ): Promise<ReplicationPoliciesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -220,13 +224,16 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, input, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationPoliciesCreateResponse,
+      OperationState<ReplicationPoliciesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -272,14 +279,14 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     resourceGroupName: string,
     policyName: string,
     options?: ReplicationPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -312,13 +319,13 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -364,8 +371,8 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     input: UpdatePolicyInput,
     options?: ReplicationPoliciesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationPoliciesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationPoliciesUpdateResponse>,
       ReplicationPoliciesUpdateResponse
     >
   > {
@@ -375,7 +382,7 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
     ): Promise<ReplicationPoliciesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -408,13 +415,16 @@ export class ReplicationPoliciesImpl implements ReplicationPolicies {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, policyName, input, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, policyName, input, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationPoliciesUpdateResponse,
+      OperationState<ReplicationPoliciesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

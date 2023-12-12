@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 2.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.3.0 (2023-09-27)
+
+### Features Added
+
+- Added support for a new communication identifier `MicrosoftTeamsAppIdentifier`.
+    - Added a type `MicrosoftTeamsAppKind`.
+    - Added a method `isMicrosoftTeamsAppIdentifier` to check if the identifier is `MicrosoftTeamsAppIdentifier`.
+    - Added a field `teamsAppId` to `MicrosoftTeamsAppIdentifier`.
+    - With this version, any rawId starting with `28:` will map to MicrosoftTeamsAppIdentifier. Previously it mapped to `UnknownIdentifier`.
 
 ## 2.2.1 (2023-06-16)
 

@@ -1,16 +1,71 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
 
 ### Features Added
-
-- Add support for parsing usage information in `getChatCompletions` method.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.8 (2023-12-07)
+
+Following OpenAI's November Dev Day and Microsoft's 2023 Ignite conference, this update brings a slew of new
+features and changes to the client library.
+
+### Features Added
+
+- `-1106` model feature support for `gpt-35-turbo` and `gpt-4-turbo`, including use of `seed`, `system_fingerprint`, parallel function calling via tools, "JSON mode" for guaranteed function outputs, and more
+- `dall-e-3` image generation capabilities via `getImages`, featuring higher model quality, automatic prompt revisions by `gpt-4`, and customizable quality/style settings
+- Greatly expanded "On Your Data" capabilities in Azure OpenAI, including many new data source options and authentication mechanisms
+- Early support for `gpt-4-vision-preview`, which allows the hybrid use of text and images as input to enable scenarios like "describe this image for me"
+- Support for Azure enhancements to `gpt-4-vision-preview` results that include grounding and OCR features
+
+### Breaking Changes
+
+`ChatMessage` changes:
+
+- The singular `ChatMessage` type has been replaced by `ChatRequestMessage` and `ChatResponseMessage`, the former of
+    which is a union of special message structures such as `ChatRequestSystemMessage` and
+    `ChatRequestUserMessage`.
+
+Dall-e-3:
+
+- Azure OpenAI now uses `dall-e-3` model deployments for its image generation API and such a valid deployment must
+    be provided to the `GetImageGenerations` method.
+
+On Your Data:
+
+- The `AzureExtensionChatConfiguration` type has been updated to inline the parameters of the extension into the
+    configuration object itself.
+
+## 1.0.0-beta.7 (2023-10-25)
+
+### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses.
+
+### Other Changes
+
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
+
+## 1.0.0-beta.6 (2023-09-21)
+
+### Features Added
+
+- Introduces speech to text and translation capabilities for a wide variety of audio file formats.
+  - Adds `getAudioTranscription` and `getAudioTranslation` methods for transcribing and translating audio files. The result can be either a simple JSON structure with just a `text` field or a more detailed JSON structure containing the text alongside additional information. In addition, VTT (Web Video Text Tracks), SRT (SubRip Text), and plain text formats are also supported. The type of the result depends on the `format` parameter if specified, otherwise, a simple JSON output is assumed. The methods could take as input an optional text prompt to guide the model's style or continue a previous audio segment. The language of the prompt should match that of the audio file.
+  - The available model at the time of this release supports the following list of audio file formats: m4a, mp3, wav, ogg, flac, webm, mp4, mpga, mpeg, and oga.
+
+### Bugs Fixed
+
+- Returns `usage` information when available.
+- Fixes a bug where errors weren't properly being thrown from the streaming methods.
+- Returns `error` information in `ContentFilterResults` when available.
+- Fixes parsing of `functionCall` in `ChatMessage` objects.
 
 ## 1.0.0-beta.5 (2023-08-25)
 

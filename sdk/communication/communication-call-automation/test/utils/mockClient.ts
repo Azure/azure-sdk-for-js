@@ -10,6 +10,7 @@ import {
 import { baseUri, CALL_CONNECTION_ID, generateToken } from "../utils/connectionUtils";
 import { CallMedia } from "../../src/callMedia";
 import { CallRecording } from "../../src/callRecording";
+import { CallAutomationEventProcessor } from "../../src/eventprocessor/callAutomationEventProcessor";
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
@@ -30,6 +31,7 @@ export const createMediaClient = (mockHttpClient: HttpClient): CallMedia => {
     CALL_CONNECTION_ID,
     baseUri,
     { key: generateToken() },
+    new CallAutomationEventProcessor(),
     {
       httpClient: mockHttpClient,
     }

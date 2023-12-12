@@ -11,11 +11,12 @@
 
 export { OpenAIClientOptions, OpenAIContext, createOpenAI } from "./OpenAIContext.js";
 export {
+  getAudioTranscription,
+  getAudioTranslation,
   getChatCompletions,
-  getChatCompletionsWithAzureExtensions,
-  getCompletions,
-  getEmbeddings,
+  getImages,
   listChatCompletions,
   listCompletions,
-  getImages,
-} from "./operations.js";
+  getEmbeddings,
+  getCompletions,
+} from "./client/openAIClient/index.js";

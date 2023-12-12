@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a permission binding with the specified parameters.
  *
  * @summary Create or update a permission binding with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PermissionBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PermissionBindings_CreateOrUpdate.json
  */
 async function permissionBindingsCreateOrUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function permissionBindingsCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     permissionBindingName,
-    permissionBindingInfo
+    permissionBindingInfo,
   );
   console.log(result);
 }

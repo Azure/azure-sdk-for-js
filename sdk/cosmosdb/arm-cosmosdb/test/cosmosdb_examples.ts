@@ -64,11 +64,11 @@ describe("Cosmosdb test", () => {
     const res = await client.databaseAccounts.beginCreateOrUpdateAndWait(resourceGroupName, accountName, {
       databaseAccountOfferType: "Standard",
       locations: [
-        {
-          failoverPriority: 2,
-          locationName: "southcentralus",
-          isZoneRedundant: false
-        },
+        // {
+        //   failoverPriority: 2,
+        //   locationName: "southcentralus",
+        //   isZoneRedundant: false
+        // },
         {
           locationName: "eastus",
           failoverPriority: 1

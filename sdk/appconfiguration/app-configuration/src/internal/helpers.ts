@@ -9,10 +9,9 @@ import {
   HttpResponseField,
   HttpResponseFields,
   ListRevisionsOptions,
+  ListSettingsOptions,
   ListSnapshotsOptions,
-  OperationDetailsResponse,
-  SendConfigurationSettingsOptions,
-  Snapshot,
+  ConfigurationSnapshot,
   SnapshotResponse,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
@@ -20,7 +19,6 @@ import {
   GetKeyValuesOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
-  OperationDetails,
 } from "../generated/src/models";
 import {
   SecretReferenceHelper,
@@ -29,7 +27,19 @@ import {
 } from "../secretReference";
 import { isDefined } from "@azure/core-util";
 import { logger } from "../logger";
+import { OperationOptions } from "@azure/core-client";
 
+/**
+ * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+  /**
+   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
+   */
+  snapshotName?: string;
+}
 /**
  * Entity with etag. Represent both ConfigurationSetting and Snapshot
  */
@@ -103,23 +113,39 @@ export function checkAndFormatIfAndIfNoneMatch(
  * @internal
  */
 export function formatFiltersAndSelect(
-  listConfigOptions: SendConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  listConfigOptions: ListRevisionsOptions
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
     acceptDatetime = listConfigOptions.acceptDateTime.toISOString();
   }
-
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
-    snapshot: listConfigOptions.snapshotName,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
 }
 
+/**
+ * Transforms some of the key fields in SendConfigurationSettingsOptions
+ * so they can be added to a request using AppConfigurationGetKeyValuesOptionalParams.
+ * - `options.acceptDateTime` is converted into an ISO string
+ * - `select` is populated with the proper field names from `options.fields`
+ * - keyFilter, labelFilter, snapshotName are moved to key, label, and snapshot respectively.
+ *
+ * @internal
+ */
+export function formatConfigurationSettingsFiltersAndSelect(
+  listConfigOptions: SendConfigurationSettingsOptions
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+  const { snapshotName: snapshot, ...options } = listConfigOptions;
+  return {
+    ...formatFiltersAndSelect(options),
+    snapshot,
+  };
+}
 /**
  * Transforms some of the key fields in ListSnapshotsOptions
  * so they can be added to a request using AppConfigurationGetSnapshotsOptionalParams.
@@ -201,9 +227,13 @@ export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSettin
     ...kvp,
     isReadOnly: !!kvp.locked,
   };
-
   delete setting.locked;
-
+  if (!setting.label) {
+    delete setting.label;
+  }
+  if (!setting.contentType) {
+    delete setting.contentType;
+  }
   return setting;
 }
 
@@ -310,7 +340,9 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
 /**
  * @internal
  */
-export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): SnapshotResponse {
+export function transformSnapshotResponse<T extends ConfigurationSnapshot>(
+  snapshot: T
+): SnapshotResponse {
   if (hasUnderscoreResponse(snapshot)) {
     Object.defineProperty(snapshot, "_response", {
       enumerable: false,
@@ -318,20 +350,6 @@ export function transformSnapshotResponse<T extends Snapshot>(snapshot: T): Snap
     });
   }
   return snapshot as any;
-}
-/**
- * @internal
- */
-export function transformOperationDetails<T extends OperationDetails>(
-  res: T
-): OperationDetailsResponse {
-  if (hasUnderscoreResponse(res)) {
-    Object.defineProperty(res, "_response", {
-      enumerable: false,
-      value: res._response,
-    });
-  }
-  return res as any;
 }
 
 /**
