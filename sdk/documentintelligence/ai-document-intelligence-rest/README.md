@@ -14,6 +14,24 @@ Key links:
 - [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md)
 - [Migration Guide from Form Recognizer](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/MIGRATION-FR_v4-DI_v1.md)
 
+> This version of the client library defaults to the `"2023-10-31-preview"` version of the service.
+
+This table shows the relationship between SDK versions and supported API versions of the service:
+
+| SDK version  | Supported API version of service |
+| ------------ | -------------------------------- |
+| 1.0.0-beta.1 | 2023-10-31-preview               |
+
+> Please rely on the older `@azure/ai-form-recognizer` library through the older service API versions for retired models, such as `"prebuilt-businessCard"` and `"prebuilt-document"`. For more information, see [Changelog](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/CHANGELOG.md).
+
+The below table describes the relationship of each client and its supported API version(s):
+
+| Service API version | Supported clients                                            | Package                                                       |
+| ------------------- | ------------------------------------------------------------ | ------------------------------------------------------------- |
+| 2023-10-31-preview  | DocumentIntelligenceClient                                   | `@azure-rest/ai-document-intelligence` version `1.0.0-beta.1` |
+| 2023-07-31          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^5.0.0`                  |
+| 2022-08-01          | DocumentAnalysisClient and DocumentModelAdministrationClient | `@azure/ai-form-recognizer` version `^4.0.0`                  |
+
 ## Getting started
 
 ### Currently supported environments

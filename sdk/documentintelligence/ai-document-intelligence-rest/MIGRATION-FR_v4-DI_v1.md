@@ -166,17 +166,19 @@ const client = DocumentIntelligence(
 );
 
 const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
-const initialResponse = await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
-  contentType: "application/json",
-  body: { base64Source },
-});
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: { base64Source },
+  });
 
 if (isUnexpected(initialResponse)) {
   throw initialResponse.body.error;
 }
 
 const poller = await getLongRunningPoller(client, initialResponse);
-const analyzeResult = (await poller.pollUntilDone().body as AnalyzeResultOperationOutput)
+const analyzeResult = ((await poller.pollUntilDone().body) as AnalyzeResultOperationOutput)
   .analyzeResult;
 
 const pages = analyzeResult?.pages;
@@ -188,11 +190,11 @@ const tables = analyzeResult?.tables;
 The `DocumentModelAdministrationClient` class, was used for all model management operations (creating, reading, listing, and deleting models). The new `DocumentIntelligence` offers the following instead through the routes:
 
 ```ts
-beginBuildDocumentClassifier(classifierId, docTypeSources: DocumentClassifierDocumentTypeSources)
+beginBuildDocumentClassifier(classifierId, [docTypeSources])
 beginBuildDocumentModel(modelId, containerUrl, buildMode: "template")
-beginBuildDocumentModel(modelId, contentSource: DocumentModelSource, buildMode: "template")
-beginComposeDocumentModel(modelId, componentModelIds: Iterable<string> BeginComposeDocumentModelOptions)
-beginCopyModelTo(sourceModelId, authorization: CopyAuthorization)
+beginBuildDocumentModel(modelId, contentSource, buildMode: "template")
+beginComposeDocumentModel(modelId, [componentModelIds])
+beginCopyModelTo(sourceModelId, authorization)
 deleteDocumentClassifier(classifierId)
 deleteDocumentModel(modelId)
 getCopyAuthorization(destinationModelId)
@@ -249,5 +251,65 @@ path("/documentModels").get();
 path("/operations").get();
 ```
 
-## Features Added
+_**All the methods presented above do support options bags to configure the settings**_
 
+## Features Added in the new service API version "2023-10-31-preview"
+
+### Markdown content format
+
+Supports output with Markdown content format along with the default plain _text_. For now, this is only supported for "prebuilt-layout". Markdown content format is deemed a more friendly format for LLM consumption in a chat or automation use scenario.
+
+Service follows the GFM spec ([GitHub Flavored Markdown](https://github.github.com/gfm/)) for the Markdown format. Also introduces a new _contentFormat_ property with value "text" or "markdown" to indicate the result content format.
+
+```ts
+import DocumentIntelligence from "@azure-rest/ai-document-intelligence";
+const client = DocumentIntelligence(process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"], {
+  key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"],
+});
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      urlSource:
+        "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/6704eff082aaaf2d97c1371a28461f512f8d748a/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
+    },
+    queryParameters: { outputContentFormat: "markdown" }, // <-- new query parameter
+  });
+```
+
+### Query Fields
+
+When this feature flag is specified, the service will further extract the values of the fields specified via the queryFields query parameter to supplement any existing fields defined by the model as fallback.
+
+```ts
+await client.path("/documentModels/{modelId}:analyze", "prebuilt-layout").post({
+  contentType: "application/json",
+  body: { urlSource: "..." },
+  queryParameters: {
+    features: ["queryFields"],
+    queryFields: ["NumberOfGuests", "StoreNumber"],
+  }, // <-- new query parameter
+});
+```
+
+### Split Options
+
+In the previous API versions supported by the older `@azure/ai-form-recognizer` library, document splitting and classification operation (`"/documentClassifiers/{classifierId}:analyze"`) always tried to split the input file into multiple documents.
+
+To enable a wider set of scenarios, service introduces a "split" query parameter with the new "2023-10-31-preview" service version. The following values are supported:
+
+- `split: "auto"`
+
+  Let service determine where to split.
+
+- `split: "none"`
+
+  The entire file is treated as a single document. No splitting is performed.
+
+- `split: "perPage"`
+
+  Each page is treated as a separate document. Each empty page is kept as its own document.
+
+Checkout our [samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta) for more examples.
