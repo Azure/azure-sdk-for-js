@@ -16,6 +16,18 @@ import {
   USCampaign as USCampaignMapper
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -28,6 +40,41 @@ export const accept: OperationParameter = {
   }
 };
 
+export const id: OperationParameter = {
+  parameterPath: "id",
+  mapper: USBrandMapper
+};
+
+export const statusUpdatedDate: OperationParameter = {
+  parameterPath: ["options", "statusUpdatedDate"],
+  mapper: USBrandMapper
+};
+
+export const status: OperationParameter = {
+  parameterPath: ["options", "status"],
+  mapper: USBrandMapper
+};
+
+export const costs: OperationParameter = {
+  parameterPath: ["options", "costs"],
+  mapper: USBrandMapper
+};
+
+export const submissionDate: OperationParameter = {
+  parameterPath: ["options", "submissionDate"],
+  mapper: USBrandMapper
+};
+
+export const reviewNotes: OperationParameter = {
+  parameterPath: ["options", "reviewNotes"],
+  mapper: USBrandMapper
+};
+
+export const brandDetails: OperationParameter = {
+  parameterPath: ["options", "brandDetails"],
+  mapper: USBrandMapper
+};
+
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
@@ -38,6 +85,29 @@ export const endpoint: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const brandId: OperationURLParameter = {
+  parameterPath: "brandId",
+  mapper: {
+    serializedName: "brandId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-01-31-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const skip: OperationQueryParameter = {
@@ -62,52 +132,12 @@ export const top: OperationQueryParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const filter: OperationQueryParameter = {
+  parameterPath: ["options", "filter"],
   mapper: {
-    defaultValue: "2024-01-31-preview",
-    isConstant: true,
-    serializedName: "api-version",
+    serializedName: "filter",
     type: {
       name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const id: OperationParameter = {
-  parameterPath: "id",
-  mapper: USBrandMapper
-};
-
-export const status: OperationParameter = {
-  parameterPath: ["options", "status"],
-  mapper: USBrandMapper
-};
-
-export const brandDetails: OperationParameter = {
-  parameterPath: ["options", "brandDetails"],
-  mapper: USBrandMapper
-};
-
-export const brandId: OperationURLParameter = {
-  parameterPath: "brandId",
-  mapper: {
-    serializedName: "brandId",
-    required: true,
-    type: {
-      name: "Uuid"
     }
   }
 };
@@ -124,6 +154,31 @@ export const brandId1: OperationParameter = {
 
 export const status1: OperationParameter = {
   parameterPath: ["options", "status"],
+  mapper: USCampaignMapper
+};
+
+export const statusUpdatedDate1: OperationParameter = {
+  parameterPath: ["options", "statusUpdatedDate"],
+  mapper: USCampaignMapper
+};
+
+export const costs1: OperationParameter = {
+  parameterPath: ["options", "costs"],
+  mapper: USCampaignMapper
+};
+
+export const submissionDate1: OperationParameter = {
+  parameterPath: ["options", "submissionDate"],
+  mapper: USCampaignMapper
+};
+
+export const reviewNotes1: OperationParameter = {
+  parameterPath: ["options", "reviewNotes"],
+  mapper: USCampaignMapper
+};
+
+export const phoneNumberCount: OperationParameter = {
+  parameterPath: ["options", "phoneNumberCount"],
   mapper: USCampaignMapper
 };
 

@@ -8,18 +8,29 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** A wrapper for a list of local number costs entities. */
-export interface LocalNumberCosts {
-  /** List of local numbers costs. */
-  costs?: LocalNumberCost[];
-  /** Represents the URL link to the next page of local number costs results. */
-  nextLink?: string;
+export interface USBrand {
+  /** Unique identifier that corresponds to a brand */
+  id: string;
+  /** Last date and time when the 10DLC status was updated */
+  statusUpdatedDate?: Date;
+  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
+  status?: BrandStatus;
+  /** Represents the costs tied to the brand */
+  costs?: TenDlcCost[];
+  /** Date and time when the 10DLC was submitted */
+  submissionDate?: Date;
+  /**
+   * Notes added to the 10DLC Brand after being reviewed to help customer understand
+   * review results and necessary follow up actions.
+   */
+  reviewNotes?: ReviewNote[];
+  brandDetails?: BrandDetails;
 }
 
-/** The incurred cost for a single local number */
-export interface LocalNumberCost {
+/** The cost of a 10DLC Brand or Campaign */
+export interface TenDlcCost {
   /** The type of cost. */
-  type?: LocalNumberCostType;
+  type?: TenDlcCostType;
   /** The cost amount. */
   amount?: number;
   /** The ISO 4217 currency code for the cost amount, e.g. USD. */
@@ -30,57 +41,12 @@ export interface LocalNumberCost {
   billingFrequency?: BillingFrequency;
 }
 
-/** The Communication Services error. */
-export interface CommunicationErrorResponse {
-  /** The Communication Services error. */
-  error: CommunicationError;
-}
-
-/** The Communication Services error. */
-export interface CommunicationError {
-  /** The error code. */
-  code: string;
-  /** The error message. */
-  message: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * Further details about specific errors that led to this error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: CommunicationError[];
-  /**
-   * The inner error if any.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innerError?: CommunicationError;
-}
-
-export interface USBrand {
-  /** Unique identifier that corresponds to a brand */
-  id: string;
-  /**
-   * Last date and time when the 10Dlc status was updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUpdatedDate?: string;
-  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
-  status?: string;
-  /**
-   * Date and time when the 10Dlc was submitted
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly submissionDate?: string;
-  /**
-   * Notes added to the 10Dlc object after being reviewed to help customer understand
-   * review results and necessary follow up actions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewNotes?: string;
-  brandDetails?: BrandDetails;
+/** Holds a note about a Program Brief that has gone thru stages of review process. */
+export interface ReviewNote {
+  /** Note related to a Brand or Campaign that may imply changes needed from the client. */
+  message?: string;
+  /** Date and time when the note was added to the Brand or Campaign. */
+  date?: Date;
 }
 
 export interface BrandDetails {
@@ -98,8 +64,6 @@ export interface BrandDetails {
   stockExchange?: StockExchange;
   /** Stock Exchange */
   stockSymbol?: string;
-  /** Business Relationship */
-  relationship?: Relationship;
   /** Alternate Business Id Type */
   alternateBusinessIdType?: AlternateBusinessIdType;
   /** Alternate Business Id */
@@ -134,6 +98,35 @@ export interface Address {
   country?: string;
 }
 
+/** The Communication Services error. */
+export interface CommunicationErrorResponse {
+  /** The Communication Services error. */
+  error: CommunicationError;
+}
+
+/** The Communication Services error. */
+export interface CommunicationError {
+  /** The error code. */
+  code: string;
+  /** The error message. */
+  message: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: CommunicationError[];
+  /**
+   * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innerError?: CommunicationError;
+}
+
 /** A wrapper for a list of USBrands. */
 export interface USBrands {
   /** List of USBrands */
@@ -148,27 +141,22 @@ export interface USCampaign {
   /** Unique identifier that corresponds to a brand */
   brandId?: string;
   /** 10 Dlc status e.g. 'submitted', 'approved', etc */
-  status?: string;
+  status?: CampaignStatus;
+  /** Last date and time when the 10DLC status was updated */
+  statusUpdatedDate?: Date;
+  /** Represents the costs tied to the campaign */
+  costs?: TenDlcCost[];
+  /** Date and time when the 10DLC was submitted */
+  submissionDate?: Date;
   /**
-   * Last date and time when the 10Dlc status was updated
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly statusUpdatedDate?: string;
-  /**
-   * Date and time when the 10Dlc was submitted
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly submissionDate?: string;
-  /**
-   * Notes added to the 10Dlc object after being reviewed to help customer understand
+   * Notes added to the 10DLC Campaign after being reviewed to help customer understand
    * review results and necessary follow up actions.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly reviewNotes?: string;
+  reviewNotes?: ReviewNote[];
+  /** Count of local phone numbers currently associated to the 10DLC Campaign. */
+  phoneNumberCount?: number;
   campaignDetails?: CampaignDetails;
   messageDetails?: MessageDetails;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly nextLink?: string;
 }
 
 export interface CampaignDetails {
@@ -208,7 +196,7 @@ export interface UseCase {
   /** Type of user content */
   contentType?: ContentType;
   /** Type of user sub-content */
-  subContentType?: SubContentType[];
+  subContentTypes?: SubContentType[];
   /** Sample messages that a user might send, as a proof of concept */
   sampleMessages?: string[];
 }
@@ -221,23 +209,61 @@ export interface USCampaigns {
   nextLink?: string;
 }
 
-/** Known values of {@link LocalNumberCostType} that the service accepts. */
-export enum KnownLocalNumberCostType {
-  /** Brand */
-  Brand = "brand",
-  /** Campaign */
-  Campaign = "campaign"
+/** A wrapper for a list of 10DLC cost entities */
+export interface TenDlcCosts {
+  /** List of 10DLC costs. */
+  costs?: TenDlcCost[];
+  /** Represents the URL link to the next page of local 10DLC costs results. */
+  nextLink?: string;
+}
+
+/** Known values of {@link BrandStatus} that the service accepts. */
+export enum KnownBrandStatus {
+  /** Draft */
+  Draft = "Draft",
+  /** Submitted */
+  Submitted = "Submitted",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PendingCancellation */
+  PendingCancellation = "PendingCancellation",
+  /** Denied */
+  Denied = "Denied",
+  /** Approved */
+  Approved = "Approved"
 }
 
 /**
- * Defines values for LocalNumberCostType. \
- * {@link KnownLocalNumberCostType} can be used interchangeably with LocalNumberCostType,
+ * Defines values for BrandStatus. \
+ * {@link KnownBrandStatus} can be used interchangeably with BrandStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Draft** \
+ * **Submitted** \
+ * **Cancelled** \
+ * **PendingCancellation** \
+ * **Denied** \
+ * **Approved**
+ */
+export type BrandStatus = string;
+
+/** Known values of {@link TenDlcCostType} that the service accepts. */
+export enum KnownTenDlcCostType {
+  /** Brand */
+  Brand = "brand",
+  /** StandardCampaign */
+  StandardCampaign = "standardCampaign"
+}
+
+/**
+ * Defines values for TenDlcCostType. \
+ * {@link KnownTenDlcCostType} can be used interchangeably with TenDlcCostType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **brand** \
- * **campaign**
+ * **standardCampaign**
  */
-export type LocalNumberCostType = string;
+export type TenDlcCostType = string;
 
 /** Known values of {@link BillingFrequency} that the service accepts. */
 export enum KnownBillingFrequency {
@@ -452,33 +478,6 @@ export enum KnownStockExchange {
  */
 export type StockExchange = string;
 
-/** Known values of {@link Relationship} that the service accepts. */
-export enum KnownRelationship {
-  /** BasicAccount */
-  BasicAccount = "BasicAccount",
-  /** SmallAccount */
-  SmallAccount = "SmallAccount",
-  /** MediumAccount */
-  MediumAccount = "MediumAccount",
-  /** LargeAccount */
-  LargeAccount = "LargeAccount",
-  /** KeyAccount */
-  KeyAccount = "KeyAccount"
-}
-
-/**
- * Defines values for Relationship. \
- * {@link KnownRelationship} can be used interchangeably with Relationship,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **BasicAccount** \
- * **SmallAccount** \
- * **MediumAccount** \
- * **LargeAccount** \
- * **KeyAccount**
- */
-export type Relationship = string;
-
 /** Known values of {@link AlternateBusinessIdType} that the service accepts. */
 export enum KnownAlternateBusinessIdType {
   /** Duns */
@@ -500,60 +499,62 @@ export enum KnownAlternateBusinessIdType {
  */
 export type AlternateBusinessIdType = string;
 
+/** Known values of {@link CampaignStatus} that the service accepts. */
+export enum KnownCampaignStatus {
+  /** Draft */
+  Draft = "Draft",
+  /** Submitted */
+  Submitted = "Submitted",
+  /** Cancelled */
+  Cancelled = "Cancelled",
+  /** PendingCancellation */
+  PendingCancellation = "PendingCancellation",
+  /** Denied */
+  Denied = "Denied",
+  /** Approved */
+  Approved = "Approved"
+}
+
+/**
+ * Defines values for CampaignStatus. \
+ * {@link KnownCampaignStatus} can be used interchangeably with CampaignStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Draft** \
+ * **Submitted** \
+ * **Cancelled** \
+ * **PendingCancellation** \
+ * **Denied** \
+ * **Approved**
+ */
+export type CampaignStatus = string;
+
 /** Known values of {@link ContentType} that the service accepts. */
 export enum KnownContentType {
   /** TwoFactorAuthentication */
   TwoFactorAuthentication = "TwoFactorAuthentication",
   /** AccountNotification */
   AccountNotification = "AccountNotification",
-  /** AgentsFranchises */
-  AgentsFranchises = "AgentsFranchises",
-  /** CarrierExempt */
-  CarrierExempt = "CarrierExempt",
-  /** Charity */
-  Charity = "Charity",
   /** CustomerCare */
   CustomerCare = "CustomerCare",
   /** DeliveryNotification */
   DeliveryNotification = "DeliveryNotification",
-  /** Emergency */
-  Emergency = "Emergency",
   /** FraudAlert */
   FraudAlert = "FraudAlert",
   /** HigherEducation */
   HigherEducation = "HigherEducation",
-  /** K12Education */
-  K12Education = "K12Education",
   /** LowVolume */
   LowVolume = "LowVolume",
-  /** M2M */
-  M2M = "M2M",
   /** Marketing */
   Marketing = "Marketing",
   /** Mixed */
   Mixed = "Mixed",
-  /** Political */
-  Political = "Political",
   /** PollingVoting */
   PollingVoting = "PollingVoting",
-  /** Proxy */
-  Proxy = "Proxy",
   /** PublicServiceAnnouncement */
   PublicServiceAnnouncement = "PublicServiceAnnouncement",
   /** SecurityAlert */
-  SecurityAlert = "SecurityAlert",
-  /** Social */
-  Social = "Social",
-  /** SoleProprietor */
-  SoleProprietor = "SoleProprietor",
-  /** Sweepstake */
-  Sweepstake = "Sweepstake",
-  /** Trial */
-  Trial = "Trial",
-  /** UcaasHigh */
-  UcaasHigh = "UcaasHigh",
-  /** UcaasLow */
-  UcaasLow = "UcaasLow"
+  SecurityAlert = "SecurityAlert"
 }
 
 /**
@@ -563,30 +564,16 @@ export enum KnownContentType {
  * ### Known values supported by the service
  * **TwoFactorAuthentication** \
  * **AccountNotification** \
- * **AgentsFranchises** \
- * **CarrierExempt** \
- * **Charity** \
  * **CustomerCare** \
  * **DeliveryNotification** \
- * **Emergency** \
  * **FraudAlert** \
  * **HigherEducation** \
- * **K12Education** \
  * **LowVolume** \
- * **M2M** \
  * **Marketing** \
  * **Mixed** \
- * **Political** \
  * **PollingVoting** \
- * **Proxy** \
  * **PublicServiceAnnouncement** \
- * **SecurityAlert** \
- * **Social** \
- * **SoleProprietor** \
- * **Sweepstake** \
- * **Trial** \
- * **UcaasHigh** \
- * **UcaasLow**
+ * **SecurityAlert**
  */
 export type ContentType = string;
 
@@ -633,7 +620,128 @@ export enum KnownSubContentType {
 export type SubContentType = string;
 
 /** Optional parameters. */
-export interface TenDLCGetCostsOptionalParams
+export interface TenDlcUpsertUSBrandOptionalParams
+  extends coreClient.OperationOptions {
+  /** Last date and time when the 10DLC status was updated */
+  statusUpdatedDate?: Date;
+  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
+  status?: BrandStatus;
+  /** Represents the costs tied to the brand */
+  costs?: TenDlcCost[];
+  /** Date and time when the 10DLC was submitted */
+  submissionDate?: Date;
+  /**
+   * Notes added to the 10DLC Brand after being reviewed to help customer understand
+   * review results and necessary follow up actions.
+   */
+  reviewNotes?: ReviewNote[];
+  brandDetails?: BrandDetails;
+}
+
+/** Contains response data for the upsertUSBrand operation. */
+export type TenDlcUpsertUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcDeleteUSBrandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TenDlcGetUSBrandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUSBrand operation. */
+export type TenDlcGetUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcSubmitUSBrandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the submitUSBrand operation. */
+export type TenDlcSubmitUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcGetUSBrandsOptionalParams
+  extends coreClient.OperationOptions {
+  skip?: number;
+  top?: number;
+  filter?: string;
+}
+
+/** Contains response data for the getUSBrands operation. */
+export type TenDlcGetUSBrandsResponse = USBrands;
+
+/** Optional parameters. */
+export interface TenDlcCancelUSBrandOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancelUSBrand operation. */
+export type TenDlcCancelUSBrandResponse = USBrand;
+
+/** Optional parameters. */
+export interface TenDlcUpsertUSCampaignOptionalParams
+  extends coreClient.OperationOptions {
+  /** Unique identifier that corresponds to a brand */
+  brandId?: string;
+  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
+  status?: CampaignStatus;
+  /** Last date and time when the 10DLC status was updated */
+  statusUpdatedDate?: Date;
+  /** Represents the costs tied to the campaign */
+  costs?: TenDlcCost[];
+  /** Date and time when the 10DLC was submitted */
+  submissionDate?: Date;
+  /**
+   * Notes added to the 10DLC Campaign after being reviewed to help customer understand
+   * review results and necessary follow up actions.
+   */
+  reviewNotes?: ReviewNote[];
+  /** Count of local phone numbers currently associated to the 10DLC Campaign. */
+  phoneNumberCount?: number;
+  campaignDetails?: CampaignDetails;
+  messageDetails?: MessageDetails;
+}
+
+/** Contains response data for the upsertUSCampaign operation. */
+export type TenDlcUpsertUSCampaignResponse = USCampaign;
+
+/** Optional parameters. */
+export interface TenDlcDeleteUSCampaignOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TenDlcGetUSCampaignOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUSCampaign operation. */
+export type TenDlcGetUSCampaignResponse = USCampaign;
+
+/** Optional parameters. */
+export interface TenDlcSubmitUSCampaignOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the submitUSCampaign operation. */
+export type TenDlcSubmitUSCampaignResponse = USCampaign;
+
+/** Optional parameters. */
+export interface TenDlcGetUSCampaignsOptionalParams
+  extends coreClient.OperationOptions {
+  skip?: number;
+  top?: number;
+  filter?: string;
+}
+
+/** Contains response data for the getUSCampaigns operation. */
+export type TenDlcGetUSCampaignsResponse = USCampaigns;
+
+/** Optional parameters. */
+export interface TenDlcCancelUSCampaignOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the cancelUSCampaign operation. */
+export type TenDlcCancelUSCampaignResponse = USCampaign;
+
+/** Optional parameters. */
+export interface TenDlcGetCostsOptionalParams
   extends coreClient.OperationOptions {
   /** The number of items to skip in the result set (default: 0). */
   skip?: number;
@@ -642,101 +750,28 @@ export interface TenDLCGetCostsOptionalParams
 }
 
 /** Contains response data for the getCosts operation. */
-export type TenDLCGetCostsResponse = LocalNumberCosts;
+export type TenDlcGetCostsResponse = TenDlcCosts;
 
 /** Optional parameters. */
-export interface TenDLCCreateOrUpdateBrandOptionalParams
-  extends coreClient.OperationOptions {
-  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
-  status?: string;
-  brandDetails?: BrandDetails;
-}
-
-/** Contains response data for the createOrUpdateBrand operation. */
-export type TenDLCCreateOrUpdateBrandResponse = USBrand;
-
-/** Optional parameters. */
-export interface TenDLCDeleteBrandOptionalParams
+export interface TenDlcGetUSBrandsNextOptionalParams
   extends coreClient.OperationOptions {}
 
+/** Contains response data for the getUSBrandsNext operation. */
+export type TenDlcGetUSBrandsNextResponse = USBrands;
+
 /** Optional parameters. */
-export interface TenDLCGetBrandOptionalParams
+export interface TenDlcGetUSCampaignsNextOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getBrand operation. */
-export type TenDLCGetBrandResponse = USBrand;
+/** Contains response data for the getUSCampaignsNext operation. */
+export type TenDlcGetUSCampaignsNextResponse = USCampaigns;
 
 /** Optional parameters. */
-export interface TenDLCSubmitBrandOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the submitBrand operation. */
-export type TenDLCSubmitBrandResponse = USBrand;
-
-/** Optional parameters. */
-export interface TenDLCGetBrandsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getBrands operation. */
-export type TenDLCGetBrandsResponse = USBrands;
-
-/** Optional parameters. */
-export interface TenDLCCreateOrUpdateCampaignOptionalParams
-  extends coreClient.OperationOptions {
-  /** Unique identifier that corresponds to a brand */
-  brandId?: string;
-  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
-  status?: string;
-  campaignDetails?: CampaignDetails;
-  messageDetails?: MessageDetails;
-}
-
-/** Contains response data for the createOrUpdateCampaign operation. */
-export type TenDLCCreateOrUpdateCampaignResponse = USCampaign;
-
-/** Optional parameters. */
-export interface TenDLCDeleteCampaignOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface TenDLCGetCampaignOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getCampaign operation. */
-export type TenDLCGetCampaignResponse = USCampaign;
-
-/** Optional parameters. */
-export interface TenDLCSubmitCampaignOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the submitCampaign operation. */
-export type TenDLCSubmitCampaignResponse = USCampaign;
-
-/** Optional parameters. */
-export interface TenDLCGetCampaignsOptionalParams
-  extends coreClient.OperationOptions {
-  /** The number of items to skip in the result set (default: 0). */
-  skip?: number;
-  /** The maximum number of items to return in the result set (default: 100). */
-  top?: number;
-}
-
-/** Contains response data for the getCampaigns operation. */
-export type TenDLCGetCampaignsResponse = USCampaigns;
-
-/** Optional parameters. */
-export interface TenDLCGetCostsNextOptionalParams
+export interface TenDlcGetCostsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCostsNext operation. */
-export type TenDLCGetCostsNextResponse = LocalNumberCosts;
-
-/** Optional parameters. */
-export interface TenDLCGetCampaignsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getCampaignsNext operation. */
-export type TenDLCGetCampaignsNextResponse = USCampaigns;
+export type TenDlcGetCostsNextResponse = TenDlcCosts;
 
 /** Optional parameters. */
 export interface TenDLCClientOptionalParams
