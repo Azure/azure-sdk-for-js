@@ -83,7 +83,7 @@
     "@azure-rest/core-client": "^1.1.4",
     "@azure/core-auth": "^1.5.0",
     "@azure/core-client": "^1.7.3",
-    "@azure/core-rest-pipeline": "^1.12.2",
+    "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.4",
     "tslib": "^2.2.0"
