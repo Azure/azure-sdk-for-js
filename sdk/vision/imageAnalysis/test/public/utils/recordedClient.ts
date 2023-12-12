@@ -8,7 +8,7 @@ import importedCreateClient, { ImageAnalysisClient } from "../../../src/index";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
-  VISION_ENDPOINT: "https://endpoint",
+  VISION_ENDPOINT: "https://endpoint/",
   VISION_KEY: "***********",
 };
 

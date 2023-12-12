@@ -22,7 +22,7 @@ describe("Analyze Tests", () => {
     recorder = await createRecorder(this);
     recorder.addSanitizers({
       headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
-      uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint" }]
+      uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }]
     });
     client = await createClient(recorder);
   });
@@ -97,7 +97,7 @@ describe("Analyze Tests", () => {
     const url: string = "https://aka.ms/azai/vision/image-analysis-sample.jpg";
 
     const data: Uint8Array = await downloadUrlToUint8Array(url);
-
+    
     for (const testFeatures of [allFeatures, someFeatures]) {
       const result = await client.path("/imageanalysis:analyze").post(
         {

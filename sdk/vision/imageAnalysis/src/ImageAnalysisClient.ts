@@ -18,7 +18,7 @@ export default function createClient(
   credentials: KeyCredential,
   options: ClientOptions = {}
 ): ImageAnalysisClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/unifiedvision`;
+  const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";
   const userAgentInfo = `azsdk-js-imageAnalysis-rest/1.0.0-beta.1`;
   const userAgentPrefix =
