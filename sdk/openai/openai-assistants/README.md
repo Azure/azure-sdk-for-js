@@ -11,7 +11,8 @@ Key links:
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### Prerequisites
 
