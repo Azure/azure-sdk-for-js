@@ -44,7 +44,7 @@ async function domainTopicEventSubscriptionsUpdate() {
     domainName,
     topicName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

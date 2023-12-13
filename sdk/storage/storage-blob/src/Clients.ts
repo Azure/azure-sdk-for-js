@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   getDefaultProxySettings,
@@ -9,7 +10,7 @@ import {
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -4127,7 +4128,7 @@ export class BlockBlobClient extends BlobClient {
         }
 
         const blockList: string[] = [];
-        const blockIDPrefix = generateUuid();
+        const blockIDPrefix = randomUUID();
         let transferProgress: number = 0;
 
         const batch = new Batch(options.concurrency);
@@ -4232,7 +4233,7 @@ export class BlockBlobClient extends BlobClient {
       options,
       async (updatedOptions) => {
         let blockNum = 0;
-        const blockIDPrefix = generateUuid();
+        const blockIDPrefix = randomUUID();
         let transferProgress: number = 0;
         const blockList: string[] = [];
 
