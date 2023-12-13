@@ -1254,28 +1254,26 @@ export interface TieringPolicy {
 export interface SnapshotBackupAdditionalDetails {
   instantRpRetentionRangeInDays?: number;
   instantRPDetails?: string;
+  /** User assigned managed identity details */
   userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
 }
 
+/** User assigned managed identity details */
 export interface UserAssignedManagedIdentityDetails {
+  /** The ARM id of the assigned identity. */
   identityArmId?: string;
+  /** The name of the assigned identity. */
   identityName?: string;
-  /** User assigned identity properties */
-  userAssignedIdentityProperties?: UserAssignedIdentity;
+  /** User assigned managed identity properties */
+  userAssignedIdentityProperties?: UserAssignedIdentityProperties;
 }
 
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
+/** User assigned managed identity properties */
+export interface UserAssignedIdentityProperties {
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
 }
 
 /** Vault retention policy for AzureFileShare */
