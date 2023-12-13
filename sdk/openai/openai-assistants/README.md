@@ -60,7 +60,10 @@ const assistantsClient = isAzureOpenAI
   : new AssistantsClient(new OpenAIKeyCredential(nonAzureKey));
 ```
 
-With a client, an assistant can then be created:
+
+With a client, an assistant can then be created. An assistant is a purpose-built interface to OpenAI models that can call Tools while allowing high-level instructions throughout the lifetime of the assistant.
+
+The code to create an assistant:
 ```javascript Snippet:OverviewCreateAssistant
 const assistant = await assistantsClient.createAssistant({
   model: "gpt-4-1106-preview",
@@ -70,17 +73,21 @@ const assistant = await assistantsClient.createAssistant({
 });
 ```
 
-Next, create a thread:
+A conversation session between an Assistant and a user is called a Thread. Threads store Messages and automatically handle truncation to fit content into a model’s context.
+
+To create a thread:
 ```javascript Snippet:OverviewCreateThread
 const assistantThread = await assistantsClient.createThread();
 ```
 
+Message represent a message created by an Assistant or a user. Messages can include text, images, and other files. Messages are stored as a list on the Thread.
 With a thread created, messages can be created on it:
 ```javascript Snippet:OverviewCreateMessage
 const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
 const messageResponse = await assistantsClient.createMessage(assistantThread.id, "user", question);
 ```
 
+A Run represent an invocation of an Assistant on a Thread. The Assistant uses it’s configuration and the Thread’s Messages to perform tasks by calling models and tools. As part of a Run, the Assistant appends Messages to the Thread.
 A run can then be started that evaluates the thread against an assistant:
 ```javascript Snippet:OverviewCreateRun
 let runResponse = await assistantsClient.createRun(assistantThread.id, assistant.id, {
@@ -123,8 +130,9 @@ Files can be uploaded and then referenced by assistants or messages. First, use 
 purpose of 'assistants' to make a file ID available:
 ```javascript Snippet:UploadAssistantFilesToUse
 const filename = "sample_file_for_upload.txt";
-fs.writeFileSync(filename, "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
-const uploadAssistantFile = await assistantsClient.uploadFile(fs.readFileSync(filename), "assistants", { filename });
+await fs.writeFile(filename, "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
+const uint8array = await fs.readFile(filename);
+const uploadAssistantFile = await assistantsClient.uploadFile(uint8array, "assistants", { filename });
 ```
 
 Once uploaded, the file ID can then be provided to an assistant upon creation. Note that file IDs will only be used
