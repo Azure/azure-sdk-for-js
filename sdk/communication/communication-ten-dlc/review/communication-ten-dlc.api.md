@@ -38,7 +38,6 @@ export interface BrandDetails {
     contactInformation?: ContactInformation;
     entityType?: EntityType;
     name?: string;
-    relationship?: Relationship;
     stockExchange?: StockExchange;
     stockSymbol?: string;
     taxNumber?: string;
@@ -47,7 +46,7 @@ export interface BrandDetails {
 }
 
 // @public
-export type BrandStatus = "Draft" | "Submitted" | "Denied" | "Approved";
+export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved";
 
 // @public (undocumented)
 export interface CampaignDetails {
@@ -56,7 +55,7 @@ export interface CampaignDetails {
 }
 
 // @public
-export type CampaignStatus = "Draft" | "Submitted" | "Denied" | "Approved";
+export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved";
 
 // @public
 export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
@@ -68,58 +67,46 @@ export interface ContactInformation {
 }
 
 // @public
-export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "AgentsFranchises" | "CarrierExempt" | "Charity" | "CustomerCare" | "DeliveryNotification" | "Emergency" | "FraudAlert" | "HigherEducation" | "K12Education" | "LowVolume" | "M2M" | "Marketing" | "Mixed" | "Political" | "PollingVoting" | "Proxy" | "PublicServiceAnnouncement" | "SecurityAlert" | "Social" | "SoleProprietor" | "Sweepstake" | "Trial" | "UcaasHigh" | "UcaasLow";
+export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
 
 // @public
-export interface CreateOrUpdateBrandOptions extends TenDLCCreateOrUpdateBrandOptionalParams {
+export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
 }
 
 // @public
-export interface CreateOrUpdateCampaignOptions extends TenDLCCreateOrUpdateCampaignOptionalParams {
+export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
 }
 
 // @public
-export interface DeleteBrandOptionalParams extends TenDLCDeleteBrandOptionalParams {
+export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {
 }
 
 // @public
-export interface DeleteCampaignOptionalParams extends TenDLCDeleteCampaignOptionalParams {
+export interface DeleteCampaignOptionalParams extends TenDlcDeleteUSCampaignOptionalParams {
 }
 
 // @public
 export type EntityType = "PrivateProfit" | "PublicProfit" | "NonProfit" | "Government";
 
 // @public
-export interface GetBrandOptionalParams extends TenDLCGetBrandOptionalParams {
+export interface GetBrandOptionalParams extends TenDlcGetUSBrandOptionalParams {
 }
 
 // @public
-export interface GetBrandsOptionalParams extends TenDLCGetBrandsOptionalParams {
+export interface GetBrandsOptionalParams extends TenDlcGetUSBrandsOptionalParams {
 }
 
 // @public
-export interface GetCampaignOptionalParams extends TenDLCGetCampaignOptionalParams {
+export interface GetCampaignOptionalParams extends TenDlcGetUSCampaignOptionalParams {
 }
 
 // @public
-export interface ListCampaignsOptionalParams extends TenDLCGetCampaignsOptionalParams {
+export interface ListCampaignsOptionalParams extends TenDlcGetUSCampaignsOptionalParams {
 }
 
 // @public
-export interface ListTenDlcCostsOptions extends TenDLCGetCostsOptionalParams {
+export interface ListTenDlcCostsOptions extends TenDlcGetCostsOptionalParams {
 }
-
-// @public
-export interface LocalNumberCost {
-    amount?: number;
-    billingFrequency?: BillingFrequency;
-    countryCode?: string;
-    currencyCode?: string;
-    type?: LocalNumberCostType;
-}
-
-// @public
-export type LocalNumberCostType = "brand" | "campaign";
 
 // @public (undocumented)
 export interface MessageDetails {
@@ -145,9 +132,6 @@ export interface MessageDetails {
 }
 
 // @public
-export type Relationship = "BasicAccount" | "SmallAccount" | "MediumAccount" | "LargeAccount" | "KeyAccount";
-
-// @public
 export interface ReviewNote {
     date?: Date;
     message?: string;
@@ -160,11 +144,11 @@ export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | 
 export type SubContentType = "twoFactorAuthentication" | "accountNotification" | "customerCare" | "deliveryNotification" | "fraudAlert" | "higherEducation" | "marketing" | "pollingVoting" | "publicServiceAnnouncement" | "securityAlert";
 
 // @public
-export interface SubmitBrandOptionalParams extends TenDLCSubmitBrandOptionalParams {
+export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalParams {
 }
 
 // @public
-export interface SubmitCampaignOptionalParams extends TenDLCSubmitCampaignOptionalParams {
+export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {
 }
 
 // @public (undocumented)
@@ -173,27 +157,27 @@ export class TenDlcClient {
     constructor(endpoint: string, credential: KeyCredential, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TenDlcClientOptions);
     // (undocumented)
-    createOrUpdateBrand(brandId: string, id: string, options?: CreateOrUpdateBrandOptions): Promise<USBrand>;
+    deleteUSBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
     // (undocumented)
-    createOrUpdateCampaign(campaingId: string, id: string, options?: CreateOrUpdateCampaignOptions): Promise<USBrand>;
+    deleteUSCampaign(campaignId: string, options?: DeleteCampaignOptionalParams): Promise<void>;
     // (undocumented)
-    deleteBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
+    getUSBrand(brandId: string, options?: GetBrandOptionalParams): Promise<USBrand>;
     // (undocumented)
-    deleteCampaign(campaignId: string, options?: DeleteCampaignOptionalParams): Promise<void>;
+    getUSCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
     // (undocumented)
-    getBrand(brandId: string, options?: GetBrandOptionalParams): Promise<USBrand>;
+    listCosts(options?: ListTenDlcCostsOptions): PagedAsyncIterableIterator<TenDlcCost>;
     // (undocumented)
-    getCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
+    listUSBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
     // (undocumented)
-    listBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
+    listUSCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
     // (undocumented)
-    listCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
+    submitUSBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
     // (undocumented)
-    listCosts(options?: ListTenDlcCostsOptions): PagedAsyncIterableIterator<LocalNumberCost>;
+    submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
     // (undocumented)
-    submitBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
+    upsertUSBrand(brandId: string, id: string, options?: CreateOrUpdateBrandOptions): Promise<USBrand>;
     // (undocumented)
-    submitCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
+    upsertUSCampaign(campaingId: string, id: string, options?: CreateOrUpdateCampaignOptions): Promise<USCampaign>;
 }
 
 // @public
@@ -201,80 +185,78 @@ export interface TenDlcClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface TenDLCCreateOrUpdateBrandOptionalParams extends coreClient.OperationOptions {
-    // (undocumented)
-    brandDetails?: BrandDetails;
-    costs?: LocalNumberCost[];
-    reviewNotes?: ReviewNote[];
-    status?: BrandStatus;
-    statusUpdatedDate?: Date;
-    submissionDate?: Date;
+export interface TenDlcCost {
+    amount?: number;
+    billingFrequency?: BillingFrequency;
+    countryCode?: string;
+    currencyCode?: string;
+    type?: TenDlcCostType;
 }
 
 // @public
-export interface TenDLCCreateOrUpdateCampaignOptionalParams extends coreClient.OperationOptions {
-    brandId?: string;
-    // (undocumented)
-    campaignDetails?: CampaignDetails;
-    costs?: LocalNumberCost[];
-    // (undocumented)
-    messageDetails?: MessageDetails;
-    phoneNumberCount?: number;
-    reviewNotes?: ReviewNote[];
-    status?: CampaignStatus;
+export interface TenDlcCosts {
+    costs?: TenDlcCost[];
+    nextLink?: string;
 }
 
 // @public
-export interface TenDLCDeleteBrandOptionalParams extends coreClient.OperationOptions {
+export type TenDlcCostType = "brand" | "standardCampaign";
+
+// @public
+export interface TenDlcDeleteUSBrandOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface TenDLCDeleteCampaignOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcDeleteUSCampaignOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface TenDLCGetBrandOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcGetCostsOptionalParams extends coreClient.OperationOptions {
+    skip?: number;
+    top?: number;
 }
 
 // @public
-export interface TenDLCGetBrandsOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcGetUSBrandOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface TenDlcGetUSBrandsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     filter?: string;
+    // (undocumented)
     skip?: number;
+    // (undocumented)
     top?: number;
 }
 
 // @public
-export interface TenDLCGetCampaignOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcGetUSCampaignOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface TenDLCGetCampaignsOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcGetUSCampaignsOptionalParams extends coreClient.OperationOptions {
     // (undocumented)
     filter?: string;
+    // (undocumented)
     skip?: number;
+    // (undocumented)
     top?: number;
 }
 
 // @public
-export interface TenDLCGetCostsOptionalParams extends coreClient.OperationOptions {
-    skip?: number;
-    top?: number;
+export interface TenDlcSubmitUSBrandOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export interface TenDLCSubmitBrandOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export interface TenDLCSubmitCampaignOptionalParams extends coreClient.OperationOptions {
+export interface TenDlcSubmitUSCampaignOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public (undocumented)
 export interface USBrand {
     // (undocumented)
     brandDetails?: BrandDetails;
-    costs?: LocalNumberCost[];
+    costs?: TenDlcCost[];
     id: string;
     reviewNotes?: ReviewNote[];
     status?: BrandStatus;
@@ -293,15 +275,15 @@ export interface USCampaign {
     brandId?: string;
     // (undocumented)
     campaignDetails?: CampaignDetails;
-    costs?: LocalNumberCost[];
+    costs?: TenDlcCost[];
     id: string;
     // (undocumented)
     messageDetails?: MessageDetails;
     phoneNumberCount?: number;
     reviewNotes?: ReviewNote[];
     status?: CampaignStatus;
-    readonly statusUpdatedDate?: Date;
-    readonly submissionDate?: Date;
+    statusUpdatedDate?: Date;
+    submissionDate?: Date;
 }
 
 // @public
@@ -314,7 +296,7 @@ export interface USCampaigns {
 export interface UseCase {
     contentType?: ContentType;
     sampleMessages?: string[];
-    subContentType?: SubContentType[];
+    subContentTypes?: SubContentType[];
 }
 
 // (No @packageDocumentation comment for this package)
