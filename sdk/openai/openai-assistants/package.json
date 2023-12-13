@@ -2,15 +2,18 @@
   "name": "@azure/openai-assistants",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-alpha.1",
-  "description": "OpenAI Assistants SDK",
+  "version": "1.0.0-beta.1",
+  "description": "An isomorphic client library for Azure OpenAI Assistants.",
   "keywords": [
     "node",
     "azure",
     "cloud",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "openai",
+    "ai",
+    "assistants"
   ],
   "license": "MIT",
   "type": "module",
@@ -80,7 +83,7 @@
     "@azure-rest/core-client": "^1.1.4",
     "@azure/core-auth": "^1.5.0",
     "@azure/core-client": "^1.7.3",
-    "@azure/core-rest-pipeline": "^1.12.2",
+    "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/core-util": "^1.6.1",
     "@azure/logger": "^1.0.4",
     "tslib": "^2.2.0"
@@ -124,9 +127,17 @@
   "//metadata": {
     "constantPaths": []
   },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-  },
+  "//sampleConfiguration": {
+    "productName": "Azure OpenAI",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-openai"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
+    }
+  }
   "mocha": {
     "extension": [
       "ts"

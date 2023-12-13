@@ -1,8 +1,6 @@
-# Azure Assistants REST client library for JavaScript
+# Azure OpenAI Assistants client library for JavaScript
 
-Azure OpenAI APIs for Assistants.
-
-**Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
+The Azure OpenAI Assistants client library for JavaScript is an adaptation of OpenAI's REST APIs that provides an idiomatic interface and rich integration with the rest of the Azure SDK ecosystem. It can connect to Azure OpenAI resources or to the non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure OpenAI development.```
 
 Key links:
 
@@ -13,39 +11,42 @@ Key links:
 
 ### Currently supported environments
 
-- LTS versions of Node.js
+- [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
+- Latest versions of Safari, Chrome, Edge, and Firefox.
 
 ### Prerequisites
 
 - You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
+### Prerequisites
 
+If you'd like to use an Azure OpenAI resource, you must have an [Azure subscription](https://azure.microsoft.com/free/dotnet/)
+and [Azure OpenAI access](https://learn.microsoft.com/azure/cognitive-services/openai/overview#how-do-i-get-access-to-azure-openai).
+This will allow you to create an Azure OpenAI resource and get both a connection URL as well as API keys. For more
+information, see [Quickstart: Get started generating text using Azure OpenAI Service](https://learn.microsoft.com/azure/cognitive-services/openai/quickstart).
+
+If you'd like to use the Azure OpenAI JS client library to connect to non-Azure OpenAI, you'll need an API key
+from a developer account at https://platform.openai.com/.
 ### Install the `@azure/openai-assistants` package
 
-Install the Azure Assistants REST client REST client library for JavaScript with `npm`:
+Install the Azure OpenAI Assistants client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/openai-assistants
-```
 
 ### Create and authenticate a `AssistantsClient`
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+To configure a client for use with Azure OpenAI, provide a valid endpoint URI to an Azure OpenAI resource
+along with a corresponding key credential, token credential, or Azure identity credential that's authorized to use the Azure OpenAI resource. To instead configure the client to connect to OpenAI's service, provide an API key from OpenAI's developer portal.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+#### Using an API Key from Azure
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
-can be used to authenticate the client.
+Use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
 
-Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
-AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
+**Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 
-
-## Usage
-
-### Overview
+```PowerShell
+az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
+## Key concepts
 
 See [OpenAI's "how assistants work"](https://platform.openai.com/docs/assistants/how-it-works) documentation for an
 overview of the concepts and relationships used with assistants. This overview closely follows
