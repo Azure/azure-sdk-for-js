@@ -30,7 +30,7 @@ async function privateEndpointConnectionsListByResource() {
   for await (let item of client.privateEndpointConnections.listByResource(
     resourceGroupName,
     parentType,
-    parentName
+    parentName,
   )) {
     resArray.push(item);
   }

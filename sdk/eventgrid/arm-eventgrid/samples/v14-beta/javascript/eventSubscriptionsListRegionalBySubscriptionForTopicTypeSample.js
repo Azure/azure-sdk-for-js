@@ -28,7 +28,7 @@ async function eventSubscriptionsListRegionalBySubscriptionForTopicType() {
   const resArray = new Array();
   for await (let item of client.eventSubscriptions.listRegionalBySubscriptionForTopicType(
     location,
-    topicTypeName
+    topicTypeName,
   )) {
     resArray.push(item);
   }
