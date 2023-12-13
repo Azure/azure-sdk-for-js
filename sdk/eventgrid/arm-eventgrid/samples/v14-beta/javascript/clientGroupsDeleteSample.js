@@ -29,7 +29,7 @@ async function clientGroupsDelete() {
   const result = await client.clientGroups.beginDeleteAndWait(
     resourceGroupName,
     namespaceName,
-    clientGroupName
+    clientGroupName,
   );
   console.log(result);
 }
