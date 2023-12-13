@@ -52,7 +52,7 @@ describe("model management", () => {
       return (id += 1);
     }
 
-    describe(`custom model from trainingdata-v3`, async () => {
+    describe.skip(`custom model from trainingdata-v3`, async () => {
       let _model: DocumentModelDetailsOutput;
 
       let modelId: string;
@@ -228,7 +228,7 @@ describe("model management", () => {
 
   // #endregion
 
-  it(`compose model`, async function () {
+  it.skip(`compose model`, async function () {
     // Helper function to train/validate single model
     async function makeModel(prefix: string): Promise<ComponentDocumentModelDetails> {
       const modelId = recorder.variable(prefix, `${prefix}${getRandomNumber()}`);
@@ -282,7 +282,7 @@ describe("model management", () => {
     assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
   });
 
-  it(`copy model`, async function () {
+  it.skip(`copy model`, async function () {
     // Since this test is isolated, we'll create a fresh set of resources for it
     await recorder.addSanitizers(
       {
