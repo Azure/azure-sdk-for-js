@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // Importing the @azure/search-documents library
-const { SearchIndexClient, SearchClient, AzureKeyCredential, odata } = require("@azure/search-documents");
+const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
 
 // Importing the @azure/openai library
 const { OpenAIClient } = require("@azure/openai");
@@ -88,11 +88,9 @@ async function askOpenAI(azureSearchIndexName, messages) {
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          parameters: {
-            endpoint: azureSearchEndpoint,
+          endpoint: azureSearchEndpoint,
             key: azureSearchAdminKey,
             indexName: azureSearchIndexName,
-          },
         },
       ],
     },

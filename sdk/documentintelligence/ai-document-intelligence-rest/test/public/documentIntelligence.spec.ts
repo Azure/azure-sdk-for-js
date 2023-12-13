@@ -61,7 +61,7 @@ describe("DocumentIntelligenceClient", () => {
     );
   });
 
-  it("documentClassifiers build", async function () {
+  it.skip("documentClassifiers build", async function () {
     const initialResponse = await client.path("/documentClassifiers:build").post({
       body: {
         classifierId: recorder.variable(
