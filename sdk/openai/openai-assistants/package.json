@@ -100,6 +100,7 @@
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "c8": "^8.0.0",
+    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
@@ -123,7 +124,12 @@
     "typescript": "~5.2.0"
   },
   "//metadata": {
-    "constantPaths": []
+    "constantPaths": [
+      {
+        "path": "src/rest/assistantsClient.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
   },
   "//sampleConfiguration": {
     "productName": "Azure OpenAI",
@@ -135,5 +141,12 @@
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
+  },
+  "mocha": {
+    "extension": [
+      "ts"
+    ],
+    "timeout": "1200000",
+    "loader": "ts-node/esm"
   }
 }
