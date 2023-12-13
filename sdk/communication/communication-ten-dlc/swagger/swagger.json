@@ -1,70 +1,23 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "10DLC Client",
-    "description": "The 10DLC program enables A2P SMS messaging for Local numbers.",
+    "title": "TenDLC Client",
+    "description": "The TenDLC program enables A2P SMS messaging for Local numbers.",
     "version": "2024-01-31-preview"
   },
   "paths": {
-    "/localNumbers/costs": {
-      "get": {
-        "tags": ["10DLC"],
-        "summary": "Retrieves a collection of eligible local number costs with pagination.",
-        "description": "This method supports pagination via the \"skip\" and \"top\" query parameters.",
-        "operationId": "10DLC_GetCosts",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "in": "query",
-            "name": "skip",
-            "description": "The number of items to skip in the result set (default: 0).",
-            "type": "integer",
-            "format": "int32",
-            "default": 0
-          },
-          {
-            "in": "query",
-            "name": "top",
-            "description": "The maximum number of items to return in the result set (default: 100).",
-            "type": "integer",
-            "format": "int32",
-            "default": 100
-          },
-          {
-            "$ref": "#/parameters/ApiVersionParameter"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Returns the paginated collection of eligible local number costs.",
-            "schema": {
-              "$ref": "#/definitions/LocalNumberCosts"
-            }
-          },
-          "default": {
-            "description": "Failure",
-            "schema": {
-              "$ref": "#/definitions/CommunicationErrorResponse"
-            }
-          }
-        },
-        "x-ms-pageable": {
-          "nextLinkName": "nextLink",
-          "itemName": "costs"
-        },
-        "x-ms-examples": {
-          "List local numbers costs": {
-            "$ref": "./examples/Get10DlcCostsAsync.json"
-          }
-        }
-      }
-    },
-    "/localNumbers/countries/US/brands/{brandId}": {
+    "/tendlc/countries/US/brands/{brandId}": {
       "patch": {
-        "tags": ["10DLC - Brand"],
-        "operationId": "10Dlc_CreateOrUpdateBrand",
-        "consumes": ["application/merge-patch+json"],
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_UpsertUSBrand",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -105,14 +58,16 @@
           }
         },
         "x-ms-examples": {
-          "Create or update a 10Dlc brand": {
-            "$ref": "./examples/Upsert10DlcBrand.json"
+          "Create or update a 10DLC brand": {
+            "$ref": "./examples/UpsertTenDlcUSBrand.json"
           }
         }
       },
       "delete": {
-        "tags": ["10DLC - Brand"],
-        "operationId": "10Dlc_DeleteBrand",
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_DeleteUSBrand",
         "parameters": [
           {
             "in": "path",
@@ -137,16 +92,22 @@
           }
         },
         "x-ms-examples": {
-          "Delete a 10Dlc brand": {
-            "$ref": "./examples/Delete10DlcBrand.json"
+          "Delete a 10DLC brand": {
+            "$ref": "./examples/DeleteTenDlcUSBrand.json"
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       },
       "get": {
-        "tags": ["10DLC - Brand"],
-        "operationId": "10Dlc_GetBrand",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_GetUSBrand",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -174,17 +135,21 @@
           }
         },
         "x-ms-examples": {
-          "Get information about a specific 10Dlc brand": {
-            "$ref": "./examples/Get10DlcBrand.json"
+          "Get information about a specific 10DLC brand": {
+            "$ref": "./examples/GetTenDlcUSBrand.json"
           }
         }
       }
     },
-    "/localNumbers/countries/US/brands/{brandId}:submit": {
+    "/tendlc/countries/US/brands/{brandId}:submit": {
       "post": {
-        "tags": ["10DLC - Brand"],
-        "operationId": "10Dlc_SubmitBrand",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_SubmitUSBrand",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -212,17 +177,21 @@
           }
         },
         "x-ms-examples": {
-          "Submit a 10Dlc brand": {
-            "$ref": "./examples/Submit10DlcBrand.json"
+          "Submit a 10DLC brand": {
+            "$ref": "./examples/SubmitTenDlcUSBrand.json"
           }
         }
       }
     },
-    "/localNumbers/countries/US/brands": {
+    "/tendlc/countries/US/brands": {
       "get": {
-        "tags": ["10DLC - Brand"],
-        "operationId": "10Dlc_GetBrands",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_GetUSBrands",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -239,9 +208,9 @@
             "default": 100
           },
           {
-          	"in": "query",
+            "in": "query",
             "name": "filter",
-			      "type": "string"
+            "type": "string"
           },
           {
             "$ref": "#/parameters/ApiVersionParameter"
@@ -266,18 +235,66 @@
           "itemName": "brands"
         },
         "x-ms-examples": {
-          "Get information about 10Dlc brands for a resource": {
-            "$ref": "./examples/Get10DlcBrands.json"
+          "Get information about 10DLC brands for a resource": {
+            "$ref": "./examples/GetTenDlcUSBrands.json"
           }
         }
       }
     },
-    "/localNumbers/countries/US/campaigns/{campaignId}": {
+    "/tendlc/countries/US/brands/{brandId}:cancel": {
+      "post": {
+        "tags": [
+          "10DLC - Brand"
+        ],
+        "operationId": "TenDlc_CancelUSBrand",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "brandId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USBrand"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Cancel 10DLC brand": {
+            "$ref": "./examples/CancelTenDlcUSBrand.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}": {
       "patch": {
-        "tags": ["10DLC - Campaign"],
-        "operationId": "10Dlc_CreateOrUpdateCampaign",
-        "consumes": ["application/merge-patch+json"],
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_UpsertUSCampaign",
+        "consumes": [
+          "application/merge-patch+json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -318,14 +335,16 @@
           }
         },
         "x-ms-examples": {
-          "Create or update a 10Dlc campaign": {
-            "$ref": "./examples/CreateOrUpdate10DlcCampaign.json"
+          "Create or update a 10DLC campaign": {
+            "$ref": "./examples/UpsertTenDlcUSCampaign.json"
           }
         }
       },
       "delete": {
-        "tags": ["10DLC - Campaign"],
-        "operationId": "10Dlc_DeleteCampaign",
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_DeleteUSCampaign",
         "parameters": [
           {
             "in": "path",
@@ -350,16 +369,22 @@
           }
         },
         "x-ms-examples": {
-          "Delete a 10Dlc campaign": {
-            "$ref": "./examples/Delete10DlcCampaign.json"
+          "Delete a 10DLC campaign": {
+            "$ref": "./examples/DeleteTenDlcUSCampaign.json"
           }
         },
-        "produces": ["application/json"]
+        "produces": [
+          "application/json"
+        ]
       },
       "get": {
-        "tags": ["10DLC - Campaign"],
-        "operationId": "10Dlc_GetCampaign",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_GetUSCampaign",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -387,17 +412,21 @@
           }
         },
         "x-ms-examples": {
-          "Get information about a specific 10Dlc campaign": {
-            "$ref": "./examples/Get10DlcCampaign.json"
+          "Get information about a specific 10DLC campaign": {
+            "$ref": "./examples/GetTenDlcUSCampaign.json"
           }
         }
       }
     },
-    "/localNumbers/countries/US/campaigns/{campaignId}:submit": {
+    "/tendlc/countries/US/campaigns/{campaignId}:submit": {
       "post": {
-        "tags": ["10DLC - Campaign"],
-        "operationId": "10Dlc_SubmitCampaign",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_SubmitUSCampaign",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -425,17 +454,21 @@
           }
         },
         "x-ms-examples": {
-          "Submit a 10Dlc campaign": {
-            "$ref": "./examples/Submit10DlcCampaign.json"
+          "Submit a 10DLC campaign": {
+            "$ref": "./examples/SubmitTenDlcUSCampaign.json"
           }
         }
       }
     },
-    "/localNumbers/countries/US/campaigns": {
+    "/tendlc/countries/US/campaigns": {
       "get": {
-        "tags": ["10DLC - Campaign"],
-        "operationId": "10Dlc_GetCampaigns",
-        "produces": ["application/json"],
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_GetUSCampaigns",
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "query",
@@ -479,8 +512,107 @@
           "itemName": "campaigns"
         },
         "x-ms-examples": {
-          "Get information about 10Dlc campaigns for a resource": {
-            "$ref": "./examples/Get10DlcCampaigns.json"
+          "Get information about 10DLC campaigns for a resource": {
+            "$ref": "./examples/GetTenDlcUSCampaigns.json"
+          }
+        }
+      }
+    },
+    "/tendlc/countries/US/campaigns/{campaignId}:cancel": {
+      "post": {
+        "tags": [
+          "10DLC - Campaign"
+        ],
+        "operationId": "TenDlc_CancelUSCampaign",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "campaignId",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/USCampaign"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-examples": {
+          "Cancel 10DLC campaign": {
+            "$ref": "./examples/CancelTenDlcUSCampaign.json"
+          }
+        }
+      }
+    },
+    "/tendlc/costs": {
+      "get": {
+        "tags": [
+          "10DLC - Costs"
+        ],
+        "summary": "Retrieves a collection of eligible 10DLC costs with pagination.",
+        "description": "This method supports pagination via the \"skip\" and \"top\" query parameters.",
+        "operationId": "TenDlc_GetCosts",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "The number of items to skip in the result set (default: 0).",
+            "type": "integer",
+            "format": "int32",
+            "default": 0
+          },
+          {
+            "in": "query",
+            "name": "top",
+            "description": "The maximum number of items to return in the result set (default: 100).",
+            "type": "integer",
+            "format": "int32",
+            "default": 100
+          },
+          {
+            "$ref": "#/parameters/ApiVersionParameter"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Returns the paginated collection of eligible 10DLC costs.",
+            "schema": {
+              "$ref": "#/definitions/TenDlcCosts"
+            }
+          },
+          "default": {
+            "description": "Failure",
+            "schema": {
+              "$ref": "#/definitions/CommunicationErrorResponse"
+            }
+          }
+        },
+        "x-ms-pageable": {
+          "nextLinkName": "nextLink",
+          "itemName": "costs"
+        },
+        "x-ms-examples": {
+          "List 10DLC costs": {
+            "$ref": "./examples/GetTenDlcCosts.json"
           }
         }
       }
@@ -568,7 +700,12 @@
         },
         "entityType": {
           "description": "Legal structure or form a company takes",
-          "enum": ["PrivateProfit", "PublicProfit", "NonProfit", "Government"],
+          "enum": [
+            "PrivateProfit",
+            "PublicProfit",
+            "NonProfit",
+            "Government"
+          ],
           "type": "string",
           "x-ms-enum": {
             "name": "EntityType",
@@ -615,18 +752,13 @@
           "description": "Stock Exchange",
           "type": "string"
         },
-        "relationship": {
-          "description": "Business Relationship",
-          "enum": ["BasicAccount", "SmallAccount", "MediumAccount", "LargeAccount", "KeyAccount"],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "Relationship",
-            "modelAsString": true
-          }
-        },
         "alternateBusinessIdType": {
           "description": "Alternate Business Id Type",
-          "enum": ["DUNS", "LEI", "GIIN"],
+          "enum": [
+            "DUNS",
+            "LEI",
+            "GIIN"
+          ],
           "type": "string",
           "x-ms-enum": {
             "name": "AlternateBusinessIdType",
@@ -676,60 +808,6 @@
         "email": {
           "format": "email",
           "description": "Contact email address number for the authorized user for the customer",
-          "type": "string"
-        }
-      }
-    },
-    "LocalNumberCost": {
-      "description": "The incurred cost for a single local number",
-      "type": "object",
-      "properties": {
-        "type": {
-          "description": "The type of cost.",
-          "enum": ["brand", "campaign"],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "LocalNumberCostType",
-            "modelAsString": true
-          }
-        },
-        "amount": {
-          "format": "double",
-          "description": "The cost amount.",
-          "type": "number"
-        },
-        "currencyCode": {
-          "description": "The ISO 4217 currency code for the cost amount, e.g. USD.",
-          "type": "string"
-        },
-        "countryCode": {
-          "description": "The ISO 3166-2 code of the phone number's country, e.g. US.",
-          "type": "string"
-        },
-        "billingFrequency": {
-          "description": "The frequency with which the cost gets billed.",
-          "enum": ["monthly", "once"],
-          "type": "string",
-          "x-ms-enum": {
-            "name": "BillingFrequency",
-            "modelAsString": true
-          }
-        }
-      }
-    },
-    "LocalNumberCosts": {
-      "description": "A wrapper for a list of local number costs entities.",
-      "type": "object",
-      "properties": {
-        "costs": {
-          "description": "List of local numbers costs.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/LocalNumberCost"
-          }
-        },
-        "nextLink": {
-          "description": "Represents the URL link to the next page of local number costs results.",
           "type": "string"
         }
       }
@@ -795,8 +873,70 @@
         }
       }
     },
+    "TenDlcCost": {
+      "description": "The cost of a 10DLC Brand or Campaign",
+      "type": "object",
+      "properties": {
+        "type": {
+          "description": "The type of cost.",
+          "enum": [
+            "brand",
+            "standardCampaign"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "TenDlcCostType",
+            "modelAsString": true
+          }
+        },
+        "amount": {
+          "format": "double",
+          "description": "The cost amount.",
+          "type": "number"
+        },
+        "currencyCode": {
+          "description": "The ISO 4217 currency code for the cost amount, e.g. USD.",
+          "type": "string"
+        },
+        "countryCode": {
+          "description": "The ISO 3166-2 code of the phone number's country, e.g. US.",
+          "type": "string"
+        },
+        "billingFrequency": {
+          "description": "The frequency with which the cost gets billed.",
+          "enum": [
+            "monthly",
+            "once"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "BillingFrequency",
+            "modelAsString": true
+          }
+        }
+      }
+    },
+    "TenDlcCosts": {
+      "description": "A wrapper for a list of 10DLC cost entities",
+      "type": "object",
+      "properties": {
+        "costs": {
+          "description": "List of 10DLC costs.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TenDlcCost"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page of local 10DLC costs results.",
+          "type": "string"
+        }
+      }
+    },
     "USBrand": {
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "type": "object",
       "properties": {
         "id": {
@@ -811,7 +951,14 @@
         },
         "status": {
           "description": "10 Dlc status e.g. 'submitted', 'approved', etc",
-          "enum": ["Draft", "Submitted", "Denied", "Approved"],
+          "enum": [
+            "Draft",
+            "Submitted",
+            "Cancelled",
+            "PendingCancellation",
+            "Denied",
+            "Approved"
+          ],
           "type": "string",
           "x-ms-enum": {
             "name": "BrandStatus",
@@ -822,16 +969,16 @@
           "description": "Represents the costs tied to the brand",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LocalNumberCost"
+            "$ref": "#/definitions/TenDlcCost"
           }
         },
         "submissionDate": {
           "format": "date-time",
-          "description": "Date and time when the 10Dlc was submitted",
+          "description": "Date and time when the 10DLC was submitted",
           "type": "string"
         },
         "reviewNotes": {
-          "description": "Notes added to the 10Dlc Brand after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
+          "description": "Notes added to the 10DLC Brand after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ReviewNote"
@@ -860,7 +1007,9 @@
       }
     },
     "USCampaign": {
-      "required": ["id"],
+      "required": [
+        "id"
+      ],
       "type": "object",
       "properties": {
         "id": {
@@ -875,7 +1024,14 @@
         },
         "status": {
           "description": "10 Dlc status e.g. 'submitted', 'approved', etc",
-          "enum": ["Draft", "Submitted", "Denied", "Approved"],
+          "enum": [
+            "Draft",
+            "Submitted",
+            "Cancelled",
+            "PendingCancellation",
+            "Denied",
+            "Approved"
+          ],
           "type": "string",
           "x-ms-enum": {
             "name": "CampaignStatus",
@@ -884,25 +1040,23 @@
         },
         "statusUpdatedDate": {
           "format": "date-time",
-          "description": "Last date and time when the 10Dlc status was updated",
-          "type": "string",
-          "readOnly": true
+          "description": "Last date and time when the 10DLC status was updated",
+          "type": "string"
         },
         "costs": {
           "description": "Represents the costs tied to the campaign",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/LocalNumberCost"
+            "$ref": "#/definitions/TenDlcCost"
           }
         },
         "submissionDate": {
           "format": "date-time",
-          "description": "Date and time when the 10Dlc was submitted",
-          "type": "string",
-          "readOnly": true
+          "description": "Date and time when the 10DLC was submitted",
+          "type": "string"
         },
         "reviewNotes": {
-          "description": "Notes added to the 10Dlc Campaign after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
+          "description": "Notes added to the 10DLC Campaign after being reviewed to help customer understand\r\nreview results and necessary follow up actions.",
           "type": "array",
           "items": {
             "$ref": "#/definitions/ReviewNote"
@@ -946,30 +1100,16 @@
           "enum": [
             "TwoFactorAuthentication",
             "AccountNotification",
-            "AgentsFranchises",
-            "CarrierExempt",
-            "Charity",
             "CustomerCare",
             "DeliveryNotification",
-            "Emergency",
             "FraudAlert",
             "HigherEducation",
-            "K12Education",
             "LowVolume",
-            "M2M",
             "Marketing",
             "Mixed",
-            "Political",
             "PollingVoting",
-            "Proxy",
             "PublicServiceAnnouncement",
-            "SecurityAlert",
-            "Social",
-            "SoleProprietor",
-            "Sweepstake",
-            "Trial",
-            "UcaasHigh",
-            "UcaasLow"
+            "SecurityAlert"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -977,7 +1117,7 @@
             "modelAsString": true
           }
         },
-        "subContentType": {
+        "subContentTypes": {
           "description": "Type of user sub-content",
           "type": "array",
           "items": {
@@ -1012,7 +1152,9 @@
     "CommunicationErrorResponse": {
       "description": "The Communication Services error.",
       "type": "object",
-      "required": ["error"],
+      "required": [
+        "error"
+      ],
       "properties": {
         "error": {
           "description": "The Communication Services error.",
@@ -1023,7 +1165,10 @@
     "CommunicationError": {
       "description": "The Communication Services error.",
       "type": "object",
-      "required": ["code", "message"],
+      "required": [
+        "code",
+        "message"
+      ],
       "properties": {
         "code": {
           "type": "string",
