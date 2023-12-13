@@ -55,6 +55,8 @@ extends:
         safeName: azurecommunicationjobrouter
       - name: azure-tools-communication-ten-dlc
         safeName: azuretoolscommunicationtendlc
+      - name: azure-rest-communication-job-router
+        safeName: azurerestcommunicationjobrouter
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-communication-call-automation

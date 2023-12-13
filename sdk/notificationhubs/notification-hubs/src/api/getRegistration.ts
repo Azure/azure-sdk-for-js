@@ -20,7 +20,7 @@ const OPERATION_NAME = "getRegistration";
 export function getRegistration(
   context: NotificationHubsClientContext,
   registrationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -36,6 +36,6 @@ export function getRegistration(
       const response = await sendRequest(context, request, 200);
 
       return registrationDescriptionParser.parseRegistrationEntry(response.bodyAsText!);
-    }
+    },
   );
 }

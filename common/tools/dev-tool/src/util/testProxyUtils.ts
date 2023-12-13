@@ -6,7 +6,6 @@ import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
 import path from "path";
-import axios from "axios";
 import decompress from "decompress";
 import envPaths from "env-paths";
 import { promisify } from "util";
@@ -80,12 +79,12 @@ const AVAILABLE_TEST_PROXY_BINARIES: TestProxyBinary[] = [
  */
 function getTestProxyBinary(): TestProxyBinary {
   const result = AVAILABLE_TEST_PROXY_BINARIES.find(
-    ({ platform, architecture }) => platform === process.platform && architecture === process.arch
+    ({ platform, architecture }) => platform === process.platform && architecture === process.arch,
   );
 
   if (!result) {
     throw new Error(
-      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`
+      `Unsupported platform/architecture combination: ${process.platform}/${process.arch}`,
     );
   }
 
@@ -101,7 +100,8 @@ function getDownloadUrl(binary: TestProxyBinary, version: string): string {
 
 async function downloadTestProxy(downloadLocation: string, downloadUrl: string): Promise<void> {
   log(`Downloading test proxy binary from ${downloadUrl}`);
-  const { data } = await axios.get<ArrayBuffer>(downloadUrl, { responseType: "arraybuffer" });
+  const response = await fetch(downloadUrl);
+  const data = await response.arrayBuffer();
   log(`Extracting test proxy binary to ${downloadLocation}`);
   await decompress(Buffer.from(data), downloadLocation);
 }
@@ -117,7 +117,7 @@ export async function getTestProxyExecutable(): Promise<string> {
   }
 
   const targetVersion = await getTargetVersion();
-  const binary = await getTestProxyBinary();
+  const binary = getTestProxyBinary();
 
   // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
   const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
@@ -187,7 +187,10 @@ export function createAssetsJson(project: ProjectInfo): Promise<void> {
 const execPromise = promisify(exec);
 
 async function getRecordingsDirectory(project: ProjectInfo): Promise<string> {
-  const { stdout } = await execPromise(`${await getTestProxyExecutable()} config locate -a assets.json`, { cwd: project.path });
+  const { stdout } = await execPromise(
+    `${await getTestProxyExecutable()} config locate -a assets.json`,
+    { cwd: project.path },
+  );
   const lines = stdout.split("\n");
 
   // the directory is the second-to-last line of output (there's some other log output that comes out from the test proxy first, and the last line is empty)
@@ -200,7 +203,11 @@ export async function linkRecordingsDirectory() {
   const recordingsDirectory = await getRecordingsDirectory(project);
   const projectRelativeToRoot = path.relative(root, project.path);
 
-  const trueRecordingsDirectory = path.join(recordingsDirectory, projectRelativeToRoot, 'recordings/');
+  const trueRecordingsDirectory = path.join(
+    recordingsDirectory,
+    projectRelativeToRoot,
+    "recordings/",
+  );
   const relativeRecordingsDirectory = path.relative(project.path, trueRecordingsDirectory);
 
   const symlinkLocation = path.join(project.path, "_recordings");
@@ -210,7 +217,9 @@ export async function linkRecordingsDirectory() {
     if (stat.isSymbolicLink()) {
       await fs.unlink(symlinkLocation);
     } else {
-      log.warn("Could not create symbolic link to recordings directory: a file exists at _recordings already.");
+      log.warn(
+        "Could not create symbolic link to recordings directory: a file exists at _recordings already.",
+      );
       return;
     }
   }
@@ -226,11 +235,11 @@ export async function linkRecordingsDirectory() {
 
 export async function runMigrationScript(
   project: ProjectInfo,
-  initialPush: boolean
+  initialPush: boolean,
 ): Promise<void> {
   const migrationScriptLocation = path.join(
     await resolveRoot(),
-    "eng/common/testproxy/onboarding/generate-assets-json.ps1"
+    "eng/common/testproxy/onboarding/generate-assets-json.ps1",
   );
 
   const argv = [migrationScriptLocation, "-TestProxyExe", await getTestProxyExecutable()];
@@ -246,7 +255,7 @@ export interface TestProxy {
 }
 
 export async function startTestProxy(): Promise<TestProxy> {
-  const testProxy = await runCommand(await getTestProxyExecutable(), [
+  const testProxy = runCommand(await getTestProxyExecutable(), [
     "start",
     "--storage-location",
     await resolveRoot(),
@@ -269,11 +278,18 @@ export async function startTestProxy(): Promise<TestProxy> {
 
 export async function isProxyToolActive(): Promise<boolean> {
   try {
-    await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
+    const response = await fetch(
+      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
+    );
+
+    if (!response.ok) {
+      return false;
+    }
 
     log.info(
-      `Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000
-      }\n`
+      `Proxy tool seems to be active at http://localhost:${
+        process.env.TEST_PROXY_HTTP_PORT ?? 5000
+      }\n`,
     );
     return true;
   } catch (error: any) {
@@ -290,19 +306,16 @@ async function getTargetVersion() {
   try {
     const contentInVersionFile = await fs.readFile(
       `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
-      "utf-8"
+      "utf-8",
     );
 
     const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
   } catch (_: any) {
     log.warn(
-      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
+      `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`,
     );
     return "latest";
   }

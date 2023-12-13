@@ -68,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -183,6 +184,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -198,7 +200,9 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
@@ -292,7 +296,12 @@
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
       "words": [
         "ssml",
-        "Ssml"
+        "Ssml",
+        "answeredby",
+        "playsourcacheid",
+        "playsourcecacheid",
+        "sipx",
+        "sipuui"
       ]
     },
     {
@@ -323,6 +332,13 @@
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
       ]
     },
     {
@@ -384,14 +400,6 @@
       ]
     },
     {
-      "filename": "sdk/maps/maps-search/review/maps-search.api.md",
-      "words": [
-        "bbox",
-        "Neighbourhood",
-        "Xstr"
-      ]
-    },
-    {
       "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
       "words": [
         "bbox",
@@ -409,7 +417,8 @@
       "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
       "words": [
         "Neighbourhood",
-        "Xstr"
+        "Xstr",
+        "bbox"
       ]
     },
     {
@@ -435,6 +444,29 @@
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
       "words": [
         "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "words": [
+        "Alexa",
+        "alexa",
+        "Asns",
+        "asns",
+        "cnames",
+        "Easm",
+        "easm",
+        "nxdomain",
+        "Whois",
+        "whois"
+      ]
+    },
+    {
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "words": [
+        "wordprocessingml",
+        "spreadsheetml",
+        "presentationml"
       ]
     }
   ]

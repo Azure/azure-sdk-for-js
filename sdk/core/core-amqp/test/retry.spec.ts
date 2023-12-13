@@ -12,7 +12,6 @@ import {
   retry,
   translate,
 } from "../src";
-import { AbortController } from "@azure/abort-controller";
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");

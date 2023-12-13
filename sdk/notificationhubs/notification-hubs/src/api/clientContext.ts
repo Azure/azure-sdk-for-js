@@ -50,7 +50,7 @@ export interface NotificationHubsClientContext {
 export function createClientContext(
   connectionString: string,
   hubName: string,
-  options: NotificationHubsClientOptions = {}
+  options: NotificationHubsClientOptions = {},
 ): NotificationHubsClientContext {
   return new NotificationHubsServiceClient(connectionString, hubName, options);
 }
@@ -65,7 +65,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
   constructor(
     connectionString: string,
     hubName: string,
-    options: NotificationHubsClientOptions = {}
+    options: NotificationHubsClientOptions = {},
   ) {
     this.hubName = hubName;
 
@@ -74,7 +74,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
     this.baseUrl = parsedConnection.endpoint.replace("sb://", "https://");
     this.sasTokenCredential = createTokenCredentialFromConnection(
       parsedConnection.sharedAccessKey,
-      parsedConnection.sharedAccessKeyName
+      parsedConnection.sharedAccessKeyName,
     );
 
     const packageDetails = `azsdk-js-notificationhubs/${constants.SDK_VERSION}`;
@@ -93,7 +93,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
 
   async createHeaders(
     operationName: string,
-    rawHeaders?: Record<string, string>
+    rawHeaders?: Record<string, string>,
   ): Promise<HttpHeaders> {
     const authorization = await this.sasTokenCredential.getToken(this.baseUrl);
     if (!authorization) {
@@ -105,7 +105,7 @@ class NotificationHubsServiceClient implements NotificationHubsClientContext {
     headers.set("x-ms-version", API_VERSION);
     headers.set(
       "x-ms-azsdk-telemetry",
-      `class=NotificationHubsServiceClient;method=${operationName}`
+      `class=NotificationHubsServiceClient;method=${operationName}`,
     );
 
     return headers;

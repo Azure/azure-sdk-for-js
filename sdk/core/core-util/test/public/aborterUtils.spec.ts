@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as sinon from "sinon";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src";
@@ -62,7 +62,7 @@ describe("cancelablePromiseRace", function () {
   const function2Message = "function 2 is rejected";
   const function3Message = "function 3 is rejected";
 
-  const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<number> => {
+  const function1 = async (abortOptions: { abortSignal?: AbortSignalLike }): Promise<void> => {
     let token: ReturnType<typeof setTimeout>;
     return createAbortablePromise(
       (resolve) => {

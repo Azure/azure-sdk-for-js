@@ -38,7 +38,7 @@
     ]
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "//sampleConfiguration": {
     "productName": "Azure IoT Hub Device Update rest",
@@ -101,7 +101,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
@@ -119,12 +119,11 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mkdirp": "^1.0.4",
-    "mocha-junit-reporter": "^1.18.0",
     "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "@azure/core-util": "^1.0.1",
     "uuid": "^8.3.0",
     "@types/uuid": "^8.0.0",

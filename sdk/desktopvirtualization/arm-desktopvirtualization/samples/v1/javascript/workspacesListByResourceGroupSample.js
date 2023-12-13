@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List workspaces.
  *
  * @summary List workspaces.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/Workspace_ListByResourceGroup.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Workspace_ListByResourceGroup.json
  */
 async function workspaceListByResourceGroup() {
   const subscriptionId =

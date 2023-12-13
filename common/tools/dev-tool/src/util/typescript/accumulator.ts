@@ -71,10 +71,10 @@ type SpecToResult<Spec extends AccumulatorSpecTemplate> = {
  * @returns an AccumulatorResult containing a
  */
 export function createAccumulator<Spec extends AccumulatorSpecTemplate>(
-  spec: Spec
+  spec: Spec,
 ): AccumulatorResult<SpecToResult<Spec>> {
   const result = Object.fromEntries(
-    Object.keys(spec).map((name) => [name, []])
+    Object.keys(spec).map((name) => [name, []]),
   ) as unknown as AccumulatorResult<SpecToResult<Spec>>;
 
   const addNode: AddNode = (node) => {
@@ -88,8 +88,8 @@ export function createAccumulator<Spec extends AccumulatorSpecTemplate>(
         const values = Array.isArray(thisResult)
           ? thisResult
           : thisResult !== undefined
-          ? [thisResult]
-          : [];
+            ? [thisResult]
+            : [];
         result[name].push(...values);
       }
     }

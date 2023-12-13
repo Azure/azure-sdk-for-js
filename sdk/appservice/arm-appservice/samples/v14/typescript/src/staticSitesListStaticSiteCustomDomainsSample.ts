@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets all static site custom domains for a particular static site.
  *
  * @summary Description for Gets all static site custom domains for a particular static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteCustomDomains.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetStaticSiteCustomDomains.json
  */
 async function listCustomDomainsForAStaticSite() {
   const subscriptionId =

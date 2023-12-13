@@ -6028,6 +6028,279 @@ export const AcsUserDisconnectedEventData: coreClient.CompositeMapper = {
   }
 };
 
+export const AcsRouterEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterEventData",
+    modelProperties: {
+      jobId: {
+        serializedName: "jobId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      channelReference: {
+        serializedName: "channelReference",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      channelId: {
+        serializedName: "channelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterCommunicationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterCommunicationError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      innererror: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "AcsRouterCommunicationError"
+        }
+      },
+      details: {
+        serializedName: "details",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterCommunicationError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterQueueDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterQueueDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labels: {
+        serializedName: "labels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerSelector: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerSelector",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labelOperator: {
+        serializedName: "labelOperator",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labelValue: {
+        serializedName: "labelValue",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      ttlSeconds: {
+        serializedName: "ttlSeconds",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      state: {
+        serializedName: "state",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      expirationTime: {
+        serializedName: "expirationTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerDeregisteredEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerDeregisteredEventData",
+    modelProperties: {
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerRegisteredEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerRegisteredEventData",
+    modelProperties: {
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      queueAssignments: {
+        serializedName: "queueAssignments",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterQueueDetails"
+            }
+          }
+        }
+      },
+      channelConfigurations: {
+        serializedName: "channelConfigurations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterChannelConfiguration"
+            }
+          }
+        }
+      },
+      totalCapacity: {
+        serializedName: "totalCapacity",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      labels: {
+        serializedName: "labels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterChannelConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterChannelConfiguration",
+    modelProperties: {
+      channelId: {
+        serializedName: "channelId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      capacityCostPerJob: {
+        serializedName: "capacityCostPerJob",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxNumberOfJobs: {
+        serializedName: "maxNumberOfJobs",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const AcsChatEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -6098,6 +6371,14 @@ export const AcsChatThreadParticipant: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CommunicationIdentifierModel"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -7343,6 +7624,158 @@ export const HealthcareDicomImageDeletedEventData: coreClient.CompositeMapper = 
   }
 };
 
+export const ResourceNotificationsResourceUpdatedDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceUpdatedDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsOperationalDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsOperationalDetails",
+    modelProperties: {
+      resourceEventTime: {
+        serializedName: "resourceEventTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsResourceUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceUpdatedEventData",
+    modelProperties: {
+      resourceDetails: {
+        serializedName: "resourceInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsResourceUpdatedDetails"
+        }
+      },
+      operationalDetails: {
+        serializedName: "operationalInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsOperationalDetails"
+        }
+      },
+      apiVersion: {
+        serializedName: "apiVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsResourceDeletedDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceDeletedDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceNotificationsResourceDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceDeletedEventData",
+    modelProperties: {
+      resourceDetails: {
+        serializedName: "resourceInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsResourceDeletedDetails"
+        }
+      },
+      operationalDetails: {
+        serializedName: "operationalInfo",
+        type: {
+          name: "Composite",
+          className: "ResourceNotificationsOperationalDetails"
+        }
+      }
+    }
+  }
+};
+
 export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7778,6 +8211,56 @@ export const AppConfigurationSnapshotModifiedEventData: coreClient.CompositeMapp
   }
 };
 
+export const AcsRouterJobEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobEventData",
+    modelProperties: {
+      ...AcsRouterEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      labels: {
+        serializedName: "labels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerEventData",
+    modelProperties: {
+      ...AcsRouterEventData.type.modelProperties,
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AcsChatMessageEventBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8131,6 +8614,730 @@ export const ContainerServiceNodePoolRollingFailedEventData: coreClient.Composit
   }
 };
 
+export const ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsHealthResourcesAnnotatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsHealthResourcesAnnotatedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsResourceManagementCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ResourceNotificationsResourceManagementCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsResourceManagementDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceNotificationsResourceManagementDeletedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceDeletedEventData.type.modelProperties
+    }
+  }
+};
+
+export const AcsRouterJobCancelledEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobCancelledEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      note: {
+        serializedName: "note",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dispositionCode: {
+        serializedName: "dispositionCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobClassificationFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobClassificationFailedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      classificationPolicyId: {
+        serializedName: "classificationPolicyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterCommunicationError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobClassifiedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobClassifiedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      queueDetails: {
+        serializedName: "queueDetails",
+        type: {
+          name: "Composite",
+          className: "AcsRouterQueueDetails"
+        }
+      },
+      classificationPolicyId: {
+        serializedName: "classificationPolicyId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "priority",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      attachedWorkerSelectors: {
+        serializedName: "attachedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobClosedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobClosedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      assignmentId: {
+        serializedName: "assignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dispositionCode: {
+        serializedName: "dispositionCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobCompletedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      assignmentId: {
+        serializedName: "assignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobDeletedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties
+    }
+  }
+};
+
+export const AcsRouterJobExceptionTriggeredEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobExceptionTriggeredEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      ruleKey: {
+        serializedName: "ruleKey",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      exceptionRuleId: {
+        serializedName: "exceptionRuleId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobQueuedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobQueuedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      priority: {
+        serializedName: "priority",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      attachedWorkerSelectors: {
+        serializedName: "attachedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      requestedWorkerSelectors: {
+        serializedName: "requestedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobReceivedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobReceivedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      jobStatus: {
+        serializedName: "jobStatus",
+        type: {
+          name: "String"
+        }
+      },
+      classificationPolicyId: {
+        serializedName: "classificationPolicyId",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      },
+      requestedWorkerSelectors: {
+        serializedName: "requestedWorkerSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      scheduledOn: {
+        serializedName: "scheduledOn",
+        type: {
+          name: "String"
+        }
+      },
+      unavailableForMatching: {
+        serializedName: "unavailableForMatching",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobSchedulingFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobSchedulingFailedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      priority: {
+        serializedName: "priority",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      expiredAttachedWorkerSelectors: {
+        serializedName: "expiredAttachedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      expiredRequestedWorkerSelectors: {
+        serializedName: "expiredRequestedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      scheduledOn: {
+        serializedName: "scheduledOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      failureReason: {
+        serializedName: "failureReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobUnassignedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobUnassignedEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      assignmentId: {
+        serializedName: "assignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      workerId: {
+        serializedName: "workerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobWaitingForActivationEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobWaitingForActivationEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      priority: {
+        serializedName: "priority",
+        type: {
+          name: "Number"
+        }
+      },
+      expiredAttachedWorkerSelectors: {
+        serializedName: "expiredAttachedWorkerSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      expiredRequestedWorkerSelectors: {
+        serializedName: "expiredRequestedWorkerSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      scheduledOn: {
+        serializedName: "scheduledOn",
+        type: {
+          name: "String"
+        }
+      },
+      unavailableForMatching: {
+        serializedName: "unavailableForMatching",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterJobWorkerSelectorsExpiredEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterJobWorkerSelectorsExpiredEventData",
+    modelProperties: {
+      ...AcsRouterJobEventData.type.modelProperties,
+      expiredRequestedWorkerSelectors: {
+        serializedName: "expiredRequestedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      },
+      expiredAttachedWorkerSelectors: {
+        serializedName: "expiredAttachedWorkerSelectors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRouterWorkerSelector"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerDeletedEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties
+    }
+  }
+};
+
+export const AcsRouterWorkerOfferAcceptedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerOfferAcceptedEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      assignmentId: {
+        serializedName: "assignmentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobPriority: {
+        serializedName: "jobPriority",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      workerLabels: {
+        serializedName: "workerLabels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      workerTags: {
+        serializedName: "workerTags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      jobLabels: {
+        serializedName: "jobLabels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      jobTags: {
+        serializedName: "jobTags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerOfferDeclinedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerOfferDeclinedEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerOfferExpiredEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerOfferExpiredEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerOfferIssuedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerOfferIssuedEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobPriority: {
+        serializedName: "jobPriority",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      workerLabels: {
+        serializedName: "workerLabels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      offeredOn: {
+        serializedName: "offeredOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      expiresOn: {
+        serializedName: "expiresOn",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      workerTags: {
+        serializedName: "workerTags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      jobLabels: {
+        serializedName: "jobLabels",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      jobTags: {
+        serializedName: "jobTags",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRouterWorkerOfferRevokedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRouterWorkerOfferRevokedEventData",
+    modelProperties: {
+      ...AcsRouterWorkerEventData.type.modelProperties,
+      queueId: {
+        serializedName: "queueId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      offerId: {
+        serializedName: "offerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AcsChatMessageReceivedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8226,6 +9433,14 @@ export const AcsChatThreadCreatedWithUserEventData: coreClient.CompositeMapper =
           value: { type: { name: "any" } }
         }
       },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
       participants: {
         serializedName: "participants",
         required: true,
@@ -8285,6 +9500,14 @@ export const AcsChatThreadPropertiesUpdatedPerUserEventData: coreClient.Composit
         required: true,
         type: {
           name: "String"
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       properties: {
@@ -8523,6 +9746,14 @@ export const AcsChatThreadPropertiesUpdatedEventData: coreClient.CompositeMapper
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       }
     }

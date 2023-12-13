@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a PrefixListResource
  *
  * @summary Delete a PrefixListResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListLocalRulestack_Delete_MaximumSet_Gen.json
  */
 async function prefixListLocalRulestackDeleteMaximumSetGen() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function prefixListLocalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a PrefixListResource
  *
  * @summary Delete a PrefixListResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListLocalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListLocalRulestack_Delete_MinimumSet_Gen.json
  */
 async function prefixListLocalRulestackDeleteMinimumSetGen() {
   const subscriptionId =

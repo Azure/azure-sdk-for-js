@@ -10,8 +10,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run build:test && api-extractor run --local && npm run build:types",
+    "build": "npm run build:test && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -35,13 +34,12 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "keywords": [
     "azure",
@@ -74,11 +72,10 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
@@ -93,12 +90,11 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "@azure/functions": "^3.2.0",
     "ts-node": "^10.0.0"

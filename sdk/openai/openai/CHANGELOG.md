@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.7 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,48 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.8 (2023-12-07)
+
+Following OpenAI's November Dev Day and Microsoft's 2023 Ignite conference, this update brings a slew of new
+features and changes to the client library.
+
+### Features Added
+
+- `-1106` model feature support for `gpt-35-turbo` and `gpt-4-turbo`, including use of `seed`, `system_fingerprint`, parallel function calling via tools, "JSON mode" for guaranteed function outputs, and more
+- `dall-e-3` image generation capabilities via `getImages`, featuring higher model quality, automatic prompt revisions by `gpt-4`, and customizable quality/style settings
+- Greatly expanded "On Your Data" capabilities in Azure OpenAI, including many new data source options and authentication mechanisms
+- Early support for `gpt-4-vision-preview`, which allows the hybrid use of text and images as input to enable scenarios like "describe this image for me"
+- Support for Azure enhancements to `gpt-4-vision-preview` results that include grounding and OCR features
+
+### Breaking Changes
+
+`ChatMessage` changes:
+
+- The singular `ChatMessage` type has been replaced by `ChatRequestMessage` and `ChatResponseMessage`, the former of
+    which is a union of special message structures such as `ChatRequestSystemMessage` and
+    `ChatRequestUserMessage`.
+
+Dall-e-3:
+
+- Azure OpenAI now uses `dall-e-3` model deployments for its image generation API and such a valid deployment must
+    be provided to the `GetImageGenerations` method.
+
+On Your Data:
+
+- The `AzureExtensionChatConfiguration` type has been updated to inline the parameters of the extension into the
+    configuration object itself.
+
+## 1.0.0-beta.7 (2023-10-25)
+
+### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses.
+
+### Other Changes
+
+- NodeJS v18 is now the minimum version supported. Check out the [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule) for more information on NodeJS support timelines. And check out the [Microsoft Support Policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#microsoft-support-policy) for more information on Microsoft support timelines.
 
 ## 1.0.0-beta.6 (2023-09-21)
 

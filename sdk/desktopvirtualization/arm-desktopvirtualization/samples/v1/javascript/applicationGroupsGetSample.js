@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get an application group.
  *
  * @summary Get an application group.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/ApplicationGroup_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_Get.json
  */
 async function applicationGroupGet() {
   const subscriptionId =

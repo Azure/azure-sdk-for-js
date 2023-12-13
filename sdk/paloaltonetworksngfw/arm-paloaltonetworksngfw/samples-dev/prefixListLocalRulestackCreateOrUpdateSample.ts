@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a PrefixListResource
  *
  * @summary Create a PrefixListResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListLocalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function prefixListLocalRulestackCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function prefixListLocalRulestackCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a PrefixListResource
  *
  * @summary Create a PrefixListResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListLocalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function prefixListLocalRulestackCreateOrUpdateMinimumSetGen() {
   const subscriptionId =

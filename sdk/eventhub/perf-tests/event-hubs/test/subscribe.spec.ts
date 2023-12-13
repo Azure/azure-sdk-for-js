@@ -21,7 +21,7 @@ interface ReceiverOptions {
    * Useful when relevant code is updated
    * Introduced when prefetch feature was added to Event Hubs
    */
-  "log-median-batch-size": boolean
+  "log-median-batch-size": boolean;
 }
 
 const connectionString = getEnvVar("EVENTHUB_CONNECTION_STRING");
@@ -67,9 +67,10 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     },
     "log-median-batch-size": {
       required: false,
-      description: "Logs more information related to the batch size, such as median, max, average, etc",
+      description:
+        "Logs more information related to the batch size, such as median, max, average, etc",
       defaultValue: false,
-    }
+    },
   };
 
   constructor() {
@@ -121,9 +122,17 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
     await consumer.close();
     // The following might just be noise if we don't think there are related changes to the code
     if (this.parsedOptions["log-median-batch-size"].value) {
-      console.log(`\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${this.callbackCallsCount / this.parsedOptions.duration.value}`);
+      console.log(
+        `\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${
+          this.callbackCallsCount / this.parsedOptions.duration.value
+        }`
+      );
       console.log(`\tmessagesPerBatch: ${this.messagesPerBatch}`);
-      console.log(`\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length}, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`);
+      console.log(
+        `\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${
+          this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length
+        }, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`
+      );
     }
   }
 }
@@ -171,8 +180,7 @@ function median(values: number[]) {
 
   const half = Math.floor(values.length / 2);
 
-  if (values.length % 2)
-    return values[half];
+  if (values.length % 2) return values[half];
 
   return (values[half - 1] + values[half]) / 2.0;
 }

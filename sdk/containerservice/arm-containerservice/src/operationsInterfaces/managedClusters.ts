@@ -14,8 +14,6 @@ import {
   ManagedClustersListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
-  GuardrailsAvailableVersion,
-  ManagedClustersListGuardrailsVersionsOptionalParams,
   MeshRevisionProfile,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   MeshUpgradeProfile,
@@ -47,10 +45,10 @@ import {
   ManagedClustersResetServicePrincipalProfileOptionalParams,
   ManagedClusterAADProfile,
   ManagedClustersResetAADProfileOptionalParams,
-  ManagedClustersAbortLatestOperationOptionalParams,
-  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateClusterCertificatesOptionalParams,
   ManagedClustersRotateClusterCertificatesResponse,
+  ManagedClustersAbortLatestOperationOptionalParams,
+  ManagedClustersAbortLatestOperationResponse,
   ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ManagedClustersRotateServiceAccountSigningKeysResponse,
   ManagedClustersStopOptionalParams,
@@ -62,8 +60,6 @@ import {
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
   ManagedClustersGetCommandResultResponse,
-  ManagedClustersGetGuardrailsVersionsOptionalParams,
-  ManagedClustersGetGuardrailsVersionsResponse,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
@@ -102,18 +98,9 @@ export interface ManagedClusters {
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
-   * Contains list of Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
-   * @param options The options parameters.
-   */
-  listGuardrailsVersions(
-    location: string,
-    options?: ManagedClustersListGuardrailsVersionsOptionalParams
-  ): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
-  /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listMeshRevisionProfiles(
@@ -133,7 +120,7 @@ export interface ManagedClusters {
   ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
   /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -143,7 +130,7 @@ export interface ManagedClusters {
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
    * upgrades, and details on preview status of the version
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listKubernetesVersions(
@@ -366,37 +353,6 @@ export interface ManagedClusters {
     options?: ManagedClustersResetAADProfileOptionalParams
   ): Promise<void>;
   /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperation(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ManagedClustersAbortLatestOperationResponse>,
-      ManagedClustersAbortLatestOperationResponse
-    >
-  >;
-  /**
-   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
-   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
-   * completes before cancellation can take place, an error is returned.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the managed cluster resource.
-   * @param options The options parameters.
-   */
-  beginAbortLatestOperationAndWait(
-    resourceGroupName: string,
-    resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
-  ): Promise<ManagedClustersAbortLatestOperationResponse>;
-  /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
    * details about rotating managed cluster certificates.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -425,6 +381,37 @@ export interface ManagedClusters {
     resourceName: string,
     options?: ManagedClustersRotateClusterCertificatesOptionalParams
   ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperation(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ManagedClustersAbortLatestOperationResponse>,
+      ManagedClustersAbortLatestOperationResponse
+    >
+  >;
+  /**
+   * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
+   * a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation
+   * completes before cancellation can take place, a 409 error code is returned.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  beginAbortLatestOperationAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersAbortLatestOperationOptionalParams
+  ): Promise<ManagedClustersAbortLatestOperationResponse>;
   /**
    * Rotates the service account signing keys of a managed cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -565,20 +552,9 @@ export interface ManagedClusters {
     options?: ManagedClustersGetCommandResultOptionalParams
   ): Promise<ManagedClustersGetCommandResultResponse>;
   /**
-   * Contains Guardrails version along with its support info and whether it is a default version.
-   * @param location The name of Azure region.
-   * @param version Guardrails version
-   * @param options The options parameters.
-   */
-  getGuardrailsVersions(
-    location: string,
-    version: string,
-    options?: ManagedClustersGetGuardrailsVersionsOptionalParams
-  ): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
-  /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param mode The mode of the mesh.
    * @param options The options parameters.
    */

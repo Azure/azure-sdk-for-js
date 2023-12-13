@@ -15,10 +15,10 @@ import {
   DeleteTextBlocklistDefaultResponse,
   ListTextBlocklists200Response,
   ListTextBlocklistsDefaultResponse,
-  AddBlockItems200Response,
-  AddBlockItemsDefaultResponse,
-  RemoveBlockItems204Response,
-  RemoveBlockItemsDefaultResponse,
+  AddOrUpdateBlocklistItems200Response,
+  AddOrUpdateBlocklistItemsDefaultResponse,
+  RemoveBlocklistItems204Response,
+  RemoveBlocklistItemsDefaultResponse,
   GetTextBlocklistItem200Response,
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
@@ -32,10 +32,10 @@ const responseMap: Record<string, string[]> = {
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
   "GET /text/blocklists": ["200"],
-  "POST /text/blocklists/{blocklistName}:addBlockItems": ["200"],
-  "POST /text/blocklists/{blocklistName}:removeBlockItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blockItems/{blockItemId}": ["200"],
-  "GET /text/blocklists/{blocklistName}/blockItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": ["200"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
 };
 
 export function isUnexpected(
@@ -60,11 +60,11 @@ export function isUnexpected(
   response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
-  response: AddBlockItems200Response | AddBlockItemsDefaultResponse
-): response is AddBlockItemsDefaultResponse;
+  response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse
+): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlockItems204Response | RemoveBlockItemsDefaultResponse
-): response is RemoveBlockItemsDefaultResponse;
+  response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse
+): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse
 ): response is GetTextBlocklistItemDefaultResponse;
@@ -86,10 +86,10 @@ export function isUnexpected(
     | DeleteTextBlocklistDefaultResponse
     | ListTextBlocklists200Response
     | ListTextBlocklistsDefaultResponse
-    | AddBlockItems200Response
-    | AddBlockItemsDefaultResponse
-    | RemoveBlockItems204Response
-    | RemoveBlockItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse
     | GetTextBlocklistItem200Response
     | GetTextBlocklistItemDefaultResponse
     | ListTextBlocklistItems200Response
@@ -101,8 +101,8 @@ export function isUnexpected(
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
   | ListTextBlocklistsDefaultResponse
-  | AddBlockItemsDefaultResponse
-  | RemoveBlockItemsDefaultResponse
+  | AddOrUpdateBlocklistItemsDefaultResponse
+  | RemoveBlocklistItemsDefaultResponse
   | GetTextBlocklistItemDefaultResponse
   | ListTextBlocklistItemsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];

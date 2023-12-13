@@ -18,8 +18,6 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  DiagnosticsCheckNameAvailabilityOptionalParams,
-  DiagnosticsCheckNameAvailabilityResponse,
   DiagnosticsCreateOptionalParams,
   DiagnosticsCreateResponse,
   DiagnosticsGetOptionalParams,
@@ -39,27 +37,11 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * This API is used to check the uniqueness of a resource name used for a diagnostic check.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
-   * @param options The options parameters.
-   */
-  checkNameAvailability(
-    scope: string,
-    options?: DiagnosticsCheckNameAvailabilityOptionalParams
-  ): Promise<DiagnosticsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      checkNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
-   * Diagnostics tells you precisely the root cause of the issue and how to address it. You can get
-   * diagnostics once you discover and identify the relevant solution for your Azure issue.<br/><br/> You
-   * can create diagnostics using the ‘solutionId’  from Solution Discovery API response and
-   * ‘additionalParameters’ <br/><br/> <b>Note: </b>‘requiredParameterSets’ from Solutions Discovery API
-   * response must be passed via ‘additionalParameters’ as an input to Diagnostics API
+   * Creates a diagnostic for the specific resource using solutionId and requiredInputs* from discovery
+   * solutions. <br/>Diagnostics tells you precisely the root cause of the issue and the steps to address
+   * it. You can get diagnostics once you discover the relevant solution for your Azure issue. <br/><br/>
+   * <b>Note: </b> requiredInputs’ from Discovery solutions response must be passed via
+   * ‘additionalParameters’ as an input to Diagnostics API.
    * @param scope This is an extension resource provider and only resource level extension is supported
    *              at the moment.
    * @param diagnosticsResourceName Unique resource name for insight resources
@@ -132,11 +114,11 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Diagnostics tells you precisely the root cause of the issue and how to address it. You can get
-   * diagnostics once you discover and identify the relevant solution for your Azure issue.<br/><br/> You
-   * can create diagnostics using the ‘solutionId’  from Solution Discovery API response and
-   * ‘additionalParameters’ <br/><br/> <b>Note: </b>‘requiredParameterSets’ from Solutions Discovery API
-   * response must be passed via ‘additionalParameters’ as an input to Diagnostics API
+   * Creates a diagnostic for the specific resource using solutionId and requiredInputs* from discovery
+   * solutions. <br/>Diagnostics tells you precisely the root cause of the issue and the steps to address
+   * it. You can get diagnostics once you discover the relevant solution for your Azure issue. <br/><br/>
+   * <b>Note: </b> requiredInputs’ from Discovery solutions response must be passed via
+   * ‘additionalParameters’ as an input to Diagnostics API.
    * @param scope This is an extension resource provider and only resource level extension is supported
    *              at the moment.
    * @param diagnosticsResourceName Unique resource name for insight resources
@@ -176,24 +158,6 @@ export class DiagnosticsImpl implements Diagnostics {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path: "/{scope}/providers/Microsoft.Help/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.checkNameAvailabilityRequest,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.scope],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const createOperationSpec: coreClient.OperationSpec = {
   path:
     "/{scope}/providers/Microsoft.Help/diagnostics/{diagnosticsResourceName}",

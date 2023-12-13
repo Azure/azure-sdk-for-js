@@ -45,25 +45,24 @@ import {
   GetJobDefaultResponse,
   DeleteJob204Response,
   DeleteJobDefaultResponse,
-  ReclassifyJobAction200Response,
-  ReclassifyJobActionDefaultResponse,
-  CancelJobAction200Response,
-  CancelJobActionDefaultResponse,
-  CompleteJobAction200Response,
-  CompleteJobActionDefaultResponse,
-  CloseJobAction200Response,
-  CloseJobAction202Response,
-  CloseJobActionDefaultResponse,
+  Reclassify200Response,
+  ReclassifyDefaultResponse,
+  Cancel200Response,
+  CancelDefaultResponse,
+  Complete200Response,
+  CompleteDefaultResponse,
+  Close200Response,
+  CloseDefaultResponse,
   ListJobs200Response,
   ListJobsDefaultResponse,
   GetInQueuePosition200Response,
   GetInQueuePositionDefaultResponse,
-  UnassignJobAction200Response,
-  UnassignJobActionDefaultResponse,
-  AcceptJobAction200Response,
-  AcceptJobActionDefaultResponse,
-  DeclineJobAction200Response,
-  DeclineJobActionDefaultResponse,
+  Unassign200Response,
+  UnassignDefaultResponse,
+  Accept200Response,
+  AcceptDefaultResponse,
+  Decline200Response,
+  DeclineDefaultResponse,
   GetQueueStatistics200Response,
   GetQueueStatisticsDefaultResponse,
   UpsertWorker200Response,
@@ -78,35 +77,35 @@ import {
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
-  "PATCH /routing/classificationPolicies/{id}": ["200", "201"],
-  "GET /routing/classificationPolicies/{id}": ["200"],
-  "DELETE /routing/classificationPolicies/{id}": ["204"],
+  "PATCH /routing/classificationPolicies/{classificationPolicyId}": ["200", "201"],
+  "GET /routing/classificationPolicies/{classificationPolicyId}": ["200"],
+  "DELETE /routing/classificationPolicies/{classificationPolicyId}": ["204"],
   "GET /routing/classificationPolicies": ["200"],
-  "PATCH /routing/distributionPolicies/{id}": ["200", "201"],
-  "GET /routing/distributionPolicies/{id}": ["200"],
-  "DELETE /routing/distributionPolicies/{id}": ["204"],
+  "PATCH /routing/distributionPolicies/{distributionPolicyId}": ["200", "201"],
+  "GET /routing/distributionPolicies/{distributionPolicyId}": ["200"],
+  "DELETE /routing/distributionPolicies/{distributionPolicyId}": ["204"],
   "GET /routing/distributionPolicies": ["200"],
-  "PATCH /routing/exceptionPolicies/{id}": ["200", "201"],
-  "GET /routing/exceptionPolicies/{id}": ["200"],
-  "DELETE /routing/exceptionPolicies/{id}": ["204"],
+  "PATCH /routing/exceptionPolicies/{exceptionPolicyId}": ["200", "201"],
+  "GET /routing/exceptionPolicies/{exceptionPolicyId}": ["200"],
+  "DELETE /routing/exceptionPolicies/{exceptionPolicyId}": ["204"],
   "GET /routing/exceptionPolicies": ["200"],
-  "PATCH /routing/queues/{id}": ["200", "201"],
-  "GET /routing/queues/{id}": ["200"],
-  "DELETE /routing/queues/{id}": ["204"],
+  "PATCH /routing/queues/{queueId}": ["200", "201"],
+  "GET /routing/queues/{queueId}": ["200"],
+  "DELETE /routing/queues/{queueId}": ["204"],
   "GET /routing/queues": ["200"],
-  "PATCH /routing/jobs/{id}": ["200", "201"],
-  "GET /routing/jobs/{id}": ["200"],
-  "DELETE /routing/jobs/{id}": ["204"],
-  "POST /routing/jobs/{id}:reclassify": ["200"],
-  "POST /routing/jobs/{id}:cancel": ["200"],
-  "POST /routing/jobs/{id}:complete": ["200"],
-  "POST /routing/jobs/{id}:close": ["200", "202"],
+  "PATCH /routing/jobs/{jobId}": ["200", "201"],
+  "GET /routing/jobs/{jobId}": ["200"],
+  "DELETE /routing/jobs/{jobId}": ["204"],
+  "POST /routing/jobs/{jobId}:reclassify": ["200"],
+  "POST /routing/jobs/{jobId}:cancel": ["200"],
+  "POST /routing/jobs/{jobId}/assignments/{assignmentId}:complete": ["200"],
+  "POST /routing/jobs/{jobId}/assignments/{assignmentId}:close": ["200"],
   "GET /routing/jobs": ["200"],
-  "GET /routing/jobs/{id}/position": ["200"],
-  "POST /routing/jobs/{id}/assignments/{assignmentId}:unassign": ["200"],
+  "GET /routing/jobs/{jobId}/position": ["200"],
+  "POST /routing/jobs/{jobId}/assignments/{assignmentId}:unassign": ["200"],
   "POST /routing/workers/{workerId}/offers/{offerId}:accept": ["200"],
   "POST /routing/workers/{workerId}/offers/{offerId}:decline": ["200"],
-  "GET /routing/queues/{id}/statistics": ["200"],
+  "GET /routing/queues/{queueId}/statistics": ["200"],
   "PATCH /routing/workers/{workerId}": ["200", "201"],
   "GET /routing/workers/{workerId}": ["200"],
   "DELETE /routing/workers/{workerId}": ["204"],
@@ -120,19 +119,13 @@ export function isUnexpected(
     | UpsertClassificationPolicyDefaultResponse
 ): response is UpsertClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetClassificationPolicy200Response
-    | GetClassificationPolicyDefaultResponse
+  response: GetClassificationPolicy200Response | GetClassificationPolicyDefaultResponse
 ): response is GetClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteClassificationPolicy204Response
-    | DeleteClassificationPolicyDefaultResponse
+  response: DeleteClassificationPolicy204Response | DeleteClassificationPolicyDefaultResponse
 ): response is DeleteClassificationPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListClassificationPolicies200Response
-    | ListClassificationPoliciesDefaultResponse
+  response: ListClassificationPolicies200Response | ListClassificationPoliciesDefaultResponse
 ): response is ListClassificationPoliciesDefaultResponse;
 export function isUnexpected(
   response:
@@ -141,19 +134,13 @@ export function isUnexpected(
     | UpsertDistributionPolicyDefaultResponse
 ): response is UpsertDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetDistributionPolicy200Response
-    | GetDistributionPolicyDefaultResponse
+  response: GetDistributionPolicy200Response | GetDistributionPolicyDefaultResponse
 ): response is GetDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteDistributionPolicy204Response
-    | DeleteDistributionPolicyDefaultResponse
+  response: DeleteDistributionPolicy204Response | DeleteDistributionPolicyDefaultResponse
 ): response is DeleteDistributionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListDistributionPolicies200Response
-    | ListDistributionPoliciesDefaultResponse
+  response: ListDistributionPolicies200Response | ListDistributionPoliciesDefaultResponse
 ): response is ListDistributionPoliciesDefaultResponse;
 export function isUnexpected(
   response:
@@ -165,20 +152,13 @@ export function isUnexpected(
   response: GetExceptionPolicy200Response | GetExceptionPolicyDefaultResponse
 ): response is GetExceptionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | DeleteExceptionPolicy204Response
-    | DeleteExceptionPolicyDefaultResponse
+  response: DeleteExceptionPolicy204Response | DeleteExceptionPolicyDefaultResponse
 ): response is DeleteExceptionPolicyDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListExceptionPolicies200Response
-    | ListExceptionPoliciesDefaultResponse
+  response: ListExceptionPolicies200Response | ListExceptionPoliciesDefaultResponse
 ): response is ListExceptionPoliciesDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertQueue200Response
-    | UpsertQueue201Response
-    | UpsertQueueDefaultResponse
+  response: UpsertQueue200Response | UpsertQueue201Response | UpsertQueueDefaultResponse
 ): response is UpsertQueueDefaultResponse;
 export function isUnexpected(
   response: GetQueue200Response | GetQueueDefaultResponse
@@ -190,10 +170,7 @@ export function isUnexpected(
   response: ListQueues200Response | ListQueuesDefaultResponse
 ): response is ListQueuesDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertJob200Response
-    | UpsertJob201Response
-    | UpsertJobDefaultResponse
+  response: UpsertJob200Response | UpsertJob201Response | UpsertJobDefaultResponse
 ): response is UpsertJobDefaultResponse;
 export function isUnexpected(
   response: GetJob200Response | GetJobDefaultResponse
@@ -202,20 +179,17 @@ export function isUnexpected(
   response: DeleteJob204Response | DeleteJobDefaultResponse
 ): response is DeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ReclassifyJobAction200Response | ReclassifyJobActionDefaultResponse
-): response is ReclassifyJobActionDefaultResponse;
+  response: Reclassify200Response | ReclassifyDefaultResponse
+): response is ReclassifyDefaultResponse;
 export function isUnexpected(
-  response: CancelJobAction200Response | CancelJobActionDefaultResponse
-): response is CancelJobActionDefaultResponse;
+  response: Cancel200Response | CancelDefaultResponse
+): response is CancelDefaultResponse;
 export function isUnexpected(
-  response: CompleteJobAction200Response | CompleteJobActionDefaultResponse
-): response is CompleteJobActionDefaultResponse;
+  response: Complete200Response | CompleteDefaultResponse
+): response is CompleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | CloseJobAction200Response
-    | CloseJobAction202Response
-    | CloseJobActionDefaultResponse
-): response is CloseJobActionDefaultResponse;
+  response: Close200Response | CloseDefaultResponse
+): response is CloseDefaultResponse;
 export function isUnexpected(
   response: ListJobs200Response | ListJobsDefaultResponse
 ): response is ListJobsDefaultResponse;
@@ -223,22 +197,19 @@ export function isUnexpected(
   response: GetInQueuePosition200Response | GetInQueuePositionDefaultResponse
 ): response is GetInQueuePositionDefaultResponse;
 export function isUnexpected(
-  response: UnassignJobAction200Response | UnassignJobActionDefaultResponse
-): response is UnassignJobActionDefaultResponse;
+  response: Unassign200Response | UnassignDefaultResponse
+): response is UnassignDefaultResponse;
 export function isUnexpected(
-  response: AcceptJobAction200Response | AcceptJobActionDefaultResponse
-): response is AcceptJobActionDefaultResponse;
+  response: Accept200Response | AcceptDefaultResponse
+): response is AcceptDefaultResponse;
 export function isUnexpected(
-  response: DeclineJobAction200Response | DeclineJobActionDefaultResponse
-): response is DeclineJobActionDefaultResponse;
+  response: Decline200Response | DeclineDefaultResponse
+): response is DeclineDefaultResponse;
 export function isUnexpected(
   response: GetQueueStatistics200Response | GetQueueStatisticsDefaultResponse
 ): response is GetQueueStatisticsDefaultResponse;
 export function isUnexpected(
-  response:
-    | UpsertWorker200Response
-    | UpsertWorker201Response
-    | UpsertWorkerDefaultResponse
+  response: UpsertWorker200Response | UpsertWorker201Response | UpsertWorkerDefaultResponse
 ): response is UpsertWorkerDefaultResponse;
 export function isUnexpected(
   response: GetWorker200Response | GetWorkerDefaultResponse
@@ -294,25 +265,24 @@ export function isUnexpected(
     | GetJobDefaultResponse
     | DeleteJob204Response
     | DeleteJobDefaultResponse
-    | ReclassifyJobAction200Response
-    | ReclassifyJobActionDefaultResponse
-    | CancelJobAction200Response
-    | CancelJobActionDefaultResponse
-    | CompleteJobAction200Response
-    | CompleteJobActionDefaultResponse
-    | CloseJobAction200Response
-    | CloseJobAction202Response
-    | CloseJobActionDefaultResponse
+    | Reclassify200Response
+    | ReclassifyDefaultResponse
+    | Cancel200Response
+    | CancelDefaultResponse
+    | Complete200Response
+    | CompleteDefaultResponse
+    | Close200Response
+    | CloseDefaultResponse
     | ListJobs200Response
     | ListJobsDefaultResponse
     | GetInQueuePosition200Response
     | GetInQueuePositionDefaultResponse
-    | UnassignJobAction200Response
-    | UnassignJobActionDefaultResponse
-    | AcceptJobAction200Response
-    | AcceptJobActionDefaultResponse
-    | DeclineJobAction200Response
-    | DeclineJobActionDefaultResponse
+    | Unassign200Response
+    | UnassignDefaultResponse
+    | Accept200Response
+    | AcceptDefaultResponse
+    | Decline200Response
+    | DeclineDefaultResponse
     | GetQueueStatistics200Response
     | GetQueueStatisticsDefaultResponse
     | UpsertWorker200Response
@@ -344,15 +314,15 @@ export function isUnexpected(
   | UpsertJobDefaultResponse
   | GetJobDefaultResponse
   | DeleteJobDefaultResponse
-  | ReclassifyJobActionDefaultResponse
-  | CancelJobActionDefaultResponse
-  | CompleteJobActionDefaultResponse
-  | CloseJobActionDefaultResponse
+  | ReclassifyDefaultResponse
+  | CancelDefaultResponse
+  | CompleteDefaultResponse
+  | CloseDefaultResponse
   | ListJobsDefaultResponse
   | GetInQueuePositionDefaultResponse
-  | UnassignJobActionDefaultResponse
-  | AcceptJobActionDefaultResponse
-  | DeclineJobActionDefaultResponse
+  | UnassignDefaultResponse
+  | AcceptDefaultResponse
+  | DeclineDefaultResponse
   | GetQueueStatisticsDefaultResponse
   | UpsertWorkerDefaultResponse
   | GetWorkerDefaultResponse
@@ -390,24 +360,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || ""
+        );
 
         if (!isMatched) {
           found = false;

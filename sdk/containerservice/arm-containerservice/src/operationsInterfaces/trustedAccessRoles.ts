@@ -17,7 +17,7 @@ import {
 export interface TrustedAccessRoles {
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(

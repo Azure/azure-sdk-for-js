@@ -277,6 +277,8 @@ export interface ElasticSanUpdate {
   baseSizeTiB?: number;
   /** Extended size of the Elastic San appliance in TiB. */
   extendedCapacitySizeTiB?: number;
+  /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** List of Volume Groups */
@@ -290,6 +292,77 @@ export interface VolumeGroupList {
   readonly nextLink?: string;
 }
 
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type: IdentityType;
+  /** Gets or sets a list of key value pairs that describe the set of User Assigned identities that will be used with this volume group. The key is the ARM resource identifier of the identity. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** UserAssignedIdentity for the resource. */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The encryption settings on the volume group. */
+export interface EncryptionProperties {
+  /** Properties provided by key vault. */
+  keyVaultProperties?: KeyVaultProperties;
+  /** The identity to be used with service-side encryption at rest. */
+  encryptionIdentity?: EncryptionIdentity;
+}
+
+/** Properties of key vault. */
+export interface KeyVaultProperties {
+  /** The name of KeyVault key. */
+  keyName?: string;
+  /** The version of KeyVault key. */
+  keyVersion?: string;
+  /** The Uri of KeyVault. */
+  keyVaultUri?: string;
+  /**
+   * The object identifier of the current versioned Key Vault Key in use.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentVersionedKeyIdentifier?: string;
+  /**
+   * Timestamp of last rotation of the Key Vault Key.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastKeyRotationTimestamp?: Date;
+  /**
+   * This is a read only property that represents the expiration time of the current version of the customer managed key used for encryption.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentVersionedKeyExpirationTimestamp?: Date;
+}
+
+/** Encryption identity for the volume group. */
+export interface EncryptionIdentity {
+  /** Resource identifier of the UserAssigned identity to be associated with server-side encryption on the volume group. */
+  encryptionUserAssignedIdentity?: string;
+}
+
 /** A set of rules governing the network accessibility. */
 export interface NetworkRuleSet {
   /** The list of virtual network rules. */
@@ -301,20 +374,19 @@ export interface VirtualNetworkRule {
   /** Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}. */
   virtualNetworkResourceId: string;
   /** The action of virtual network rule. */
-  action?: "Allow";
-  /**
-   * Gets the state of virtual network rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly state?: State;
+  action?: Action;
 }
 
 /** Volume Group request. */
 export interface VolumeGroupUpdate {
+  /** The identity of the resource. */
+  identity?: Identity;
   /** Type of storage target */
   protocolType?: StorageTargetType;
   /** Type of encryption */
   encryption?: EncryptionType;
+  /** Encryption Properties describing Key Vault and Identity information */
+  encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
 }
@@ -322,9 +394,9 @@ export interface VolumeGroupUpdate {
 /** Data source used when creating the volume. */
 export interface SourceCreationData {
   /** This enumerates the possible sources of a volume creation. */
-  createSource?: "None";
-  /** If createOption is Copy, this is the ARM id of the source snapshot or disk. If createOption is Restore, this is the ARM-like id of the source disk restore point. */
-  sourceUri?: string;
+  createSource?: VolumeCreateOption;
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  sourceId?: string;
 }
 
 /** Iscsi target information */
@@ -353,10 +425,18 @@ export interface IscsiTargetInfo {
   status?: OperationalStatus;
 }
 
+/** Parent resource information. */
+export interface ManagedByInfo {
+  /** Resource ID of the resource managing the volume, this is a restricted field and can only be set for internal use. */
+  resourceId?: string;
+}
+
 /** Response for Volume request. */
 export interface VolumeUpdate {
   /** Volume size. */
   sizeGiB?: number;
+  /** Parent resource information. */
+  managedBy?: ManagedByInfo;
 }
 
 /** List of Volumes */
@@ -390,6 +470,23 @@ export interface PrivateLinkResourceListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** List of Snapshots */
+export interface SnapshotList {
+  /** An array of Snapshot objects. */
+  value?: Snapshot[];
+  /**
+   * URI to fetch the next section of the paginated response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Data used when creating a volume snapshot. */
+export interface SnapshotCreationData {
+  /** Fully qualified resource ID of the volume. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}" */
+  sourceId: string;
 }
 
 /**  Response for PrivateEndpoint Connection object */
@@ -479,10 +576,14 @@ export interface ElasticSan extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Response for Volume Group request. */
 export interface VolumeGroup extends ProxyResource {
+  /** The identity of the resource. */
+  identity?: Identity;
   /**
    * State of the operation on the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -492,6 +593,8 @@ export interface VolumeGroup extends ProxyResource {
   protocolType?: StorageTargetType;
   /** Type of encryption */
   encryption?: EncryptionType;
+  /** Encryption Properties describing Key Vault and Identity information */
+  encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
   /**
@@ -517,6 +620,34 @@ export interface Volume extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageTarget?: IscsiTargetInfo;
+  /** Parent resource information. */
+  managedBy?: ManagedByInfo;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+}
+
+/** Response for Volume Snapshot request. */
+export interface Snapshot extends ProxyResource {
+  /** Data used when creating a volume snapshot. */
+  creationData: SnapshotCreationData;
+  /**
+   * State of the operation on the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningStates;
+  /**
+   * Size of Source Volume
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceVolumeSizeGiB?: number;
+  /**
+   * Source Volume Name of a snapshot
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly volumeName?: string;
 }
 
 /** Defines headers for ElasticSans_update operation. */
@@ -551,6 +682,11 @@ export interface VolumesDeleteHeaders {
 
 /** Defines headers for PrivateEndpointConnections_delete operation. */
 export interface PrivateEndpointConnectionsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for VolumeSnapshots_delete operation. */
+export interface VolumeSnapshotsDeleteHeaders {
   location?: string;
 }
 
@@ -707,6 +843,45 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned"
+}
+
+/**
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type IdentityType = string;
+
 /** Known values of {@link StorageTargetType} that the service accepts. */
 export enum KnownStorageTargetType {
   /** Iscsi */
@@ -728,7 +903,9 @@ export type StorageTargetType = string;
 /** Known values of {@link EncryptionType} that the service accepts. */
 export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
-  EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey"
+  EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
+  /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
 }
 
 /**
@@ -736,9 +913,52 @@ export enum KnownEncryptionType {
  * {@link KnownEncryptionType} can be used interchangeably with EncryptionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **EncryptionAtRestWithPlatformKey**: Volume is encrypted at rest with Platform managed key. It is the default encryption type.
+ * **EncryptionAtRestWithPlatformKey**: Volume is encrypted at rest with Platform managed key. It is the default encryption type. \
+ * **EncryptionAtRestWithCustomerManagedKey**: Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer.
  */
 export type EncryptionType = string;
+
+/** Known values of {@link Action} that the service accepts. */
+export enum KnownAction {
+  /** Allow */
+  Allow = "Allow"
+}
+
+/**
+ * Defines values for Action. \
+ * {@link KnownAction} can be used interchangeably with Action,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**
+ */
+export type Action = string;
+
+/** Known values of {@link VolumeCreateOption} that the service accepts. */
+export enum KnownVolumeCreateOption {
+  /** None */
+  None = "None",
+  /** VolumeSnapshot */
+  VolumeSnapshot = "VolumeSnapshot",
+  /** DiskSnapshot */
+  DiskSnapshot = "DiskSnapshot",
+  /** Disk */
+  Disk = "Disk",
+  /** DiskRestorePoint */
+  DiskRestorePoint = "DiskRestorePoint"
+}
+
+/**
+ * Defines values for VolumeCreateOption. \
+ * {@link KnownVolumeCreateOption} can be used interchangeably with VolumeCreateOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **VolumeSnapshot** \
+ * **DiskSnapshot** \
+ * **Disk** \
+ * **DiskRestorePoint**
+ */
+export type VolumeCreateOption = string;
 
 /** Known values of {@link OperationalStatus} that the service accepts. */
 export enum KnownOperationalStatus {
@@ -775,13 +995,42 @@ export enum KnownOperationalStatus {
  * **Stopped (deallocated)**
  */
 export type OperationalStatus = string;
-/** Defines values for State. */
-export type State =
-  | "provisioning"
-  | "deprovisioning"
-  | "succeeded"
-  | "failed"
-  | "networkSourceDeleted";
+
+/** Known values of {@link XMsDeleteSnapshots} that the service accepts. */
+export enum KnownXMsDeleteSnapshots {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for XMsDeleteSnapshots. \
+ * {@link KnownXMsDeleteSnapshots} can be used interchangeably with XMsDeleteSnapshots,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type XMsDeleteSnapshots = string;
+
+/** Known values of {@link XMsForceDelete} that the service accepts. */
+export enum KnownXMsForceDelete {
+  /** True */
+  True = "true",
+  /** False */
+  False = "false"
+}
+
+/**
+ * Defines values for XMsForceDelete. \
+ * {@link KnownXMsForceDelete} can be used interchangeably with XMsForceDelete,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **true** \
+ * **false**
+ */
+export type XMsForceDelete = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -948,6 +1197,10 @@ export type VolumesUpdateResponse = Volume;
 /** Optional parameters. */
 export interface VolumesDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** Optional, used to delete snapshots under volume. Allowed value are only true or false. Default value is false. */
+  xMsDeleteSnapshots?: XMsDeleteSnapshots;
+  /** Optional, used to delete volume if active sessions present. Allowed value are only true or false. Default value is false. */
+  xMsForceDelete?: XMsForceDelete;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1015,6 +1268,51 @@ export interface PrivateLinkResourcesListByElasticSanOptionalParams
 
 /** Contains response data for the listByElasticSan operation. */
 export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsListByVolumeGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Specify $filter='volumeName eq <volume name>' to filter on volume. */
+  filter?: string;
+}
+
+/** Contains response data for the listByVolumeGroup operation. */
+export type VolumeSnapshotsListByVolumeGroupResponse = SnapshotList;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type VolumeSnapshotsCreateResponse = Snapshot;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VolumeSnapshotsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type VolumeSnapshotsGetResponse = Snapshot;
+
+/** Optional parameters. */
+export interface VolumeSnapshotsListByVolumeGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByVolumeGroupNext operation. */
+export type VolumeSnapshotsListByVolumeGroupNextResponse = SnapshotList;
 
 /** Optional parameters. */
 export interface ElasticSanManagementOptionalParams

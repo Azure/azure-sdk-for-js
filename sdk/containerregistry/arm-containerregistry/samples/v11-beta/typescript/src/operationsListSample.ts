@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available Azure Container Registry REST API operations.
  *
  * @summary Lists all of the available Azure Container Registry REST API operations.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/OperationList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/OperationList.json
  */
 async function operationList() {
   const subscriptionId =

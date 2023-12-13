@@ -31,7 +31,7 @@ export class FileSystemPersist implements PersistentStorage {
 
   private _enabled: boolean;
   private _tempDirectory: string = "";
-  private _fileCleanupTimer: NodeJS.Timer | null = null;
+  private _fileCleanupTimer: NodeJS.Timeout | null = null;
   private _instrumentationKey: string;
 
   constructor(instrumentationKey: string, private _options?: AzureMonitorExporterOptions) {
