@@ -26,7 +26,7 @@ export async function main() {
   const uSBrandId = "63215741-b596-4eb4-a9c0-b2905ce22cb0";
 
   // get a campaign brief
-  const usBrand: USBrand = await client.getBrand(uSBrandId);
+  const usBrand: USBrand = await client.getUSBrand(uSBrandId);
 
   console.log(usBrand);
 }

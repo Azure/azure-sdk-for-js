@@ -14,9 +14,9 @@ import { tracingClient } from "./generated/src/tracing";
 import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
 import {
-  LocalNumberCost,
-  TenDLCSubmitBrandOptionalParams,
-  TenDLCSubmitCampaignOptionalParams,
+  TenDlcCost,
+  TenDlcSubmitUSBrandOptionalParams,
+  TenDlcSubmitUSCampaignOptionalParams,
   USBrand,
   USCampaign,
 } from "./generated/src/models";
@@ -79,17 +79,17 @@ export class TenDlcClient {
     this.client.pipeline.addPolicy(tenDlcPagingPolicy);
   }
 
-  public createOrUpdateBrand(
+  public upsertUSBrand(
     brandId: string,
     id: string,
     options: CreateOrUpdateBrandOptions = {}
   ): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-createOrUpdateBrand",
+      "TenDlcClient-upsertUSBrand",
       options
     );
     try {
-      return this.client.tenDLC.createOrUpdateBrand(brandId, id, updatedOptions);
+      return this.client.tenDlc.upsertUSBrand(brandId, id, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -101,17 +101,17 @@ export class TenDlcClient {
     }
   }
 
-  public createOrUpdateCampaign(
+  public upsertUSCampaign(
     campaingId: string,
     id: string,
     options: CreateOrUpdateCampaignOptions = {}
-  ): Promise<USBrand> {
+  ): Promise<USCampaign> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-createOrUpdateCampaign",
+      "TenDlcClient-upsertUSCampaign",
       options
     );
     try {
-      return this.client.tenDLC.createOrUpdateCampaign(campaingId, id, updatedOptions);
+      return this.client.tenDlc.upsertUSCampaign(campaingId, id, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -123,10 +123,10 @@ export class TenDlcClient {
     }
   }
 
-  public deleteBrand(brandId: string, options: DeleteBrandOptionalParams = {}): Promise<void> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-deleteBrand", options);
+  public deleteUSBrand(brandId: string, options: DeleteBrandOptionalParams = {}): Promise<void> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-deleteUSBrand", options);
     try {
-      return this.client.tenDLC.deleteBrand(brandId, updatedOptions);
+      return this.client.tenDlc.deleteUSBrand(brandId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -138,16 +138,16 @@ export class TenDlcClient {
     }
   }
 
-  public deleteCampaign(
+  public deleteUSCampaign(
     campaignId: string,
     options: DeleteCampaignOptionalParams = {}
   ): Promise<void> {
     const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-deleteCampaign",
+      "TenDlcClient-deleteUSCampaign",
       options
     );
     try {
-      return this.client.tenDLC.deleteCampaign(campaignId, updatedOptions);
+      return this.client.tenDlc.deleteUSCampaign(campaignId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -159,10 +159,10 @@ export class TenDlcClient {
     }
   }
 
-  public getBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<USBrand> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getBrand", options);
+  public getUSBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<USBrand> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSBrand", options);
     try {
-      return this.client.tenDLC.getBrand(brandId, updatedOptions);
+      return this.client.tenDlc.getUSBrand(brandId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -174,10 +174,10 @@ export class TenDlcClient {
     }
   }
 
-  public listBrands(options: GetBrandsOptionalParams = {}): PagedAsyncIterableIterator<USBrand> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listBrands", options);
+  public listUSBrands(options: GetBrandsOptionalParams = {}): PagedAsyncIterableIterator<USBrand> {
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listUSBrands", options);
     try {
-      return this.client.tenDLC.listBrands(updatedOptions);
+      return this.client.tenDlc.listUSBrands(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -189,13 +189,13 @@ export class TenDlcClient {
     }
   }
 
-  public getCampaign(
+  public getUSCampaign(
     campaignId: string,
     options: GetCampaignOptionalParams = {}
   ): Promise<USCampaign> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getCampaign", options);
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSCampaign", options);
     try {
-      return this.client.tenDLC.getCampaign(campaignId, updatedOptions);
+      return this.client.tenDlc.getUSCampaign(campaignId, updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -207,12 +207,12 @@ export class TenDlcClient {
     }
   }
 
-  public listCampaigns(
+  public listUSCampaigns(
     options: ListCampaignsOptionalParams = {}
   ): PagedAsyncIterableIterator<USCampaign> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCampaigns", options);
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listUSCampaigns", options);
     try {
-      return this.client.tenDLC.listCampaigns(updatedOptions);
+      return this.client.tenDlc.listUSCampaigns(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -226,10 +226,10 @@ export class TenDlcClient {
 
   public listCosts(
     options: ListTenDlcCostsOptions = {}
-  ): PagedAsyncIterableIterator<LocalNumberCost> {
+  ): PagedAsyncIterableIterator<TenDlcCost> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCosts", options);
     try {
-      return this.client.tenDLC.listCosts(updatedOptions);
+      return this.client.tenDlc.listCosts(updatedOptions);
     } catch (e: any) {
       span.setStatus({
         status: "error",
@@ -241,25 +241,25 @@ export class TenDlcClient {
     }
   }
 
-  public submitBrand(brandId: string, options: SubmitBrandOptionalParams = {}): Promise<USBrand> {
+  public submitUSBrand(brandId: string, options: SubmitBrandOptionalParams = {}): Promise<USBrand> {
     return tracingClient.withSpan(
-      "TenDlcClient-submitBrand",
+      "TenDlcClient-submitUSBrand",
       options,
-      (submitOptions: TenDLCSubmitBrandOptionalParams | undefined) => {
-        return this.client.tenDLC.submitBrand(brandId, submitOptions);
+      (submitOptions: TenDlcSubmitUSBrandOptionalParams | undefined) => {
+        return this.client.tenDlc.submitUSBrand(brandId, submitOptions);
       }
     );
   }
 
-  public submitCampaign(
+  public submitUSCampaign(
     campaignId: string,
     options: SubmitCampaignOptionalParams = {}
   ): Promise<USCampaign> {
     return tracingClient.withSpan(
-      "TenDlcClient-submitCampaign",
+      "TenDlcClient-submitUSCampaign",
       options,
-      (submitOptions: TenDLCSubmitCampaignOptionalParams | undefined) => {
-        return this.client.tenDLC.submitCampaign(campaignId, submitOptions);
+      (submitOptions: TenDlcSubmitUSCampaignOptionalParams | undefined) => {
+        return this.client.tenDlc.submitUSCampaign(campaignId, submitOptions);
       }
     );
   }
