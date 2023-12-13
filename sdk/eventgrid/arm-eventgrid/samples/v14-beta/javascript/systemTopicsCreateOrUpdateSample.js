@@ -35,7 +35,7 @@ async function systemTopicsCreateOrUpdate() {
   const result = await client.systemTopics.beginCreateOrUpdateAndWait(
     resourceGroupName,
     systemTopicName,
-    systemTopicInfo
+    systemTopicInfo,
   );
   console.log(result);
 }

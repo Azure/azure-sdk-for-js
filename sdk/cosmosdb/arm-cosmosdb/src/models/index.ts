@@ -388,6 +388,12 @@ export interface DatabaseAccountUpdateParameters {
   enableBurstCapacity?: boolean;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
+  /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
+  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
+  enablePriorityBasedExecution?: boolean;
+  /** Enum to indicate default Priority Level of request for Priority Based Execution. */
+  defaultPriorityLevel?: DefaultPriorityLevel;
 }
 
 /** The list of new failover policies for the failover priority change. */
@@ -771,7 +777,7 @@ export interface AutoscaleSettings {
 export interface CreateUpdateOptions {
   /** Request Units per second. For example, "throughput": 10000. */
   throughput?: number;
-  /** Specifies the Autoscale settings. */
+  /** Specifies the Autoscale settings. Note: Either throughput or autoscaleSettings is required, but not both. */
   autoscaleSettings?: AutoscaleSettings;
 }
 
@@ -829,6 +835,16 @@ export interface ThroughputSettingsResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly offerReplacePending?: string;
+  /**
+   * The offer throughput value to instantly scale up without triggering splits
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly instantMaximumThroughput?: string;
+  /**
+   * The maximum throughput value or the maximum maxThroughput value (for autoscale) that can be specified
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly softAllowedMaximumThroughput?: string;
 }
 
 /** Cosmos DB provisioned throughput settings object */
@@ -1575,8 +1591,14 @@ export interface ClusterResourceProperties {
   deallocated?: boolean;
   /** Whether Cassandra audit logging is enabled */
   cassandraAuditLoggingEnabled?: boolean;
+  /** Type of the cluster. If set to Production, some operations might not be permitted on cluster. */
+  clusterType?: ClusterType;
   /** Error related to resource provisioning. */
   provisionError?: CassandraError;
+  /** Extensions to be added or updated on cluster. */
+  extensions?: string[];
+  /** List of backup schedules that define when you want to back up your data. */
+  backupSchedules?: BackupSchedule[];
 }
 
 export interface SeedNode {
@@ -1598,6 +1620,15 @@ export interface CassandraError {
   target?: string;
   /** Additional information about the error. */
   additionalErrorInfo?: string;
+}
+
+export interface BackupSchedule {
+  /** The unique identifier of backup schedule. */
+  scheduleName?: string;
+  /** The cron expression that defines when you want to back up your data. */
+  cronExpression?: string;
+  /** The retention period (hours) of the backups. If you want to retain data forever, set retention to 0. */
+  retentionInHours?: number;
 }
 
 /** The core properties of ARM resources. */
@@ -1670,9 +1701,18 @@ export interface ListBackups {
   readonly value?: BackupResource[];
 }
 
-export interface BackupResourceProperties {
-  /** The time this backup was taken, formatted like 2021-01-21T17:35:21 */
-  timestamp?: Date;
+/** A restorable backup of a Cassandra cluster. */
+export interface BackupResource {
+  /** The unique identifier of backup. */
+  backupId?: string;
+  /** The current state of the backup. */
+  backupState?: BackupState;
+  /** The time at which the backup process begins. */
+  backupStartTimestamp?: Date;
+  /** The time at which the backup process ends. */
+  backupStopTimestamp?: Date;
+  /** The time at which the backup will expire. */
+  backupExpiryTimestamp?: Date;
 }
 
 /** List of managed Cassandra data centers and their properties. */
@@ -1814,6 +1854,8 @@ export interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDa
   memoryTotalKB?: number;
   /** A float representing the current system-wide CPU utilization as a percentage. */
   cpuUsage?: number;
+  /** If node has been updated to latest model */
+  isLatestModel?: boolean;
 }
 
 /** A list of mongo clusters. */
@@ -2858,6 +2900,11 @@ export interface ContinuousModeProperties {
   tier?: ContinuousTier;
 }
 
+/** A base CosmosDB data source/sink */
+export interface BaseCosmosDataTransferDataSourceSink {
+  remoteAccountName?: string;
+}
+
 /** Describes the service response property. */
 export interface DataTransferServiceResource {
   /** Properties for DataTransferServiceResource. */
@@ -3056,6 +3103,12 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
   enableBurstCapacity?: boolean;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
+  /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
+  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
+  enablePriorityBasedExecution?: boolean;
+  /** Enum to indicate default Priority Level of request for Priority Based Execution. */
+  defaultPriorityLevel?: DefaultPriorityLevel;
 }
 
 /** Parameters to create and update Cosmos DB database accounts. */
@@ -3132,6 +3185,12 @@ export interface DatabaseAccountCreateUpdateParameters
   enableBurstCapacity?: boolean;
   /** Indicates the minimum allowed Tls version. The default is Tls 1.0, except for Cassandra and Mongo API's, which only work with Tls 1.2. */
   minimalTlsVersion?: MinimalTlsVersion;
+  /** Indicates the status of the Customer Managed Key feature on the account. In case there are errors, the property provides troubleshooting guidance. */
+  customerManagedKeyStatus?: CustomerManagedKeyStatus;
+  /** Flag to indicate enabling/disabling of Priority Based Execution Preview feature on the account */
+  enablePriorityBasedExecution?: boolean;
+  /** Enum to indicate default Priority Level of request for Priority Based Execution. */
+  defaultPriorityLevel?: DefaultPriorityLevel;
 }
 
 /** An Azure Cosmos DB Graph resource. */
@@ -3635,11 +3694,6 @@ export interface DataTransferJobGetResults extends ARMProxyResource {
   readonly error?: ErrorResponse;
 }
 
-/** A restorable backup of a Cassandra cluster. */
-export interface BackupResource extends ARMProxyResource {
-  properties?: BackupResourceProperties;
-}
-
 /** A managed Cassandra data center. */
 export interface DataCenterResource extends ARMProxyResource {
   /** Properties of a managed Cassandra data center. */
@@ -3747,25 +3801,28 @@ export interface PhysicalPartitionThroughputInfoResultPropertiesResource
 
 /** A CosmosDB Cassandra API data source/sink */
 export interface CosmosCassandraDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBCassandra";
   keyspaceName: string;
   tableName: string;
 }
 
-/** A CosmosDB Cassandra API data source/sink */
+/** A CosmosDB Mongo API data source/sink */
 export interface CosmosMongoDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBMongo";
   databaseName: string;
   collectionName: string;
 }
 
-/** A CosmosDB Cassandra API data source/sink */
+/** A CosmosDB No Sql API data source/sink */
 export interface CosmosSqlDataTransferDataSourceSink
-  extends DataTransferDataSourceSink {
+  extends DataTransferDataSourceSink,
+    BaseCosmosDataTransferDataSourceSink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   component: "CosmosDBSql";
   databaseName: string;
@@ -4622,7 +4679,9 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -4631,7 +4690,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
 
@@ -4775,6 +4835,69 @@ export enum KnownMinimalTlsVersion {
  * **Tls12**
  */
 export type MinimalTlsVersion = string;
+
+/** Known values of {@link CustomerManagedKeyStatus} that the service accepts. */
+export enum KnownCustomerManagedKeyStatus {
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToObtainTheAADAuthenticationTokenForTheAccountSDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureActiveDirectoryTokenAcquisitionError4000 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountSKeyVaultKeyURIDoesNotFollowTheExpectedFormatForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideImproperSyntaxDetectedOnTheKeyVaultUriProperty4006 = "Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheCurrentDefaultIdentityNoLongerHasPermissionToTheAssociatedKeyVaultKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideDefaultIdentityIsUnauthorizedToAccessTheAzureKeyVaultKey4002 = "Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureKeyVaultDNSNameSpecifiedByTheAccountSKeyvaultkeyuriPropertyCouldNotBeResolvedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideUnableToResolveTheKeyVaultsDns4009 = "Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentKeyIsNotFoundOnTheSpecifiedKeyVaultForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4003 = "Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBServiceIsUnableToWrapOrUnwrapTheKeyForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInternalUnwrappingProcedureError4005 = "Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAzureCosmosDBAccountHasAnUndefinedDefaultIdentityForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideInvalidAzureCosmosDbDefaultIdentity4015 = "Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheAccessRulesAreBlockingOutboundRequestsToTheAzureKeyVaultServiceForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide4016 = "Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide (4016).",
+  /** AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 */
+  AccessToYourAccountIsCurrentlyRevokedBecauseTheCorrespondentAzureKeyVaultWasNotFoundForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuideAzureKeyVaultResourceNotFound4017 = "Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).",
+  /** AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide */
+  AccessToYourAccountIsCurrentlyRevokedForMoreDetailsAboutThisErrorAndHowToRestoreAccessToYourAccountPleaseVisitHttpsLearnMicrosoftComEnUsAzureCosmosDbCmkTroubleshootingGuide = "Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https://learn.microsoft.com/en-us/azure/cosmos-db/cmk-troubleshooting-guide",
+  /** AccessToTheConfiguredCustomerManagedKeyConfirmed */
+  AccessToTheConfiguredCustomerManagedKeyConfirmed = "Access to the configured customer managed key confirmed."
+}
+
+/**
+ * Defines values for CustomerManagedKeyStatus. \
+ * {@link KnownCustomerManagedKeyStatus} can be used interchangeably with CustomerManagedKeyStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to obtain the AAD authentication token for the account's default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-active-directory-token-acquisition-error (4000).** \
+ * **Access to your account is currently revoked because the Azure Cosmos DB account's key vault key URI does not follow the expected format; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#improper-syntax-detected-on-the-key-vault-uri-property (4006).** \
+ * **Access to your account is currently revoked because the current default identity no longer has permission to the associated Key Vault key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#default-identity-is-unauthorized-to-access-the-azure-key-vault-key (4002).** \
+ * **Access to your account is currently revoked because the Azure Key Vault DNS name specified by the account's keyvaultkeyuri property could not be resolved; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#unable-to-resolve-the-key-vaults-dns (4009).** \
+ * **Access to your account is currently revoked because the correspondent key is not found on the specified Key Vault; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4003).** \
+ * **Access to your account is currently revoked because the Azure Cosmos DB service is unable to wrap or unwrap the key; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#internal-unwrapping-procedure-error (4005).** \
+ * **Access to your account is currently revoked because the Azure Cosmos DB account has an undefined default identity; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#invalid-azure-cosmos-db-default-identity (4015).** \
+ * **Access to your account is currently revoked because the access rules are blocking outbound requests to the Azure Key Vault service; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide (4016).** \
+ * **Access to your account is currently revoked because the correspondent Azure Key Vault was not found; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide#azure-key-vault-resource-not-found (4017).** \
+ * **Access to your account is currently revoked; for more details about this error and how to restore access to your account please visit https:\//learn.microsoft.com\/en-us\/azure\/cosmos-db\/cmk-troubleshooting-guide** \
+ * **Access to the configured customer managed key confirmed.**
+ */
+export type CustomerManagedKeyStatus = string;
+
+/** Known values of {@link DefaultPriorityLevel} that the service accepts. */
+export enum KnownDefaultPriorityLevel {
+  /** High */
+  High = "High",
+  /** Low */
+  Low = "Low"
+}
+
+/**
+ * Defines values for DefaultPriorityLevel. \
+ * {@link KnownDefaultPriorityLevel} can be used interchangeably with DefaultPriorityLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High** \
+ * **Low**
+ */
+export type DefaultPriorityLevel = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -5292,6 +5415,24 @@ export enum KnownAuthenticationMethod {
  */
 export type AuthenticationMethod = string;
 
+/** Known values of {@link ClusterType} that the service accepts. */
+export enum KnownClusterType {
+  /** Production */
+  Production = "Production",
+  /** NonProduction */
+  NonProduction = "NonProduction"
+}
+
+/**
+ * Defines values for ClusterType. \
+ * {@link KnownClusterType} can be used interchangeably with ClusterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Production** \
+ * **NonProduction**
+ */
+export type ClusterType = string;
+
 /** Known values of {@link ManagedCassandraResourceIdentityType} that the service accepts. */
 export enum KnownManagedCassandraResourceIdentityType {
   /** SystemAssigned */
@@ -5309,6 +5450,30 @@ export enum KnownManagedCassandraResourceIdentityType {
  * **None**
  */
 export type ManagedCassandraResourceIdentityType = string;
+
+/** Known values of {@link BackupState} that the service accepts. */
+export enum KnownBackupState {
+  /** Initiated */
+  Initiated = "Initiated",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for BackupState. \
+ * {@link KnownBackupState} can be used interchangeably with BackupState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Initiated** \
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed**
+ */
+export type BackupState = string;
 
 /** Known values of {@link ConnectionState} that the service accepts. */
 export enum KnownConnectionState {
@@ -7419,6 +7584,8 @@ export type CassandraClustersGetBackupResponse = BackupResource;
 /** Optional parameters. */
 export interface CassandraClustersDeallocateOptionalParams
   extends coreClient.OperationOptions {
+  /** Force to deallocate a cluster of Cluster Type Production. Force to deallocate a cluster of Cluster Type Production might cause data loss */
+  xMsForceDeallocate?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

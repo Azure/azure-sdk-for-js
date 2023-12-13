@@ -48,7 +48,6 @@
     "@rollup/plugin-multi-entry": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-inject": "^5.0.5",
-    "axios": "^1.6.2",
     "concurrently": "^8.2.2",
     "chalk": "~4.1.1",
     "decompress": "^4.2.1",
@@ -57,7 +56,7 @@
     "fs-extra": "^11.2.0",
     "minimist": "^1.2.8",
     "prettier": "^3.1.0",
-    "rollup": "^3.0.0",
+    "rollup": "^4.0.0",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-visualizer": "^5.9.3",
     "semver": "^7.5.4",
@@ -66,7 +65,7 @@
     "tslib": "^2.2.0",
     "typescript": "~5.2.0",
     "yaml": "^2.3.4",
-    "ts-morph": "^20.0.0"
+    "ts-morph": "^21.0.0"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -84,11 +83,10 @@
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.3",
-    "downlevel-dts": "~0.10.0",
     "eslint": "^8.54.0",
+    "karma": "^6.4.2",
     "mkdirp": "^3.0.1",
     "mocha": "^10.0.0",
-    "karma": "^6.4.2",
     "rimraf": "^5.0.5"
   }
 }

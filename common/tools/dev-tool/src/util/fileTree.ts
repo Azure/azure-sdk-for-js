@@ -25,7 +25,7 @@ const { debug } = createPrinter("fileTree");
 export type FileTreeFactory = (basePath: string) => Promise<void>;
 
 function isAsyncIterable<T>(it: Iterable<T> | AsyncIterable<T>): it is AsyncIterable<T> {
-  return (it as AsyncIterable<unknown>)[Symbol.asyncIterator] !== undefined;
+  return (it as { [Symbol.asyncIterator]?: unknown })[Symbol.asyncIterator] !== undefined;
 }
 
 /**
