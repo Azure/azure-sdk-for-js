@@ -9,7 +9,7 @@ import {
 } from "../diagnostics/DiagnosticNodeInternal";
 import { ClientContext } from "../ClientContext";
 import { getCurrentTimestampInMs } from "./time";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
 
 /**
@@ -33,7 +33,7 @@ export function getEmptyCosmosDiagnostics(): CosmosDiagnostics {
       gatewayStatistics: [],
     },
     {
-      id: v4(),
+      id: randomUUID(),
       nodeType: DiagnosticNodeType.CLIENT_REQUEST_NODE,
       children: [],
       data: {},

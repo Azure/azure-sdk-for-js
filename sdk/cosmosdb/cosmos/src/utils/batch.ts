@@ -12,11 +12,10 @@ import {
   convertToInternalPartitionKey,
 } from "../documents";
 import { PatchRequestBody } from "./patch";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { assertNotUndefined } from "./typeChecks";
 import { bodyFromData } from "../request/request";
 import { Constants } from "../common/constants";
-const uuid = v4;
 
 export type Operation =
   | CreateOperation
@@ -225,7 +224,7 @@ export function prepareOperations(
  * @param operationInput - OperationInput to be checked.
  * @param options - RequestOptions
  */
-function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOptions) {
+function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOptions): void {
   if (
     operationInput.operationType === BulkOperationType.Create ||
     operationInput.operationType === BulkOperationType.Upsert
@@ -234,7 +233,7 @@ function populateIdsIfNeeded(operationInput: OperationInput, options: RequestOpt
       (operationInput.resourceBody.id === undefined || operationInput.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operationInput.resourceBody.id = uuid();
+      operationInput.resourceBody.id = randomUUID();
     }
   }
 }
@@ -298,7 +297,7 @@ export function decorateBatchOperation(
       (operation.resourceBody.id === undefined || operation.resourceBody.id === "") &&
       !options.disableAutomaticIdGeneration
     ) {
-      operation.resourceBody.id = uuid();
+      operation.resourceBody.id = randomUUID();
     }
   }
   return operation as Operation;

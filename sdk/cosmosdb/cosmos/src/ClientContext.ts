@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { v4 } from "uuid";
-const uuid = v4;
+
+import { randomUUID } from "@azure/core-util";
 import {
   Pipeline,
   bearerTokenAuthenticationPolicy,
@@ -191,7 +191,7 @@ export class ClientContext {
       operationType: OperationType.Query,
       resourceType,
     });
-    const requestId = uuid();
+    const requestId = randomUUID();
     if (query !== undefined) {
       request.method = HTTPMethod.post;
     }

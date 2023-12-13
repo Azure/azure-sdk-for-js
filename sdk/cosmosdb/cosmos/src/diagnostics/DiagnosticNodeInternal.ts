@@ -3,7 +3,7 @@
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
 import { RequestContext } from "../request";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import {
   DiagnosticNode,
   MetadataLookUpType,
@@ -46,7 +46,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     startTimeUTCInMs: number = getCurrentTimestampInMs(),
     ctx: CosmosDiagnosticContext = new CosmosDiagnosticContext()
   ) {
-    this.id = v4();
+    this.id = randomUUID();
     this.nodeType = type;
     this.startTimeUTCInMs = startTimeUTCInMs;
     this.data = data;
