@@ -29,7 +29,7 @@ async function channelsGetFullUrl() {
   const result = await client.channels.getFullUrl(
     resourceGroupName,
     partnerNamespaceName,
-    channelName
+    channelName,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function topicsListEventTypes() {
     resourceGroupName,
     providerNamespace,
     resourceTypeName,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

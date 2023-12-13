@@ -11,8 +11,8 @@ import {
   OpenAIClient,
   AzureKeyCredential,
   ChatCompletions,
-  ChatMessage,
   GetChatCompletionsOptions,
+  ChatRequestMessage,
 } from "@azure/openai";
 
 // Load the .env file if it exists
@@ -23,17 +23,10 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-const messages = [
-  { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-  { role: "user", content: "Can you help me?" },
-  { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-  { role: "user", content: "What's the best way to train a parrot?" },
-];
-
 function streamChatCompletions(
   client: OpenAIClient,
   deploymentId: string,
-  messages: ChatMessage[],
+  messages: ChatRequestMessage[],
   options?: GetChatCompletionsOptions
 ): ReadableStream<ChatCompletions> {
   const events = client.listChatCompletions(deploymentId, messages, options);
@@ -54,7 +47,17 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const stream = streamChatCompletions(client, deploymentId, messages, { maxTokens: 128 });
+  const stream = streamChatCompletions(
+    client,
+    deploymentId,
+    [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
+    { maxTokens: 128 }
+  );
   const reader = stream.getReader();
   while (true) {
     const { done, value } = await reader.read();
