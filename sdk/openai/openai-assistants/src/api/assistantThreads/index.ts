@@ -161,7 +161,6 @@ export async function _deleteThreadDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }

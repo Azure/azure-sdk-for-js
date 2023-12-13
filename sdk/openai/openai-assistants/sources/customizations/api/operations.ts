@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  InputFile,
   ListResponseOf,
 } from "../models/models.js";
 import {
@@ -14,36 +15,21 @@ import {
   CreateAndRunThreadOptions,
   RunStep,
   FilePurpose,
-  File,
 } from "../../generated/src/models/models.js";
 import {
   AssistantsContext as Client,
-  CancelRun200Response,
-  CreateAssistant200Response,
-  CreateAssistantFile200Response,
   CreateMessage200Response,
   CreateThread200Response,
   CreateThreadAndRun200Response,
-  DeleteAssistant200Response,
-  DeleteAssistantFile200Response,
-  DeleteFile200Response,
-  DeleteThread200Response,
   ListAssistantFiles200Response,
   ListAssistants200Response,
-  ListFiles200Response,
   ListMessageFiles200Response,
   ListMessages200Response,
   ListRuns200Response,
   ListRunSteps200Response,
-  ModifyAssistant200Response,
   ModifyMessage200Response,
-  ModifyRun200Response,
-  ModifyThread200Response,
-  RetrieveAssistant200Response,
-  RetrieveAssistantFile200Response,
-  RetrieveFile200Response,
-  RetrieveFileContent200Response,
   RetrieveMessage200Response,
+  RetrieveFile200Response,
   UploadFile200Response,
 } from "../../generated/src/rest/index.js";
 import {
@@ -51,6 +37,7 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
+import { _retrieveFileSend } from "../../generated/src/api/files/index.js";
 import {
   AssistantsListAssistantsOptions,
   AssistantsListAssistantFilesOptions,
@@ -62,6 +49,7 @@ import {
   AssistantRunsListRunsOptions,
   AssistantRunsCreateThreadAndRunOptions,
   RunStepsListRunStepsOptions,
+  FilesRetrieveFileOptions,
   FilesUploadFileOptions,
 } from "../../generated/src/models/options.js";
 
@@ -544,34 +532,6 @@ export function _uploadFileSend(
     });
 }
 
-export async function _uploadFileDeserialize(
-  result: UploadFile200Response
-): Promise<File> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    object: result.body["object"],
-    id: result.body["id"],
-    bytes: result.body["bytes"],
-    filename: result.body["filename"],
-    createdAt: new Date(result.body["created_at"]),
-    purpose: result.body["purpose"],
-  };
-}
-
-/** Upload a file that can be used across various endpoints. */
-export async function uploadFile(
-  context: Client,
-  file: Uint8Array,
-  purpose: FilePurpose,
-  options: FilesUploadFileOptions = { requestOptions: {} }
-): Promise<File> {
-  const result = await _uploadFileSend(context, file, purpose, options);
-  return _uploadFileDeserialize(result);
-}
-
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
@@ -698,4 +658,57 @@ export function _createThreadSend(
         metadata: body["metadata"],
       },
     });
+}
+
+export async function _uploadFileDeserialize(
+  result: UploadFile200Response
+): Promise<InputFile> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Upload a file that can be used across various endpoints. */
+export async function uploadFile(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  options: FilesUploadFileOptions = { requestOptions: {} }
+): Promise<InputFile> {
+  const result = await _uploadFileSend(context, file, purpose, options);
+  return _uploadFileDeserialize(result);
+}
+
+export async function _retrieveFileDeserialize(
+  result: RetrieveFile200Response
+): Promise<InputFile> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Returns information about a specific file. Does not retrieve file content. */
+export async function retrieveFile(
+  context: Client,
+  fileId: string,
+  options: FilesRetrieveFileOptions = { requestOptions: {} }
+): Promise<InputFile> {
+  const result = await _retrieveFileSend(context, fileId, options);
+  return _retrieveFileDeserialize(result);
 }

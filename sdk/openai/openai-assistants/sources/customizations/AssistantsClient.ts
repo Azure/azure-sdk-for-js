@@ -2,16 +2,29 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { ListResponseOf } from "./models/models.js";
-import { AssistantsClientOptions } from "../generated/src/index.js";
+import {
+  InputFile,
+  ListResponseOf
+} from "./models/models.js";
 import {
   Assistant,
+  AssistantsClientOptions,
+  AssistantsListAssistantsOptions,
   AssistantThread,
+  AssistantThreadsCreateThreadOptions,
+  AssistantThreadCreationOptions,
+  FilePurpose,
+  FilesRetrieveFileOptions,
+  FilesUploadFileOptions
 } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
-import { listAssistants } from "./api/operations.js";
+import { listAssistants, } from "./api/operations.js";
 import { createThread } from "../generated/src/api/assistantThreads/index.js";
+import {
+  retrieveFile,
+  uploadFile
+} from "../generated/src/api/files/index.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 
 function createOpenAIEndpoint(version: number): string {
@@ -143,6 +156,24 @@ export class AssistantsClient {
   ): Promise<ListResponseOf<Assistant>> {
     return listAssistants(this._client, options);
   }
+
+  /** Upload a file that can be used across various endpoints. */
+  uploadFile(
+    file: Uint8Array,
+    purpose: FilePurpose,
+    options: FilesUploadFileOptions = { requestOptions: {} }
+  ): Promise<InputFile> {
+    return uploadFile(this._client, file, purpose, options);
+  }
+
+  /** Returns information about a specific file. Does not retrieve file content. */
+  retrieveFile(
+    fileId: string,
+    options: FilesRetrieveFileOptions = { requestOptions: {} }
+  ): Promise<InputFile> {
+    return retrieveFile(this._client, fileId, options);
+  }
+
 
 
 }

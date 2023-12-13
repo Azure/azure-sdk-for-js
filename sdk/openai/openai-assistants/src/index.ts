@@ -46,7 +46,7 @@ export {
   RunStepErrorCode,
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
   AssistantsCreateAssistantOptions,
   AssistantsListAssistantsOptions,

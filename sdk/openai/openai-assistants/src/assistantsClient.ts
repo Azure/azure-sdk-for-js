@@ -22,7 +22,7 @@ import {
   RunStep,
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
 } from "./models/models.js";
 import {
@@ -456,7 +456,7 @@ export class AssistantsClient {
     file: Uint8Array,
     purpose: FilePurpose,
     options: FilesUploadFileOptions = { requestOptions: {} }
-  ): Promise<File> {
+  ): Promise<InputFile> {
     return uploadFile(this._client, file, purpose, options);
   }
 
@@ -472,7 +472,7 @@ export class AssistantsClient {
   retrieveFile(
     fileId: string,
     options: FilesRetrieveFileOptions = { requestOptions: {} }
-  ): Promise<File> {
+  ): Promise<InputFile> {
     return retrieveFile(this._client, fileId, options);
   }
 

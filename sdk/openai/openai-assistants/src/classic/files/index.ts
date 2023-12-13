@@ -5,7 +5,7 @@ import { AssistantsContext } from "../../api/AssistantsContext.js";
 import {
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
 } from "../../models/models.js";
 import {
@@ -29,7 +29,7 @@ export interface FilesOperations {
     file: Uint8Array,
     purpose: FilePurpose,
     options?: FilesUploadFileOptions
-  ) => Promise<File>;
+  ) => Promise<InputFile>;
   deleteFile: (
     fileId: string,
     options?: FilesDeleteFileOptions
@@ -37,7 +37,7 @@ export interface FilesOperations {
   retrieveFile: (
     fileId: string,
     options?: FilesRetrieveFileOptions
-  ) => Promise<File>;
+  ) => Promise<InputFile>;
   retrieveFileContent: (
     fileId: string,
     options?: FilesRetrieveFileContentOptions

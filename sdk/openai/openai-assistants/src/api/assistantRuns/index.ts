@@ -62,7 +62,6 @@ export async function _createRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -207,7 +206,6 @@ export async function _retrieveRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -286,7 +284,6 @@ export async function _modifyRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -372,7 +369,6 @@ export async function _submitRunToolOutputsDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -455,7 +451,6 @@ export async function _cancelRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -545,7 +540,6 @@ export async function _createThreadAndRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],

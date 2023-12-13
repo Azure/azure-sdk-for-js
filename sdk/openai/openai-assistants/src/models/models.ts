@@ -94,8 +94,6 @@ export interface AssistantModificationOptions {
 
 /** The status of an assistant deletion operation. */
 export interface AssistantDeletionStatus {
-  /** The object type, which is always 'assistant.deleted'. */
-  object: "assistant.deleted";
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
 }
@@ -104,8 +102,6 @@ export interface AssistantDeletionStatus {
 export interface AssistantFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'assistant.file'. */
-  object: "assistant.file";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
   /** The assistant ID that the file is attached to. */
@@ -114,8 +110,6 @@ export interface AssistantFile {
 
 /** The status of an assistant file deletion operation. */
 export interface AssistantFileDeletionStatus {
-  /** The object type, which is always 'assistant.file.deleted'. */
-  object: "assistant.file.deleted";
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
 }
@@ -217,8 +211,6 @@ export interface AssistantThread {
 
 /** The status of a thread deletion operation. */
 export interface ThreadDeletionStatus {
-  /** The object type, which is always 'thread.deleted'. */
-  object: "thread.deleted";
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
 }
@@ -227,8 +219,6 @@ export interface ThreadDeletionStatus {
 export interface AssistantMessageFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.message.file'. */
-  object: "thread.message.file";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
   /** The ID of the message that this file is attached to. */
@@ -239,8 +229,6 @@ export interface AssistantMessageFile {
 export interface AssistantRun {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.run'. */
-  object: "thread.run";
   /** The ID of the thread associated with this run. */
   threadId: string;
   /** The ID of the assistant associated with the thread this run was performed against. */
@@ -439,16 +427,12 @@ export type FilePurpose = string;
 
 /** The response data from a file list operation. */
 export interface FileListResponse {
-  /** The object type, which is always 'list'. */
-  object: "list";
   /** The files returned for the request. */
-  data: File[];
+  data: InputFile[];
 }
 
 /** Represents an assistant that can call the model and use tools. */
-export interface File {
-  /** The object type, which is always 'file'. */
-  object: "file";
+export interface InputFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The size of the file, in bytes. */
@@ -463,8 +447,6 @@ export interface File {
 
 /** A status response from a file deletion operation. */
 export interface FileDeletionStatus {
-  /** The object type, which is always 'file'. */
-  object: "file";
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
   /** The ID of the deleted file. */

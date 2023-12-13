@@ -21,7 +21,7 @@ import {
   RunStep,
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
 } from "../models/models.js";
 import {
@@ -333,7 +333,6 @@ export async function _deleteAssistantDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
@@ -371,7 +370,6 @@ export async function _createAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
@@ -462,7 +460,6 @@ export async function _retrieveAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
@@ -503,7 +500,6 @@ export async function _deleteAssistantFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
@@ -659,7 +655,6 @@ export async function _deleteThreadDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
@@ -983,7 +978,6 @@ export async function _retrieveMessageFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     messageId: result.body["message_id"],
   };
@@ -1036,7 +1030,6 @@ export async function _createRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1179,7 +1172,6 @@ export async function _retrieveRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1256,7 +1248,6 @@ export async function _modifyRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1343,7 +1334,6 @@ export async function _submitRunToolOutputsDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1424,7 +1414,6 @@ export async function _cancelRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1515,7 +1504,6 @@ export async function _createThreadAndRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -1732,7 +1720,6 @@ export async function _listFilesDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: (result.body["data"] ?? []).map((p) => ({
       object: p["object"],
       id: p["id"],
@@ -1773,13 +1760,12 @@ export function _uploadFileSend(
 
 export async function _uploadFileDeserialize(
   result: UploadFile200Response
-): Promise<File> {
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],
@@ -1794,7 +1780,7 @@ export async function uploadFile(
   file: Uint8Array,
   purpose: FilePurpose,
   options: FilesUploadFileOptions = { requestOptions: {} }
-): Promise<File> {
+): Promise<InputFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
 }
@@ -1817,7 +1803,6 @@ export async function _deleteFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
     id: result.body["id"],
   };
@@ -1845,13 +1830,12 @@ export function _retrieveFileSend(
 
 export async function _retrieveFileDeserialize(
   result: RetrieveFile200Response
-): Promise<File> {
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],
@@ -1865,7 +1849,7 @@ export async function retrieveFile(
   context: Client,
   fileId: string,
   options: FilesRetrieveFileOptions = { requestOptions: {} }
-): Promise<File> {
+): Promise<InputFile> {
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
 }

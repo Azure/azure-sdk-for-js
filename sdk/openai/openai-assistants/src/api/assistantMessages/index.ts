@@ -320,7 +320,6 @@ export async function _retrieveMessageFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     messageId: result.body["message_id"],
   };

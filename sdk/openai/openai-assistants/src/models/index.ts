@@ -42,7 +42,7 @@ export {
   RunStepErrorCode,
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
 } from "./models.js";
 export {

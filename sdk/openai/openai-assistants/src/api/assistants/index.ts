@@ -283,7 +283,6 @@ export async function _deleteAssistantDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
@@ -321,7 +320,6 @@ export async function _createAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
@@ -412,7 +410,6 @@ export async function _retrieveAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
@@ -453,7 +450,6 @@ export async function _deleteAssistantFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }

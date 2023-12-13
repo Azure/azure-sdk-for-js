@@ -37,7 +37,6 @@ export interface AssistantCreationOptions {
 // @public
 export interface AssistantDeletionStatus {
     deleted: boolean;
-    object: "assistant.deleted";
 }
 
 // @public
@@ -45,13 +44,11 @@ export interface AssistantFile {
     assistantId: string;
     createdAt: Date;
     id: string;
-    object: "assistant.file";
 }
 
 // @public
 export interface AssistantFileDeletionStatus {
     deleted: boolean;
-    object: "assistant.file.deleted";
 }
 
 // @public
@@ -90,7 +87,6 @@ export interface AssistantMessageFile {
     createdAt: Date;
     id: string;
     messageId: string;
-    object: "thread.message.file";
 }
 
 // @public (undocumented)
@@ -192,7 +188,6 @@ export interface AssistantRun {
     lastError?: RunError;
     metadata: Record<string, string>;
     model: string;
-    object: "thread.run";
     requiredAction?: RequiredAction;
     startedAt: Date | null;
     status: RunStatus;
@@ -284,7 +279,7 @@ export class AssistantsClient {
     modifyThread(threadId: string, options?: AssistantThreadsModifyThreadOptions): Promise<AssistantThread>;
     retrieveAssistant(assistantId: string, options?: AssistantsRetrieveAssistantOptions): Promise<Assistant>;
     retrieveAssistantFile(assistantId: string, fileId: string, options?: AssistantsRetrieveAssistantFileOptions): Promise<AssistantFile>;
-    retrieveFile(fileId: string, options?: FilesRetrieveFileOptions): Promise<File_2>;
+    retrieveFile(fileId: string, options?: FilesRetrieveFileOptions): Promise<InputFile>;
     retrieveFileContent(fileId: string, options?: FilesRetrieveFileContentOptions): Promise<Uint8Array>;
     retrieveMessage(threadId: string, messageId: string, options?: AssistantMessagesRetrieveMessageOptions): Promise<AssistantMessage>;
     retrieveMessageFile(threadId: string, messageId: string, fileId: string, options?: AssistantMessagesRetrieveMessageFileOptions): Promise<AssistantMessageFile>;
@@ -292,7 +287,7 @@ export class AssistantsClient {
     retrieveRunStep(threadId: string, runId: string, stepId: string, options?: RunStepsRetrieveRunStepOptions): Promise<RunStep>;
     retrieveThread(threadId: string, options?: AssistantThreadsRetrieveThreadOptions): Promise<AssistantThread>;
     submitRunToolOutputs(threadId: string, runId: string, toolOutputs: ToolOutputSubmission[], options?: AssistantRunsSubmitRunToolOutputsOptions): Promise<AssistantRun>;
-    uploadFile(file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions): Promise<File_2>;
+    uploadFile(file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions): Promise<InputFile>;
 }
 
 // @public (undocumented)
@@ -376,7 +371,6 @@ export interface AssistantThread {
 // @public
 export interface AssistantThreadCreationOptions {
     messages?: {
-        object: "thread.message";
         role: AssistantRole;
         content: string;
     }[];
@@ -439,27 +433,14 @@ export interface CreateAndRunThreadOptions {
 }
 
 // @public
-interface File_2 {
-    bytes: number;
-    createdAt: Date;
-    filename: string;
-    id: string;
-    object: "file";
-    purpose: FilePurpose;
-}
-export { File_2 as File }
-
-// @public
 export interface FileDeletionStatus {
     deleted: boolean;
     id: string;
-    object: "file";
 }
 
 // @public
 export interface FileListResponse {
-    data: File_2[];
-    object: "list";
+    data: InputFile[];
 }
 
 // @public
@@ -481,11 +462,11 @@ export interface FilesOperations {
     // (undocumented)
     listFiles: (options?: FilesListFilesOptions) => Promise<FileListResponse>;
     // (undocumented)
-    retrieveFile: (fileId: string, options?: FilesRetrieveFileOptions) => Promise<File_2>;
+    retrieveFile: (fileId: string, options?: FilesRetrieveFileOptions) => Promise<InputFile>;
     // (undocumented)
     retrieveFileContent: (fileId: string, options?: FilesRetrieveFileContentOptions) => Promise<Uint8Array>;
     // (undocumented)
-    uploadFile: (file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions) => Promise<File_2>;
+    uploadFile: (file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions) => Promise<InputFile>;
 }
 
 // @public (undocumented)
@@ -514,6 +495,15 @@ export interface FunctionDefinition {
     description: string;
     name: string;
     parameters: unknown;
+}
+
+// @public
+export interface InputFile {
+    bytes: number;
+    createdAt: Date;
+    filename: string;
+    id: string;
+    purpose: FilePurpose;
 }
 
 // @public
@@ -622,7 +612,6 @@ export interface SubmitToolOutputsDetails {
 // @public
 export interface ThreadDeletionStatus {
     deleted: boolean;
-    object: "thread.deleted";
 }
 
 // @public
