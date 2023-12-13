@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
@@ -331,7 +331,7 @@ class InnerBatchRequest {
     this.operationCount = 0;
     this.body = "";
 
-    const tempGuid = generateUuid();
+    const tempGuid = randomUUID();
 
     // batch_{batchid}
     this.boundary = `batch_${tempGuid}`;
