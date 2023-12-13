@@ -1,21 +1,15 @@
 # Release History
 
-## 1.13.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 1.13.0 (2023-12-07)
+## 1.13.0 (Unreleased)
 
 ### Features Added
 
 - Add `multipartPolicy` and `MultipartRequestBody` to allow for making multipart requests.
 - Add `createFile` and `createFileFromStream` to allow creation of `File` objects for `multipart/form-data` requests.
+
+### Breaking Changes
+
+### Bugs Fixed
 
 ### Other Changes
 
