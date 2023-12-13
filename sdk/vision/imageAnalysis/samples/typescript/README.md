@@ -1,12 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-ai-vision
-urlFragment: vision-imageanalysis-typescript
----
 
 # Azure AI Vision Image Analysis client library samples for TypeScript
 

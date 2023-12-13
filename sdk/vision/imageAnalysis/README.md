@@ -1,6 +1,17 @@
 # Azure AI Vision Image Analysis client library for JavaScript
 
-This project is used as a client library for the Azure AI Vision Image Analysis service. It is intended to help developers work with the Image Analysis service for extracting a wide variety of visual features from images. The latest version of Image Analysis, 4.0, provides new features like synchronous OCR and people detection.
+The Image Analysis service provides AI algorithms for processing images and returning information about their content. In a single service call, you can extract one or more visual features from the image simultaneously, including getting a caption for the image, extracting text shown in the image (OCR) and detecting objects. For more information on the service and the supported visual features, see [Image Analysis overview][image_analysis_overview], and the [Concepts][image_analysis_concepts] page.
+
+Use the Image Analysis client library to:
+* Authenticate against the service
+* Set what features you would like to extract
+* Upload an image for analysis, or send an image URL
+* Get the analysis result
+
+[Product documentation][image_analysis_overview] 
+| [Samples](src/samples)
+| [Vision Studio][vision_studio]
+| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/visual-search)
 
 ## Getting started
 
@@ -13,7 +24,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 
-- An [Azure subscription][azure_sub].
+- An [Azure subscription](https://azure.microsoft.com/free).
 - A [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in your Azure subscription.
   * You will need the key and endpoint from this resource to authenticate against the service.
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
@@ -37,8 +48,8 @@ To use this client library in the browser, first, you need to use a bundler. For
 
 Once you've initialized an `ImageAnalysisClient`, you need to select one or more visual features to analyze. The options are specified by the enum class `VisualFeatures`. The following features are supported:
 
-1. `VisualFeatures.Caption`: Generate a human-readable sentence that describes the content of an image.
-1. `VisualFeatures.Read`: Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
+1. `VisualFeatures.Caption`: ([Examples](#analyze-an-image-from-url) | [Samples](samples)) Generate a human-readable sentence that describes the content of an image.
+1. `VisualFeatures.Read`: ([Examples](#extract-text-from-an-image-url) | [Samples](samples)) Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
 1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image.
 1. `VisualFeatures.Tags`: Extract content tags for thousands of recognizable objects, living beings, scenery, and actions that appear in images.
 1. `VisualFeatures.Objects`: Object detection. This is similar to tagging, but focused on detecting physical objects in the image and returning their location.
@@ -65,7 +76,6 @@ The `ImageAnalysisClient` is the primary interface for developers interacting wi
 
 Here's an example of how to create an `ImageAnalysisClient` instance using a key-based authentication and an Azure Active Directory authentication.
 
-#### Key-based authentication
 
 ```javascript Snippet:ImageAnalysisAuthKey
 const { ImageAnalysisClient, KeyCredential } = require("@azure/ai-image-analysis");
@@ -131,6 +141,34 @@ async function analyzeImageFromFile() {
 analyzeImageFromFile();
 ```
 
+### Extract text from an image Url
+This example demonstrates how to extract printed or hand-written text for the image file [sample.jpg](https://aka.ms/azai/vision/image-analysis-sample.jpg) using the ImageAnalysisClient. The method call returns an ImageAnalysisResult object. The ReadResult property on the returned object includes a list of text lines and a bounding polygon surrounding each text line. For each line, it also returns a list of words in the text line and a bounding polygon surrounding each word.
+``` javascript Snippet:readmeText
+const client: ImageAnalysisClient = createImageAnalysisClient(endpoint, credential);
+
+const features: string[] = [
+  'Read'
+];
+
+const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+
+client.path('/imageanalysis:analyze').post({
+  body: { url: imageUrl },
+  queryParameters: { features: features },
+  contentType: 'application/json'
+}).then(result => {
+  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+
+  // Process the response
+  if (iaResult.readResult && iaResult.readResult.blocks.length > 0) {
+    iaResult.readResult.blocks.forEach(block => {
+      console.log(`Detected text block: ${JSON.stringify(block)}`);
+    });
+  } else {
+    console.log('No text blocks detected.');
+  }
+```
+
 ## Troubleshooting
 
 ### Logging
@@ -157,3 +195,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
+[image_analysis_overview]: https://learn.microsoft.com/azure/ai-services/computer-vision/overview-image-analysis?tabs=4-0
+[image_analysis_concepts]: https://learn.microsoft.com/azure/ai-services/computer-vision/concept-tag-images-40
+[vision_studio]: https://portal.vision.cognitive.azure.com/gallery/imageanalysis
