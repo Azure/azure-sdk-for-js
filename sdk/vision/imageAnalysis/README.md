@@ -14,8 +14,10 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 ### Prerequisites
 
 - An [Azure subscription][azure_sub].
-
-Usually, you'd put a shell command for provisioning the necessary Azure services here.
+- A [Computer Vision resource](https://portal.azure.com/#create/Microsoft.CognitiveServicesComputerVision) in your Azure subscription.
+  * You will need the key and endpoint from this resource to authenticate against the service.
+  * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
+  * Note that in order to run Image Analysis with the `Caption` or `Dense Captions` features, the Azure resource needs to be from one of the following GPU-supported regions: `East US`, `France Central`, `Korea Central`, `North Europe`, `Southeast Asia`, `West Europe`, or `West US`.
 
 ### Install the `@azure/ai-image-analysis` package
 
@@ -31,19 +33,31 @@ npm install @azure/imageAnalysis
 
 To use this client library in the browser, first, you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
-### Further examples
-
-Top-level examples usually include things like creating and authenticating the main Client. If your service supports multiple means of authenticating (e.g. key-based and Azure Active Directory) you can give a separate example of each.
-
 ## Key concepts
+
+Once you've initialized an `ImageAnalysisClient`, you need to select one or more visual features to analyze. The options are specified by the enum class `VisualFeatures`. The following features are supported:
+
+1. `VisualFeatures.Caption`: Generate a human-readable sentence that describes the content of an image.
+1. `VisualFeatures.Read`: Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
+1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image.
+1. `VisualFeatures.Tags`: Extract content tags for thousands of recognizable objects, living beings, scenery, and actions that appear in images.
+1. `VisualFeatures.Objects`: Object detection. This is similar to tagging, but focused on detecting physical objects in the image and returning their location.
+1. `VisualFeatures.SmartCrops`: Used to find a representative sub-region of the image for thumbnail generation, with priority given to include faces.
+1. `VisualFeatures.People`: Locate people in the image and return their location.
+
+For more information about these features, see [Image Analysis overview][image_analysis_overview], and the [Concepts][image_analysis_concepts] page.
+
+### Supported image formats
+
+Image Analysis works on images that meet the following requirements:
+
+* The image must be presented in JPEG, PNG, GIF, BMP, WEBP, ICO, TIFF, or MPO format
+* The file size of the image must be less than 20 megabytes (MB)
+* The dimensions of the image must be greater than 50 x 50 pixels and less than 16,000 x 16,000 pixels
 
 ### ImageAnalysisClient
 
 The `ImageAnalysisClient` is the primary interface for developers interacting with the Image Analysis service. It serves as the gateway from which all interaction with the library will occur.
-
-### Additional Examples
-
-Create a section for each top-level service concept you want to explain.
 
 ## Examples
 
@@ -61,17 +75,6 @@ const key = "<your_key>";
 const credential = new KeyCredential(key);
 
 const client = new ImageAnalysisClient(endpoint, credential);
-```
-
-#### Azure Active Directory authentication
-
-```javascript Snippet:ImageAnalysisAuthAAD
-const { ImageAnalysisClient } = require("@azure/ai-image-analysis");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-const endpoint = "<your_endpoint>";
-
-const client = new ImageAnalysisClient(endpoint, new DefaultAzureCredential());
 ```
 
 ### Analyze an image from URL
@@ -154,23 +157,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-## Key concepts
-
-Once you've initialized an `ImageAnalysisClient`, you need to select one or more visual features to analyze. The options are specified by the enum class `VisualFeatures`. The following features are supported:
-
-1. `VisualFeatures.Caption`: Generate a human-readable sentence that describes the content of an image.
-1. `VisualFeatures.Read`: Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
-1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image.
-1. `VisualFeatures.Tags`: Extract content tags for thousands of recognizable objects, living beings, scenery, and actions that appear in images.
-1. `VisualFeatures.Objects`: Object detection. This is similar to tagging, but focused on detecting physical objects in the image and returning their location.
-1. `VisualFeatures.SmartCrops`: Used to find a representative sub-region of the image for thumbnail generation, with priority given to include faces.
-1. `VisualFeatures.People`: Locate people in the image and return their location.
-
-For more information about these features, see [Image Analysis overview][image_analysis_overview], and the [Concepts][image_analysis_concepts] page.
-
-### Analyze from image buffer or URL
-
-The `ImageAnalysisClient` a method `Analyze` that has two overloads:
-
-- `Analyze (BianryData ...`: Analyze an image from an input object. The client will upload the image to the service as part of the REST request.
-- `Analyze (Uri ...)`: Analyze an image from a publicly-accessible URL, via the `Uri` object. The client will send the image URL to the service. The service will download the image.
