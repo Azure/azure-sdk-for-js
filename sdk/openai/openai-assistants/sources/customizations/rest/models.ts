@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {

@@ -398,9 +398,9 @@ describe("OpenAIAssistants", () => {
             if (run.status === "requires_action" && run.requiredAction?.type === "submit_tool_outputs") {
               const toolOutputs = [];
 
-              assert.notEqual(run.requiredAction?.submitToolOutputs?.tool_calls, undefined);
-              if (run.requiredAction?.submitToolOutputs?.tool_calls !== undefined) {
-                for (const toolCall of run.requiredAction.submitToolOutputs.tool_calls) {
+              assert.notEqual(run.requiredAction?.submitToolOutputs?.toolCalls, undefined);
+              if (run.requiredAction?.submitToolOutputs?.toolCalls !== undefined) {
+                for (const toolCall of run.requiredAction.submitToolOutputs.toolCalls) {
                   toolOutputs.push(getResolvedToolOutput(toolCall));
                 }
               }

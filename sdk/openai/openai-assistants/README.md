@@ -112,7 +112,7 @@ for (const runMessageDatum of runMessages.data) {
     if (item.type === "text") {
       console.log(item.text.value);
     } else if (item.type === "image_file") {
-      console.log(item.image_file.file_id);
+      console.log(item.imageFile.fileId);
     }
   }
 }
@@ -314,7 +314,7 @@ do {
   if (runResponse.status === "requires_action" && runResponse.requiredAction.type === "submit_tool_outputs") {
     const toolOutputs = [];
 
-    for (const toolCall of runResponse.requiredAction.submitToolOutputs.tool_calls) {
+    for (const toolCall of runResponse.requiredAction.submitToolOutputs.toolCalls) {
       toolOutputs.push(getResolvedToolOutput(toolCall));
     }
     runResponse = await assistantsClient.submitRunToolOutputs(runResponse.threadId, runResponse.id, toolOutputs);

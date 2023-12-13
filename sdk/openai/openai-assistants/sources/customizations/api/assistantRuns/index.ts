@@ -50,7 +50,7 @@ export async function _listRunsDeserialize(
       cancelledAt:
         p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
       failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
-    })),
+    } as AssistantRun )),
     firstId: result.body["first_id"],
     lastId: result.body["last_id"],
     hasMore: result.body["has_more"],
@@ -246,7 +246,9 @@ export async function _createThreadAndRunDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          }
         },
     lastError: !result.body.last_error
       ? undefined

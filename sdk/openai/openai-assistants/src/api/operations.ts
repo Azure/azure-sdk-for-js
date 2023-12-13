@@ -11,6 +11,7 @@ import {
   AssistantFileDeletionStatus,
   AssistantThreadCreationOptions,
   AssistantMessage,
+  AssistantMessageContent,
   AssistantRole,
   AssistantThread,
   ThreadDeletionStatus,
@@ -702,7 +703,13 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({ type: p["type"], text: p["text"] || undefined, file_ids: p["file_ids"] || undefined, metadata: p["metadata"] || undefined, image_file: p["image_file"] || undefined })),
+    content: (result.body["content"] ?? []).map((p) => ({
+      type: p["type"],
+      text: p["text"] || undefined,
+      fileIds: p["file_ids"] || undefined,
+      metadata: p["metadata"] || undefined,
+      imageFile: p["image_file"] || undefined
+    } as AssistantMessageContent )),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -763,10 +770,10 @@ export async function _listMessagesDeserialize(
       content: (p["content"] ?? []).map((p) => ({
         type: p["type"],
         text: p["text"] || undefined, 
-        file_ids: p["file_ids"] || undefined, 
+        fileIds: p["file_ids"] || undefined, 
         metadata: p["metadata"] || undefined, 
-        image_file: p["image_file"] || undefined
-      })),
+        imageFile: p["image_file"] || undefined
+      } as AssistantMessageContent )),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       metadata: p["metadata"],
@@ -814,10 +821,10 @@ export async function _retrieveMessageDeserialize(
     content: (result.body["content"] ?? []).map((p) => ({
       type: p["type"],
       text: p["text"] || undefined, 
-      file_ids: p["file_ids"] || undefined, 
+      fileIds: p["file_ids"] || undefined, 
       metadata: p["metadata"] || undefined, 
-      image_file: p["image_file"] || undefined
-    })),
+      imageFile: p["image_file"] || undefined
+    } as AssistantMessageContent )),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -870,10 +877,10 @@ export async function _modifyMessageDeserialize(
     content: (result.body["content"] ?? []).map((p) => ({
       type: p["type"],
       text: p["text"] || undefined, 
-      file_ids: p["file_ids"] || undefined, 
+      fileIds: p["file_ids"] || undefined, 
       metadata: p["metadata"] || undefined, 
       image_file: p["image_file"] || undefined
-    })),
+    } as AssistantMessageContent )),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -1036,7 +1043,10 @@ export async function _createRunDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1118,7 +1128,11 @@ export async function _listRunsDeserialize(
       status: p["status"],
       requiredAction: !p.required_action
         ? undefined
-        : { type: p.required_action?.["type"], submitToolOutputs: p.required_action?.["submit_tool_outputs"] || undefined },
+        : { type: p.required_action?.["type"],
+          submitToolOutputs: {
+            toolCalls: p.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
       lastError: !p.last_error
         ? undefined
         : { code: p.last_error?.["code"], message: p.last_error?.["message"] },
@@ -1178,7 +1192,10 @@ export async function _retrieveRunDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1254,7 +1271,10 @@ export async function _modifyRunDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1340,7 +1360,10 @@ export async function _submitRunToolOutputsDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1420,7 +1443,10 @@ export async function _cancelRunDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -1510,7 +1536,10 @@ export async function _createThreadAndRunDeserialize(
     requiredAction: !result.body.required_action
       ? undefined
       : { type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"] || undefined },
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          } || undefined,
+        },
     lastError: !result.body.last_error
       ? undefined
       : {

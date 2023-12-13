@@ -33,3 +33,18 @@ export interface FunctionToolDefinitionOutput
   /** The definition of the concrete function that the function tool should call. */
   function: FunctionDefinitionOutput;
 }
+
+/** The response data for a requested list of items. */
+export interface ListResponseOfOutput<T> {
+  /** The object type, which is always list. */
+  object: "list";
+  /** The requested list of items. */
+  data: T[];
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+

@@ -85,9 +85,9 @@ export interface AssistantMessage {
 export interface AssistantMessageContent {
   /** the discriminator possible values image_file, text */
   type: string;
-  image_file?: AssistantImageFile;
+  imageFile?: AssistantImageFile;
   text?: AssistantMessageText;
-  file_ids?: string[];
+  fileIds?: string[];
   metadata?: Record<string, string>;
 }
 
@@ -98,9 +98,9 @@ export interface AssistantMessageTextAnnotation {
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
-  start_index: number;
+  startIndex: number;
   /** The last text index associated with this text annotation. */
-  end_index: number;
+  endIndex: number;
 }
 
 /** The details used to create a new assistant thread. */

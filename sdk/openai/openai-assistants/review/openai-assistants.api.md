@@ -53,7 +53,7 @@ export interface AssistantFileDeletionStatus {
 
 // @public
 export interface AssistantImageFile {
-    file_id: string;
+    fileId: string;
 }
 
 // @public
@@ -72,9 +72,9 @@ export interface AssistantMessage {
 // @public
 export interface AssistantMessageContent {
     // (undocumented)
-    file_ids?: string[];
+    fileIds?: string[];
     // (undocumented)
-    image_file?: AssistantImageFile;
+    imageFile?: AssistantImageFile;
     // (undocumented)
     metadata?: Record<string, string>;
     // (undocumented)
@@ -148,8 +148,8 @@ export interface AssistantMessageText {
 
 // @public
 export interface AssistantMessageTextAnnotation {
-    end_index: number;
-    start_index: number;
+    endIndex: number;
+    startIndex: number;
     text: string;
     type: string;
 }
@@ -606,7 +606,7 @@ export type RunStepStatus = string;
 
 // @public
 export interface SubmitToolOutputsDetails {
-    tool_calls: ToolCall[];
+    toolCalls: ToolCall[];
 }
 
 // @public

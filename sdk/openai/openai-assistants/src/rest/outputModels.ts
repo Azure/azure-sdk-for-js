@@ -67,11 +67,11 @@ export interface AssistantOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface ListResponseOfAssistantOutput {
+export interface ListResponseOfOutput<T> {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
-  data: Array<AssistantOutput>;
+  data: T[];
   /** The first ID represented in this list. */
   first_id: string;
   /** The last ID represented in this list. */
@@ -100,21 +100,6 @@ export interface AssistantFileOutput {
   assistant_id: string;
 }
 
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantFileOutput {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: Array<AssistantFileOutput>;
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
-/** The status of an assistant file deletion operation. */
 export interface AssistantFileDeletionStatusOutput {
   /** The object type, which is always 'assistant.file.deleted'. */
   object: "assistant.file.deleted";
@@ -254,20 +239,6 @@ export interface ThreadDeletionStatusOutput {
   deleted: boolean;
 }
 
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessageOutput {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: Array<AssistantMessageOutput>;
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
 /** Information about a file attached to an assistant thread message. */
 export interface AssistantMessageFileOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -278,20 +249,6 @@ export interface AssistantMessageFileOutput {
   created_at: number;
   /** The ID of the message that this file is attached to. */
   message_id: string;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantMessageFileOutput {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: Array<AssistantMessageFileOutput>;
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
 }
 
 /** Data representing a single evaluation run of an assistant thread. */
@@ -456,20 +413,6 @@ export interface RunErrorOutput {
   message: string;
 }
 
-/** The response data for a requested list of items. */
-export interface ListResponseOfAssistantRunOutput {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: Array<AssistantRunOutput>;
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
-}
-
 /** Detailed information about a single step of an assistant thread run. */
 export interface RunStepOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -545,20 +488,6 @@ export interface RunStepErrorOutput {
   code: string;
   /** The human-readable text associated with this error. */
   message: string;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfRunStepOutput {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: Array<RunStepOutput>;
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
 }
 
 /** The response data from a file list operation. */

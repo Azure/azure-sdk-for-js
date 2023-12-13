@@ -3,13 +3,8 @@
 
 import { HttpResponse } from "@azure-rest/core-client";
 import {
+  ListResponseOfOutput,
   AssistantOutput,
-  ListResponseOfAssistantOutput,
-  ListResponseOfAssistantFileOutput,
-  ListResponseOfAssistantMessageOutput,
-  ListResponseOfAssistantMessageFileOutput,
-  ListResponseOfAssistantRunOutput,
-  ListResponseOfRunStepOutput,
   AssistantDeletionStatusOutput,
   AssistantFileOutput,
   AssistantFileDeletionStatusOutput,
@@ -33,7 +28,7 @@ export interface CreateAssistant200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListAssistants200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfAssistantOutput;
+  body: ListResponseOfOutput<AssistantOutput>;
 }
 
 /** The request has succeeded. */
@@ -63,7 +58,7 @@ export interface CreateAssistantFile200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListAssistantFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfAssistantFileOutput;
+  body: ListResponseOfOutput<AssistantFileOutput>;
 }
 
 /** The request has succeeded. */
@@ -111,7 +106,7 @@ export interface CreateMessage200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListMessages200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfAssistantMessageOutput;
+  body: ListResponseOfOutput<AssistantMessageOutput>;
 }
 
 /** The request has succeeded. */
@@ -129,7 +124,7 @@ export interface ModifyMessage200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfAssistantMessageFileOutput;
+  body: ListResponseOfOutput<AssistantMessageFileOutput>;
 }
 
 /** The request has succeeded. */
@@ -147,7 +142,7 @@ export interface CreateRun200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListRuns200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfAssistantRunOutput;
+  body: ListResponseOfOutput<AssistantRunOutput>;
 }
 
 /** The request has succeeded. */
@@ -189,7 +184,7 @@ export interface RetrieveRunStep200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfRunStepOutput;
+  body: ListResponseOfOutput<RunStepOutput>;
 }
 
 /** The request has succeeded. */
