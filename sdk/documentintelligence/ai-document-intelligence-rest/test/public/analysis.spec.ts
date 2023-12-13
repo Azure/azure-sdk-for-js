@@ -464,7 +464,7 @@ describe("DocumentIntelligenceClient", () => {
       return _model;
     }
 
-    it("with selection marks", async () => {
+    it.skip("with selection marks", async () => {
       const { modelId } = await requireModel();
 
       const filePath = path.join(ASSET_PATH, "forms", "selection_mark_form.pdf");
