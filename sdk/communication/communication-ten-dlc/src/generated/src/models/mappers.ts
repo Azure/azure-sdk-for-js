@@ -8,138 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export const LocalNumberCosts: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalNumberCosts",
-    modelProperties: {
-      costs: {
-        serializedName: "costs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "LocalNumberCost"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LocalNumberCost: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LocalNumberCost",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      amount: {
-        serializedName: "amount",
-        type: {
-          name: "Number"
-        }
-      },
-      currencyCode: {
-        serializedName: "currencyCode",
-        type: {
-          name: "String"
-        }
-      },
-      countryCode: {
-        serializedName: "countryCode",
-        type: {
-          name: "String"
-        }
-      },
-      billingFrequency: {
-        serializedName: "billingFrequency",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CommunicationErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
-};
-
-export const CommunicationError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommunicationError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CommunicationError"
-            }
-          }
-        }
-      },
-      innerError: {
-        serializedName: "innererror",
-        type: {
-          name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
-};
-
 export const USBrand: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -171,7 +39,7 @@ export const USBrand: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LocalNumberCost"
+              className: "TenDlcCost"
             }
           }
         }
@@ -199,6 +67,45 @@ export const USBrand: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BrandDetails"
+        }
+      }
+    }
+  }
+};
+
+export const TenDlcCost: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenDlcCost",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      amount: {
+        serializedName: "amount",
+        type: {
+          name: "Number"
+        }
+      },
+      currencyCode: {
+        serializedName: "currencyCode",
+        type: {
+          name: "String"
+        }
+      },
+      countryCode: {
+        serializedName: "countryCode",
+        type: {
+          name: "String"
+        }
+      },
+      billingFrequency: {
+        serializedName: "billingFrequency",
+        type: {
+          name: "String"
         }
       }
     }
@@ -277,12 +184,6 @@ export const BrandDetails: coreClient.CompositeMapper = {
       },
       stockSymbol: {
         serializedName: "stockSymbol",
-        type: {
-          name: "String"
-        }
-      },
-      relationship: {
-        serializedName: "relationship",
         type: {
           name: "String"
         }
@@ -387,6 +288,72 @@ export const Address: coreClient.CompositeMapper = {
   }
 };
 
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
+export const CommunicationError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommunicationError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
+          }
+        }
+      },
+      innerError: {
+        serializedName: "innererror",
+        type: {
+          name: "Composite",
+          className: "CommunicationError"
+        }
+      }
+    }
+  }
+};
+
 export const USBrands: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -440,7 +407,6 @@ export const USCampaign: coreClient.CompositeMapper = {
       },
       statusUpdatedDate: {
         serializedName: "statusUpdatedDate",
-        readOnly: true,
         type: {
           name: "DateTime"
         }
@@ -452,14 +418,13 @@ export const USCampaign: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "LocalNumberCost"
+              className: "TenDlcCost"
             }
           }
         }
       },
       submissionDate: {
         serializedName: "submissionDate",
-        readOnly: true,
         type: {
           name: "DateTime"
         }
@@ -614,8 +579,8 @@ export const UseCase: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      subContentType: {
-        serializedName: "subContentType",
+      subContentTypes: {
+        serializedName: "subContentTypes",
         type: {
           name: "Sequence",
           element: {
@@ -665,6 +630,33 @@ export const USCampaigns: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "USCampaign"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TenDlcCosts: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TenDlcCosts",
+    modelProperties: {
+      costs: {
+        serializedName: "costs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TenDlcCost"
             }
           }
         }

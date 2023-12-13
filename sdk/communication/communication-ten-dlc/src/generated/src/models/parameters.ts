@@ -16,70 +16,24 @@ import {
   USCampaign as USCampaignMapper
 } from "../models/mappers";
 
-export const accept: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const endpoint: OperationURLParameter = {
-  parameterPath: "endpoint",
-  mapper: {
-    serializedName: "endpoint",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const skip: OperationQueryParameter = {
-  parameterPath: ["options", "skip"],
-  mapper: {
-    defaultValue: 0,
-    serializedName: "skip",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const top: OperationQueryParameter = {
-  parameterPath: ["options", "top"],
-  mapper: {
-    defaultValue: 100,
-    serializedName: "top",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2024-01-31-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/merge-patch+json",
     isConstant: true,
     serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -121,6 +75,18 @@ export const brandDetails: OperationParameter = {
   mapper: USBrandMapper
 };
 
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
+  mapper: {
+    serializedName: "endpoint",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const brandId: OperationURLParameter = {
   parameterPath: "brandId",
   mapper: {
@@ -128,6 +94,40 @@ export const brandId: OperationURLParameter = {
     required: true,
     type: {
       name: "Uuid"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2024-01-31-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skip: OperationQueryParameter = {
+  parameterPath: ["options", "skip"],
+  mapper: {
+    defaultValue: 0,
+    serializedName: "skip",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
+export const top: OperationQueryParameter = {
+  parameterPath: ["options", "top"],
+  mapper: {
+    defaultValue: 100,
+    serializedName: "top",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -157,8 +157,18 @@ export const status1: OperationParameter = {
   mapper: USCampaignMapper
 };
 
+export const statusUpdatedDate1: OperationParameter = {
+  parameterPath: ["options", "statusUpdatedDate"],
+  mapper: USCampaignMapper
+};
+
 export const costs1: OperationParameter = {
   parameterPath: ["options", "costs"],
+  mapper: USCampaignMapper
+};
+
+export const submissionDate1: OperationParameter = {
+  parameterPath: ["options", "submissionDate"],
   mapper: USCampaignMapper
 };
 
