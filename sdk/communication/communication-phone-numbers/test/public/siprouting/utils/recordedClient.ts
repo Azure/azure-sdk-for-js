@@ -17,7 +17,7 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
@@ -149,7 +149,7 @@ export async function clearSipConfiguration(): Promise<void> {
 
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const id = uuid().replace(/-/g, "");
+  const id = randomUUID().replace(/-/g, "");
   return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
 }
 export function resetUniqueFqdns(): void {
@@ -177,6 +177,6 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   return result;
 }
 
-function getAzureTestDomain() {
+function getAzureTestDomain(): string {
   return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }
