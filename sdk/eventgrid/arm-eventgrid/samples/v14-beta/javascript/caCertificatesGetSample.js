@@ -29,7 +29,7 @@ async function caCertificatesGet() {
   const result = await client.caCertificates.get(
     resourceGroupName,
     namespaceName,
-    caCertificateName
+    caCertificateName,
   );
   console.log(result);
 }

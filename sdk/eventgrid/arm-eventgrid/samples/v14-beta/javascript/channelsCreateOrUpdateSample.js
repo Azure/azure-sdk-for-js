@@ -41,7 +41,7 @@ async function channelsCreateOrUpdate() {
     resourceGroupName,
     partnerNamespaceName,
     channelName,
-    channelInfo
+    channelInfo,
   );
   console.log(result);
 }
