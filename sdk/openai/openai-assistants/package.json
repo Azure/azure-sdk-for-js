@@ -135,12 +135,5 @@
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
-  },
-  "mocha": {
-    "extension": [
-      "ts"
-    ],
-    "timeout": "1200000",
-    "loader": "ts-node/esm"
   }
 }
