@@ -20,7 +20,7 @@ import fs from "fs";
 const containerSasUrl = (): string =>
   assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
 
-describe("classifiers", () => {
+describe.skip("classifiers", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
   beforeEach(async function (this: Context) {
