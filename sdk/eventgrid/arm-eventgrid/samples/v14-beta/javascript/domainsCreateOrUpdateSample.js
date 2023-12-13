@@ -37,7 +37,7 @@ async function domainsCreateOrUpdate() {
   const result = await client.domains.beginCreateOrUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainInfo
+    domainInfo,
   );
   console.log(result);
 }
