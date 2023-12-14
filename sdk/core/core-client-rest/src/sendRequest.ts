@@ -17,7 +17,6 @@ import {
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { isReadableStream } from "./helpers/isReadableStream";
 import { HttpResponse, RequestParameters } from "./common";
-import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -174,9 +173,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
 
   if (ArrayBuffer.isView(body)) {
     if (body instanceof Uint8Array) {
-      return firstType === "application/octet-stream"
-        ? { body }
-        : { body: binaryArrayToString(body) };
+      return { body };
     } else {
       return { body: JSON.stringify(body) };
     }
@@ -215,7 +212,7 @@ function processFormData(formData?: FormDataMap) {
   for (const element in formData) {
     const item = formData[element];
     if (item instanceof Uint8Array) {
-      processedFormData[element] = binaryArrayToString(item);
+      processedFormData[element] = new Blob([item]);
     } else {
       processedFormData[element] = item;
     }
