@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, expect, afterEach, vi } from "vitest";
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src/index.js";
 
 describe("createAbortablePromise", function () {

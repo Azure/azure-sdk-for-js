@@ -3,7 +3,6 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { AbortController } from "@azure/abort-controller";
 import { createXhrHttpClient } from "../../src/xhrHttpClient.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 

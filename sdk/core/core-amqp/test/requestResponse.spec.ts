@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import rheaPromise, {
-  Connection,
-  EventContext,
-  Message as RheaMessage,
-  generate_uuid,
-} from "rhea-promise";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
   Constants,
   ErrorNameConditionMapper,
@@ -23,7 +18,7 @@ import {
   onMessageReceived,
 } from "../src/requestResponseLink.js";
 import EventEmitter from "events";
-import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, vi } from "vitest";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";
 
@@ -559,7 +554,7 @@ describe("RequestResponseLink", function () {
         assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
       }, 700);
       await link.sendRequest(request, {
-        abortSignal: AbortController.timeout(1000),
+        abortSignal: AbortSignal.timeout(1000),
         requestName: "foo",
       });
       throw new Error(`Test failure`);

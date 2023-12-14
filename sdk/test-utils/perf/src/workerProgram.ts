@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { enterStage, exitStage } from "./barrier.js";
-import { AbortController } from "@azure/abort-controller";
 import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore.js";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase.js";
 import { PerfProgram } from "./program.js";

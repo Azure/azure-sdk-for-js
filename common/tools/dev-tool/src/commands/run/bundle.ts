@@ -49,7 +49,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "ignore missing Node.js builtin modules",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
@@ -60,17 +60,17 @@ export default leafCommand(commandInfo, async (options) => {
 
   if (injectNodePolyfills && polyfillNode) {
     throw new Error(
-      "Cannot use both --inject-node-polyfills and --polyfill-node. Using --inject-node-polyfills is an advanced scenario when you want to have more control on which polyfill libraries to be used."
+      "Cannot use both --inject-node-polyfills and --polyfill-node. Using --inject-node-polyfills is an advanced scenario when you want to have more control on which polyfill libraries to be used.",
     );
   }
   if (ignoreMissingNodeBuiltins && !injectNodePolyfills) {
     log.warn(
-      "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills."
+      "This is probably a mistake. --ignore-missing-node-builtins should only be used with --inject-node-polyfills.",
     );
   }
   if (!browserTest && injectNodePolyfills) {
     log.warn(
-      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled."
+      "This is probably a mistake. --inject-node-polyfills shouldn't be used if --browser-test is disabled.",
     );
   }
 
@@ -124,7 +124,7 @@ export default leafCommand(commandInfo, async (options) => {
     const pnpmStore = path
       .relative(
         process.cwd(),
-        path.join(await resolveRoot(), "common", "temp", "node_modules", ".pnpm")
+        path.join(await resolveRoot(), "common", "temp", "node_modules", ".pnpm"),
       )
       .split(path.sep)
       .join("/");

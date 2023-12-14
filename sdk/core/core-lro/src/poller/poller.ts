@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   BuildCreatePollerOptions,
   CreatePollerOptions,
@@ -120,15 +120,27 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
         (resultPromise ??= (async () => {
           const { abortSignal: inputAbortSignal } = pollOptions || {};
-          const { signal: abortSignal } = inputAbortSignal
-            ? new AbortController([inputAbortSignal, abortController.signal])
-            : abortController;
-          if (!poller.isDone()) {
-            await poller.poll({ abortSignal });
-            while (!poller.isDone()) {
-              await delay(currentPollIntervalInMs, { abortSignal });
+          // In the future we can use AbortSignal.any() instead
+          function abortListener(): void {
+            abortController.abort();
+          }
+          const abortSignal = abortController.signal;
+          if (inputAbortSignal?.aborted) {
+            abortController.abort();
+          } else if (!abortSignal.aborted) {
+            inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+          }
+
+          try {
+            if (!poller.isDone()) {
               await poller.poll({ abortSignal });
+              while (!poller.isDone()) {
+                await delay(currentPollIntervalInMs, { abortSignal });
+                await poller.poll({ abortSignal });
+              }
             }
+          } finally {
+            inputAbortSignal?.removeEventListener("abort", abortListener);
           }
           if (resolveOnUnsuccessful) {
             return poller.getResult() as TResult;

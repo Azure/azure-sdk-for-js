@@ -70,7 +70,6 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
@@ -94,7 +93,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.6.2"
@@ -106,16 +105,15 @@
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.38.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.0.0-beta.3",
-    "@vitest/coverage-v8": "^1.0.0-beta.3",
-    "@vitest/coverage-istanbul": "^1.0.0-beta.3",
+    "@vitest/browser": "^1.0.4",
+    "@vitest/coverage-istanbul": "^1.0.4",
     "eslint": "^8.52.0",
     "playwright": "^1.39.0",
-    "prettier": "^3.0.3",
+    "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
-    "tshy": "^1.7.0",
+    "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "1.0.0-beta.3",
+    "vitest": "1.0.4",
     "webdriverio": "^8.20.4"
   },
   "//metadata": {

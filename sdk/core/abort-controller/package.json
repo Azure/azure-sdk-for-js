@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "1.1.1",
+  "version": "2.0.0",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -43,7 +43,6 @@
     }
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
@@ -94,16 +93,16 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.38.0",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "1.0.0-beta.3",
-    "@vitest/coverage-istanbul": "^1.0.0-beta.3",
-    "@vitest/coverage-v8": "^1.0.0-beta.3",
+    "@vitest/browser": "1.0.4",
+    "@vitest/coverage-istanbul": "^1.0.4",
+    "@vitest/coverage-v8": "^1.0.4",
     "eslint": "^8.0.0",
-    "playwright": "^1.39.0",
+    "playwright": "^1.40.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
-    "tshy": "^1.7.0",
+    "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "1.0.0-beta.3",
+    "vitest": "1.0.4",
     "webdriverio": "^8.20.4"
   },
   "//metadata": {

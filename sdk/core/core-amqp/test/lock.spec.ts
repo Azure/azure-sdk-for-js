@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, beforeEach } from "vitest";
-import { AbortController, AbortError } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock.js";
+import { AbortError } from "@azure/abort-controller";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src/index.js";
 import { settleAllTasks } from "./utils/utils.js";

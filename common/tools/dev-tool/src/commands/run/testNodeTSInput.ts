@@ -17,19 +17,21 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to disable launching test-proxy",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
   const isModuleProj = await isModuleProject();
+  const reporterArgs =
+    "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
   const defaultMochaArgs = `${
     isModuleProj ? "" : "-r esm "
-  }-r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+  }-r ts-node/register ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
   const mochaArgs = updatedArgs?.length
-    ? updatedArgs?.join(" ")
+    ? updatedArgs.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
     command: isModuleProj

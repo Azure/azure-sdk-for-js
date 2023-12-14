@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
-import { AbortController } from "@azure/abort-controller";
 import { Connection } from "rhea-promise";
 import { createConnectionStub } from "./utils/createConnectionStub.js";
 import { isError } from "@azure/core-util";

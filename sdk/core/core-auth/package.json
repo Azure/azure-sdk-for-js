@@ -3,27 +3,21 @@
   "version": "1.5.1",
   "description": "Provides low-level interfaces and helper methods for authentication in Azure SDK",
   "sdk-type": "client",
-  "type": "module",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "./types/latest/core-auth.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
     }
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -44,6 +38,9 @@
   },
   "files": [
     "dist/",
+    "dist-esm/src/",
+    "types/latest/core-auth.d.ts",
+    "types/3.1",
     "README.md",
     "LICENSE"
   ],
@@ -65,21 +62,23 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-util": "^1.6.0",
-    "tslib": "^2.6.2"
+    "@azure/core-util": "^1.1.0",
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "1.0.0-beta.3",
-    "@vitest/coverage-v8": "1.0.0-beta.3",
-    "eslint": "^8.52.0",
-    "playwright": "^1.39.0",
-    "prettier": "^3.0.3",
-    "rimraf": "^5.0.5",
-    "tshy": "^1.7.0",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "downlevel-dts": "^0.10.0",
+    "eslint": "^8.0.0",
+    "inherits": "^2.0.3",
+    "mocha": "^10.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "prettier": "^2.5.1",
+    "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
     "vitest": "1.0.0-beta.3",
     "webdriverio": "^8.20.4"

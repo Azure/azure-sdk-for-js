@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as chai from "chai";
+import { describe, it } from "vitest";
 import {
   Constants,
   MessagingError,
@@ -12,7 +12,6 @@ import {
   retry,
   translate,
 } from "../src/index.js";
-import { AbortController } from "@azure/abort-controller";
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");

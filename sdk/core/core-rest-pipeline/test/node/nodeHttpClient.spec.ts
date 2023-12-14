@@ -7,7 +7,6 @@ import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import https from "https";
 import http from "http";
-import { AbortController } from "@azure/abort-controller";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
