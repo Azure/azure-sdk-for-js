@@ -2,10 +2,38 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { InputFile, ListResponseOf } from "./models/models.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
 import {
-  InputFile,
-  ListResponseOf
-} from "./models/models.js";
+  AssistantsOperations,
+} from "./classic/assistants/index.js";
+import {
+  getAssistantsOperations,
+} from "../generated/src/classic/assistants/index.js";
+import {
+  getAssistantThreadsOperations,
+  AssistantThreadsOperations,
+} from "../generated/src/classic/assistantThreads/index.js";
+import {
+  ThreadMessagesOperations,
+} from "./classic/threadMessages/index.js";
+import {
+  getThreadMessagesOperations,
+} from "../generated/src/classic/threadMessages/index.js";
+import {
+  ThreadRunsOperations,
+} from "./classic/threadRuns/index.js";
+import {
+  getThreadRunsOperations,
+} from "../generated/src/classic/threadRuns/index.js";
+import {
+  getRunStepsOperations,
+} from "../generated/src/classic/runSteps/index.js";
+import {
+  RunStepsOperations,
+} from "./classic/runSteps/index.js";
+import { FilesOperations } from "./classic/files/index.js";
+import { getFilesOperations } from "../generated/src/classic/files/index.js";
 import {
   Assistant,
   AssistantsClientOptions,
@@ -15,16 +43,13 @@ import {
   AssistantThreadCreationOptions,
   FilePurpose,
   FilesRetrieveFileOptions,
-  FilesUploadFileOptions
+  FilesUploadFileOptions,
 } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
-import { listAssistants, } from "./api/operations.js";
+import { listAssistants } from "./api/operations.js";
 import { createThread } from "../generated/src/api/assistantThreads/index.js";
-import {
-  retrieveFile,
-  uploadFile
-} from "../generated/src/api/files/index.js";
+import { retrieveFile, uploadFile } from "../generated/src/api/files/index.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 
 function createOpenAIEndpoint(version: number): string {
@@ -71,6 +96,8 @@ function isCred(cred: Record<string, any>): cred is TokenCredential | KeyCredent
 export class AssistantsClient {
   private _client: AssistantsContext;
   private _isAzure = false;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
   /**
    * Initializes an instance of AssistantsClient for use with an OpenAI resource.
@@ -140,6 +167,13 @@ export class AssistantsClient {
             ],
           }),
     });
+    this.pipeline = this._client.pipeline;
+    this.assistants = getAssistantsOperations(this._client);
+    this.assistantThreads = getAssistantThreadsOperations(this._client);
+    this.threadMessages = getThreadMessagesOperations(this._client);
+    this.threadRuns = getThreadRunsOperations(this._client);
+    this.runSteps = getRunStepsOperations(this._client);
+    this.files = getFilesOperations(this._client);
   }
 
   /** Creates a new thread for an assistant. */
@@ -174,6 +208,16 @@ export class AssistantsClient {
     return retrieveFile(this._client, fileId, options);
   }
 
-
-
+  /** The operation groups for Assistants */
+  public readonly assistants: AssistantsOperations;
+  /** The operation groups for AssistantThreads */
+  public readonly assistantThreads: AssistantThreadsOperations;
+  /** The operation groups for ThreadMessages */
+  public readonly threadMessages: ThreadMessagesOperations;
+  /** The operation groups for ThreadRuns */
+  public readonly threadRuns: ThreadRunsOperations;
+  /** The operation groups for RunSteps */
+  public readonly runSteps: RunStepsOperations;
+  /** The operation groups for Files */
+  public readonly files: FilesOperations;
 }

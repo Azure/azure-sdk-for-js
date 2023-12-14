@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ListResponseOf,
-} from "../../models/models.js";
-import {
-  Assistant,
-  AssistantFile,
-} from "../../../generated/src/models/models.js";
+import { ListResponseOf } from "../../models/models.js";
+import { Assistant, AssistantFile } from "../../../generated/src/models/models.js";
 import {
   _listAssistantsSend,
   _listAssistantFilesSend,
@@ -30,18 +25,16 @@ export async function _listAssistantsDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       name: p["name"],
       description: p["description"],
       model: p["model"],
       instructions: p["instructions"],
-      tools: (p["tools"] ?? []).map((p) => ({ 
+      tools: (p["tools"] ?? []).map((p) => ({
         type: p["type"],
-        function: p["function"] || undefined
+        function: p["function"] || undefined,
       })),
       fileIds: p["file_ids"],
       metadata: p["metadata"],
@@ -69,10 +62,8 @@ export async function _listAssistantFilesDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       assistantId: p["assistant_id"],
     })),

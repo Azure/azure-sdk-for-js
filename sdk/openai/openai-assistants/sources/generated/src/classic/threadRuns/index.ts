@@ -3,8 +3,8 @@
 
 import { AssistantsContext } from "../../api/AssistantsContext.js";
 import {
-  ListResponseOf,
-  AssistantRun,
+  OpenAIPageableListOf,
+  ThreadRun,
   ToolOutputSubmission,
   CreateAndRunThreadOptions,
 } from "../../models/models.js";
@@ -16,95 +16,95 @@ import {
   submitRunToolOutputs,
   cancelRun,
   createThreadAndRun,
-} from "../../api/assistantRuns/index.js";
+} from "../../api/threadRuns/index.js";
 import {
-  AssistantRunsCreateRunOptions,
-  AssistantRunsListRunsOptions,
-  AssistantRunsRetrieveRunOptions,
-  AssistantRunsModifyRunOptions,
-  AssistantRunsSubmitRunToolOutputsOptions,
-  AssistantRunsCancelRunOptions,
-  AssistantRunsCreateThreadAndRunOptions,
+  ThreadRunsCreateRunOptions,
+  ThreadRunsListRunsOptions,
+  ThreadRunsRetrieveRunOptions,
+  ThreadRunsModifyRunOptions,
+  ThreadRunsSubmitRunToolOutputsOptions,
+  ThreadRunsCancelRunOptions,
+  ThreadRunsCreateThreadAndRunOptions,
 } from "../../models/options.js";
 
-export interface AssistantRunsOperations {
+export interface ThreadRunsOperations {
   createRun: (
     threadId: string,
     assistantId: string,
-    options?: AssistantRunsCreateRunOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsCreateRunOptions
+  ) => Promise<ThreadRun>;
   listRuns: (
     threadId: string,
-    options?: AssistantRunsListRunsOptions
-  ) => Promise<ListResponseOf<AssistantRun>>;
+    options?: ThreadRunsListRunsOptions
+  ) => Promise<OpenAIPageableListOf>;
   retrieveRun: (
     threadId: string,
     runId: string,
-    options?: AssistantRunsRetrieveRunOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsRetrieveRunOptions
+  ) => Promise<ThreadRun>;
   modifyRun: (
     threadId: string,
     runId: string,
-    options?: AssistantRunsModifyRunOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsModifyRunOptions
+  ) => Promise<ThreadRun>;
   submitRunToolOutputs: (
     threadId: string,
     runId: string,
     toolOutputs: ToolOutputSubmission[],
-    options?: AssistantRunsSubmitRunToolOutputsOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsSubmitRunToolOutputsOptions
+  ) => Promise<ThreadRun>;
   cancelRun: (
     threadId: string,
     runId: string,
-    options?: AssistantRunsCancelRunOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsCancelRunOptions
+  ) => Promise<ThreadRun>;
   createThreadAndRun: (
     body: CreateAndRunThreadOptions,
-    options?: AssistantRunsCreateThreadAndRunOptions
-  ) => Promise<AssistantRun>;
+    options?: ThreadRunsCreateThreadAndRunOptions
+  ) => Promise<ThreadRun>;
 }
 
-export function getAssistantRuns(context: AssistantsContext) {
+export function getThreadRuns(context: AssistantsContext) {
   return {
     createRun: (
       threadId: string,
       assistantId: string,
-      options?: AssistantRunsCreateRunOptions
+      options?: ThreadRunsCreateRunOptions
     ) => createRun(context, threadId, assistantId, options),
-    listRuns: (threadId: string, options?: AssistantRunsListRunsOptions) =>
+    listRuns: (threadId: string, options?: ThreadRunsListRunsOptions) =>
       listRuns(context, threadId, options),
     retrieveRun: (
       threadId: string,
       runId: string,
-      options?: AssistantRunsRetrieveRunOptions
+      options?: ThreadRunsRetrieveRunOptions
     ) => retrieveRun(context, threadId, runId, options),
     modifyRun: (
       threadId: string,
       runId: string,
-      options?: AssistantRunsModifyRunOptions
+      options?: ThreadRunsModifyRunOptions
     ) => modifyRun(context, threadId, runId, options),
     submitRunToolOutputs: (
       threadId: string,
       runId: string,
       toolOutputs: ToolOutputSubmission[],
-      options?: AssistantRunsSubmitRunToolOutputsOptions
+      options?: ThreadRunsSubmitRunToolOutputsOptions
     ) => submitRunToolOutputs(context, threadId, runId, toolOutputs, options),
     cancelRun: (
       threadId: string,
       runId: string,
-      options?: AssistantRunsCancelRunOptions
+      options?: ThreadRunsCancelRunOptions
     ) => cancelRun(context, threadId, runId, options),
     createThreadAndRun: (
       body: CreateAndRunThreadOptions,
-      options?: AssistantRunsCreateThreadAndRunOptions
+      options?: ThreadRunsCreateThreadAndRunOptions
     ) => createThreadAndRun(context, body, options),
   };
 }
 
-export function getAssistantRunsOperations(
+export function getThreadRunsOperations(
   context: AssistantsContext
-): AssistantRunsOperations {
+): ThreadRunsOperations {
   return {
-    ...getAssistantRuns(context),
+    ...getThreadRuns(context),
   };
 }

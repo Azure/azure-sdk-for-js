@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { ListResponseOf, RunStep } from "../../models/models.js";
+import {
+  RunStepsListRunStepsOptions,
+  RunStepsRetrieveRunStepOptions,
+} from "../../models/options.js";
 import {
   AssistantsContext as Client,
   ListRunSteps200Response,
   RetrieveRunStep200Response,
 } from "../../rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
-import {
-  RunStepsRetrieveRunStepOptions,
-  RunStepsListRunStepsOptions,
-} from "../../models/options.js";
 
 export function _retrieveRunStepSend(
   context: Client,
@@ -24,12 +29,7 @@ export function _retrieveRunStepSend(
   options: RunStepsRetrieveRunStepOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveRunStep200Response> {
   return context
-    .path(
-      "/threads/{threadId}/runs/{runId}/steps/{stepId}",
-      threadId,
-      runId,
-      stepId
-    )
+    .path("/threads/{threadId}/runs/{runId}/steps/{stepId}", threadId, runId, stepId)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
@@ -42,7 +42,7 @@ export async function _retrieveRunStepDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
+    type: result.body["type"],
     assistantId: result.body["assistant_id"],
     threadId: result.body["thread_id"],
     runId: result.body["run_id"],
@@ -56,27 +56,17 @@ export async function _retrieveRunStepDeserialize(
             message: result.body.last_error["message"],
           },
     createdAt: new Date(result.body["created_at"]),
-    expiredAt:
-      result.body["expired_at"] === null
-        ? null
-        : new Date(result.body["expired_at"]),
+    expiredAt: result.body["expired_at"] === null ? null : new Date(result.body["expired_at"]),
     completedAt:
-      result.body["completed_at"] === null
-        ? null
-        : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
     cancelledAt:
-      result.body["cancelled_at"] === null
-        ? null
-        : new Date(result.body["cancelled_at"]),
-    failedAt:
-      result.body["failed_at"] === null
-        ? null
-        : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
+    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
     metadata: result.body["metadata"],
   };
 }
 
-/** Retrieves a single run step associated with an assistant thread run. */
+/** Gets a single run step from a thread run. */
 export async function retrieveRunStep(
   context: Client,
   threadId: string,
@@ -84,13 +74,7 @@ export async function retrieveRunStep(
   stepId: string,
   options: RunStepsRetrieveRunStepOptions = { requestOptions: {} }
 ): Promise<RunStep> {
-  const result = await _retrieveRunStepSend(
-    context,
-    threadId,
-    runId,
-    stepId,
-    options
-  );
+  const result = await _retrieveRunStepSend(context, threadId, runId, stepId, options);
   return _retrieveRunStepDeserialize(result);
 }
 
@@ -100,17 +84,15 @@ export function _listRunStepsSend(
   runId: string,
   options: RunStepsListRunStepsOptions = { requestOptions: {} }
 ): StreamableMethod<ListRunSteps200Response> {
-  return context
-    .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
+  return context.path("/threads/{threadId}/runs/{runId}/steps", threadId, runId).get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+  });
 }
 
 export async function _listRunStepsDeserialize(
@@ -121,10 +103,9 @@ export async function _listRunStepsDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
+      type: p["type"],
       id: p["id"],
-      object: p["object"],
       assistantId: p["assistant_id"],
       threadId: p["thread_id"],
       runId: p["run_id"],
@@ -136,10 +117,8 @@ export async function _listRunStepsDeserialize(
           : { code: p.last_error["code"], message: p.last_error["message"] },
       createdAt: new Date(p["created_at"]),
       expiredAt: p["expired_at"] === null ? null : new Date(p["expired_at"]),
-      completedAt:
-        p["completed_at"] === null ? null : new Date(p["completed_at"]),
-      cancelledAt:
-        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
       failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
       metadata: p["metadata"],
     })),

@@ -1,13 +1,11 @@
-import {
-  ListResponseOfOutput 
-} from "./outputModels.js";
+import { ListResponseOfOutput } from "./outputModels.js";
 import {
   AssistantOutput,
-  AssistantRunOutput,
+  ThreadRunOutput,
   AssistantFileOutput,
-  AssistantMessageOutput,
-  AssistantMessageFileOutput,
-  RunStepOutput
+  ThreadMessageOutput,
+  ThreadMessageFileOutput,
+  RunStepOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { HttpResponse } from "@azure-rest/core-client";
 
@@ -26,19 +24,19 @@ export interface ListFiles200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListMessages200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantMessageOutput>;
+  body: ListResponseOfOutput<ThreadMessageOutput>;
 }
 
 /** The request has succeeded. */
 export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantMessageFileOutput>;
+  body: ListResponseOfOutput<ThreadMessageFileOutput>;
 }
 
 /** The request has succeeded. */
 export interface ListRuns200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantRunOutput>;
+  body: ListResponseOfOutput<ThreadRunOutput>;
 }
 
 /** The request has succeeded. */
@@ -46,4 +44,3 @@ export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput<RunStepOutput>;
 }
-

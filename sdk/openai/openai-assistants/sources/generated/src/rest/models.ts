@@ -15,7 +15,7 @@ export interface AssistantCreationOptions {
   tools?: Array<ToolDefinition>;
   /** A list of previously uploaded file IDs to attach to the assistant. */
   file_ids?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
@@ -70,24 +70,22 @@ export interface AssistantModificationOptions {
   tools?: Array<ToolDefinition>;
   /** The modified list of previously uploaded fileIDs to attach to the assistant. */
   file_ids?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
-  messages?: Array<AssistantMessage>;
-  /** A set of key/value pairs used to store additional information about the object. */
+  messages?: Array<ThreadMessage>;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
 /** A single message within an assistant thread. */
-export interface AssistantMessage {
+export interface ThreadMessage {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.message'. */
-  object: "thread.message";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The ID of the thread that this message belongs to. */
@@ -99,58 +97,43 @@ export interface AssistantMessage {
    */
   role: string;
   /** The list of content items associated with the assistant thread message. */
-  content: Array<AssistantMessageContent>;
+  content: Array<MessageContent>;
   /** If applicable, the ID of the assistant that authored this message. */
   assistant_id?: string;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   run_id?: string;
-  /** A set of key/value pairs used to store additional information about the object. */
+  /**
+   * A list of file IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can
+   * access files.
+   */
+  file_ids: string[];
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContentParent {
+export interface MessageContentParent {
   type: string;
 }
 
-/** A representation of image file content in a thread message. */
-export interface AssistantMessageImageFileContent
-  extends AssistantMessageContentParent {
-  /** The object type, which is always 'image_file'. */
-  type: "image_file";
-  /** The image file for this thread message content item. */
-  image_file: AssistantImageFile;
-}
-
-/** An image reference, as represented in thread message content. */
-export interface AssistantImageFile {
-  /** The ID for the file associated with this image. */
-  file_id: string;
-}
-
 /** A representation of a textual item of thread message content. */
-export interface AssistantMessageTextContent
-  extends AssistantMessageContentParent {
+export interface MessageTextContent extends MessageContentParent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
-  text: AssistantMessageText;
-  /** A list of attached file IDs, ordered by creation date in ascending order. */
-  file_ids: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecord;
+  text: MessageTextDetails;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
-export interface AssistantMessageText {
+export interface MessageTextDetails {
   /** The text data. */
   value: string;
   /** A list of annotations associated with this text. */
-  annotations: Array<AssistantMessageTextAnnotation>;
+  annotations: Array<MessageTextAnnotation>;
 }
 
 /** An abstract representation of an annotation to text thread message content. */
-export interface AssistantMessageTextAnnotationParent {
+export interface MessageTextAnnotationParent {
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
@@ -161,16 +144,19 @@ export interface AssistantMessageTextAnnotationParent {
 }
 
 /** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
-export interface AssistantMessageTextFileAnnotation
-  extends AssistantMessageTextAnnotationParent {
+export interface MessageFileCitationTextAnnotation
+  extends MessageTextAnnotationParent {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
-  /** The file-based citation associated with this annotation. */
-  file_citation: AssistantMessageTextFileCitation;
+  /**
+   * A citation within the message that points to a specific quote from a specific file.
+   * Generated when the assistant uses the "retrieval" tool to search files.
+   */
+  file_citation: MessageTextFileCitationDetails;
 }
 
 /** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
-export interface AssistantMessageTextFileCitation {
+export interface MessageTextFileCitationDetails {
   /** The ID of the file associated with this citation. */
   file_id: string;
   /** The specific quote cited in the associated file. */
@@ -178,12 +164,38 @@ export interface AssistantMessageTextFileCitation {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface AssistantMessageTextFilePathAnnotation
-  extends AssistantMessageTextAnnotationParent {
+export interface MessageFilePathTextAnnotation
+  extends MessageTextAnnotationParent {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
-  file_path: string;
+  file_path: MessageFilePathDetails;
+}
+
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageFilePathDetails {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
+}
+
+/** A representation of image file content in a thread message. */
+export interface MessageImageFileContent extends MessageContentParent {
+  /** The object type, which is always 'image_file'. */
+  type: "image_file";
+  /** The image file for this thread message content item. */
+  image_file: MessageImageFileDetails;
+}
+
+/** An image reference, as represented in thread message content. */
+export interface MessageImageFileDetails {
+  /** The ID for the file associated with this image. */
+  file_id: MessageImageFileIdDetails;
+}
+
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageImageFileIdDetails {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
@@ -204,9 +216,9 @@ export interface CreateAndRunThreadOptions {
   model?: string;
   /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  /** The overridden list of enabled tools the assistant should use to run the thread. */
   tools?: Array<ToolDefinition>;
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
@@ -216,10 +228,8 @@ export type ToolDefinition =
   | RetrievalToolDefinition
   | FunctionToolDefinition;
 /** An abstract representation of a single item of thread message content. */
-export type AssistantMessageContent =
-  | AssistantMessageImageFileContent
-  | AssistantMessageTextContent;
+export type MessageContent = MessageTextContent | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
-export type AssistantMessageTextAnnotation =
-  | AssistantMessageTextFileAnnotation
-  | AssistantMessageTextFilePathAnnotation;
+export type MessageTextAnnotation =
+  | MessageFileCitationTextAnnotation
+  | MessageFilePathTextAnnotation;

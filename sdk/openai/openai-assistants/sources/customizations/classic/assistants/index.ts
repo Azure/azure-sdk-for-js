@@ -27,9 +27,7 @@ export interface AssistantsOperations {
     body: AssistantCreationOptions,
     options?: AssistantsCreateAssistantOptions
   ) => Promise<Assistant>;
-  listAssistants: (
-    options?: AssistantsListAssistantsOptions
-  ) => Promise<ListResponseOf<Assistant>>;
+  listAssistants: (options?: AssistantsListAssistantsOptions) => Promise<ListResponseOf<Assistant>>;
   retrieveAssistant: (
     assistantId: string,
     options?: AssistantsRetrieveAssistantOptions

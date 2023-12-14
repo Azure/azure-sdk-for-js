@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { AssistantsContext } from "../../api/AssistantsContext.js";
+import { listRunSteps, retrieveRunStep } from "../../api/runSteps/index.js";
 import { ListResponseOf, RunStep } from "../../models/models.js";
-import { retrieveRunStep, listRunSteps } from "../../api/runSteps/index.js";
 import {
-  RunStepsRetrieveRunStepOptions,
   RunStepsListRunStepsOptions,
+  RunStepsRetrieveRunStepOptions,
 } from "../../models/options.js";
 
 export interface RunStepsOperations {
@@ -31,17 +39,12 @@ export function getRunSteps(context: AssistantsContext) {
       stepId: string,
       options?: RunStepsRetrieveRunStepOptions
     ) => retrieveRunStep(context, threadId, runId, stepId, options),
-    listRunSteps: (
-      threadId: string,
-      runId: string,
-      options?: RunStepsListRunStepsOptions
-    ) => listRunSteps(context, threadId, runId, options),
+    listRunSteps: (threadId: string, runId: string, options?: RunStepsListRunStepsOptions) =>
+      listRunSteps(context, threadId, runId, options),
   };
 }
 
-export function getRunStepsOperations(
-  context: AssistantsContext
-): RunStepsOperations {
+export function getRunStepsOperations(context: AssistantsContext): RunStepsOperations {
   return {
     ...getRunSteps(context),
   };

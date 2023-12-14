@@ -1,12 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import { stringToUint8Array } from "@azure/core-util";
 import {
-  FilePurpose,
-  FileListResponse,
-  InputFile,
   FileDeletionStatus,
+  FileListResponse,
+  FilePurpose,
+  InputFile,
 } from "../../models/models.js";
+import {
+  FilesDeleteFileOptions,
+  FilesListFilesOptions,
+  FilesRetrieveFileContentOptions,
+  FilesRetrieveFileOptions,
+  FilesUploadFileOptions,
+} from "../../models/options.js";
 import {
   AssistantsContext as Client,
   DeleteFile200Response,
@@ -15,30 +32,16 @@ import {
   RetrieveFileContent200Response,
   UploadFile200Response,
 } from "../../rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
-import { stringToUint8Array } from "@azure/core-util";
-import {
-  FilesListFilesOptions,
-  FilesUploadFileOptions,
-  FilesDeleteFileOptions,
-  FilesRetrieveFileOptions,
-  FilesRetrieveFileContentOptions,
-} from "../../models/options.js";
 
 export function _listFilesSend(
   context: Client,
   options: FilesListFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListFiles200Response> {
-  return context
-    .path("/files")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: { purpose: options?.purpose },
-    });
+  return context.path("/files").get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: { purpose: options?.purpose },
+  });
 }
 
 export async function _listFilesDeserialize(
@@ -50,17 +53,16 @@ export async function _listFilesDeserialize(
 
   return {
     data: result.body["data"].map((p) => ({
-      object: p["object"],
       id: p["id"],
+      createdAt: new Date(p["created_at"]),
       bytes: p["bytes"],
       filename: p["filename"],
-      createdAt: new Date(p["created_at"]),
       purpose: p["purpose"],
     })),
   };
 }
 
-/** Returns a list of files that belong to the user's organization. */
+/** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
   options: FilesListFilesOptions = { requestOptions: {} }
@@ -75,43 +77,15 @@ export function _uploadFileSend(
   purpose: FilePurpose,
   options: FilesUploadFileOptions = { requestOptions: {} }
 ): StreamableMethod<UploadFile200Response> {
-  return context
-    .path("/files")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
-      body: {
-        file: createFile(file, options?.filename || "unknown.txt"),
-        purpose: purpose,
-      },
-    });
-}
-
-export async function _uploadFileDeserialize(
-  result: UploadFile200Response
-): Promise<InputFile> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    bytes: result.body["bytes"],
-    filename: result.body["filename"],
-    createdAt: new Date(result.body["created_at"]),
-    purpose: result.body["purpose"],
-  };
-}
-
-/** Upload a file that can be used across various endpoints. */
-export async function uploadFile(
-  context: Client,
-  file: Uint8Array,
-  purpose: FilePurpose,
-  options: FilesUploadFileOptions = { requestOptions: {} }
-): Promise<InputFile> {
-  const result = await _uploadFileSend(context, file, purpose, options);
-  return _uploadFileDeserialize(result);
+  return context.path("/files").post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: (options.contentType as any) ?? "multipart/form-data",
+    body: {
+      file: createFile(file, options?.filename || "unknown.txt"),
+      purpose: purpose,
+      filename: options?.filename,
+    },
+  });
 }
 
 export function _deleteFileSend(
@@ -157,9 +131,7 @@ export function _retrieveFileSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveFileDeserialize(
-  result: RetrieveFile200Response
-): Promise<InputFile> {
+export async function _retrieveFileDeserialize(result: RetrieveFile200Response): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -200,9 +172,7 @@ export async function _retrieveFileContentDeserialize(
     throw result.body;
   }
 
-  return typeof result.body === "string"
-    ? stringToUint8Array(result.body, "base64")
-    : result.body;
+  return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
 }
 
 /** Returns the contents of a specified file. */
@@ -213,4 +183,29 @@ export async function retrieveFileContent(
 ): Promise<Uint8Array> {
   const result = await _retrieveFileContentSend(context, fileId, options);
   return _retrieveFileContentDeserialize(result);
+}
+
+export async function _uploadFileDeserialize(result: UploadFile200Response): Promise<InputFile> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Upload a file that can be used across various endpoints. */
+export async function uploadFile(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  options: FilesUploadFileOptions = { requestOptions: {} }
+): Promise<InputFile> {
+  const result = await _uploadFileSend(context, file, purpose, options);
+  return _uploadFileDeserialize(result);
 }

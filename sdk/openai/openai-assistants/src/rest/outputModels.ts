@@ -1,29 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
 /** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionOutput {
+export interface ToolDefinitionOutputParent {
   type: string;
+  /** The definition of the concrete function that the function tool should call. */
   function?: FunctionDefinitionOutput;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinitionOutput
-  extends ToolDefinitionOutput {
+export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinitionOutput
-  extends ToolDefinitionOutput {
+export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinitionOutput
-  extends ToolDefinitionOutput {
+export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -46,8 +51,6 @@ export interface TypeSpecRecordOutput extends Record<string, string> {}
 export interface AssistantOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always assistant. */
-  object: "assistant";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The name of the assistant. */
@@ -57,62 +60,50 @@ export interface AssistantOutput {
   /** The ID of the model to use. */
   model: string;
   /** The system instructions for the assistant to use. */
-  instructions: string;
+  instructions: string | null;
   /** The collection of tools enabled for the assistant. */
   tools: Array<ToolDefinitionOutput>;
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   file_ids: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecordOutput;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOfOutput<T> {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: T[];
-  /** The first ID represented in this list. */
-  first_id: string;
-  /** The last ID represented in this list. */
-  last_id: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  has_more: boolean;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: TypeSpecRecordOutput;
 }
 
 /** The status of an assistant deletion operation. */
-export interface AssistantDeletionStatusOutput {
-  /** The object type, which is always 'assistant.deleted'. */
-  object: "assistant.deleted";
+export interface AssistantDeletionStatusOutput extends DeletionStatusOutput {}
+
+/** An abstract representation of an OpenAI deletion operation result status. */
+export interface DeletionStatusOutput {
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
+}
+
+/** The status of an assistant file deletion operation. */
+export interface AssistantFileDeletionStatusOutput extends DeletionStatusOutput {}
+
+/** The status of a thread deletion operation. */
+export interface ThreadDeletionStatusOutput extends DeletionStatusOutput {}
+
+/** A status response from a file deletion operation. */
+export interface FileDeletionStatusOutput extends DeletionStatusOutput {
+  /** The ID of the deleted file. */
+  id: string;
 }
 
 /** Information about a file attached to an assistant, as used by tools that can read files. */
 export interface AssistantFileOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'assistant.file'. */
-  object: "assistant.file";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The assistant ID that the file is attached to. */
   assistant_id: string;
 }
 
-export interface AssistantFileDeletionStatusOutput {
-  /** The object type, which is always 'assistant.file.deleted'. */
-  object: "assistant.file.deleted";
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
-}
-
 /** A single message within an assistant thread. */
-export interface AssistantMessageOutput {
+export interface ThreadMessageOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.message'. */
-  object: "thread.message";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The ID of the thread that this message belongs to. */
@@ -124,66 +115,47 @@ export interface AssistantMessageOutput {
    */
   role: string;
   /** The list of content items associated with the assistant thread message. */
-  content: Array<AssistantMessageContentOutput>;
+  content: Array<MessageContentOutput>;
   /** If applicable, the ID of the assistant that authored this message. */
   assistant_id?: string;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   run_id?: string;
-  /** A set of key/value pairs used to store additional information about the object. */
+  /**
+   * A list of file IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can
+   * access files.
+   */
+  file_ids: string[];
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecordOutput;
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContentOutput {
+export interface MessageContentOutputParent {
   type: string;
-/** The image file for this thread message content item. */
-  image_file?: AssistantImageFileOutput;
   /** The text and associated annotations for this thread message content item. */
-  text?: AssistantMessageTextOutput;
-  /** A list of attached file IDs, ordered by creation date in ascending order. */
-  file_ids?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata?: Record<string, string>;
-}
-
-/** A representation of image file content in a thread message. */
-export interface AssistantMessageImageFileContentOutput
-  extends AssistantMessageContentOutput {
-  /** The object type, which is always 'image_file'. */
-  type: "image_file";
+  text?: MessageTextDetailsOutput;
   /** The image file for this thread message content item. */
-  image_file: AssistantImageFileOutput;
-}
-
-/** An image reference, as represented in thread message content. */
-export interface AssistantImageFileOutput {
-  /** The ID for the file associated with this image. */
-  file_id: string;
+  image_file?: MessageImageFileDetailsOutput;
 }
 
 /** A representation of a textual item of thread message content. */
-export interface AssistantMessageTextContentOutput
-  extends AssistantMessageContentOutput {
+export interface MessageTextContentOutput extends MessageContentOutputParent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
-  text: AssistantMessageTextOutput;
-  /** A list of attached file IDs, ordered by creation date in ascending order. */
-  file_ids: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecordOutput;
+  text: MessageTextDetailsOutput;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
-export interface AssistantMessageTextOutput {
+export interface MessageTextDetailsOutput {
   /** The text data. */
   value: string;
   /** A list of annotations associated with this text. */
-  annotations: Array<AssistantMessageTextAnnotationOutput>;
+  annotations: Array<MessageTextAnnotationOutput>;
 }
 
 /** An abstract representation of an annotation to text thread message content. */
-export interface AssistantMessageTextAnnotationOutput {
+export interface MessageTextAnnotationOutputParent {
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
@@ -194,16 +166,18 @@ export interface AssistantMessageTextAnnotationOutput {
 }
 
 /** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
-export interface AssistantMessageTextFileAnnotationOutput
-  extends AssistantMessageTextAnnotationOutput {
+export interface MessageFileCitationTextAnnotationOutput extends MessageTextAnnotationOutputParent {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
-  /** The file-based citation associated with this annotation. */
-  file_citation: AssistantMessageTextFileCitationOutput;
+  /**
+   * A citation within the message that points to a specific quote from a specific file.
+   * Generated when the assistant uses the "retrieval" tool to search files.
+   */
+  file_citation: MessageTextFileCitationDetailsOutput;
 }
 
 /** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
-export interface AssistantMessageTextFileCitationOutput {
+export interface MessageTextFileCitationDetailsOutput {
   /** The ID of the file associated with this citation. */
   file_id: string;
   /** The specific quote cited in the associated file. */
@@ -211,40 +185,53 @@ export interface AssistantMessageTextFileCitationOutput {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface AssistantMessageTextFilePathAnnotationOutput
-  extends AssistantMessageTextAnnotationOutput {
+export interface MessageFilePathTextAnnotationOutput extends MessageTextAnnotationOutputParent {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
-  file_path: string;
+  file_path: MessageFilePathDetailsOutput;
+}
+
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageFilePathDetailsOutput {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
+}
+
+/** A representation of image file content in a thread message. */
+export interface MessageImageFileContentOutput extends MessageContentOutputParent {
+  /** The object type, which is always 'image_file'. */
+  type: "image_file";
+  /** The image file for this thread message content item. */
+  image_file: MessageImageFileDetailsOutput;
+}
+
+/** An image reference, as represented in thread message content. */
+export interface MessageImageFileDetailsOutput {
+  /** The ID for the file associated with this image. */
+  file_id: MessageImageFileIdDetailsOutput;
+}
+
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageImageFileIdDetailsOutput {
+  /** The ID of the specific file that the citation is from. */
+  file_id: string;
 }
 
 /** Information about a single thread associated with an assistant. */
 export interface AssistantThreadOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread'. */
-  object: "thread";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecordOutput;
-}
-
-/** The status of a thread deletion operation. */
-export interface ThreadDeletionStatusOutput {
-  /** The object type, which is always 'thread.deleted'. */
-  object: "thread.deleted";
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: TypeSpecRecordOutput;
 }
 
 /** Information about a file attached to an assistant thread message. */
-export interface AssistantMessageFileOutput {
+export interface MessageFileOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.message.file'. */
-  object: "thread.message.file";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The ID of the message that this file is attached to. */
@@ -252,11 +239,9 @@ export interface AssistantMessageFileOutput {
 }
 
 /** Data representing a single evaluation run of an assistant thread. */
-export interface AssistantRunOutput {
+export interface ThreadRunOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.run'. */
-  object: "thread.run";
   /** The ID of the thread associated with this run. */
   thread_id: string;
   /** The ID of the assistant associated with the thread this run was performed against. */
@@ -268,19 +253,17 @@ export interface AssistantRunOutput {
    */
   status: string;
   /** The details of the action required for the assistant thread run to continue. */
-  required_action?: RequiredActionOutput;
+  required_action?: RequiredActionOutput | null;
   /** The last error, if any, encountered by this assistant thread run. */
-  last_error?: RunErrorOutput;
+  last_error: RunErrorOutput | null;
   /** The ID of the model to use. */
   model: string;
-  /** The overriden system instructions used for this assistant thread run. */
+  /** The overridden system instructions used for this assistant thread run. */
   instructions: string;
-  /** The overriden enabled tools used for this assistant thread run. */
+  /** The overridden enabled tools used for this assistant thread run. */
   tools: Array<ToolDefinitionOutput>;
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   file_ids: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecordOutput;
   /** The Unix timestamp, in seconds, representing when this object was created. */
   created_at: number;
   /** The Unix timestamp, in seconds, representing when this item expires. */
@@ -293,16 +276,19 @@ export interface AssistantRunOutput {
   cancelled_at: string | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
   failed_at: string | null;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: TypeSpecRecordOutput;
 }
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export interface RequiredActionOutputParent {
   type: string;
+  /** The details describing tools that should be called to submit tool outputs. */
+  submit_tool_outputs?: SubmitToolOutputsDetailsOutput;
 }
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
-export interface SubmitToolOutputsActionOutput
-  extends RequiredActionOutputParent {
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
   /** The object type, which is always 'submit_tool_outputs'. */
   type: "submit_tool_outputs";
   /** The details describing tools that should be called to submit tool outputs. */
@@ -326,21 +312,21 @@ export interface ToolCallOutputParent {
 }
 
 /**
- * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpeter tool, that
+ * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpreter tool, that
  * represents submitted output needed or already fulfilled by the tool for the model to continue.
  */
 export interface CodeInterpreterToolCallOutput extends ToolCallOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
-  code_interpreter: CodeInterpeterCallDetailsOutput;
+  code_interpreter: CodeInterpreterCallDetailsOutput;
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
-export interface CodeInterpeterCallDetailsOutput {
+export interface CodeInterpreterCallDetailsOutput {
   /** The input provided by the model to the code interpreter tool. */
   input: string;
-  /** The outputs produced by the code interpeter tool back to the model in response to the tool call. */
+  /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
   outputs: Array<CodeInterpreterCallOutputOutput>;
 }
 
@@ -350,8 +336,7 @@ export interface CodeInterpreterCallOutputOutputParent {
 }
 
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutputOutput
-  extends CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterLogOutputOutput extends CodeInterpreterCallOutputOutputParent {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -359,8 +344,7 @@ export interface CodeInterpreterLogOutputOutput
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutputOutput
-  extends CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterImageOutputOutput extends CodeInterpreterCallOutputOutputParent {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -417,8 +401,12 @@ export interface RunErrorOutput {
 export interface RunStepOutput {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.run.step'. */
-  object: "thread.run.step";
+  /**
+   * The type of run step, which can be either message_creation or tool_calls.
+   *
+   * Possible values: message_creation, tool_calls
+   */
+  type: string;
   /** The ID of the assistant associated with the run step. */
   assistant_id: string;
   /** The ID of the thread that was run. */
@@ -445,18 +433,21 @@ export interface RunStepOutput {
   cancelled_at: string | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
   failed_at: string | null;
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: TypeSpecRecordOutput;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: TypeSpecRecordOutput;
 }
 
 /** An abstract representation of the details for a run step. */
 export interface RunStepDetailsOutputParent {
   type: string;
+  /** Information about the message creation associated with this run step. */
+  message_creation?: RunStepMessageCreationReferenceOutput;
+  /** A list tool call details for this run step. */
+  tool_calls?: Array<ToolCallOutput>;
 }
 
 /** The detailed information associated with a message creation run step. */
-export interface RunStepMessageCreationDetailsOutput
-  extends RunStepDetailsOutputParent {
+export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
   /** The object type, which is always 'message_creation'. */
   type: "message_creation";
   /** Information about the message creation associated with this run step. */
@@ -470,8 +461,7 @@ export interface RunStepMessageCreationReferenceOutput {
 }
 
 /** The detailed information associated with a run step calling tools. */
-export interface RunStepToolCallDetailsOutput
-  extends RunStepDetailsOutputParent {
+export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
   /** The object type, which is always 'tool_calls'. */
   type: "tool_calls";
   /** A list tool call details for this run step. */
@@ -492,16 +482,12 @@ export interface RunStepErrorOutput {
 
 /** The response data from a file list operation. */
 export interface FileListResponseOutput {
-  /** The object type, which is always 'list'. */
-  object: "list";
   /** The files returned for the request. */
   data: Array<FileOutput>;
 }
 
 /** Represents an assistant that can call the model and use tools. */
 export interface FileOutput {
-  /** The object type, which is always 'file'. */
-  object: "file";
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The size of the file, in bytes. */
@@ -518,16 +504,29 @@ export interface FileOutput {
   purpose: string;
 }
 
-/** A status response from a file deletion operation. */
-export interface FileDeletionStatusOutput {
-  /** The object type, which is always 'file'. */
-  object: "file";
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
-  /** The ID of the deleted file. */
-  id: string;
+/** The response data for a requested list of items. */
+export interface ListResponseOfOutput<T> {
+  /** The requested list of items. */
+  data: T[];
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
+/** An abstract representation of an input tool definition that an assistant can use. */
+export type ToolDefinitionOutput =
+  | CodeInterpreterToolDefinitionOutput
+  | RetrievalToolDefinitionOutput
+  | FunctionToolDefinitionOutput;
+/** An abstract representation of a single item of thread message content. */
+export type MessageContentOutput = MessageTextContentOutput | MessageImageFileContentOutput;
+/** An abstract representation of an annotation to text thread message content. */
+export type MessageTextAnnotationOutput =
+  | MessageFileCitationTextAnnotationOutput
+  | MessageFilePathTextAnnotationOutput;
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export type RequiredActionOutput = SubmitToolOutputsActionOutput;
 /**

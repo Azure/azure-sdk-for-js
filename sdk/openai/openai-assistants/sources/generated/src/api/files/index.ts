@@ -48,9 +48,7 @@ export async function _listFilesDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
-      object: p["object"],
       id: p["id"],
       bytes: p["bytes"],
       filename: p["filename"],
@@ -60,7 +58,7 @@ export async function _listFilesDeserialize(
   };
 }
 
-/** Returns a list of files that belong to the user's organization. */
+/** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
   options: FilesListFilesOptions = { requestOptions: {} }
@@ -96,7 +94,6 @@ export async function _uploadFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],
@@ -105,7 +102,7 @@ export async function _uploadFileDeserialize(
   };
 }
 
-/** Upload a file that can be used across various endpoints. */
+/** Uploads a file for use by other operations. */
 export async function uploadFile(
   context: Client,
   file: Uint8Array,
@@ -134,7 +131,6 @@ export async function _deleteFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
     id: result.body["id"],
   };
@@ -168,7 +164,6 @@ export async function _retrieveFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],

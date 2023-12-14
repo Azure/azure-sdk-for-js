@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  FileListResponse,
-  InputFile,
-} from "../../models/models.js";
-import {
-  FilePurpose,
-  FileDeletionStatus,
-} from "../../../generated/src/models/models.js";
+import { FileListResponse, InputFile } from "../../models/models.js";
+import { FilePurpose, FileDeletionStatus } from "../../../generated/src/models/models.js";
 import {
   FilesListFilesOptions,
   FilesUploadFileOptions,
@@ -24,14 +18,8 @@ export interface FilesOperations {
     purpose: FilePurpose,
     options?: FilesUploadFileOptions
   ) => Promise<InputFile>;
-  deleteFile: (
-    fileId: string,
-    options?: FilesDeleteFileOptions
-  ) => Promise<FileDeletionStatus>;
-  retrieveFile: (
-    fileId: string,
-    options?: FilesRetrieveFileOptions
-  ) => Promise<InputFile>;
+  deleteFile: (fileId: string, options?: FilesDeleteFileOptions) => Promise<FileDeletionStatus>;
+  retrieveFile: (fileId: string, options?: FilesRetrieveFileOptions) => Promise<InputFile>;
   retrieveFileContent: (
     fileId: string,
     options?: FilesRetrieveFileContentOptions

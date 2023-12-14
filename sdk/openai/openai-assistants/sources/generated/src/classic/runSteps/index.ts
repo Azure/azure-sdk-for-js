@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AssistantsContext } from "../../api/AssistantsContext.js";
-import { ListResponseOf, RunStep } from "../../models/models.js";
+import { OpenAIPageableListOf, RunStep } from "../../models/models.js";
 import { retrieveRunStep, listRunSteps } from "../../api/runSteps/index.js";
 import {
   RunStepsRetrieveRunStepOptions,
@@ -20,7 +20,7 @@ export interface RunStepsOperations {
     threadId: string,
     runId: string,
     options?: RunStepsListRunStepsOptions
-  ) => Promise<ListResponseOf>;
+  ) => Promise<OpenAIPageableListOf>;
 }
 
 export function getRunSteps(context: AssistantsContext) {

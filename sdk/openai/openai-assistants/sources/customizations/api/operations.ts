@@ -2,17 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  AssistantMessage,
-  AssistantMessageContent,
+  ThreadMessage,
   InputFile,
   ListResponseOf,
+  MessageContent,
 } from "../models/models.js";
 import {
-  Assistant,
-  AssistantFile,
-  AssistantThreadCreationOptions,
-  AssistantMessageFile,
-  AssistantRun,
+  ThreadRun,
   CreateAndRunThreadOptions,
   RunStep,
   FilePurpose,
@@ -20,10 +16,7 @@ import {
 import {
   AssistantsContext as Client,
   CreateMessage200Response,
-  CreateThread200Response,
   CreateThreadAndRun200Response,
-  ListAssistantFiles200Response,
-  ListAssistants200Response,
   ListMessageFiles200Response,
   ListMessages200Response,
   ListRuns200Response,
@@ -33,152 +26,43 @@ import {
   RetrieveFile200Response,
   UploadFile200Response,
 } from "../../generated/src/rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
 import { _retrieveFileSend } from "../../generated/src/api/files/index.js";
 import {
-  AssistantsListAssistantsOptions,
-  AssistantsListAssistantFilesOptions,
-  AssistantThreadsCreateThreadOptions,
-  AssistantMessagesListMessagesOptions,
-  AssistantMessagesRetrieveMessageOptions,
-  AssistantMessagesModifyMessageOptions,
-  AssistantMessagesListMessageFilesOptions,
-  AssistantRunsListRunsOptions,
-  AssistantRunsCreateThreadAndRunOptions,
+  ThreadMessagesListMessagesOptions,
+  ThreadMessagesRetrieveMessageOptions,
+  ThreadMessagesModifyMessageOptions,
+  ThreadMessagesListMessageFilesOptions,
+  ThreadRunsListRunsOptions,
+  ThreadRunsCreateThreadAndRunOptions,
   RunStepsListRunStepsOptions,
   FilesRetrieveFileOptions,
   FilesUploadFileOptions,
 } from "../../generated/src/models/options.js";
 
-export function _listAssistantsSend(
-  context: Client,
-  options: AssistantsListAssistantsOptions = { requestOptions: {} }
-): StreamableMethod<ListAssistants200Response> {
-  return context
-    .path("/assistants")
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
-}
-
-export async function _listAssistantsDeserialize(
-  result: ListAssistants200Response
-): Promise<ListResponseOf<Assistant>> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    object: result.body["object"],
-    data: (result.body["data"] ?? []).map((p) => ({
-      id: p["id"],
-      object: p["object"],
-      createdAt: new Date(p["created_at"]),
-      name: p["name"],
-      description: p["description"],
-      model: p["model"],
-      instructions: p["instructions"],
-      tools: (p["tools"] ?? []).map((p) => ({ type: p["type"] })),
-      fileIds: p["file_ids"],
-      metadata: p["metadata"],
-    })),
-    firstId: result.body["first_id"],
-    lastId: result.body["last_id"],
-    hasMore: result.body["has_more"],
-  };
-}
-
-/** Returns a list of assistants. */
-export async function listAssistants(
-  context: Client,
-  options: AssistantsListAssistantsOptions = { requestOptions: {} }
-): Promise<ListResponseOf<Assistant>> {
-  const result = await _listAssistantsSend(context, options);
-  return _listAssistantsDeserialize(result);
-}
-
-export function _listAssistantFilesSend(
-  context: Client,
-  assistantId: string,
-  options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
-): StreamableMethod<ListAssistantFiles200Response> {
-  return context
-    .path("/assistants/{assistantId}/files", assistantId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
-}
-
-export async function _listAssistantFilesDeserialize(
-  result: ListAssistantFiles200Response
-): Promise<ListResponseOf<AssistantFile>> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    object: result.body["object"],
-    data: (result.body["data"] ?? []).map((p) => ({
-      id: p["id"],
-      createdAt: new Date(p["created_at"]),
-      assistantId: p["assistant_id"],
-    })),
-    firstId: result.body["first_id"],
-    lastId: result.body["last_id"],
-    hasMore: result.body["has_more"],
-  };
-}
-
-/** Returns a list of assistant files. */
-export async function listAssistantFiles(
-  context: Client,
-  assistantId: string,
-  options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf<AssistantFile>> {
-  const result = await _listAssistantFilesSend(context, assistantId, options);
-  return _listAssistantFilesDeserialize(result);
-}
-
 export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
+  options: ThreadMessagesListMessagesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessages200Response> {
-  return context
-    .path("/threads/{threadId}/messages", threadId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
+  return context.path("/threads/{threadId}/messages", threadId).get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+  });
 }
 
 /** Returns a list of messages from a thread. */
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
-): Promise<ListResponseOf<AssistantMessage>> {
+  options: ThreadMessagesListMessagesOptions = { requestOptions: {} }
+): Promise<ListResponseOf<ThreadMessage>> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
 }
@@ -187,7 +71,7 @@ export function _retrieveMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
+  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -199,14 +83,9 @@ export async function retrieveMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
-): Promise<AssistantMessage> {
-  const result = await _retrieveMessageSend(
-    context,
-    threadId,
-    messageId,
-    options
-  );
+  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
+  const result = await _retrieveMessageSend(context, threadId, messageId, options);
   return _retrieveMessageDeserialize(result);
 }
 
@@ -214,39 +93,12 @@ export function _modifyMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
+  options: ThreadMessagesModifyMessageOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyMessage200Response> {
-  return context
-    .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: { metadata: options?.metadata },
-    });
-}
-
-export async function _modifyMessageDeserialize(
-  result: ModifyMessage200Response
-): Promise<AssistantMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({
-      type: p["type"],
-      text: p["text"] || undefined, 
-      fileIds: p["file_ids"] || undefined, 
-      metadata: p["metadata"] || undefined, 
-      imageFile: p["image_file"] || undefined
-    } as AssistantMessageContent )),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    metadata: result.body["metadata"],
-  };
+  return context.path("/threads/{threadId}/messages/{messageId}", threadId, messageId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: { metadata: options?.metadata },
+  });
 }
 
 /** Modifies an existing message associated with a thread. */
@@ -254,14 +106,9 @@ export async function modifyMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
-): Promise<AssistantMessage> {
-  const result = await _modifyMessageSend(
-    context,
-    threadId,
-    messageId,
-    options
-  );
+  options: ThreadMessagesModifyMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
+  const result = await _modifyMessageSend(context, threadId, messageId, options);
   return _modifyMessageDeserialize(result);
 }
 
@@ -269,33 +116,29 @@ export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
+  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessageFiles200Response> {
-  return context
-    .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
+  return context.path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId).get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+  });
 }
 
 export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
-): Promise<ListResponseOf<AssistantMessageFile>> {
+): Promise<ListResponseOf<ThreadMessageFile>> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       messageId: p["message_id"],
     })),
@@ -310,53 +153,42 @@ export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf<AssistantMessageFile>> {
-  const result = await _listMessageFilesSend(
-    context,
-    threadId,
-    messageId,
-    options
-  );
+  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
+): Promise<ListResponseOf<ThreadMessageFile>> {
+  const result = await _listMessageFilesSend(context, threadId, messageId, options);
   return _listMessageFilesDeserialize(result);
 }
 
 export function _listRunsSend(
   context: Client,
   threadId: string,
-  options: AssistantRunsListRunsOptions = { requestOptions: {} }
+  options: ThreadRunsListRunsOptions = { requestOptions: {} }
 ): StreamableMethod<ListRuns200Response> {
-  return context
-    .path("/threads/{threadId}/runs", threadId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
+  return context.path("/threads/{threadId}/runs", threadId).get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+  });
 }
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response
-): Promise<ListResponseOf<AssistantRun>> {
+): Promise<ListResponseOf<ThreadRun>> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
-      object: p["object"],
       threadId: p["thread_id"],
       assistantId: p["assistant_id"],
       status: p["status"],
-      requiredAction: !p.required_action
-        ? undefined
-        : { type: p.required_action?.["type"] },
+      requiredAction: !p.required_action ? undefined : { type: p.required_action?.["type"] },
       lastError: !p.last_error
         ? undefined
         : { code: p.last_error?.["code"], message: p.last_error?.["message"] },
@@ -368,10 +200,8 @@ export async function _listRunsDeserialize(
       createdAt: new Date(p["created_at"]),
       expiresAt: p["expires_at"] === null ? null : new Date(p["expires_at"]),
       startedAt: p["started_at"] === null ? null : new Date(p["started_at"]),
-      completedAt:
-        p["completed_at"] === null ? null : new Date(p["completed_at"]),
-      cancelledAt:
-        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
       failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
     })),
     firstId: result.body["first_id"],
@@ -384,8 +214,8 @@ export async function _listRunsDeserialize(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options: AssistantRunsListRunsOptions = { requestOptions: {} }
-): Promise<ListResponseOf<AssistantRun>> {
+  options: ThreadRunsListRunsOptions = { requestOptions: {} }
+): Promise<ListResponseOf<ThreadRun>> {
   const result = await _listRunsSend(context, threadId, options);
   return _listRunsDeserialize(result);
 }
@@ -394,19 +224,17 @@ export function _listRunStepsSend(
   context: Client,
   threadId: string,
   runId: string,
-  options:RunStepsListRunStepsOptions = { requestOptions: {} }
+  options: RunStepsListRunStepsOptions = { requestOptions: {} }
 ): StreamableMethod<ListRunSteps200Response> {
-  return context
-    .path("/threads/{threadId}/runs/{runId}/steps", threadId, runId)
-    .get({
-      ...operationOptionsToRequestParameters(options),
-      queryParameters: {
-        limit: options?.limit,
-        order: options?.order,
-        after: options?.after,
-        before: options?.before,
-      },
-    });
+  return context.path("/threads/{threadId}/runs/{runId}/steps", threadId, runId).get({
+    ...operationOptionsToRequestParameters(options),
+    queryParameters: {
+      limit: options?.limit,
+      order: options?.order,
+      after: options?.after,
+      before: options?.before,
+    },
+  });
 }
 
 export async function _listRunStepsDeserialize(
@@ -417,10 +245,8 @@ export async function _listRunStepsDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
-      object: p["object"],
       assistantId: p["assistant_id"],
       threadId: p["thread_id"],
       runId: p["run_id"],
@@ -432,10 +258,8 @@ export async function _listRunStepsDeserialize(
           : { code: p.last_error["code"], message: p.last_error["message"] },
       createdAt: new Date(p["created_at"]),
       expiredAt: p["expired_at"] === null ? null : new Date(p["expired_at"]),
-      completedAt:
-        p["completed_at"] === null ? null : new Date(p["completed_at"]),
-      cancelledAt:
-        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
       failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
       metadata: p["metadata"],
     })),
@@ -450,68 +274,50 @@ export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
-  options:RunStepsListRunStepsOptions = { requestOptions: {} }
+  options: RunStepsListRunStepsOptions = { requestOptions: {} }
 ): Promise<ListResponseOf<RunStep>> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }
 
-export function _uploadFileSend(
-  context: Client,
-  file: Uint8Array,
-  purpose: FilePurpose,
-  options: FilesUploadFileOptions = { requestOptions: {} }
-): StreamableMethod<UploadFile200Response> {
-  return context
-    .path("/files")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
-      body: {
-        file: createFile(file, options?.filename || "unknown.txt"),
-        purpose: purpose,
-      },
-    });
-}
-
 export function _createThreadAndRunSend(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: AssistantRunsCreateThreadAndRunOptions = { requestOptions: {} }
+  options: ThreadRunsCreateThreadAndRunOptions = { requestOptions: {} }
 ): StreamableMethod<CreateThreadAndRun200Response> {
-  return context
-    .path("/threads/runs")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        assistant_id: body["assistantId"],
-        thread: !body.thread
-          ? undefined
-          : {
-              messages: (body.thread?.["messages"] ?? []).map((p) => ({
-                role: p["role"],
-                content: p["content"],
-              })),
-              metadata: body.thread?.["metadata"],
-            },
-        model: body["model"],
-        instructions: body["instructions"],
-        tools: (body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
-        metadata: body["metadata"],
-      },
-    });
+  return context.path("/threads/runs").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      assistant_id: body["assistantId"],
+      thread: !body.thread
+        ? undefined
+        : {
+            messages: (body.thread?.["messages"] ?? []).map((p) => ({
+              role: p["role"],
+              content: p["content"],
+            })),
+            metadata: body.thread?.["metadata"],
+          },
+      model: body["model"],
+      instructions: body["instructions"],
+      tools: (body["tools"] ?? []).map((p) => ({
+        type: p["type"],
+        function: p["function"] || undefined,
+      })),
+      metadata: body["metadata"],
+    },
+  });
 }
 
 export async function _createThreadAndRunDeserialize(
   result: CreateThreadAndRun200Response
-): Promise<AssistantRun> {
+): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -526,30 +332,20 @@ export async function _createThreadAndRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: (result.body["tools"] ?? []).map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+    tools: (result.body["tools"] ?? []).map((p) => ({
+      type: p["type"],
+      function: p["function"] || undefined,
+    })),
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
-    expiresAt:
-      result.body["expires_at"] === null
-        ? null
-        : new Date(result.body["expires_at"]),
-    startedAt:
-      result.body["started_at"] === null
-        ? null
-        : new Date(result.body["started_at"]),
+    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
+    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
     completedAt:
-      result.body["completed_at"] === null
-        ? null
-        : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
     cancelledAt:
-      result.body["cancelled_at"] === null
-        ? null
-        : new Date(result.body["cancelled_at"]),
-    failedAt:
-      result.body["failed_at"] === null
-        ? null
-        : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
+    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
   };
 }
 
@@ -557,34 +353,13 @@ export async function _createThreadAndRunDeserialize(
 export async function createThreadAndRun(
   context: Client,
   body: CreateAndRunThreadOptions,
-  options: AssistantRunsCreateThreadAndRunOptions = { requestOptions: {} }
-): Promise<AssistantRun> {
+  options: ThreadRunsCreateThreadAndRunOptions = { requestOptions: {} }
+): Promise<ThreadRun> {
   const result = await _createThreadAndRunSend(context, body, options);
   return _createThreadAndRunDeserialize(result);
 }
 
-export function _createThreadSend(
-  context: Client,
-  body: AssistantThreadCreationOptions,
-  options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
-): StreamableMethod<CreateThread200Response> {
-  return context
-    .path("/threads")
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        messages: (body["messages"] ?? []).map((p) => ({
-          role: p["role"],
-          content: p["content"],
-        })),
-        metadata: body["metadata"],
-      },
-    });
-}
-
-export async function _uploadFileDeserialize(
-  result: UploadFile200Response
-): Promise<InputFile> {
+export async function _uploadFileDeserialize(result: UploadFile200Response): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -635,83 +410,3 @@ export async function retrieveFile(
   return _retrieveFileDeserialize(result);
 }
 
-export async function _createMessageDeserialize(
-  result: CreateMessage200Response
-): Promise<AssistantMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({
-      type: p["type"],
-      text: p["text"] || undefined,
-      fileIds: p["file_ids"] || undefined,
-      metadata: p["metadata"] || undefined,
-      imageFile: p["image_file"] || undefined
-    } as AssistantMessageContent )),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    metadata: result.body["metadata"],
-  };
-}
-
-export async function _listMessagesDeserialize(
-  result: ListMessages200Response
-): Promise<ListResponseOf<AssistantMessage>> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    object: result.body["object"],
-    data: (result.body["data"] ?? []).map((p) => ({
-      id: p["id"],
-      createdAt: new Date(p["created_at"]),
-      threadId: p["thread_id"],
-      role: p["role"],
-      content: (p["content"] ?? []).map((p) => ({
-        type: p["type"],
-        text: p["text"] || undefined, 
-        fileIds: p["file_ids"] || undefined, 
-        metadata: p["metadata"] || undefined, 
-        imageFile: p["image_file"] || undefined
-      } as AssistantMessageContent )),
-      assistantId: p["assistant_id"],
-      runId: p["run_id"],
-      metadata: p["metadata"],
-    })),
-    firstId: result.body["first_id"],
-    lastId: result.body["last_id"],
-    hasMore: result.body["has_more"],
-  };
-}
-
-export async function _retrieveMessageDeserialize(
-  result: RetrieveMessage200Response
-): Promise<AssistantMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({
-      type: p["type"],
-      text: p["text"] || undefined, 
-      fileIds: p["file_ids"] || undefined, 
-      metadata: p["metadata"] || undefined, 
-      imageFile: p["image_file"] || undefined
-    } as AssistantMessageContent )),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    metadata: result.body["metadata"],
-  };
-}

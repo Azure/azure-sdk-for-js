@@ -1,199 +1,206 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  ListResponseOfOutput,
-  AssistantOutput,
   AssistantDeletionStatusOutput,
-  AssistantFileOutput,
   AssistantFileDeletionStatusOutput,
+  AssistantFileOutput,
+  AssistantOutput,
   AssistantThreadOutput,
-  ThreadDeletionStatusOutput,
-  AssistantMessageOutput,
-  AssistantMessageFileOutput,
-  AssistantRunOutput,
-  RunStepOutput,
-  FileListResponseOutput,
-  FileOutput,
   FileDeletionStatusOutput,
+  FileOutput,
+  ListResponseOfOutput,
+  MessageFileOutput,
+  RunStepOutput,
+  ThreadDeletionStatusOutput,
+  ThreadMessageOutput,
+  ThreadRunOutput,
 } from "./outputModels.js";
 
-/** The request has succeeded. */
+/** The new assistant instance. */
 export interface CreateAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of assistants. */
 export interface ListAssistants200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput<AssistantOutput>;
 }
 
-/** The request has succeeded. */
+/** The requested assistant instance. */
 export interface RetrieveAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantOutput;
 }
 
-/** The request has succeeded. */
+/** The updated assistant instance. */
 export interface ModifyAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantOutput;
 }
 
-/** The request has succeeded. */
+/** Status information about the requested deletion operation. */
 export interface DeleteAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantDeletionStatusOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the attached file. */
 export interface CreateAssistantFile200Response extends HttpResponse {
   status: "200";
   body: AssistantFileOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of files attached to the specified assistant. */
 export interface ListAssistantFiles200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput<AssistantFileOutput>;
 }
 
-/** The request has succeeded. */
+/** A representation of the attached file. */
 export interface RetrieveAssistantFile200Response extends HttpResponse {
   status: "200";
   body: AssistantFileOutput;
 }
 
-/** The request has succeeded. */
+/** Status information about the requested file association deletion. */
 export interface DeleteAssistantFile200Response extends HttpResponse {
   status: "200";
   body: AssistantFileDeletionStatusOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the newly created thread. */
 export interface CreateThread200Response extends HttpResponse {
   status: "200";
   body: AssistantThreadOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the requested thread. */
 export interface RetrieveThread200Response extends HttpResponse {
   status: "200";
   body: AssistantThreadOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the modified thread. */
 export interface ModifyThread200Response extends HttpResponse {
   status: "200";
   body: AssistantThreadOutput;
 }
 
-/** The request has succeeded. */
+/** Status information about the requested thread deletion operation. */
 export interface DeleteThread200Response extends HttpResponse {
   status: "200";
   body: ThreadDeletionStatusOutput;
 }
 
-/** The request has succeeded. */
+/** A representation of the new message. */
 export interface CreateMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantMessageOutput;
+  body: ThreadMessageOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of messages. */
 export interface ListMessages200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantMessageOutput>;
+  body: ListResponseOfOutput<ThreadMessageOutput>;
 }
 
-/** The request has succeeded. */
+/** A representation of the requested message. */
 export interface RetrieveMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantMessageOutput;
+  body: ThreadMessageOutput;
 }
 
-/** The request has succeeded. */
+/** A representation of the modified message. */
 export interface ModifyMessage200Response extends HttpResponse {
   status: "200";
-  body: AssistantMessageOutput;
+  body: ThreadMessageOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of files associated with the specified message. */
 export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantMessageFileOutput>;
+  body: ListResponseOfOutput<MessageFileOutput>;
 }
 
-/** The request has succeeded. */
+/** The requested file information. */
 export interface RetrieveMessageFile200Response extends HttpResponse {
   status: "200";
-  body: AssistantMessageFileOutput;
+  body: MessageFileOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the new thread run. */
 export interface CreateRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of thread runs. */
 export interface ListRuns200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<AssistantRunOutput>;
+  body: ListResponseOfOutput<ThreadRunOutput>;
 }
 
-/** The request has succeeded. */
+/** The requested information about the specified thread run. */
 export interface RetrieveRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the modified run. */
 export interface ModifyRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** Updated information about the run. */
 export interface SubmitRunToolOutputs200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** Updated information about the cancelled run. */
 export interface CancelRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the newly created thread. */
 export interface CreateThreadAndRun200Response extends HttpResponse {
   status: "200";
-  body: AssistantRunOutput;
+  body: ThreadRunOutput;
 }
 
-/** The request has succeeded. */
+/** Information about the requested run step. */
 export interface RetrieveRunStep200Response extends HttpResponse {
   status: "200";
   body: RunStepOutput;
 }
 
-/** The request has succeeded. */
+/** The requested list of run steps. */
 export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
   body: ListResponseOfOutput<RunStepOutput>;
 }
 
-/** The request has succeeded. */
+/** The requested list of files. */
 export interface ListFiles200Response extends HttpResponse {
   status: "200";
-  body: FileListResponseOutput;
+  body: ListResponseOfOutput<FileOutput>;
 }
 
-/** The request has succeeded. */
+/** A representation of the uploaded file. */
 export interface UploadFile200Response extends HttpResponse {
   status: "200";
   body: FileOutput;

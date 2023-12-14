@@ -4,7 +4,7 @@
 import {
   AssistantCreationOptions,
   Assistant,
-  ListResponseOf,
+  OpenAIPageableListOf,
   AssistantModificationOptions,
   AssistantDeletionStatus,
   AssistantFile,
@@ -70,7 +70,6 @@ export async function _createAssistantDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     name: result.body["name"],
     description: result.body["description"],
@@ -82,7 +81,7 @@ export async function _createAssistantDeserialize(
   };
 }
 
-/** Creates an assistant with a model and instructions. */
+/** Creates a new assistant. */
 export async function createAssistant(
   context: Client,
   body: AssistantCreationOptions,
@@ -111,16 +110,14 @@ export function _listAssistantsSend(
 
 export async function _listAssistantsDeserialize(
   result: ListAssistants200Response
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       name: p["name"],
       description: p["description"],
@@ -136,11 +133,11 @@ export async function _listAssistantsDeserialize(
   };
 }
 
-/** Returns a list of assistants. */
+/** Gets a list of assistants that were previously created. */
 export async function listAssistants(
   context: Client,
   options: AssistantsListAssistantsOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   const result = await _listAssistantsSend(context, options);
   return _listAssistantsDeserialize(result);
 }
@@ -164,7 +161,6 @@ export async function _retrieveAssistantDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     name: result.body["name"],
     description: result.body["description"],
@@ -176,7 +172,7 @@ export async function _retrieveAssistantDeserialize(
   };
 }
 
-/** Retrieves an assistant. */
+/** Retrieves an existing assistant. */
 export async function retrieveAssistant(
   context: Client,
   assistantId: string,
@@ -219,7 +215,6 @@ export async function _modifyAssistantDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     name: result.body["name"],
     description: result.body["description"],
@@ -231,7 +226,7 @@ export async function _modifyAssistantDeserialize(
   };
 }
 
-/** Modifies an assistant. */
+/** Modifies an existing assistant. */
 export async function modifyAssistant(
   context: Client,
   assistantId: string,
@@ -265,7 +260,6 @@ export async function _deleteAssistantDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
@@ -303,13 +297,12 @@ export async function _createAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
 }
 
-/** Attaches a file to an assistant for use by tools that can read files. */
+/** Attaches a previously uploaded file to an assistant for use by tools that can read files. */
 export async function createAssistantFile(
   context: Client,
   assistantId: string,
@@ -345,16 +338,14 @@ export function _listAssistantFilesSend(
 
 export async function _listAssistantFilesDeserialize(
   result: ListAssistantFiles200Response
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       assistantId: p["assistant_id"],
     })),
@@ -364,12 +355,12 @@ export async function _listAssistantFilesDeserialize(
   };
 }
 
-/** Returns a list of assistant files. */
+/** Gets a list of files attached to a specific assistant, as used by tools that can read files. */
 export async function listAssistantFiles(
   context: Client,
   assistantId: string,
   options: AssistantsListAssistantFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   const result = await _listAssistantFilesSend(context, assistantId, options);
   return _listAssistantFilesDeserialize(result);
 }
@@ -394,7 +385,6 @@ export async function _retrieveAssistantFileDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     assistantId: result.body["assistant_id"],
   };
@@ -435,12 +425,14 @@ export async function _deleteAssistantFileDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
 
-/** Deletes an assistant file. */
+/**
+ * Unlinks a previously attached file from an assistant, rendering it unavailable for use by tools that can read
+ * files.
+ */
 export async function deleteAssistantFile(
   context: Client,
   assistantId: string,

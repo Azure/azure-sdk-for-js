@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ListResponseOf, RunStep } from "../../models/models.js";
+import { OpenAIPageableListOf, RunStep } from "../../models/models.js";
 import {
   AssistantsContext as Client,
   ListRunSteps200Response,
@@ -42,7 +42,7 @@ export async function _retrieveRunStepDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
+    type: result.body["type"],
     assistantId: result.body["assistant_id"],
     threadId: result.body["thread_id"],
     runId: result.body["run_id"],
@@ -76,7 +76,7 @@ export async function _retrieveRunStepDeserialize(
   };
 }
 
-/** Retrieves a single run step associated with an assistant thread run. */
+/** Gets a single run step from a thread run. */
 export async function retrieveRunStep(
   context: Client,
   threadId: string,
@@ -115,16 +115,15 @@ export function _listRunStepsSend(
 
 export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
+      type: p["type"],
       assistantId: p["assistant_id"],
       threadId: p["thread_id"],
       runId: p["run_id"],
@@ -149,13 +148,13 @@ export async function _listRunStepsDeserialize(
   };
 }
 
-/** Returns a list of run steps associated an assistant thread run. */
+/** Gets a list of run steps from a thread run. */
 export async function listRunSteps(
   context: Client,
   threadId: string,
   runId: string,
   options: RunStepsListRunStepsOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   const result = await _listRunStepsSend(context, threadId, runId, options);
   return _listRunStepsDeserialize(result);
 }

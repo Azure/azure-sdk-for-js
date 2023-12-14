@@ -1,8 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 import { OperationOptions } from "@azure-rest/core-client";
-import { ToolDefinition, FilePurpose } from "./models.js";
+import { ListSortOrder, ToolDefinition, FilePurpose } from "./models.js";
 
 export interface AssistantsCreateAssistantOptions extends OperationOptions {}
 
@@ -10,7 +18,7 @@ export interface AssistantsListAssistantsOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
@@ -23,117 +31,106 @@ export interface AssistantsModifyAssistantOptions extends OperationOptions {}
 
 export interface AssistantsDeleteAssistantOptions extends OperationOptions {}
 
-export interface AssistantsCreateAssistantFileOptions
-  extends OperationOptions {}
+export interface AssistantsCreateAssistantFileOptions extends OperationOptions {}
 
 export interface AssistantsListAssistantFilesOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
   before?: string;
 }
 
-export interface AssistantsRetrieveAssistantFileOptions
-  extends OperationOptions {}
+export interface AssistantsRetrieveAssistantFileOptions extends OperationOptions {}
 
-export interface AssistantsDeleteAssistantFileOptions
-  extends OperationOptions {}
+export interface AssistantsDeleteAssistantFileOptions extends OperationOptions {}
 
 export interface AssistantThreadsCreateThreadOptions extends OperationOptions {}
 
-export interface AssistantThreadsRetrieveThreadOptions
-  extends OperationOptions {}
+export interface AssistantThreadsRetrieveThreadOptions extends OperationOptions {}
 
 export interface AssistantThreadsModifyThreadOptions extends OperationOptions {
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
 export interface AssistantThreadsDeleteThreadOptions extends OperationOptions {}
 
-export interface AssistantMessagesCreateMessageOptions
-  extends OperationOptions {
-  /** A list of File IDs that the message should use. There can be a maximum of 10 files attached to a message. Useful for tools like retrieval and code_interpreter that can access and use files. */
+export interface ThreadMessagesCreateMessageOptions extends OperationOptions {
+  /** A list of up to 10 file IDs to associate with the message, as used by tools like 'code_interpreter' or 'retrieval' that can read files. */
   fileIds?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface AssistantMessagesListMessagesOptions extends OperationOptions {
+export interface ThreadMessagesListMessagesOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
   before?: string;
 }
 
-export interface AssistantMessagesRetrieveMessageOptions
-  extends OperationOptions {}
+export interface ThreadMessagesRetrieveMessageOptions extends OperationOptions {}
 
-export interface AssistantMessagesModifyMessageOptions
-  extends OperationOptions {
-  /** A set of key/value pairs used to store additional information about the object. */
+export interface ThreadMessagesModifyMessageOptions extends OperationOptions {
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface AssistantMessagesListMessageFilesOptions
-  extends OperationOptions {
+export interface ThreadMessagesListMessageFilesOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
   before?: string;
 }
 
-export interface AssistantMessagesRetrieveMessageFileOptions
-  extends OperationOptions {}
+export interface ThreadMessagesRetrieveMessageFileOptions extends OperationOptions {}
 
-export interface AssistantRunsCreateRunOptions extends OperationOptions {
-  /** The overridden model that the assistant should use to run the thread. */
+export interface ThreadRunsCreateRunOptions extends OperationOptions {
+  /** The overriden model name that the assistant should use to run the thread. */
   model?: string;
-  /** The overridden system instructions the assistant should use to run the thread. */
+  /** The overridden system instructions that the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  /** The overridden list of enabled tools that the assistant should use to run the thread. */
   tools?: ToolDefinition[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface AssistantRunsListRunsOptions extends OperationOptions {
+export interface ThreadRunsListRunsOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
   before?: string;
 }
 
-export interface AssistantRunsRetrieveRunOptions extends OperationOptions {}
+export interface ThreadRunsRetrieveRunOptions extends OperationOptions {}
 
-export interface AssistantRunsModifyRunOptions extends OperationOptions {
-  /** A set of key/value pairs used to store additional information about the object. */
+export interface ThreadRunsModifyRunOptions extends OperationOptions {
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-export interface AssistantRunsSubmitRunToolOutputsOptions
-  extends OperationOptions {}
+export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions {}
 
-export interface AssistantRunsCancelRunOptions extends OperationOptions {}
+export interface ThreadRunsCancelRunOptions extends OperationOptions {}
 
-export interface AssistantRunsCreateThreadAndRunOptions
-  extends OperationOptions {}
+export interface ThreadRunsCreateThreadAndRunOptions extends OperationOptions {}
 
 export interface RunStepsRetrieveRunStepOptions extends OperationOptions {}
 
@@ -141,7 +138,7 @@ export interface RunStepsListRunStepsOptions extends OperationOptions {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
-  order?: string;
+  order?: ListSortOrder;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
@@ -149,14 +146,14 @@ export interface RunStepsListRunStepsOptions extends OperationOptions {
 }
 
 export interface FilesListFilesOptions extends OperationOptions {
-  /** Limits files in the response to those with the specified purpose. */
+  /** A value that, when provided, limits list results to files matching the corresponding purpose. */
   purpose?: FilePurpose;
 }
 
 export interface FilesUploadFileOptions extends OperationOptions {
-  /** The content-type header for this multipart request. */
+  /** The 'content-type' header value, always 'multipart/format-data' for this operation. */
   contentType?: string;
-  /** The filename to associate with the uploaded data. */
+  /** A filename to associate with the uploaded data. */
   filename?: string;
 }
 

@@ -24,7 +24,6 @@ const recorderStartOptions: RecorderStartOptions = {
   envSetupForPlayback,
 };
 
-
 export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
 
 export function createClient(

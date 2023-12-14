@@ -12,13 +12,13 @@ import {
   AssistantThreadsOperations,
 } from "./classic/assistantThreads/index.js";
 import {
-  getAssistantMessagesOperations,
-  AssistantMessagesOperations,
-} from "./classic/assistantMessages/index.js";
+  getThreadMessagesOperations,
+  ThreadMessagesOperations,
+} from "./classic/threadMessages/index.js";
 import {
-  getAssistantRunsOperations,
-  AssistantRunsOperations,
-} from "./classic/assistantRuns/index.js";
+  getThreadRunsOperations,
+  ThreadRunsOperations,
+} from "./classic/threadRuns/index.js";
 import {
   getRunStepsOperations,
   RunStepsOperations,
@@ -47,8 +47,8 @@ export class AssistantsClient {
     this.pipeline = this._client.pipeline;
     this.assistants = getAssistantsOperations(this._client);
     this.assistantThreads = getAssistantThreadsOperations(this._client);
-    this.assistantMessages = getAssistantMessagesOperations(this._client);
-    this.assistantRuns = getAssistantRunsOperations(this._client);
+    this.threadMessages = getThreadMessagesOperations(this._client);
+    this.threadRuns = getThreadRunsOperations(this._client);
     this.runSteps = getRunStepsOperations(this._client);
     this.files = getFilesOperations(this._client);
   }
@@ -57,10 +57,10 @@ export class AssistantsClient {
   public readonly assistants: AssistantsOperations;
   /** The operation groups for AssistantThreads */
   public readonly assistantThreads: AssistantThreadsOperations;
-  /** The operation groups for AssistantMessages */
-  public readonly assistantMessages: AssistantMessagesOperations;
-  /** The operation groups for AssistantRuns */
-  public readonly assistantRuns: AssistantRunsOperations;
+  /** The operation groups for ThreadMessages */
+  public readonly threadMessages: ThreadMessagesOperations;
+  /** The operation groups for ThreadRuns */
+  public readonly threadRuns: ThreadRunsOperations;
   /** The operation groups for RunSteps */
   public readonly runSteps: RunStepsOperations;
   /** The operation groups for Files */

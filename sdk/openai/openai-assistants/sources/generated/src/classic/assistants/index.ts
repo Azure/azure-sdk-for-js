@@ -5,7 +5,7 @@ import { AssistantsContext } from "../../api/AssistantsContext.js";
 import {
   AssistantCreationOptions,
   Assistant,
-  ListResponseOf,
+  OpenAIPageableListOf,
   AssistantModificationOptions,
   AssistantDeletionStatus,
   AssistantFile,
@@ -41,7 +41,7 @@ export interface AssistantsOperations {
   ) => Promise<Assistant>;
   listAssistants: (
     options?: AssistantsListAssistantsOptions
-  ) => Promise<ListResponseOf>;
+  ) => Promise<OpenAIPageableListOf>;
   retrieveAssistant: (
     assistantId: string,
     options?: AssistantsRetrieveAssistantOptions
@@ -63,7 +63,7 @@ export interface AssistantsOperations {
   listAssistantFiles: (
     assistantId: string,
     options?: AssistantsListAssistantFilesOptions
-  ) => Promise<ListResponseOf>;
+  ) => Promise<OpenAIPageableListOf>;
   retrieveAssistantFile: (
     assistantId: string,
     fileId: string,

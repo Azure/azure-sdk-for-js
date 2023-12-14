@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import {
-  ListResponseOf,
-  AssistantMessage,
-  AssistantRole,
-  AssistantMessageFile,
+  OpenAIPageableListOf,
+  ThreadMessage,
+  MessageRole,
+  MessageFile,
 } from "../../models/models.js";
 import {
   AssistantsContext as Client,
@@ -21,20 +21,20 @@ import {
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
 import {
-  AssistantMessagesCreateMessageOptions,
-  AssistantMessagesListMessagesOptions,
-  AssistantMessagesRetrieveMessageOptions,
-  AssistantMessagesModifyMessageOptions,
-  AssistantMessagesListMessageFilesOptions,
-  AssistantMessagesRetrieveMessageFileOptions,
+  ThreadMessagesCreateMessageOptions,
+  ThreadMessagesListMessagesOptions,
+  ThreadMessagesRetrieveMessageOptions,
+  ThreadMessagesModifyMessageOptions,
+  ThreadMessagesListMessageFilesOptions,
+  ThreadMessagesRetrieveMessageFileOptions,
 } from "../../models/options.js";
 
 export function _createMessageSend(
   context: Client,
   threadId: string,
-  role: AssistantRole,
+  role: MessageRole,
   content: string,
-  options: AssistantMessagesCreateMessageOptions = { requestOptions: {} }
+  options: ThreadMessagesCreateMessageOptions = { requestOptions: {} }
 ): StreamableMethod<CreateMessage200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -51,32 +51,32 @@ export function _createMessageSend(
 
 export async function _createMessageDeserialize(
   result: CreateMessage200Response
-): Promise<AssistantMessage> {
+): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: result.body["content"].map((p) => ({ type: p["type"] })),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
 }
 
-/** Returns a list of messages from a thread. */
+/** Creates a new message on a specified thread. */
 export async function createMessage(
   context: Client,
   threadId: string,
-  role: AssistantRole,
+  role: MessageRole,
   content: string,
-  options: AssistantMessagesCreateMessageOptions = { requestOptions: {} }
-): Promise<AssistantMessage> {
+  options: ThreadMessagesCreateMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
   const result = await _createMessageSend(
     context,
     threadId,
@@ -90,7 +90,7 @@ export async function createMessage(
 export function _listMessagesSend(
   context: Client,
   threadId: string,
-  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
+  options: ThreadMessagesListMessagesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessages200Response> {
   return context
     .path("/threads/{threadId}/messages", threadId)
@@ -107,22 +107,21 @@ export function _listMessagesSend(
 
 export async function _listMessagesDeserialize(
   result: ListMessages200Response
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
       content: p["content"].map((p) => ({ type: p["type"] })),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
+      fileIds: p["file_ids"],
       metadata: p["metadata"],
     })),
     firstId: result.body["first_id"],
@@ -131,12 +130,12 @@ export async function _listMessagesDeserialize(
   };
 }
 
-/** Returns a list of messages from a thread. */
+/** Gets a list of messages that exist on a thread. */
 export async function listMessages(
   context: Client,
   threadId: string,
-  options: AssistantMessagesListMessagesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+  options: ThreadMessagesListMessagesOptions = { requestOptions: {} }
+): Promise<OpenAIPageableListOf> {
   const result = await _listMessagesSend(context, threadId, options);
   return _listMessagesDeserialize(result);
 }
@@ -145,7 +144,7 @@ export function _retrieveMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
+  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -154,31 +153,31 @@ export function _retrieveMessageSend(
 
 export async function _retrieveMessageDeserialize(
   result: RetrieveMessage200Response
-): Promise<AssistantMessage> {
+): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: result.body["content"].map((p) => ({ type: p["type"] })),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
 }
 
-/** Retrieves a message associated with a thread. */
+/** Gets an existing message from an existing thread. */
 export async function retrieveMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesRetrieveMessageOptions = { requestOptions: {} }
-): Promise<AssistantMessage> {
+  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
   const result = await _retrieveMessageSend(
     context,
     threadId,
@@ -192,7 +191,7 @@ export function _modifyMessageSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
+  options: ThreadMessagesModifyMessageOptions = { requestOptions: {} }
 ): StreamableMethod<ModifyMessage200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -204,31 +203,31 @@ export function _modifyMessageSend(
 
 export async function _modifyMessageDeserialize(
   result: ModifyMessage200Response
-): Promise<AssistantMessage> {
+): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: result.body["content"].map((p) => ({ type: p["type"] })),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
+    fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
 }
 
-/** Modifies an existing message associated with a thread. */
+/** Modifies an existing message on an existing thread. */
 export async function modifyMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesModifyMessageOptions = { requestOptions: {} }
-): Promise<AssistantMessage> {
+  options: ThreadMessagesModifyMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
   const result = await _modifyMessageSend(
     context,
     threadId,
@@ -242,7 +241,7 @@ export function _listMessageFilesSend(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
+  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListMessageFiles200Response> {
   return context
     .path("/threads/{threadId}/messages/{messageId}/files", threadId, messageId)
@@ -259,16 +258,14 @@ export function _listMessageFilesSend(
 
 export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
-): Promise<ListResponseOf> {
+): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       createdAt: new Date(p["created_at"]),
       messageId: p["message_id"],
     })),
@@ -278,13 +275,13 @@ export async function _listMessageFilesDeserialize(
   };
 }
 
-/** Returns a list of files associated with a message from a thread. */
+/** Gets a list of previously uploaded files associated with a message from a thread. */
 export async function listMessageFiles(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AssistantMessagesListMessageFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf> {
+  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
+): Promise<OpenAIPageableListOf> {
   const result = await _listMessageFilesSend(
     context,
     threadId,
@@ -299,7 +296,7 @@ export function _retrieveMessageFileSend(
   threadId: string,
   messageId: string,
   fileId: string,
-  options: AssistantMessagesRetrieveMessageFileOptions = { requestOptions: {} }
+  options: ThreadMessagesRetrieveMessageFileOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveMessageFile200Response> {
   return context
     .path(
@@ -313,27 +310,26 @@ export function _retrieveMessageFileSend(
 
 export async function _retrieveMessageFileDeserialize(
   result: RetrieveMessageFile200Response
-): Promise<AssistantMessageFile> {
+): Promise<MessageFile> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     messageId: result.body["message_id"],
   };
 }
 
-/** Retrieves a file attached to a message within a thread. */
+/** Gets information about a file attachment to a message within a thread. */
 export async function retrieveMessageFile(
   context: Client,
   threadId: string,
   messageId: string,
   fileId: string,
-  options: AssistantMessagesRetrieveMessageFileOptions = { requestOptions: {} }
-): Promise<AssistantMessageFile> {
+  options: ThreadMessagesRetrieveMessageFileOptions = { requestOptions: {} }
+): Promise<MessageFile> {
   const result = await _retrieveMessageFileSend(
     context,
     threadId,

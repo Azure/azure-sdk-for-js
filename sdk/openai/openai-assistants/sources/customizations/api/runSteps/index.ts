@@ -3,16 +3,12 @@
 
 import { ListResponseOf } from "../../models/models.js";
 import { RunStep } from "../../../generated/src/models/models.js";
-import {
-  _listRunStepsSend,
-} from "../../../generated/src/api/runSteps/index.js";
+import { _listRunStepsSend } from "../../../generated/src/api/runSteps/index.js";
 import {
   AssistantsContext as Client,
   ListRunSteps200Response,
 } from "../../../generated/src/rest/index.js";
-import {
-  RunStepsListRunStepsOptions,
-} from "../../../generated/src/models/options.js";
+import { RunStepsListRunStepsOptions } from "../../../generated/src/models/options.js";
 
 export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response
@@ -22,10 +18,8 @@ export async function _listRunStepsDeserialize(
   }
 
   return {
-    object: result.body["object"],
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      object: p["object"],
       assistantId: p["assistant_id"],
       threadId: p["thread_id"],
       runId: p["run_id"],
@@ -37,10 +31,8 @@ export async function _listRunStepsDeserialize(
           : { code: p.last_error["code"], message: p.last_error["message"] },
       createdAt: new Date(p["created_at"]),
       expiredAt: p["expired_at"] === null ? null : new Date(p["expired_at"]),
-      completedAt:
-        p["completed_at"] === null ? null : new Date(p["completed_at"]),
-      cancelledAt:
-        p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
+      completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
+      cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
       failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
       metadata: p["metadata"],
     })),

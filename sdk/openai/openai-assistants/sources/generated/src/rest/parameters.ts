@@ -22,7 +22,11 @@ export type CreateAssistantParameters = CreateAssistantBodyParam &
 export interface ListAssistantsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -57,7 +61,11 @@ export type CreateAssistantFileParameters = CreateAssistantFileBodyParam &
 export interface ListAssistantFilesQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -103,7 +111,11 @@ export type CreateMessageParameters = CreateMessageBodyParam &
 export interface ListMessagesQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -128,7 +140,11 @@ export type ModifyMessageParameters = ModifyMessageBodyParam &
 export interface ListMessageFilesQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -159,7 +175,11 @@ export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
 export interface ListRunsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -199,7 +219,11 @@ export type RetrieveRunStepParameters = RequestParameters;
 export interface ListRunStepsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
-  /** Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order. */
+  /**
+   * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
+   *
+   * Possible values: asc, desc
+   */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
   after?: string;
@@ -215,7 +239,7 @@ export type ListRunStepsParameters = ListRunStepsQueryParam & RequestParameters;
 
 export interface ListFilesQueryParamProperties {
   /**
-   * Limits files in the response to those with the specified purpose.
+   * A value that, when provided, limits list results to files matching the corresponding purpose.
    *
    * Possible values: fine-tune, fine-tune-results, assistants, assistants_output
    */
@@ -233,7 +257,7 @@ export interface UploadFileBodyParam {
 }
 
 export interface UploadFileMediaTypesParam {
-  /** The content-type header for this multipart request. */
+  /** The 'content-type' header value, always 'multipart/format-data' for this operation. */
   contentType: "multipart/form-data";
 }
 

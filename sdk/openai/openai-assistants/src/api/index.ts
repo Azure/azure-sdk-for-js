@@ -1,43 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
+
 export {
   createAssistants,
   AssistantsClientOptions,
   AssistantsContext,
 } from "./AssistantsContext.js";
-export {
-  createAssistant,
-  listAssistants,
-  retrieveAssistant,
-  modifyAssistant,
-  deleteAssistant,
-  createAssistantFile,
-  listAssistantFiles,
-  retrieveAssistantFile,
-  deleteAssistantFile,
-  createThread,
-  retrieveThread,
-  modifyThread,
-  deleteThread,
-  createMessage,
-  listMessages,
-  retrieveMessage,
-  modifyMessage,
-  listMessageFiles,
-  retrieveMessageFile,
-  createRun,
-  listRuns,
-  retrieveRun,
-  modifyRun,
-  submitRunToolOutputs,
-  cancelRun,
-  createThreadAndRun,
-  retrieveRunStep,
-  listRunSteps,
-  listFiles,
-  uploadFile,
-  deleteFile,
-  retrieveFile,
-  retrieveFileContent,
-} from "./operations.js";

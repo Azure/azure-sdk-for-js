@@ -1,6 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+ *
+ * Any changes you make here may be lost.
+ *
+ * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ */
 /** The request details to use when creating a new assistant. */
 export interface AssistantCreationOptions {
   /** The ID of the model to use. */
@@ -15,7 +22,7 @@ export interface AssistantCreationOptions {
   tools?: ToolDefinition[];
   /** A list of previously uploaded file IDs to attach to the assistant. */
   fileIds?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
@@ -40,8 +47,6 @@ export interface FunctionDefinition {
 export interface Assistant {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always assistant. */
-  object: "assistant";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
   /** The name of the assistant. */
@@ -51,27 +56,13 @@ export interface Assistant {
   /** The ID of the model to use. */
   model: string;
   /** The system instructions for the assistant to use. */
-  instructions: string;
+  instructions: string | null;
   /** The collection of tools enabled for the assistant. */
   tools: ToolDefinition[];
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   fileIds: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: Record<string, string>;
-}
-
-/** The response data for a requested list of items. */
-export interface ListResponseOf<T> {
-  /** The object type, which is always list. */
-  object: "list";
-  /** The requested list of items. */
-  data: T[];
-  /** The first ID represented in this list. */
-  firstId: string;
-  /** The last ID represented in this list. */
-  lastId: string;
-  /** A value indicating whether there are additional values available not captured in this list. */
-  hasMore: boolean;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: Record<string, string>;
 }
 
 /** The request details to use when modifying an existing assistant. */
@@ -88,15 +79,18 @@ export interface AssistantModificationOptions {
   tools?: ToolDefinition[];
   /** The modified list of previously uploaded fileIDs to attach to the assistant. */
   fileIds?: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
-/** The status of an assistant deletion operation. */
-export interface AssistantDeletionStatus {
+/** An abstract representation of an OpenAI deletion operation result status. */
+export interface DeletionStatus {
   /** A value indicating whether deletion was successful. */
   deleted: boolean;
 }
+
+/** The status of an assistant deletion operation. */
+export interface AssistantDeletionStatus extends DeletionStatus {}
 
 /** Information about a file attached to an assistant, as used by tools that can read files. */
 export interface AssistantFile {
@@ -109,17 +103,14 @@ export interface AssistantFile {
 }
 
 /** The status of an assistant file deletion operation. */
-export interface AssistantFileDeletionStatus {
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
-}
+export interface AssistantFileDeletionStatus extends DeletionStatus {}
 
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
   messages?: {
     /** The role associated with the assistant thread message. */
-    role: AssistantRole;
+    role: string;
     /** The list of content items associated with the assistant thread message. */
     content: string;
   }[];
@@ -128,57 +119,48 @@ export interface AssistantThreadCreationOptions {
 }
 
 /** A single message within an assistant thread. */
-export interface AssistantMessage {
+export interface ThreadMessage {
   /** The identifier, which can be referenced in API endpoints. */
   id?: string;
-  /** The object type, which is always 'thread.message'. */
-  object: "thread.message";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt?: Date;
   /** The ID of the thread that this message belongs to. */
   threadId?: string;
   /** The role associated with the assistant thread message. */
-  role: AssistantRole;
+  role: string;
   /** The list of content items associated with the assistant thread message. */
-  content: AssistantMessageContent[];
+  content: MessageContent[];
   /** If applicable, the ID of the assistant that authored this message. */
   assistantId?: string;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   runId?: string;
+  /**
+   * A list of file IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can
+   * access files.
+   */
+  fileIds: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
-/** The possible values for roles attributed to messages in a thread. */
-/** "user", "assistant" */
-export type AssistantRole = string;
-
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContent {
-  /** the discriminator possible values image_file, text */
+export interface MessageContent {
+  /** the discriminator possible values text, image_file */
   type: string;
-  imageFile?: AssistantImageFile;
-  text?: AssistantMessageText;
-  fileIds?: string[];
-  metadata?: Record<string, string>;
-}
-
-/** An image reference, as represented in thread message content. */
-export interface AssistantImageFile {
-  /** The ID for the file associated with this image. */
-  fileId: string;
+  imageFile?: MessageImageFileDetails;
+  text?: MessageTextDetails;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
-export interface AssistantMessageText {
+export interface MessageTextDetails {
   /** The text data. */
   value: string;
   /** A list of annotations associated with this text. */
-  annotations: AssistantMessageTextAnnotation[];
+  annotations: MessageTextAnnotation[];
 }
 
 /** An abstract representation of an annotation to text thread message content. */
-export interface AssistantMessageTextAnnotation {
+export interface MessageTextAnnotation {
   /** the discriminator possible values file_citation, file_path */
   type: string;
   /** The textual content associated with this text annotation item. */
@@ -190,33 +172,40 @@ export interface AssistantMessageTextAnnotation {
 }
 
 /** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
-export interface AssistantMessageTextFileCitation {
+export interface MessageTextFileCitationDetails {
   /** The ID of the file associated with this citation. */
   fileId: string;
   /** The specific quote cited in the associated file. */
   quote: string;
 }
 
+/** An encapsulation of an image file ID, as used by message image content. */
+export interface MessageFilePathDetails {
+  /** The ID of the specific file that the citation is from. */
+  fileId: string;
+}
+
+/** An image reference, as represented in thread message content. */
+export interface MessageImageFileDetails {
+  /** The ID for the file associated with this image. */
+  fileId: string;
+}
+
 /** Information about a single thread associated with an assistant. */
 export interface AssistantThread {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread'. */
-  object: "thread";
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: Record<string, string>;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: Record<string, string>;
 }
 
 /** The status of a thread deletion operation. */
-export interface ThreadDeletionStatus {
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
-}
+export interface ThreadDeletionStatus extends DeletionStatus {}
 
 /** Information about a file attached to an assistant thread message. */
-export interface AssistantMessageFile {
+export interface MessageFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The Unix timestamp, in seconds, representing when this object was created. */
@@ -226,7 +215,7 @@ export interface AssistantMessageFile {
 }
 
 /** Data representing a single evaluation run of an assistant thread. */
-export interface AssistantRun {
+export interface ThreadRun {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The ID of the thread associated with this run. */
@@ -247,8 +236,6 @@ export interface AssistantRun {
   tools: ToolDefinition[];
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   fileIds: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: Record<string, string>;
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
   /** The Unix timestamp, in seconds, representing when this item expires. */
@@ -261,16 +248,15 @@ export interface AssistantRun {
   cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
   failedAt: Date | null;
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata?: Record<string, string>;
 }
-
-/** Possible values for the status of an assistant thread run. */
-/** "queued", "in_progress", "requires_action", "cancelling", "cancelled", "failed", "completed", "expired" */
-export type RunStatus = string;
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export interface RequiredAction {
   /** the discriminator possible values submit_tool_outputs */
   type: string;
+  /** The details describing tools that should be called to submit tool outputs. */
   submitToolOutputs?: SubmitToolOutputsDetails;
 }
 
@@ -292,10 +278,10 @@ export interface ToolCall {
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
-export interface CodeInterpeterCallDetails {
+export interface CodeInterpreterCallDetails {
   /** The input provided by the model to the code interpreter tool. */
   input: string;
-  /** The outputs produced by the code interpeter tool back to the model in response to the tool call. */
+  /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
   outputs: CodeInterpreterCallOutput[];
 }
 
@@ -329,6 +315,14 @@ export interface RunError {
   message: string;
 }
 
+/** The details of an error as encountered by an assistant thread run. */
+export interface RunError {
+  /** The status for the error. */
+  code: string;
+  /** The human-readable text associated with the error. */
+  message: string;
+}
+
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
 export interface ToolOutputSubmission {
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
@@ -347,9 +341,9 @@ export interface CreateAndRunThreadOptions {
   model?: string;
   /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
-  /** The overriden list of enabled tools the assistant should use to run the thread. */
+  /** The overridden list of enabled tools the assistant should use to run the thread. */
   tools?: ToolDefinition[];
-  /** A set of key/value pairs used to store additional information about the object. */
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: Record<string, string>;
 }
 
@@ -357,8 +351,8 @@ export interface CreateAndRunThreadOptions {
 export interface RunStep {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
-  /** The object type, which is always 'thread.run.step'. */
-  object: "thread.run.step";
+  /** The type of run step, which can be either message_creation or tool_calls. */
+  type: RunStepType;
   /** The ID of the assistant associated with the run step. */
   assistantId: string;
   /** The ID of the thread that was run. */
@@ -381,18 +375,14 @@ export interface RunStep {
   cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
   failedAt: Date | null;
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: Record<string, string>;
+  /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
+  metadata?: Record<string, string>;
 }
-
-/** Possible values for the status of a run step. */
-/** "in_progress", "cancelled", "failed", "completed", "expired" */
-export type RunStepStatus = string;
 
 /** An abstract representation of the details for a run step. */
 export interface RunStepDetails {
   /** the discriminator possible values message_creation, tool_calls */
-  type: string;
+  type: RunStepType;
 }
 
 /** The details of a message created as a part of a run step. */
@@ -417,21 +407,53 @@ export interface RunStepError {
   message: string;
 }
 
-/** Possible error code values attributable to a failed run step. */
-/** "server_error", "rate_limit_exceeded" */
-export type RunStepErrorCode = string;
-
-/** The possible values denoting the intended usage of a file. */
-/** "fine-tune", "fine-tune-results", "assistants", "assistants_output" */
-export type FilePurpose = string;
-
 /** The response data from a file list operation. */
 export interface FileListResponse {
   /** The files returned for the request. */
   data: InputFile[];
 }
 
-/** Represents an assistant that can call the model and use tools. */
+/** A status response from a file deletion operation. */
+export interface FileDeletionStatus extends DeletionStatus {
+  /** The ID of the deleted file. */
+  id: string;
+}
+
+/** Information about a file attached to an assistant thread message. */
+export interface ThreadMessageFile {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt: Date;
+  /** The ID of the message that this file is attached to. */
+  messageId: string;
+}
+
+/** An abstract representation of an annotation to text thread message content. */
+export interface ThreadMessageTextAnnotation {
+  /** the discriminator possible values file_citation, file_path */
+  type: string;
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** The first text index associated with this text annotation. */
+  startIndex: number;
+  /** The last text index associated with this text annotation. */
+  endIndex: number;
+}
+
+/** The response data for a requested list of items. */
+export interface ListResponseOf<T> {
+  /** The requested list of items. */
+  data: T[];
+  /** The first ID represented in this list. */
+  firstId: string;
+  /** The last ID represented in this list. */
+  lastId: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  hasMore: boolean;
+}
+
+/** Represents an file */
 export interface InputFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
@@ -445,10 +467,24 @@ export interface InputFile {
   purpose: FilePurpose;
 }
 
-/** A status response from a file deletion operation. */
-export interface FileDeletionStatus {
-  /** A value indicating whether deletion was successful. */
-  deleted: boolean;
-  /** The ID of the deleted file. */
-  id: string;
-}
+/** The possible values for roles attributed to messages in a thread. */
+/** "user", "assistant" */
+export type MessageRole = string;
+/** Possible values for the status of an assistant thread run. */
+/** "queued", "in_progress", "requires_action", "cancelling", "cancelled", "failed", "completed", "expired" */
+export type RunStatus = string;
+/** The possible types of run steps. */
+/** "message_creation", "tool_calls" */
+export type RunStepType = string;
+/** Possible values for the status of a run step. */
+/** "in_progress", "cancelled", "failed", "completed", "expired" */
+export type RunStepStatus = string;
+/** Possible error code values attributable to a failed run step. */
+/** "server_error", "rate_limit_exceeded" */
+export type RunStepErrorCode = string;
+/** The possible values denoting the intended usage of a file. */
+/** "fine-tune", "fine-tune-results", "assistants", "assistants_output" */
+export type FilePurpose = string;
+/** The available sorting options when requesting a list of response objects. */
+/** "asc", "desc" */
+export type ListSortOrder = string;

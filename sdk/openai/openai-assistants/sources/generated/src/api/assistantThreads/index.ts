@@ -38,13 +38,13 @@ export function _createThreadSend(
           ? body["messages"]
           : body["messages"].map((p) => ({
               id: p["id"],
-              object: p["object"],
               created_at: p["createdAt"].getTime(),
               thread_id: p["threadId"],
               role: p["role"],
               content: p["content"].map((p) => ({ type: p["type"] })),
               assistant_id: p["assistantId"],
               run_id: p["runId"],
+              file_ids: p["fileIds"],
               metadata: p["metadata"],
             })),
         metadata: body["metadata"],
@@ -61,13 +61,12 @@ export async function _createThreadDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     metadata: result.body["metadata"],
   };
 }
 
-/** Creates a new thread for an assistant. */
+/** Creates a new thread. Threads contain messages and can be run by assistants. */
 export async function createThread(
   context: Client,
   body: AssistantThreadCreationOptions,
@@ -96,13 +95,12 @@ export async function _retrieveThreadDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     metadata: result.body["metadata"],
   };
 }
 
-/** Retrieves an existing thread for an assistant. */
+/** Gets information about an existing thread. */
 export async function retrieveThread(
   context: Client,
   threadId: string,
@@ -134,13 +132,12 @@ export async function _modifyThreadDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     metadata: result.body["metadata"],
   };
 }
 
-/** Modifies an existing thread for an assistant. */
+/** Modifies an existing thread. */
 export async function modifyThread(
   context: Client,
   threadId: string,
@@ -168,12 +165,11 @@ export async function _deleteThreadDeserialize(
   }
 
   return {
-    object: result.body["object"],
     deleted: result.body["deleted"],
   };
 }
 
-/** Deletes a thread. */
+/** Deletes an existing thread. */
 export async function deleteThread(
   context: Client,
   threadId: string,

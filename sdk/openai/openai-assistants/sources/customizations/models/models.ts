@@ -2,19 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  AssistantImageFile,
-  AssistantMessageText,
-  AssistantRole,
   FilePurpose,
+  FunctionDefinition,
+  MessageTextDetails,
   RequiredAction,
   RunError,
   RunStatus,
-  ToolDefinition
 } from "../../generated/src/models/models.js";
 
-
 /** Data representing a single evaluation run of an assistant thread. */
-export interface AssistantRun {
+export interface ThreadRun {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The ID of the thread associated with this run. */
@@ -35,8 +32,6 @@ export interface AssistantRun {
   tools: ToolDefinition[];
   /** A list of attached file IDs, ordered by creation date in ascending order. */
   fileIds: string[];
-  /** A set of key/value pairs used to store additional information about the object. */
-  metadata: Record<string, string>;
   /** The Unix timestamp, in seconds, representing when this object was created. */
   createdAt: Date;
   /** The Unix timestamp, in seconds, representing when this item expires. */
@@ -49,10 +44,12 @@ export interface AssistantRun {
   cancelledAt: Date | null;
   /** The Unix timestamp, in seconds, representing when this failed. */
   failedAt: Date | null;
+  /** A set of key/value pairs used to store additional information about the object. */
+  metadata?: Record<string, string>;
 }
 
 /** Information about a file attached to an assistant thread message. */
-export interface AssistantMessageFile {
+export interface ThreadMessageFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The Unix timestamp, in seconds, representing when this object was created. */
@@ -62,7 +59,7 @@ export interface AssistantMessageFile {
 }
 
 /** A single message within an assistant thread. */
-export interface AssistantMessage {
+export interface ThreadMessage {
   /** The identifier, which can be referenced in API endpoints. */
   id?: string;
   /** The Unix timestamp, in seconds, representing when this object was created. */
@@ -70,29 +67,37 @@ export interface AssistantMessage {
   /** The ID of the thread that this message belongs to. */
   threadId?: string;
   /** The role associated with the assistant thread message. */
-  role: AssistantRole;
+  role: string;
   /** The list of content items associated with the assistant thread message. */
-  content: AssistantMessageContent[];
+  content: MessageContent[];
   /** If applicable, the ID of the assistant that authored this message. */
   assistantId?: string;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   runId?: string;
+  /** The IDs for the files associated with this message. */
+  fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface AssistantMessageContent {
+export interface MessageContent {
   /** the discriminator possible values image_file, text */
   type: string;
-  imageFile?: AssistantImageFile;
-  text?: AssistantMessageText;
+  imageFile?: MessageImageFileDetails;
+  text?: MessageTextDetails;
   fileIds?: string[];
   metadata?: Record<string, string>;
 }
 
+/** An image reference, as represented in thread message content. */
+export interface MessageImageFileDetails {
+  /** The ID for the file associated with this image. */
+  fileId: string;
+}
+
 /** An abstract representation of an annotation to text thread message content. */
-export interface AssistantMessageTextAnnotation {
+export interface ThreadMessageTextAnnotation {
   /** the discriminator possible values file_citation, file_path */
   type: string;
   /** The textual content associated with this text annotation item. */
@@ -108,7 +113,7 @@ export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
   messages?: {
     /** The role associated with the assistant thread message. */
-    role: AssistantRole;
+    role: string;
     /** The list of content items associated with the assistant thread message. */
     content: string;
   }[];
@@ -118,8 +123,6 @@ export interface AssistantThreadCreationOptions {
 
 /** The response data for a requested list of items. */
 export interface ListResponseOf<T> {
-  /** The object type, which is always list. */
-  object: "list";
   /** The requested list of items. */
   data: T[];
   /** The first ID represented in this list. */
@@ -149,3 +152,13 @@ export interface InputFile {
   /** The intended purpose of a file. */
   purpose: FilePurpose;
 }
+
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinition {
+  /** the discriminator possible values code_interpreter, retrieval, function */
+  type: string;
+  function?: FunctionDefinition;
+}
+
+export interface OpenAIPageableListOf {}
+export interface File {}

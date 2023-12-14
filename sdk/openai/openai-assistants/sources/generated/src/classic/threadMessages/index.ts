@@ -3,10 +3,10 @@
 
 import { AssistantsContext } from "../../api/AssistantsContext.js";
 import {
-  ListResponseOf,
-  AssistantMessage,
-  AssistantRole,
-  AssistantMessageFile,
+  OpenAIPageableListOf,
+  ThreadMessage,
+  MessageRole,
+  MessageFile,
 } from "../../models/models.js";
 import {
   createMessage,
@@ -15,90 +15,90 @@ import {
   modifyMessage,
   listMessageFiles,
   retrieveMessageFile,
-} from "../../api/assistantMessages/index.js";
+} from "../../api/threadMessages/index.js";
 import {
-  AssistantMessagesCreateMessageOptions,
-  AssistantMessagesListMessagesOptions,
-  AssistantMessagesRetrieveMessageOptions,
-  AssistantMessagesModifyMessageOptions,
-  AssistantMessagesListMessageFilesOptions,
-  AssistantMessagesRetrieveMessageFileOptions,
+  ThreadMessagesCreateMessageOptions,
+  ThreadMessagesListMessagesOptions,
+  ThreadMessagesRetrieveMessageOptions,
+  ThreadMessagesModifyMessageOptions,
+  ThreadMessagesListMessageFilesOptions,
+  ThreadMessagesRetrieveMessageFileOptions,
 } from "../../models/options.js";
 
-export interface AssistantMessagesOperations {
+export interface ThreadMessagesOperations {
   createMessage: (
     threadId: string,
-    role: AssistantRole,
+    role: MessageRole,
     content: string,
-    options?: AssistantMessagesCreateMessageOptions
-  ) => Promise<AssistantMessage>;
+    options?: ThreadMessagesCreateMessageOptions
+  ) => Promise<ThreadMessage>;
   listMessages: (
     threadId: string,
-    options?: AssistantMessagesListMessagesOptions
-  ) => Promise<ListResponseOf<AssistantMessage>>;
+    options?: ThreadMessagesListMessagesOptions
+  ) => Promise<OpenAIPageableListOf>;
   retrieveMessage: (
     threadId: string,
     messageId: string,
-    options?: AssistantMessagesRetrieveMessageOptions
-  ) => Promise<AssistantMessage>;
+    options?: ThreadMessagesRetrieveMessageOptions
+  ) => Promise<ThreadMessage>;
   modifyMessage: (
     threadId: string,
     messageId: string,
-    options?: AssistantMessagesModifyMessageOptions
-  ) => Promise<AssistantMessage>;
+    options?: ThreadMessagesModifyMessageOptions
+  ) => Promise<ThreadMessage>;
   listMessageFiles: (
     threadId: string,
     messageId: string,
-    options?: AssistantMessagesListMessageFilesOptions
-  ) => Promise<ListResponseOf<AssistantMessageFile>>;
+    options?: ThreadMessagesListMessageFilesOptions
+  ) => Promise<OpenAIPageableListOf>;
   retrieveMessageFile: (
     threadId: string,
     messageId: string,
     fileId: string,
-    options?: AssistantMessagesRetrieveMessageFileOptions
-  ) => Promise<AssistantMessageFile>;
+    options?: ThreadMessagesRetrieveMessageFileOptions
+  ) => Promise<MessageFile>;
 }
 
-export function getAssistantMessages(context: AssistantsContext) {
+export function getThreadMessages(context: AssistantsContext) {
   return {
     createMessage: (
       threadId: string,
-      role: AssistantRole,
+      role: MessageRole,
       content: string,
-      options?: AssistantMessagesCreateMessageOptions
+      options?: ThreadMessagesCreateMessageOptions
     ) => createMessage(context, threadId, role, content, options),
     listMessages: (
       threadId: string,
-      options?: AssistantMessagesListMessagesOptions
+      options?: ThreadMessagesListMessagesOptions
     ) => listMessages(context, threadId, options),
     retrieveMessage: (
       threadId: string,
       messageId: string,
-      options?: AssistantMessagesRetrieveMessageOptions
+      options?: ThreadMessagesRetrieveMessageOptions
     ) => retrieveMessage(context, threadId, messageId, options),
     modifyMessage: (
       threadId: string,
       messageId: string,
-      options?: AssistantMessagesModifyMessageOptions
+      options?: ThreadMessagesModifyMessageOptions
     ) => modifyMessage(context, threadId, messageId, options),
     listMessageFiles: (
       threadId: string,
       messageId: string,
-      options?: AssistantMessagesListMessageFilesOptions
+      options?: ThreadMessagesListMessageFilesOptions
     ) => listMessageFiles(context, threadId, messageId, options),
     retrieveMessageFile: (
       threadId: string,
       messageId: string,
       fileId: string,
-      options?: AssistantMessagesRetrieveMessageFileOptions
+      options?: ThreadMessagesRetrieveMessageFileOptions
     ) => retrieveMessageFile(context, threadId, messageId, fileId, options),
   };
 }
 
-export function getAssistantMessagesOperations(
+export function getThreadMessagesOperations(
   context: AssistantsContext
-): AssistantMessagesOperations {
+): ThreadMessagesOperations {
   return {
-    ...getAssistantMessages(context),
+    ...getThreadMessages(context),
   };
 }
