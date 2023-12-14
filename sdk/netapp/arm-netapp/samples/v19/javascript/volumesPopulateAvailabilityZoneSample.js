@@ -31,7 +31,7 @@ async function volumesPopulateAvailabilityZones() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   );
   console.log(result);
 }

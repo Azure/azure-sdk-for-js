@@ -31,7 +31,7 @@ async function volumesDeleteReplication() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   );
   console.log(result);
 }

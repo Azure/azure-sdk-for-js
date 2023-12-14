@@ -37,7 +37,7 @@ async function snapshotsSingleFileRestore() {
     poolName,
     volumeName,
     snapshotName,
-    body,
+    body
   );
   console.log(result);
 }

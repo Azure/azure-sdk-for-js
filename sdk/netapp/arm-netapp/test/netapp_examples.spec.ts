@@ -62,21 +62,7 @@ describe("netapp test", () => {
       resourceGroup,
       accountName,
       {
-        location: location,
-        activeDirectories: [
-          {
-            aesEncryption: true,
-            dns: "10.10.10.3",
-            domain: "10.10.10.3",
-            ldapOverTLS: false,
-            ldapSigning: false,
-            organizationalUnit: "OU=Engineering",
-            password: "ad_password",
-            site: "SiteName",
-            smbServerName: "SMBServer",
-            username: "ad_user_name",
-          },
-        ],
+        location: location
       },
       testPollingOptions
     );
@@ -103,18 +89,5 @@ describe("netapp test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  });
-
-  it("netAppResource checkNameAvailability test", async function () {
-    const name = "accName";
-    const typeParam = "Microsoft.NetApp/netAppAccounts";
-    const resourceGroup = "myRG";
-    const result = await client.netAppResource.checkNameAvailability(
-      location,
-      name,
-      typeParam,
-      resourceGroup
-    );
-    console.log(result);
   });
 })

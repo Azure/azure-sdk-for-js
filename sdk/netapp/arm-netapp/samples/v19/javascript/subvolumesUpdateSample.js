@@ -35,7 +35,7 @@ async function subvolumesUpdate() {
     poolName,
     volumeName,
     subvolumeName,
-    body,
+    body
   );
   console.log(result);
 }

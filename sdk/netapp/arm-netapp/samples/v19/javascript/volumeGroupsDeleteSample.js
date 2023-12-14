@@ -29,7 +29,7 @@ async function volumeGroupsDelete() {
   const result = await client.volumeGroups.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    volumeGroupName,
+    volumeGroupName
   );
   console.log(result);
 }

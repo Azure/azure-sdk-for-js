@@ -31,7 +31,7 @@ async function checkQuotaAvailability() {
     location,
     name,
     typeParam,
-    resourceGroup,
+    resourceGroup
   );
   console.log(result);
 }

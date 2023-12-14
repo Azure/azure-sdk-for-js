@@ -29,7 +29,7 @@ async function snapshotPoliciesGet() {
   const result = await client.snapshotPolicies.get(
     resourceGroupName,
     accountName,
-    snapshotPolicyName,
+    snapshotPolicyName
   );
   console.log(result);
 }

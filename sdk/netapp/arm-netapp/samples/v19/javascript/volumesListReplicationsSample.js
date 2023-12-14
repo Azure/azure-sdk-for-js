@@ -32,7 +32,7 @@ async function volumesListReplications() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   )) {
     resArray.push(item);
   }

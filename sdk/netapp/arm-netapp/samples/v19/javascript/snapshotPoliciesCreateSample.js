@@ -48,7 +48,7 @@ async function snapshotPoliciesCreate() {
     resourceGroupName,
     accountName,
     snapshotPolicyName,
-    body,
+    body
   );
   console.log(result);
 }

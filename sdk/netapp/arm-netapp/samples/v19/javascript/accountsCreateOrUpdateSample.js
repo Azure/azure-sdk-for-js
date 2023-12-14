@@ -29,7 +29,7 @@ async function accountsCreateOrUpdate() {
   const result = await client.accounts.beginCreateOrUpdateAndWait(
     resourceGroupName,
     accountName,
-    body,
+    body
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
     activeDirectories: [
       {
         aesEncryption: true,
-        dns: "10.10.10.3",
+        dns: "10.10.10.3, 10.10.10.4",
         domain: "10.10.10.3",
         ldapOverTLS: false,
         ldapSigning: false,
@@ -67,7 +67,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
   const result = await client.accounts.beginCreateOrUpdateAndWait(
     resourceGroupName,
     accountName,
-    body,
+    body
   );
   console.log(result);
 }

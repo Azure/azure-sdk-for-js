@@ -35,7 +35,7 @@ async function volumeQuotaRulesUpdate() {
     poolName,
     volumeName,
     volumeQuotaRuleName,
-    body,
+    body
   );
   console.log(result);
 }

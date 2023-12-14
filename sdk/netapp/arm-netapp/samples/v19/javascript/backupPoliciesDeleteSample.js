@@ -29,7 +29,7 @@ async function backupsDelete() {
   const result = await client.backupPolicies.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    backupPolicyName,
+    backupPolicyName
   );
   console.log(result);
 }

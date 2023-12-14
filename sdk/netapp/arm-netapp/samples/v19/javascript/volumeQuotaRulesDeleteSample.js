@@ -33,7 +33,7 @@ async function volumeQuotaRulesDelete() {
     accountName,
     poolName,
     volumeName,
-    volumeQuotaRuleName,
+    volumeQuotaRuleName
   );
   console.log(result);
 }

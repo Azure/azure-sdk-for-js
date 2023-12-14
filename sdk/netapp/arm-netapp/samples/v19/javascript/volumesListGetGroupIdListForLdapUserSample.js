@@ -33,7 +33,7 @@ async function getGroupIdListForUser() {
     accountName,
     poolName,
     volumeName,
-    body,
+    body
   );
   console.log(result);
 }

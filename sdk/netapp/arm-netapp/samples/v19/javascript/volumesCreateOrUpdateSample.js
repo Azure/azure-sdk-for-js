@@ -40,7 +40,7 @@ async function volumesCreateOrUpdate() {
     accountName,
     poolName,
     volumeName,
-    body,
+    body
   );
   console.log(result);
 }

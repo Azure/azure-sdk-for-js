@@ -34,7 +34,7 @@ async function volumesRelocate() {
     accountName,
     poolName,
     volumeName,
-    options,
+    options
   );
   console.log(result);
 }

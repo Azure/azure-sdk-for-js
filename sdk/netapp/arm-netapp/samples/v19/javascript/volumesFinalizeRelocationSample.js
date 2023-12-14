@@ -31,7 +31,7 @@ async function volumesFinalizeRelocation() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   );
   console.log(result);
 }

@@ -29,7 +29,7 @@ async function snapshotPoliciesListVolumes() {
   const result = await client.snapshotPolicies.listVolumes(
     resourceGroupName,
     accountName,
-    snapshotPolicyName,
+    snapshotPolicyName
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function subvolumesMetadata() {
     accountName,
     poolName,
     volumeName,
-    subvolumeName,
+    subvolumeName
   );
   console.log(result);
 }

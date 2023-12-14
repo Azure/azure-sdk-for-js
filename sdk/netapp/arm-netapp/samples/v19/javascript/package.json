@@ -27,6 +27,6 @@
   "dependencies": {
     "@azure/arm-netapp": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^3.3.0"
+    "@azure/identity": "^2.0.1"
   }
 }

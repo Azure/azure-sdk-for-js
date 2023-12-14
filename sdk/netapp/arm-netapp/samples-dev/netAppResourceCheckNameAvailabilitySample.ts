@@ -26,7 +26,7 @@ async function checkNameAvailability() {
     "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
   const location = "eastus";
   const name = "accName";
-  const typeParam = "Microsoft.NetApp/netAppAccounts";
+  const typeParam = "netAppAccount";
   const resourceGroup = "myRG";
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);

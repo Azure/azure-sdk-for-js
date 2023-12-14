@@ -32,7 +32,7 @@ async function snapshotsList() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   )) {
     resArray.push(item);
   }

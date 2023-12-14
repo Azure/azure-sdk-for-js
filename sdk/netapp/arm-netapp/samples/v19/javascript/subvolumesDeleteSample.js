@@ -33,7 +33,7 @@ async function subvolumesDelete() {
     accountName,
     poolName,
     volumeName,
-    subvolumeName,
+    subvolumeName
   );
   console.log(result);
 }

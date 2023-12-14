@@ -31,7 +31,7 @@ async function volumesReInitializeReplication() {
     resourceGroupName,
     accountName,
     poolName,
-    volumeName,
+    volumeName
   );
   console.log(result);
 }

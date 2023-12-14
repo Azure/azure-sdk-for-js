@@ -35,7 +35,7 @@ async function snapshotsCreate() {
     poolName,
     volumeName,
     snapshotName,
-    body,
+    body
   );
   console.log(result);
 }

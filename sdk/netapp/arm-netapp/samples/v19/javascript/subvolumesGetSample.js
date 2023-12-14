@@ -33,7 +33,7 @@ async function subvolumesGet() {
     accountName,
     poolName,
     volumeName,
-    subvolumeName,
+    subvolumeName
   );
   console.log(result);
 }

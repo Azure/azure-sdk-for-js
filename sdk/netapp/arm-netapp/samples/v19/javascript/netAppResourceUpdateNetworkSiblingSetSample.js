@@ -34,7 +34,7 @@ async function networkFeaturesUpdate() {
     networkSiblingSetId,
     subnetId,
     networkSiblingSetStateId,
-    networkFeatures,
+    networkFeatures
   );
   console.log(result);
 }
