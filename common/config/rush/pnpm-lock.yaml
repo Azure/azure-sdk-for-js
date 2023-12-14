@@ -11095,7 +11095,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-VomtW3LqcHu4HVCPwWwidRCbpOMVplUP3RRpoKOI6HiBIlbf8alvI845+rwRbT5k12I4KW2zEPVaCtlpMoNNDg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-NnrmZ8Qe2Mg7f4khBcjAmH4w9mIteCVOpAbJbjb/WpOCL9MIIYSWCwa7n/WNo2lG78ZOKu22nqy9FBS3r9tXIg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -11139,6 +11139,7 @@ packages:
       - jsdom
       - less
       - lightningcss
+      - playwright
       - safaridriver
       - sass
       - stylus
@@ -19071,7 +19072,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-iF1gx62YwseUPKfONYRdUGhsfDXMmT6Hww80chK4I+R7dFqzcOqzDIiejBBDqZiq9cd9o3oXo7L4mW3GsPICeg==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-2m0graCruHI1+ru/V5B91mNqjyPJhwIzSNHBP9XhYYiJTDMWkDt7aEfqL9TMB7jvubcVg8t8umLe3DpTrgmf0A==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -19097,6 +19098,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
+      playwright: 1.40.1
       prettier: 3.1.1
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
@@ -19116,7 +19118,6 @@ packages:
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus

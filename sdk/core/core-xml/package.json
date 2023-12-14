@@ -53,7 +53,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:browser": "npm run build:test && vitest -c vitest.browser.config.ts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
@@ -91,6 +91,7 @@
     "@vitest/browser": "1.0.4",
     "@vitest/coverage-istanbul": "1.0.4",
     "eslint": "^8.52.0",
+    "playwright": "^1.40.1",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "tshy": "^1.8.1",

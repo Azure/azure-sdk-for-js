@@ -13,7 +13,8 @@ describe("XML serializer", function () {
         assert.fail("Expected error");
       } catch (error: any) {
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
               error.message.indexOf("undefined") !== -1), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`
@@ -28,7 +29,8 @@ describe("XML serializer", function () {
         assert.fail("Expected error");
       } catch (error: any) {
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
               error.message.indexOf("null") !== -1), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "null"`

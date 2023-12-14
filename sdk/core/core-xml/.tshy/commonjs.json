@@ -10,6 +10,6 @@
     "../src/xml-browser.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/commonjs"
+    "outDir": "../.tshy-build/commonjs"
   }
 }
