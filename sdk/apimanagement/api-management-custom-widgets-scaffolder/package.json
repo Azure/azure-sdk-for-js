@@ -87,7 +87,7 @@
     "@azure/test-utils": "^1.0.0",
     "@types/mustache": "^4.2.1",
     "sinon": "^17.0.0",
-    "@types/sinon": "^10.0.0"
+    "@types/sinon": "^17.0.0"
   },
   "dependencies": {
     "mustache": "^4.2.0",
@@ -99,7 +99,7 @@
     "inquirer": "^8.2.4",
     "yargs": "^17.0.1",
     "yargs-parser": "^21.0.1",
-    "rollup": "^3.0.0",
+    "rollup": "^4.0.0",
     "@rollup/plugin-node-resolve": "^15.0.0"
   }
 }

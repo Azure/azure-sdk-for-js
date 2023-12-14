@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of workflow runs.
  *
  * @summary Gets a list of workflow runs.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRuns_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRuns_List.json
  */
 async function listWorkflowRuns() {
   const subscriptionId =

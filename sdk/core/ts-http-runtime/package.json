@@ -90,7 +90,6 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "form-data": "^4.0.0",
     "tslib": "^2.2.0",
     "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.0"
@@ -104,7 +103,7 @@
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
@@ -119,7 +118,6 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.3.0",
-    "mocha-junit-reporter": "^2.0.0",
     "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",

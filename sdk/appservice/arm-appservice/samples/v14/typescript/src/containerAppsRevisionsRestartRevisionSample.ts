@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Restarts a revision for a Container App
  *
  * @summary Restarts a revision for a Container App
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/RestartRevision.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/RestartRevision.json
  */
 async function restartContainerAppRevision() {
   const subscriptionId =

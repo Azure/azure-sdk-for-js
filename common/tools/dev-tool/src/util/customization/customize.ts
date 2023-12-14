@@ -3,7 +3,7 @@
 
 import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
 import { ensureDir, copy } from "fs-extra";
-import * as path from "path";
+import path from "../pathUtil";
 import {
   Project,
   FunctionDeclaration,
@@ -28,7 +28,6 @@ import { format } from "../prettier";
 import { augmentExports } from "./exports";
 
 let outputProject = new Project();
-let _originalFolderName = "generated";
 
 export async function customize(originalDir: string, customDir: string, outDir: string) {
   // Initialize the state
@@ -39,10 +38,6 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   if (!(await directoryExists(customDir))) {
     return;
   }
-
-  _originalFolderName =
-    originalDir.replace(commonPrefix(originalDir, customDir), "").replace(/\\/g, "/") ??
-    _originalFolderName;
 
   // Bring files only present in custom into the output
   await copyFilesInCustom(originalDir, customDir, outDir);
@@ -100,8 +95,8 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
-  return await writeFile(filepath, formattedContent);
+  const formattedContent = await format(content, "typescript");
+  await writeFile(filepath, formattedContent);
 }
 
 export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclarationsMap {
@@ -166,7 +161,7 @@ export async function processFile(customFilePath: string, originalFilePath: stri
 
 export async function processDirectory(customDir: string, originalDir: string): Promise<void> {
   // Note: the originalDir is in reality the output directory but for readability we call it originalDir
-  // since we copied over eveything from the original directory to the output directory avoid
+  // since we copied over everything from the original directory to the output directory avoid
   // overwriting the original files.
   const entries = await readdir(customDir, { withFileTypes: true });
 
@@ -187,19 +182,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -209,68 +204,36 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentImports(
     originalDeclarationsMap.imports,
     customVirtualSourceFile.getImportDeclarations(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
 
-  removeSelfImports(originalVirtualSourceFile);
   sortSourceFileContents(originalVirtualSourceFile);
 
   return originalVirtualSourceFile.getFullText();
-}
-
-function removeSelfImports(originalFile: SourceFile) {
-  const originalPathObject = path.parse(originalFile.getFilePath()); // /.../src/file.ts
-  removeFileExtension(originalPathObject);
-  const originalPath = path.format(originalPathObject); // src/file
-
-  for (const originalImport of originalFile.getImportDeclarations()) {
-    const modulePathObject = path.parse(originalImport.getModuleSpecifierValue()); // ./file.js
-    removeFileExtension(modulePathObject);
-    const modulePath = path.format(modulePathObject); // ./file
-
-    const moduleAbsolutePath = path.resolve(originalPathObject.dir, modulePath); // /.../src/, ./file -> /.../src/file
-
-    if (moduleAbsolutePath === originalPath) {
-      originalImport.remove();
-    }
-  }
-
-  function removeFileExtension(parsedPath: path.ParsedPath): void {
-    if (parsedPath.ext.length) {
-      parsedPath.base = parsedPath.base.slice(0, -parsedPath.ext.length);
-      parsedPath.ext = "";
-    }
-  }
-}
-
-function commonPrefix(a: string, b: string) {
-  let i = 0;
-  while (i < a.length && i < b.length && a[i] === b[i]) i++;
-  return a.slice(0, i);
 }

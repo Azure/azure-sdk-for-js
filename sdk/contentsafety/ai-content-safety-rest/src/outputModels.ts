@@ -3,96 +3,92 @@
 
 import { Paged } from "@azure/core-paging";
 
-/** The analysis request of the text. */
+/** The text analysis request. */
 export interface AnalyzeTextOptionsOutput {
-  /** The text needs to be scanned. We support at most 1000 characters (unicode code points) in text of one request. */
+  /** The text needs to be analyzed. We support a maximum of 10k Unicode characters (Unicode code points) in the text of one request. */
   text: string;
-  /** The categories will be analyzed. If not assigned, a default set of the categories' analysis results will be returned. */
+  /** The categories will be analyzed. If they are not assigned, a default set of analysis results for the categories will be returned. */
   categories?: string[];
   /** The names of blocklists. */
   blocklistNames?: string[];
   /** When set to true, further analyses of harmful content will not be performed in cases where blocklists are hit. When set to false, all analyses of harmful content will be performed, whether or not blocklists are hit. */
-  breakByBlocklists?: boolean;
+  haltOnBlocklistHit?: boolean;
+  /**
+   * This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
+   *
+   * Possible values: FourSeverityLevels, EightSeverityLevels
+   */
+  outputType?: string;
 }
 
-/** The analysis response of the text */
+/** The text analysis response. */
 export interface AnalyzeTextResultOutput {
-  /** The details of blocklist match. */
-  blocklistsMatchResults?: Array<TextBlocklistMatchResultOutput>;
-  /** Analysis result for Hate category. */
-  hateResult?: TextAnalyzeSeverityResultOutput;
-  /** Analysis result for SelfHarm category. */
-  selfHarmResult?: TextAnalyzeSeverityResultOutput;
-  /** Analysis result for Sexual category. */
-  sexualResult?: TextAnalyzeSeverityResultOutput;
-  /** Analysis result for Violence category. */
-  violenceResult?: TextAnalyzeSeverityResultOutput;
+  /** The blocklist match details. */
+  blocklistsMatch?: Array<TextBlocklistMatchOutput>;
+  /** Analysis result for categories. */
+  categoriesAnalysis: Array<TextCategoriesAnalysisOutput>;
 }
 
 /** The result of blocklist match. */
-export interface TextBlocklistMatchResultOutput {
-  /** The name of matched blocklist. */
+export interface TextBlocklistMatchOutput {
+  /** The name of the matched blocklist. */
   blocklistName: string;
-  /** The id of matched item. */
-  blockItemId: string;
-  /** The content of matched item. */
-  blockItemText: string;
-  /** The character offset of matched text in original input. */
-  offset: number;
-  /** The length of matched text in original input. */
-  length: number;
+  /** The ID of the matched item. */
+  blocklistItemId: string;
+  /** The content of the matched item. */
+  blocklistItemText: string;
 }
 
 /** Text analysis result. */
-export interface TextAnalyzeSeverityResultOutput {
+export interface TextCategoriesAnalysisOutput {
   /**
-   * The text category.
+   * The text analysis category.
    *
    * Possible values: Hate, SelfHarm, Sexual, Violence
    */
   category: string;
-  /** The higher the severity of input content, the larger this value is. The values could be: 0,2,4,6. */
-  severity: number;
+  /** The value increases with the severity of the input content. The value of this field is determined by the output type specified in the request. The output type could be ‘FourSeverityLevels’ or ‘EightSeverity Levels’, and the output value can be 0, 2, 4, 6 or 0, 1, 2, 3, 4, 5, 6, or 7. */
+  severity?: number;
 }
 
-/** The analysis request of the image. */
+/** The image analysis request. */
 export interface AnalyzeImageOptionsOutput {
   /** The image needs to be analyzed. */
   image: ImageDataOutput;
-  /** The categories will be analyzed. If not assigned, a default set of the categories' analysis results will be returned. */
+  /** The categories will be analyzed. If they are not assigned, a default set of analysis results for the categories will be returned. */
   categories?: string[];
+  /**
+   * This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
+   *
+   * Possible values: FourSeverityLevels
+   */
+  outputType?: string;
 }
 
-/** The content or blob url of image, could be base64 encoding bytes or blob url. If both are given, the request will be refused. The maximum size of image is 2048 pixels * 2048 pixels, no larger than 4MB at the same time. The minimum size of image is 50 pixels * 50 pixels. */
+/** The image can be either base64 encoded bytes or a blob URL. You can choose only one of these options. If both are provided, the request will be refused. The maximum image size is 2048 x 2048 pixels and should not exceed 4 MB, while the minimum image size is 50 x 50 pixels. */
 export interface ImageDataOutput {
-  /** Base64 encoding of image. */
+  /** The Base64 encoding of the image. */
   content?: string;
-  /** The blob url of image. */
+  /** The blob url of the image. */
   blobUrl?: string;
 }
 
-/** The analysis response of the image. */
+/** The image analysis response. */
 export interface AnalyzeImageResultOutput {
-  /** Analysis result for Hate category. */
-  hateResult?: ImageAnalyzeSeverityResultOutput;
-  /** Analysis result for SelfHarm category. */
-  selfHarmResult?: ImageAnalyzeSeverityResultOutput;
-  /** Analysis result for Sexual category. */
-  sexualResult?: ImageAnalyzeSeverityResultOutput;
-  /** Analysis result for Violence category. */
-  violenceResult?: ImageAnalyzeSeverityResultOutput;
+  /** Analysis result for categories. */
+  categoriesAnalysis: Array<ImageCategoriesAnalysisOutput>;
 }
 
 /** Image analysis result. */
-export interface ImageAnalyzeSeverityResultOutput {
+export interface ImageCategoriesAnalysisOutput {
   /**
-   * The image category.
+   * The image analysis category.
    *
    * Possible values: Hate, SelfHarm, Sexual, Violence
    */
   category: string;
-  /** The higher the severity of input content, the larger this value, currently its value could be: 0,2,4,6. */
-  severity: number;
+  /** The value increases with the severity of the input content. The value of this field is determined by the output type specified in the request. The output type could be ‘FourSeverityLevels’, and the output value can be 0, 2, 4, 6. */
+  severity?: number;
 }
 
 /** Text Blocklist. */
@@ -103,23 +99,23 @@ export interface TextBlocklistOutput {
   description?: string;
 }
 
-/** The response of adding blockItems to text blocklist. */
-export interface AddBlockItemsResultOutput {
-  /** Array of blockItems added. */
-  value?: Array<TextBlockItemOutput>;
-}
-
-/** Item in TextBlocklist. */
-export interface TextBlockItemOutput {
-  /** Block Item Id. It will be uuid. */
-  blockItemId: string;
-  /** Block item description. */
+/** Item in a TextBlocklist. */
+export interface TextBlocklistItemOutput {
+  /** The service will generate a BlocklistItemId, which will be a UUID. */
+  readonly blocklistItemId: string;
+  /** BlocklistItem description. */
   description?: string;
-  /** Block item content. */
+  /** BlocklistItem content. */
   text: string;
 }
 
+/** The response of adding blocklistItems to the text blocklist. */
+export interface AddOrUpdateTextBlocklistItemsResultOutput {
+  /** Array of blocklistItems have been added. */
+  blocklistItems: Array<TextBlocklistItemOutput>;
+}
+
 /** Paged collection of TextBlocklist items */
-export type TextBlocklistListOutput = Paged<TextBlocklistOutput>;
-/** Paged collection of TextBlockItem items */
-export type TextBlockItemListOutput = Paged<TextBlockItemOutput>;
+export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
+/** Paged collection of TextBlocklistItem items */
+export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
