@@ -73,7 +73,10 @@ describe("sendRequest", () => {
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.formData?.fileName, "foo.txt");
         assert.instanceOf(request.formData?.file, Blob);
-        assert.deepEqual(new Uint8Array(await (request.formData?.file as Blob).arrayBuffer()), stringToUint8Array("foo", "utf-8"));
+        assert.deepEqual(
+          new Uint8Array(await (request.formData?.file as Blob).arrayBuffer()),
+          stringToUint8Array("foo", "utf-8")
+        );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
