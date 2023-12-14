@@ -87,6 +87,24 @@ describe("ContainerService test", () => {
     assert.equal(res.name, resourceName);
   });
 
+  it("managedClusters create test", async function () {
+    const res = await client.agentPools.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      resourceName,
+      "aksagent1",
+      {
+        count: 3,
+        mode: "User",
+        orchestratorVersion: "",
+        osDiskSizeGB: 64,
+        osType: "Linux",
+        vmSize: "Standard_DS2_v2",
+        workloadRuntime: "OCIContainer"
+      }
+    );
+    assert.equal(res.name, "aksagent1");
+  });
+
   it("managedClusters get test", async function () {
     const res = await client.managedClusters.get(resourceGroupName, resourceName);
     assert.equal(res.name, resourceName);
@@ -103,6 +121,17 @@ describe("ContainerService test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
+  });
+
+  it("agentPools list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.agentPools.list(
+      resourceGroupName,
+      resourceName
+    )) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 2);
   });
 
   it("managedClusters update test", async function () {
