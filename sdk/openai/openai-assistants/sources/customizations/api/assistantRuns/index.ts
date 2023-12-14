@@ -76,7 +76,6 @@ export async function _createRunDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
@@ -84,7 +83,9 @@ export async function _createRunDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          }
         },
     lastError: !result.body.last_error
       ? undefined
@@ -138,7 +139,9 @@ export async function _retrieveRunDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          }
         },
     lastError: !result.body.last_error
       ? undefined
@@ -192,7 +195,9 @@ export async function _submitRunToolOutputsDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: result.body.required_action?.["submit_tool_outputs"]
+          submitToolOutputs: {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          }
         },
     lastError: !result.body.last_error
       ? undefined

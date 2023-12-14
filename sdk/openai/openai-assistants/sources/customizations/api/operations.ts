@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  AssistantMessage,
+  AssistantMessageContent,
   InputFile,
   ListResponseOf,
 } from "../models/models.js";
@@ -9,7 +11,6 @@ import {
   Assistant,
   AssistantFile,
   AssistantThreadCreationOptions,
-  AssistantMessage,
   AssistantMessageFile,
   AssistantRun,
   CreateAndRunThreadOptions,
@@ -172,38 +173,6 @@ export function _listMessagesSend(
     });
 }
 
-export async function _listMessagesDeserialize(
-  result: ListMessages200Response
-): Promise<ListResponseOf<AssistantMessage>> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    object: result.body["object"],
-    data: (result.body["data"] ?? []).map((p) => ({
-      id: p["id"],
-      object: p["object"],
-      createdAt: new Date(p["created_at"]),
-      threadId: p["thread_id"],
-      role: p["role"],
-      content: (p["content"] ?? []).map((p) => ({
-        type: p["type"],
-        text: p["text"] || undefined, 
-        file_ids: p["file_ids"] || undefined, 
-        metadata: p["metadata"] || undefined, 
-        image_file: p["image_file"] || undefined
-      })),
-      assistantId: p["assistant_id"],
-      runId: p["run_id"],
-      metadata: p["metadata"],
-    })),
-    firstId: result.body["first_id"],
-    lastId: result.body["last_id"],
-    hasMore: result.body["has_more"],
-  };
-}
-
 /** Returns a list of messages from a thread. */
 export async function listMessages(
   context: Client,
@@ -223,32 +192,6 @@ export function _retrieveMessageSend(
   return context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
     .get({ ...operationOptionsToRequestParameters(options) });
-}
-
-export async function _retrieveMessageDeserialize(
-  result: RetrieveMessage200Response
-): Promise<AssistantMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    object: result.body["object"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({
-      type: p["type"],
-      text: p["text"] || undefined, 
-      file_ids: p["file_ids"] || undefined, 
-      metadata: p["metadata"] || undefined, 
-      image_file: p["image_file"] || undefined
-    })),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    metadata: result.body["metadata"],
-  };
 }
 
 /** Retrieves a message associated with a thread. */
@@ -290,17 +233,16 @@ export async function _modifyMessageDeserialize(
 
   return {
     id: result.body["id"],
-    object: result.body["object"],
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: (result.body["content"] ?? []).map((p) => ({
       type: p["type"],
       text: p["text"] || undefined, 
-      file_ids: p["file_ids"] || undefined, 
+      fileIds: p["file_ids"] || undefined, 
       metadata: p["metadata"] || undefined, 
-      image_file: p["image_file"] || undefined
-    })),
+      imageFile: p["image_file"] || undefined
+    } as AssistantMessageContent )),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -621,26 +563,6 @@ export async function createThreadAndRun(
   return _createThreadAndRunDeserialize(result);
 }
 
-export async function _createMessageDeserialize(
-  result: CreateMessage200Response
-): Promise<AssistantMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    object: result.body["object"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map((p) => ({ type: p["type"], text: p["text"] || undefined, file_ids: p["file_ids"] || undefined, metadata: p["metadata"] || undefined, image_file: p["image_file"] || undefined })),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    metadata: result.body["metadata"],
-  };
-}
-
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
@@ -711,4 +633,85 @@ export async function retrieveFile(
 ): Promise<InputFile> {
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
+}
+
+export async function _createMessageDeserialize(
+  result: CreateMessage200Response
+): Promise<AssistantMessage> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    role: result.body["role"],
+    content: (result.body["content"] ?? []).map((p) => ({
+      type: p["type"],
+      text: p["text"] || undefined,
+      fileIds: p["file_ids"] || undefined,
+      metadata: p["metadata"] || undefined,
+      imageFile: p["image_file"] || undefined
+    } as AssistantMessageContent )),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    metadata: result.body["metadata"],
+  };
+}
+
+export async function _listMessagesDeserialize(
+  result: ListMessages200Response
+): Promise<ListResponseOf<AssistantMessage>> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    object: result.body["object"],
+    data: (result.body["data"] ?? []).map((p) => ({
+      id: p["id"],
+      createdAt: new Date(p["created_at"]),
+      threadId: p["thread_id"],
+      role: p["role"],
+      content: (p["content"] ?? []).map((p) => ({
+        type: p["type"],
+        text: p["text"] || undefined, 
+        fileIds: p["file_ids"] || undefined, 
+        metadata: p["metadata"] || undefined, 
+        imageFile: p["image_file"] || undefined
+      } as AssistantMessageContent )),
+      assistantId: p["assistant_id"],
+      runId: p["run_id"],
+      metadata: p["metadata"],
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+export async function _retrieveMessageDeserialize(
+  result: RetrieveMessage200Response
+): Promise<AssistantMessage> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    role: result.body["role"],
+    content: (result.body["content"] ?? []).map((p) => ({
+      type: p["type"],
+      text: p["text"] || undefined, 
+      fileIds: p["file_ids"] || undefined, 
+      metadata: p["metadata"] || undefined, 
+      imageFile: p["image_file"] || undefined
+    } as AssistantMessageContent )),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    metadata: result.body["metadata"],
+  };
 }

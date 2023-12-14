@@ -879,7 +879,7 @@ export async function _modifyMessageDeserialize(
       text: p["text"] || undefined, 
       fileIds: p["file_ids"] || undefined, 
       metadata: p["metadata"] || undefined, 
-      image_file: p["image_file"] || undefined
+      imageFile: p["image_file"] || undefined
     } as AssistantMessageContent )),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
