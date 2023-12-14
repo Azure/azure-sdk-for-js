@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
 
 ### Other Changes
 

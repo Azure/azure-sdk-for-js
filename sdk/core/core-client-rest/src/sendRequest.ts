@@ -172,11 +172,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    if (body instanceof Uint8Array) {
-      return { body };
-    } else {
-      return { body: JSON.stringify(body) };
-    }
+    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
   switch (firstType) {
@@ -199,7 +195,7 @@ function isFormData(body: unknown): body is FormDataMap {
 }
 
 /**
- * Checks if binary data is in Uint8Array format, if so decode it to a binary string
+ * Checks if binary data is in Uint8Array format, if so wrap it in a Blob
  * to send over the wire
  */
 function processFormData(formData?: FormDataMap) {
@@ -212,6 +208,8 @@ function processFormData(formData?: FormDataMap) {
   for (const element in formData) {
     const item = formData[element];
     if (item instanceof Uint8Array) {
+      // Some RLCs take a Uint8Array for the parameter, whereas FormDataMap expects
+      // a File or a Blob, so we need to wrap it.
       processedFormData[element] = new Blob([item]);
     } else {
       processedFormData[element] = item;

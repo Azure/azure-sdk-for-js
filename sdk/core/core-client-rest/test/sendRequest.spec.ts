@@ -10,7 +10,6 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { stringToUint8Array } from "@azure/core-util";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);
@@ -19,9 +18,8 @@ describe("sendRequest", () => {
   describe("Binary content", () => {
     it("should handle request body as Uint8Array", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = stringToUint8Array("foo", "utf-8");
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.sameOrderedMembers([...(request.body as Uint8Array)], [...expectedBody]);
+        assert.sameOrderedMembers([...(request.body as Uint8Array)], [...foo]);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -73,9 +71,9 @@ describe("sendRequest", () => {
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.formData?.fileName, "foo.txt");
         assert.instanceOf(request.formData?.file, Blob);
-        assert.deepEqual(
-          new Uint8Array(await (request.formData?.file as Blob).arrayBuffer()),
-          stringToUint8Array("foo", "utf-8")
+        assert.sameOrderedMembers(
+          [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
+          [...foo]
         );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
