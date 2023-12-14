@@ -12,8 +12,8 @@ export default defineConfig({
     browser: {
       enabled: true,
       headless: true,
-      name: "chromium",
-      provider: "playwright",
+      name: "chrome",
+      provider: "webdriverio",
     },
     fakeTimers: {
       toFake: ["setTimeout"],

@@ -20,7 +20,7 @@ export default defineConfig({
         "vitest*.config.ts",
         "samples-dev/**/*.ts",
       ],
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
