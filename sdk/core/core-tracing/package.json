@@ -40,7 +40,7 @@
     "build:test": "tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -88,14 +88,14 @@
     "@microsoft/api-extractor": "^7.38.5",
     "@types/node": "^18.0.0",
     "@vitest/browser": "1.0.4",
-    "@vitest/coverage-v8": "1.0.4",
+    "@vitest/coverage-istanbul": "1.0.4",
     "eslint": "^8.0.0",
+    "playwright": "^1.40.1",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "^1.0.0-beta.5",
-    "webdriverio": "^8.26.1"
+    "vitest": "^1.0.4"
   },
   "//metadata": {
     "sampleConfiguration": {

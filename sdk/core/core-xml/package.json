@@ -96,8 +96,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "1.0.4",
-    "webdriverio": "^8.26.1"
+    "vitest": "1.0.4"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

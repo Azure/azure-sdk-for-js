@@ -47,7 +47,7 @@
     "build:test": "npm run clean && tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"src/**/*.mts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"src/**/*.mts\" \"test/**/*.ts\" \"*.{ts,js,json}\"",

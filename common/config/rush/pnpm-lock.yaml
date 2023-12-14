@@ -11095,7 +11095,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-NnrmZ8Qe2Mg7f4khBcjAmH4w9mIteCVOpAbJbjb/WpOCL9MIIYSWCwa7n/WNo2lG78ZOKu22nqy9FBS3r9tXIg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-P0oOJKfPElOQQGKQj6lChZn4aD5cJpBGxnOFuxN9dYlftgIXQ2oolrng/ms956QCDwkdMIW9agffbo4VeQfcxg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -11132,21 +11132,17 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/agrifood-farming.tgz:
@@ -18553,7 +18549,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-cc6mleADLKFbuF1pH5tDXKvCz6Mof85tIUuejtAs/ykp487m3QXUFV2tCz6t+ZABPkNWYV0at11KdQfBz88EoA==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-76DF0fCHPKhvYu6JUrkdKOy5IVQl3Q1MrK64HuOkOvTz6UT38MCSdFKUpy3sjuuyURqAGgwh+KnWcDamk6WeOw==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -18562,6 +18558,8 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
+      '@vitest/browser': 1.0.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
+      '@vitest/coverage-istanbul': 1.0.4(vitest@1.0.4)
       chai: 4.3.10
       cross-env: 7.0.3
       downlevel-dts: 0.10.1
@@ -18569,31 +18567,30 @@ packages:
       inherits: 2.0.4
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
+      playwright: 1.40.1
       prettier: 2.8.8
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
+      tshy: 1.8.1
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
-      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.0-beta.4)
+      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.4)
       webdriverio: 8.26.1(typescript@5.2.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
-      - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
       - lightningcss
+      - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-client-1.tgz:
@@ -18958,7 +18955,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-aFVK1uNwag4ozVA+3/FimBbtCrXM3wG/OJQDwXaJa712By3ospKrpinLzYhNPHdNLRBtQGG4OgPcDeu3Z3/HRQ==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-Zrt4PMwJtW2lwaLWr4Lwvz/HT0KuXz8fxwbwZs/KMYVEpJBUjazpKtdA4XV1cQSfL5uwd3xCA9hiBJ/Me1ggPw==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -18968,6 +18965,7 @@ packages:
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
       '@vitest/browser': 1.0.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
+      '@vitest/coverage-istanbul': 1.0.4(vitest@1.0.4)
       '@vitest/coverage-v8': 1.0.4(vitest@1.0.4)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18983,6 +18981,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
+      playwright: 1.40.1
       prettier: 3.1.1
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -18996,25 +18995,21 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-uyNIbfwqXcb8y3wXqtMDNGnG8yi8EJYBf20GAXWZWZ1FrrQyvJ+As1hxazVNcDhBVe6qGLZ9UWD8UfmAHd+BqA==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-JHTRc31TkSQth3x/lRl/F2z9bt5dHMBjgbxm0UBUAexxBC2F3RGiIjc5pEcif8FHf6SEZuvSL2KYtXdzoWmWlw==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -19041,6 +19036,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
+      playwright: 1.40.1
       prettier: 2.8.8
       rimraf: 5.0.5
       sinon: 17.0.1
@@ -19054,25 +19050,21 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-2m0graCruHI1+ru/V5B91mNqjyPJhwIzSNHBP9XhYYiJTDMWkDt7aEfqL9TMB7jvubcVg8t8umLe3DpTrgmf0A==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-TWwtb5NYmwIFfMYZkEOTN0czHbqGDiF2HhP94wz+OV2i7CXUWHFv623XPP9OS2fY2HkDgRVTOGwTUXZ3oCuwmA==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -19111,9 +19103,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -19124,7 +19113,7 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/cosmos.tgz:
@@ -20315,7 +20304,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-rfS1s+691UJG6Tv5/M2vHDV5BNLEVyaCsRBZPYLEtm2MwPgJbRZUnI73YkPgaMoT8f8gJW5G+rm4q0j9cSahww==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-qd8YghBliR2P6/UgtqG5dJbRs0LEtGsnEqDpqvQSQsH75Fw+q6mP6VAdeFnZfGdiQQATADLhxeaGM83FV7iYXQ==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -20341,6 +20330,7 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
+      playwright: 1.40.1
       prettier: 3.1.1
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 5.0.5
@@ -20354,21 +20344,17 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/maps-common.tgz:
