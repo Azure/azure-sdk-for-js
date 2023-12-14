@@ -49,7 +49,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
     activeDirectories: [
       {
         aesEncryption: true,
-        dns: "10.10.10.3, 10.10.10.4",
+        dns: "10.10.10.3",
         domain: "10.10.10.3",
         ldapOverTLS: false,
         ldapSigning: false,
