@@ -84,7 +84,6 @@ export class QueryIterator<T> {
    */
 
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
-    this.correlatedActivityId = uuid();
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
@@ -140,7 +139,6 @@ export class QueryIterator<T> {
    */
 
   public async fetchAll(): Promise<FeedResponse<T>> {
-    this.correlatedActivityId = uuid();
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.fetchAllInternal(diagnosticNode);
     }, this.clientContext);
@@ -167,9 +165,8 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
+
   public async fetchNext(): Promise<FeedResponse<T>> {
-    this.correlatedActivityId = uuid();
-    this.reset();
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -210,6 +207,7 @@ export class QueryIterator<T> {
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset(): void {
+    this.correlatedActivityId = uuid();
     this.queryPlanPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];
