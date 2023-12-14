@@ -11,6 +11,8 @@ import { Resource } from '@opentelemetry/resources';
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    enableLiveMetrics?: boolean;
+    enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;

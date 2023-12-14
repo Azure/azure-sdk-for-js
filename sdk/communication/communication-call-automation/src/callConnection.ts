@@ -1,28 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CommunicationIdentifier,
-  createCommunicationAuthPolicy,
-} from "@azure/communication-common";
+import { CommunicationIdentifier } from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
+  CustomCallingContextInternal,
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
-import { CallConnectionProperties, CallInvite, CallParticipant } from "./models/models";
+import {
+  CallConnectionProperties,
+  CallInvite,
+  CallParticipant,
+  CustomCallingContext,
+} from "./models/models";
 import {
   AddParticipantOptions,
-  CancelAddParticipantOptions,
+  CancelAddParticipantOperationOptions,
   GetCallConnectionPropertiesOptions,
   GetParticipantOptions,
   HangUpOptions,
-  MuteParticipantsOption,
+  MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
@@ -31,8 +34,8 @@ import {
   TransferCallResult,
   AddParticipantResult,
   RemoveParticipantResult,
-  MuteParticipantsResult,
-  CancelAddParticipantResult,
+  MuteParticipantResult,
+  CancelAddParticipantOperationResult,
 } from "./models/responses";
 import {
   callParticipantConverter,
@@ -51,6 +54,7 @@ import {
   RemoveParticipantEventResult,
   TransferCallToParticipantEventResult,
 } from "./eventprocessor/eventResponses";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -70,9 +74,11 @@ export class CallConnection {
     eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint
+    );
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
@@ -100,12 +106,12 @@ export class CallConnection {
   public async getCallConnectionProperties(
     options: GetCallConnectionPropertiesOptions = {}
   ): Promise<CallConnectionProperties> {
-    const { targets, sourceCallerIdNumber, answeredByIdentifier, sourceIdentity, ...result } =
+    const { targets, sourceCallerIdNumber, answeredBy, source, ...result } =
       await this.callConnection.getCall(this.callConnectionId, options);
     const callConnectionProperties: CallConnectionProperties = {
       ...result,
-      sourceIdentity: sourceIdentity ? communicationIdentifierConverter(sourceIdentity) : undefined,
-      answeredByIdentifier: communicationUserIdentifierConverter(answeredByIdentifier),
+      source: source ? communicationIdentifierConverter(source) : undefined,
+      answeredby: communicationUserIdentifierConverter(answeredBy),
       targetParticipants: targets?.map((target) => communicationIdentifierConverter(target)),
       sourceCallerIdNumber: sourceCallerIdNumber
         ? phoneNumberIdentifierConverter(sourceCallerIdNumber)
@@ -178,6 +184,25 @@ export class CallConnection {
     return listParticipantResponse;
   }
 
+  private createCustomCallingContextInternal(
+    customCallingContext: CustomCallingContext
+  ): CustomCallingContextInternal {
+    const sipHeaders: { [key: string]: string } = {};
+    const voipHeaders: { [key: string]: string } = {};
+    if (customCallingContext) {
+      for (const header of customCallingContext) {
+        if (header.kind === "sipuui") {
+          sipHeaders[`User-To-User`] = header.value;
+        } else if (header.kind === "sipx") {
+          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
+        } else if (header.kind === "voip") {
+          voipHeaders[`${header.key}`] = header.value;
+        }
+      }
+    }
+    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
+  }
+
   /**
    * Add a participant to the call
    *
@@ -195,11 +220,10 @@ export class CallConnection {
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
       operationContext: options.operationContext ? options.operationContext : uuidv4(),
-      customContext: {
-        sipHeaders: targetParticipant.customContext?.sipHeaders,
-        voipHeaders: targetParticipant.customContext?.voipHeaders,
-      },
-      callbackUri: options.callbackUrl,
+      operationCallbackUri: options.operationCallbackUrl,
+      customCallingContext: this.createCustomCallingContextInternal(
+        targetParticipant.customCallingContext!
+      ),
     };
     const optionsInternal = {
       ...options,
@@ -266,12 +290,9 @@ export class CallConnection {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
       operationContext: options.operationContext ? options.operationContext : uuidv4(),
-      customContext: {
-        sipHeaders: options.customContext?.sipHeaders,
-        voipHeaders: options.customContext?.voipHeaders,
-      },
-      callbackUri: options.callbackUrl,
+      operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
+      customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
     };
     const optionsInternal = {
       ...options,
@@ -332,7 +353,7 @@ export class CallConnection {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
       operationContext: options.operationContext ? options.operationContext : uuidv4(),
-      callbackUri: options.callbackUrl,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     const optionsInternal = {
       ...options,
@@ -382,14 +403,15 @@ export class CallConnection {
   }
 
   /**
-   * Mute participants from the call.
+   * Mute participant from the call.
    *
    * @param participant - Participant to be muted from the call.
+   * @param options - Additional attributes for mute participant.
    */
-  public async muteParticipants(
+  public async muteParticipant(
     participant: CommunicationIdentifier,
-    options: MuteParticipantsOption = {}
-  ): Promise<MuteParticipantsResult> {
+    options: MuteParticipantOption = {}
+  ): Promise<MuteParticipantResult> {
     const muteParticipantsRequest: MuteParticipantsRequest = {
       targetParticipants: [communicationIdentifierModelConverter(participant)],
       operationContext: options.operationContext,
@@ -404,25 +426,29 @@ export class CallConnection {
       muteParticipantsRequest,
       optionsInternal
     );
-    const muteParticipantsResult: MuteParticipantsResult = {
+    const muteParticipantResult: MuteParticipantResult = {
       ...result,
     };
-    return muteParticipantsResult;
+    return muteParticipantResult;
   }
 
   /** Cancel add participant request.
    *
    * @param invitationId - Invitation ID used to cancel the add participant request.
    */
-  public async cancelAddParticipant(
+  public async cancelAddParticipantOperation(
     invitationId: string,
-    options: CancelAddParticipantOptions = {}
-  ): Promise<CancelAddParticipantResult> {
-    const { operationContext, callbackUrl: callbackUri, ...operationOptions } = options;
+    options: CancelAddParticipantOperationOptions = {}
+  ): Promise<CancelAddParticipantOperationResult> {
+    const {
+      operationContext,
+      operationCallbackUrl: operationCallbackUri,
+      ...operationOptions
+    } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
-      callbackUri,
+      operationContext: operationContext ? operationContext : uuidv4(),
+      operationCallbackUri,
     };
     const optionsInternal = {
       ...operationOptions,
@@ -436,7 +462,7 @@ export class CallConnection {
       optionsInternal
     );
 
-    const cancelAddParticipantResult: CancelAddParticipantResult = {
+    const cancelAddParticipantResult: CancelAddParticipantOperationResult = {
       ...result,
       waitForEventProcessor: async (abortSignal, timeoutInMs) => {
         const cancelAddParticipantEventResult: CancelAddParticipantEventResult = {
@@ -446,7 +472,7 @@ export class CallConnection {
           (event) => {
             if (
               event.callConnectionId === this.callConnectionId &&
-              event.kind === "AddParticipantCancelled" &&
+              event.kind === "CancelAddParticipantSucceeded" &&
               event.operationContext === cancelAddParticipantRequest.operationContext
             ) {
               cancelAddParticipantEventResult.isSuccess = true;

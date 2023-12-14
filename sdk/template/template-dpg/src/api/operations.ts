@@ -12,10 +12,10 @@
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "../common/interfaces.js";
+import { WidgetServiceContext as Client } from "../rest/clientDefinitions.js";
 import {
   AnalyzeWidget200Response,
   AnalyzeWidgetDefaultResponse,
-  WidgetServiceContext as Client,
   CreateWidget201Response,
   CreateWidgetDefaultResponse,
   DeleteWidget204Response,

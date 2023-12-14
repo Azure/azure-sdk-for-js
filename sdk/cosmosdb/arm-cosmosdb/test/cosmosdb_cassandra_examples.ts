@@ -133,4 +133,17 @@ describe("Cosmosdb test", () => {
     }
     assert.equal(resArray.length, 0);
   });
+
+  it("databaseAccount delete for cassandraResources test", async function () {
+    await client.databaseAccounts.beginDeleteAndWait(
+      resourceGroupName,
+      accountName,
+      testPollingOptions
+    );
+    const resArray = new Array();
+    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 });

@@ -31,7 +31,7 @@ async function namespaceTopicEventSubscriptionsDelete() {
     resourceGroupName,
     namespaceName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

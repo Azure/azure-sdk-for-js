@@ -3,14 +3,15 @@
 
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
+import { StorageFileShareTest } from "./storageTest.spec";
+import { randomUUID } from "@azure/core-util";
 import fs from "fs";
 import util from "util";
+
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
 const deleteFile = util.promisify(fs.unlink);
 
-import { StorageFileShareTest } from "./storageTest.spec";
-import { v4 as generateUuid } from "uuid";
 interface StorageFileShareDownloadTestOptions {
   size: number;
 }
@@ -27,7 +28,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<Sto
       defaultValue: 1024,
     },
   };
-  static fileName = generateUuid();
+  static fileName = randomUUID();
   fileClient: ShareFileClient;
   localFileName: string;
 
@@ -36,7 +37,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<Sto
     this.fileClient = this.directoryClient.getFileClient(
       StorageFileShareDownloadToFileTest.fileName
     );
-    this.localFileName = generateUuid();
+    this.localFileName = randomUUID();
   }
 
   public async globalSetup() {

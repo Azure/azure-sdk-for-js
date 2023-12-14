@@ -31,7 +31,7 @@ async function partnerNamespacesRegenerateKey() {
   const result = await client.partnerNamespaces.regenerateKey(
     resourceGroupName,
     partnerNamespaceName,
-    regenerateKeyRequest
+    regenerateKeyRequest,
   );
   console.log(result);
 }

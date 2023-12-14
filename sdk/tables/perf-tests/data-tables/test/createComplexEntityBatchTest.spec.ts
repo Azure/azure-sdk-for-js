@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TablesTest } from "./tables.spec";
 import { TransactionAction } from "@azure/data-tables";
