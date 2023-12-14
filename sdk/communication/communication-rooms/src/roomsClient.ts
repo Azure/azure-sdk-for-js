@@ -31,7 +31,7 @@ import {
   UpdateRoomOptions,
   AddOrUpdateParticipantsOptions,
 } from "./models/options";
-import { generateUuid } from "./models/uuid";
+import { randomUUID } from "@azure/core-util";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
@@ -110,7 +110,7 @@ export class RoomsClient {
    * @returns a RoomModel object with the values of the created room.
    */
   public async createRoom(options: CreateRoomOptions = {}): Promise<CommunicationRoom> {
-    const repeatabilityRequestId = generateUuid();
+    const repeatabilityRequestId = randomUUID();
     const repeatabilityFirstSent = new Date();
     return tracingClient.withSpan("RoomsClient-CreateRoom", options, async () => {
       const room = await this.client.rooms.create({
