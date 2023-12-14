@@ -1,27 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import { assert, expect } from "chai";
 import { Context } from "mocha";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient";
 import {
-  AzureDevCenterClient,
-  EnvironmentsCreateOrUpdateEnvironmentParameters,
-  getLongRunningPoller,
+  AzureDeveloperDevCenterClient,
+  CatalogOutput,
+  EnvironmentDefinitionOutput,
+  EnvironmentTypeOutput,
+  CreateOrUpdateEnvironmentParameters,
   isUnexpected,
+  paginate,
+  getLongRunningPoller,
+  EnvironmentOutput,
 } from "../../src/index";
 
+const testPollingOptions = {
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
+};
 describe("DevCenter Environments Operations Test", () => {
   let recorder: Recorder;
-  let client: AzureDevCenterClient;
+  let client: AzureDeveloperDevCenterClient;
+
   let endpoint: string;
+  let projectName: string;
+  let catalogName: string;
+  let envDefinitionName: string;
+  let environmentTypeName: string;
+  let environmentName: string;
+  let userId: string;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    endpoint =
-      env["DEVCENTER_ENDPOINT"] ||
-      "https://8ab2df1c-ed88-4946-a8a9-e1bbb3e4d1fd-sdk-dc-na4b3zkj5hmeo.eastus.devcenter.azure.com";
+
+    endpoint = env["ENDPOINT"] || "";
+    projectName = env["DEFAULT_PROJECT_NAME"] || "";
+    catalogName = env["DEFAULT_CATALOG_NAME"] || "";
+    envDefinitionName = env["DEFAULT_ENVIRONMENT_DEFINITION_NAME"] || "";
+    environmentTypeName = env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "";
+    environmentName = env["DEFAULT_ENVIRONMENT_NAME"] || "";
+    userId = env["DEFAULT_USER_NAME"] || "";
+
     client = createRecordedClient(recorder, endpoint, {
       allowInsecureConnection: false,
     });
@@ -31,24 +52,180 @@ describe("DevCenter Environments Operations Test", () => {
     await recorder.stop();
   });
 
-  it("Create environment", async function () {
-    // Build client and fetch required parameters
-    const projectName = env["DEFAULT_PROJECT_NAME"] || "sdk-project-hdhjgzht7tgyq";
-    const catalogName = env["DEFAULT_CATALOG_NAME"] || "sdk-default-catalog";
-    const catalogItemName = env["DEFAULT_CATALOG_ITEM_NAME"] || "Empty";
-    const environmentTypeName =
-      env["DEFAULT_ENVIRONMENT_TYPE_NAME"] || "sdk-environment-type-5x47m3lk7iv3i";
-    const environmentName = "SdkTest-Environment";
-    const userId = "me";
+  it("Get catalog by project and name", async function () {
+    const catalog = await client
+      .path("/projects/{projectName}/catalogs/{catalogName}", projectName, catalogName)
+      .get();
 
-    console.log(
-      `Running test for ${endpoint} -- ${projectName} -- ${catalogName} -- ${catalogItemName} -- ${environmentTypeName} -- ${environmentName}`
-    );
+    if (isUnexpected(catalog)) {
+      throw catalog.body.error;
+    }
 
-    const environmentsCreateParameters: EnvironmentsCreateOrUpdateEnvironmentParameters = {
-      contentType: "application/json",
+    expect(catalog.body.name).to.equal(env["DEFAULT_CATALOG_NAME"]);
+  });
+
+  it("List catalogs in a project", async function () {
+    const catalogList = await client.path("/projects/{projectName}/catalogs", projectName).get();
+
+    if (isUnexpected(catalogList)) {
+      throw catalogList.body.error;
+    }
+
+    const catalogs: CatalogOutput[] = [];
+    console.log("Iterating through catalog results:");
+
+    for await (const catalog of paginate(client, catalogList)) {
+      const { name } = catalog;
+      console.log(`Received catalog "${name}"`);
+      catalogs.push(catalog);
+    }
+
+    expect(catalogs.length).to.equal(1);
+    expect(catalogs[0].name).to.equal(env["DEFAULT_CATALOG_NAME"]);
+  });
+
+  it("Get environment definition by project, catalog, and item name", async function () {
+    const environmentDefinitionOutput = await client
+      .path(
+        "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}",
+        projectName,
+        catalogName,
+        envDefinitionName
+      )
+      .get();
+
+    if (isUnexpected(environmentDefinitionOutput)) {
+      throw environmentDefinitionOutput.body.error;
+    }
+
+    expect(environmentDefinitionOutput.body.name).to.equal(envDefinitionName);
+  });
+
+  it("List environment definition by project, catalog", async function () {
+    const environmentDefinitionsList = await client
+      .path(
+        "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
+        projectName,
+        catalogName
+      )
+      .get();
+
+    if (isUnexpected(environmentDefinitionsList)) {
+      throw environmentDefinitionsList.body.error;
+    }
+
+    const environmentDefinitions: EnvironmentDefinitionOutput[] = [];
+
+    for await (const environmentDefinition of paginate(client, environmentDefinitionsList)) {
+      const { name } = environmentDefinition;
+      console.log(`Received env definition: "${name}"`);
+      environmentDefinitions.push(environmentDefinition);
+    }
+
+    expect(environmentDefinitions.length).to.equal(3);
+  });
+
+  it("List environments within a project", async function () {
+    await createDevelopmentEnvironment();
+
+    const environmentsList = await client
+      .path("/projects/{projectName}/environments", projectName)
+      .get();
+
+    if (isUnexpected(environmentsList)) {
+      throw environmentsList.body.error;
+    }
+
+    const environments: EnvironmentOutput[] = [];
+
+    for await (const environment of paginate(client, environmentsList)) {
+      const { name } = environment;
+      console.log(`Received env type: "${name}"`);
+      environments.push(environment);
+    }
+
+    expect(environments.length).to.equal(1);
+    expect(environments[0].name).to.equal(environmentName);
+
+    await deleteDevelopmentEnvironment();
+  });
+
+  it("List environments within a project by userId", async function () {
+    await createDevelopmentEnvironment();
+
+    const environmentsList = await client
+      .path("/projects/{projectName}/users/{userId}/environments", projectName, userId)
+      .get();
+
+    if (isUnexpected(environmentsList)) {
+      throw environmentsList.body.error;
+    }
+
+    const environments: EnvironmentOutput[] = [];
+
+    for await (const environment of paginate(client, environmentsList)) {
+      const { name } = environment;
+      console.log(`Received env type: "${name}"`);
+      environments.push(environment);
+    }
+
+    expect(environments.length).to.equal(1);
+    expect(environments[0].name).to.equal(environmentName);
+
+    await deleteDevelopmentEnvironment();
+  });
+
+  it("Get environment by projectName, userId, and environment name", async function () {
+    await createDevelopmentEnvironment();
+
+    const environmentOutput = await client
+      .path(
+        "/projects/{projectName}/users/{userId}/environments/{environmentName}",
+        projectName,
+        userId,
+        environmentName
+      )
+      .get();
+
+    if (isUnexpected(environmentOutput)) {
+      throw environmentOutput.body.error;
+    }
+
+    expect(environmentOutput.body.name).to.equal(environmentName);
+
+    await deleteDevelopmentEnvironment();
+  });
+
+  it("List environment types by project", async function () {
+    const environmentTypesList = await client
+      .path("/projects/{projectName}/environmentTypes", projectName)
+      .get();
+
+    if (isUnexpected(environmentTypesList)) {
+      throw environmentTypesList.body.error;
+    }
+
+    const environmentTypes: EnvironmentTypeOutput[] = [];
+
+    for await (const environmentDefinitionType of paginate(client, environmentTypesList)) {
+      const { name } = environmentDefinitionType;
+      console.log(`Received env type: "${name}"`);
+      environmentTypes.push(environmentDefinitionType);
+    }
+
+    expect(environmentTypes.length).to.equal(1);
+    expect(environmentTypes[0].name).to.equal(environmentTypeName);
+  });
+
+  it("Create and then delete deployment environment", async function () {
+    await createDevelopmentEnvironment();
+    await deleteDevelopmentEnvironment();
+  });
+
+  async function createDevelopmentEnvironment(): Promise<void> {
+    const environmentsCreateParameters: CreateOrUpdateEnvironmentParameters = {
       body: {
-        catalogItemName: catalogItemName,
+        environmentDefinitionName: envDefinitionName,
         environmentType: environmentTypeName,
         catalogName: catalogName,
       },
@@ -64,6 +241,7 @@ describe("DevCenter Environments Operations Test", () => {
       )
       .put(environmentsCreateParameters);
     console.log("Sent create");
+
     if (isUnexpected(environmentCreateResponse)) {
       throw new Error(
         `Creation failed with message ${environmentCreateResponse.body?.error.message}`
@@ -76,7 +254,11 @@ describe("DevCenter Environments Operations Test", () => {
       "Environment creation should return 201 created."
     );
 
-    const environmentCreatePoller = getLongRunningPoller(client, environmentCreateResponse);
+    const environmentCreatePoller = await getLongRunningPoller(
+      client,
+      environmentCreateResponse,
+      testPollingOptions
+    );
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
 
     if (isUnexpected(environmentCreateResult)) {
@@ -92,10 +274,9 @@ describe("DevCenter Environments Operations Test", () => {
     );
     assert.equal(environmentCreateResult.body.name, environmentName);
     assert.equal(environmentCreateResult.body.provisioningState, "Succeeded");
-    console.log(
-      `Provisioned environment with state ${environmentCreateResult.body.provisioningState}.`
-    );
+  }
 
+  async function deleteDevelopmentEnvironment(): Promise<void> {
     // Tear down the environment when finished
     const environmentDeleteResponse = await client
       .path(
@@ -116,7 +297,11 @@ describe("DevCenter Environments Operations Test", () => {
       "Environment delete should return 202 accepted."
     );
 
-    const environmentDeletePoller = getLongRunningPoller(client, environmentDeleteResponse);
+    const environmentDeletePoller = await getLongRunningPoller(
+      client,
+      environmentDeleteResponse,
+      testPollingOptions
+    );
     const environmentDeleteResult = await environmentDeletePoller.pollUntilDone();
 
     if (isUnexpected(environmentDeleteResult)) {
@@ -130,5 +315,5 @@ describe("DevCenter Environments Operations Test", () => {
     );
 
     console.log("Cleaned up environment successfully.");
-  });
+  }
 });

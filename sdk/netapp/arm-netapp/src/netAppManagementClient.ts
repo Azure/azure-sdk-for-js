@@ -24,7 +24,6 @@ import {
   SnapshotsImpl,
   SnapshotPoliciesImpl,
   BackupsImpl,
-  AccountBackupsImpl,
   BackupPoliciesImpl,
   VolumeQuotaRulesImpl,
   VolumeGroupsImpl,
@@ -40,7 +39,6 @@ import {
   Snapshots,
   SnapshotPolicies,
   Backups,
-  AccountBackups,
   BackupPolicies,
   VolumeQuotaRules,
   VolumeGroups,
@@ -80,7 +78,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-netapp/18.1.1`;
+    const packageDetails = `azsdk-js-arm-netapp/19.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -133,7 +131,7 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-11-01";
+    this.apiVersion = options.apiVersion || "2023-05-01";
     this.operations = new OperationsImpl(this);
     this.netAppResource = new NetAppResourceImpl(this);
     this.netAppResourceQuotaLimits = new NetAppResourceQuotaLimitsImpl(this);
@@ -143,7 +141,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
     this.snapshots = new SnapshotsImpl(this);
     this.snapshotPolicies = new SnapshotPoliciesImpl(this);
     this.backups = new BackupsImpl(this);
-    this.accountBackups = new AccountBackupsImpl(this);
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.volumeQuotaRules = new VolumeQuotaRulesImpl(this);
     this.volumeGroups = new VolumeGroupsImpl(this);
@@ -188,7 +185,6 @@ export class NetAppManagementClient extends coreClient.ServiceClient {
   snapshots: Snapshots;
   snapshotPolicies: SnapshotPolicies;
   backups: Backups;
-  accountBackups: AccountBackups;
   backupPolicies: BackupPolicies;
   volumeQuotaRules: VolumeQuotaRules;
   volumeGroups: VolumeGroups;

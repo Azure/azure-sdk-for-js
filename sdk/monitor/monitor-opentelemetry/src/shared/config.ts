@@ -11,6 +11,11 @@ import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./type
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
+import {
+  azureAppServiceDetector,
+  azureFunctionsDetector,
+  azureVmDetector,
+} from "@opentelemetry/resource-detector-azure";
 
 /**
  * Azure Monitor OpenTelemetry Client Configuration
@@ -24,6 +29,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
    * OpenTelemetry Instrumentations configuration included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   public instrumentationOptions: InstrumentationOptions;
+  /** Enable Live Metrics feature */
+  enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  enableStandardMetrics?: boolean;
 
   private _resource: Resource;
 
@@ -45,6 +54,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     // Default values
     this.azureMonitorExporterOptions = {};
     this.samplingRatio = 1;
+    this.enableLiveMetrics = false;
+    this.enableStandardMetrics = true;
     this.instrumentationOptions = {
       http: { enabled: true },
       azureSdk: { enabled: false },
@@ -55,10 +66,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
-    // Merge JSON configuration file if available
-    this._mergeConfig();
-    // Check for explicitly passed options when instantiating client
-    // This will take precedence over other settings
+
     if (options) {
       // Merge default with provided options
       this.azureMonitorExporterOptions = Object.assign(
@@ -71,7 +79,11 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
+      this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
     }
+    // JSON configuration will take precedence over other settings
+    this._mergeConfig();
   }
 
   private _mergeConfig() {
@@ -79,7 +91,14 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-
+      this.enableLiveMetrics =
+        jsonConfig.enableLiveMetrics !== undefined
+          ? jsonConfig.enableLiveMetrics
+          : this.enableLiveMetrics;
+      this.enableStandardMetrics =
+        jsonConfig.enableStandardMetrics !== undefined
+          ? jsonConfig.enableStandardMetrics
+          : this.enableStandardMetrics;
       this.azureMonitorExporterOptions = Object.assign(
         this.azureMonitorExporterOptions,
         jsonConfig.azureMonitorExporterOptions
@@ -101,6 +120,14 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     };
     const envResource = detectResourcesSync(detectResourceConfig);
     resource = resource.merge(envResource);
+
+    // Load resource attributes from Azure
+    const azureResource: Resource = detectResourcesSync({
+      detectors: [azureAppServiceDetector, azureFunctionsDetector, azureVmDetector],
+    });
+
+    // Merge resources, azureResource will take precedence
+    resource = resource.merge(azureResource);
     return resource;
   }
 }

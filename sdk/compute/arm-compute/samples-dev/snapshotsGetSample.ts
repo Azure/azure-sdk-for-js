@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about a snapshot.
  *
  * @summary Gets information about a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Get.json
  */
 async function getInformationAboutASnapshot() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getInformationAboutASnapshot() {
  * This sample demonstrates how to Gets information about a snapshot.
  *
  * @summary Gets information about a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_GetIncrementalSnapshot.json
  */
 async function getInformationAboutAnIncrementalSnapshot() {
   const subscriptionId =

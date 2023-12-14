@@ -6,10 +6,12 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 
 Use the client library for Azure OpenAI to:
 
-* [Create a completion for text][msdocs_openai_completion]
-* [Create a chat completion with ChatGPT][msdocs_openai_chat_completion]
+* [Create a chat completion with ChatGPT][list_chat_completion_sample]
 * [Create a text embedding for comparisons][msdocs_openai_embedding]
-* [Use your own data with Azure OpenAI][msdocs_openai_custom_data]
+* [Use your own data with Azure OpenAI][byod_sample]
+* [Generate images][get_images_sample]
+* [Transcribe and Translate audio files][transcribe_audio_sample]
+* [Create a legacy completion for text][get_completions_sample]
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
@@ -18,8 +20,11 @@ Checkout the following examples:
 - [Multiple Completions](#generate-multiple-completions-with-subscription-key)
 - [Chatbot](#generate-chatbot-response)
 - [Summarize Text](#summarize-text-with-completion)
+- [Use Chat Tools](#use-chat-tools)
 - [Generate Images](#generate-images-with-dall-e-image-generation-models)
 - [Analyze Business Data](#analyze-business-data)
+- [Transcribe and Translate audio files](#transcribe-and-translate-audio-files)
+- [Chat with images using gpt-4-vision-preview](#chat-with-images-using-gpt-4-vision-preview)
 
 Key links:
 
@@ -140,6 +145,10 @@ async function main(){
     console.log(choice.text);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ## Examples
@@ -179,6 +188,10 @@ async function main(){
     }
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Generate Multiple Completions With Subscription Key
@@ -212,6 +225,10 @@ async function main(){
     console.log(`Chatbot: ${completion}`);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Summarize Text with Completion
@@ -254,28 +271,120 @@ async function main(){
   console.log(`Summarization: ${completion}`);
 }
 
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
+
+### Use chat tools
+
+**Tools** extend chat completions by allowing an assistant to invoke defined functions and other capabilities in the
+process of fulfilling a chat completions request. To use chat tools, start by defining a function tool:
+
+```js
+const getCurrentWeather = {
+    name: "get_current_weather",
+    description: "Get the current weather in a given location",
+    parameters: {
+      type: "object",
+      properties: {
+        location: {
+          type: "string",
+          description: "The city and state, e.g. San Francisco, CA",
+        },
+        unit: {
+          type: "string",
+          enum: ["celsius", "fahrenheit"],
+        },
+      },
+      required: ["location"],
+    },
+  };
+```
+
+With the tool defined, include that new definition in the options for a chat completions request:
+
+```js
+const deploymentName = "gpt-35-turbo-1106";
+const messages = [{ role: "user", content: "What is the weather like in Boston?" }];
+const options = {
+    tools: [
+      {
+        type: "function",
+        function: getCurrentWeather,
+      },
+    ],
+  };
+const events = client.getChatCompletions(deploymentId, messages, options);
+```
+
+When the assistant decides that one or more tools should be used, the response message includes one or more "tool
+calls" that must all be resolved via "tool messages" on the subsequent request. This resolution of tool calls into
+new request messages can be thought of as a sort of "callback" for chat completions.
+
+```js
+// Purely for convenience and clarity, this function handles tool call responses.
+function applyToolCall({ function: call, id }) {
+    if (call.name === "get_current_weather") {
+      const { location, unit } = JSON.parse(call.arguments);
+      // In a real application, this would be a call to a weather API with location and unit parameters
+      return {
+        role: "tool",
+        content: `The weather in ${location} is 72 degrees ${unit} and sunny.`,
+        toolCallId: id,
+      }
+    }
+    throw new Error(`Unknown tool call: ${call.name}`);
+}
+```
+
+To provide tool call resolutions to the assistant to allow the request to continue, provide all prior historical
+context -- including the original system and user messages, the response from the assistant that included the tool
+calls, and the tool messages that resolved each of those tools -- when making a subsequent request.
+
+```js
+const choice = result.choices[0];
+const responseMessage = choice.message;
+if (responseMessage?.role === "assistant") {
+  const requestedToolCalls = responseMessage?.toolCalls;
+  if (requestedToolCalls?.length) {
+    const toolCallResolutionMessages = [
+      ...messages,
+      responseMessage,
+      ...requestedToolCalls.map(applyToolCall),
+    ];
+    const result = await client.getChatCompletions(deploymentName, toolCallResolutionMessages);
+    // continue handling the response as normal
+  }
+}
+```
+
 ### Generate images with DALL-E image generation models
 
 This example generates batch images from a given input prompt.
 
 ```js
-const { OpenAIClient } = require("@azure/openai");
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 
 async function main() {
   const endpoint = "https://myaccount.openai.azure.com/";
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
 
+  const deploymentName = "dalle-3";
   const prompt = "a monkey eating a banana";
-  const size = "256x256";
-  const n = 3;
+  const size = "1024x1024";
+  const n = 1;
   
-  const results = await client.getImages(prompt, { n, size });
+  const results = await client.getImages(deploymentName, prompt, { n, size });
 
   for (const image of results.data) {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
 ```
 
 ### Analyze Business Data
@@ -285,7 +394,7 @@ This example generates chat responses to input chat questions about your busines
 
 ```javascript
 const { OpenAIClient } = require("@azure/openai");
-const { DefaultAzureCredential } = require("@azure/identity")
+const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main(){
   const endpoint = "https://myaccount.openai.azure.com/";
@@ -305,11 +414,9 @@ async function main(){
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          parameters: {
-            endpoint: "<Azure Cognitive Search endpoint>",
-            key: "<Azure Cognitive Search admin key>",
-            indexName: "<Azure Cognitive Search index name>",
-          },
+          endpoint: "<Azure Cognitive Search endpoint>",
+          key: "<Azure Cognitive Search admin key>",
+          indexName: "<Azure Cognitive Search index name>",
         },
       ],
     },
@@ -323,6 +430,62 @@ async function main(){
     }
   }
 }
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### Transcribe and translate audio files
+
+The speech to text and translation capabilities of Azure OpenAI can be used to transcribe and translate a wide variety of audio file formats. The following example shows how to use the `getAudioTranscription` method to transcribe audio into the language the audio is in. You can also translate and transcribe the audio into English using the `getAudioTranslation` method.
+
+The audio file can be loaded into memory using the NodeJS file system APIs. In the browser, the file can be loaded using the `FileReader` API and the output of `arrayBuffer` instance method can be passed to the `getAudioTranscription` method.
+
+```js
+const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+const fs = require("fs/promises");
+
+async function main() {
+  console.log("== Transcribe Audio Sample ==");
+
+  const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
+  const deploymentName = "whisper";
+  const audio = await fs.readFile("< path to an audio file >");
+  const result = await client.getAudioTranscription(deploymentName, audio);
+
+  console.log(`Transcription: ${result.text}`);
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### Chat with images using gpt-4-vision-preview
+
+The `gpt-4-vision-preview` model allows you to use images as input components into chat completions.
+
+To do this, provide distinct content items on the user message(s) for the chat completions request:
+
+```js
+const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+const deploymentName = "gpt-4-1106-preview";
+const messages: ChatRequestMessage[] = [{role: "user", content: [{
+  type: "image_url",
+  imageUrl: {
+    url,
+    detail: "auto"
+  }
+}]}];
+```
+
+Chat Completions will then proceed as usual, though the model may report the more informative `finish_details` in lieu
+of `finish_reason`:
+
+```js
+const result = await client.getChatCompletions(deploymentName, messages);
+console.log(`Chatbot: ${result.choices[0].message?.content}`);
 ```
 
 ## Troubleshooting
@@ -340,9 +503,11 @@ setLogLevel("info");
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
 
 <!-- LINKS -->
-[msdocs_openai_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[msdocs_openai_chat_completion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
-[msdocs_openai_custom_data]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/bringYourOwnData.ts
+[get_completions_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
+[list_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
+[byod_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
+[get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
+[transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts
 [msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { AbortController } from "@azure/abort-controller";
 import { isNode } from "@azure/core-util";
 import { assert } from "@azure/test-utils";
@@ -927,7 +927,7 @@ describe("BlobClient", () => {
   });
 
   it("exists with condition", async function () {
-    const proposedLeaseId = recorder.variable("proposedLeaseId", generateUuid());
+    const proposedLeaseId = recorder.variable("proposedLeaseId", randomUUID());
     const leaseResp = await blobClient.getBlobLeaseClient(proposedLeaseId).acquireLease(30);
     assert.ok(leaseResp.leaseId);
 
@@ -1595,6 +1595,12 @@ describe("BlobClient - ImmutabilityPolicy", () => {
       containerName = getImmutableContainerName();
       recorder = new Recorder(this.currentTest);
       await recorder.start(recorderEnvSetup);
+      await recorder.addSanitizers(
+        {
+          uriSanitizers,
+        },
+        ["record", "playback"]
+      );
       blobServiceClient = getBSU(recorder);
 
       containerClient = blobServiceClient.getContainerClient(containerName);

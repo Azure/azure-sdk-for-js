@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   MigrationItem,
   ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams,
@@ -329,8 +333,8 @@ export class ReplicationMigrationItemsImpl
     input: EnableMigrationInput,
     options?: ReplicationMigrationItemsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsCreateResponse>,
       ReplicationMigrationItemsCreateResponse
     >
   > {
@@ -340,7 +344,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -373,9 +377,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -384,10 +388,13 @@ export class ReplicationMigrationItemsImpl
         input,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsCreateResponse,
+      OperationState<ReplicationMigrationItemsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -443,14 +450,14 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     options?: ReplicationMigrationItemsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -483,9 +490,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -493,10 +500,10 @@ export class ReplicationMigrationItemsImpl
         migrationItemName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -552,8 +559,8 @@ export class ReplicationMigrationItemsImpl
     input: UpdateMigrationItemInput,
     options?: ReplicationMigrationItemsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsUpdateResponse>,
       ReplicationMigrationItemsUpdateResponse
     >
   > {
@@ -563,7 +570,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -596,9 +603,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -607,10 +614,13 @@ export class ReplicationMigrationItemsImpl
         input,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsUpdateResponse,
+      OperationState<ReplicationMigrationItemsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -669,8 +679,8 @@ export class ReplicationMigrationItemsImpl
     migrateInput: MigrateInput,
     options?: ReplicationMigrationItemsMigrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsMigrateResponse>,
       ReplicationMigrationItemsMigrateResponse
     >
   > {
@@ -680,7 +690,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -713,9 +723,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -724,10 +734,13 @@ export class ReplicationMigrationItemsImpl
         migrateInput,
         options
       },
-      migrateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: migrateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsMigrateResponse,
+      OperationState<ReplicationMigrationItemsMigrateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -786,8 +799,8 @@ export class ReplicationMigrationItemsImpl
     pauseReplicationInput: PauseReplicationInput,
     options?: ReplicationMigrationItemsPauseReplicationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsPauseReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsPauseReplicationResponse>,
       ReplicationMigrationItemsPauseReplicationResponse
     >
   > {
@@ -797,7 +810,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsPauseReplicationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -830,9 +843,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -841,10 +854,13 @@ export class ReplicationMigrationItemsImpl
         pauseReplicationInput,
         options
       },
-      pauseReplicationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: pauseReplicationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsPauseReplicationResponse,
+      OperationState<ReplicationMigrationItemsPauseReplicationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -903,8 +919,8 @@ export class ReplicationMigrationItemsImpl
     resumeReplicationInput: ResumeReplicationInput,
     options?: ReplicationMigrationItemsResumeReplicationOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResumeReplicationResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResumeReplicationResponse>,
       ReplicationMigrationItemsResumeReplicationResponse
     >
   > {
@@ -914,7 +930,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsResumeReplicationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -947,9 +963,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -958,10 +974,13 @@ export class ReplicationMigrationItemsImpl
         resumeReplicationInput,
         options
       },
-      resumeReplicationOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: resumeReplicationOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsResumeReplicationResponse,
+      OperationState<ReplicationMigrationItemsResumeReplicationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1020,8 +1039,8 @@ export class ReplicationMigrationItemsImpl
     input: ResyncInput,
     options?: ReplicationMigrationItemsResyncOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsResyncResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsResyncResponse>,
       ReplicationMigrationItemsResyncResponse
     >
   > {
@@ -1031,7 +1050,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1064,9 +1083,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -1075,10 +1094,13 @@ export class ReplicationMigrationItemsImpl
         input,
         options
       },
-      resyncOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: resyncOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsResyncResponse,
+      OperationState<ReplicationMigrationItemsResyncResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1137,8 +1159,8 @@ export class ReplicationMigrationItemsImpl
     testMigrateInput: TestMigrateInput,
     options?: ReplicationMigrationItemsTestMigrateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateResponse>,
       ReplicationMigrationItemsTestMigrateResponse
     >
   > {
@@ -1148,7 +1170,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsTestMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1181,9 +1203,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -1192,10 +1214,13 @@ export class ReplicationMigrationItemsImpl
         testMigrateInput,
         options
       },
-      testMigrateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: testMigrateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsTestMigrateResponse,
+      OperationState<ReplicationMigrationItemsTestMigrateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -1254,8 +1279,8 @@ export class ReplicationMigrationItemsImpl
     testMigrateCleanupInput: TestMigrateCleanupInput,
     options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
       ReplicationMigrationItemsTestMigrateCleanupResponse
     >
   > {
@@ -1265,7 +1290,7 @@ export class ReplicationMigrationItemsImpl
     ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -1298,9 +1323,9 @@ export class ReplicationMigrationItemsImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
@@ -1309,10 +1334,13 @@ export class ReplicationMigrationItemsImpl
         testMigrateCleanupInput,
         options
       },
-      testMigrateCleanupOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: testMigrateCleanupOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationMigrationItemsTestMigrateCleanupResponse,
+      OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of databases in an elastic pool.
  *
  * @summary Gets a list of databases in an elastic pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ListDatabasesByElasticPool.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ListDatabasesByElasticPool.json
  */
 async function getsAListOfDatabasesInAnElasticPool() {
   const subscriptionId =

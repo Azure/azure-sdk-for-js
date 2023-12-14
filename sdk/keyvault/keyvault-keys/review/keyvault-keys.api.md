@@ -283,6 +283,7 @@ export interface KeyProperties {
     enabled?: boolean;
     expiresOn?: Date;
     exportable?: boolean;
+    readonly hsmPlatform?: string;
     id?: string;
     readonly managed?: boolean;
     name: string;

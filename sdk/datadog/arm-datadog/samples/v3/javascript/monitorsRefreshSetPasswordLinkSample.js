@@ -10,16 +10,18 @@
 // Licensed under the MIT License.
 const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Refresh the set password link and return a latest one.
  *
  * @summary Refresh the set password link and return a latest one.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/RefreshSetPassword_Get.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/RefreshSetPassword_Get.json
  */
 async function monitorsRefreshSetPasswordLink() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
@@ -27,4 +29,8 @@ async function monitorsRefreshSetPasswordLink() {
   console.log(result);
 }
 
-monitorsRefreshSetPasswordLink().catch(console.error);
+async function main() {
+  monitorsRefreshSetPasswordLink();
+}
+
+main().catch(console.error);

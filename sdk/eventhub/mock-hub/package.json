@@ -28,7 +28,6 @@
     "lint:fix": "eslint --no-eslintrc -c ../../eslintrc.internal.json package.json src --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src --ext .ts",
     "pack": "npm pack 2>&1",
-    "prepare": "npm run build",
     "test": "echo \"No tests implemented\"",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
@@ -37,7 +36,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -52,12 +51,12 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ts-node": "^10.0.0"
   },
   "dependencies": {

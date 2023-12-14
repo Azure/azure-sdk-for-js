@@ -8,7 +8,7 @@ export type CommunicationIdentifier =
   | CommunicationUserIdentifier
   | PhoneNumberIdentifier
   | MicrosoftTeamsUserIdentifier
-  | MicrosoftBotIdentifier
+  | MicrosoftTeamsAppIdentifier
   | UnknownIdentifier;
 
 /**
@@ -61,26 +61,21 @@ export interface MicrosoftTeamsUserIdentifier {
 }
 
 /**
- * A Microsoft bot.
+ * A Microsoft Teams App.
  */
-export interface MicrosoftBotIdentifier {
+export interface MicrosoftTeamsAppIdentifier {
   /**
-   * Optional raw id of the Microsoft bot.
+   * Optional raw id of the Microsoft Teams App.
    */
   rawId?: string;
 
   /**
-   * The unique Microsoft app ID for the bot as registered with the Bot Framework.
+   * The unique Microsoft Teams app ID.
    */
-  botId: string;
+  teamsAppId: string;
 
   /**
-   * True (or missing) if the bot is global and no resource account is configured and false if the bot is tenantized.
-   */
-  isResourceAccountConfigured?: boolean;
-
-  /**
-   * The cloud that the Microsoft bot belongs to. If missing, the cloud is "public".
+   * The cloud that the Microsoft Temas App belongs to. If missing, the cloud is "public".
    */
   cloud?: "public" | "dod" | "gcch";
 }
@@ -129,14 +124,14 @@ export const isMicrosoftTeamsUserIdentifier = (
 };
 
 /**
- * Tests an Identifier to determine whether it implements MicrosoftBotIdentifier.
+ * Tests an Identifier to determine whether it implements MicrosoftTeamsAppIdentifier.
  *
  * @param identifier - The assumed available to be tested.
  */
-export const isMicrosoftBotIdentifier = (
+export const isMicrosoftTeamsAppIdentifier = (
   identifier: CommunicationIdentifier
-): identifier is MicrosoftBotIdentifier => {
-  return typeof (identifier as any).botId === "string";
+): identifier is MicrosoftTeamsAppIdentifier => {
+  return typeof (identifier as any).teamsAppId === "string";
 };
 
 /**
@@ -157,7 +152,7 @@ export type CommunicationIdentifierKind =
   | CommunicationUserKind
   | PhoneNumberKind
   | MicrosoftTeamsUserKind
-  | MicrosoftBotKind
+  | MicrosoftTeamsAppKind
   | UnknownIdentifierKind;
 
 /**
@@ -191,13 +186,13 @@ export interface MicrosoftTeamsUserKind extends MicrosoftTeamsUserIdentifier {
 }
 
 /**
- * IdentifierKind for a MicrosoftBotIdentifier.
+ * IdentifierKind for a MicrosoftTeamsAppIdentifier.
  */
-export interface MicrosoftBotKind extends MicrosoftBotIdentifier {
+export interface MicrosoftTeamsAppKind extends MicrosoftTeamsAppIdentifier {
   /**
    * The identifier kind.
    */
-  kind: "microsoftBot";
+  kind: "microsoftTeamsApp";
 }
 
 /**
@@ -227,8 +222,8 @@ export const getIdentifierKind = (
   if (isMicrosoftTeamsUserIdentifier(identifier)) {
     return { ...identifier, kind: "microsoftTeamsUser" };
   }
-  if (isMicrosoftBotIdentifier(identifier)) {
-    return { ...identifier, kind: "microsoftBot" };
+  if (isMicrosoftTeamsAppIdentifier(identifier)) {
+    return { ...identifier, kind: "microsoftTeamsApp" };
   }
   return { ...identifier, kind: "unknown" };
 };
@@ -257,25 +252,16 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
       }
       return `8:orgid:${microsoftTeamsUserId}`;
     }
-    case "microsoftBot": {
-      const { botId, rawId, cloud, isResourceAccountConfigured } = identifierKind;
+    case "microsoftTeamsApp": {
+      const { teamsAppId, rawId, cloud } = identifierKind;
       if (rawId) return rawId;
-      if (!isResourceAccountConfigured) {
-        switch (cloud) {
-          case "dod":
-            return `28:dod-global:${botId}`;
-          case "gcch":
-            return `28:gcch-global:${botId}`;
-        }
-        return `28:${botId}`;
-      }
       switch (cloud) {
         case "dod":
-          return `28:dod:${botId}`;
+          return `28:dod:${teamsAppId}`;
         case "gcch":
-          return `28:gcch:${botId}`;
+          return `28:gcch:${teamsAppId}`;
       }
-      return `28:orgid:${botId}`;
+      return `28:orgid:${teamsAppId}`;
     }
     case "phoneNumber": {
       const { phoneNumber, rawId } = identifierKind;
@@ -288,16 +274,14 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
   }
 };
 
-const buildMicrosoftBotIdentifier = (
-  id: string,
-  cloud: "public" | "dod" | "gcch",
-  isResourceAccountConfigured: boolean
+const buildMicrosoftTeamsAppIdentifier = (
+  teamsAppId: string,
+  cloud: "public" | "dod" | "gcch"
 ): CommunicationIdentifierKind => {
   return {
-    kind: "microsoftBot",
-    botId: id,
+    kind: "microsoftTeamsApp",
+    teamsAppId: teamsAppId,
     cloud: cloud,
-    isResourceAccountConfigured: isResourceAccountConfigured,
   };
 };
 
@@ -326,9 +310,6 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
 
   const segments = rawId.split(":");
   if (segments.length !== 3) {
-    if (segments.length === 2 && segments[0] === "28") {
-      return buildMicrosoftBotIdentifier(segments[1], "public", false);
-    }
     return { kind: "unknown", id: rawId };
   }
 
@@ -349,16 +330,12 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
     case "8:dod-acs:":
     case "8:gcch-acs:":
       return { kind: "communicationUser", communicationUserId: rawId };
-    case "28:gcch-global:":
-      return buildMicrosoftBotIdentifier(suffix, "gcch", false);
     case "28:orgid:":
-      return buildMicrosoftBotIdentifier(suffix, "public", true);
-    case "28:dod-global:":
-      return buildMicrosoftBotIdentifier(suffix, "dod", false);
+      return buildMicrosoftTeamsAppIdentifier(suffix, "public");
     case "28:gcch:":
-      return buildMicrosoftBotIdentifier(suffix, "gcch", true);
+      return buildMicrosoftTeamsAppIdentifier(suffix, "gcch");
     case "28:dod:":
-      return buildMicrosoftBotIdentifier(suffix, "dod", true);
+      return buildMicrosoftTeamsAppIdentifier(suffix, "dod");
   }
   return { kind: "unknown", id: rawId };
 };

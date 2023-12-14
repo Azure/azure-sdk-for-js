@@ -17,6 +17,8 @@ export interface CreateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
   /** Collection of participants invited to the room. */
   participants?: RoomParticipantPatch[];
 }
@@ -29,6 +31,8 @@ export interface UpdateRoomOptions extends OperationOptions {
   validFrom?: Date;
   /** The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   validUntil?: Date;
+  /** Set this flag to true if, at the time of the call, dial out to a PSTN number is enabled in a particular room. By default, this flag is set to false. */
+  pstnDialOutEnabled?: boolean;
 }
 
 /**

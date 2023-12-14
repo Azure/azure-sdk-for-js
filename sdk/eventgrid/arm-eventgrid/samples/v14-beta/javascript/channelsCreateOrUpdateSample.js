@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Synchronously creates or updates a new channel with the specified parameters.
  *
  * @summary Synchronously creates or updates a new channel with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Channels_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Channels_CreateOrUpdate.json
  */
 async function channelsCreateOrUpdate() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function channelsCreateOrUpdate() {
     resourceGroupName,
     partnerNamespaceName,
     channelName,
-    channelInfo
+    channelInfo,
   );
   console.log(result);
 }

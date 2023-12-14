@@ -42,7 +42,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * Gets all patch schedules in the specified redis cache (there is only one).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -126,7 +126,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * Gets all patch schedules in the specified redis cache (there is only one).
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param options The options parameters.
    */
@@ -143,7 +143,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * Create or replace the patching schedule for Redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the Redis cache.
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param parameters Parameters to set the patching schedule for Redis cache.
@@ -164,7 +164,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * Deletes the patching schedule of a redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param options The options parameters.
@@ -183,7 +183,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * Gets the patching schedule of a redis cache.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name The name of the redis cache.
    * @param defaultParam Default string modeled as parameter for auto generation to work correctly.
    * @param options The options parameters.
@@ -202,7 +202,7 @@ export class PatchSchedulesImpl implements PatchSchedules {
 
   /**
    * ListByRedisResourceNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cacheName The name of the Redis cache.
    * @param nextLink The nextLink from the previous successful call to the ListByRedisResource method.
    * @param options The options parameters.

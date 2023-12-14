@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the storage classifications available in the specified fabric.
  *
  * @summary Lists the storage classifications available in the specified fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "resourceGroupPS1";
   const fabricName = "2a48e3770ac08aa2be8bfbd94fcfb1cbf2dcc487b78fb9d3bd778304441b06a0";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -35,4 +39,8 @@ async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
   console.log(resArray);
 }
 
-getsTheListOfStorageClassificationObjectsUnderAFabric().catch(console.error);
+async function main() {
+  getsTheListOfStorageClassificationObjectsUnderAFabric();
+}
+
+main().catch(console.error);

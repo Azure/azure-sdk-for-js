@@ -21,7 +21,7 @@ export = {
     "force there to be only named exports at the top level"
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
-    relative(normalize(context.getFilename()), normalize(context.settings.main)) === ""
+    relative(normalize(context.filename), normalize(context.settings.main)) === ""
       ? ({
           // callback functions
 

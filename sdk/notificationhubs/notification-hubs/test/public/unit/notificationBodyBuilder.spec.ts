@@ -12,7 +12,7 @@ describe("createWindowsBadgeNotificationBody", () => {
 
     assert.equal(
       body,
-      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="99"/>`,
     );
   });
 
@@ -23,7 +23,7 @@ describe("createWindowsBadgeNotificationBody", () => {
 
     assert.equal(
       body,
-      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`
+      `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><badge value="newMessage"/>`,
     );
   });
 });

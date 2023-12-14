@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the specified private endpoint connection on application gateway.
  *
  * @summary Gets the specified private endpoint connection on application gateway.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-04-01/examples/ApplicationGatewayPrivateEndpointConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/ApplicationGatewayPrivateEndpointConnectionGet.json
  */
 async function getApplicationGatewayPrivateEndpointConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

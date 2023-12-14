@@ -24,6 +24,18 @@ export type DeliveryAttributeMappingUnion =
 export type DeadLetterDestinationUnion =
   | DeadLetterDestination
   | StorageBlobDeadLetterDestination;
+export type EventSubscriptionDestinationUnion =
+  | EventSubscriptionDestination
+  | WebHookEventSubscriptionDestination
+  | EventHubEventSubscriptionDestination
+  | StorageQueueEventSubscriptionDestination
+  | HybridConnectionEventSubscriptionDestination
+  | ServiceBusQueueEventSubscriptionDestination
+  | ServiceBusTopicEventSubscriptionDestination
+  | AzureFunctionEventSubscriptionDestination
+  | PartnerEventSubscriptionDestination
+  | MonitorAlertEventSubscriptionDestination
+  | NamespaceTopicEventSubscriptionDestination;
 export type FilterUnion =
   | Filter
   | NumberInFilter
@@ -45,16 +57,6 @@ export type FilterUnion =
   | StringNotContainsFilter
   | IsNullOrUndefinedFilter
   | IsNotNullFilter;
-export type EventSubscriptionDestinationUnion =
-  | EventSubscriptionDestination
-  | WebHookEventSubscriptionDestination
-  | EventHubEventSubscriptionDestination
-  | StorageQueueEventSubscriptionDestination
-  | HybridConnectionEventSubscriptionDestination
-  | ServiceBusQueueEventSubscriptionDestination
-  | ServiceBusTopicEventSubscriptionDestination
-  | AzureFunctionEventSubscriptionDestination
-  | PartnerEventSubscriptionDestination;
 export type AdvancedFilterUnion =
   | AdvancedFilter
   | NumberInAdvancedFilter
@@ -76,6 +78,9 @@ export type AdvancedFilterUnion =
   | StringNotContainsAdvancedFilter
   | IsNullOrUndefinedAdvancedFilter
   | IsNotNullAdvancedFilter;
+export type StaticRoutingEnrichmentUnion =
+  | StaticRoutingEnrichment
+  | StaticStringRoutingEnrichment;
 export type PartnerClientAuthenticationUnion =
   | PartnerClientAuthentication
   | AzureADPartnerClientAuthentication;
@@ -302,37 +307,6 @@ export interface ClientGroupsListResult {
   nextLink?: string;
 }
 
-/** The Authentication properties for the client. */
-export interface ClientAuthentication {
-  /** The self signed certificate's thumbprints data used for authentication. */
-  certificateThumbprint?: ClientCertificateThumbprint;
-  /** The CA certificate subject name used for authentication. */
-  certificateSubject?: ClientCertificateSubjectDistinguishedName;
-}
-
-/** Thumbprints are used by the service to validate the device permission when authentication is done using self signed certificate. */
-export interface ClientCertificateThumbprint {
-  /** The primary thumbprint used for validation. */
-  primary?: string;
-  /** The secondary thumbprint used for validation. */
-  secondary?: string;
-}
-
-/**
- * CA certificate subject distinguished name information used by service to authenticate clients.
- * For more information, see https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.x509certificates.x500distinguishedname?view=net-6.0#remarks
- */
-export interface ClientCertificateSubjectDistinguishedName {
-  /** The common name field in the subject name. The allowed limit is 64 characters and it should be specified. */
-  commonName?: string;
-  /** The organization field in the subject name. If present, the allowed limit is 64 characters. */
-  organization?: string;
-  /** The organization unit field in the subject name. If present, the allowed limit is 32 characters. */
-  organizationUnit?: string;
-  /** The country code field in the subject name. If present, the country code should be represented by two-letter code defined in ISO 2166-1 (alpha-2). For example: 'US'. */
-  countryCode?: string;
-}
-
 /** The certificate authentication properties for the client. */
 export interface ClientCertificateAuthentication {
   /** The validation scheme used to authenticate the client. Default value is SubjectMatchesAuthenticationName. */
@@ -503,6 +477,8 @@ export interface DeliveryConfiguration {
   deliveryMode?: DeliveryMode;
   /** This property should be populated when deliveryMode is queue and represents information about the queue subscription. */
   queue?: QueueInfo;
+  /** This property should be populated when deliveryMode is push and represents information about the push subscription. */
+  push?: PushInfo;
 }
 
 /** Properties of the Queue info for event subscription. */
@@ -566,6 +542,68 @@ export interface DeadLetterDestination {
   endpointType: "StorageBlob";
 }
 
+/** Properties of the destination info for event subscription supporting push. */
+export interface PushInfo {
+  /** The maximum delivery count of the events. */
+  maxDeliveryCount?: number;
+  /**
+   * Time span duration in ISO 8601 format that determines how long messages are available to the subscription from the time the message was published.
+   * This duration value is expressed using the following format: \'P(n)Y(n)M(n)DT(n)H(n)M(n)S\', where:
+   *     - (n) is replaced by the value of each time element that follows the (n).
+   *     - P is the duration (or Period) designator and is always placed at the beginning of the duration.
+   *     - Y is the year designator, and it follows the value for the number of years.
+   *     - M is the month designator, and it follows the value for the number of months.
+   *     - W is the week designator, and it follows the value for the number of weeks.
+   *     - D is the day designator, and it follows the value for the number of days.
+   *     - T is the time designator, and it precedes the time components.
+   *     - H is the hour designator, and it follows the value for the number of hours.
+   *     - M is the minute designator, and it follows the value for the number of minutes.
+   *     - S is the second designator, and it follows the value for the number of seconds.
+   * This duration value cannot be set greater than the topic’s EventRetentionInDays. It is is an optional field where its minimum value is 1 minute, and its maximum is determined
+   * by topic’s EventRetentionInDays value. The followings are examples of valid values:
+   *     - \'P0DT23H12M\' or \'PT23H12M\': for duration of 23 hours and 12 minutes.
+   *     - \'P1D\' or \'P1DT0H0M0S\': for duration of 1 day.
+   */
+  eventTimeToLive?: string;
+  /**
+   * The dead letter destination of the event subscription. Any event that cannot be delivered to its' destination is sent to the dead letter destination.
+   * Uses the managed identity setup on the parent resource (namely, namespace) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deadLetterDestinationWithResourceIdentity?: DeadLetterWithResourceIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
+}
+
+/** Information about the delivery for an event subscription with resource identity. */
+export interface DeliveryWithResourceIdentity {
+  /** The identity to use when delivering events. */
+  identity?: EventSubscriptionIdentity;
+  /**
+   * Information about the destination where events have to be delivered for the event subscription.
+   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
+   */
+  destination?: EventSubscriptionDestinationUnion;
+}
+
+/** Information about the destination for an event subscription. */
+export interface EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType:
+    | "WebHook"
+    | "EventHub"
+    | "StorageQueue"
+    | "HybridConnection"
+    | "ServiceBusQueue"
+    | "ServiceBusTopic"
+    | "AzureFunction"
+    | "PartnerDestination"
+    | "MonitorAlert"
+    | "NamespaceTopic";
+}
+
 /** Filters configuration for the Event Subscription. */
 export interface FiltersConfiguration {
   /** A list of applicable event types that need to be part of the event subscription. If it is desired to subscribe to all default event types, set the IncludedEventTypes to null. */
@@ -621,31 +659,6 @@ export interface SubscriptionsListResult {
   value?: Subscription[];
   /** A link for the next page of event subscriptions */
   nextLink?: string;
-}
-
-/** Information about the destination for an event subscription. */
-export interface EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType:
-    | "WebHook"
-    | "EventHub"
-    | "StorageQueue"
-    | "HybridConnection"
-    | "ServiceBusQueue"
-    | "ServiceBusTopic"
-    | "AzureFunction"
-    | "PartnerDestination";
-}
-
-/** Information about the delivery for an event subscription with resource identity. */
-export interface DeliveryWithResourceIdentity {
-  /** The identity to use when delivering events. */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during delivery / dead-lettering.
-   */
-  destination?: EventSubscriptionDestinationUnion;
 }
 
 /** Filter for the Event Subscription. */
@@ -794,15 +807,16 @@ export interface TopicSpacesConfiguration {
 }
 
 export interface RoutingEnrichments {
-  static?: StaticRoutingEnrichment[];
+  static?: StaticRoutingEnrichmentUnion[];
   dynamic?: DynamicRoutingEnrichment[];
 }
 
+/** Static routing enrichment details. */
 export interface StaticRoutingEnrichment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  valueType: "String";
   /** Static routing enrichment key. */
   key?: string;
-  /** Static routing enrichment value type. For e.g. this property value can be 'String'. */
-  valueType?: StaticRoutingEnrichmentType;
 }
 
 export interface DynamicRoutingEnrichment {
@@ -1088,6 +1102,86 @@ export interface PartnerTopicsListResult {
   nextLink?: string;
 }
 
+/** Network security perimeter configuration issues. */
+export interface NetworkSecurityPerimeterConfigurationIssues {
+  /** Provisioning issue name. */
+  name?: string;
+  /** Provisioning issue type. */
+  issueType?: NetworkSecurityPerimeterConfigurationIssueType;
+  /** Provisioning issue severity. */
+  severity?: NetworkSecurityPerimeterConfigurationIssueSeverity;
+  /** Provisioning issue description. */
+  description?: string;
+  /** ARM IDs of resources that can be associated to the same perimeter to remediate the issue. */
+  suggestedResourceIds?: string[];
+  /** Access rules that can be added to the same profile to remediate the issue. */
+  suggestedAccessRules?: string[];
+}
+
+/** Network security perimeter info. */
+export interface NetworkSecurityPerimeterInfo {
+  /** Arm id for network security perimeter. */
+  id?: string;
+  /** Network security perimeter guid. */
+  perimeterGuid?: string;
+  /** Network security perimeter location. */
+  location?: string;
+}
+
+/** Nsp resource association */
+export interface ResourceAssociation {
+  /** Association name */
+  name?: string;
+  /** Network security perimeter access mode. */
+  accessMode?: NetworkSecurityPerimeterAssociationAccessMode;
+}
+
+/** Nsp configuration with profile information. */
+export interface NetworkSecurityPerimeterConfigurationProfile {
+  /** Nsp configuration profile name. */
+  name?: string;
+  /** Access rules version number for nsp profile. */
+  accessRulesVersion?: string;
+  /** List of inbound or outbound access rule setup on the nsp profile. */
+  accessRules?: NetworkSecurityPerimeterProfileAccessRule[];
+  /** Diagnostic settings version number for nsp profile. */
+  diagnosticSettingsVersion?: string;
+  /** Enabled log categories for nsp profile. */
+  enabledLogCategories?: string[];
+}
+
+/** Network security perimeter profile access rule. */
+export interface NetworkSecurityPerimeterProfileAccessRule {
+  /** Fully Qualified Arm id for network security perimeter profile access rule. */
+  fullyQualifiedArmId?: string;
+  /** Name for nsp access rule. */
+  name?: string;
+  /** nsp access rule type. */
+  type?: string;
+  /** NSP access rule direction. */
+  direction?: NetworkSecurityPerimeterProfileAccessRuleDirection;
+  /** Address prefixes. */
+  addressPrefixes?: string[];
+  /** List of subscriptions. */
+  subscriptions?: string[];
+  /** Network security perimeters. */
+  networkSecurityPerimeters?: NetworkSecurityPerimeterInfo[];
+  /** Fully qualified domain names. */
+  fullyQualifiedDomainNames?: string[];
+  /** List of email addresses. */
+  emailAddresses?: string[];
+  /** List of phone numbers. */
+  phoneNumbers?: string[];
+}
+
+/** Network security perimeter configuration List. */
+export interface NetworkSecurityPerimeterConfigurationList {
+  /** List of all network security parameter configurations. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** A link for the next page of Network Security Perimeter Configuration. */
+  nextLink?: string;
+}
+
 /** Result of the List Permission Binding operation. */
 export interface PermissionBindingsListResult {
   /** A collection of Permission Binding. */
@@ -1201,6 +1295,11 @@ export interface TopicSpacesListResult {
 export interface TopicTypesListResult {
   /** A collection of topic types */
   value?: TopicTypeInfo[];
+}
+
+export interface TopicTypeAdditionalEnforcedPermission {
+  permissionName?: string;
+  isDataAction?: boolean;
 }
 
 /** Information about the partner. */
@@ -1335,8 +1434,6 @@ export interface Client extends Resource {
   description?: string;
   /** The name presented by the client for authentication. The default value is the name of the resource. */
   authenticationName?: string;
-  /** Authentication information for the client. */
-  authentication?: ClientAuthentication;
   /** The client certificate authentication information. */
   clientCertificateAuthentication?: ClientCertificateAuthentication;
   /** Indicates if the client is enabled or not. Default value is Enabled. */
@@ -1496,6 +1593,20 @@ export interface PartnerConfiguration extends Resource {
   provisioningState?: PartnerConfigurationProvisioningState;
 }
 
+/** Network security perimeter configuration. */
+export interface NetworkSecurityPerimeterConfiguration extends Resource {
+  /** Provisioning state to reflect configuration state and indicate status of nsp profile configuration retrieval. */
+  provisioningState?: NetworkSecurityPerimeterConfigProvisioningState;
+  /** Provisioning issues to reflect status when attempting to retrieve nsp profile configuration. */
+  provisioningIssues?: NetworkSecurityPerimeterConfigurationIssues[];
+  /** Perimeter info for nsp association. */
+  networkSecurityPerimeter?: NetworkSecurityPerimeterInfo;
+  /** Nsp association name and access mode of association. */
+  resourceAssociation?: ResourceAssociation;
+  /** Nsp profile configuration, access rules and diagnostic settings. */
+  profile?: NetworkSecurityPerimeterConfigurationProfile;
+}
+
 /** The Permission binding resource. */
 export interface PermissionBinding extends Resource {
   /**
@@ -1583,7 +1694,7 @@ export interface TopicTypeInfo extends Resource {
   description?: string;
   /** Region type of the resource. */
   resourceRegionType?: ResourceRegionType;
-  /** Provisioning state of the topic type */
+  /** Provisioning state of the topic type. */
   provisioningState?: TopicTypeProvisioningState;
   /** List of locations supported by this topic type. */
   supportedLocations?: string[];
@@ -1591,8 +1702,10 @@ export interface TopicTypeInfo extends Resource {
   sourceResourceFormat?: string;
   /** Supported source scopes. */
   supportedScopesForSource?: TopicTypeSourceScope[];
-  /** Flag to indicate that a topic type can support both regional or global system topics */
+  /** Flag to indicate that a topic type can support both regional or global system topics. */
   areRegionalAndGlobalSourcesSupported?: boolean;
+  /** Permissions which are enforced for creating and updating system topics of this this topic type. */
+  additionalEnforcedPermissions?: TopicTypeAdditionalEnforcedPermission[];
 }
 
 /** Verified partner information */
@@ -1688,6 +1801,144 @@ export interface StorageBlobDeadLetterDestination
   resourceId?: string;
   /** The name of the Storage blob container that is the destination of the deadletter events */
   blobContainerName?: string;
+}
+
+/** Information about the webhook destination for an event subscription. */
+export interface WebHookEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "WebHook";
+  /** The URL that represents the endpoint of the destination of an event subscription. */
+  endpointUrl?: string;
+  /**
+   * The base URL that represents the endpoint of the destination of an event subscription.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endpointBaseUrl?: string;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number;
+  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryTenantId?: string;
+  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
+  azureActiveDirectoryApplicationIdOrUri?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+  /** Minimum TLS version that should be supported by webhook endpoint */
+  minimumTlsVersionAllowed?: TlsVersion;
+}
+
+/** Information about the event hub destination for an event subscription. */
+export interface EventHubEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "EventHub";
+  /** The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+/** Information about the storage queue destination for an event subscription. */
+export interface StorageQueueEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "StorageQueue";
+  /** The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription. */
+  resourceId?: string;
+  /** The name of the Storage queue under a storage account that is the destination of an event subscription. */
+  queueName?: string;
+  /** Storage queue message time to live in seconds. This value cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is Infinite. */
+  queueMessageTimeToLiveInSeconds?: number;
+}
+
+/** Information about the HybridConnection destination for an event subscription. */
+export interface HybridConnectionEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "HybridConnection";
+  /** The Azure Resource ID of an hybrid connection that is the destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+/** Information about the service bus destination for an event subscription. */
+export interface ServiceBusQueueEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBusQueue";
+  /** The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+/** Information about the service bus topic destination for an event subscription. */
+export interface ServiceBusTopicEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "ServiceBusTopic";
+  /** The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription. */
+  resourceId?: string;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+/** Information about the azure function destination for an event subscription. */
+export interface AzureFunctionEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "AzureFunction";
+  /** The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription. */
+  resourceId?: string;
+  /** Maximum number of events per batch. */
+  maxEventsPerBatch?: number;
+  /** Preferred batch size in Kilobytes. */
+  preferredBatchSizeInKilobytes?: number;
+  /** Delivery attribute details. */
+  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
+}
+
+export interface PartnerEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "PartnerDestination";
+  /** The Azure Resource Id that represents the endpoint of a Partner Destination of an event subscription. */
+  resourceId?: string;
+}
+
+/** Information about the Monitor Alert destination for an event subscription. */
+export interface MonitorAlertEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "MonitorAlert";
+  /**
+   * The severity that will be attached to every Alert fired through this event subscription.
+   * This field must be provided.
+   */
+  severity?: MonitorAlertSeverity;
+  /** The description that will be attached to every Alert fired through this event subscription. */
+  description?: string;
+  /**
+   * The list of ARM Ids of Action Groups that will be triggered on every Alert fired through this event subscription.
+   * Each resource ARM Id should follow this pattern: /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Insights/actionGroups/{ActionGroupName}.
+   */
+  actionGroups?: string[];
+}
+
+/** Information about the Namespace Topic destination for an event subscription. */
+export interface NamespaceTopicEventSubscriptionDestination
+  extends EventSubscriptionDestination {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  endpointType: "NamespaceTopic";
+  /**
+   * The Azure resource Id that represents the endpoint of the Event Grid Namespace Topic destination of an event subscription.
+   * This field is required and the Namespace Topic resource listed must already exist.
+   * The resource ARM Id should follow this pattern: /subscriptions/{AzureSubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.EventGrid/namespaces/{NamespaceName}/topics/{TopicName}.
+   */
+  resourceId?: string;
 }
 
 /** NumberIn Filter. */
@@ -1836,112 +2087,6 @@ export interface IsNullOrUndefinedFilter extends Filter {
 export interface IsNotNullFilter extends Filter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "IsNotNull";
-}
-
-/** Information about the webhook destination for an event subscription. */
-export interface WebHookEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "WebHook";
-  /** The URL that represents the endpoint of the destination of an event subscription. */
-  endpointUrl?: string;
-  /**
-   * The base URL that represents the endpoint of the destination of an event subscription.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly endpointBaseUrl?: string;
-  /** Maximum number of events per batch. */
-  maxEventsPerBatch?: number;
-  /** Preferred batch size in Kilobytes. */
-  preferredBatchSizeInKilobytes?: number;
-  /** The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests. */
-  azureActiveDirectoryTenantId?: string;
-  /** The Azure Active Directory Application ID or URI to get the access token that will be included as the bearer token in delivery requests. */
-  azureActiveDirectoryApplicationIdOrUri?: string;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-  /** Minimum TLS version that should be supported by webhook endpoint */
-  minimumTlsVersionAllowed?: TlsVersion;
-}
-
-/** Information about the event hub destination for an event subscription. */
-export interface EventHubEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "EventHub";
-  /** The Azure Resource Id that represents the endpoint of an Event Hub destination of an event subscription. */
-  resourceId?: string;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/** Information about the storage queue destination for an event subscription. */
-export interface StorageQueueEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "StorageQueue";
-  /** The Azure Resource ID of the storage account that contains the queue that is the destination of an event subscription. */
-  resourceId?: string;
-  /** The name of the Storage queue under a storage account that is the destination of an event subscription. */
-  queueName?: string;
-  /** Storage queue message time to live in seconds. This value cannot be zero or negative with the exception of using -1 to indicate that the Time To Live of the message is Infinite. */
-  queueMessageTimeToLiveInSeconds?: number;
-}
-
-/** Information about the HybridConnection destination for an event subscription. */
-export interface HybridConnectionEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "HybridConnection";
-  /** The Azure Resource ID of an hybrid connection that is the destination of an event subscription. */
-  resourceId?: string;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/** Information about the service bus destination for an event subscription. */
-export interface ServiceBusQueueEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "ServiceBusQueue";
-  /** The Azure Resource Id that represents the endpoint of the Service Bus destination of an event subscription. */
-  resourceId?: string;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/** Information about the service bus topic destination for an event subscription. */
-export interface ServiceBusTopicEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "ServiceBusTopic";
-  /** The Azure Resource Id that represents the endpoint of the Service Bus Topic destination of an event subscription. */
-  resourceId?: string;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-/** Information about the azure function destination for an event subscription. */
-export interface AzureFunctionEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "AzureFunction";
-  /** The Azure Resource Id that represents the endpoint of the Azure Function destination of an event subscription. */
-  resourceId?: string;
-  /** Maximum number of events per batch. */
-  maxEventsPerBatch?: number;
-  /** Preferred batch size in Kilobytes. */
-  preferredBatchSizeInKilobytes?: number;
-  /** Delivery attribute details. */
-  deliveryAttributeMappings?: DeliveryAttributeMappingUnion[];
-}
-
-export interface PartnerEventSubscriptionDestination
-  extends EventSubscriptionDestination {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  endpointType: "PartnerDestination";
-  /** The Azure Resource Id that represents the endpoint of a Partner Destination of an event subscription. */
-  resourceId?: string;
 }
 
 /** NumberIn Advanced Filter. */
@@ -2093,6 +2238,13 @@ export interface IsNotNullAdvancedFilter extends AdvancedFilter {
   operatorType: "IsNotNull";
 }
 
+export interface StaticStringRoutingEnrichment extends StaticRoutingEnrichment {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  valueType: "String";
+  /** String type routing enrichment value. */
+  value?: string;
+}
+
 /** Azure Active Directory Partner Client Authentication */
 export interface AzureADPartnerClientAuthentication
   extends PartnerClientAuthentication {
@@ -2198,7 +2350,10 @@ export interface Namespace extends TrackedResource {
   /** Topic spaces configuration information for the namespace resource */
   topicSpacesConfiguration?: TopicSpacesConfiguration;
   /**
-   * Allows the user to specify if the service is zone-redundant. This is a required property and user needs to specify this value explicitly.
+   * This is an optional property and it allows the user to specify if the namespace resource supports zone-redundancy capability or not. If this
+   * property is not specified explicitly by the user, its default value depends on the following conditions:
+   *     a. For Availability Zones enabled regions - The default property value would be true.
+   *     b. For non-Availability Zones enabled regions - The default property value would be false.
    * Once specified, this property cannot be updated.
    */
   isZoneRedundant?: boolean;
@@ -2552,6 +2707,11 @@ export interface PartnerRegistrationsDeleteHeaders {
 
 /** Defines headers for PartnerTopics_delete operation. */
 export interface PartnerTopicsDeleteHeaders {
+  location?: string;
+}
+
+/** Defines headers for NetworkSecurityPerimeterConfigurations_reconcile operation. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileHeaders {
   location?: string;
 }
 
@@ -3004,7 +3164,9 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** SecuredByPerimeter */
+  SecuredByPerimeter = "SecuredByPerimeter"
 }
 
 /**
@@ -3013,7 +3175,8 @@ export enum KnownPublicNetworkAccess {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Enabled** \
- * **Disabled**
+ * **Disabled** \
+ * **SecuredByPerimeter**
  */
 export type PublicNetworkAccess = string;
 
@@ -3188,7 +3351,9 @@ export type SubscriptionProvisioningState = string;
 /** Known values of {@link DeliveryMode} that the service accepts. */
 export enum KnownDeliveryMode {
   /** Queue */
-  Queue = "Queue"
+  Queue = "Queue",
+  /** Push */
+  Push = "Push"
 }
 
 /**
@@ -3196,7 +3361,8 @@ export enum KnownDeliveryMode {
  * {@link KnownDeliveryMode} can be used interchangeably with DeliveryMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Queue**
+ * **Queue** \
+ * **Push**
  */
 export type DeliveryMode = string;
 
@@ -3232,6 +3398,48 @@ export enum KnownDeadLetterEndPointType {
  * **StorageBlob**
  */
 export type DeadLetterEndPointType = string;
+
+/** Known values of {@link EndpointType} that the service accepts. */
+export enum KnownEndpointType {
+  /** WebHook */
+  WebHook = "WebHook",
+  /** EventHub */
+  EventHub = "EventHub",
+  /** StorageQueue */
+  StorageQueue = "StorageQueue",
+  /** HybridConnection */
+  HybridConnection = "HybridConnection",
+  /** ServiceBusQueue */
+  ServiceBusQueue = "ServiceBusQueue",
+  /** ServiceBusTopic */
+  ServiceBusTopic = "ServiceBusTopic",
+  /** AzureFunction */
+  AzureFunction = "AzureFunction",
+  /** PartnerDestination */
+  PartnerDestination = "PartnerDestination",
+  /** MonitorAlert */
+  MonitorAlert = "MonitorAlert",
+  /** NamespaceTopic */
+  NamespaceTopic = "NamespaceTopic"
+}
+
+/**
+ * Defines values for EndpointType. \
+ * {@link KnownEndpointType} can be used interchangeably with EndpointType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **WebHook** \
+ * **EventHub** \
+ * **StorageQueue** \
+ * **HybridConnection** \
+ * **ServiceBusQueue** \
+ * **ServiceBusTopic** \
+ * **AzureFunction** \
+ * **PartnerDestination** \
+ * **MonitorAlert** \
+ * **NamespaceTopic**
+ */
+export type EndpointType = string;
 
 /** Known values of {@link DeliverySchema} that the service accepts. */
 export enum KnownDeliverySchema {
@@ -3349,42 +3557,6 @@ export enum KnownEventSubscriptionProvisioningState {
  * **AwaitingManualAction**
  */
 export type EventSubscriptionProvisioningState = string;
-
-/** Known values of {@link EndpointType} that the service accepts. */
-export enum KnownEndpointType {
-  /** WebHook */
-  WebHook = "WebHook",
-  /** EventHub */
-  EventHub = "EventHub",
-  /** StorageQueue */
-  StorageQueue = "StorageQueue",
-  /** HybridConnection */
-  HybridConnection = "HybridConnection",
-  /** ServiceBusQueue */
-  ServiceBusQueue = "ServiceBusQueue",
-  /** ServiceBusTopic */
-  ServiceBusTopic = "ServiceBusTopic",
-  /** AzureFunction */
-  AzureFunction = "AzureFunction",
-  /** PartnerDestination */
-  PartnerDestination = "PartnerDestination"
-}
-
-/**
- * Defines values for EndpointType. \
- * {@link KnownEndpointType} can be used interchangeably with EndpointType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **WebHook** \
- * **EventHub** \
- * **StorageQueue** \
- * **HybridConnection** \
- * **ServiceBusQueue** \
- * **ServiceBusTopic** \
- * **AzureFunction** \
- * **PartnerDestination**
- */
-export type EndpointType = string;
 
 /** Known values of {@link AdvancedFilterOperatorType} that the service accepts. */
 export enum KnownAdvancedFilterOperatorType {
@@ -3899,6 +4071,141 @@ export enum KnownPartnerTopicActivationState {
  */
 export type PartnerTopicActivationState = string;
 
+/** Known values of {@link NetworkSecurityPerimeterResourceType} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterResourceType {
+  /** Topics */
+  Topics = "topics",
+  /** Domains */
+  Domains = "domains"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterResourceType. \
+ * {@link KnownNetworkSecurityPerimeterResourceType} can be used interchangeably with NetworkSecurityPerimeterResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **topics** \
+ * **domains**
+ */
+export type NetworkSecurityPerimeterResourceType = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigProvisioningState {
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleted */
+  Deleted = "Deleted",
+  /** Accepted */
+  Accepted = "Accepted"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed** \
+ * **Deleted** \
+ * **Accepted**
+ */
+export type NetworkSecurityPerimeterConfigProvisioningState = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationIssueType} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationIssueType {
+  /** MissingPerimeterConfiguration */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** MissingIdentityConfiguration */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+  /** ConfigurationPropagationFailure */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** Other */
+  Other = "Other"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationIssueType. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationIssueType} can be used interchangeably with NetworkSecurityPerimeterConfigurationIssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **MissingPerimeterConfiguration** \
+ * **MissingIdentityConfiguration** \
+ * **ConfigurationPropagationFailure** \
+ * **Other**
+ */
+export type NetworkSecurityPerimeterConfigurationIssueType = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationIssueSeverity} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationIssueSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationIssueSeverity. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationIssueSeverity} can be used interchangeably with NetworkSecurityPerimeterConfigurationIssueSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type NetworkSecurityPerimeterConfigurationIssueSeverity = string;
+
+/** Known values of {@link NetworkSecurityPerimeterAssociationAccessMode} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterAssociationAccessMode {
+  /** Learning */
+  Learning = "Learning",
+  /** Enforced */
+  Enforced = "Enforced",
+  /** Audit */
+  Audit = "Audit"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterAssociationAccessMode. \
+ * {@link KnownNetworkSecurityPerimeterAssociationAccessMode} can be used interchangeably with NetworkSecurityPerimeterAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Learning** \
+ * **Enforced** \
+ * **Audit**
+ */
+export type NetworkSecurityPerimeterAssociationAccessMode = string;
+
+/** Known values of {@link NetworkSecurityPerimeterProfileAccessRuleDirection} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterProfileAccessRuleDirection {
+  /** Inbound */
+  Inbound = "Inbound",
+  /** Outbound */
+  Outbound = "Outbound"
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterProfileAccessRuleDirection. \
+ * {@link KnownNetworkSecurityPerimeterProfileAccessRuleDirection} can be used interchangeably with NetworkSecurityPerimeterProfileAccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
+ */
+export type NetworkSecurityPerimeterProfileAccessRuleDirection = string;
+
 /** Known values of {@link PermissionType} that the service accepts. */
 export enum KnownPermissionType {
   /** Publisher */
@@ -4171,6 +4478,33 @@ export enum KnownPartnerClientAuthenticationType {
  * **AzureAD**
  */
 export type PartnerClientAuthenticationType = string;
+
+/** Known values of {@link MonitorAlertSeverity} that the service accepts. */
+export enum KnownMonitorAlertSeverity {
+  /** Sev0 */
+  Sev0 = "Sev0",
+  /** Sev1 */
+  Sev1 = "Sev1",
+  /** Sev2 */
+  Sev2 = "Sev2",
+  /** Sev3 */
+  Sev3 = "Sev3",
+  /** Sev4 */
+  Sev4 = "Sev4"
+}
+
+/**
+ * Defines values for MonitorAlertSeverity. \
+ * {@link KnownMonitorAlertSeverity} can be used interchangeably with MonitorAlertSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Sev0** \
+ * **Sev1** \
+ * **Sev2** \
+ * **Sev3** \
+ * **Sev4**
+ */
+export type MonitorAlertSeverity = string;
 
 /** Optional parameters. */
 export interface CaCertificatesGetOptionalParams
@@ -5089,6 +5423,13 @@ export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicOptionalPar
 export type NamespaceTopicEventSubscriptionsListByNamespaceTopicResponse = SubscriptionsListResult;
 
 /** Optional parameters. */
+export interface NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeliveryAttributes operation. */
+export type NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse = DeliveryAttributeListResult;
+
+/** Optional parameters. */
 export interface NamespaceTopicEventSubscriptionsListByNamespaceTopicNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -5760,6 +6101,32 @@ export interface PartnerTopicsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NetworkSecurityPerimeterConfigurationsGetResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsReconcileOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcile operation. */
+export type NetworkSecurityPerimeterConfigurationsReconcileResponse = NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type NetworkSecurityPerimeterConfigurationsListResponse = NetworkSecurityPerimeterConfigurationList;
 
 /** Optional parameters. */
 export interface PermissionBindingsGetOptionalParams

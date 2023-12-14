@@ -1,0 +1,129 @@
+{
+	"name": "hotels-quickstart",
+	"fields": [
+		{
+			"name": "HotelId",
+			"type": "Edm.String",
+			"key": true,
+			"filterable": true
+		},
+		{
+			"name": "HotelName",
+			"type": "Edm.String",
+			"searchable": true,
+			"filterable": false,
+			"sortable": true,
+			"facetable": false
+		},
+		{
+			"name": "Description",
+			"type": "Edm.String",
+			"searchable": true,
+			"filterable": false,
+			"sortable": false,
+			"facetable": false,
+			"analyzerName": "en.lucene"
+		},
+		{
+			"name": "Description_fr",
+			"type": "Edm.String",
+			"searchable": true,
+			"filterable": false,
+			"sortable": false,
+			"facetable": false,
+			"analyzerName": "fr.lucene"
+		},
+		{
+			"name": "Category",
+			"type": "Edm.String",
+			"searchable": true,
+			"filterable": true,
+			"sortable": true,
+			"facetable": true
+		},
+		{
+			"name": "Tags",
+			"type": "Collection(Edm.String)",
+			"searchable": true,
+			"filterable": true,
+			"sortable": false,
+			"facetable": true
+		},
+		{
+			"name": "ParkingIncluded",
+			"type": "Edm.Boolean",
+			"filterable": true,
+			"sortable": true,
+			"facetable": true
+		},
+		{
+			"name": "LastRenovationDate",
+			"type": "Edm.DateTimeOffset",
+			"filterable": true,
+			"sortable": true,
+			"facetable": true
+		},
+		{
+			"name": "Rating",
+			"type": "Edm.Double",
+			"filterable": true,
+			"sortable": true,
+			"facetable": true
+		},
+		{
+			"name": "Address",
+			"type": "Edm.ComplexType",
+			"fields": [
+				{
+					"name": "StreetAddress",
+					"type": "Edm.String",
+					"filterable": false,
+					"sortable": false,
+					"facetable": false,
+					"searchable": true
+				},
+				{
+					"name": "City",
+					"type": "Edm.String",
+					"searchable": true,
+					"filterable": true,
+					"sortable": true,
+					"facetable": true
+				},
+				{
+					"name": "StateProvince",
+					"type": "Edm.String",
+					"searchable": true,
+					"filterable": true,
+					"sortable": true,
+					"facetable": true
+				},
+				{
+					"name": "PostalCode",
+					"type": "Edm.String",
+					"searchable": true,
+					"filterable": true,
+					"sortable": true,
+					"facetable": true
+				},
+				{
+					"name": "Country",
+					"type": "Edm.String",
+					"searchable": true,
+					"filterable": true,
+					"sortable": true,
+					"facetable": true
+				}
+			]
+		}
+	],
+	"suggesters": [
+		{
+			"name": "sg",
+			"searchMode": "analyzingInfixMatching",
+			"sourceFields": [
+				"HotelName"
+			]
+		}
+	]
+}

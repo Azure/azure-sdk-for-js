@@ -25,12 +25,12 @@ describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
     let abortController: AbortController;
     let abortSignal: ReturnType<typeof getAbortSignalWithTracking>;
-    let ourTimerId: NodeJS.Timer | undefined;
+    let ourTimerId: NodeJS.Timeout | undefined;
     let timerWasCleared: boolean;
 
     let timeoutFunctions: {
       setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
-      clearTimeoutFn: (timeoutId: NodeJS.Timer) => void;
+      clearTimeoutFn: (timeoutId: NodeJS.Timeout) => void;
     };
 
     const neverFireMs = 10 * 1000;
@@ -57,7 +57,7 @@ describe("utils", () => {
         return id;
       };
 
-      const clearTimeoutFn = (timerIdToClear: NodeJS.Timer): any => {
+      const clearTimeoutFn = (timerIdToClear: NodeJS.Timeout): any => {
         assert.exists(timerIdToClear);
         assert.isFalse(timerWasCleared, "Timer should not be cleared multiple times");
         timerWasCleared = true;

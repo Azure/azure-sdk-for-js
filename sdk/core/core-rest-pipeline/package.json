@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.12.2",
+  "version": "1.13.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -8,9 +8,9 @@
   "browser": {
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
     "./dist-esm/src/policies/decompressResponsePolicy.js": "./dist-esm/src/policies/decompressResponsePolicy.browser.js",
-    "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
+    "./dist-esm/src/util/stream.js": "./dist-esm/src/util/stream.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
@@ -19,19 +19,10 @@
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.native.js"
   },
   "types": "core-rest-pipeline.shims.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "core-rest-pipeline.shims.d.ts": [
-        "core-rest-pipeline.shims-3_1.d.ts"
-      ]
-    }
-  },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -53,10 +44,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/3.1/core-rest-pipeline.d.ts",
     "types/latest/core-rest-pipeline.d.ts",
     "core-rest-pipeline.shims.d.ts",
-    "core-rest-pipeline.shims-3_1.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -71,7 +60,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/",
   "sideEffects": false,
@@ -94,12 +83,11 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-tracing": "^1.0.1",
     "@azure/core-util": "^1.3.0",
     "@azure/logger": "^1.0.0",
-    "form-data": "^4.0.0",
     "tslib": "^2.2.0",
     "http-proxy-agent": "^5.0.0",
     "https-proxy-agent": "^5.0.0"
@@ -111,12 +99,11 @@
     "@opentelemetry/api": "^1.4.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
@@ -129,15 +116,15 @@
     "karma-mocha": "^2.0.1",
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.3.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "esm": "^3.2.18"
   }
 }

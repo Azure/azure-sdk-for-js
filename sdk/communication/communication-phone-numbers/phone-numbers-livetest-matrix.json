@@ -21,7 +21,7 @@
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": ["14.x", "16.x", "18.x"],
+    "NodeTestVersion": ["18.x", "20.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },
@@ -53,7 +53,7 @@
           "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
         }
       },
-      "NodeTestVersion": "14.x"
+      "NodeTestVersion": "18.x"
     },
     {
       "Agent": {
@@ -63,7 +63,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "14.x",
+      "NodeTestVersion": "18.x",
       "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml",
       "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"

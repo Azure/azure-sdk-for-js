@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
  *
  * @summary Description for Creates the artifacts for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/DeleteDeployWorkflowArtifacts.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/DeleteDeployWorkflowArtifacts.json
  */
 async function deleteWorkflowArtifacts() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function deleteWorkflowArtifacts() {
  * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
  *
  * @summary Description for Creates the artifacts for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/PostDeployWorkflowArtifacts.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/PostDeployWorkflowArtifacts.json
  */
 async function deploysWorkflowArtifacts() {
   const subscriptionId =

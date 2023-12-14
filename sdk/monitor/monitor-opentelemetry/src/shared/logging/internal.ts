@@ -18,7 +18,7 @@ import {
 export class InternalAzureLogger {
   private _TAG = "InternalLogger:";
   private _cleanupTimeOut = 60 * 30 * 1000; // 30 minutes;
-  private _fileCleanupTimer: NodeJS.Timer | null = null;
+  private _fileCleanupTimer: NodeJS.Timeout | null = null;
   private _tempDir: string;
   private _logFileName: string;
   private _fileFullPath: string;
@@ -27,13 +27,14 @@ export class InternalAzureLogger {
   private _logToConsole = true;
   private _maxHistory: number;
   private _maxSizeBytes: number;
+  private _logDestination: string | undefined;
 
   constructor() {
-    const logDestination = process.env.APPLICATIONINSIGHTS_LOG_DESTINATION; // destination can be one of file, console or file+console
-    if (logDestination === "file+console") {
+    this._logDestination = process.env.APPLICATIONINSIGHTS_LOG_DESTINATION; // destination can be one of file, console or file+console
+    if (this._logDestination === "file+console") {
       this._logToFile = true;
     }
-    if (logDestination === "file") {
+    if (this._logDestination === "file") {
       this._logToFile = true;
       this._logToConsole = false;
     }

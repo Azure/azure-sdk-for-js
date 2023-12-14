@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { getChatCompletions, listChatCompletions, listCompletions } from "./operations.js";
+export {
+  getChatCompletions,
+  listChatCompletions,
+  listCompletions,
+  getAudioTranscription,
+  getAudioTranslation,
+  getImages,
+} from "./client/openAIClient/index.js";
 export {
   getEmbeddings,
   getCompletions,
-  beginAzureBatchImageGeneration,
-  getAzureBatchImageGenerationOperationStatus,
-} from "../../generated/src/api/operations.js";
+} from "../../generated/src/api/client/openAIClient/index.js";
 export {
   createOpenAI,
   OpenAIContext,
