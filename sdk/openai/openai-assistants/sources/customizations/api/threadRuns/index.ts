@@ -10,7 +10,11 @@ import {
   SubmitRunToolOutputs200Response,
 } from "../../../generated/src/rest/index.js";
 import { ThreadRunsListRunsOptions } from "../../../generated/src/models/options.js";
-import { operationOptionsToRequestParameters, createRestError, StreamableMethod } from "@azure-rest/core-client";
+import {
+  operationOptionsToRequestParameters,
+  createRestError,
+  StreamableMethod,
+} from "@azure-rest/core-client";
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response
@@ -78,7 +82,6 @@ export function _createThreadAndRunSend(
   });
 }
 
-
 /** Returns a list of runs associated with an assistant thread. */
 export async function listRuns(
   context: Client,
@@ -104,10 +107,10 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
       : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-          ? undefined
-          : {
-            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-          },
+            ? undefined
+            : {
+                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+              },
         },
     lastError: !result.body.last_error
       ? undefined
@@ -146,10 +149,10 @@ export async function _retrieveRunDeserialize(result: RetrieveRun200Response): P
       : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-          ? undefined
-          : {
-            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-          },
+            ? undefined
+            : {
+                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+              },
         },
     lastError: !result.body.last_error
       ? undefined
@@ -190,10 +193,10 @@ export async function _submitRunToolOutputsDeserialize(
       : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-          ? undefined
-          : {
-            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-          },
+            ? undefined
+            : {
+                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+              },
         },
     lastError: !result.body.last_error
       ? undefined
@@ -234,10 +237,10 @@ export async function _createThreadAndRunDeserialize(
       : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-          ? undefined
-          : {
-            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-          },
+            ? undefined
+            : {
+                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+              },
         },
     lastError: !result.body.last_error
       ? undefined
@@ -276,10 +279,10 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
       : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-          ? undefined
-          : {
-            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-          },
+            ? undefined
+            : {
+                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+              },
         },
     lastError: !result.body.last_error
       ? undefined

@@ -342,7 +342,6 @@ export interface CodeInterpreterToolCall extends ToolCall {
   codeInterpreter: CodeInterpreterCallDetails;
 }
 
-
 /** The detailed information about a code interpreter invocation by the model. */
 export interface CodeInterpreterCallDetails {
   /** The input provided by the model to the code interpreter tool. */

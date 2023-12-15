@@ -202,12 +202,37 @@ export interface CodeInterpreterCallDetails {
 
 // @public
 export interface CodeInterpreterCallOutput {
+    image?: CodeInterpreterImageReference;
+    logs?: string;
     type: string;
+}
+
+// @public
+export interface CodeInterpreterImageOutput extends CodeInterpreterCallOutput {
+    image: CodeInterpreterImageReference;
+    type: "image";
 }
 
 // @public
 export interface CodeInterpreterImageReference {
     fileId: string;
+}
+
+// @public
+export interface CodeInterpreterLogOutput extends CodeInterpreterCallOutput {
+    logs: string;
+    type: "logs";
+}
+
+// @public
+export interface CodeInterpreterToolCall extends ToolCall {
+    codeInterpreter: CodeInterpreterCallDetails;
+    type: "code_interpreter";
+}
+
+// @public
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+    type: "code_interpreter";
 }
 
 // @public
@@ -232,6 +257,7 @@ export interface FileDeletionStatus extends DeletionStatus {
 
 // @public
 export interface FileListResponse {
+    // Warning: (ae-forgotten-export) The symbol "InputFile" needs to be exported by the entry point index.d.ts
     data: InputFile[];
 }
 
@@ -290,12 +316,15 @@ export interface FunctionDefinition {
 }
 
 // @public
-export interface InputFile {
-    bytes: number;
-    createdAt: Date;
-    filename: string;
-    id: string;
-    purpose: FilePurpose;
+export interface FunctionToolCall extends ToolCall {
+    function: FunctionCallDetails;
+    type: "function";
+}
+
+// @public
+export interface FunctionToolDefinition extends ToolDefinitionParent {
+    function: FunctionDefinition;
+    type: "function";
 }
 
 // @public
@@ -304,9 +333,18 @@ export type ListSortOrder = string;
 // @public
 export interface MessageContent {
     // (undocumented)
+    fileIds?: string[];
+    // (undocumented)
     imageFile?: MessageImageFileDetails;
     // (undocumented)
+    metadata?: Record<string, string>;
+    // (undocumented)
     text?: MessageTextDetails;
+    type: string;
+}
+
+// @public
+export interface MessageContentParent {
     type: string;
 }
 
@@ -318,8 +356,26 @@ export interface MessageFile {
 }
 
 // @public
+export interface MessageFileCitationTextAnnotation extends MessageTextAnnotationParent {
+    fileCitation: MessageTextFileCitationDetails;
+    type: "file_citation";
+}
+
+// @public
 export interface MessageFilePathDetails {
     fileId: string;
+}
+
+// @public
+export interface MessageFilePathTextAnnotation extends MessageTextAnnotationParent {
+    filePath: MessageFilePathDetails;
+    type: "file_path";
+}
+
+// @public
+export interface MessageImageFileContent extends MessageContentParent {
+    imageFile: MessageImageFileDetails;
+    type: "image_file";
 }
 
 // @public
@@ -331,11 +387,20 @@ export interface MessageImageFileDetails {
 export type MessageRole = string;
 
 // @public
-export interface MessageTextAnnotation {
+export type MessageTextAnnotation = MessageFileCitationTextAnnotation | MessageFilePathTextAnnotation | MessageTextAnnotationParent;
+
+// @public
+export interface MessageTextAnnotationParent {
     endIndex: number;
     startIndex: number;
     text: string;
     type: string;
+}
+
+// @public
+export interface MessageTextContent extends MessageContentParent {
+    text: MessageTextDetails;
+    type: "text";
 }
 
 // @public
@@ -359,8 +424,20 @@ export class OpenAIKeyCredential implements KeyCredential {
 
 // @public
 export interface RequiredAction {
+    // (undocumented)
     submitToolOutputs?: SubmitToolOutputsDetails;
     type: string;
+}
+
+// @public
+export interface RetrievalToolCall extends ToolCall {
+    retrieval: Record<string, string>;
+    type: "retrieval";
+}
+
+// @public
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
+    type: "retrieval";
 }
 
 // @public
@@ -398,6 +475,8 @@ export interface RunStep {
 
 // @public
 export interface RunStepDetails {
+    messageCreation?: RunStepMessageCreationReference;
+    toolCalls?: ToolCall[];
     type: RunStepType;
 }
 
@@ -415,6 +494,12 @@ export interface RunStepError {
 
 // @public
 export type RunStepErrorCode = string;
+
+// @public
+export interface RunStepMessageCreationDetails extends RunStepDetails {
+    messageCreation: RunStepMessageCreationReference;
+    type: "message_creation";
+}
 
 // @public
 export interface RunStepMessageCreationReference {
@@ -445,6 +530,12 @@ export interface RunStepsRetrieveRunStepOptions extends OperationOptions {
 export type RunStepStatus = string;
 
 // @public
+export interface RunStepToolCallDetails extends RunStepDetails {
+    toolCalls: ToolCall[];
+    type: "tool_calls";
+}
+
+// @public
 export type RunStepType = string;
 
 // @public
@@ -461,7 +552,7 @@ export interface ThreadMessage {
     assistantId?: string;
     content: MessageContent[];
     createdAt?: Date;
-    fileIds: string[];
+    fileIds?: string[];
     id?: string;
     metadata?: Record<string, string>;
     role: string;
@@ -500,10 +591,8 @@ export interface ThreadMessagesModifyMessageOptions extends OperationOptions {
 export interface ThreadMessagesOperations {
     // (undocumented)
     createMessage: (threadId: string, role: string, content: string, options?: ThreadMessagesCreateMessageOptions) => Promise<ThreadMessage>;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageFile" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    listMessageFiles: (threadId: string, messageId: string, options?: ThreadMessagesListMessageFilesOptions) => Promise<ListResponseOf<ThreadMessageFile>>;
+    listMessageFiles: (threadId: string, messageId: string, options?: ThreadMessagesListMessageFilesOptions) => Promise<ListResponseOf<MessageFile>>;
     // (undocumented)
     listMessages: (threadId: string, options?: ThreadMessagesListMessagesOptions) => Promise<ListResponseOf<ThreadMessage>>;
     // (undocumented)
@@ -511,7 +600,7 @@ export interface ThreadMessagesOperations {
     // (undocumented)
     retrieveMessage: (threadId: string, messageId: string, options?: ThreadMessagesRetrieveMessageOptions) => Promise<ThreadMessage>;
     // (undocumented)
-    retrieveMessageFile: (threadId: string, messageId: string, fileId: string, options?: ThreadMessagesRetrieveMessageFileOptions) => Promise<ThreadMessageFile>;
+    retrieveMessageFile: (threadId: string, messageId: string, fileId: string, options?: ThreadMessagesRetrieveMessageFileOptions) => Promise<MessageFile>;
 }
 
 // @public (undocumented)
@@ -600,7 +689,10 @@ export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions 
 
 // @public
 export interface ToolCall {
+    codeInterpreter?: CodeInterpreterCallDetails;
+    function?: FunctionCallDetails;
     id: string;
+    retrieval?: Record<string, string>;
     type: string;
 }
 
@@ -608,6 +700,11 @@ export interface ToolCall {
 export interface ToolDefinition {
     // (undocumented)
     function?: FunctionDefinition;
+    type: string;
+}
+
+// @public
+export interface ToolDefinitionParent {
     type: string;
 }
 

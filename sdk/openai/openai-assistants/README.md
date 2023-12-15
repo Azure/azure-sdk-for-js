@@ -32,6 +32,7 @@ Install the Azure OpenAI Assistants client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/openai-assistants
+```
 
 ### Create and authenticate a `AssistantsClient`
 
@@ -46,6 +47,8 @@ Use the [Azure Portal][azure_portal] to browse to your OpenAI resource and retri
 
 ```PowerShell
 az cognitiveservices account keys list --resource-group <your-resource-group-name> --name <your-resource-name>
+```
+
 ## Key concepts
 
 See [OpenAI's "how assistants work"](https://platform.openai.com/docs/assistants/how-it-works) documentation for an
@@ -55,17 +58,14 @@ creating, running, and using assistants and threads.
 
 To get started, create an `AssistantsClient`:
 ```javascript Snippet:OverviewCreateClient
-const assistantsClient = isAzureOpenAI
-  ? new AssistantsClient(new Uri(azureResourceUrl), new AzureKeyCredential(azureApiKey))
-  : new AssistantsClient(new OpenAIKeyCredential(nonAzureKey));
+const assistantsClient = new AssistantsClient(new Uri(azureResourceUrl), new AzureKeyCredential(azureApiKey));
 ```
-
 
 With a client, an assistant can then be created. An assistant is a purpose-built interface to OpenAI models that can call Tools while allowing high-level instructions throughout the lifetime of the assistant.
 
 The code to create an assistant:
 ```javascript Snippet:OverviewCreateAssistant
-const assistant = await assistantsClient.createAssistant({
+const assistant = await assistantsClient.assistants.createAssistant({
   model: "gpt-4-1106-preview",
   name: "JS Math Tutor",
   instructions: "You are a personal math tutor. Write and run code to answer math questions.",
@@ -77,20 +77,20 @@ A conversation session between an Assistant and a user is called a Thread. Threa
 
 To create a thread:
 ```javascript Snippet:OverviewCreateThread
-const assistantThread = await assistantsClient.createThread();
+const assistantThread = await assistantsClient.assistantThreads.createThread();
 ```
 
 Message represent a message created by an Assistant or a user. Messages can include text, images, and other files. Messages are stored as a list on the Thread.
 With a thread created, messages can be created on it:
 ```javascript Snippet:OverviewCreateMessage
 const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-const messageResponse = await assistantsClient.createMessage(assistantThread.id, "user", question);
+const messageResponse = await assistantsClient.threadMessages.createMessage(assistantThread.id, "user", question);
 ```
 
 A Run represent an invocation of an Assistant on a Thread. The Assistant uses it’s configuration and the Thread’s Messages to perform tasks by calling models and tools. As part of a Run, the Assistant appends Messages to the Thread.
 A run can then be started that evaluates the thread against an assistant:
 ```javascript Snippet:OverviewCreateRun
-let runResponse = await assistantsClient.createRun(assistantThread.id, assistant.id, {
+let runResponse = await assistantsClient.threadRuns.createRun(assistantThread.id, assistant.id, {
    instructions: "Please address the user as Jane Doe. The user has a premium account." 
 });
 ```
@@ -99,14 +99,14 @@ Once the run has started, it should then be polled until it reaches a terminal s
 ```javascript Snippet:OverviewWaitForRun
 do {
   await new Promise(r => setTimeout(r, 500));
-  runResponse = await assistantsClient.retrieveRun(assistantThread.id, runResponse.id);
+  runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
 } while (runResponse.status === "queued" || runResponse.status === "in_progress")
 ```
 
 Assuming the run successfully completed, listing messages from the thread that was run will now reflect new information
 added by the assistant:
 ```javascript Snippet:OverviewListUpdatedMessages
-const runMessages = await assistantsClient.listMessages(assistantThread.id);
+const runMessages = await assistantsClient.threadMessages.listMessages(assistantThread.id);
 for (const runMessageDatum of runMessages.data) {
   for (const item of runMessageDatum.content) {
     if (item.type === "text") {
@@ -132,13 +132,13 @@ purpose of 'assistants' to make a file ID available:
 const filename = "sample_file_for_upload.txt";
 await fs.writeFile(filename, "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
 const uint8array = await fs.readFile(filename);
-const uploadAssistantFile = await assistantsClient.uploadFile(uint8array, "assistants", { filename });
+const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename });
 ```
 
 Once uploaded, the file ID can then be provided to an assistant upon creation. Note that file IDs will only be used
 if an appropriate tool like Code Interpreter or Retrieval is enabled.
 ```javascript Snippet:CreateAssistantWithFiles
-const fileAssistant = await assistantsClient.createAssistant({
+const fileAssistant = await assistantsClient.assistants.createAssistant({
   model: "gpt-4-1106-preview",
   name: "JS SDK Test Assistant - Retrieval",
   instructions: "You are a helpful assistant that can help fetch data from files you know about.",
@@ -251,7 +251,7 @@ const getWeatherAtLocationTool = {
 With the functions defined in their appropriate tools, an assistant can be now created that has those tools enabled:
 
 ```javascript Snippet:FunctionsCreateAssistantWithFunctionTools
-  const weatherAssistant = await assistantsClient.createAssistant({
+  const weatherAssistant = await assistantsClient.assistants.createAssistant({
   // note: parallel function calling is only supported with newer models like gpt-4-1106-preview
   model: "gpt-4-1106-preview",
   name: "JS SDK Test Assistant - Weather",
@@ -301,7 +301,7 @@ run via the `SubmitRunToolOutputs` method so that the run can continue:
 
 ```javascript Snippet:FunctionsHandlePollingWithRequiredAction
 const question = "What's the weather like right now in my favorite city?";
-let runResponse = await assistantsClient.createThreadAndRun({ 
+let runResponse = await assistantsClient.threadRuns.createThreadAndRun({ 
   assistantId: weatherAssistant.id, 
   thread: { messages: [{ role: "user", content: question }] },
   tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
@@ -309,7 +309,7 @@ let runResponse = await assistantsClient.createThreadAndRun({
 
 do {
   await new Promise(r => setTimeout(r, 500));
-  runResponse = await assistantsClient.retrieveRun(runResponse.threadId, runResponse.id);
+  runResponse = await assistantsClient.threadRuns.retrieveRun(runResponse.threadId, runResponse.id);
   
   if (runResponse.status === "requires_action" && runResponse.requiredAction.type === "submit_tool_outputs") {
     const toolOutputs = [];
@@ -317,7 +317,7 @@ do {
     for (const toolCall of runResponse.requiredAction.submitToolOutputs.toolCalls) {
       toolOutputs.push(getResolvedToolOutput(toolCall));
     }
-    runResponse = await assistantsClient.submitRunToolOutputs(runResponse.threadId, runResponse.id, toolOutputs);
+    runResponse = await assistantsClient.threadRuns.submitRunToolOutputs(runResponse.threadId, runResponse.id, toolOutputs);
   }
 } while (runResponse.status === "queued" || runResponse.status === "in_progress")
 ```
@@ -341,3 +341,10 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
+<!-- LINKS -->
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
+[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_portal]: https://portal.azure.com
