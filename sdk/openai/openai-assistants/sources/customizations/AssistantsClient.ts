@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
-import { InputFile, ListResponseOf } from "./models/models.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { AssistantsOperations } from "./classic/assistants/index.js";
 import { getAssistantsOperations } from "../generated/src/classic/assistants/index.js";
@@ -19,21 +18,10 @@ import { RunStepsOperations } from "./classic/runSteps/index.js";
 import { FilesOperations } from "./classic/files/index.js";
 import { getFilesOperations } from "../generated/src/classic/files/index.js";
 import {
-  Assistant,
   AssistantsClientOptions,
-  AssistantsListAssistantsOptions,
-  AssistantThread,
-  AssistantThreadsCreateThreadOptions,
-  AssistantThreadCreationOptions,
-  FilePurpose,
-  FilesRetrieveFileOptions,
-  FilesUploadFileOptions,
 } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
-import { listAssistants } from "./api/operations.js";
-import { createThread } from "../generated/src/api/assistantThreads/index.js";
-import { retrieveFile, uploadFile } from "../generated/src/api/files/index.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 
 function createOpenAIEndpoint(version: number): string {
@@ -158,38 +146,6 @@ export class AssistantsClient {
     this.threadRuns = getThreadRunsOperations(this._client);
     this.runSteps = getRunStepsOperations(this._client);
     this.files = getFilesOperations(this._client);
-  }
-
-  /** Creates a new thread for an assistant. */
-  createThread(
-    body: AssistantThreadCreationOptions = {},
-    options: AssistantThreadsCreateThreadOptions = { requestOptions: {} }
-  ): Promise<AssistantThread> {
-    return createThread(this._client, body, options);
-  }
-
-  /** Returns a list of assistants. */
-  listAssistants(
-    options: AssistantsListAssistantsOptions = { requestOptions: {} }
-  ): Promise<ListResponseOf<Assistant>> {
-    return listAssistants(this._client, options);
-  }
-
-  /** Upload a file that can be used across various endpoints. */
-  uploadFile(
-    file: Uint8Array,
-    purpose: FilePurpose,
-    options: FilesUploadFileOptions = { requestOptions: {} }
-  ): Promise<InputFile> {
-    return uploadFile(this._client, file, purpose, options);
-  }
-
-  /** Returns information about a specific file. Does not retrieve file content. */
-  retrieveFile(
-    fileId: string,
-    options: FilesRetrieveFileOptions = { requestOptions: {} }
-  ): Promise<InputFile> {
-    return retrieveFile(this._client, fileId, options);
   }
 
   /** The operation groups for Assistants */

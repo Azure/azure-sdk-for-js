@@ -9,26 +9,26 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 /** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionOutputParent {
+export interface ToolDefinitionOutput {
   type: string;
   /** The definition of the concrete function that the function tool should call. */
   function?: FunctionDefinitionOutput;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
+export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutput {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutputParent {
+export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutput {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
+export interface FunctionToolDefinitionOutput extends ToolDefinitionOutput {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -516,11 +516,6 @@ export interface ListResponseOfOutput<T> {
   has_more: boolean;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
-export type ToolDefinitionOutput =
-  | CodeInterpreterToolDefinitionOutput
-  | RetrievalToolDefinitionOutput
-  | FunctionToolDefinitionOutput;
 /** An abstract representation of a single item of thread message content. */
 export type MessageContentOutput = MessageTextContentOutput | MessageImageFileContentOutput;
 /** An abstract representation of an annotation to text thread message content. */
