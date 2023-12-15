@@ -135,15 +135,15 @@ To retrieve the route direction, you need to pass in the parameters the coordina
 By default, the Route service will return an array of coordinates. The response will contain the coordinates that make up the path in a list named points. Route response also includes the distance from the start of the route and the estimated elapsed time. These values can be used to calculate the average speed for the entire route.
 
 ```javascript
-const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
+const routeDirectionsResult1 = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: "51.368752,-0.118332:41.385426,-0.128929",
   },
 });
 
 // You can use the helper function `toColonDelimitedLatLonString` to compose the query string.
-const { toColonDelimitedLatLonString } = require("@azure-rest/maps-route");
-const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
+const routeDirectionsResult2 = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
       // Origin:
@@ -159,11 +159,11 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
 });
 
 // Handle the error if the request failed
-if (isUnexpected(routeDirectionsResult)) {
-  throw routeDirectionsResult.body.error;
+if (isUnexpected(routeDirectionsResult2)) {
+  throw routeDirectionsResult2.body.error;
 }
 
-routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
+routeDirectionsResult2.body.routes.forEach(({ summary, legs }) => {
   console.log(
     `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
   );
@@ -183,6 +183,7 @@ routeDirectionsResult.body.routes.forEach(({ summary, legs }) => {
 The service supports commercial vehicle routing, covering commercial trucks routing. The APIs consider specified limits. Such as, the height and weight of the vehicle, and if the vehicle is carrying hazardous cargo. For example, if a vehicle is carrying flammable, the routing engine avoid certain tunnels that are near residential areas.
 
 ```javascript
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -234,6 +235,7 @@ For multi-stop routing, up to 150 waypoints may be specified in a single route r
 If you want to optimize the best order to visit the given waypoints, then you need to specify `computeBestWaypointOrder=true`. This scenario is also known as the traveling salesman optimization problem.
 
 ```javascript
+const { toColonDelimitedLatLonString, isUnexpected } = require("@azure-rest/maps-route");
 const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
   queryParameters: {
     query: toColonDelimitedLatLonString([
@@ -246,7 +248,7 @@ const routeDirectionsResult = await client.path("/route/directions/{format}", "j
       // Destination:
       [41.385426, -0.128929],
     ]),
-    computeBestWaypointOrder: true,
+    computeBestOrder: true,
     routeType: "shortest",
   },
 });
@@ -255,7 +257,7 @@ if (isUnexpected(routeDirectionsResult)) {
   throw routeDirectionsResult.body.error;
 }
 
-const { summary } = routeDirectionsResult.body.routes;
+const { summary } = routeDirectionsResult.body.routes[0]; 
 console.log(
   `The optimized distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
 );
