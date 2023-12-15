@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import { getClient } from "../../src/getClient.js";
 import sinon from "sinon";
 

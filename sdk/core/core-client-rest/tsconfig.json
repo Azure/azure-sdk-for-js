@@ -1,8 +1,6 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."

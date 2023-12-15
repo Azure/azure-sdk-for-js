@@ -1,33 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as td from "testdouble";
-import { assert } from "chai";
+import { describe, it, assert, afterEach, vi } from "vitest";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
+import https from "node:https";
 
 const mockBaseUrl = "https://example.org";
 
 describe("[Node] Streams", () => {
   afterEach(() => {
-    td.reset();
+    vi.resetAllMocks();
   });
 
   it("should get a JSON body response as a stream", async () => {
-    const https = await td.replaceEsm("https");
+    vi.mock("https");
+    https.request = vi.fn().mockImplementation((_url, cb) => {
+      const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+      cb(response);
+      return createRequest();
+    });
+
     const { getClient } = await import("../../src/getClient.js");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
-    const clientRequest = createRequest();
-
-    td.when(
-      https.request(
-        td.matchers.anything(),
-        td.callback(createResponse(200, JSON.stringify(expectedBody)))
-      ),
-      { times: 1 }
-    ).thenReturn(clientRequest);
 
     const promise = client.pathUnchecked("/foo").get().asNodeStream();
 
@@ -38,20 +35,17 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response", async () => {
-    const https = await td.replaceEsm("https");
+    vi.mock("https");
+    https.request = vi.fn().mockImplementation((_url, cb) => {
+      const response = createResponse(200, JSON.stringify({ foo: "foo" }));
+      cb(response);
+      return createRequest();
+    });
+
     const { getClient } = await import("../../src/getClient.js");
 
     const client = getClient(mockBaseUrl);
     const expectedBody = { foo: "foo" };
-    const clientRequest = createRequest();
-
-    td.when(
-      https.request(
-        td.matchers.anything(),
-        td.callback(createResponse(200, JSON.stringify(expectedBody)))
-      ),
-      { times: 1 }
-    ).thenReturn(clientRequest);
 
     const promise = client.pathUnchecked("/foo").get();
     const response = await promise;
@@ -60,12 +54,13 @@ describe("[Node] Streams", () => {
   });
 
   it("should be able to handle errors on normal response", async () => {
-    const https = await td.replaceEsm("https");
+    vi.mock("https");
+    https.request = vi.fn().mockImplementation(() => {
+      new Error("ExpectedException");
+    });
+
     const { getClient } = await import("../../src/getClient.js");
-
     const client = getClient(mockBaseUrl);
-
-    td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ExpectedException"));
 
     try {
       await client.pathUnchecked("/foo").get();
@@ -75,12 +70,13 @@ describe("[Node] Streams", () => {
   });
 
   it("should be able to handle errors on streamed response", async () => {
-    const https = await td.replaceEsm("https");
+    vi.mock("https");
+    https.request = vi.fn().mockImplementation(() => {
+      new Error("ExpectedException");
+    });
+
     const { getClient } = await import("../../src/getClient.js");
-
     const client = getClient(mockBaseUrl);
-
-    td.when(https.request(), { ignoreExtraArgs: true }).thenThrow(new Error("ExpectedException"));
 
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();

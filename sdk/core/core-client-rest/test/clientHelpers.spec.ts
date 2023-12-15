@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { createDefaultPipeline } from "../src/clientHelpers.js";
-import { assert } from "chai";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy.js";
 import { TokenCredential } from "@azure/core-auth";
 import { fail } from "assert";
 import { apiVersionPolicyName } from "../src/apiVersionPolicy.js";
+
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {

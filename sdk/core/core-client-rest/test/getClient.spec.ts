@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert, afterEach } from "vitest";
 import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
 import { getClient } from "../src/getClient.js";
 import sinon from "sinon";
@@ -175,7 +175,8 @@ describe("getClient", () => {
   });
 
   it("should insert policies in the correct pipeline position", async function () {
-    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const sendRequest = (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> =>
+      next(request);
     const retryPolicy: PipelinePolicy = {
       name: "retry",
       sendRequest,

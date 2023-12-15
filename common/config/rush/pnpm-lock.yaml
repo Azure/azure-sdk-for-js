@@ -18513,7 +18513,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-aiUVqu/iXD+z8yhyoNcYkUjWhfYkqS1PAXv03XsVcDCEc2TBPoAzVoNr0iPQKkoN0d5alIQp0a3MFZMBvFphLw==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-w6Q25wYsSS2L78mjSYNhvzXjwzUHxAzJo7YWx8deFyNoEUqtju8RQurBwwpRY3mBB5vtfdV2H5KChePLT/IciA==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -18553,9 +18553,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18566,11 +18563,11 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-dIAimIS3fBdiHtQdWa3hvAVLi99SuZkibd3QfQcMGIR+kgxdT/+RMcSekj7pSWLpkd+tBoSJWuOSAwM/c+uvcQ==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-wC4s45S/i2EePni5aTrPFlzlizwaVBYEXD2VkhKNfPRE4zS9TEa3joMXwjp/x6cO9LwQZCEb+tU4h6NaoQkdwg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18579,6 +18576,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
+      '@vitest/browser': 1.0.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
+      '@vitest/coverage-istanbul': 1.0.4(vitest@1.0.4)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.55.0
@@ -18594,19 +18593,29 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      prettier: 2.8.8
-      rimraf: 3.0.2
+      playwright: 1.40.1
+      prettier: 3.1.1
+      rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
+      tshy: 1.8.1
       tslib: 2.6.2
       typescript: 5.2.2
+      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/core-http-compat.tgz:
@@ -18747,7 +18756,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-pqxYkMk8W8M+ZUCE+KpDArAMLNsqXTwGWg1rabmTcO7HXJMFwdL/lgldW1bLswk5AecCfLOglQLBZOTlG15a4g==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-XFookGGtJhqi0lT1KHsNVbaXjL+QOJCGG242SNMbOqYULRyg5ZmEg7Juu6AzRdJZ0BgyV6rA2mRnAdW+F9ycJA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
