@@ -10,7 +10,7 @@
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
-export { AssistantsClient, AssistantsClientOptions } from "./assistantsClient.js";
+export { AssistantsClient, AssistantsClientOptions } from "./AssistantsClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
 export {
   AssistantThreadsOperations,

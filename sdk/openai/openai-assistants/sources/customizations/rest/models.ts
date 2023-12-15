@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { FunctionDefinition } from "../../generated/src/rest/models";
+
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {
   /** The messages to associate with the new thread. */
@@ -17,3 +19,13 @@ export interface AssistantThreadCreationOptions {
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
+
+/** The input definition information for a function tool as used to configure an assistant. */
+export interface ToolDefinition {
+  /** The object type, which is always 'function'. */
+  type: string;
+  /** The definition of the concrete function that the function tool should call. */
+  function?: FunctionDefinition;
+}
+
+export interface OpenAIPageableListOf {}

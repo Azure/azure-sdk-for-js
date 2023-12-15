@@ -15,7 +15,7 @@ import {
   AssistantModificationOptions,
   AssistantThreadCreationOptions,
   CreateAndRunThreadOptions,
-  ToolDefinitionParent,
+  ToolDefinition,
   ToolOutputSubmission,
   TypeSpecRecord,
 } from "./models.js";
@@ -135,7 +135,7 @@ export interface CreateRunBodyParam {
     assistant_id: string;
     model?: string;
     instructions?: string;
-    tools?: Array<ToolDefinitionParent>;
+    tools?: Array<ToolDefinition>;
     metadata?: TypeSpecRecord;
   };
 }

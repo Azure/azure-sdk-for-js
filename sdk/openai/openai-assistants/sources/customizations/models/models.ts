@@ -49,7 +49,7 @@ export interface ThreadRun {
 }
 
 /** Information about a file attached to an assistant thread message. */
-export interface ThreadMessageFile {
+export interface MessageFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;
   /** The Unix timestamp, in seconds, representing when this object was created. */
@@ -153,10 +153,11 @@ export interface InputFile {
   purpose: FilePurpose;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
+/** The input definition information for a function tool as used to configure an assistant. */
 export interface ToolDefinition {
-  /** the discriminator possible values code_interpreter, retrieval, function */
+  /** The object type, which is always 'function'. */
   type: string;
+  /** The definition of the concrete function that the function tool should call. */
   function?: FunctionDefinition;
 }
 

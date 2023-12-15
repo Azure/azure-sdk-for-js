@@ -30,6 +30,7 @@ export interface AssistantCreationOptions {
 export interface ToolDefinition {
   /** the discriminator possible values code_interpreter, retrieval, function */
   type: string;
+  /** The definition of the concrete function that the function tool should call. */
   function?: FunctionDefinition;
 }
 
@@ -134,21 +135,20 @@ export interface ThreadMessage {
   assistantId?: string;
   /** If applicable, the ID of the run associated with the authoring of this message. */
   runId?: string;
-  /**
-   * A list of file IDs that the assistant should use. Useful for tools like retrieval and code_interpreter that can
-   * access files.
-   */
-  fileIds: string[];
+  /** The IDs for the files associated with this message. */
+  fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
   metadata?: Record<string, string>;
 }
 
 /** An abstract representation of a single item of thread message content. */
 export interface MessageContent {
-  /** the discriminator possible values text, image_file */
+  /** the discriminator possible values image_file, text */
   type: string;
   imageFile?: MessageImageFileDetails;
   text?: MessageTextDetails;
+  fileIds?: string[];
+  metadata?: Record<string, string>;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
@@ -256,7 +256,12 @@ export interface ThreadRun {
 export interface RequiredAction {
   /** the discriminator possible values submit_tool_outputs */
   type: string;
-  /** The details describing tools that should be called to submit tool outputs. */
+}
+
+/** An abstract representation of a required action for an assistant thread run to continue. */
+export interface RequiredAction {
+  /** the discriminator possible values submit_tool_outputs */
+  type: string;
   submitToolOutputs?: SubmitToolOutputsDetails;
 }
 
@@ -419,16 +424,6 @@ export interface FileDeletionStatus extends DeletionStatus {
   id: string;
 }
 
-/** Information about a file attached to an assistant thread message. */
-export interface ThreadMessageFile {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
-  /** The ID of the message that this file is attached to. */
-  messageId: string;
-}
-
 /** An abstract representation of an annotation to text thread message content. */
 export interface ThreadMessageTextAnnotation {
   /** the discriminator possible values file_citation, file_path */
@@ -453,7 +448,7 @@ export interface ListResponseOf<T> {
   hasMore: boolean;
 }
 
-/** Represents an file */
+/** Represents an assistant that can call the model and use tools. */
 export interface InputFile {
   /** The identifier, which can be referenced in API endpoints. */
   id: string;

@@ -4,7 +4,7 @@ import {
   ThreadRunOutput,
   AssistantFileOutput,
   ThreadMessageOutput,
-  ThreadMessageFileOutput,
+  MessageFileOutput,
   RunStepOutput,
 } from "../../generated/src/rest/outputModels.js";
 import { HttpResponse } from "@azure-rest/core-client";
@@ -30,7 +30,7 @@ export interface ListMessages200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<ThreadMessageFileOutput>;
+  body: ListResponseOfOutput<MessageFileOutput>;
 }
 
 /** The request has succeeded. */

@@ -11,12 +11,12 @@
 
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import {
+  InputFile,
   ListResponseOf,
   MessageContent,
   MessageFile,
   MessageRole,
   ThreadMessage,
-  ThreadMessageFile,
 } from "../../models/models.js";
 import {
   ThreadMessagesCreateMessageOptions,
@@ -52,33 +52,6 @@ export function _createMessageSend(
       metadata: options?.metadata,
     },
   });
-}
-
-export async function _createMessageDeserialize(
-  result: CreateMessage200Response
-): Promise<ThreadMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    fileIds: result.body["file_ids"],
-    metadata: result.body["metadata"],
-  };
 }
 
 /** Creates a new message on a specified thread. */
@@ -119,33 +92,6 @@ export function _modifyMessageSend(
     ...operationOptionsToRequestParameters(options),
     body: { metadata: options?.metadata },
   });
-}
-
-export async function _modifyMessageDeserialize(
-  result: ModifyMessage200Response
-): Promise<ThreadMessage> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
-    threadId: result.body["thread_id"],
-    role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
-    assistantId: result.body["assistant_id"],
-    runId: result.body["run_id"],
-    fileIds: result.body["file_ids"],
-    metadata: result.body["metadata"],
-  };
 }
 
 /** Modifies an existing message on an existing thread. */
@@ -214,39 +160,6 @@ export async function retrieveMessageFile(
   return _retrieveMessageFileDeserialize(result);
 }
 
-export async function _listMessagesDeserialize(
-  result: ListMessages200Response
-): Promise<ListResponseOf<ThreadMessage>> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    data: result.body["data"].map((p) => ({
-      id: p["id"],
-      createdAt: new Date(p["created_at"]),
-      threadId: p["thread_id"],
-      role: p["role"],
-      content: (p["content"] ?? []).map(
-        (p) =>
-          ({
-            type: p["type"],
-            text: p["text"] || undefined,
-            imageFile: p["image_file"] || undefined,
-          } as MessageContent)
-      ),
-      assistantId: p["assistant_id"],
-      runId: p["run_id"],
-      fileIds: p["file_ids"],
-      metadata: p["metadata"],
-    })),
-    firstId: result.body["first_id"],
-    lastId: result.body["last_id"],
-    hasMore: result.body["has_more"],
-  };
-}
-
-/** Returns a list of messages from a thread. */
 export async function listMessages(
   context: Client,
   threadId: string,
@@ -267,8 +180,51 @@ export function _retrieveMessageSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveMessageDeserialize(
-  result: RetrieveMessage200Response
+/** Retrieves a message associated with a thread. */
+export async function retrieveMessage(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
+): Promise<ThreadMessage> {
+  const result = await _retrieveMessageSend(context, threadId, messageId, options);
+  return _retrieveMessageDeserialize(result);
+}
+
+export async function _listMessageFilesDeserialize(
+  result: ListMessageFiles200Response
+): Promise<ListResponseOf<InputFile>> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    data: result.body["data"].map((p) => ({
+      id: p["id"],
+      createdAt: new Date(p["created_at"]),
+      bytes: p["bytes"],
+      filename: p["filename"],
+      purpose: p["purpose"]
+    })),
+    firstId: result.body["first_id"],
+    lastId: result.body["last_id"],
+    hasMore: result.body["has_more"],
+  };
+}
+
+/** Returns a list of files associated with a message from a thread. */
+export async function listMessageFiles(
+  context: Client,
+  threadId: string,
+  messageId: string,
+  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
+): Promise<ListResponseOf<InputFile>> {
+  const result = await _listMessageFilesSend(context, threadId, messageId, options);
+  return _listMessageFilesDeserialize(result);
+}
+
+export async function _createMessageDeserialize(
+  result: CreateMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
     throw result.body;
@@ -294,29 +250,30 @@ export async function _retrieveMessageDeserialize(
   };
 }
 
-/** Retrieves a message associated with a thread. */
-export async function retrieveMessage(
-  context: Client,
-  threadId: string,
-  messageId: string,
-  options: ThreadMessagesRetrieveMessageOptions = { requestOptions: {} }
-): Promise<ThreadMessage> {
-  const result = await _retrieveMessageSend(context, threadId, messageId, options);
-  return _retrieveMessageDeserialize(result);
-}
-
-export async function _listMessageFilesDeserialize(
-  result: ListMessageFiles200Response
-): Promise<ListResponseOf<ThreadMessageFile>> {
+export async function _listMessagesDeserialize(
+  result: ListMessages200Response
+): Promise<ListResponseOf<ThreadMessage>> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    data: result.body["data"].map((p) => ({
+    data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
       createdAt: new Date(p["created_at"]),
-      messageId: p["message_id"],
+      threadId: p["thread_id"],
+      role: p["role"],
+      content: (p["content"] ?? []).map(
+        (p) =>
+          ({
+            type: p["type"],
+            text: p["text"] || undefined,
+            imageFile: p["image_file"] || undefined,
+          } as MessageContent)
+      ),
+      assistantId: p["assistant_id"],
+      runId: p["run_id"],
+      metadata: p["metadata"],
     })),
     firstId: result.body["first_id"],
     lastId: result.body["last_id"],
@@ -324,13 +281,54 @@ export async function _listMessageFilesDeserialize(
   };
 }
 
-/** Returns a list of files associated with a message from a thread. */
-export async function listMessageFiles(
-  context: Client,
-  threadId: string,
-  messageId: string,
-  options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf<ThreadMessageFile>> {
-  const result = await _listMessageFilesSend(context, threadId, messageId, options);
-  return _listMessageFilesDeserialize(result);
+export async function _retrieveMessageDeserialize(
+  result: RetrieveMessage200Response
+): Promise<ThreadMessage> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    role: result.body["role"],
+    content: (result.body["content"] ?? []).map(
+      (p) =>
+        ({
+          type: p["type"],
+          text: p["text"] || undefined,
+          imageFile: p["image_file"] || undefined,
+        } as MessageContent)
+    ),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    metadata: result.body["metadata"],
+  };
+}
+
+export async function _modifyMessageDeserialize(
+  result: ModifyMessage200Response
+): Promise<ThreadMessage> {
+  if (result.status !== "200") {
+    throw result.body;
+  }
+
+  return {
+    id: result.body["id"],
+    createdAt: new Date(result.body["created_at"]),
+    threadId: result.body["thread_id"],
+    role: result.body["role"],
+    content: (result.body["content"] ?? []).map(
+      (p) =>
+        ({
+          type: p["type"],
+          text: p["text"] || undefined,
+          imageFile: p["image_file"] || undefined,
+        } as MessageContent)
+    ),
+    assistantId: result.body["assistant_id"],
+    runId: result.body["run_id"],
+    metadata: result.body["metadata"],
+  };
 }

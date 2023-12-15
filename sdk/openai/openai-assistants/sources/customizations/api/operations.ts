@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ThreadMessage, InputFile, ListResponseOf, MessageContent } from "../models/models.js";
 import {
-  ThreadRun,
+  ThreadMessage,
+  InputFile,
+  ListResponseOf,
+  MessageContent,
+} from "../models/models.js";
+import {
   CreateAndRunThreadOptions,
-  RunStep,
   FilePurpose,
+  MessageFile,
+  RunStep,
+  ThreadRun,
 } from "../../generated/src/models/models.js";
 import {
   AssistantsContext as Client,
@@ -126,7 +132,7 @@ export function _listMessageFilesSend(
 
 export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
-): Promise<ListResponseOf<ThreadMessageFile>> {
+): Promise<ListResponseOf<MessageFile>> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -149,7 +155,7 @@ export async function listMessageFiles(
   threadId: string,
   messageId: string,
   options: ThreadMessagesListMessageFilesOptions = { requestOptions: {} }
-): Promise<ListResponseOf<ThreadMessageFile>> {
+): Promise<ListResponseOf<MessageFile>> {
   const result = await _listMessageFilesSend(context, threadId, messageId, options);
   return _listMessageFilesDeserialize(result);
 }
@@ -404,3 +410,4 @@ export async function retrieveFile(
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
 }
+

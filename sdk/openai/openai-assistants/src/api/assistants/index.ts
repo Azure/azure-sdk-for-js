@@ -55,12 +55,7 @@ export function _createAssistantSend(
       name: body["name"],
       description: body["description"],
       instructions: body["instructions"],
-      tools: !body["tools"]
-        ? body["tools"]
-        : body["tools"].map((p) => ({
-            type: p["type"],
-            function: p["function"],
-          })),
+      tools: !body["tools"] ? body["tools"] : body["tools"].map((p) => ({ type: p["type"] })),
       file_ids: body["fileIds"],
       metadata: body["metadata"],
     },

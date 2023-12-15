@@ -131,7 +131,7 @@ export interface ModifyMessage200Response extends HttpResponse {
 /** The requested list of files associated with the specified message. */
 export interface ListMessageFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<MessageFileOutput>;
+  body: ListResponseOfOutput<FileOutput>;
 }
 
 /** The requested file information. */

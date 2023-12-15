@@ -304,7 +304,11 @@ export type ListSortOrder = string;
 // @public
 export interface MessageContent {
     // (undocumented)
+    fileIds?: string[];
+    // (undocumented)
     imageFile?: MessageImageFileDetails;
+    // (undocumented)
+    metadata?: Record<string, string>;
     // (undocumented)
     text?: MessageTextDetails;
     type: string;
@@ -359,6 +363,12 @@ export class OpenAIKeyCredential implements KeyCredential {
 
 // @public
 export interface RequiredAction {
+    type: string;
+}
+
+// @public
+export interface RequiredAction {
+    // (undocumented)
     submitToolOutputs?: SubmitToolOutputsDetails;
     type: string;
 }
@@ -461,7 +471,7 @@ export interface ThreadMessage {
     assistantId?: string;
     content: MessageContent[];
     createdAt?: Date;
-    fileIds: string[];
+    fileIds?: string[];
     id?: string;
     metadata?: Record<string, string>;
     role: string;
@@ -500,10 +510,8 @@ export interface ThreadMessagesModifyMessageOptions extends OperationOptions {
 export interface ThreadMessagesOperations {
     // (undocumented)
     createMessage: (threadId: string, role: string, content: string, options?: ThreadMessagesCreateMessageOptions) => Promise<ThreadMessage>;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageFile" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    listMessageFiles: (threadId: string, messageId: string, options?: ThreadMessagesListMessageFilesOptions) => Promise<ListResponseOf<ThreadMessageFile>>;
+    listMessageFiles: (threadId: string, messageId: string, options?: ThreadMessagesListMessageFilesOptions) => Promise<ListResponseOf<InputFile>>;
     // (undocumented)
     listMessages: (threadId: string, options?: ThreadMessagesListMessagesOptions) => Promise<ListResponseOf<ThreadMessage>>;
     // (undocumented)
@@ -511,7 +519,7 @@ export interface ThreadMessagesOperations {
     // (undocumented)
     retrieveMessage: (threadId: string, messageId: string, options?: ThreadMessagesRetrieveMessageOptions) => Promise<ThreadMessage>;
     // (undocumented)
-    retrieveMessageFile: (threadId: string, messageId: string, fileId: string, options?: ThreadMessagesRetrieveMessageFileOptions) => Promise<ThreadMessageFile>;
+    retrieveMessageFile: (threadId: string, messageId: string, fileId: string, options?: ThreadMessagesRetrieveMessageFileOptions) => Promise<MessageFile>;
 }
 
 // @public (undocumented)
@@ -606,7 +614,6 @@ export interface ToolCall {
 
 // @public
 export interface ToolDefinition {
-    // (undocumented)
     function?: FunctionDefinition;
     type: string;
 }
