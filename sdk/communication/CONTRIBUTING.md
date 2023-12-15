@@ -24,6 +24,10 @@ To test with environment variables, JS has a `sample.env` for developers to use 
 
 By default tests are run in playback mode. You can also set an environment variable in your `.env` called `TEST_MODE` and set its value to `PLAYBACK`. You can then run `rushx test` command to run the tests.
 
+If tests fail because of error:
+`<x-ms-useragent> is absent in record, value <fake-useragent>`
+make sure to have environment variable `AZURE_USERAGENT_OVERRIDE` with value `fake-useragent`. Setting this env variable will set request header `x-ms-useragent` with value `fake-useragent`
+
 If the tests are successful, we can proceed to run the tests in LIVE mode.
 
 ### Live mode
