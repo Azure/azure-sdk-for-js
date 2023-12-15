@@ -81,17 +81,12 @@ export interface OperatorDetails {
 
 // @public
 export interface OperatorInformation {
-    internationalFormat: string;
+    internationalFormat?: string;
     isoCountryCode?: string;
-    nationalFormat: string;
+    nationalFormat?: string;
     numberType?: OperatorNumberType;
     operatorDetails?: OperatorDetails;
     phoneNumber: string;
-}
-
-// @public
-export interface OperatorInformationRequestOptions {
-    includeAdditionalPhoneAndOperatorDetails?: boolean;
 }
 
 // @public
@@ -100,7 +95,7 @@ export interface OperatorInformationResult {
 }
 
 // @public
-export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+export type OperatorNumberType = "unavailable" | "other" | "geographic" | "mobile";
 
 // @public
 export interface PhoneNumberAdministrativeDivision {
@@ -248,7 +243,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 // @public
 export interface SearchOperatorInformationOptions extends OperationOptions {
     // (undocumented)
-    options?: OperatorInformationRequestOptions;
+    includeAdditionalOperatorDetails: boolean;
 }
 
 // @public

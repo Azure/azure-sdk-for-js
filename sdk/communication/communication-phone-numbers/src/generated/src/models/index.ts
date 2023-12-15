@@ -232,13 +232,13 @@ export interface OperatorInformationRequest {
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
   /** Represents options to modify a search request for operator information */
-  options?: OperatorInformationRequestOptions;
+  options?: OperatorInformationOptions;
 }
 
 /** Represents options to modify a search request for operator information */
-export interface OperatorInformationRequestOptions {
+export interface OperatorInformationOptions {
   /** Includes the fields operatorDetails, numberType, and isoCountryCode in the response.  Please note: use of this option will result in additional costs */
-  includeAdditionalPhoneAndOperatorDetails?: boolean;
+  includeAdditionalOperatorDetails?: boolean;
 }
 
 /** Represents a search result containing format and operator information associated with the requested phone numbers */
@@ -255,9 +255,9 @@ export interface OperatorInformation {
   /** E.164 formatted string representation of the phone number */
   phoneNumber: string;
   /** National format of the phone number */
-  nationalFormat: string;
+  nationalFormat?: string;
   /** International format of the phone number */
-  internationalFormat: string;
+  internationalFormat?: string;
   /** Type of service associated with the phone number */
   numberType?: OperatorNumberType;
   /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */
@@ -368,7 +368,11 @@ export type PhoneNumberOperationStatus =
   | "succeeded"
   | "failed";
 /** Defines values for OperatorNumberType. */
-export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+export type OperatorNumberType =
+  | "unavailable"
+  | "other"
+  | "geographic"
+  | "mobile";
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesOptionalParams
@@ -542,7 +546,7 @@ export interface PhoneNumbersOperatorInformationSearchOptionalParams
   /** Phone number(s) whose operator information is being requested */
   phoneNumbers?: string[];
   /** Represents options to modify a search request for operator information */
-  options?: OperatorInformationRequestOptions;
+  options?: OperatorInformationOptions;
 }
 
 /** Contains response data for the operatorInformationSearch operation. */

@@ -3,7 +3,6 @@
 
 import { OperationOptions } from "@azure/core-client";
 import {
-  OperatorInformationRequestOptions,
   PhoneNumberAssignmentType,
   PhoneNumberSearchRequest,
   PhoneNumbersListAreaCodesOptionalParams,
@@ -71,7 +70,7 @@ export interface ListLocalitiesOptions extends OperationOptions {
  * Additional options for the search operator information request.
  */
 export interface SearchOperatorInformationOptions extends OperationOptions {
-  options?: OperatorInformationRequestOptions;
+  includeAdditionalOperatorDetails: boolean;
 }
 
 /**
@@ -112,8 +111,7 @@ export {
   OperatorDetails,
   OperatorInformation,
   OperatorInformationResult,
-  OperatorNumberType,
-  OperatorInformationRequestOptions,
+  OperatorNumberType
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";

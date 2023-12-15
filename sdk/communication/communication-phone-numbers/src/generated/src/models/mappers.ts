@@ -684,20 +684,20 @@ export const OperatorInformationRequest: coreClient.CompositeMapper = {
         serializedName: "options",
         type: {
           name: "Composite",
-          className: "OperatorInformationRequestOptions"
+          className: "OperatorInformationOptions"
         }
       }
     }
   }
 };
 
-export const OperatorInformationRequestOptions: coreClient.CompositeMapper = {
+export const OperatorInformationOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "OperatorInformationRequestOptions",
+    className: "OperatorInformationOptions",
     modelProperties: {
-      includeAdditionalPhoneAndOperatorDetails: {
-        serializedName: "includeAdditionalPhoneAndOperatorDetails",
+      includeAdditionalOperatorDetails: {
+        serializedName: "includeAdditionalOperatorDetails",
         type: {
           name: "Boolean"
         }
@@ -741,14 +741,12 @@ export const OperatorInformation: coreClient.CompositeMapper = {
       },
       nationalFormat: {
         serializedName: "nationalFormat",
-        required: true,
         type: {
           name: "String"
         }
       },
       internationalFormat: {
         serializedName: "internationalFormat",
-        required: true,
         type: {
           name: "String"
         }

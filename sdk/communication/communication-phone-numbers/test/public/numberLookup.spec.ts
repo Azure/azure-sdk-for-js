@@ -42,7 +42,7 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     }
   }).timeout(60000);
 
-  it("respects IncludeOperatorDetails option", async function (this: Context) {
+  it("respects includeAdditionalOperatorDetails option", async function (this: Context) {
     const phoneNumbers = [getPhoneNumber()];
     let operatorInformation = await client.searchOperatorInformation(phoneNumbers);
 
@@ -56,7 +56,7 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].numberType : null);
     assert.isNull(operatorInformation.values ? operatorInformation.values[0].operatorDetails : null);
 
-    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "options": { "includeAdditionalPhoneAndOperatorDetails": true } });
+    operatorInformation = await client.searchOperatorInformation(phoneNumbers, { "includeAdditionalOperatorDetails": true });
 
     resultPhoneNumber = operatorInformation.values
       ? operatorInformation.values[0].phoneNumber
