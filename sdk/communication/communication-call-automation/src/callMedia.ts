@@ -58,7 +58,7 @@ import {
   StartRecognizingEventResult,
 } from "./eventprocessor/eventResponses";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
@@ -149,7 +149,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -211,7 +211,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -425,7 +425,7 @@ export class CallMedia {
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
       maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
         ? maxTonesOrOptions.operationContext
-        : uuidv4();
+        : randomUUID();
       // New function signature logic
       await this.callMedia.recognize(
         this.callConnectionId,
@@ -518,7 +518,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -538,7 +538,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
@@ -562,7 +562,7 @@ export class CallMedia {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     await this.callMedia.sendDtmfTones(this.callConnectionId, sendDtmfTonesRequest, {});
@@ -652,7 +652,7 @@ export class CallMedia {
   public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -663,7 +663,7 @@ export class CallMedia {
    */
   public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
     const stopTranscriptionRequest: StopTranscriptionRequest = {
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
     };
     return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
   }
