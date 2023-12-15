@@ -67,7 +67,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
+    "test-consumer": "npm info typescript@4.1 && rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test": "npm run unit-test && npm run integration-test",
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
