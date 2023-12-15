@@ -39,7 +39,6 @@ export async function main() {
     await new Promise((r) => setTimeout(r, 500));
     runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
     const runSteps = await assistantsClient.runSteps.listRunSteps(assistantThread.id, runResponse.id, {
-      requestOptions: {},
       limit: 1,
     });
     console.log(runSteps);
