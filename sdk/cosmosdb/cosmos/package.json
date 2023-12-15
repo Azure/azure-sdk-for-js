@@ -60,8 +60,7 @@
     "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-
-  "integration-test:node": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
+    "integration-test:node": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
