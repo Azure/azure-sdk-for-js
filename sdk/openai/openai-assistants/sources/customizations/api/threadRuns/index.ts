@@ -245,17 +245,15 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      !result.body.required_action
-        ? undefined
-        : { type: result.body.required_action?.["type"] },
-    lastError:
-      !result.body.last_error
-        ? undefined
-        : {
-            code: result.body.last_error["code"],
-            message: result.body.last_error["message"],
-          },
+    requiredAction: !result.body.required_action
+      ? undefined
+      : { type: result.body.required_action?.["type"] },
+    lastError: !result.body.last_error
+      ? undefined
+      : {
+          code: result.body.last_error["code"],
+          message: result.body.last_error["message"],
+        },
     model: result.body["model"],
     instructions: result.body["instructions"],
     tools: result.body["tools"].map((p) => ({ type: p["type"] })),

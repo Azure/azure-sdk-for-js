@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ThreadMessage,
-  InputFile,
-  ListResponseOf,
-  MessageContent,
-} from "../models/models.js";
+import { ThreadMessage, InputFile, ListResponseOf, MessageContent } from "../models/models.js";
 import {
   ThreadRun,
   CreateAndRunThreadOptions,
@@ -409,4 +404,3 @@ export async function retrieveFile(
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
 }
-

@@ -9,7 +9,10 @@ import {
   RetrieveFile200Response,
   UploadFile200Response,
 } from "../../../generated/src/rest/index.js";
-import { FilesRetrieveFileOptions, FilesUploadFileOptions } from "../../../generated/src/models/options.js";
+import {
+  FilesRetrieveFileOptions,
+  FilesUploadFileOptions,
+} from "../../../generated/src/models/options.js";
 import { _retrieveFileSend } from "../../../generated/src/api/files/index.js";
 import { createFile } from "@azure/core-rest-pipeline";
 
@@ -55,7 +58,9 @@ export async function uploadFile(
   return _uploadFileDeserialize(result);
 }
 
-export async function _retrieveFileDeserialize(result: RetrieveFile200Response): Promise<InputFile> {
+export async function _retrieveFileDeserialize(
+  result: RetrieveFile200Response
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }
@@ -78,4 +83,3 @@ export async function retrieveFile(
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
 }
-

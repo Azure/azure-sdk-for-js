@@ -48,7 +48,9 @@ export function _createRunSend(
       assistant_id: assistantId,
       model: options?.model,
       instructions: options?.instructions,
-      tools: !options?.tools ? [] : options?.tools.map((p) => ({ type: p["type"], function: p["function"] })),
+      tools: !options?.tools
+        ? []
+        : options?.tools.map((p) => ({ type: p["type"], function: p["function"] })),
       metadata: options?.metadata,
     },
   });
@@ -125,20 +127,21 @@ export async function _modifyRunDeserialize(result: ModifyRun200Response): Promi
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      !result.body.required_action
-        ? undefined
-        : { type: result.body.required_action?.["type"] },
-    lastError:
-      !result.body.last_error
-        ? undefined
-        : {
-            code: result.body.last_error["code"],
-            message: result.body.last_error["message"],
-          },
+    requiredAction: !result.body.required_action
+      ? undefined
+      : { type: result.body.required_action?.["type"] },
+    lastError: !result.body.last_error
+      ? undefined
+      : {
+          code: result.body.last_error["code"],
+          message: result.body.last_error["message"],
+        },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+    tools: result.body["tools"].map((p) => ({
+      type: p["type"],
+      function: p["function"] || undefined,
+    })),
     fileIds: result.body["file_ids"],
     createdAt: new Date(result.body["created_at"]),
     expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
@@ -216,20 +219,21 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      !result.body.required_action
-        ? undefined
-        : { type: result.body.required_action?.["type"] },
-    lastError:
-      !result.body.last_error
-        ? undefined
-        : {
-            code: result.body.last_error["code"],
-            message: result.body.last_error["message"],
-          },
+    requiredAction: !result.body.required_action
+      ? undefined
+      : { type: result.body.required_action?.["type"] },
+    lastError: !result.body.last_error
+      ? undefined
+      : {
+          code: result.body.last_error["code"],
+          message: result.body.last_error["message"],
+        },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+    tools: result.body["tools"].map((p) => ({
+      type: p["type"],
+      function: p["function"] || undefined,
+    })),
     fileIds: result.body["file_ids"],
     createdAt: new Date(result.body["created_at"]),
     expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
@@ -276,7 +280,9 @@ export function _createThreadAndRunSend(
           },
       model: body["model"],
       instructions: body["instructions"],
-      tools: !body["tools"] ? body["tools"] : body["tools"]?.map((p) => ({ type: p["type"], function: p["function"] })),
+      tools: !body["tools"]
+        ? body["tools"]
+        : body["tools"]?.map((p) => ({ type: p["type"], function: p["function"] })),
       metadata: body["metadata"],
     },
   });

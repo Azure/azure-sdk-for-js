@@ -4,34 +4,18 @@
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { InputFile, ListResponseOf } from "./models/models.js";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  AssistantsOperations,
-} from "./classic/assistants/index.js";
-import {
-  getAssistantsOperations,
-} from "../generated/src/classic/assistants/index.js";
+import { AssistantsOperations } from "./classic/assistants/index.js";
+import { getAssistantsOperations } from "../generated/src/classic/assistants/index.js";
 import {
   getAssistantThreadsOperations,
   AssistantThreadsOperations,
 } from "../generated/src/classic/assistantThreads/index.js";
-import {
-  ThreadMessagesOperations,
-} from "./classic/threadMessages/index.js";
-import {
-  getThreadMessagesOperations,
-} from "../generated/src/classic/threadMessages/index.js";
-import {
-  ThreadRunsOperations,
-} from "./classic/threadRuns/index.js";
-import {
-  getThreadRunsOperations,
-} from "../generated/src/classic/threadRuns/index.js";
-import {
-  getRunStepsOperations,
-} from "../generated/src/classic/runSteps/index.js";
-import {
-  RunStepsOperations,
-} from "./classic/runSteps/index.js";
+import { ThreadMessagesOperations } from "./classic/threadMessages/index.js";
+import { getThreadMessagesOperations } from "../generated/src/classic/threadMessages/index.js";
+import { ThreadRunsOperations } from "./classic/threadRuns/index.js";
+import { getThreadRunsOperations } from "../generated/src/classic/threadRuns/index.js";
+import { getRunStepsOperations } from "../generated/src/classic/runSteps/index.js";
+import { RunStepsOperations } from "./classic/runSteps/index.js";
 import { FilesOperations } from "./classic/files/index.js";
 import { getFilesOperations } from "../generated/src/classic/files/index.js";
 import {

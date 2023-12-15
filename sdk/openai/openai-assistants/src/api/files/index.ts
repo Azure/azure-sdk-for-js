@@ -131,7 +131,9 @@ export function _retrieveFileSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveFileDeserialize(result: RetrieveFile200Response): Promise<InputFile> {
+export async function _retrieveFileDeserialize(
+  result: RetrieveFile200Response
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw result.body;
   }

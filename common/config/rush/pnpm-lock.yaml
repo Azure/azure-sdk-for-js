@@ -1874,8 +1874,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@grpc/grpc-js@1.9.12:
-    resolution: {integrity: sha512-Um5MBuge32TS3lAKX02PGCnFM4xPT996yLgZNb5H03pn6NyJ4Iwn5YcPq6Jj9yxGRk7WOgaZFtVRH5iTdYBeUg==}
+  /@grpc/grpc-js@1.9.13:
+    resolution: {integrity: sha512-OEZZu9v9AA+7/tghMDE8o5DAMD5THVnwSqDWuh7PPYO5287rTyqy0xEHT6/e4pbqSrhyLPdQFsam4TwFQVVIIw==}
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
@@ -1995,9 +1995,6 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.38.3(@types/node@18.18.9):
-  /@microsoft/api-extractor-model@7.28.2(@types/node@18.18.9):
-    resolution: {integrity: sha512-vkojrM2fo3q4n4oPh4uUZdjJ2DxQ2+RnDQL/xhTWSRUNPF6P4QyrvY357HBxbnltKcYu+nNNolVqc6TIGQ73Ig==}
   /@microsoft/api-extractor-model@7.28.3(@types/node@18.19.3):
     resolution: {integrity: sha512-wT/kB2oDbdZXITyDh2SQLzaWwTOFbV326fP0pUwNW00WeliARs0qjmXBWmGWardEzp2U3/axkO3Lboqun6vrig==}
     dependencies:
@@ -2012,13 +2009,9 @@ packages:
     resolution: {integrity: sha512-c/w2zfqBcBJxaCzpJNvFoouWewcYrUOfeu5ZkWCCIXTF9a/gXM85RGevEzlMAIEGM/kssAAZSXRJIZ3Q5vLFow==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.28.2(@types/node@18.18.9)
-      '@microsoft/api-extractor-model': 7.28.2(@types/node@16.18.65)
       '@microsoft/api-extractor-model': 7.28.3(@types/node@16.18.68)
       '@microsoft/tsdoc': 0.14.2
       '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 3.61.0(@types/node@18.18.9)
-      '@rushstack/node-core-library': 3.61.0(@types/node@16.18.65)
       '@rushstack/node-core-library': 3.62.0(@types/node@16.18.68)
       '@rushstack/rig-package': 0.5.1
       '@rushstack/ts-command-line': 4.17.1
@@ -2107,6 +2100,15 @@ packages:
       '@opentelemetry/api': 1.7.0
     dev: false
 
+  /@opentelemetry/context-async-hooks@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-0i1ECOc9daKK3rjUgDDXf0GDD5XfCou5lXnt2DALIc2qKoruPPcesobNKE54laSVUWnC3jX26RzuOa31g0V32A==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+    dev: false
+
   /@opentelemetry/core@1.18.1(@opentelemetry/api@1.7.0):
     resolution: {integrity: sha512-kvnUqezHMhsQvdsnhnqTNfAJs3ox/isB0SVrM1dhVFw7SsB7TstuVa6fgWnN2GdPyilIFLUvvbTZoVRmx6eiRg==}
     engines: {node: '>=14'}
@@ -2117,13 +2119,23 @@ packages:
       '@opentelemetry/semantic-conventions': 1.18.1
     dev: false
 
+  /@opentelemetry/core@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-w42AukJh3TP8R0IZZOVJVM/kMWu8g+lm4LzT70WtuKqhwq7KVhcDzZZuZinWZa6TtQCl7Smt2wolEYzpHabOgw==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/semantic-conventions': 1.19.0
+    dev: false
+
   /@opentelemetry/exporter-trace-otlp-grpc@0.45.1(@opentelemetry/api@1.7.0):
     resolution: {integrity: sha512-c/Wrn6LUqPiRgKhvMydau6kPz4ih6b/uwospiavjXju98ZfVv+KjaIF13cblW+4cQ6ZR3lm7t66umQfXrGBhPQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.12
+      '@grpc/grpc-js': 1.9.13
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.45.1(@opentelemetry/api@1.7.0)
@@ -2197,8 +2209,8 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-metrics': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/sdk-metrics': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2211,7 +2223,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/semantic-conventions': 1.19.0
       '@types/mysql': 2.15.22
     transitivePeerDependencies:
       - supports-color
@@ -2224,9 +2236,9 @@ packages:
       '@opentelemetry/api': ^1.3.0
     dependencies:
       '@opentelemetry/api': 1.7.0
-      '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation': 0.44.0(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/semantic-conventions': 1.19.0
       '@opentelemetry/sql-common': 0.40.0(@opentelemetry/api@1.7.0)
       '@types/pg': 8.6.1
       '@types/pg-pool': 2.0.4
@@ -2243,7 +2255,7 @@ packages:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/redis-common': 0.36.1
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/semantic-conventions': 1.19.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2257,7 +2269,7 @@ packages:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/redis-common': 0.36.1
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/semantic-conventions': 1.19.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -2310,7 +2322,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@grpc/grpc-js': 1.9.12
+      '@grpc/grpc-js': 1.9.13
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/otlp-exporter-base': 0.45.1(@opentelemetry/api@1.7.0)
@@ -2354,6 +2366,16 @@ packages:
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
     dev: false
 
+  /@opentelemetry/propagator-b3@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-v7y5IBOKBm0vP3yf0DHzlw4L2gL6tZ0KeeMTaxfO5IuomMffDbrGWcvYFp0Dt4LdZctTSK523rVLBB9FBHBciQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
+    dev: false
+
   /@opentelemetry/propagator-jaeger@1.18.1(@opentelemetry/api@1.7.0):
     resolution: {integrity: sha512-Kh4M1Qewv0Tbmts6D8LgNzx99IjdE18LCmY/utMkgVyU7Bg31Yuj+X6ZyoIRKPcD2EV4rVkuRI16WVMRuGbhWA==}
     engines: {node: '>=14'}
@@ -2362,6 +2384,16 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+    dev: false
+
+  /@opentelemetry/propagator-jaeger@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-dedkOoTzKg+nYoLWCMp0Im+wo+XkTRW6aXhi8VQRtMW/9SNJGOllCJSu8llToLxMDF0+6zu7OCrKkevAof2tew==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
     dev: false
 
   /@opentelemetry/redis-common@0.36.1:
@@ -2373,8 +2405,8 @@ packages:
     resolution: {integrity: sha512-ZhrqHdtD1FSTkD3+4vkbnqztWNU/xNAQn0Ve8pL2vSmD8/lK+2zpiWeEA70uUx/uBJarmrWB6EQCs+FyVioRvA==}
     engines: {node: '>=14'}
     dependencies:
-      '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
     transitivePeerDependencies:
       - '@opentelemetry/api'
     dev: false
@@ -2388,6 +2420,17 @@ packages:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/semantic-conventions': 1.18.1
+    dev: false
+
+  /@opentelemetry/resources@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-RgxvKuuMOf7nctOeOvpDjt2BpZvZGr9Y0vf7eGtY5XYZPkh2p7e2qub1S2IArdBMf9kEbz0SfycqCviOu9isqg==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
     dev: false
 
   /@opentelemetry/sdk-logs@0.45.1(@opentelemetry/api-logs@0.45.1)(@opentelemetry/api@1.7.0):
@@ -2412,6 +2455,18 @@ packages:
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
+      lodash.merge: 4.6.2
+    dev: false
+
+  /@opentelemetry/sdk-metrics@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-FiMii40zr0Fmys4F1i8gmuCvbinBnBsDeGBr4FQemOf0iPCLytYQm5AZJ/nn4xSc71IgKBQwTFQRAGJI7JvZ4Q==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.3.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
       lodash.merge: 4.6.2
     dev: false
 
@@ -2451,6 +2506,18 @@ packages:
       '@opentelemetry/semantic-conventions': 1.18.1
     dev: false
 
+  /@opentelemetry/sdk-trace-base@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-+IRvUm+huJn2KqfFW3yW/cjvRwJ8Q7FzYHoUNx5Fr0Lws0LxjMJG1uVB8HDpLwm7mg5XXH2M5MF+0jj5cM8BpQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
+    dev: false
+
   /@opentelemetry/sdk-trace-node@1.18.1(@opentelemetry/api@1.7.0):
     resolution: {integrity: sha512-ML0l9TNlfLoplLF1F8lb95NGKgdm6OezDS3Ymqav9sYxMd5bnH2LZVzd4xEF+ov5vpZJOGdWxJMs2nC9no7+xA==}
     engines: {node: '>=14'}
@@ -2466,8 +2533,28 @@ packages:
       semver: 7.5.4
     dev: false
 
+  /@opentelemetry/sdk-trace-node@1.19.0(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-TCiEq/cUjM15RFqBRwWomTVbOqzndWL4ILa7ZCu0zbjU1/XY6AgHkgrgAc7vGP6TjRqH4Xryuglol8tcIfbBUQ==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      '@opentelemetry/api': '>=1.0.0 <1.8.0'
+    dependencies:
+      '@opentelemetry/api': 1.7.0
+      '@opentelemetry/context-async-hooks': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/propagator-b3': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/propagator-jaeger': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-base': 1.19.0(@opentelemetry/api@1.7.0)
+      semver: 7.5.4
+    dev: false
+
   /@opentelemetry/semantic-conventions@1.18.1:
     resolution: {integrity: sha512-+NLGHr6VZwcgE/2lw8zDIufOCGnzsA5CbQIMleXZTrgkBd0TanCX+MiDYJ1TOS4KL/Tqk0nFRxawnaYr6pkZkA==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions@1.19.0:
+    resolution: {integrity: sha512-14jRpC8f5c0gPSwoZ7SbEJni1PqI+AhAE8m1bMz6v+RPM4OlP1PT2UHBJj5Qh/ALLPjhVU/aZUK3YyjTUqqQVg==}
     engines: {node: '>=14'}
     dev: false
 
@@ -2478,7 +2565,7 @@ packages:
       '@opentelemetry/api': ^1.1.0
     dependencies:
       '@opentelemetry/api': 1.7.0
-      '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
     dev: false
 
   /@pkgjs/parseargs@0.11.0:
@@ -2576,7 +2663,7 @@ packages:
       - supports-color
     dev: false
 
-  /@rollup/plugin-commonjs@25.0.7(rollup@4.8.0):
+  /@rollup/plugin-commonjs@25.0.7(rollup@4.9.0):
     resolution: {integrity: sha512-nEvcR+LRjEjsaSsc4x3XZfCCvZIaSMenZu/OiwOKGN2UhQpAYI7ru7czFvyWbErlpoGjnSX3D5Ch5FcMA3kRWQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2585,16 +2672,16 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.8.0)
+      '@rollup/pluginutils': 5.1.0(rollup@4.9.0)
       commondir: 1.0.1
       estree-walker: 2.0.2
       glob: 8.1.0
       is-reference: 1.2.1
       magic-string: 0.30.5
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/plugin-inject@5.0.5(rollup@4.8.0):
+  /@rollup/plugin-inject@5.0.5(rollup@4.9.0):
     resolution: {integrity: sha512-2+DEJbNBoPROPkgTDNe8/1YXWcqxbN5DTjASVIOx8HS+pITXushyNiBV56RB08zuptzz8gT3YfkqriTBVycepg==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2603,14 +2690,14 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.8.0)
+      '@rollup/pluginutils': 5.1.0(rollup@4.9.0)
       estree-walker: 2.0.2
       magic-string: 0.30.5
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/plugin-json@6.0.1(rollup@4.8.0):
-    resolution: {integrity: sha512-RgVfl5hWMkxN1h/uZj8FVESvPuBJ/uf6ly6GTj0GONnkfoBN5KC0MSz+PN2OLDgYXMhtG0mWpTrkiOjoxAIevw==}
+  /@rollup/plugin-json@6.1.0(rollup@4.9.0):
+    resolution: {integrity: sha512-EGI2te5ENk1coGeADSIwZ7G2Q8CJS2sF120T7jLw4xFw9n7wIOXHo+kIYRAoVpJAN+kmqZSoO3Fp4JtoNF4ReA==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -2618,11 +2705,11 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.8.0)
-      rollup: 4.8.0
+      '@rollup/pluginutils': 5.1.0(rollup@4.9.0)
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/plugin-multi-entry@6.0.1(rollup@4.8.0):
+  /@rollup/plugin-multi-entry@6.0.1(rollup@4.9.0):
     resolution: {integrity: sha512-AXm6toPyTSfbYZWghQGbom1Uh7dHXlrGa+HoiYNhQtDUE3Q7LqoUYdVQx9E1579QWS1uOiu+cZRSE4okO7ySgw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2631,12 +2718,12 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/plugin-virtual': 3.0.2(rollup@4.8.0)
+      '@rollup/plugin-virtual': 3.0.2(rollup@4.9.0)
       matched: 5.0.1
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/plugin-node-resolve@15.2.3(rollup@4.8.0):
+  /@rollup/plugin-node-resolve@15.2.3(rollup@4.9.0):
     resolution: {integrity: sha512-j/lym8nf5E21LwBT4Df1VD6hRO2L2iwUeUmP7litikRsVp1H6NWx20NEp0Y7su+7XGc476GnXXc4kFeZNGmaSQ==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2645,16 +2732,16 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.8.0)
+      '@rollup/pluginutils': 5.1.0(rollup@4.9.0)
       '@types/resolve': 1.20.2
       deepmerge: 4.3.1
       is-builtin-module: 3.2.1
       is-module: 1.0.0
       resolve: 1.22.8
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/plugin-virtual@3.0.2(rollup@4.8.0):
+  /@rollup/plugin-virtual@3.0.2(rollup@4.9.0):
     resolution: {integrity: sha512-10monEYsBp3scM4/ND4LNH5Rxvh3e/cVeL3jWTgZ2SrQ+BmUoQcopVQvnaMcOnykb1VkxUFuDAN+0FnpTFRy2A==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2663,10 +2750,10 @@ packages:
       rollup:
         optional: true
     dependencies:
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rollup/pluginutils@5.1.0(rollup@4.8.0):
+  /@rollup/pluginutils@5.1.0(rollup@4.9.0):
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
@@ -2678,110 +2765,107 @@ packages:
       '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
-      rollup: 4.8.0
+      rollup: 4.9.0
     dev: false
 
-  /@rushstack/node-core-library@3.61.0(@types/node@18.18.9):
-  /@rushstack/node-core-library@3.61.0(@types/node@16.18.65):
-    resolution: {integrity: sha512-tdOjdErme+/YOu4gPed3sFS72GhtWCgNV9oDsHDnoLY5oDfwjKUc9Z+JOZZ37uAxcm/OCahDHfuu2ugqrfWAVQ==}
-  /@rollup/rollup-android-arm-eabi@4.8.0:
-    resolution: {integrity: sha512-zdTObFRoNENrdPpnTNnhOljYIcOX7aI7+7wyrSpPFFIOf/nRdedE6IYsjaBE7tjukphh1tMTojgJ7p3lKY8x6Q==}
+  /@rollup/rollup-android-arm-eabi@4.9.0:
+    resolution: {integrity: sha512-+1ge/xmaJpm1KVBuIH38Z94zj9fBD+hp+/5WLaHgyY8XLq1ibxk/zj6dTXaqM2cAbYKq8jYlhHd6k05If1W5xA==}
     cpu: [arm]
     os: [android]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-android-arm64@4.8.0:
-    resolution: {integrity: sha512-aiItwP48BiGpMFS9Znjo/xCNQVwTQVcRKkFKsO81m8exrGjHkCBDvm9PHay2kpa8RPnZzzKcD1iQ9KaLY4fPQQ==}
+  /@rollup/rollup-android-arm64@4.9.0:
+    resolution: {integrity: sha512-im6hUEyQ7ZfoZdNvtwgEJvBWZYauC9KVKq1w58LG2Zfz6zMd8gRrbN+xCVoqA2hv/v6fm9lp5LFGJ3za8EQH3A==}
     cpu: [arm64]
     os: [android]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-darwin-arm64@4.8.0:
-    resolution: {integrity: sha512-zhNIS+L4ZYkYQUjIQUR6Zl0RXhbbA0huvNIWjmPc2SL0cB1h5Djkcy+RZ3/Bwszfb6vgwUvcVJYD6e6Zkpsi8g==}
+  /@rollup/rollup-darwin-arm64@4.9.0:
+    resolution: {integrity: sha512-u7aTMskN6Dmg1lCT0QJ+tINRt+ntUrvVkhbPfFz4bCwRZvjItx2nJtwJnJRlKMMaQCHRjrNqHRDYvE4mBm3DlQ==}
     cpu: [arm64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-darwin-x64@4.8.0:
-    resolution: {integrity: sha512-A/FAHFRNQYrELrb/JHncRWzTTXB2ticiRFztP4ggIUAfa9Up1qfW8aG2w/mN9jNiZ+HB0t0u0jpJgFXG6BfRTA==}
+  /@rollup/rollup-darwin-x64@4.9.0:
+    resolution: {integrity: sha512-8FvEl3w2ExmpcOmX5RJD0yqXcVSOqAJJUJ29Lca29Ik+3zPS1yFimr2fr5JSZ4Z5gt8/d7WqycpgkX9nocijSw==}
     cpu: [x64]
     os: [darwin]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm-gnueabihf@4.8.0:
-    resolution: {integrity: sha512-JsidBnh3p2IJJA4/2xOF2puAYqbaczB3elZDT0qHxn362EIoIkq7hrR43Xa8RisgI6/WPfvb2umbGsuvf7E37A==}
+  /@rollup/rollup-linux-arm-gnueabihf@4.9.0:
+    resolution: {integrity: sha512-lHoKYaRwd4gge+IpqJHCY+8Vc3hhdJfU6ukFnnrJasEBUvVlydP8PuwndbWfGkdgSvZhHfSEw6urrlBj0TSSfg==}
     cpu: [arm]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm64-gnu@4.8.0:
-    resolution: {integrity: sha512-hBNCnqw3EVCkaPB0Oqd24bv8SklETptQWcJz06kb9OtiShn9jK1VuTgi7o4zPSt6rNGWQOTDEAccbk0OqJmS+g==}
+  /@rollup/rollup-linux-arm64-gnu@4.9.0:
+    resolution: {integrity: sha512-JbEPfhndYeWHfOSeh4DOFvNXrj7ls9S/2omijVsao+LBPTPayT1uKcK3dHW3MwDJ7KO11t9m2cVTqXnTKpeaiw==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-arm64-musl@4.8.0:
-    resolution: {integrity: sha512-Fw9ChYfJPdltvi9ALJ9wzdCdxGw4wtq4t1qY028b2O7GwB5qLNSGtqMsAel1lfWTZvf4b6/+4HKp0GlSYg0ahA==}
+  /@rollup/rollup-linux-arm64-musl@4.9.0:
+    resolution: {integrity: sha512-ahqcSXLlcV2XUBM3/f/C6cRoh7NxYA/W7Yzuv4bDU1YscTFw7ay4LmD7l6OS8EMhTNvcrWGkEettL1Bhjf+B+w==}
     cpu: [arm64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-riscv64-gnu@4.8.0:
-    resolution: {integrity: sha512-BH5xIh7tOzS9yBi8dFrCTG8Z6iNIGWGltd3IpTSKp6+pNWWO6qy8eKoRxOtwFbMrid5NZaidLYN6rHh9aB8bEw==}
+  /@rollup/rollup-linux-riscv64-gnu@4.9.0:
+    resolution: {integrity: sha512-uwvOYNtLw8gVtrExKhdFsYHA/kotURUmZYlinH2VcQxNCQJeJXnkmWgw2hI9Xgzhgu7J9QvWiq9TtTVwWMDa+w==}
     cpu: [riscv64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-x64-gnu@4.8.0:
-    resolution: {integrity: sha512-PmvAj8k6EuWiyLbkNpd6BLv5XeYFpqWuRvRNRl80xVfpGXK/z6KYXmAgbI4ogz7uFiJxCnYcqyvZVD0dgFog7Q==}
+  /@rollup/rollup-linux-x64-gnu@4.9.0:
+    resolution: {integrity: sha512-m6pkSwcZZD2LCFHZX/zW2aLIISyzWLU3hrLLzQKMI12+OLEzgruTovAxY5sCZJkipklaZqPy/2bEEBNjp+Y7xg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-linux-x64-musl@4.8.0:
-    resolution: {integrity: sha512-mdxnlW2QUzXwY+95TuxZ+CurrhgrPAMveDWI97EQlA9bfhR8tw3Pt7SUlc/eSlCNxlWktpmT//EAA8UfCHOyXg==}
+  /@rollup/rollup-linux-x64-musl@4.9.0:
+    resolution: {integrity: sha512-VFAC1RDRSbU3iOF98X42KaVicAfKf0m0OvIu8dbnqhTe26Kh6Ym9JrDulz7Hbk7/9zGc41JkV02g+p3BivOdAg==}
     cpu: [x64]
     os: [linux]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-arm64-msvc@4.8.0:
-    resolution: {integrity: sha512-ge7saUz38aesM4MA7Cad8CHo0Fyd1+qTaqoIo+Jtk+ipBi4ATSrHWov9/S4u5pbEQmLjgUjB7BJt+MiKG2kzmA==}
+  /@rollup/rollup-win32-arm64-msvc@4.9.0:
+    resolution: {integrity: sha512-9jPgMvTKXARz4inw6jezMLA2ihDBvgIU9Ml01hjdVpOcMKyxFBJrn83KVQINnbeqDv0+HdO1c09hgZ8N0s820Q==}
     cpu: [arm64]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-ia32-msvc@4.8.0:
-    resolution: {integrity: sha512-p9E3PZlzurhlsN5h9g7zIP1DnqKXJe8ZUkFwAazqSvHuWfihlIISPxG9hCHCoA+dOOspL/c7ty1eeEVFTE0UTw==}
+  /@rollup/rollup-win32-ia32-msvc@4.9.0:
+    resolution: {integrity: sha512-WE4pT2kTXQN2bAv40Uog0AsV7/s9nT9HBWXAou8+++MBCnY51QS02KYtm6dQxxosKi1VIz/wZIrTQO5UP2EW+Q==}
     cpu: [ia32]
     os: [win32]
     requiresBuild: true
     dev: false
     optional: true
 
-  /@rollup/rollup-win32-x64-msvc@4.8.0:
-    resolution: {integrity: sha512-kb4/auKXkYKqlUYTE8s40FcJIj5soOyRLHKd4ugR0dCq0G2EfcF54eYcfQiGkHzjidZ40daB4ulsFdtqNKZtBg==}
+  /@rollup/rollup-win32-x64-msvc@4.9.0:
+    resolution: {integrity: sha512-aPP5Q5AqNGuT0tnuEkK/g4mnt3ZhheiXrDIiSVIHN9mcN21OyXDVbEMqmXPE7e2OplNLDkcvV+ZoGJa2ZImFgw==}
     cpu: [x64]
     os: [win32]
     requiresBuild: true
@@ -2796,8 +2880,6 @@ packages:
       '@types/node':
         optional: true
     dependencies:
-      '@types/node': 18.18.9
-      '@types/node': 16.18.65
       '@types/node': 16.18.68
       colors: 1.2.5
       fs-extra: 7.0.1
@@ -2975,8 +3057,8 @@ packages:
       '@types/node': 18.19.3
     dev: false
 
-  /@types/eslint@8.44.8:
-    resolution: {integrity: sha512-4K8GavROwhrYl2QXDXm0Rv9epkA8GBFu0EI+XrrnnuCl7u8CWBRusX7fXJfanhZTDWSAL24gDI/UqXyUM0Injw==}
+  /@types/eslint@8.44.9:
+    resolution: {integrity: sha512-6yBxcvwnnYoYT1Uk2d+jvIfsuP4mb2EdIxFnrPABj5a/838qe5bGkNLFOiipX4ULQ7XVQvTxOh7jO+BTAiqsEw==}
     dependencies:
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
@@ -3128,10 +3210,6 @@ packages:
       form-data: 4.0.0
     dev: false
 
-  /@types/node@18.18.9:
-    resolution: {integrity: sha512-0f5klcuImLnG4Qreu9hPj/rEfFq6YRc5n2mAjSsH+ec/mJL+3voBH0+8T7o8RpFjH7ovc+TRsL/c7OYIQsPTfQ==}
-  /@types/node@16.18.65:
-    resolution: {integrity: sha512-5E9WgTy95B7i90oISjui9U5Zu7iExUPfU4ygtv4yXEy6zJFE3oQYHCnh5H1jZRPkjphJt2Ml3oQW6M0qtK534A==}
   /@types/node@16.18.68:
     resolution: {integrity: sha512-sG3hPIQwJLoewrN7cr0dwEy+yF5nD4D/4FxtQpFciRD/xwUzgD+G05uxZHv5mhfXo4F9Jkp13jjn0CC2q325sg==}
     dev: false
@@ -3714,8 +3792,8 @@ packages:
     engines: {node: ^4.5.0 || >= 5.9}
     dev: false
 
-  /basic-ftp@5.0.3:
-    resolution: {integrity: sha512-QHX8HLlncOLpy54mh+k/sWIFd0ThmRqwe9ZjELybGZK+tZ8rUb9VO0saKJUROTbE+KhzDUT7xziGpGrW8Kmd+g==}
+  /basic-ftp@5.0.4:
+    resolution: {integrity: sha512-8PzkB0arJFV4jJWSGOYR+OEic6aeKMu/osRhBULN6RY0ykby6LKhbmuQ5ublvaas5BOwboah5D87nrHyuh8PPA==}
     engines: {node: '>=10.0.0'}
     dev: false
 
@@ -3808,8 +3886,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001568
-      electron-to-chromium: 1.4.609
+      caniuse-lite: 1.0.30001570
+      electron-to-chromium: 1.4.613
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.2)
     dev: false
@@ -3917,8 +3995,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001568:
-    resolution: {integrity: sha512-vSUkH84HontZJ88MiNrOau1EBrCqEQYgkC5gIySiDlpsm8sGVrhU7Kx4V6h0tnqaHzIHZv08HlJIwPbL4XL9+A==}
+  /caniuse-lite@1.0.30001570:
+    resolution: {integrity: sha512-+3e0ASu4sw1SWaoCtvPeyXp+5PsjigkSt8OXZbF9StH5pQWbxEjLAZE3n8Aup5udop1uRiKA7a4utUk/uoSpUw==}
     dev: false
 
   /catharsis@0.9.0:
@@ -3998,6 +4076,10 @@ packages:
 
   /chardet@0.7.0:
     resolution: {integrity: sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA==}
+    dev: false
+
+  /charenc@0.0.2:
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error@1.0.3:
@@ -4297,6 +4379,10 @@ packages:
       which: 2.0.2
     dev: false
 
+  /crypt@0.0.2:
+    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
+    dev: false
+
   /csv-parse@5.5.3:
     resolution: {integrity: sha512-v0KW6C0qlZzoGjk6u5tLmVfyZxNgPGXZsWTXshpAgKVGmGXzaVWGdlCFxNx5iuzcXT/oJN1HHM9DZKwtAtYa+A==}
     dev: false
@@ -4592,8 +4678,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.609:
-    resolution: {integrity: sha512-ihiCP7PJmjoGNuLpl7TjNA8pCQWu09vGyjlPYw1Rqww4gvNuCcmvl+44G+2QyJ6S2K4o+wbTS++Xz0YN8Q9ERw==}
+  /electron-to-chromium@1.4.613:
+    resolution: {integrity: sha512-r4x5+FowKG6q+/Wj0W9nidx7QO31BJwmR2uEo+Qh3YLGQ8SbBAFuDFpTxzly/I2gsbrFwBuIjrMp423L3O5U3w==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -4830,8 +4916,8 @@ packages:
       regexpp: 3.2.0
     dev: false
 
-  /eslint-plugin-import@2.29.0(eslint@8.55.0):
-    resolution: {integrity: sha512-QPOO5NO6Odv5lpoTkddtutccQjysJuFxoPS7fAHO+9m9udNHvTCPSAMW9zGAYj8lAIdr40I8yPCdUYrncXtrwg==}
+  /eslint-plugin-import@2.29.1(eslint@8.55.0):
+    resolution: {integrity: sha512-BbPC0cuExzhiMo4Ff1BTVwHpjjv28C5R+btTOGaCRC7UEz801up0JadwkeSk5Ued6TG34uaczuVuH6qyy5YUxw==}
     engines: {node: '>=4'}
     peerDependencies:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
@@ -4853,7 +4939,7 @@ packages:
       object.groupby: 1.0.1
       object.values: 1.1.7
       semver: 6.3.1
-      tsconfig-paths: 3.14.2
+      tsconfig-paths: 3.15.0
     dev: false
 
   /eslint-plugin-markdown@3.0.1(eslint@8.55.0):
@@ -5492,7 +5578,7 @@ packages:
     resolution: {integrity: sha512-5KLucCJobh8vBY1K07EFV4+cPZH3mrV9YeAruUseCQKHB58SGjjT2l9/eA9LD082IiuMjSlFJEcdJ27TXvbZNw==}
     engines: {node: '>= 14'}
     dependencies:
-      basic-ftp: 5.0.3
+      basic-ftp: 5.0.4
       data-uri-to-buffer: 6.0.1
       debug: 4.3.4(supports-color@8.1.1)
       fs-extra: 8.1.0
@@ -5923,6 +6009,10 @@ packages:
     dependencies:
       call-bind: 1.0.5
       has-tostringtag: 1.0.0
+    dev: false
+
+  /is-buffer@1.1.6:
+    resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
     dev: false
 
   /is-buffer@2.0.5:
@@ -6805,6 +6895,14 @@ packages:
       picomatch: 2.3.1
     dev: false
 
+  /md5@2.3.0:
+    resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
+    dependencies:
+      charenc: 0.0.2
+      crypt: 0.0.2
+      is-buffer: 1.1.6
+    dev: false
+
   /mdast-util-from-markdown@0.8.5:
     resolution: {integrity: sha512-2hkTXtYYnr+NubD/g6KGBS/0mFmBcifAsI0yIWRiRo0PjVs6SSOSOdtzbp6kSGnShDN6G5aWZpKQ2lWRy27mWQ==}
     dependencies:
@@ -6989,6 +7087,19 @@ packages:
     resolution: {integrity: sha512-+NsyUUAZDmo6YVHzL/stxSu3t9YS1iljliy3BSDrXJ/dkn1KYdmtZODGGjLcc9XLgVVpH4KshHB8XmZgMhaBXg==}
     engines: {node: '>=10'}
     hasBin: true
+    dev: false
+
+  /mocha-junit-reporter@1.23.3(mocha@10.2.0):
+    resolution: {integrity: sha512-ed8LqbRj1RxZfjt/oC9t12sfrWsjZ3gNnbhV1nuj9R/Jb5/P3Xb4duv2eCfCDMYH+fEu0mqca7m4wsiVjsxsvA==}
+    peerDependencies:
+      mocha: '>=2.2.5'
+    dependencies:
+      debug: 2.6.9
+      md5: 2.3.0
+      mkdirp: 0.5.6
+      mocha: 10.2.0
+      strip-ansi: 4.0.0
+      xml: 1.0.1
     dev: false
 
   /mocha@10.2.0:
@@ -8099,16 +8210,16 @@ packages:
       glob: 10.3.10
     dev: false
 
-  /rollup-plugin-polyfill-node@0.13.0(rollup@4.8.0):
+  /rollup-plugin-polyfill-node@0.13.0(rollup@4.9.0):
     resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
     dependencies:
-      '@rollup/plugin-inject': 5.0.5(rollup@4.8.0)
-      rollup: 4.8.0
+      '@rollup/plugin-inject': 5.0.5(rollup@4.9.0)
+      rollup: 4.9.0
     dev: false
 
-  /rollup-plugin-visualizer@5.11.0(rollup@4.8.0):
+  /rollup-plugin-visualizer@5.11.0(rollup@4.9.0):
     resolution: {integrity: sha512-exM0Ms2SN3AgTzMeW7y46neZQcyLY7eKwWAop1ZoRTCZwyrIRdMMJ6JjToAJbML77X/9N8ZEpmXG4Z/Clb9k8g==}
     engines: {node: '>=14'}
     hasBin: true
@@ -8120,29 +8231,29 @@ packages:
     dependencies:
       open: 8.4.2
       picomatch: 2.3.1
-      rollup: 4.8.0
+      rollup: 4.9.0
       source-map: 0.7.4
       yargs: 17.7.2
     dev: false
 
-  /rollup@4.8.0:
-    resolution: {integrity: sha512-NpsklK2fach5CdI+PScmlE5R4Ao/FSWtF7LkoIrHDxPACY/xshNasPsbpG0VVHxUTbf74tJbVT4PrP8JsJ6ZDA==}
+  /rollup@4.9.0:
+    resolution: {integrity: sha512-bUHW/9N21z64gw8s6tP4c88P382Bq/L5uZDowHlHx6s/QWpjJXivIAbEw6LZthgSvlEizZBfLC4OAvWe7aoF7A==}
     engines: {node: '>=18.0.0', npm: '>=8.0.0'}
     hasBin: true
     optionalDependencies:
-      '@rollup/rollup-android-arm-eabi': 4.8.0
-      '@rollup/rollup-android-arm64': 4.8.0
-      '@rollup/rollup-darwin-arm64': 4.8.0
-      '@rollup/rollup-darwin-x64': 4.8.0
-      '@rollup/rollup-linux-arm-gnueabihf': 4.8.0
-      '@rollup/rollup-linux-arm64-gnu': 4.8.0
-      '@rollup/rollup-linux-arm64-musl': 4.8.0
-      '@rollup/rollup-linux-riscv64-gnu': 4.8.0
-      '@rollup/rollup-linux-x64-gnu': 4.8.0
-      '@rollup/rollup-linux-x64-musl': 4.8.0
-      '@rollup/rollup-win32-arm64-msvc': 4.8.0
-      '@rollup/rollup-win32-ia32-msvc': 4.8.0
-      '@rollup/rollup-win32-x64-msvc': 4.8.0
+      '@rollup/rollup-android-arm-eabi': 4.9.0
+      '@rollup/rollup-android-arm64': 4.9.0
+      '@rollup/rollup-darwin-arm64': 4.9.0
+      '@rollup/rollup-darwin-x64': 4.9.0
+      '@rollup/rollup-linux-arm-gnueabihf': 4.9.0
+      '@rollup/rollup-linux-arm64-gnu': 4.9.0
+      '@rollup/rollup-linux-arm64-musl': 4.9.0
+      '@rollup/rollup-linux-riscv64-gnu': 4.9.0
+      '@rollup/rollup-linux-x64-gnu': 4.9.0
+      '@rollup/rollup-linux-x64-musl': 4.9.0
+      '@rollup/rollup-win32-arm64-msvc': 4.9.0
+      '@rollup/rollup-win32-ia32-msvc': 4.9.0
+      '@rollup/rollup-win32-x64-msvc': 4.9.0
       fsevents: 2.3.3
     dev: false
 
@@ -8775,9 +8886,6 @@ packages:
       code-block-writer: 12.0.0
     dev: false
 
-  /ts-node@10.9.1(@types/node@18.18.9)(typescript@5.0.4):
-  /ts-node@10.9.1(@types/node@16.18.65)(typescript@5.0.4):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
   /ts-node@10.9.2(@types/node@16.18.68)(typescript@5.0.4):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -8797,8 +8905,6 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 18.18.9
-      '@types/node': 16.18.65
       '@types/node': 16.18.68
       acorn: 8.11.2
       acorn-walk: 8.3.1
@@ -8811,9 +8917,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node@10.9.1(@types/node@18.18.9)(typescript@5.2.2):
-  /ts-node@10.9.1(@types/node@18.18.9)(typescript@5.0.4):
-    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
   /ts-node@10.9.2(@types/node@18.19.3)(typescript@5.0.4):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -8833,8 +8936,6 @@ packages:
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 18.18.9
-      '@types/node': 18.18.9
       '@types/node': 18.19.3
       acorn: 8.11.2
       acorn-walk: 8.3.1
@@ -8878,8 +8979,39 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /tsconfig-paths@3.14.2:
-    resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
+  /ts-node@10.9.2(@types/node@18.19.3)(typescript@5.3.3):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.3
+      acorn: 8.11.2
+      acorn-walk: 8.3.1
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.3.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
+  /tsconfig-paths@3.15.0:
+    resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}
     dependencies:
       '@types/json5': 0.0.29
       json5: 1.0.2
@@ -9020,22 +9152,6 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: false
-
-  /typescript@5.4.0-dev.20231120:
-    resolution: {integrity: sha512-MG4Zg5HXb8bnvGdZrMeLBekqbCjHjaMPewXh3wVrNgTF+toQ4BrdhXnYiqMU0pLLxcsxRSMPB5MzB7YHgr67Cg==}
-  /typescript@5.3.2:
-    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: false
-
-  /typescript@5.4.0-dev.20231128:
-    resolution: {integrity: sha512-9qkF438icXJz8XXZ38mDJfUTTAvVZptHGBEkwqB2QaO8p6cQuiYvghMHk5o2bZFHS5VcrAwYtpEuekd1iSTmBQ==}
   /typescript@5.3.3:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
@@ -9348,8 +9464,8 @@ packages:
         optional: true
     dev: false
 
-  /ws@8.15.0:
-    resolution: {integrity: sha512-H/Z3H55mrcrgjFwI+5jKavgXvwQLtfPCUEp6pi35VhoB0pfcHnSoyuTzkBEZpzq49g1193CUEwIvmsjcotenYw==}
+  /ws@8.15.1:
+    resolution: {integrity: sha512-W5OZiCjXEmk0yZ66ZN82beM5Sz7l7coYxpRkzS+p9PP+ToQry8szKh+61eNktr7EA9DOwvFGhfC605jDHbP6QQ==}
     engines: {node: '>=10.0.0'}
     peerDependencies:
       bufferutil: ^4.0.1
@@ -9372,6 +9488,10 @@ packages:
     dependencies:
       sax: 1.3.0
       xmlbuilder: 11.0.1
+    dev: false
+
+  /xml@1.0.1:
+    resolution: {integrity: sha512-huCv9IH9Tcf95zuYCsQraZtWnJvBtLVE0QHMOs8bWyZAFZNDcYjsPq1nEx8jKA9y+Beo9v+7OBPRisQTjinQMw==}
     dev: false
 
   /xmlbuilder@11.0.1:
@@ -9621,12 +9741,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -9672,12 +9786,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -9723,12 +9831,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -9819,7 +9921,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.8.0)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.9.0)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
@@ -9845,7 +9947,7 @@ packages:
       mocha: 10.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 4.8.0
+      rollup: 4.9.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -9961,11 +10063,6 @@ packages:
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
-      '@types/node': 18.18.13
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/node': 18.19.3
       autorest: 3.7.1
@@ -10036,11 +10133,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -10131,12 +10223,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -10181,7 +10267,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.8.0)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.9.0)
       '@types/chai': 4.3.11
       '@types/inquirer': 8.2.10
       '@types/mocha': 10.0.6
@@ -10203,7 +10289,7 @@ packages:
       mustache: 4.2.0
       prettier: 2.8.8
       rimraf: 3.0.2
-      rollup: 4.8.0
+      rollup: 4.9.0
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10269,7 +10355,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-CZHcFATzdz5etaIA6+jz9bFLWIDU/kHC4LImVWwYW7jRSgEW4JI38+k733Jpr4UztmzRLNFQv3hFVfBEI26ffA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-ncPME01+VcQJLRhrm1uVveA5xLD9pNNZ21dTFBPbWTK4SVO7WIWYAim+BWoUDVKbWHc1RnJMcd+z3b5w4vtBTg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -10281,7 +10367,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
-      '@types/uuid': 8.3.4
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10306,7 +10391,6 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       uglify-js: 3.17.4
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -10573,11 +10657,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -10588,8 +10667,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -10633,11 +10710,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -10909,11 +10981,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -10924,8 +10991,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -11121,11 +11186,6 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -11136,8 +11196,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -11332,11 +11390,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -11407,11 +11460,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -11422,8 +11470,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -11519,11 +11565,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -11579,11 +11620,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -11867,11 +11903,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -11882,8 +11913,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -11953,11 +11982,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -11968,8 +11992,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -12524,11 +12546,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -12539,8 +12556,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -12890,11 +12905,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -12905,8 +12915,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -12950,11 +12958,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -12965,8 +12968,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -13744,12 +13745,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@microsoft/api-extractor': 7.38.3(@types/node@16.18.65)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 16.18.65
       '@microsoft/api-extractor': 7.38.5(@types/node@16.18.68)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -13760,8 +13755,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@16.18.68)(typescript@5.0.4)
       tslib: 2.6.2
@@ -13984,11 +13977,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -14138,11 +14126,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -14153,8 +14136,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -14479,11 +14460,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -14691,11 +14667,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -14706,8 +14677,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -14778,11 +14747,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -14793,8 +14757,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -15377,11 +15339,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -15502,11 +15459,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -15517,8 +15469,6 @@ packages:
       esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
@@ -16366,8 +16316,6 @@ packages:
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
-      '@azure/communication-signaling': 1.0.0-beta.20
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
       '@azure/abort-controller': 1.1.0
       '@azure/communication-signaling': 1.0.0-beta.22
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
@@ -16607,12 +16555,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.1.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -17123,7 +17065,7 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
-      ws: 8.15.0
+      ws: 8.15.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -17689,22 +17631,16 @@ packages:
       '@_ts/max': /typescript@5.3.3
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
-      '@rollup/plugin-commonjs': 25.0.7(rollup@4.8.0)
-      '@rollup/plugin-inject': 5.0.5(rollup@4.8.0)
-      '@rollup/plugin-json': 6.0.1(rollup@4.8.0)
-      '@rollup/plugin-multi-entry': 6.0.1(rollup@4.8.0)
-      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.8.0)
+      '@rollup/plugin-commonjs': 25.0.7(rollup@4.9.0)
+      '@rollup/plugin-inject': 5.0.5(rollup@4.9.0)
+      '@rollup/plugin-json': 6.1.0(rollup@4.9.0)
+      '@rollup/plugin-multi-entry': 6.0.1(rollup@4.9.0)
+      '@rollup/plugin-node-resolve': 15.2.3(rollup@4.9.0)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
       '@types/fs-extra': 11.0.4
       '@types/minimist': 1.2.5
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      '@types/prettier': 2.7.3
-      '@types/semver': 7.3.13
-      autorest: 3.6.3
-      axios: 1.6.1
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/semver': 7.5.6
@@ -17719,9 +17655,6 @@ packages:
       decompress: 4.2.1
       dotenv: 16.3.1
       env-paths: 2.2.1
-      eslint: 8.53.0
-      fs-extra: 11.1.1
-      eslint: 8.54.0
       eslint: 8.55.0
       fs-extra: 11.2.0
       karma: 6.4.2(debug@4.3.4)
@@ -17730,9 +17663,9 @@ packages:
       mocha: 10.2.0
       prettier: 3.1.1
       rimraf: 5.0.5
-      rollup: 4.8.0
-      rollup-plugin-polyfill-node: 0.13.0(rollup@4.8.0)
-      rollup-plugin-visualizer: 5.11.0(rollup@4.8.0)
+      rollup: 4.9.0
+      rollup-plugin-polyfill-node: 0.13.0(rollup@4.9.0)
+      rollup-plugin-visualizer: 5.11.0(rollup@4.9.0)
       semver: 7.5.4
       strip-json-comments: 5.0.1
       ts-morph: 21.0.1
@@ -17756,11 +17689,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -17854,7 +17782,7 @@ packages:
       '@typescript-eslint/experimental-utils': 5.57.1(eslint@8.55.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 5.57.1(eslint@8.55.0)(typescript@5.2.2)
       eslint: 8.55.0
-      eslint-plugin-import: 2.29.0(eslint@8.55.0)
+      eslint-plugin-import: 2.29.1(eslint@8.55.0)
       eslint-plugin-markdown: 3.0.1(eslint@8.55.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.55.0)
@@ -17870,7 +17798,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/chai': 4.3.11
-      '@types/eslint': 8.44.8
+      '@types/eslint': 8.44.9
       '@types/estree': 1.0.5
       '@types/json-schema': 7.0.15
       '@types/mocha': 10.0.6
@@ -17882,7 +17810,7 @@ packages:
       chai: 4.3.10
       eslint: 8.55.0
       eslint-config-prettier: 9.1.0(eslint@8.55.0)
-      eslint-plugin-import: 2.29.0(eslint@8.55.0)
+      eslint-plugin-import: 2.29.1(eslint@8.55.0)
       eslint-plugin-markdown: 3.0.1(eslint@8.55.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.55.0)
@@ -17954,7 +17882,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      ws: 8.15.0
+      ws: 8.15.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18161,12 +18089,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18212,12 +18134,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18824,12 +18740,6 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18875,12 +18785,6 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18926,12 +18830,6 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18977,12 +18875,6 @@ packages:
     dependencies:
       '@azure/identity': 3.4.1
       '@azure/maps-common': 1.0.0-beta.2
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -19190,15 +19082,15 @@ packages:
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.45.1
-      '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-http': 0.45.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-logs': 0.45.1(@opentelemetry/api-logs@0.45.1)(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-metrics': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-base': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-node': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/sdk-metrics': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-base': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-node': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       c8: 8.0.1
@@ -19230,7 +19122,7 @@ packages:
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.45.1
-      '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-http': 0.45.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-mongodb': 0.37.3(@opentelemetry/api@1.7.0)
@@ -19239,13 +19131,13 @@ packages:
       '@opentelemetry/instrumentation-redis': 0.35.4(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-redis-4': 0.35.5(@opentelemetry/api@1.7.0)
       '@opentelemetry/resource-detector-azure': 0.2.2(@opentelemetry/api@1.7.0)
-      '@opentelemetry/resources': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-logs': 0.45.1(@opentelemetry/api-logs@0.45.1)(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-metrics': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-metrics': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-node': 0.45.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-base': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-node': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/semantic-conventions': 1.18.1
+      '@opentelemetry/sdk-trace-base': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-node': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/semantic-conventions': 1.19.0
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
@@ -19277,8 +19169,8 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
-      '@opentelemetry/sdk-trace-base': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-node': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-base': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-node': 1.19.0(@opentelemetry/api@1.7.0)
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
@@ -19360,21 +19252,22 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-ngKVp38m2p1rQ/SKfy7nevGbLAOqkVbO3H9L30XFyMp0AmDsaa50vXW0chbW28evXaD4c8G1Lem4BQt12RAhsw==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-Tx+6NFk/CB2/O7oZs492iF/3t8Bfzu2C5sFNmvrzt8Co7YQt0nD9rupC92TDWgmeIrnRwijPJsKIfOJSehgQyQ==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
+      '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      eslint: 8.53.0
+      eslint: 8.55.0
+      esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -19389,11 +19282,11 @@ packages:
       mocha: 10.2.0
       mocha-junit-reporter: 1.23.3(mocha@10.2.0)
       prettier: 2.8.8
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       source-map-support: 0.5.21
-      ts-node: 10.9.1(@types/node@18.18.9)(typescript@5.2.2)
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19455,10 +19348,10 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
-      '@opentelemetry/core': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/core': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation': 0.45.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-base': 1.18.1(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-node': 1.18.1(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-base': 1.19.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-node': 1.19.0(@opentelemetry/api@1.7.0)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
@@ -19576,13 +19469,12 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-0FRVhJOgqeR+0EIQNDjvhOKjOP4fYeMJiToPAsL8hfmM6JoIvXQAF9BR7fR7jokRyXxYVuCiKWE8OenlSCTWQQ==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-0jmcLsRUObOLmUSWtcZQWrBpCPCs38m6eOO67phg3sln+G5fkLHsZVnLs7XZRiKgWn3i0CQ1Yt/Pz5BlAAB5JA==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.5.0-beta.2
       '@types/node': 18.19.3
-      '@types/uuid': 8.3.4
       dotenv: 16.3.1
       eslint: 8.55.0
       prettier: 2.8.8
@@ -19590,7 +19482,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19916,13 +19807,12 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-Xq/HBvsecy11GjHvNOzzXM0fUJGwc5/RM7I3COVS/e1yBYt1vFwnlpcWtgpxoIG9vEcU6pNLabxlssYFoMR1lg==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-GSaI1r0pBaDRV4x9hv76nmSo+6i5ycrkHG+F/Alwh/fhDjsDQjH/RwRc7hDleCjI68slNSu4Y4PfN4Zz/AyuiQ==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.3
       '@types/node-fetch': 2.6.9
-      '@types/uuid': 8.3.4
       dotenv: 16.3.1
       eslint: 8.55.0
       node-fetch: 2.7.0
@@ -19931,7 +19821,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19940,13 +19829,12 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-Ujw8AeWpVE5C9gQ0oq4sX+Gs+bsrHa8bsoPLQjyn8GY67JmpFbxcHGJ8dTVngMG5oJUbs+vBgUdOGN4i1bIO8A==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-NcEyXmFxT84GIAg3BjwA8ItVCQOz2tMCdUz0ftLkTWb7yQFcFyLKi5PGQ6ouCA1jpdXOJOl+oJrYZKSLXyk1Xw==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
       '@azure/storage-file-datalake': 12.16.0
       '@types/node': 18.19.3
-      '@types/uuid': 8.3.4
       dotenv: 16.3.1
       eslint: 8.55.0
       prettier: 2.8.8
@@ -19954,7 +19842,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -19963,13 +19850,12 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-0t+FHGWVEUWNM+Tkam59lIKZVYBZr6wVfykCLLhh8G6H0GUDEemakYg7xEw4iwUN7H7HOU6OkIGHxcvF3qOZNQ==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-oYyQHZ3YoHPpMeSEs1p4eNKu6+QgxCKeGxbx4SjzVvRshminGRAUoNlKMWnuXCnj2G6A82YRZPfkM2TYT2GaaA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
       '@azure/storage-file-share': 12.17.0
       '@types/node': 18.19.3
-      '@types/uuid': 8.3.4
       dotenv: 16.3.1
       eslint: 8.55.0
       prettier: 2.8.8
@@ -19977,7 +19863,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20142,12 +20027,6 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -20192,12 +20071,6 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.9)
-      '@types/chai': 4.3.10
-      '@types/mocha': 10.0.4
-      '@types/node': 18.18.9
-      autorest: 3.7.0
-      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.13)
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -20516,7 +20389,7 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       uuid: 8.3.2
-      ws: 8.15.0
+      ws: 8.15.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20578,7 +20451,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-vJtHKtwtVx4xGFMtzc1MykBbwHueXr+6ewOLjJb+vBLlYqHW4bncqm2Iw0ttErBScRyoK8druNgQ9VdsZSbiNw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-nm1ZyPKYCN3aKAGKI5Pr97GYjtzSLPRNXvSvZmxwsVzf5bdhu2J6zBEWh3tbMmkkUA08YnWtB7//U6rKY5QlCw==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -20589,7 +20462,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/node-fetch': 2.6.9
-      '@types/uuid': 8.3.4
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20617,7 +20489,6 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20681,7 +20552,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-YKuQola73rEXRKdpH0ogBcyCaE2DJ8Qfe0MQoo0pFfhUORBqkDrE+tMmsLdZX4kgeKwxXPg8PqsD5nkhwwg3xw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-s1J4r6PgMEIixcSnpAsRp7zUCoNyldQj9BvXHDa6XlNJGOUZmpCeimdI8l0nAlqjgd5DOqyXElZosJygGR9vHg==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -20692,7 +20563,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
-      '@types/uuid': 8.3.4
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20721,7 +20591,6 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20779,7 +20648,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-RzAtUduBMhDV2R7WftYuocD/3dhTqWNDbo6hANXL7EOpiF9pHo6LH12cOrL/N4OGViMmxs5ZSpLvaE3luZ+V2w==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-QUzza4a2sVFuG5c5k/X8bb0GV6d3XtUF20qW+m7P8eT/atDbSKq3yx4R0Xlm+9sK5Prj7cqkRXF4WjUHmHXztg==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -20789,7 +20658,6 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
-      '@types/uuid': 8.3.4
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20816,7 +20684,6 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20873,7 +20740,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-tNWHdrBTGA3MW7hcfyiB+NsdwvfQZpcWpVOivCpND8iwmRxb1U+EWXTlp5wi/F4ZKZpXH0j98W0bKXMYEY3/Rg==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-sOUiEHUWILYoJaORZ/gmxN6itHyLTkifhjD/D/dzMs6Y5pj3xwpKTLLkiATP81J9tJHigdj1sFfsfh+TSzN5Fg==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -20884,7 +20751,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
-      '@types/uuid': 8.3.4
       c8: 8.0.1
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
@@ -20911,7 +20777,6 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       uglify-js: 3.17.4
-      uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -21399,7 +21264,7 @@ packages:
       protobufjs-cli: 1.1.2(protobufjs@7.2.5)
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 3.0.2
-      rollup: 4.8.0
+      rollup: 4.9.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
@@ -21548,7 +21413,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      ws: 8.15.0
+      ws: 8.15.1
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

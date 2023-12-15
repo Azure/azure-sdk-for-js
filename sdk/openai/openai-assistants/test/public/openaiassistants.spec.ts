@@ -7,7 +7,7 @@ import { assertAssistantEquality } from "./utils/asserts.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import { getModels } from "./utils/utils.js";
 import { Context } from "mocha";
-import { AssistantsClient } from "../../src/AssistantsClient.js";
+import { AssistantsClient } from "../../src/index.js";
 
 describe("OpenAIAssistants", () => {
   let recorder: Recorder;
@@ -47,7 +47,9 @@ describe("OpenAIAssistants", () => {
         it("creates, retrieves, lists, modifies, and deletes an assistant", async function () {
           const assistantResponse = await client.assistants.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
-          const getAssistantResponse = await client.assistants.retrieveAssistant(assistantResponse.id);
+          const getAssistantResponse = await client.assistants.retrieveAssistant(
+            assistantResponse.id
+          );
           assertAssistantEquality(codeAssistant, getAssistantResponse);
           codeAssistant.name = "Completely different name";
           const modifyAssistantResponse = await client.assistants.modifyAssistant(
@@ -62,7 +64,9 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
 
-          const deleteAssistantResponse = await client.assistants.deleteAssistant(assistantResponse.id);
+          const deleteAssistantResponse = await client.assistants.deleteAssistant(
+            assistantResponse.id
+          );
           assert.equal(deleteAssistantResponse.deleted, true);
         });
 
@@ -82,10 +86,15 @@ describe("OpenAIAssistants", () => {
           const newMetadataValue = "other value";
           thread.metadata.foo = newMetadataValue;
 
-          const modifyThreadResponse = await client.assistantThreads.modifyThread(threadResponse.id, thread);
+          const modifyThreadResponse = await client.assistantThreads.modifyThread(
+            threadResponse.id,
+            thread
+          );
           assert.equal(threadResponse.id, modifyThreadResponse.id);
           assert.equal(modifyThreadResponse.metadata?.foo, newMetadataValue);
-          const deleteThreadResponse = await client.assistantThreads.deleteThread(threadResponse.id);
+          const deleteThreadResponse = await client.assistantThreads.deleteThread(
+            threadResponse.id
+          );
           assert.equal(deleteThreadResponse.deleted, true);
         });
         it("creates, retrieves, modifies, and lists a message", async function () {
@@ -172,7 +181,10 @@ describe("OpenAIAssistants", () => {
           const metadata = { foo: metadataValue };
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
-          const run = await client.threadRuns.createRun(thread.id, assistant.id, { instructions, metadata });
+          const run = await client.threadRuns.createRun(thread.id, assistant.id, {
+            instructions,
+            metadata,
+          });
           assert.isNotNull(run.id);
           assert.equal(run.threadId, thread.id);
           assert.equal(run.assistantId, assistant.id);
@@ -238,13 +250,19 @@ describe("OpenAIAssistants", () => {
             await new Promise((r) => setTimeout(r, 500));
             run = await client.threadRuns.retrieveRun(thread.id, run.id);
             const listLength = 1;
-            const runSteps = await client.runSteps.listRunSteps(thread.id, run.id, { limit: listLength });
+            const runSteps = await client.runSteps.listRunSteps(thread.id, run.id, {
+              limit: listLength,
+            });
             if (runSteps.data.length > 0) {
               const runStep = runSteps.data[0];
               assert.isNotNull(runStep.id);
               assert.equal(runSteps.data.length, listLength);
 
-              const runMessage = await client.runSteps.retrieveRunStep(thread.id, run.id, runStep.id);
+              const runMessage = await client.runSteps.retrieveRunStep(
+                thread.id,
+                run.id,
+                runStep.id
+              );
               assert.equal(runStep.id, runMessage.id);
               assert.equal(runMessage.runId, run.id);
               assert.equal(runMessage.threadId, thread.id);

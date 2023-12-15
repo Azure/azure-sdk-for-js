@@ -51,7 +51,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "generate": "tsp-client update",
     "customize": "rimraf src && dev-tool customization apply -s sources/generated/src && npm run format",
@@ -73,7 +72,7 @@
     "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "dev-tool run test:browser -- karma.conf.cjs",
-    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -95,15 +94,14 @@
     "@azure/identity": "^3.3.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "@types/chai": "^4.2.8",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "c8": "^8.0.0",
-    "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
+    "esm": "^3.2.25",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -121,7 +119,7 @@
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0"
+    "typescript": "~5.3.3"
   },
   "//metadata": {
     "constantPaths": [
@@ -141,12 +139,5 @@
     "requiredResources": {
       "Azure Cognitive Services instance": "https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource"
     }
-  },
-  "mocha": {
-    "extension": [
-      "ts"
-    ],
-    "timeout": "1200000",
-    "loader": "ts-node/esm"
   }
 }

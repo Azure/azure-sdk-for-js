@@ -56,10 +56,10 @@ export function _createAssistantSend(
       description: body["description"],
       instructions: body["instructions"],
       tools: !body["tools"]
-          ? body["tools"]
-          : body["tools"].map((p) => ({
+        ? body["tools"]
+        : body["tools"].map((p) => ({
             type: p["type"],
-            function: p["function"]
+            function: p["function"],
           })),
       file_ids: body["fileIds"],
       metadata: body["metadata"],

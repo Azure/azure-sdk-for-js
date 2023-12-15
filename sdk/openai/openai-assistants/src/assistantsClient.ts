@@ -13,15 +13,19 @@ import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-a
 import { Pipeline } from "@azure/core-rest-pipeline";
 import { createAssistants } from "./api/AssistantsContext.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
-import { getAssistantThreadsOperations, AssistantThreadsOperations } from "./classic/assistantThreads/index.js";
+import {
+  getAssistantThreadsOperations,
+  AssistantThreadsOperations,
+} from "./classic/assistantThreads/index.js";
 import { getAssistantsOperations, AssistantsOperations } from "./classic/assistants/index.js";
 import { getFilesOperations, FilesOperations } from "./classic/files/index.js";
 import { getRunStepsOperations, RunStepsOperations } from "./classic/runSteps/index.js";
-import { getThreadMessagesOperations, ThreadMessagesOperations } from "./classic/threadMessages/index.js";
-import { getThreadRunsOperations, ThreadRunsOperations } from "./classic/threadRuns/index.js";
 import {
-  AssistantsClientOptions,
-} from "./index.js";
+  getThreadMessagesOperations,
+  ThreadMessagesOperations,
+} from "./classic/threadMessages/index.js";
+import { getThreadRunsOperations, ThreadRunsOperations } from "./classic/threadRuns/index.js";
+import { AssistantsClientOptions } from "./index.js";
 import { AssistantsContext } from "./rest/index.js";
 
 export { AssistantsClientOptions } from "./api/AssistantsContext.js";
@@ -122,7 +126,6 @@ export class AssistantsClient {
     this.files = getFilesOperations(this._client);
   }
 }
-
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;

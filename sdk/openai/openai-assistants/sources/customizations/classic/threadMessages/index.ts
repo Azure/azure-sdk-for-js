@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { ListResponseOf } from "../../models/models.js";
-import {
-  ThreadMessage,
-  MessageFile,
-} from "../../../generated/src/models/models.js";
+import { ThreadMessage, MessageFile } from "../../../generated/src/models/models.js";
 import {
   ThreadMessagesCreateMessageOptions,
   ThreadMessagesListMessagesOptions,
