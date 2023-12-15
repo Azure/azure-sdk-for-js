@@ -62,7 +62,7 @@
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build:samples": "echo Obsolete",
-    "build:test": "echo skipped",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp *.tgz types *.log",
@@ -78,14 +78,14 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:browser": "npm run build:test && vitest -c vitest.browser.config.ts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": true,
   "private": false,
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -100,8 +100,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "^1.0.4",
-    "webdriverio": "^8.26.1"
+    "vitest": "^1.0.4"
   },
   "//metadata": {
     "sampleConfiguration": {

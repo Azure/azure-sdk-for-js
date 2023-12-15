@@ -48,9 +48,9 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.3.0",
-    "@azure/core-client": "^1.3.0",
-    "@azure/abort-controller": "^2.0.0"
+    "@azure/core-client": "^1.3.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
@@ -61,14 +61,13 @@
     "@vitest/coverage-istanbul": "^1.0.4",
     "@types/node": "^18.0.0",
     "eslint": "^8.52.0",
-    "playwright": "^1.39.0",
+    "playwright": "^1.40.1",
     "prettier": "^3.1.1",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "1.0.4",
-    "webdriverio": "^8.20.4"
+    "vitest": "1.0.4"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
