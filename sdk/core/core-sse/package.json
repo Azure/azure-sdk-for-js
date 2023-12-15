@@ -57,7 +57,7 @@
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.38.5",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "1.0.0-beta.4",
+    "@vitest/browser": "1.0.4",
     "@vitest/coverage-istanbul": "^1.0.4",
     "dotenv": "^16.0.0",
     "eslint": "^8.52.0",
@@ -66,8 +66,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "^1.0.4",
-    "webdriverio": "^8.26.1"
+    "vitest": "^1.0.4"
   },
   "dependencies": {
     "tslib": "^2.6.2"

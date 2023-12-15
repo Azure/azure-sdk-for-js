@@ -7,7 +7,7 @@ export default defineConfig({
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
-      junit: "test-results.browser.xml",
+      junit: "test-results.xml",
     },
     watch: false,
     include: ["test/**/*.spec.ts"],
@@ -20,7 +20,7 @@ export default defineConfig({
         "vitest*.config.ts",
         "samples-dev/**/*.ts",
       ],
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },

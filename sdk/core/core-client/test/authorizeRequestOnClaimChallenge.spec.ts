@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   HttpClient,
@@ -14,7 +15,6 @@ import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
 } from "../src/authorizeRequestOnClaimChallenge.js";
-import { assert } from "chai";
 import { encodeString } from "../src/base64.js";
 
 describe("authorizeRequestOnClaimChallenge", function () {

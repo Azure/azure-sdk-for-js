@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { assert } from "vitest";
 import {
   FullOperationResponse,
   OperationRequest,
@@ -17,7 +18,6 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 
 /**
  * Representation of a Service Client test case where the response status is 200.

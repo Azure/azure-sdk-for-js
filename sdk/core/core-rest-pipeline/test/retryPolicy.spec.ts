@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { describe, it, assert, afterEach } from "vitest";
 import * as sinon from "sinon";
 import {
   PipelineResponse,
@@ -10,7 +12,6 @@ import {
   retryPolicy,
 } from "../src/index.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import { describe, it, assert } from "vitest";
 import { makeTestLogger } from "./util.js";
 
 describe("retryPolicy", function () {

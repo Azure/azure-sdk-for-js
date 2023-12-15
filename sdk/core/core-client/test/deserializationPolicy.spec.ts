@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
+import { describe, it, assert } from "vitest";
+import sinon from "sinon";
 import {
   CompositeMapper,
   FullOperationResponse,
@@ -18,7 +19,6 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import { getOperationRequestInfo } from "../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 

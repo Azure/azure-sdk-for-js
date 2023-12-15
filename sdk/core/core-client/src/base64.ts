@@ -1,41 +1,49 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+declare global {
+  // stub these out for the browser
+  function btoa(input: string): string;
+  function atob(input: string): string;
+}
+
 /**
  * Encodes a string in base64 format.
  * @param value - the string to encode
- * @internal
  */
 export function encodeString(value: string): string {
-  return Buffer.from(value).toString("base64");
+  return btoa(value);
 }
 
 /**
  * Encodes a byte array in base64 format.
  * @param value - the Uint8Aray to encode
- * @internal
  */
 export function encodeByteArray(value: Uint8Array): string {
-  // Buffer.from accepts <ArrayBuffer> | <SharedArrayBuffer>-- the TypeScript definition is off here
-  // https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_arraybuffer_byteoffset_length
-  const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer as ArrayBuffer);
-  return bufferValue.toString("base64");
+  let str = "";
+  for (let i = 0; i < value.length; i++) {
+    str += String.fromCharCode(value[i]);
+  }
+  return btoa(str);
 }
 
 /**
  * Decodes a base64 string into a byte array.
  * @param value - the base64 string to decode
- * @internal
  */
 export function decodeString(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
+  const byteString = atob(value);
+  const arr = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    arr[i] = byteString.charCodeAt(i);
+  }
+  return arr;
 }
 
 /**
  * Decodes a base64 string into a string.
  * @param value - the base64 string to decode
- * @internal
  */
 export function decodeStringToString(value: string): string {
-  return Buffer.from(value, "base64").toString();
+  return atob(value);
 }

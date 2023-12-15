@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { MapperTypeNames, createSerializer } from "../src/index.js";
 import { serializeHeaders, serializeRequestBody } from "../src/serializationPolicy.js";
 import { Mappers } from "./testMappers1.js";
-import { assert } from "chai";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import { stringifyXML } from "@azure/core-xml";
 

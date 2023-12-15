@@ -62,7 +62,7 @@ export {
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName,
-} from "./policies/setClientRequestIdPolicy";
+} from "./policies/setClientRequestIdPolicy.js";
 export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy.js";
 export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
@@ -113,7 +113,7 @@ export {
   auxiliaryAuthenticationHeaderPolicy,
   AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
-} from "./policies/auxiliaryAuthenticationHeaderPolicy";
+} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
 export {
   createFile,
   createFileFromStream,

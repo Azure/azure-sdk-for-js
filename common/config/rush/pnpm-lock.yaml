@@ -3690,29 +3690,6 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@vitest/browser@1.0.0-beta.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1):
-    resolution: {integrity: sha512-+FBLmcuPMIn2zO/7EljxwhK3oMlHa6bfkDtBvtU/tyEd3udabfoaiCGoRcsxKV9+GLykbf+pyUAMvqvalfqakg==}
-    peerDependencies:
-      playwright: '*'
-      safaridriver: '*'
-      vitest: ^1.0.0-0
-      webdriverio: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      safaridriver:
-        optional: true
-      webdriverio:
-        optional: true
-    dependencies:
-      estree-walker: 3.0.3
-      magic-string: 0.30.5
-      playwright: 1.40.1
-      sirv: 2.0.3
-      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.0-beta.4)
-      webdriverio: 8.26.1(typescript@5.2.2)
-    dev: false
-
   /@vitest/browser@1.0.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1):
     resolution: {integrity: sha512-qMT1NhClex73eA2sOwnlwLcSIVCW8B7NFVzIKuXLKxSJD3LsNq8PCKhwOkBxklbSAcZdkOgL/d3/gzQT7k9eng==}
     peerDependencies:
@@ -10523,64 +10500,6 @@ packages:
       rollup: 4.8.0
     optionalDependencies:
       fsevents: 2.3.3
-    dev: false
-
-  /vitest@1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.0-beta.4):
-    resolution: {integrity: sha512-s1GQHp/UOeWEo4+aXDOeFBJwFzL6mjycbQwwKWX2QcYfh/7tIerS59hWQ20mxzupTJluA2SdwiBuWwQHH67ckg==}
-    engines: {node: ^18.0.0 || >=20.0.0}
-    hasBin: true
-    peerDependencies:
-      '@edge-runtime/vm': '*'
-      '@types/node': ^18.0.0 || >=20.0.0
-      '@vitest/browser': ^1.0.0
-      '@vitest/ui': ^1.0.0
-      happy-dom: '*'
-      jsdom: '*'
-    peerDependenciesMeta:
-      '@edge-runtime/vm':
-        optional: true
-      '@types/node':
-        optional: true
-      '@vitest/browser':
-        optional: true
-      '@vitest/ui':
-        optional: true
-      happy-dom:
-        optional: true
-      jsdom:
-        optional: true
-    dependencies:
-      '@types/node': 18.19.3
-      '@vitest/browser': 1.0.0-beta.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
-      '@vitest/expect': 1.0.4
-      '@vitest/runner': 1.0.4
-      '@vitest/snapshot': 1.0.4
-      '@vitest/spy': 1.0.4
-      '@vitest/utils': 1.0.4
-      acorn-walk: 8.3.1
-      cac: 6.7.14
-      chai: 4.3.10
-      debug: 4.3.4(supports-color@8.1.1)
-      execa: 8.0.1
-      local-pkg: 0.5.0
-      magic-string: 0.30.5
-      pathe: 1.1.1
-      picocolors: 1.0.0
-      std-env: 3.6.0
-      strip-literal: 1.3.0
-      tinybench: 2.5.1
-      tinypool: 0.8.1
-      vite: 5.0.9(@types/node@18.19.3)
-      vite-node: 1.0.4(@types/node@18.19.3)
-      why-is-node-running: 2.2.2
-    transitivePeerDependencies:
-      - less
-      - lightningcss
-      - sass
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
     dev: false
 
   /vitest@1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.4):
@@ -18691,7 +18610,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-gejcU2Y9qnoodRIJp+RICRJhAGgKrRZG1Da0W7yoqg51jxF2wVdPpYibAoK7Psxemkm69qbJ8FahjDP3bao9Uw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-m8iIkV2H+72LLNPoz3SFhYT+8m0gO99EX5Qyt6BCTGl5CIRSrITRUojoDcIIIy5/UF26P4L9wQGivjfMn9OcVQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -18714,9 +18633,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18727,7 +18643,7 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-lro.tgz:
@@ -18782,7 +18698,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-4D8OcyDnPx2e8CucPnngMQ67zmXXKyCmTYUa8nTnobSRJp/miidmY7Vznnm7Q+pOSZBNaUJJrVrQ60d191h9ng==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-vd46LxE1HPHqYV3vDcZANvqxyyGJK3f0qJqqlXvnyportnjgbFqAvcRjyWLclr5dqrnS6O4/3VsdgIp468MqRg==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -18817,9 +18733,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18830,14 +18743,15 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-mfT95HGVMgu+aJnu8hDZ44DBrAxz5No0K0NRz6zKnVBet+HZU3Lsa5hQfA176Mt2qlfr+2OxnjZfB20ybc1f5A==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-pqxYkMk8W8M+ZUCE+KpDArAMLNsqXTwGWg1rabmTcO7HXJMFwdL/lgldW1bLswk5AecCfLOglQLBZOTlG15a4g==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
@@ -18881,9 +18795,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18894,18 +18805,18 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-Tj7niN3A9UTeaeWG3mlPFWPDVQC9xsnx04y7p0qcQK7ay7hqN51KByZy5GEFUvIZhPV6rMZxFrbbtyekGooZMg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-V8LxcdxyJqTowSMEcdnvDcZzknmaYz2dGVz7UMUYHty83/OOjwnH3m998CKTKVtuBZgXwu8CWO1Z5+DZa81UTA==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
-      '@vitest/browser': 1.0.0-beta.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
+      '@vitest/browser': 1.0.4(playwright@1.40.1)(vitest@1.0.4)(webdriverio@8.26.1)
       '@vitest/coverage-istanbul': 1.0.4(vitest@1.0.4)
       c8: 8.0.1
       cross-env: 7.0.3
@@ -18933,14 +18844,11 @@ packages:
       tshy: 1.8.1
       tslib: 2.6.2
       typescript: 5.2.2
-      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.0-beta.4)
+      vitest: 1.0.4(@types/node@18.19.3)(@vitest/browser@1.0.4)
       webdriverio: 8.26.1(typescript@5.2.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18951,7 +18859,7 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-tracing.tgz:

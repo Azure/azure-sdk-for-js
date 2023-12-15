@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   CompositeMapper,
   DictionaryMapper,
@@ -32,7 +33,6 @@ import {
   getOperationRequestInfo,
 } from "../src/operationHelpers.js";
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "chai";
 import { assertServiceClientResponse } from "./utils/serviceClient.js";
 import { deserializationPolicy } from "../src/deserializationPolicy.js";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache.js";

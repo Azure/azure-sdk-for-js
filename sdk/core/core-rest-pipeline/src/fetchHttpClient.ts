@@ -8,7 +8,7 @@ import {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
+} from "./interfaces.js";
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";

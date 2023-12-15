@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBlob, isWebReadableStream } from "./typeGuards";
+import { isBlob, isWebReadableStream } from "./typeGuards.js";
 
 export function toStream(
   source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob

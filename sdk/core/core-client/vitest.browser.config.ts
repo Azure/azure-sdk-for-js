@@ -7,11 +7,20 @@ export default defineConfig({
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
-      junit: "test-results.xml",
+      junit: "test-results.browser.xml",
+    },
+    browser: {
+      enabled: true,
+      headless: true,
+      name: "chromium",
+      provider: "playwright",
+      slowHijackESM: false,
+    },
+    fakeTimers: {
+      toFake: ["setTimeout"],
     },
     watch: false,
-    include: ["test/**/*.spec.ts"],
-    exclude: ["test/**/browser/*.spec.ts"],
+    include: ["./dist-test/browser/**/*.spec.js"],
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
@@ -20,9 +29,9 @@ export default defineConfig({
         "vitest*.config.ts",
         "samples-dev/**/*.ts",
       ],
-      provider: "v8",
+      provider: "istanbul",
       reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage",
+      reportsDirectory: "coverage-browser",
     },
   },
 });

@@ -132,7 +132,7 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
   { headers, tlsSettings }: PipelineRequest
-): { proxyUrl: URL; proxyAgentOptions: HttpProxyAgentOptions<string> } {
+): HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
     parsedProxyUrl = new URL(proxySettings.host);
@@ -148,11 +148,18 @@ export function getProxyAgentOptions(
     );
   }
 
-  const proxyAgentOptions: HttpsProxyAgentOptions<string> = {
+  const proxyAgentOptions: HttpsProxyAgentOptions = {
+    hostname: parsedProxyUrl.hostname,
+    port: proxySettings.port,
+    protocol: parsedProxyUrl.protocol,
     headers: headers.toJSON(),
   };
-
-  return { proxyUrl: parsedProxyUrl, proxyAgentOptions };
+  if (proxySettings.username && proxySettings.password) {
+    proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
+  } else if (proxySettings.username) {
+    proxyAgentOptions.auth = `${proxySettings.username}`;
+  }
+  return proxyAgentOptions;
 }
 
 function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAgents): void {
@@ -170,14 +177,14 @@ function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAg
   if (proxySettings) {
     if (isInsecure) {
       if (!cachedAgents.httpProxyAgent) {
-        const { proxyUrl, proxyAgentOptions } = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyUrl, proxyAgentOptions);
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpProxyAgent;
     } else {
       if (!cachedAgents.httpsProxyAgent) {
-        const { proxyUrl, proxyAgentOptions } = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyUrl, proxyAgentOptions);
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
+        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpsProxyAgent;
     }

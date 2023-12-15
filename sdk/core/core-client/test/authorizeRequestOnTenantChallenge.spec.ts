@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, beforeEach } from "vitest";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, createHttpHeaders } from "@azure/core-rest-pipeline";
-
-import { assert } from "chai";
 import { authorizeRequestOnTenantChallenge } from "../src/index.js";
 import sinon from "sinon";
 

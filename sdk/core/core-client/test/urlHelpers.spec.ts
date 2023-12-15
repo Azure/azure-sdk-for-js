@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import {
   OperationQueryParameter,
   OperationSpec,
@@ -8,7 +9,6 @@ import {
   createSerializer,
 } from "../src/index.js";
 import { appendQueryParams, getRequestUrl } from "../src/urlHelpers.js";
-import { assert } from "chai";
 
 describe("getRequestUrl", function () {
   const urlParameter: OperationURLParameter = {
