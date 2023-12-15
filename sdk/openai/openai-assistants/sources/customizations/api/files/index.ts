@@ -28,7 +28,6 @@ export function _uploadFileSend(
     body: {
       file: createFile(file, options?.filename || "unknown.txt"),
       purpose: purpose,
-      filename: options?.filename,
     },
   });
 }
