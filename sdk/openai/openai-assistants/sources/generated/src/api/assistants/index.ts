@@ -25,6 +25,7 @@ import {
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import {
   AssistantsCreateAssistantOptions,
@@ -52,9 +53,7 @@ export function _createAssistantSend(
         name: body["name"],
         description: body["description"],
         instructions: body["instructions"],
-        tools: !body["tools"]
-          ? body["tools"]
-          : body["tools"].map((p) => ({ type: p["type"] })),
+        tools: body["tools"],
         file_ids: body["fileIds"],
         metadata: body["metadata"],
       },
@@ -65,7 +64,7 @@ export async function _createAssistantDeserialize(
   result: CreateAssistant200Response
 ): Promise<Assistant> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -75,7 +74,7 @@ export async function _createAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"] })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
@@ -112,7 +111,7 @@ export async function _listAssistantsDeserialize(
   result: ListAssistants200Response
 ): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -123,7 +122,7 @@ export async function _listAssistantsDeserialize(
       description: p["description"],
       model: p["model"],
       instructions: p["instructions"],
-      tools: p["tools"].map((p) => ({ type: p["type"] })),
+      tools: p["tools"],
       fileIds: p["file_ids"],
       metadata: p["metadata"],
     })),
@@ -156,7 +155,7 @@ export async function _retrieveAssistantDeserialize(
   result: RetrieveAssistant200Response
 ): Promise<Assistant> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -166,7 +165,7 @@ export async function _retrieveAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"] })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
@@ -197,9 +196,7 @@ export function _modifyAssistantSend(
         name: modificationOptions["name"],
         description: modificationOptions["description"],
         instructions: modificationOptions["instructions"],
-        tools: !modificationOptions["tools"]
-          ? modificationOptions["tools"]
-          : modificationOptions["tools"].map((p) => ({ type: p["type"] })),
+        tools: modificationOptions["tools"],
         file_ids: modificationOptions["fileIds"],
         metadata: modificationOptions["metadata"],
       },
@@ -210,7 +207,7 @@ export async function _modifyAssistantDeserialize(
   result: ModifyAssistant200Response
 ): Promise<Assistant> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -220,7 +217,7 @@ export async function _modifyAssistantDeserialize(
     description: result.body["description"],
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"] })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
   };
@@ -256,7 +253,7 @@ export async function _deleteAssistantDeserialize(
   result: DeleteAssistant200Response
 ): Promise<AssistantDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -292,7 +289,7 @@ export async function _createAssistantFileDeserialize(
   result: CreateAssistantFile200Response
 ): Promise<AssistantFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -340,7 +337,7 @@ export async function _listAssistantFilesDeserialize(
   result: ListAssistantFiles200Response
 ): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -380,7 +377,7 @@ export async function _retrieveAssistantFileDeserialize(
   result: RetrieveAssistantFile200Response
 ): Promise<AssistantFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -421,7 +418,7 @@ export async function _deleteAssistantFileDeserialize(
   result: DeleteAssistantFile200Response
 ): Promise<AssistantFileDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

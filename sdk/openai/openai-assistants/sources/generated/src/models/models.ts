@@ -20,9 +20,29 @@ export interface AssistantCreationOptions {
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinition {
-  /** the discriminator possible values code_interpreter, retrieval, function */
+export interface ToolDefinitionParent {
+  /** the discriminator possible values: code_interpreter, retrieval, function */
   type: string;
+}
+
+/** The input definition information for a code interpreter tool as used to configure an assistant. */
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'code_interpreter'. */
+  type: "code_interpreter";
+}
+
+/** The input definition information for a retrieval tool as used to configure an assistant. */
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'retrieval'. */
+  type: "retrieval";
+}
+
+/** The input definition information for a function tool as used to configure an assistant. */
+export interface FunctionToolDefinition extends ToolDefinitionParent {
+  /** The object type, which is always 'function'. */
+  type: "function";
+  /** The definition of the concrete function that the function tool should call. */
+  function: FunctionDefinition;
 }
 
 /** The input definition information for a function. */
@@ -159,9 +179,17 @@ export interface ThreadMessage {
 export type MessageRole = string;
 
 /** An abstract representation of a single item of thread message content. */
-export interface MessageContent {
-  /** the discriminator possible values text, image_file */
+export interface MessageContentParent {
+  /** the discriminator possible values: text, image_file */
   type: string;
+}
+
+/** A representation of a textual item of thread message content. */
+export interface MessageTextContent extends MessageContentParent {
+  /** The object type, which is always 'text'. */
+  type: "text";
+  /** The text and associated annotations for this thread message content item. */
+  text: MessageTextDetails;
 }
 
 /** The text and associated annotations for a single item of assistant thread message content. */
@@ -173,8 +201,8 @@ export interface MessageTextDetails {
 }
 
 /** An abstract representation of an annotation to text thread message content. */
-export interface MessageTextAnnotation {
-  /** the discriminator possible values file_citation, file_path */
+export interface MessageTextAnnotationParent {
+  /** the discriminator possible values: file_citation, file_path */
   type: string;
   /** The textual content associated with this text annotation item. */
   text: string;
@@ -182,6 +210,18 @@ export interface MessageTextAnnotation {
   startIndex: number;
   /** The last text index associated with this text annotation. */
   endIndex: number;
+}
+
+/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
+export interface MessageFileCitationTextAnnotation
+  extends MessageTextAnnotationParent {
+  /** The object type, which is always 'file_citation'. */
+  type: "file_citation";
+  /**
+   * A citation within the message that points to a specific quote from a specific file.
+   * Generated when the assistant uses the "retrieval" tool to search files.
+   */
+  fileCitation: MessageTextFileCitationDetails;
 }
 
 /** A representation of a file-based text citation, as used in a file-based annotation of text thread message content. */
@@ -192,10 +232,27 @@ export interface MessageTextFileCitationDetails {
   quote: string;
 }
 
+/** A citation within the message that points to a file located at a specific path. */
+export interface MessageFilePathTextAnnotation
+  extends MessageTextAnnotationParent {
+  /** The object type, which is always 'file_path'. */
+  type: "file_path";
+  /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
+  filePath: MessageFilePathDetails;
+}
+
 /** An encapsulation of an image file ID, as used by message image content. */
 export interface MessageFilePathDetails {
   /** The ID of the specific file that the citation is from. */
   fileId: string;
+}
+
+/** A representation of image file content in a thread message. */
+export interface MessageImageFileContent extends MessageContentParent {
+  /** The object type, which is always 'image_file'. */
+  type: "image_file";
+  /** The image file for this thread message content item. */
+  imageFile: MessageImageFileDetails;
 }
 
 /** An image reference, as represented in thread message content. */
@@ -300,15 +357,23 @@ export interface ThreadRun {
 export type RunStatus = string;
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
-export interface RequiredAction {
-  /** the discriminator possible values submit_tool_outputs */
+export interface RequiredActionParent {
+  /** the discriminator possible values: submit_tool_outputs */
   type: string;
 }
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
-export interface RequiredAction {
-  /** the discriminator possible values submit_tool_outputs */
+export interface RequiredActionParent {
+  /** the discriminator possible values: submit_tool_outputs */
   type: string;
+}
+
+/** The details for required tool calls that must be submitted for an assistant thread run to continue. */
+export interface SubmitToolOutputsAction extends RequiredActionParent {
+  /** The object type, which is always 'submit_tool_outputs'. */
+  type: "submit_tool_outputs";
+  /** The details describing tools that should be called to submit tool outputs. */
+  submitToolOutputs: SubmitToolOutputsDetails;
 }
 
 /** The details describing tools that should be called to submit tool outputs. */
@@ -321,11 +386,22 @@ export interface SubmitToolOutputsDetails {
  * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
  * be fulfilled and have its outputs submitted before the model can continue.
  */
-export interface ToolCall {
-  /** the discriminator possible values code_interpreter, retrieval, function */
+export interface ToolCallParent {
+  /** the discriminator possible values: code_interpreter, retrieval, function */
   type: string;
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
+}
+
+/**
+ * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpreter tool, that
+ * represents submitted output needed or already fulfilled by the tool for the model to continue.
+ */
+export interface CodeInterpreterToolCall extends ToolCallParent {
+  /** The object type, which is always 'code_interpreter'. */
+  type: "code_interpreter";
+  /** The details of the tool call to the code interpreter tool. */
+  codeInterpreter: CodeInterpreterCallDetails;
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
@@ -337,15 +413,55 @@ export interface CodeInterpreterCallDetails {
 }
 
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterCallOutput {
-  /** the discriminator possible values logs, image */
+export interface CodeInterpreterCallOutputParent {
+  /** the discriminator possible values: logs, image */
   type: string;
+}
+
+/** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
+export interface CodeInterpreterLogOutput
+  extends CodeInterpreterCallOutputParent {
+  /** The object type, which is always 'logs'. */
+  type: "logs";
+  /** The serialized log output emitted by the code interpreter. */
+  logs: string;
+}
+
+/** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
+export interface CodeInterpreterImageOutput
+  extends CodeInterpreterCallOutputParent {
+  /** The object type, which is always 'image'. */
+  type: "image";
+  /** Referential information for the image associated with this output. */
+  image: CodeInterpreterImageReference;
 }
 
 /** An image reference emitted by a code interpreter tool in response to a tool call by the model. */
 export interface CodeInterpreterImageReference {
   /** The ID of the file associated with this image. */
   fileId: string;
+}
+
+/**
+ * A tool call to a retrieval tool, issued by the model in evaluation of a configured retrieval tool, that represents
+ * submitted output needed or already fulfilled by the tool for the model to continue.
+ */
+export interface RetrievalToolCall extends ToolCallParent {
+  /** The object type, which is always 'retrieval'. */
+  type: "retrieval";
+  /** The key/value pairs produced by the retrieval tool. */
+  retrieval: Record<string, string>;
+}
+
+/**
+ * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
+ * given function inputs and submitted function outputs needed or already fulfilled by the tool for the model to continue.
+ */
+export interface FunctionToolCall extends ToolCallParent {
+  /** The object type, which is always 'function'. */
+  type: "function";
+  /** The detailed information about the function called by the model. */
+  function: FunctionCallDetails;
 }
 
 /** The detailed information about the function called by the model. */
@@ -450,15 +566,31 @@ export type RunStepType = string;
 export type RunStepStatus = string;
 
 /** An abstract representation of the details for a run step. */
-export interface RunStepDetails {
-  /** the discriminator possible values message_creation, tool_calls */
+export interface RunStepDetailsParent {
+  /** the discriminator possible values: message_creation, tool_calls */
   type: RunStepType;
+}
+
+/** The detailed information associated with a message creation run step. */
+export interface RunStepMessageCreationDetails extends RunStepDetailsParent {
+  /** The object type, which is always 'message_creation'. */
+  type: "message_creation";
+  /** Information about the message creation associated with this run step. */
+  messageCreation: RunStepMessageCreationReference;
 }
 
 /** The details of a message created as a part of a run step. */
 export interface RunStepMessageCreationReference {
   /** The ID of the message created by this run step. */
   messageId: string;
+}
+
+/** The detailed information associated with a run step calling tools. */
+export interface RunStepToolCallDetails extends RunStepDetailsParent {
+  /** The object type, which is always 'tool_calls'. */
+  type: "tool_calls";
+  /** A list tool call details for this run step. */
+  toolCalls: ToolCall[];
 }
 
 /** The error information associated with a failed run step. */
@@ -526,3 +658,39 @@ export interface FileDeletionStatus extends DeletionStatus {
 /** The available sorting options when requesting a list of response objects. */
 /** "asc", "desc" */
 export type ListSortOrder = string;
+/** Base type for ToolDefinition */
+export type ToolDefinition =
+  | CodeInterpreterToolDefinition
+  | RetrievalToolDefinition
+  | FunctionToolDefinition
+  | ToolDefinitionParent;
+/** Base type for MessageContent */
+export type MessageContent =
+  | MessageTextContent
+  | MessageImageFileContent
+  | MessageContentParent;
+/** Base type for MessageTextAnnotation */
+export type MessageTextAnnotation =
+  | MessageFileCitationTextAnnotation
+  | MessageFilePathTextAnnotation
+  | MessageTextAnnotationParent;
+/** Base type for RequiredAction */
+export type RequiredAction = SubmitToolOutputsAction | RequiredActionParent;
+/** Base type for RequiredAction */
+export type RequiredAction = SubmitToolOutputsAction | RequiredActionParent;
+/** Base type for ToolCall */
+export type ToolCall =
+  | CodeInterpreterToolCall
+  | RetrievalToolCall
+  | FunctionToolCall
+  | ToolCallParent;
+/** Base type for CodeInterpreterCallOutput */
+export type CodeInterpreterCallOutput =
+  | CodeInterpreterLogOutput
+  | CodeInterpreterImageOutput
+  | CodeInterpreterCallOutputParent;
+/** Base type for RunStepDetails */
+export type RunStepDetails =
+  | RunStepMessageCreationDetails
+  | RunStepToolCallDetails
+  | RunStepDetailsParent;

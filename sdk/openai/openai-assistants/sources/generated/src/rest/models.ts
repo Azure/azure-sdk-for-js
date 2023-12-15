@@ -224,12 +224,17 @@ export interface CreateAndRunThreadOptions {
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
+  | ToolDefinitionParent
   | CodeInterpreterToolDefinition
   | RetrievalToolDefinition
   | FunctionToolDefinition;
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent = MessageTextContent | MessageImageFileContent;
+export type MessageContent =
+  | MessageContentParent
+  | MessageTextContent
+  | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotation =
+  | MessageTextAnnotationParent
   | MessageFileCitationTextAnnotation
   | MessageFilePathTextAnnotation;

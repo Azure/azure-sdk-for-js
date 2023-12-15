@@ -15,7 +15,11 @@ import {
   ModifyMessage200Response,
   RetrieveMessage200Response,
 } from "../../../generated/src/rest/index.js";
-import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  createRestError,
+} from "@azure-rest/core-client";
 import {
   ThreadMessagesListMessagesOptions,
   ThreadMessagesRetrieveMessageOptions,
@@ -57,7 +61,7 @@ export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
 ): Promise<ListResponseOf<MessageFile>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -87,7 +91,7 @@ export async function _createMessageDeserialize(
   result: CreateMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -114,7 +118,7 @@ export async function _listMessagesDeserialize(
   result: ListMessages200Response
 ): Promise<ListResponseOf<ThreadMessage>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -147,7 +151,7 @@ export async function _retrieveMessageDeserialize(
   result: RetrieveMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -175,7 +179,7 @@ export async function _modifyMessageDeserialize(
   result: ModifyMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

@@ -16,6 +16,7 @@ import {
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import {
   AssistantThreadsCreateThreadOptions,
@@ -41,7 +42,7 @@ export function _createThreadSend(
               created_at: p["createdAt"].getTime(),
               thread_id: p["threadId"],
               role: p["role"],
-              content: p["content"].map((p) => ({ type: p["type"] })),
+              content: p["content"],
               assistant_id: p["assistantId"],
               run_id: p["runId"],
               file_ids: p["fileIds"],
@@ -56,7 +57,7 @@ export async function _createThreadDeserialize(
   result: CreateThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -90,7 +91,7 @@ export async function _retrieveThreadDeserialize(
   result: RetrieveThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -127,7 +128,7 @@ export async function _modifyThreadDeserialize(
   result: ModifyThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -161,7 +162,7 @@ export async function _deleteThreadDeserialize(
   result: DeleteThread200Response
 ): Promise<ThreadDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

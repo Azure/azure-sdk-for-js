@@ -8,12 +8,6 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-/** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionOutput {
-  type: string;
-  /** The definition of the concrete function that the function tool should call. */
-  function?: FunctionDefinitionOutput;
-}
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
 export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutput {
@@ -130,7 +124,7 @@ export interface ThreadMessageOutput {
 }
 
 /** An abstract representation of a single item of thread message content. */
-export interface MessageContentOutputParent {
+export interface MessageContentOutput {
   type: string;
   /** The text and associated annotations for this thread message content item. */
   text?: MessageTextDetailsOutput;
@@ -139,7 +133,7 @@ export interface MessageContentOutputParent {
 }
 
 /** A representation of a textual item of thread message content. */
-export interface MessageTextContentOutput extends MessageContentOutputParent {
+export interface MessageTextContentOutput extends MessageContentOutput {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -199,7 +193,7 @@ export interface MessageFilePathDetailsOutput {
 }
 
 /** A representation of image file content in a thread message. */
-export interface MessageImageFileContentOutput extends MessageContentOutputParent {
+export interface MessageImageFileContentOutput extends MessageContentOutput {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -281,14 +275,13 @@ export interface ThreadRunOutput {
 }
 
 /** An abstract representation of a required action for an assistant thread run to continue. */
-export interface RequiredActionOutputParent {
+export interface RequiredActionOutput {
   type: string;
-  /** The details describing tools that should be called to submit tool outputs. */
   submit_tool_outputs?: SubmitToolOutputsDetailsOutput;
 }
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
-export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutput {
   /** The object type, which is always 'submit_tool_outputs'. */
   type: "submit_tool_outputs";
   /** The details describing tools that should be called to submit tool outputs. */
@@ -305,17 +298,23 @@ export interface SubmitToolOutputsDetailsOutput {
  * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
  * be fulfilled and have its outputs submitted before the model can continue.
  */
-export interface ToolCallOutputParent {
+export interface ToolCallOutput {
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
   type: string;
+  /** The details of the tool call to the code interpreter tool. */
+  code_interpreter?: CodeInterpreterCallDetailsOutput;
+  /** The key/value pairs produced by the retrieval tool. */
+  retrieval?: TypeSpecRecordOutput;
+  /** The detailed information about the function called by the model. */
+  function?: FunctionCallDetailsOutput;
 }
 
 /**
  * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpreter tool, that
  * represents submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface CodeInterpreterToolCallOutput extends ToolCallOutputParent {
+export interface CodeInterpreterToolCallOutput extends ToolCallOutput {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
@@ -361,7 +360,7 @@ export interface CodeInterpreterImageReferenceOutput {
  * A tool call to a retrieval tool, issued by the model in evaluation of a configured retrieval tool, that represents
  * submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface RetrievalToolCallOutput extends ToolCallOutputParent {
+export interface RetrievalToolCallOutput extends ToolCallOutput {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
   /** The key/value pairs produced by the retrieval tool. */
@@ -372,7 +371,7 @@ export interface RetrievalToolCallOutput extends ToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * given function inputs and submitted function outputs needed or already fulfilled by the tool for the model to continue.
  */
-export interface FunctionToolCallOutput extends ToolCallOutputParent {
+export interface FunctionToolCallOutput extends ToolCallOutput {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The detailed information about the function called by the model. */
@@ -440,10 +439,6 @@ export interface RunStepOutput {
 /** An abstract representation of the details for a run step. */
 export interface RunStepDetailsOutputParent {
   type: string;
-  /** Information about the message creation associated with this run step. */
-  message_creation?: RunStepMessageCreationReferenceOutput;
-  /** A list tool call details for this run step. */
-  tool_calls?: Array<ToolCallOutput>;
 }
 
 /** The detailed information associated with a message creation run step. */
@@ -504,6 +499,12 @@ export interface FileOutput {
   purpose: string;
 }
 
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinitionOutput {
+  type: string;
+  function?: FunctionDefinitionOutput;
+}
+
 /** The response data for a requested list of items. */
 export interface ListResponseOfOutput<T> {
   /** The requested list of items. */
@@ -516,27 +517,18 @@ export interface ListResponseOfOutput<T> {
   has_more: boolean;
 }
 
-/** An abstract representation of a single item of thread message content. */
-export type MessageContentOutput = MessageTextContentOutput | MessageImageFileContentOutput;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotationOutput =
+  | MessageTextAnnotationOutputParent
   | MessageFileCitationTextAnnotationOutput
   | MessageFilePathTextAnnotationOutput;
-/** An abstract representation of a required action for an assistant thread run to continue. */
-export type RequiredActionOutput = SubmitToolOutputsActionOutput;
-/**
- * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
- * be fulfilled and have its outputs submitted before the model can continue.
- */
-export type ToolCallOutput =
-  | CodeInterpreterToolCallOutput
-  | RetrievalToolCallOutput
-  | FunctionToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type CodeInterpreterCallOutputOutput =
+  | CodeInterpreterCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of the details for a run step. */
 export type RunStepDetailsOutput =
+  | RunStepDetailsOutputParent
   | RunStepMessageCreationDetailsOutput
   | RunStepToolCallDetailsOutput;

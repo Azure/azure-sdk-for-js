@@ -10,12 +10,13 @@ import {
   SubmitRunToolOutputs200Response,
 } from "../../../generated/src/rest/index.js";
 import { ThreadRunsListRunsOptions } from "../../../generated/src/models/options.js";
+import { operationOptionsToRequestParameters, createRestError, StreamableMethod } from "@azure-rest/core-client";
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response
 ): Promise<ListResponseOf<ThreadRun>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -32,7 +33,7 @@ export async function _listRunsDeserialize(
             : { code: p.last_error?.["code"], message: p.last_error?.["message"] },
           model: p["model"],
           instructions: p["instructions"],
-          tools: p["tools"].map((p) => ({ type: p["type"], function: p["function"] || undefined })),
+          tools: p["tools"],
           fileIds: p["file_ids"],
           metadata: p["metadata"],
           createdAt: new Date(p["created_at"]),
@@ -49,6 +50,35 @@ export async function _listRunsDeserialize(
   };
 }
 
+export function _createThreadAndRunSend(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: ThreadRunsCreateThreadAndRunOptions = { requestOptions: {} }
+): StreamableMethod<CreateThreadAndRun200Response> {
+  return context.path("/threads/runs").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      assistant_id: body["assistantId"],
+      thread: !body.thread
+        ? undefined
+        : {
+            messages: !body.thread?.["messages"]
+              ? body.thread?.["messages"]
+              : body.thread?.["messages"].map((p) => ({
+                  role: p["role"],
+                  content: p["content"],
+                })),
+            metadata: body.thread?.["metadata"],
+          },
+      model: body["model"],
+      instructions: body["instructions"],
+      tools: body["tools"],
+      metadata: body["metadata"],
+    },
+  });
+}
+
+
 /** Returns a list of runs associated with an assistant thread. */
 export async function listRuns(
   context: Client,
@@ -61,7 +91,7 @@ export async function listRuns(
 
 export async function _createRunDeserialize(result: CreateRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -73,7 +103,9 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: {
+          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          ? undefined
+          : {
             toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
           },
         },
@@ -85,10 +117,7 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({
-      type: p["type"],
-      function: p["function"] || undefined,
-    })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -104,7 +133,7 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
 
 export async function _retrieveRunDeserialize(result: RetrieveRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -116,7 +145,9 @@ export async function _retrieveRunDeserialize(result: RetrieveRun200Response): P
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: {
+          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          ? undefined
+          : {
             toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
           },
         },
@@ -128,10 +159,7 @@ export async function _retrieveRunDeserialize(result: RetrieveRun200Response): P
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({
-      type: p["type"],
-      function: p["function"] || undefined,
-    })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -149,7 +177,7 @@ export async function _submitRunToolOutputsDeserialize(
   result: SubmitRunToolOutputs200Response
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -161,7 +189,9 @@ export async function _submitRunToolOutputsDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: {
+          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          ? undefined
+          : {
             toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
           },
         },
@@ -173,10 +203,7 @@ export async function _submitRunToolOutputsDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({
-      type: p["type"],
-      function: p["function"] || undefined,
-    })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -194,7 +221,7 @@ export async function _createThreadAndRunDeserialize(
   result: CreateThreadAndRun200Response
 ): Promise<ThreadRun> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -206,7 +233,9 @@ export async function _createThreadAndRunDeserialize(
       ? undefined
       : {
           type: result.body.required_action?.["type"],
-          submitToolOutputs: {
+          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          ? undefined
+          : {
             toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
           },
         },
@@ -218,10 +247,7 @@ export async function _createThreadAndRunDeserialize(
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({
-      type: p["type"],
-      function: p["function"] || undefined,
-    })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: new Date(result.body["created_at"]),
@@ -237,7 +263,7 @@ export async function _createThreadAndRunDeserialize(
 
 export async function _cancelRunDeserialize(result: CancelRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -247,7 +273,14 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     status: result.body["status"],
     requiredAction: !result.body.required_action
       ? undefined
-      : { type: result.body.required_action?.["type"] },
+      : {
+          type: result.body.required_action?.["type"],
+          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
+          ? undefined
+          : {
+            toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+          },
+        },
     lastError: !result.body.last_error
       ? undefined
       : {
@@ -256,7 +289,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
         },
     model: result.body["model"],
     instructions: result.body["instructions"],
-    tools: result.body["tools"].map((p) => ({ type: p["type"] })),
+    tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     createdAt: new Date(result.body["created_at"]),
     expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),

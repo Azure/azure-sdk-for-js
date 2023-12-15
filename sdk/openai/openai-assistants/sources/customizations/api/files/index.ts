@@ -35,7 +35,7 @@ export function _uploadFileSend(
 
 export async function _uploadFileDeserialize(result: UploadFile200Response): Promise<InputFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -62,7 +62,7 @@ export async function _retrieveFileDeserialize(
   result: RetrieveFile200Response
 ): Promise<InputFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

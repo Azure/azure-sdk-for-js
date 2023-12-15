@@ -17,9 +17,7 @@ import { getRunStepsOperations } from "../generated/src/classic/runSteps/index.j
 import { RunStepsOperations } from "./classic/runSteps/index.js";
 import { FilesOperations } from "./classic/files/index.js";
 import { getFilesOperations } from "../generated/src/classic/files/index.js";
-import {
-  AssistantsClientOptions,
-} from "../generated/src/index.js";
+import { AssistantsClientOptions } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";

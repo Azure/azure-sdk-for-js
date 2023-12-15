@@ -14,7 +14,7 @@ export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response
 ): Promise<ListResponseOf<RunStep>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

@@ -18,6 +18,7 @@ import {
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
 import {
@@ -44,7 +45,7 @@ export async function _listFilesDeserialize(
   result: ListFiles200Response
 ): Promise<FileListResponse> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -90,7 +91,7 @@ export async function _uploadFileDeserialize(
   result: UploadFile200Response
 ): Promise<File> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -127,7 +128,7 @@ export async function _deleteFileDeserialize(
   result: DeleteFile200Response
 ): Promise<FileDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -160,7 +161,7 @@ export async function _retrieveFileDeserialize(
   result: RetrieveFile200Response
 ): Promise<File> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -196,7 +197,7 @@ export async function _retrieveFileContentDeserialize(
   result: RetrieveFileContent200Response
 ): Promise<Uint8Array> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return typeof result.body === "string"

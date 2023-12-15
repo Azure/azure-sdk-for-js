@@ -43,5 +43,5 @@ export interface ThreadMessagesOperations {
     messageId: string,
     fileId: string,
     options?: ThreadMessagesRetrieveMessageFileOptions
-  ) => Promise<ThreadMessageFile>;
+  ) => Promise<MessageFile>;
 }

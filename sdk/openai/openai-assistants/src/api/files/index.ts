@@ -9,7 +9,12 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { createFile } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
 import {
   FileDeletionStatus,
@@ -32,7 +37,6 @@ import {
   RetrieveFileContent200Response,
   UploadFile200Response,
 } from "../../rest/index.js";
-import { createFile } from "@azure/core-rest-pipeline";
 
 export function _listFilesSend(
   context: Client,
@@ -48,15 +52,15 @@ export async function _listFilesDeserialize(
   result: ListFiles200Response
 ): Promise<FileListResponse> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      createdAt: new Date(p["created_at"]),
       bytes: p["bytes"],
       filename: p["filename"],
+      createdAt: new Date(p["created_at"]),
       purpose: p["purpose"],
     })),
   };
@@ -69,23 +73,6 @@ export async function listFiles(
 ): Promise<FileListResponse> {
   const result = await _listFilesSend(context, options);
   return _listFilesDeserialize(result);
-}
-
-export function _uploadFileSend(
-  context: Client,
-  file: Uint8Array,
-  purpose: FilePurpose,
-  options: FilesUploadFileOptions = { requestOptions: {} }
-): StreamableMethod<UploadFile200Response> {
-  return context.path("/files").post({
-    ...operationOptionsToRequestParameters(options),
-    contentType: (options.contentType as any) ?? "multipart/form-data",
-    body: {
-      file: createFile(file, options?.filename || "unknown.txt"),
-      purpose: purpose,
-      filename: options?.filename,
-    },
-  });
 }
 
 export function _deleteFileSend(
@@ -102,7 +89,7 @@ export async function _deleteFileDeserialize(
   result: DeleteFile200Response
 ): Promise<FileDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -131,32 +118,6 @@ export function _retrieveFileSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _retrieveFileDeserialize(
-  result: RetrieveFile200Response
-): Promise<InputFile> {
-  if (result.status !== "200") {
-    throw result.body;
-  }
-
-  return {
-    id: result.body["id"],
-    bytes: result.body["bytes"],
-    filename: result.body["filename"],
-    createdAt: new Date(result.body["created_at"]),
-    purpose: result.body["purpose"],
-  };
-}
-
-/** Returns information about a specific file. Does not retrieve file content. */
-export async function retrieveFile(
-  context: Client,
-  fileId: string,
-  options: FilesRetrieveFileOptions = { requestOptions: {} }
-): Promise<InputFile> {
-  const result = await _retrieveFileSend(context, fileId, options);
-  return _retrieveFileDeserialize(result);
-}
-
 export function _retrieveFileContentSend(
   context: Client,
   fileId: string,
@@ -171,7 +132,7 @@ export async function _retrieveFileContentDeserialize(
   result: RetrieveFileContent200Response
 ): Promise<Uint8Array> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return typeof result.body === "string" ? stringToUint8Array(result.body, "base64") : result.body;
@@ -187,9 +148,26 @@ export async function retrieveFileContent(
   return _retrieveFileContentDeserialize(result);
 }
 
+export function _uploadFileSend(
+  context: Client,
+  file: Uint8Array,
+  purpose: FilePurpose,
+  options: FilesUploadFileOptions = { requestOptions: {} }
+): StreamableMethod<UploadFile200Response> {
+  return context.path("/files").post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: (options.contentType as any) ?? "multipart/form-data",
+    body: {
+      file: createFile(file, options?.filename || "unknown.txt"),
+      purpose: purpose,
+      filename: options?.filename,
+    },
+  });
+}
+
 export async function _uploadFileDeserialize(result: UploadFile200Response): Promise<InputFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -210,4 +188,30 @@ export async function uploadFile(
 ): Promise<InputFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
+}
+
+export async function _retrieveFileDeserialize(
+  result: RetrieveFile200Response
+): Promise<InputFile> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+
+  return {
+    id: result.body["id"],
+    bytes: result.body["bytes"],
+    filename: result.body["filename"],
+    createdAt: new Date(result.body["created_at"]),
+    purpose: result.body["purpose"],
+  };
+}
+
+/** Returns information about a specific file. Does not retrieve file content. */
+export async function retrieveFile(
+  context: Client,
+  fileId: string,
+  options: FilesRetrieveFileOptions = { requestOptions: {} }
+): Promise<InputFile> {
+  const result = await _retrieveFileSend(context, fileId, options);
+  return _retrieveFileDeserialize(result);
 }

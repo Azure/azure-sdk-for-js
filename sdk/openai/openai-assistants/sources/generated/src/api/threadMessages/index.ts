@@ -19,6 +19,7 @@ import {
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import {
   ThreadMessagesCreateMessageOptions,
@@ -53,7 +54,7 @@ export async function _createMessageDeserialize(
   result: CreateMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -61,7 +62,7 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"].map((p) => ({ type: p["type"] })),
+    content: result.body["content"],
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -109,7 +110,7 @@ export async function _listMessagesDeserialize(
   result: ListMessages200Response
 ): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -118,7 +119,7 @@ export async function _listMessagesDeserialize(
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
-      content: p["content"].map((p) => ({ type: p["type"] })),
+      content: p["content"],
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       fileIds: p["file_ids"],
@@ -155,7 +156,7 @@ export async function _retrieveMessageDeserialize(
   result: RetrieveMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -163,7 +164,7 @@ export async function _retrieveMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"].map((p) => ({ type: p["type"] })),
+    content: result.body["content"],
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -205,7 +206,7 @@ export async function _modifyMessageDeserialize(
   result: ModifyMessage200Response
 ): Promise<ThreadMessage> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -213,7 +214,7 @@ export async function _modifyMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"].map((p) => ({ type: p["type"] })),
+    content: result.body["content"],
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -260,7 +261,7 @@ export async function _listMessageFilesDeserialize(
   result: ListMessageFiles200Response
 ): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -312,7 +313,7 @@ export async function _retrieveMessageFileDeserialize(
   result: RetrieveMessageFile200Response
 ): Promise<MessageFile> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

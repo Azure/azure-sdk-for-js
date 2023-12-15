@@ -19,7 +19,7 @@ export interface AssistantCreationOptions {
   /** The system instructions for the new assistant to use. */
   instructions?: string;
   /** The collection of tools to enable for the new assistant. */
-  tools?: Array<ToolDefinitionParent>;
+  tools?: Array<ToolDefinition>;
   /** A list of previously uploaded file IDs to attach to the assistant. */
   file_ids?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
@@ -29,8 +29,6 @@ export interface AssistantCreationOptions {
 /** An abstract representation of an input tool definition that an assistant can use. */
 export interface ToolDefinitionParent {
   type: string;
-  /** The definition of the concrete function that the function tool should call. */
-  function?: FunctionDefinition;
 }
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
@@ -50,7 +48,7 @@ export interface FunctionToolDefinition extends ToolDefinitionParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
-  function?: FunctionDefinition;
+  function: FunctionDefinition;
 }
 
 /** The input definition information for a function. */
@@ -76,7 +74,7 @@ export interface AssistantModificationOptions {
   /** The modified system instructions for the new assistant to use. */
   instructions?: string;
   /** The modified collection of tools to enable for the assistant. */
-  tools?: Array<ToolDefinitionParent>;
+  tools?: Array<ToolDefinition>;
   /** The modified list of previously uploaded fileIDs to attach to the assistant. */
   file_ids?: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
@@ -132,10 +130,6 @@ export interface ThreadMessage {
 /** An abstract representation of a single item of thread message content. */
 export interface MessageContentParent {
   type: string;
-  /** The text and associated annotations for this thread message content item. */
-  text?: MessageTextDetails;
-  /** The image file for this thread message content item. */
-  image_file?: MessageImageFileDetails;
 }
 
 /** A representation of a textual item of thread message content. */
@@ -237,19 +231,21 @@ export interface CreateAndRunThreadOptions {
   /** The overridden system instructions the assistant should use to run the thread. */
   instructions?: string;
   /** The overridden list of enabled tools the assistant should use to run the thread. */
-  tools?: Array<ToolDefinitionParent>;
+  tools?: Array<ToolDefinition>;
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecord;
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
+  | ToolDefinitionParent
   | CodeInterpreterToolDefinition
   | RetrievalToolDefinition
   | FunctionToolDefinition;
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent = MessageTextContent | MessageImageFileContent;
+export type MessageContent = MessageContentParent | MessageTextContent | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotation =
+  | MessageTextAnnotationParent
   | MessageFileCitationTextAnnotation
   | MessageFilePathTextAnnotation;

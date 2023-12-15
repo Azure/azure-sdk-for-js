@@ -9,7 +9,11 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 import { AssistantThreadsCreateThreadOptions } from "../../models/index.js";
 import { AssistantThread, ThreadDeletionStatus } from "../../models/models.js";
 import {
@@ -30,7 +34,7 @@ export async function _createThreadDeserialize(
   result: CreateThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -64,7 +68,7 @@ export async function _retrieveThreadDeserialize(
   result: RetrieveThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -99,7 +103,7 @@ export async function _modifyThreadDeserialize(
   result: ModifyThread200Response
 ): Promise<AssistantThread> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -133,7 +137,7 @@ export async function _deleteThreadDeserialize(
   result: DeleteThread200Response
 ): Promise<ThreadDeletionStatus> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

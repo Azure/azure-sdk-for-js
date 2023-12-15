@@ -18,12 +18,7 @@ import {
   retrieveMessage,
   retrieveMessageFile,
 } from "../../api/threadMessages/index.js";
-import {
-  ListResponseOf,
-  MessageRole,
-  ThreadMessage,
-  ThreadMessageFile,
-} from "../../models/models.js";
+import { ListResponseOf, MessageFile, MessageRole, ThreadMessage } from "../../models/models.js";
 import {
   ThreadMessagesCreateMessageOptions,
   ThreadMessagesListMessageFilesOptions,
@@ -58,13 +53,13 @@ export interface ThreadMessagesOperations {
     threadId: string,
     messageId: string,
     options?: ThreadMessagesListMessageFilesOptions
-  ) => Promise<ListResponseOf<ThreadMessageFile>>;
+  ) => Promise<ListResponseOf<MessageFile>>;
   retrieveMessageFile: (
     threadId: string,
     messageId: string,
     fileId: string,
     options?: ThreadMessagesRetrieveMessageFileOptions
-  ) => Promise<ThreadMessageFile>;
+  ) => Promise<MessageFile>;
 }
 
 export function getThreadMessages(context: AssistantsContext) {

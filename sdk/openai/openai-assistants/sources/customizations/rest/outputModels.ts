@@ -3,12 +3,12 @@
 
 import {
   FunctionDefinitionOutput,
-  RequiredActionOutputParent,
+  RequiredActionOutput,
   SubmitToolOutputsDetailsOutput,
 } from "../../generated/src/rest/outputModels.js";
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
-export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutput {
   /** The object type, which is always 'submit_tool_outputs'. */
   type: "submit_tool_outputs";
   /** The details describing tools that should be called to submit tool outputs. */
@@ -52,5 +52,3 @@ export interface ListResponseOfOutput<T> {
   /** A value indicating whether there are additional values available not captured in this list. */
   has_more: boolean;
 }
-
-export interface OpenAIPageableListOfOutput {}

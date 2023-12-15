@@ -48,16 +48,6 @@ export interface ThreadRun {
   metadata?: Record<string, string>;
 }
 
-/** Information about a file attached to an assistant thread message. */
-export interface ThreadMessageFile {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
-  /** The ID of the message that this file is attached to. */
-  messageId: string;
-}
-
 /** A single message within an assistant thread. */
 export interface ThreadMessage {
   /** The identifier, which can be referenced in API endpoints. */
@@ -159,6 +149,3 @@ export interface ToolDefinition {
   type: string;
   function?: FunctionDefinition;
 }
-
-export interface OpenAIPageableListOf {}
-export interface File {}

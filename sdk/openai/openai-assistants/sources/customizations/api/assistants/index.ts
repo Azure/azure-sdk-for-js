@@ -21,7 +21,7 @@ export async function _listAssistantsDeserialize(
   result: ListAssistants200Response
 ): Promise<ListResponseOf<Assistant>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -32,10 +32,7 @@ export async function _listAssistantsDeserialize(
       description: p["description"],
       model: p["model"],
       instructions: p["instructions"],
-      tools: (p["tools"] ?? []).map((p) => ({
-        type: p["type"],
-        function: p["function"] || undefined,
-      })),
+      tools: p["tools"],
       fileIds: p["file_ids"],
       metadata: p["metadata"],
     })),
@@ -58,7 +55,7 @@ export async function _listAssistantFilesDeserialize(
   result: ListAssistantFiles200Response
 ): Promise<ListResponseOf<AssistantFile>> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {

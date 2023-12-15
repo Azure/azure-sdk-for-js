@@ -151,10 +151,6 @@ export interface ThreadMessageOutput {
 /** An abstract representation of a single item of thread message content. */
 export interface MessageContentOutputParent {
   type: string;
-  /** The text and associated annotations for this thread message content item. */
-  text?: MessageTextDetailsOutput;
-  /** The image file for this thread message content item. */
-  image_file?: MessageImageFileDetailsOutput;
 }
 
 /** A representation of a textual item of thread message content. */
@@ -575,32 +571,40 @@ export interface FileOutput {
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinitionOutput =
+  | ToolDefinitionOutputParent
   | CodeInterpreterToolDefinitionOutput
   | RetrievalToolDefinitionOutput
   | FunctionToolDefinitionOutput;
 /** An abstract representation of a single item of thread message content. */
 export type MessageContentOutput =
+  | MessageContentOutputParent
   | MessageTextContentOutput
   | MessageImageFileContentOutput;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotationOutput =
+  | MessageTextAnnotationOutputParent
   | MessageFileCitationTextAnnotationOutput
   | MessageFilePathTextAnnotationOutput;
 /** An abstract representation of a required action for an assistant thread run to continue. */
-export type RequiredActionOutput = SubmitToolOutputsActionOutput;
+export type RequiredActionOutput =
+  | RequiredActionOutputParent
+  | SubmitToolOutputsActionOutput;
 /**
  * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
  * be fulfilled and have its outputs submitted before the model can continue.
  */
 export type ToolCallOutput =
+  | ToolCallOutputParent
   | CodeInterpreterToolCallOutput
   | RetrievalToolCallOutput
   | FunctionToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type CodeInterpreterCallOutputOutput =
+  | CodeInterpreterCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of the details for a run step. */
 export type RunStepDetailsOutput =
+  | RunStepDetailsOutputParent
   | RunStepMessageCreationDetailsOutput
   | RunStepToolCallDetailsOutput;

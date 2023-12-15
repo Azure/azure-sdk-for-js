@@ -10,6 +10,7 @@ import {
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import {
   RunStepsRetrieveRunStepOptions,
@@ -37,7 +38,7 @@ export async function _retrieveRunStepDeserialize(
   result: RetrieveRunStep200Response
 ): Promise<RunStep> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -117,7 +118,7 @@ export async function _listRunStepsDeserialize(
   result: ListRunSteps200Response
 ): Promise<OpenAIPageableListOf> {
   if (result.status !== "200") {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
