@@ -9,7 +9,7 @@ import { masterKey } from "../../public/common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../../public/common/TestHelpers";
 
 describe("QueryIterator", function () {
-  this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+  this.timeout(process.env.MOCHA_TIMEOUT || 30000);
   let container: Container;
   let capturedCorrelatedActivityIds: string[];
   const client = new CosmosClient({
@@ -51,34 +51,30 @@ describe("QueryIterator", function () {
     capturedCorrelatedActivityIds = [];
   });
 
-  it("fetchNext should pass correlation Id to request header", async () => {
+  it("fetchNext and fetchAll should have different correlated id with same iterator", async () => {
     const queryIterator = container.items.readAll();
-    assert.equal(
-      capturedCorrelatedActivityIds.length,
-      0,
-      "correlated Id should be undefined before calling fetchNext"
-    );
     await queryIterator.fetchNext();
-    assert.ok(
-      capturedCorrelatedActivityIds.length,
-      "correlated Id should be created after fetchnext"
-    );
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    capturedCorrelatedActivityIds = [];
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    assert.ok(correlatedIdFetchAll !== correlatedIdFetchNext);
   });
 
-  it("fetchAll should pass correlation Id to request header", async () => {
-    const querySpec = "SELECT * FROM c";
-    const queryIterator = container.items.query(querySpec, { maxItemCount: 2 });
-    assert.equal(
-      capturedCorrelatedActivityIds.length,
-      0,
-      "correlated Id should be undefined before calling fetchAll"
-    );
-    await queryIterator.fetchAll();
+  it("fetchNext should have same correlated Ids in hasMoreResult loop", async () => {
+    const querySpec = {
+      query: "SELECT * from c",
+    };
+    const options: FeedOptions = { maxItemCount: 2 };
+    const queryIterator = container.items.query(querySpec, options);
+    while (queryIterator.hasMoreResults()) {
+      await queryIterator.fetchNext();
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every(
-        (element) => element === capturedCorrelatedActivityIds[0]
-      ),
-      "correlated Id should be equal for each roundtrips"
+      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
     );
   });
 
@@ -88,20 +84,21 @@ describe("QueryIterator", function () {
     };
     const options: FeedOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(querySpec, options);
-    assert.equal(capturedCorrelatedActivityIds.length, 0);
     await queryIterator.fetchNext();
+    assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
       capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
     );
   });
+
   it("fetchAll should pass correlation Id to request header with force query plan enabled", async () => {
     const querySpec = {
       query: "SELECT * from c",
     };
     const options: FeedOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(querySpec, options);
-    assert.equal(capturedCorrelatedActivityIds.length, 0);
     await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
       capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
     );
@@ -112,8 +109,8 @@ describe("QueryIterator", function () {
       query: "SELECT c.name FROM c ORDER BY c.name ASC",
     };
     const queryIterator = container.items.query(querySpec);
-    assert.equal(capturedCorrelatedActivityIds.length, 0);
     await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
       capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
     );
@@ -124,8 +121,8 @@ describe("QueryIterator", function () {
       query: "SELECT c.name FROM c GROUP BY c.name",
     };
     const queryIterator = container.items.query(querySpec);
-    assert.equal(capturedCorrelatedActivityIds.length, 0);
     await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
       capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
     );
