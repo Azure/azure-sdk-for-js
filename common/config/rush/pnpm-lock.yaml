@@ -11174,7 +11174,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-WMmi5GrMm+QYr1pPVOU9sfqr3fSWtbUPyqYAz0kV/Jih2fEfZjsNFBgyfyv36fBz9lGdT0/y23T9Ui5ZcAGvlQ==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-zXzkb4wA9xbe2xs61W40vq61Ua53X5CZlLKdMu8iqZ3B1S7l6ejHEMvjXfvNWpjQBlrjdRa+A1fYnisjBsCCSg==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -11182,13 +11182,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
