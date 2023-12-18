@@ -27,7 +27,7 @@ async function startsTheManagedInstance() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.beginStartAndWait(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   );
   console.log(result);
 }

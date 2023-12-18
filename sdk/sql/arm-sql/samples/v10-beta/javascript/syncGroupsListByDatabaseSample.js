@@ -30,7 +30,7 @@ async function listSyncGroupsUnderAGivenDatabase() {
   for await (let item of client.syncGroups.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

@@ -34,7 +34,7 @@ async function createsOrUpdatesAServerKey() {
     resourceGroupName,
     serverName,
     keyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

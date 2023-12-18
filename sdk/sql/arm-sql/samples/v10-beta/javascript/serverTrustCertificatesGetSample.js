@@ -29,7 +29,7 @@ async function getsServerTrustCertificate() {
   const result = await client.serverTrustCertificates.get(
     resourceGroupName,
     managedInstanceName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }

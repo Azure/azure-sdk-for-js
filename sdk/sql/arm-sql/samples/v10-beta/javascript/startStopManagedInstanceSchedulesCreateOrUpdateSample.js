@@ -48,7 +48,7 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithAllOptio
     resourceGroupName,
     managedInstanceName,
     startStopScheduleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -87,7 +87,7 @@ async function createsOrUpdatesTheManagedInstanceStartOrStopScheduleWithNoOption
     resourceGroupName,
     managedInstanceName,
     startStopScheduleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

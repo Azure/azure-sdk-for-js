@@ -40,7 +40,7 @@ async function createASyncGroup() {
     serverName,
     databaseName,
     syncGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -73,7 +73,7 @@ async function updateASyncGroup() {
     serverName,
     databaseName,
     syncGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

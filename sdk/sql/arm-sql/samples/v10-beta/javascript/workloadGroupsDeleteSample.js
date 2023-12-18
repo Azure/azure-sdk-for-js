@@ -31,7 +31,7 @@ async function deleteAWorkloadGroup() {
     resourceGroupName,
     serverName,
     databaseName,
-    workloadGroupName
+    workloadGroupName,
   );
   console.log(result);
 }

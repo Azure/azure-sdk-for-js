@@ -29,7 +29,7 @@ async function getFailoverGroup() {
   const result = await client.instanceFailoverGroups.get(
     resourceGroupName,
     locationName,
-    failoverGroupName
+    failoverGroupName,
   );
   console.log(result);
 }

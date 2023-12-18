@@ -29,7 +29,7 @@ async function getsOutboundFirewallRule() {
   const result = await client.outboundFirewallRules.get(
     resourceGroupName,
     serverName,
-    outboundRuleFqdn
+    outboundRuleFqdn,
   );
   console.log(result);
 }

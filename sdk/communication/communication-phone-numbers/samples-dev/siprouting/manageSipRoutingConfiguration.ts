@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
-
-import { v4 as uuid } from "uuid";
-
+import { randomUUID } from "@azure/core-util";
 import * as dotenv from "dotenv";
+
 dotenv.config();
 
 // NOTE: Before running the example please make sure that the trunks and the routes are empty for specified connection string.
@@ -14,16 +13,16 @@ const connectionString =
   process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
   "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("\n== Update SIP Routing Client Example ==\n");
 
   // Build client
   const client = new SipRoutingClient(connectionString);
 
   // TODO replace with real FQDN
-  const firstTrunkFqdn = `sample.${uuid()}.com`;
+  const firstTrunkFqdn = `sample.${randomUUID()}.com`;
   // TODO replace with real FQDN
-  const secondTrunkFqdn = `sample.${uuid()}.com`;
+  const secondTrunkFqdn = `sample.${randomUUID()}.com`;
 
   // Clear configuration
   await client.setRoutes([]);

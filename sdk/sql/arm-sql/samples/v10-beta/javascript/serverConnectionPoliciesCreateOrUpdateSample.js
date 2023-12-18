@@ -31,7 +31,7 @@ async function updatesAServerConnectionPolicy() {
     resourceGroupName,
     serverName,
     connectionPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
