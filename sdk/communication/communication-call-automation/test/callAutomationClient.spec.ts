@@ -36,7 +36,7 @@ import {
   persistEvents,
 } from "./utils/recordedClient";
 import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -65,7 +65,7 @@ describe("Call Automation Client Unit Tests", () => {
   it("RepeatabilityHeadersGeneration", async () => {
     // mocks
     const repeatabilityFirstSent: string = new Date().toUTCString();
-    const repeatabilityRequestID: string = uuidv4();
+    const repeatabilityRequestID: string = randomUUID();
 
     // asserts
     assert.isNotNull(repeatabilityFirstSent);

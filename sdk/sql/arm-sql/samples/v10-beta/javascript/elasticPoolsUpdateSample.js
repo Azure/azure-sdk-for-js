@@ -34,7 +34,7 @@ async function assignsMaintenanceConfigurationToAnElasticPool() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsDefau
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -88,7 +88,7 @@ async function createOrUpdateElasticPoolWithPreferredEnclaveTypeParameterAsVbs()
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -115,7 +115,7 @@ async function resetsMaintenanceConfigurationOfAnElasticPoolToDefault() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -144,7 +144,7 @@ async function updateAnElasticPoolWithAllParameter() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -168,7 +168,7 @@ async function updateAnElasticPoolWithMinimumParameters() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -192,7 +192,7 @@ async function updateHighAvailabilityReplicaCountOfAHyperscaleElasticPool() {
     resourceGroupName,
     serverName,
     elasticPoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

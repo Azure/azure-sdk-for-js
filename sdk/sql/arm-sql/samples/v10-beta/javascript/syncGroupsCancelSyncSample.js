@@ -31,7 +31,7 @@ async function cancelASyncGroupSynchronization() {
     resourceGroupName,
     serverName,
     databaseName,
-    syncGroupName
+    syncGroupName,
   );
   console.log(result);
 }

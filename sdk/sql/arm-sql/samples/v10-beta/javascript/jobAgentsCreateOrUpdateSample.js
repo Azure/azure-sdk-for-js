@@ -35,7 +35,7 @@ async function createOrUpdateAJobAgent() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

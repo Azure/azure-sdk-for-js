@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets an instance pool.
  *
  * @summary Gets an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/GetInstancePool.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/GetInstancePool.json
  */
 async function getAnInstancePool() {
   const subscriptionId =

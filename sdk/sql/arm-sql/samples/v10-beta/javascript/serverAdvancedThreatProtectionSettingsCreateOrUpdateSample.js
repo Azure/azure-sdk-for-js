@@ -31,7 +31,7 @@ async function updateAServerAdvancedThreatProtectionSettingsWithAllParameters() 
     resourceGroupName,
     serverName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function updateAServerAdvancedThreatProtectionSettingsWithMinimalParameter
     resourceGroupName,
     serverName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

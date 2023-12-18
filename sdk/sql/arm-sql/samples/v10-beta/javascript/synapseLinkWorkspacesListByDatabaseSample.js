@@ -30,7 +30,7 @@ async function listAllSynapselinkWorkspacesForTheGivenDatabase() {
   for await (let item of client.synapseLinkWorkspaces.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

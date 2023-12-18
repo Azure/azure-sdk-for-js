@@ -35,7 +35,7 @@ async function updateTheEncryptionProtectorToKeyVault() {
     resourceGroupName,
     serverName,
     encryptionProtectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -62,7 +62,7 @@ async function updateTheEncryptionProtectorToServiceManaged() {
     resourceGroupName,
     serverName,
     encryptionProtectorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -29,7 +29,7 @@ async function listOfDatabaseAdvisors() {
   const result = await client.databaseAdvisors.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }
@@ -54,7 +54,7 @@ async function listOfDatabaseRecommendedActionsForAllAdvisors() {
     resourceGroupName,
     serverName,
     databaseName,
-    options
+    options,
   );
   console.log(result);
 }

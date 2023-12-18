@@ -33,7 +33,7 @@ async function updatesManagedInstanceServerConfigurationOption() {
     resourceGroupName,
     managedInstanceName,
     serverConfigurationOptionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

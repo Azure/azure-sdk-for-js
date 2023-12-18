@@ -35,7 +35,7 @@ async function createOrUpdateAVirtualNetworkRule() {
     resourceGroupName,
     serverName,
     virtualNetworkRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

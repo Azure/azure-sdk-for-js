@@ -29,7 +29,7 @@ async function getAManagedInstanceAdvancedThreatProtectionSettings() {
   const result = await client.managedInstanceAdvancedThreatProtectionSettings.get(
     resourceGroupName,
     managedInstanceName,
-    advancedThreatProtectionName
+    advancedThreatProtectionName,
   );
   console.log(result);
 }
