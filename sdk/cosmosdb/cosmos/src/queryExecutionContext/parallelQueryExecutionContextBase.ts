@@ -358,7 +358,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             );
             this.err.headers = this._getAndResetActiveResponseHeaders();
           }
-          // release the lock before invoking callback
           reject(this.err);
           return;
         }
