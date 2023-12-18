@@ -87,7 +87,7 @@ describe("ContainerService test", () => {
     assert.equal(res.name, resourceName);
   });
 
-  it("managedClusters create test", async function () {
+  it("agentPools create test", async function () {
     const res = await client.agentPools.beginCreateOrUpdateAndWait(
       resourceGroupName,
       resourceName,
