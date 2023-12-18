@@ -10840,7 +10840,7 @@ packages:
     dev: false
 
   file:projects/arm-batch.tgz:
-    resolution: {integrity: sha512-DqVVwFzMUVjdNIoiPiVKlnu27j9Nm3XCkHjLJ0LBQ0cayxx5Oti32wIpvyzeEbKr81LyMToTzIPNke/1+nzNUg==, tarball: file:projects/arm-batch.tgz}
+    resolution: {integrity: sha512-SUAHj3K10zWNihSP2gq1zuZsG1O5mszh70LirxUsBYDfroa4PChu1l0mBcpori3SM7CDQrO4VkkJf2Ly7BeRmQ==, tarball: file:projects/arm-batch.tgz}
     name: '@rush-temp/arm-batch'
     version: 0.0.0
     dependencies:
@@ -10848,13 +10848,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
