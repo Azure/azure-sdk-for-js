@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
  *
  * @summary Add a new SenderUsername resource under the parent Domains resource or update an existing SenderUsername resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/senderUsernames/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/senderUsernames/createOrUpdate.json
  */
 async function createOrUpdateSenderUsernamesResource() {
   const subscriptionId =
