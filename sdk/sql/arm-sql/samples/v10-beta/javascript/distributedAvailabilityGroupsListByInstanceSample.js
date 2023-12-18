@@ -28,7 +28,7 @@ async function listsAllDistributedAvailabilityGroupsInInstance() {
   const resArray = new Array();
   for await (let item of client.distributedAvailabilityGroups.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

@@ -29,7 +29,7 @@ async function getsManagedInstanceDtcSettings() {
   const result = await client.managedInstanceDtcs.get(
     resourceGroupName,
     managedInstanceName,
-    dtcName
+    dtcName,
   );
   console.log(result);
 }

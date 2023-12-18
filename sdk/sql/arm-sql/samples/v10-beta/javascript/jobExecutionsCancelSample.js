@@ -33,7 +33,7 @@ async function cancelAJobExecution() {
     serverName,
     jobAgentName,
     jobName,
-    jobExecutionId
+    jobExecutionId,
   );
   console.log(result);
 }

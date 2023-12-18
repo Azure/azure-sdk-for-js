@@ -28,7 +28,7 @@ async function listAuditingSettingsOfAServer() {
   const resArray = new Array();
   for await (let item of client.serverBlobAuditingPolicies.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

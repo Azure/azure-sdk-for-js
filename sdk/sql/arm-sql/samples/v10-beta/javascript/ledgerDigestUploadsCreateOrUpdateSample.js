@@ -35,7 +35,7 @@ async function enablesLedgerDigestUploadConfigurationForADatabase() {
     serverName,
     databaseName,
     ledgerDigestUploads,
-    parameters
+    parameters,
   );
   console.log(result);
 }

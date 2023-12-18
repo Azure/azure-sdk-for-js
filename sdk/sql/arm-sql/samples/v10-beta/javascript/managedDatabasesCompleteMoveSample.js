@@ -34,7 +34,7 @@ async function completesAManagedDatabaseMove() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

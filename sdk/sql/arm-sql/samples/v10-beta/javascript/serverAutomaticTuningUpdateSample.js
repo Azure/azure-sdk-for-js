@@ -36,7 +36,7 @@ async function updatesServerAutomaticTuningSettingsWithAllProperties() {
   const result = await client.serverAutomaticTuningOperations.update(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -58,7 +58,7 @@ async function updatesServerAutomaticTuningSettingsWithMinimalProperties() {
   const result = await client.serverAutomaticTuningOperations.update(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

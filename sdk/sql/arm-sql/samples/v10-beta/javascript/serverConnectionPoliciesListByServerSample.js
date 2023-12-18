@@ -28,7 +28,7 @@ async function listsAServersConnectionPolicies() {
   const resArray = new Array();
   for await (let item of client.serverConnectionPolicies.listByServer(
     resourceGroupName,
-    serverName
+    serverName,
   )) {
     resArray.push(item);
   }

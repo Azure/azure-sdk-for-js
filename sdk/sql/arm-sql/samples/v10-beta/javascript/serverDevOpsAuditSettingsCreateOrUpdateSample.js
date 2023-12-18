@@ -37,7 +37,7 @@ async function updateAServerDevOpsAuditSettingsWithAllParams() {
     resourceGroupName,
     serverName,
     devOpsAuditingSettingsName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function updateAServerDevOpsAuditSettingsWithMinimalInput() {
     resourceGroupName,
     serverName,
     devOpsAuditingSettingsName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

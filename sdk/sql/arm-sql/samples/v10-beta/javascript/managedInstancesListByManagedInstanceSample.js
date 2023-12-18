@@ -35,7 +35,7 @@ async function obtainListOfInstanceTopResourceConsumingQueries() {
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -71,7 +71,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesFullBlownRequestAn
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
     managedInstanceName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -94,7 +94,7 @@ async function obtainListOfInstanceTopResourceConsumingQueriesMinimalRequestAndR
   const resArray = new Array();
   for await (let item of client.managedInstances.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

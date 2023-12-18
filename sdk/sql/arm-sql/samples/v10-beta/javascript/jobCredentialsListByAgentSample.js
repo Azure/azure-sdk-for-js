@@ -30,7 +30,7 @@ async function listCredentialsInAJobAgent() {
   for await (let item of client.jobCredentials.listByAgent(
     resourceGroupName,
     serverName,
-    jobAgentName
+    jobAgentName,
   )) {
     resArray.push(item);
   }
