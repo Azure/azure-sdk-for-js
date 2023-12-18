@@ -59,7 +59,7 @@ async function updateSensitivityLabelsOfAGivenDatabaseUsingAnOperationsBatch() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

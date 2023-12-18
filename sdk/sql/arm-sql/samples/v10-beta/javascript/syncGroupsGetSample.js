@@ -31,7 +31,7 @@ async function getASyncGroup() {
     resourceGroupName,
     serverName,
     databaseName,
-    syncGroupName
+    syncGroupName,
   );
   console.log(result);
 }

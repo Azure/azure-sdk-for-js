@@ -31,7 +31,7 @@ async function createManagedServerDnsAlias() {
     resourceGroupName,
     managedInstanceName,
     dnsAliasName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

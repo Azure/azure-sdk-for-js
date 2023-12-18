@@ -27,7 +27,7 @@ async function deleteManagedInstance() {
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.managedInstances.beginDeleteAndWait(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   );
   console.log(result);
 }

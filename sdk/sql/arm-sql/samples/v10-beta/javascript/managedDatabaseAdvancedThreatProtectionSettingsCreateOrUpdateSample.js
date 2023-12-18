@@ -35,7 +35,7 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithAllPara
     managedInstanceName,
     databaseName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function updateAManagedDatabaseAdvancedThreatProtectionSettingsWithMinimal
     managedInstanceName,
     databaseName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

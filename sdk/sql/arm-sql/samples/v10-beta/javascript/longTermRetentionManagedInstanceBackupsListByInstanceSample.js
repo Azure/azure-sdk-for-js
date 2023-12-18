@@ -28,7 +28,7 @@ async function getAllLongTermRetentionBackupsUnderTheManagedInstance() {
   const resArray = new Array();
   for await (let item of client.longTermRetentionManagedInstanceBackups.listByInstance(
     locationName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

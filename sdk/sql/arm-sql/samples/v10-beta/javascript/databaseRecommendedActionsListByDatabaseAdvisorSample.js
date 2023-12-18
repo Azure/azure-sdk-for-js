@@ -31,7 +31,7 @@ async function listOfDatabaseRecommendedActions() {
     resourceGroupName,
     serverName,
     databaseName,
-    advisorName
+    advisorName,
   );
   console.log(result);
 }

@@ -30,7 +30,7 @@ async function getTheListOfWorkloadGroupsForADataWarehouse() {
   for await (let item of client.workloadGroups.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
