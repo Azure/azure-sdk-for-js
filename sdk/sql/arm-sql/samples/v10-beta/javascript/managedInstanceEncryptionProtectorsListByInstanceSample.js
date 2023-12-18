@@ -28,7 +28,7 @@ async function listEncryptionProtectorsByManagedInstance() {
   const resArray = new Array();
   for await (let item of client.managedInstanceEncryptionProtectors.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

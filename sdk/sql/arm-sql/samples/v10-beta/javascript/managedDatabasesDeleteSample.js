@@ -29,7 +29,7 @@ async function deleteManagedDatabase() {
   const result = await client.managedDatabases.beginDeleteAndWait(
     resourceGroupName,
     managedInstanceName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

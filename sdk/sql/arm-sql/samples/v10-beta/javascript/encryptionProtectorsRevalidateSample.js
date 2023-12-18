@@ -29,7 +29,7 @@ async function revalidatesTheEncryptionProtector() {
   const result = await client.encryptionProtectors.beginRevalidateAndWait(
     resourceGroupName,
     serverName,
-    encryptionProtectorName
+    encryptionProtectorName,
   );
   console.log(result);
 }

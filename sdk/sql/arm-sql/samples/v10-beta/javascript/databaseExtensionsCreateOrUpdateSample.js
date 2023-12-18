@@ -40,7 +40,7 @@ async function createOrUpdateDatabaseExtensions() {
     serverName,
     databaseName,
     extensionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

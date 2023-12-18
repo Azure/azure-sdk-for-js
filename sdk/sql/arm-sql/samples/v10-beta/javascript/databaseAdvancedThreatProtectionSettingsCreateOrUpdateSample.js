@@ -33,7 +33,7 @@ async function updateADatabaseAdvancedThreatProtectionSettingsWithAllParameters(
     serverName,
     databaseName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function updateADatabaseAdvancedThreatProtectionSettingsWithMinimalParamet
     serverName,
     databaseName,
     advancedThreatProtectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -65,7 +65,7 @@ async function createOrUpdateATargetGroupWithAllProperties() {
     serverName,
     jobAgentName,
     targetGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -91,7 +91,7 @@ async function createOrUpdateATargetGroupWithMinimalProperties() {
     serverName,
     jobAgentName,
     targetGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

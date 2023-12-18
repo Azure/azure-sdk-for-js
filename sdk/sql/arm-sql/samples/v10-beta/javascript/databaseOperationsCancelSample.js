@@ -31,7 +31,7 @@ async function cancelTheDatabaseManagementOperation() {
     resourceGroupName,
     serverName,
     databaseName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

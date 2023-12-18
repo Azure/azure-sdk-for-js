@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an instance pool.
  *
  * @summary Creates or updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateInstancePoolMax.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CreateOrUpdateInstancePoolMax.json
  */
 async function createAnInstancePoolWithAllProperties() {
   const subscriptionId =
@@ -26,6 +26,8 @@ async function createAnInstancePoolWithAllProperties() {
   const parameters = {
     licenseType: "LicenseIncluded",
     location: "japaneast",
+    maintenanceConfigurationId:
+      "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
     sku: { name: "GP_Gen5", family: "Gen5", tier: "GeneralPurpose" },
     subnetId:
       "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Network/virtualNetworks/myvnet/subnets/mysubnet1",
@@ -37,7 +39,7 @@ async function createAnInstancePoolWithAllProperties() {
   const result = await client.instancePools.beginCreateOrUpdateAndWait(
     resourceGroupName,
     instancePoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -46,7 +48,7 @@ async function createAnInstancePoolWithAllProperties() {
  * This sample demonstrates how to Creates or updates an instance pool.
  *
  * @summary Creates or updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateInstancePoolMin.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/CreateOrUpdateInstancePoolMin.json
  */
 async function createAnInstancePoolWithMinProperties() {
   const subscriptionId =
@@ -66,7 +68,7 @@ async function createAnInstancePoolWithMinProperties() {
   const result = await client.instancePools.beginCreateOrUpdateAndWait(
     resourceGroupName,
     instancePoolName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

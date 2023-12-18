@@ -30,7 +30,7 @@ async function getAListOfTheManagedDatabaseAdvancedThreatProtectionSettings() {
   for await (let item of client.managedDatabaseAdvancedThreatProtectionSettings.listByDatabase(
     resourceGroupName,
     managedInstanceName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

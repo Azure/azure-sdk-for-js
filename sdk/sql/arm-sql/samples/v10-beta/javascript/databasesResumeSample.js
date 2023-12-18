@@ -29,7 +29,7 @@ async function resumesADatabase() {
   const result = await client.databases.beginResumeAndWait(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

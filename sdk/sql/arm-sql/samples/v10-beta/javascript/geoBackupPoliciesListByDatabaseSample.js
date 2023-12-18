@@ -30,7 +30,7 @@ async function listGeoBackupPolicies() {
   for await (let item of client.geoBackupPolicies.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

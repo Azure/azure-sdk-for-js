@@ -32,7 +32,7 @@ async function obtainQueryExecutionStatistics() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    queryId
+    queryId,
   )) {
     resArray.push(item);
   }
@@ -68,7 +68,7 @@ async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
     managedInstanceName,
     databaseName,
     queryId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -98,7 +98,7 @@ async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequ
     managedInstanceName,
     databaseName,
     queryId,
-    options
+    options,
   )) {
     resArray.push(item);
   }
