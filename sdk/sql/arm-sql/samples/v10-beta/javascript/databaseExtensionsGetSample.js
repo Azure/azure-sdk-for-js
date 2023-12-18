@@ -32,7 +32,7 @@ async function getDatabaseExtensions() {
     resourceGroupName,
     serverName,
     databaseName,
-    extensionName
+    extensionName,
   );
   console.log(result);
 }

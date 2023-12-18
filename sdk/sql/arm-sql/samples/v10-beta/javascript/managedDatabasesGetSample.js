@@ -29,7 +29,7 @@ async function getsAManagedDatabase() {
   const result = await client.managedDatabases.get(
     resourceGroupName,
     managedInstanceName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

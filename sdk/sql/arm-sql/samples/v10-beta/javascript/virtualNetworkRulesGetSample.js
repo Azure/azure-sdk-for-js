@@ -29,7 +29,7 @@ async function getsAVirtualNetworkRule() {
   const result = await client.virtualNetworkRules.get(
     resourceGroupName,
     serverName,
-    virtualNetworkRuleName
+    virtualNetworkRuleName,
   );
   console.log(result);
 }

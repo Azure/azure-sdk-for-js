@@ -40,7 +40,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMax() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -71,7 +71,7 @@ async function createOrUpdateDataMaskingRuleForDefaultMin() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -104,7 +104,7 @@ async function createOrUpdateDataMaskingRuleForNumbers() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -138,7 +138,7 @@ async function createOrUpdateDataMaskingRuleForText() {
     serverName,
     databaseName,
     dataMaskingRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

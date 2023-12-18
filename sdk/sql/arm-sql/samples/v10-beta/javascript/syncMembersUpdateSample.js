@@ -44,7 +44,7 @@ async function updateAnExistingSyncMember() {
     databaseName,
     syncGroupName,
     syncMemberName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function updateDatabaseAdvisor() {
     serverName,
     databaseName,
     advisorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

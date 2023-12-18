@@ -45,7 +45,7 @@ async function exportsADatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStor
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function exportsADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

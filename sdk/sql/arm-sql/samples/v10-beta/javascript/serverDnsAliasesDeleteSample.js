@@ -29,7 +29,7 @@ async function deleteServerDnsAlias() {
   const result = await client.serverDnsAliases.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    dnsAliasName
+    dnsAliasName,
   );
   console.log(result);
 }

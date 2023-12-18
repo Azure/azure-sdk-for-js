@@ -29,7 +29,7 @@ async function getTheEncryptionProtector() {
   const result = await client.encryptionProtectors.get(
     resourceGroupName,
     serverName,
-    encryptionProtectorName
+    encryptionProtectorName,
   );
   console.log(result);
 }
