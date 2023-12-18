@@ -34,7 +34,7 @@ async function createsAVCoreDatabaseBySpecifyingServiceObjectiveName() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function createsAVCoreDatabaseBySpecifyingSkuNameAndCapacity() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -90,7 +90,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromABack
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -119,7 +119,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromAGeoB
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -149,7 +149,7 @@ async function createsADataWarehouseDatabaseAsACrossSubscriptionRestoreFromARest
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -179,7 +179,7 @@ async function createsADatabaseAsACopy() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -210,7 +210,7 @@ async function createsADatabaseAsAStandbySecondary() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -241,7 +241,7 @@ async function createsADatabaseAsAnOnLineSecondary() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -272,7 +272,7 @@ async function createsADatabaseAsNamedReplicaSecondary() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -302,7 +302,7 @@ async function createsADatabaseFromPointInTimeRestore() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -329,7 +329,7 @@ async function createsADatabaseWithDefaultEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -356,7 +356,7 @@ async function createsADatabaseWithVbsEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -387,7 +387,7 @@ async function createsADatabaseWithAvailabilityZoneSpecified() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -429,7 +429,7 @@ async function createsADatabaseWithDatabaseLevelCustomerManagedKeys() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -459,7 +459,7 @@ async function createsADatabaseWithDefaultMode() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -483,7 +483,7 @@ async function createsADatabaseWithLedgerOn() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -507,7 +507,7 @@ async function createsADatabaseWithMinimumNumberOfParameters() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -539,7 +539,7 @@ async function createsADatabaseWithPreferredMaintenanceWindow() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -566,7 +566,7 @@ async function createsADatabaseWithSpecifiedBackupStorageRedundancy() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -603,7 +603,7 @@ async function updatesADatabaseToHyperscaleSloWithManualCutover() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -639,7 +639,7 @@ async function updatesADatabaseToHyperscaleTierByTriggeringManualCutoverDuringMi
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

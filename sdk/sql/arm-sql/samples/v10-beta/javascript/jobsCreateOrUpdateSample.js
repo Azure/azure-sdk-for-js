@@ -42,7 +42,7 @@ async function createAJobWithAllPropertiesSpecified() {
     serverName,
     jobAgentName,
     jobName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -68,7 +68,7 @@ async function createAJobWithDefaultProperties() {
     serverName,
     jobAgentName,
     jobName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -15373,7 +15373,7 @@ packages:
     dev: false
 
   file:projects/arm-sql.tgz:
-    resolution: {integrity: sha512-MjeYUJ3wWcZC+sq2sOLK3+9UuZUdSRar72hzZmDSwCz+1YsjVMBUxl8+bK6eznpp8ucQBOQc2LTNdXnWLGhiEA==, tarball: file:projects/arm-sql.tgz}
+    resolution: {integrity: sha512-bVhWsimm5jn3YIVZC9YTv7m/qhmxWjRnTuNGmZbE8Qyx0+q01+vdTFMJoOzy/1Nb5028Qz7naGwmV6hvBMl/9A==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
     version: 0.0.0
     dependencies:
@@ -15381,10 +15381,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -16104,7 +16106,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-FKPW5vU2WsVJMkdfZ5IxbcxDzNtzHPn9kKgePWgbzDE/uJxdOZXZG9VTzgPweJ8gNlgppHMcbLXRCMDsrhH/Hw==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-Uu1Q/G2ySL65PrMIYQF4EX/2GPmrPFyzXK9RbplZ0kR5dJhQrhNeDSGclEkwyFoXxS2BUiR/bZKmjej+9xC/Fw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -16251,7 +16253,7 @@ packages:
     dev: false
 
   file:projects/communication-email.tgz:
-    resolution: {integrity: sha512-NuaGmhNTNl9+exQhHcX/xHhAB1dIyJ1eejSORDnC1VPLC+9KlGVbTkafNvlh7beBqbgjrFRzwicYkIwhZW2Y2A==, tarball: file:projects/communication-email.tgz}
+    resolution: {integrity: sha512-7+XicOkmzZimU6S+kOqbY29AFNai786TFQ4OcNax+kRxxVsaTu8NFEMfvNZL+PgRIlbcyQYU5/KsrRdKhNl9bg==, tarball: file:projects/communication-email.tgz}
     name: '@rush-temp/communication-email'
     version: 0.0.0
     dependencies:
@@ -16479,7 +16481,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-E2L3evVu9vo9SVTON1ozq41juORw8e9vGnjIG73uLxflDhv80yAacAIajIZsvYMOCMRRWS4aOlfB7Ph/ePuTVQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-mHsSrhvInk2mTXZfgdow339HdZBxlEIuNKUKKhos2O59vDpPdWZ1ctkja6wccCYLab3VTRPobl8ZC4rm06VVKQ==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -16573,7 +16575,7 @@ packages:
     dev: false
 
   file:projects/communication-rooms.tgz:
-    resolution: {integrity: sha512-30NjuqlQLAQBGIBpOPDuFw0I+povzuwrS8uqVYcD3QkPZj1oKar187I3FsJf/Hct/DKrb8zgO2fYpcGP8WtKMA==, tarball: file:projects/communication-rooms.tgz}
+    resolution: {integrity: sha512-xCElsUhQUUazRCG41aPdBbz5WgeFd8G1bFNX+9Wc6iLOlMjOgmmqUpIYQ+F5XG8bW6qRDgrmj1sZK5MsJJ+mIQ==, tarball: file:projects/communication-rooms.tgz}
     name: '@rush-temp/communication-rooms'
     version: 0.0.0
     dependencies:
@@ -16657,7 +16659,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-If8thN6fEW/+pzCVLKYKd3Ay1vEfjmKbPTqKNOuyispqJu2Qw3Bq1fHpc9i1ks3JZN2aQ2Iisq5UntdXcm/LRg==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-xM/+JwdTMQ+qY4zOn59ERBx1ygCF11ZdGuX5OjkEh6fCnu1Z2pSY+0qcwtryzOV7XddvMvQgIollmLIbUthvBw==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -16752,7 +16754,7 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-ap1OrQ//SaCRnwdy+a5aS6XJyAVJpePrjhv8aIZJsXvffbZji1hYjWepY+s/zGIsVN3rIWBT05QT3ewgii68gg==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-Orh9bHnZUl3cKARGCqj8/liA4vTe7tzCjMMtVsiMDYuv239So9qvLj70XceDHbg+AMLnDbBOGfys2w1S7Sv8hQ==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:

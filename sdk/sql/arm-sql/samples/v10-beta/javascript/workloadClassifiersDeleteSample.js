@@ -33,7 +33,7 @@ async function deleteAWorkloadClassifier() {
     serverName,
     databaseName,
     workloadGroupName,
-    workloadClassifierName
+    workloadClassifierName,
   );
   console.log(result);
 }

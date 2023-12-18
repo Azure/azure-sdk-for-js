@@ -44,7 +44,7 @@ async function importsToANewDatabaseUsingPrivateLinkForTheSqlServerAndStorageAcc
   const result = await client.servers.beginImportDatabaseAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -75,7 +75,7 @@ async function importsToANewDatabase() {
   const result = await client.servers.beginImportDatabaseAndWait(
     resourceGroupName,
     serverName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

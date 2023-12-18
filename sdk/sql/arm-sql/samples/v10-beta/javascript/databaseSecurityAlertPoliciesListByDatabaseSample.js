@@ -30,7 +30,7 @@ async function getTheDatabaseThreatDetectionPolicies() {
   for await (let item of client.databaseSecurityAlertPolicies.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

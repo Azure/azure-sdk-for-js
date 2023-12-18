@@ -37,7 +37,7 @@ async function getsTheSensitivityLabelOfAGivenColumn() {
     schemaName,
     tableName,
     columnName,
-    sensitivityLabelSource
+    sensitivityLabelSource,
   );
   console.log(result);
 }
