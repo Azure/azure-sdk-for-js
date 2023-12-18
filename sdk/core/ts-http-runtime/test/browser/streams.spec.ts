@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { getClient } from "../../src/client/getClient";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { getClient } from "../../src/client/getClient.js";
 import sinon from "sinon";
 
 function createResponse(statusCode: number, body = ""): Response {

@@ -9,15 +9,15 @@ import {
   PipelineResponse,
   RawHttpHeaders,
   RequestBodyType,
-} from "../interfaces";
-import { RestError } from "../restError";
-import { Pipeline } from "../pipeline";
-import { createHttpHeaders } from "../httpHeaders";
-import { createPipelineRequest } from "../pipelineRequest";
-import { getCachedDefaultHttpsClient } from "./clientHelpers";
-import { isReadableStream } from "../util/typeGuards";
-import { HttpResponse, RequestParameters } from "./common";
-import { binaryArrayToString } from "./helpers/getBinaryBody";
+} from "../interfaces.js";
+import { RestError } from "../restError.js";
+import { Pipeline } from "../pipeline.js";
+import { createHttpHeaders } from "../httpHeaders.js";
+import { createPipelineRequest } from "../pipelineRequest.js";
+import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
+import { isReadableStream } from "../util/typeGuards.js";
+import { HttpResponse, RequestParameters } from "./common.js";
+import { binaryArrayToString } from "./helpers/getBinaryBody.js";
 
 /**
  * Helper function to send request used by the client
@@ -203,7 +203,7 @@ function isFormData(body: unknown): body is FormDataMap {
  * Checks if binary data is in Uint8Array format, if so decode it to a binary string
  * to send over the wire
  */
-function processFormData(formData?: FormDataMap) {
+function processFormData(formData?: FormDataMap): FormDataMap | undefined {
   if (!formData) {
     return formData;
   }

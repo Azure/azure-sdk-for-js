@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../../src/auth/tokenCredential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import sinon from "sinon";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../../src/auth/tokenCredential.js";
 import {
   AuthorizeRequestOnChallengeOptions,
   HttpClient,
@@ -12,8 +12,8 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src";
-import { TextDecoder } from "util";
+} from "../../src/index.js";
+import { TextDecoder } from "node:util";
 
 export interface TestChallenge {
   scope: string;

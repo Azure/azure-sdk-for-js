@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Logger from "../../src/logger/logger";
-import * as sinon from "sinon";
-import { assert } from "chai";
+import { describe, it, assert, afterEach } from "vitest";
+import * as Logger from "../../src/logger/logger.js";
+import sinon from "sinon";
 
 const testLogger = Logger.createClientLogger("test");
 

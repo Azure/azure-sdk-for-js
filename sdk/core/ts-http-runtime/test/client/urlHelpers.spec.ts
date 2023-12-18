@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
+import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
 
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { describe, it, assert, afterEach } from "vitest";
+import sinon from "sinon";
 import {
   PipelineResponse,
   RestError,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { systemErrorRetryPolicy } from "../src/policies/systemErrorRetryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { systemErrorRetryPolicy } from "../src/policies/systemErrorRetryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("systemErrorRetryPolicy", function () {
   afterEach(function () {

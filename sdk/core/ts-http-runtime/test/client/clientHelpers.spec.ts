@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createDefaultPipeline } from "../../src/client/clientHelpers";
-import { assert } from "chai";
-import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy";
-import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy";
-import { TokenCredential } from "../../src/auth/tokenCredential";
+import { describe, it, assert } from "vitest";
+import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
+import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
+import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy.js";
+import { TokenCredential } from "../../src/auth/tokenCredential.js";
 import { fail } from "assert";
-import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy";
+import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
+
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {

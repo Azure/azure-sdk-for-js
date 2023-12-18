@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, expect } from "vitest";
 import sinon from "sinon";
-import { createHttpHeaders } from "../src/httpHeaders";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
-import { createPipelineRequest } from "../src/pipelineRequest";
-import { multipartPolicy } from "../src/policies/multipartPolicy";
-import { assert } from "chai";
-import { PipelineRequestOptions } from "../src/pipelineRequest";
-import { stringToUint8Array } from "../src/util/bytesEncoding";
-import { assertBodyMatches } from "./util";
+import { createHttpHeaders } from "../src/httpHeaders.js";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
+import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { multipartPolicy } from "../src/policies/multipartPolicy.js";
+import { PipelineRequestOptions } from "../src/pipelineRequest.js";
+import { stringToUint8Array } from "../src/util/bytesEncoding.js";
+import { assertBodyMatches } from "./util.js";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">
@@ -86,7 +86,7 @@ describe("multipartPolicy", function () {
     });
 
     it("throws when multipart request body present but content-type is not multipart", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "application/json",
@@ -94,13 +94,14 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
+        })
+      ).rejects.toThrow(
         /Got multipart request body, but content-type header was not multipart: application\/json/
       );
     });
 
     it("throws when invalid boundary is set in content-type header", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "multipart/form-data; boundary=%%%%%%%",
@@ -108,21 +109,19 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
-        /Multipart boundary "%%%%%%%" contains invalid characters/
-      );
+        })
+      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
     it("throws when invalid boundary is set in body", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           multipartBody: {
             boundary: "%%%%%%%",
             parts: [],
           },
-        }),
-        /Multipart boundary "%%%%%%%" contains invalid characters/
-      );
+        })
+      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
     it("generates boundary when none specified in existing header", async function () {

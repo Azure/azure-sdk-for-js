@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers";
-import { getClient } from "../../src/client/getClient";
+import { describe, it, assert, afterEach } from "vitest";
+import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers.js";
+import { getClient } from "../../src/client/getClient.js";
 import sinon from "sinon";
-import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "../../src/interfaces";
-import { PipelinePolicy } from "../../src/pipeline";
-import { createHttpHeaders } from "../../src/httpHeaders";
+import {
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "../../src/interfaces.js";
+import { PipelinePolicy } from "../../src/pipeline.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
 
 describe("getClient", () => {
   afterEach(() => {
@@ -170,7 +175,8 @@ describe("getClient", () => {
   });
 
   it("should insert policies in the correct pipeline position", async function () {
-    const sendRequest = (request: PipelineRequest, next: SendRequest) => next(request);
+    const sendRequest = (request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> =>
+      next(request);
     const retryPolicy: PipelinePolicy = {
       name: "retry",
       sendRequest,

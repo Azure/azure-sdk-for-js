@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { describe, it, assert, expect, afterEach } from "vitest";
+import sinon from "sinon";
+import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src/index.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {
@@ -70,7 +70,7 @@ describe("defaultRetryPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
-    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
     assert.strictEqual(next.callCount, 1);
   });
 });

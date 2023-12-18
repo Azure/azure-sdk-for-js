@@ -1,12 +1,13 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
     "paths": {
       "@typespec/ts-http-runtime": ["./src/index"]
     },
     "lib": ["dom", "dom.iterable"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "src/util/uuidUtils-react-native.mts", "src/util/uuidUtils-browser.mts", "src/util/userAgentPlatform-react-native.mts", "src/util/userAgentPlatform-browser.mts", "src/util/stream-browser.mts", "src/util/sha256-browser.mts", "src/util/inspect-browser.mts", "src/policies/proxyPolicy-browser.mts", "src/policies/decompressResponsePolicy-browser.mts", "src/defaultHttpClient-react-native.mts", "src/defaultHttpClient-browser.mts"]
 }

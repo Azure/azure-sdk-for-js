@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 import * as sinon from "sinon";
-import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
+import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src/index.js";
 
 describe("decompressResponsePolicy (node)", function () {
   it("Sets the expected flag on the request", function () {

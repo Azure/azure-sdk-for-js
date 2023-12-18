@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { createFetchHttpClient } from "../../src/fetchHttpClient";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { png } from "./mocks/encodedPng";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { png } from "./mocks/encodedPng.js";
 import sinon from "sinon";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { AbortError } from "../../src/abort-controller/AbortError";
-import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike";
-import { delay } from "../../src/util/helpers";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { AbortError } from "../../src/abort-controller/AbortError.js";
+import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
+import { delay } from "../../src/util/helpers.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -421,7 +421,7 @@ describe("FetchHttpClient", function () {
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
     let bodySent = false;
-    const factoryMethod = () => {
+    const factoryMethod = (): ReadableStream<any> => {
       return new ReadableStream({
         start(controller) {
           controller.enqueue(requestText);

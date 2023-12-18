@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common";
+import { RequestParameters } from "./common.js";
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -33,7 +33,7 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}) {
+function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
@@ -57,7 +57,7 @@ function appendQueryParams(url: string, options: RequestParameters = {}) {
   return parsedUrl.toString();
 }
 
-function skipQueryParameterEncoding(url: URL) {
+function skipQueryParameterEncoding(url: URL): URL {
   if (!url) {
     return url;
   }
@@ -96,7 +96,7 @@ function buildRoutePath(
   routePath: string,
   pathParameters: string[],
   options: RequestParameters = {}
-) {
+): string {
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {

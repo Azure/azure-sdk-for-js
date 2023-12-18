@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Debugger } from "../logger/logger";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { logger as coreLogger } from "../log";
-import { Sanitizer } from "../util/sanitizer";
+import { Debugger } from "../logger/logger.js";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { logger as coreLogger } from "../log.js";
+import { Sanitizer } from "../util/sanitizer.js";
 
 /**
  * The programmatic identifier of the logPolicy.

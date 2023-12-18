@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { describe, it, assert, expect, afterEach } from "vitest";
+import sinon from "sinon";
 import {
   PipelineResponse,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
-} from "../src";
-import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
-import { createFile } from "../src/util/file";
+} from "../src/index.js";
+import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
+import { createFile } from "../src/util/file.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
@@ -113,8 +113,7 @@ describe("formDataPolicy", function () {
 
       const policy = formDataPolicy();
 
-      assert.isRejected(
-        policy.sendRequest(request, next),
+      await expect(policy.sendRequest(request, next)).rejects.toThrowError(
         /multipart\/form-data request must not have a request body already specified/
       );
     });
@@ -148,10 +147,10 @@ describe("formDataPolicy", function () {
       });
     });
 
-    describe("file uploads", function () {
-      it("can upload a File object", async function () {
+    describe("file uploads", () => {
+      it("can upload a File object", async (ctx) => {
         if (typeof File === "undefined") {
-          this.skip();
+          ctx.skip();
         }
 
         const result = await performRequest({
@@ -175,9 +174,9 @@ describe("formDataPolicy", function () {
         assert.deepEqual([...buf], [1, 2, 3]);
       });
 
-      it("can upload a Blob object", async function () {
+      it("can upload a Blob object", async (ctx) => {
         if (typeof Blob === "undefined") {
-          this.skip();
+          ctx.skip();
         }
 
         const result = await performRequest({

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "../abort-controller/AbortError";
-import { AbortOptions } from "./aborterUtils";
+import { AbortError } from "../abort-controller/AbortError.js";
+import { AbortOptions } from "./aborterUtils.js";
 
 /**
  * Options for the createAbortablePromise function.

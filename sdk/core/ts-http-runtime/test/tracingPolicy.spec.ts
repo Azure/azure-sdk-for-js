@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import sinon from "sinon";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -11,7 +11,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   Instrumenter,
   InstrumenterSpanOptions,
@@ -19,8 +19,8 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-} from "../src/tracing/interfaces";
-import { useInstrumenter } from "../src/tracing/instrumenter";
+} from "../src/tracing/interfaces.js";
+import { useInstrumenter } from "../src/tracing/instrumenter.js";
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
@@ -185,7 +185,8 @@ describe("tracingPolicy", function () {
     const requestError = new RestError("Bad Request.", { statusCode: 400 });
     next.rejects(requestError);
 
-    await assert.isRejected(policy.sendRequest(request, next), requestError);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(requestError);
+
     const createdSpan = activeInstrumenter.lastSpanCreated;
     assert.exists(createdSpan);
     const mockSpan = createdSpan!;
@@ -212,7 +213,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await assert.isFulfilled(policy.sendRequest(request, next));
+      await expect(policy.sendRequest(request, next)).resolves.not.toThrow();
     });
 
     it("will not fail the request when post-processing success fails", async () => {
@@ -222,7 +223,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await assert.isFulfilled(policy.sendRequest(request, next));
+      await expect(policy.sendRequest(request, next)).resolves.not.toThrow();
     });
 
     it("will not fail the request when post-processing error fails", async () => {
@@ -234,7 +235,7 @@ describe("tracingPolicy", function () {
       next.rejects(expectedError);
 
       // Expect the pipeline request error, _not_ the error that is thrown when ending a span.
-      await assert.isRejected(policy.sendRequest(request, next), expectedError);
+      await expect(policy.sendRequest(request, next)).rejects.toThrow(expectedError);
     });
   });
 });

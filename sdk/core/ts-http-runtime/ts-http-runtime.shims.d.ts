@@ -9,4 +9,4 @@ declare global {
   interface TransformStream<I = any, O = any>  {}
 }
 
-export * from "./types/ts-http-runtime";
+export * from "./dist/esm/index.d.ts";

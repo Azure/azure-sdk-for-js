@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-import { Context } from "mocha";
-import * as sinon from "sinon";
-import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
-import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+import { describe, it, assert, expect, afterEach } from "vitest";
+import sinon from "sinon";
+import {
+  PipelineResponse,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../src/index.js";
+import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
@@ -227,7 +229,7 @@ describe("throttlingRetryPolicy", function () {
     clock.restore();
   });
 
-  it("It should retry up to the default max retries", async function (this: Context) {
+  it("It should retry up to the default max retries", async () => {
     const clock = sinon.useFakeTimers();
 
     const request = createPipelineRequest({
@@ -289,11 +291,7 @@ describe("throttlingRetryPolicy", function () {
     next.onFirstCall().resolves(retryResponse);
     next.onSecondCall().resolves(successResponse);
 
-    await assert.isRejected(
-      policy.sendRequest(request, next),
-      "The operation was aborted.",
-      "Unexpected error thrown"
-    );
+    await expect(policy.sendRequest(request, next)).rejects.toThrow("The operation was aborted.");
 
     assert.isTrue(next.calledOnce);
     assert.isFalse(next.calledTwice);

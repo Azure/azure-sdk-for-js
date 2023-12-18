@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "./abort-controller/AbortError";
+import { AbortError } from "./abort-controller/AbortError.js";
 import {
   HttpClient,
   HttpHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
-import { isReadableStream } from "./util/typeGuards";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
+import { isReadableStream } from "./util/typeGuards.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.

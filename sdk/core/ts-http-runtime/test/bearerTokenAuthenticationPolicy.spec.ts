@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { AccessToken, TokenCredential } from "../src/auth/tokenCredential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import sinon from "sinon";
+import { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
 import {
   PipelinePolicy,
   PipelineResponse,
@@ -11,8 +11,8 @@ import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

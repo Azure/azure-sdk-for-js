@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import debug, { Debugger } from "../../src/logger/debug";
-import { assert } from "chai";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import debug, { Debugger } from "../../src/logger/debug.js";
 import { stub } from "sinon";
 
 describe("debug", function () {

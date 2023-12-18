@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   Instrumenter,
   TracingClient,
   TracingContext,
   TracingSpan,
-} from "../../src/tracing/interfaces";
+} from "../../src/tracing/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../../src/tracing/instrumenter";
-import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext";
-import { assert } from "chai";
-import { createTracingClient } from "../../src/tracing/tracingClient";
+} from "../../src/tracing/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext.js";
+import { createTracingClient } from "../../src/tracing/tracingClient.js";
 import sinon from "sinon";
 
 describe("TracingClient", () => {

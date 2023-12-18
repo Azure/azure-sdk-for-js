@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { describe, it, assert, expect, afterEach } from "vitest";
+import sinon from "sinon";
 import {
   PipelineResponse,
   RestError,
   SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {
@@ -33,7 +33,7 @@ describe("exponentialRetryPolicy", function () {
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.rejects(testError);
 
-    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
     assert.strictEqual(next.callCount, 1);
   });
 
@@ -54,7 +54,7 @@ describe("exponentialRetryPolicy", function () {
 
     const clock = sinon.useFakeTimers();
 
-    const promise = assert.isRejected(policy.sendRequest(request, next), /Test Error/);
+    const promise = expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
     await clock.runAllAsync();
     await promise;
     assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
