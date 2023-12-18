@@ -45,7 +45,7 @@ async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWith
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function importsToAnExistingEmptyDatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

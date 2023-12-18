@@ -34,7 +34,7 @@ async function acquireManagedServerDnsAlias() {
     resourceGroupName,
     managedInstanceName,
     dnsAliasName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

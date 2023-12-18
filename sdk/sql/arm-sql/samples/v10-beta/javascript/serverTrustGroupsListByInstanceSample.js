@@ -28,7 +28,7 @@ async function listServerTrustGroupsByManagedInstance() {
   const resArray = new Array();
   for await (let item of client.serverTrustGroups.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

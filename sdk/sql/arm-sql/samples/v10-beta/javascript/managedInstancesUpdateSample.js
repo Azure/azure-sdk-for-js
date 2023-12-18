@@ -32,7 +32,7 @@ async function removeMaintenancePolicyFromManagedInstanceSelectDefaultMaintenanc
   const result = await client.managedInstances.beginUpdateAndWait(
     resourceGroupName,
     managedInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function updateManagedInstanceWithAllProperties() {
   const result = await client.managedInstances.beginUpdateAndWait(
     resourceGroupName,
     managedInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -91,7 +91,7 @@ async function updateManagedInstanceWithMinimalProperties() {
   const result = await client.managedInstances.beginUpdateAndWait(
     resourceGroupName,
     managedInstanceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

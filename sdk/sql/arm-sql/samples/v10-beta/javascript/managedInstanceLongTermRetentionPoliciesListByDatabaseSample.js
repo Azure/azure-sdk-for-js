@@ -30,7 +30,7 @@ async function getTheLongTermRetentionPoliciesForTheManagedDatabase() {
   for await (let item of client.managedInstanceLongTermRetentionPolicies.listByDatabase(
     resourceGroupName,
     managedInstanceName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
