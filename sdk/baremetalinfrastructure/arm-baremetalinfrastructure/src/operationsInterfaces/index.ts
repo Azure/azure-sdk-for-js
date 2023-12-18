@@ -8,3 +8,4 @@
 
 export * from "./azureBareMetalInstances";
 export * from "./operations";
+export * from "./azureBareMetalStorageInstances";

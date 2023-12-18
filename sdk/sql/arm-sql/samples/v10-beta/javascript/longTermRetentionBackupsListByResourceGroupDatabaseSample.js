@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Lists all long term retention backups for a database.
+ * This sample demonstrates how to Lists all long term retention backups for a database based on a particular resource group.
  *
- * @summary Lists all long term retention backups for a database.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
+ * @summary Lists all long term retention backups for a database based on a particular resource group.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupListByDatabase.json
  */
 async function getAllLongTermRetentionBackupsUnderTheDatabase() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getAllLongTermRetentionBackupsUnderTheDatabase() {
     resourceGroupName,
     locationName,
     longTermRetentionServerName,
-    longTermRetentionDatabaseName
+    longTermRetentionDatabaseName,
   )) {
     resArray.push(item);
   }

@@ -129,6 +129,30 @@ export interface TrafficControllerListResult {
   nextLink?: string;
 }
 
+/** Traffic Controller Properties. */
+export interface TrafficControllerProperties {
+  /**
+   * Configuration Endpoints.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly configurationEndpoints?: string[];
+  /**
+   * Frontends References List
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly frontends?: ResourceId[];
+  /**
+   * Associations References List
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly associations?: ResourceId[];
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Resource ID definition used by parent to reference child resources. */
 export interface ResourceId {
   /** Resource ID of child resource. */
@@ -189,6 +213,19 @@ export interface AssociationListResult {
   nextLink?: string;
 }
 
+/** Association Properties. */
+export interface AssociationProperties {
+  /** Association Type */
+  associationType: AssociationType;
+  /** Association Subnet */
+  subnet?: AssociationSubnet;
+  /**
+   * Provisioning State of Traffic Controller Association Resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Association Subnet. */
 export interface AssociationSubnet {
   /** Association ID. */
@@ -199,6 +236,12 @@ export interface AssociationSubnet {
 export interface AssociationUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The updatable properties of the Association. */
+  properties?: AssociationUpdateProperties;
+}
+
+/** The updatable properties of the Association. */
+export interface AssociationUpdateProperties {
   /** Association Type */
   associationType?: AssociationType;
   /** Association Subnet */
@@ -219,6 +262,20 @@ export interface FrontendListResult {
   nextLink?: string;
 }
 
+/** Frontend Properties. */
+export interface FrontendProperties {
+  /**
+   * The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * Provisioning State of Traffic Controller Frontend Resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** The type used for update operations of the Frontend. */
 export interface FrontendUpdate {
   /** Resource tags. */
@@ -235,53 +292,20 @@ export interface TrackedResource extends Resource {
 
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface TrafficController extends TrackedResource {
-  /**
-   * Configuration Endpoints.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly configurationEndpoints?: string[];
-  /**
-   * Frontends References List
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly frontends?: ResourceId[];
-  /**
-   * Associations References List
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly associations?: ResourceId[];
-  /**
-   * The status of the last operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** The resource-specific properties for this resource. */
+  properties?: TrafficControllerProperties;
 }
 
 /** Association Subresource of Traffic Controller */
 export interface Association extends TrackedResource {
-  /** Association Type */
-  associationType?: AssociationType;
-  /** Association Subnet */
-  subnet?: AssociationSubnet;
-  /**
-   * Provisioning State of Traffic Controller Association Resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** The resource-specific properties for this resource. */
+  properties?: AssociationProperties;
 }
 
 /** Frontend Subresource of Traffic Controller. */
 export interface Frontend extends TrackedResource {
-  /**
-   * The Fully Qualified Domain Name of the DNS record associated to a Traffic Controller frontend.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * Provisioning State of Traffic Controller Frontend Resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** The resource-specific properties for this resource. */
+  properties?: FrontendProperties;
 }
 
 /** Defines headers for TrafficControllerInterface_createOrUpdate operation. */
@@ -292,10 +316,10 @@ export interface TrafficControllerInterfaceCreateOrUpdateHeaders {
 
 /** Defines headers for TrafficControllerInterface_delete operation. */
 export interface TrafficControllerInterfaceDeleteHeaders {
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for AssociationsInterface_createOrUpdate operation. */

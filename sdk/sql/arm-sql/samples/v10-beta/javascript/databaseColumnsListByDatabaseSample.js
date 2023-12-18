@@ -41,7 +41,7 @@ async function filterDatabaseColumns() {
     resourceGroupName,
     serverName,
     databaseName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -66,7 +66,7 @@ async function listDatabaseColumns() {
   for await (let item of client.databaseColumns.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

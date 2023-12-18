@@ -757,7 +757,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters100,
+  requestBody: Parameters.parameters96,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -836,7 +836,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters101,
+  requestBody: Parameters.parameters97,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -881,7 +881,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters102,
+  requestBody: Parameters.parameters98,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
@@ -912,7 +912,7 @@ const importDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters103,
+  requestBody: Parameters.parameters99,
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,

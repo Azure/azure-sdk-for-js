@@ -36,7 +36,7 @@ async function createAdministratorOfManagedInstance() {
     resourceGroupName,
     managedInstanceName,
     administratorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -65,7 +65,7 @@ async function updateAdministratorOfManagedInstance() {
     resourceGroupName,
     managedInstanceName,
     administratorName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

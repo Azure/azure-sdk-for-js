@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Unauthorize a single partner either by partner registration immutable Id or by partner name.
  *
  * @summary Unauthorize a single partner either by partner registration immutable Id or by partner name.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/PartnerConfigurations_UnauthorizePartner.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/PartnerConfigurations_UnauthorizePartner.json
  */
 async function partnerConfigurationsUnauthorizePartner() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function partnerConfigurationsUnauthorizePartner() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerConfigurations.unauthorizePartner(
     resourceGroupName,
-    partnerInfo
+    partnerInfo,
   );
   console.log(result);
 }

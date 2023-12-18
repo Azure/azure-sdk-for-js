@@ -39,7 +39,7 @@ async function updateFailoverGroup() {
     resourceGroupName,
     serverName,
     failoverGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

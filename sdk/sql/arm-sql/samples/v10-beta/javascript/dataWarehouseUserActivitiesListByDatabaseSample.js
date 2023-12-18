@@ -30,7 +30,7 @@ async function listOfTheUserActivitiesOfADataWarehouse() {
   for await (let item of client.dataWarehouseUserActivitiesOperations.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

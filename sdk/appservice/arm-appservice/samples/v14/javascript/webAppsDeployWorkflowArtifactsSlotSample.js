@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Creates the artifacts for web site, or a deployment slot.
  *
  * @summary Description for Creates the artifacts for web site, or a deployment slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/PostDeployWorkflowArtifactsSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/PostDeployWorkflowArtifactsSlot.json
  */
 async function deploysWorkflowArtifactsSlot() {
   const subscriptionId =

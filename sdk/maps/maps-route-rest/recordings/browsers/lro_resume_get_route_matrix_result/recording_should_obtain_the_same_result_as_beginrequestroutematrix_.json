@@ -13,14 +13,14 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "c583d7ff-3f6e-4e09-9a1d-d56252ac5902",
-        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "1522508e-cf9a-42b6-ac59-5f80639f4b43",
+        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": {
         "origins": {
@@ -54,18 +54,18 @@
       "ResponseHeaders": {
         "Content-Length": "0",
         "Content-Type": "application/json",
-        "Date": "Fri, 21 Oct 2022 13:56:56 GMT",
-        "Location": "https://atlas.microsoft.com/route/matrix/df2ffcd0-1374-4aa9-b7bc-b79ebf44197d?api-version=1.0",
+        "Date": "Tue, 14 Nov 2023 02:48:05 GMT",
+        "Location": "https://eu.atlas.microsoft.com/route/matrix/e6c75f50-031e-4c7a-b33f-2fb627954d6a?api-version=1.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 3C7F9DD8E0514C9394D9D9F7E5D74232 Ref B: SGEEDGE0417 Ref C: 2022-10-21T13:56:56Z"
+        "X-MSEdge-Ref": "Ref A: 9131E44DB7DA40ED986FB20615E16C91 Ref B: SGEEDGE0711 Ref C: 2023-11-14T02:48:05Z"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://atlas.microsoft.com/route/matrix/df2ffcd0-1374-4aa9-b7bc-b79ebf44197d?api-version=1.0\u0026api-version=1.0",
+      "RequestUri": "https://eu.atlas.microsoft.com/route/matrix/e6c75f50-031e-4c7a-b33f-2fb627954d6a?api-version=1.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -75,22 +75,23 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "9309a170-aff7-44f4-8643-6c7d5b6a0fd9",
-        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "b1c0c4ef-cdd5-4a14-aa8d-b42fe4b55f58",
+        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Content-Length": "1049",
+        "Content-Encoding": "br",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 13:56:56 GMT",
+        "Date": "Tue, 14 Nov 2023 02:48:05 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "Vary": [
           "Accept-Encoding",
           "User-Agent"
@@ -98,7 +99,7 @@
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: C20E3971068B470BBDD7095EA12756B6 Ref B: SGEEDGE0417 Ref C: 2022-10-21T13:56:56Z"
+        "X-MSEdge-Ref": "Ref A: 669F86F4DF604362A832D14145CAB897 Ref B: SGEEDGE0715 Ref C: 2023-11-14T02:48:05Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.1",
@@ -108,12 +109,12 @@
               "statusCode": 200,
               "response": {
                 "routeSummary": {
-                  "lengthInMeters": 495,
-                  "travelTimeInSeconds": 127,
+                  "lengthInMeters": 494,
+                  "travelTimeInSeconds": 118,
                   "trafficDelayInSeconds": 0,
                   "trafficLengthInMeters": 0,
-                  "departureTime": "2022-10-21T15:56:57\u002B02:00",
-                  "arrivalTime": "2022-10-21T15:59:04\u002B02:00"
+                  "departureTime": "2023-11-14T03:48:06\u002B01:00",
+                  "arrivalTime": "2023-11-14T03:50:04\u002B01:00"
                 }
               }
             },
@@ -121,12 +122,12 @@
               "statusCode": 200,
               "response": {
                 "routeSummary": {
-                  "lengthInMeters": 669268,
-                  "travelTimeInSeconds": 23223,
-                  "trafficDelayInSeconds": 1620,
-                  "trafficLengthInMeters": 47324,
-                  "departureTime": "2022-10-21T15:56:57\u002B02:00",
-                  "arrivalTime": "2022-10-21T22:23:59\u002B02:00"
+                  "lengthInMeters": 669272,
+                  "travelTimeInSeconds": 21782,
+                  "trafficDelayInSeconds": 428,
+                  "trafficLengthInMeters": 32798,
+                  "departureTime": "2023-11-14T03:48:06\u002B01:00",
+                  "arrivalTime": "2023-11-14T09:51:08\u002B01:00"
                 }
               }
             }
@@ -137,11 +138,11 @@
               "response": {
                 "routeSummary": {
                   "lengthInMeters": 338,
-                  "travelTimeInSeconds": 108,
+                  "travelTimeInSeconds": 100,
                   "trafficDelayInSeconds": 0,
                   "trafficLengthInMeters": 0,
-                  "departureTime": "2022-10-21T15:56:57\u002B02:00",
-                  "arrivalTime": "2022-10-21T15:58:44\u002B02:00"
+                  "departureTime": "2023-11-14T03:48:06\u002B01:00",
+                  "arrivalTime": "2023-11-14T03:49:46\u002B01:00"
                 }
               }
             },
@@ -149,12 +150,12 @@
               "statusCode": 200,
               "response": {
                 "routeSummary": {
-                  "lengthInMeters": 669111,
-                  "travelTimeInSeconds": 23189,
-                  "trafficDelayInSeconds": 1624,
-                  "trafficLengthInMeters": 47324,
-                  "departureTime": "2022-10-21T15:56:56\u002B02:00",
-                  "arrivalTime": "2022-10-21T22:23:24\u002B02:00"
+                  "lengthInMeters": 669116,
+                  "travelTimeInSeconds": 21742,
+                  "trafficDelayInSeconds": 428,
+                  "trafficLengthInMeters": 32798,
+                  "departureTime": "2023-11-14T03:48:06\u002B01:00",
+                  "arrivalTime": "2023-11-14T09:50:28\u002B01:00"
                 }
               }
             }

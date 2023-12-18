@@ -2,14 +2,19 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/deserializers.js";
+import {
+  getChatCompletionsResult,
+  getCompletionsResult,
+} from "../../src/api/client/openAIClient/deserializers.js";
+
+const created = new Date("2022-01-01T00:00:00.000Z").getTime();
 
 describe("deserializers", () => {
   describe("getCompletionsResult", () => {
     it("should deserialize completions response", () => {
       const body = {
         id: "123",
-        created: "2022-01-01T00:00:00.000Z",
+        created,
         prompt_filter_results: [
           {
             prompt_index: 0,
@@ -68,6 +73,7 @@ describe("deserializers", () => {
             finish_reason: "stop",
           },
         ],
+        usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
       };
 
       const result = getCompletionsResult(body);
@@ -133,13 +139,14 @@ describe("deserializers", () => {
             finishReason: "stop",
           },
         ],
+        usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
       });
     });
 
     it("should deserialize completions response with old name for prompt filter results", () => {
       const body = {
         id: "123",
-        created: "2022-01-01T00:00:00.000Z",
+        created,
         prompt_annotations: [
           {
             prompt_index: 0,
@@ -198,6 +205,7 @@ describe("deserializers", () => {
             finish_reason: "stop",
           },
         ],
+        usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
       };
 
       const result = getCompletionsResult(body);
@@ -263,6 +271,7 @@ describe("deserializers", () => {
             finishReason: "stop",
           },
         ],
+        usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
       });
     });
   });
@@ -271,7 +280,7 @@ describe("deserializers", () => {
     it("should deserialize chat completions result", () => {
       const body = {
         id: "123",
-        created: "2022-01-01T00:00:00.000Z",
+        created,
         prompt_filter_results: [
           {
             prompt_index: 0,
@@ -324,12 +333,14 @@ describe("deserializers", () => {
           },
         ],
         usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
+        system_fingerprint: "123",
       };
 
       const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
+        systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
           {
@@ -359,6 +370,7 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
+              toolCalls: [],
             },
             index: 0,
             finishReason: "stop",
@@ -389,7 +401,7 @@ describe("deserializers", () => {
     it("should deserialize chat completions result with old name for prompt filter results", () => {
       const body = {
         id: "123",
-        created: "2022-01-01T00:00:00.000Z",
+        created,
         prompt_annotations: [
           {
             prompt_index: 0,
@@ -442,12 +454,14 @@ describe("deserializers", () => {
           },
         ],
         usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
+        system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(body);
+      const result = getChatCompletionsResult(body as any);
 
       assert.deepStrictEqual(result, {
         id: "123",
+        systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
           {
@@ -477,6 +491,7 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
+              toolCalls: [],
             },
             index: 0,
             finishReason: "stop",
@@ -507,7 +522,7 @@ describe("deserializers", () => {
     it("should deserialize error in content filter", () => {
       const body = {
         id: "123",
-        created: "2022-01-01T00:00:00.000Z",
+        created,
         prompt_filter_results: [
           {
             prompt_index: 0,
@@ -515,6 +530,7 @@ describe("deserializers", () => {
               error: {
                 code: "content_filter_error",
                 message: "The contents are not filtered",
+                details: [],
               },
             },
           },
@@ -531,17 +547,20 @@ describe("deserializers", () => {
               error: {
                 code: "content_filter_error",
                 message: "The contents are not filtered",
+                details: [],
               },
             },
           },
         ],
         usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
+        system_fingerprint: "123",
       };
 
       const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
+        systemFingerprint: "123",
         created: new Date("2022-01-01T00:00:00.000Z"),
         promptFilterResults: [
           {
@@ -560,6 +579,7 @@ describe("deserializers", () => {
             message: {
               role: "bot",
               content: "Hello",
+              toolCalls: [],
             },
             index: 0,
             finishReason: "stop",

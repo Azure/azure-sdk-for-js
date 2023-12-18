@@ -32,7 +32,7 @@ async function listDatabaseTables() {
     resourceGroupName,
     serverName,
     databaseName,
-    schemaName
+    schemaName,
   )) {
     resArray.push(item);
   }

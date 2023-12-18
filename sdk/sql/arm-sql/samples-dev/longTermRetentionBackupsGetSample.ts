@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a long term retention backup.
  *
  * @summary Gets a long term retention backup.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/LongTermRetentionBackupGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionBackupGet.json
  */
 async function getTheLongTermRetentionBackup() {
   const subscriptionId =
@@ -27,7 +27,8 @@ async function getTheLongTermRetentionBackup() {
   const locationName = "japaneast";
   const longTermRetentionServerName = "testserver";
   const longTermRetentionDatabaseName = "testDatabase";
-  const backupName = "55555555-6666-7777-8888-999999999999;131637960820000000";
+  const backupName =
+    "55555555-6666-7777-8888-999999999999;131637960820000000;Archive";
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
   const result = await client.longTermRetentionBackups.get(

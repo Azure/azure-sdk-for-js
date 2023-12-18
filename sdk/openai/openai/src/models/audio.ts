@@ -11,20 +11,7 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 
-/** The result format of an audio task */
-export type AudioResultFormat =
-  /** This format will return an JSON structure containing a single \"text\" with the transcription. */
-  | "json"
-  /** This format will return an JSON structure containing an enriched structure with the transcription. */
-  | "verbose_json"
-  /** This will make the response return the transcription as plain/text. */
-  | "text"
-  /** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
-  | "srt"
-  /** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
-  | "vtt";
-
-/** The result of an audio task in a simple JSON format */
+/** Simple transcription response */
 export interface AudioResultSimpleJson {
   /** Transcribed text. */
   text: string;
@@ -41,10 +28,6 @@ export interface AudioResultVerboseJson extends AudioResultSimpleJson {
   /** Segments. */
   segments: AudioSegment[];
 }
-
-/** Audio transcription task type */
-/** "transcribe", "translate" */
-export type AudioTranscriptionTask = string;
 
 /** Transcription segment. */
 export interface AudioSegment {
@@ -82,8 +65,6 @@ export interface GetAudioTranscriptionOptions extends OperationOptions {
   temperature?: number;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The options for an audio translation request */
@@ -96,10 +77,22 @@ export interface GetAudioTranslationOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
+/** The result format of an audio task */
+export type AudioResultFormat =
+  | "json"
+  /** This format will return an JSON structure containing an enriched structure with the transcription. */
+  | "verbose_json"
+  /** This will make the response return the transcription as plain/text. */
+  | "text"
+  /** The transcription will be provided in SRT format (SubRip Text) in the form of plain/text. */
+  | "srt"
+  /** The transcription will be provided in VTT format (Web Video Text Tracks) in the form of plain/text. */
+  | "vtt";
+/** Audio transcription task type */
+/** "transcribe", "translate" */
+export type AudioTranscriptionTask = string;
 /** The type of the result of the transcription based on the requested response format */
 export type AudioResult<ResponseFormat extends AudioResultFormat> = {
   json: AudioResultSimpleJson;

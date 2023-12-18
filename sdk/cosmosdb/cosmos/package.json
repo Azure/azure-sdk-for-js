@@ -42,13 +42,6 @@
     ]
   },
   "types": "./dist/types/latest/cosmos.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "./dist/types/3.1/cosmos.d.ts"
-      ]
-    }
-  },
   "engines": {
     "node": ">=18.0.0"
   },
@@ -58,8 +51,7 @@
     "check:src:strict": "tsc --pretty --project tsconfig.strict.json",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
-    "build:types": "downlevel-dts dist/types/latest dist/types/4.1 --to=4.1",
-    "build": "npm run clean && npm run extract-api && npm run build:types && npm run bundle",
+    "build": "npm run clean && npm run extract-api && npm run bundle",
     "bundle": "dev-tool run bundle",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -116,17 +108,15 @@
     "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^17.0.0",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "prettier": "^2.5.1",
     "requirejs": "^2.3.5",
     "rimraf": "^3.0.0",

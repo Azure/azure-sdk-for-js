@@ -2,7 +2,7 @@
   "name": "@azure-rest/communication-job-router",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.1",
   "description": "Azure client library for Azure Communication Job Router services",
   "keywords": [
     "node",
@@ -33,14 +33,14 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:node": "tsc -p . && dev-tool run bundle --browser-test false",
-    "build:samples": "echo skipped.",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:samples": "dev-tool samples publish --force",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "generate:client": "echo skipped",
@@ -52,7 +52,7 @@
     "pack": "npm pack 2>&1",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "test": "npm rdddun clean && npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test:browser": "dev-tool run test:browser",
@@ -85,9 +85,9 @@
     "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
+    "@azure/core-util": "^1.0.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
-    "mocha-junit-reporter": "^1.18.0",
     "cross-env": "^7.0.2",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
@@ -114,5 +114,12 @@
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure client library for Azure Communication Job Router services",
+    "productSlugs": [
+      "azure",
+      "azure-communication-services"
+    ]
   }
 }
