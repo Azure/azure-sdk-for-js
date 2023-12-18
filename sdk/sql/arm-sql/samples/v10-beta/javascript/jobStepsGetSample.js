@@ -33,7 +33,7 @@ async function getTheLatestVersionOfAJobStep() {
     serverName,
     jobAgentName,
     jobName,
-    stepName
+    stepName,
   );
   console.log(result);
 }

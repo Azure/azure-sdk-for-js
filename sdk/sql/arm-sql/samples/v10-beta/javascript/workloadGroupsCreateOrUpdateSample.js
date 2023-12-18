@@ -40,7 +40,7 @@ async function createAWorkloadGroupWithAllPropertiesSpecified() {
     serverName,
     databaseName,
     workloadGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -70,7 +70,7 @@ async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
     serverName,
     databaseName,
     workloadGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

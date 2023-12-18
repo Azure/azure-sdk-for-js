@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -149,6 +150,9 @@ function MapsRender(credential: AzureKeyCredential, options?: ClientOptions): Ma
 
 // @public
 function MapsRender(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRenderClient;
+
+// @public
+function MapsRender(credential: AzureSASCredential, options?: ClientOptions): MapsRenderClient;
 export default MapsRender;
 
 // @public (undocumented)

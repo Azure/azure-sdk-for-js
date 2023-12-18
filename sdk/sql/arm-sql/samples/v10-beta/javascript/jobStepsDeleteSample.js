@@ -33,7 +33,7 @@ async function deleteAJobStep() {
     serverName,
     jobAgentName,
     jobName,
-    stepName
+    stepName,
   );
   console.log(result);
 }

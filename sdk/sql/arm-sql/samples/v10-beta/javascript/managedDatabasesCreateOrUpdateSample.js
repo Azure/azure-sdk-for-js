@@ -39,7 +39,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackup() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -71,7 +71,7 @@ async function createsANewManagedDatabaseByRestoringFromAnExternalBackupUsingMan
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -100,7 +100,7 @@ async function createsANewManagedDatabaseFromRestoringAGeoReplicatedBackup() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -130,7 +130,7 @@ async function createsANewManagedDatabaseFromRestoringALongTermRetentionBackup()
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -162,7 +162,7 @@ async function createsANewManagedDatabaseUsingCrossSubscriptionPointInTimeRestor
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -192,7 +192,7 @@ async function createsANewManagedDatabaseUsingPointInTimeRestore() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -219,7 +219,7 @@ async function createsANewManagedDatabaseWithLedgerOn() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -246,7 +246,7 @@ async function createsANewManagedDatabaseWithMaximalProperties() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -270,7 +270,7 @@ async function createsANewManagedDatabaseWithMinimalProperties() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -167,7 +167,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * A lock that ensures that opening and closing this
    * link properly cooperate.
    */
-  private _openLock: string = generate_uuid();
+  private _openLock: string = `linkEntity-${generate_uuid()}`;
 
   /**
    * Creates a new ClientEntity instance.

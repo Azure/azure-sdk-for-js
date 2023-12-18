@@ -29,7 +29,7 @@ async function initiateADistributedAvailabilityGroupDrop() {
   const result = await client.distributedAvailabilityGroups.beginDeleteAndWait(
     resourceGroupName,
     managedInstanceName,
-    distributedAvailabilityGroupName
+    distributedAvailabilityGroupName,
   );
   console.log(result);
 }

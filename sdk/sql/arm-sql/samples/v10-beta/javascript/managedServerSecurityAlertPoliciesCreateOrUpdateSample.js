@@ -40,7 +40,7 @@ async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
     resourceGroupName,
     managedInstanceName,
     securityAlertPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function updateAManagedServerThreatDetectionPolicyWithMinimalParameters() 
     resourceGroupName,
     managedInstanceName,
     securityAlertPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

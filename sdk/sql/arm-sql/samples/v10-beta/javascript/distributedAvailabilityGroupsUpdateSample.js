@@ -31,7 +31,7 @@ async function updateTheDistributedAvailabilityGroupReplicationModeBeforeDeletin
     resourceGroupName,
     managedInstanceName,
     distributedAvailabilityGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

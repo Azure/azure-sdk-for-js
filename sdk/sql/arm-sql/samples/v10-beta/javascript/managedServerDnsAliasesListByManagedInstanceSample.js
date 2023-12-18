@@ -28,7 +28,7 @@ async function listManagedServerDnsAliases() {
   const resArray = new Array();
   for await (let item of client.managedServerDnsAliases.listByManagedInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

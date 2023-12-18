@@ -442,3 +442,43 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
 
   return $allSucceeded
 }
+
+function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
+  $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
+  
+  $directoriesWithErrors = @()
+
+  foreach ($directory in $moduleFolders) {
+    $directoryPath = "$RepoRoot/sdk/$directory"
+
+    if (Test-Path "$directoryPath/tsp-location.yaml") {
+      Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
+      Write-Host "$directory" -ForegroundColor Yellow
+
+      Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
+      }
+
+      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
+      }
+    }
+    else {
+      Write-Host "No tsp-location.yaml found in $directory"
+    }
+  }
+
+  if ($directoriesWithErrors.Count -gt 0) {
+    Write-Host "##[error]Generation errors found in $($directoriesWithErrors.Count) directories:"
+    foreach ($directory in $directoriesWithErrors) {
+      Write-Host "  $directory"
+    }
+    exit 1
+  }
+}

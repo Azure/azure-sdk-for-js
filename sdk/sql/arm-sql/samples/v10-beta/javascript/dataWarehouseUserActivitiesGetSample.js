@@ -31,7 +31,7 @@ async function getTheListOfTheUserActivitiesOfADataWarehouse() {
     resourceGroupName,
     serverName,
     databaseName,
-    dataWarehouseUserActivityName
+    dataWarehouseUserActivityName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Copy an existing long term retention backup to a different server.
  *
  * @summary Copy an existing long term retention backup to a different server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupCopy.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ResourceGroupBasedLongTermRetentionBackupCopy.json
  */
 async function copyTheLongTermRetentionBackup() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function copyTheLongTermRetentionBackup() {
     longTermRetentionServerName,
     longTermRetentionDatabaseName,
     backupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
