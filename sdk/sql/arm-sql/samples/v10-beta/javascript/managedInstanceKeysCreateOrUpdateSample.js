@@ -34,7 +34,7 @@ async function createsOrUpdatesAManagedInstanceKey() {
     resourceGroupName,
     managedInstanceName,
     keyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

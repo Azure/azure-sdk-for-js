@@ -34,7 +34,7 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithAllPara
       resourceGroupName,
       managedInstanceName,
       advancedThreatProtectionName,
-      parameters
+      parameters,
     );
   console.log(result);
 }
@@ -61,7 +61,7 @@ async function updateAManagedInstanceAdvancedThreatProtectionSettingsWithMinimal
       resourceGroupName,
       managedInstanceName,
       advancedThreatProtectionName,
-      parameters
+      parameters,
     );
   console.log(result);
 }

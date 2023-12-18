@@ -36,7 +36,7 @@ async function createOrUpdateACredential() {
     serverName,
     jobAgentName,
     credentialName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

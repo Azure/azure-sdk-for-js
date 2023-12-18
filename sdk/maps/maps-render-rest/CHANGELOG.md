@@ -2,6 +2,8 @@
 
 ## 1.0.0-beta.3 (Unreleased)
 
+- Support SAS token authentication.
+
 ### Features Added
 
 ### Breaking Changes

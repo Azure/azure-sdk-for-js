@@ -31,7 +31,7 @@ async function updatesManagedInstanceDtcSettingsByEnablingDtc() {
     resourceGroupName,
     managedInstanceName,
     dtcName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function updatesManagedInstanceDtcSettingsWithAllOptionalParametersSpecifi
     resourceGroupName,
     managedInstanceName,
     dtcName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

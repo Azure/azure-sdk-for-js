@@ -37,7 +37,7 @@ async function updateRecommendedSensitivityLabelsOfAGivenDatabaseUsingAnOperatio
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -30,7 +30,7 @@ async function listDatabaseSchemas() {
   for await (let item of client.databaseSchemas.listByDatabase(
     resourceGroupName,
     serverName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
