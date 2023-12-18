@@ -35,7 +35,7 @@ async function getManagedDatabaseColumn() {
     databaseName,
     schemaName,
     tableName,
-    columnName
+    columnName,
   );
   console.log(result);
 }

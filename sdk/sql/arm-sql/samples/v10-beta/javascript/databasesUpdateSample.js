@@ -35,7 +35,7 @@ async function assignsMaintenanceWindowToADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -59,7 +59,7 @@ async function createsADatabaseWithVbsEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -99,7 +99,7 @@ async function patchADatabaseWithDatabaseLevelCustomerManagedKeys() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -127,7 +127,7 @@ async function resetsMaintenanceWindowOfADatabaseToDefault() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -151,7 +151,7 @@ async function updatesADatabaseWithDefaultEnclaveType() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -179,7 +179,7 @@ async function updatesADatabase() {
     resourceGroupName,
     serverName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

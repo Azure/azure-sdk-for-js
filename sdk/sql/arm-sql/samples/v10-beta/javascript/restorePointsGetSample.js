@@ -31,7 +31,7 @@ async function getsADatabaseRestorePoint() {
     resourceGroupName,
     serverName,
     databaseName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function getsADatawarehouseDatabaseRestorePoint() {
     resourceGroupName,
     serverName,
     databaseName,
-    restorePointName
+    restorePointName,
   );
   console.log(result);
 }

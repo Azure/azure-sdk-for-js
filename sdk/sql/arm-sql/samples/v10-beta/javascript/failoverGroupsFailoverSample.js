@@ -29,7 +29,7 @@ async function plannedFailoverOfAFailoverGroup() {
   const result = await client.failoverGroups.beginFailoverAndWait(
     resourceGroupName,
     serverName,
-    failoverGroupName
+    failoverGroupName,
   );
   console.log(result);
 }

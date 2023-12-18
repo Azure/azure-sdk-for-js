@@ -29,7 +29,7 @@ async function getsAManagedDatabaseMoveOperation() {
   const result = await client.managedDatabaseMoveOperations.get(
     resourceGroupName,
     locationName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

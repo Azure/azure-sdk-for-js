@@ -33,7 +33,7 @@ async function createServerTrustCertificate() {
     resourceGroupName,
     managedInstanceName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

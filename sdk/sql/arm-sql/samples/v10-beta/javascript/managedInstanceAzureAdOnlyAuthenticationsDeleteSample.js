@@ -29,7 +29,7 @@ async function deletesAzureActiveDirectoryOnlyAuthenticationObject() {
   const result = await client.managedInstanceAzureADOnlyAuthentications.beginDeleteAndWait(
     resourceGroupName,
     managedInstanceName,
-    authenticationName
+    authenticationName,
   );
   console.log(result);
 }

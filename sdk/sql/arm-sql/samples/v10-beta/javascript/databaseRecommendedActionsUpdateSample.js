@@ -35,7 +35,7 @@ async function updateDatabaseRecommendedAction() {
     databaseName,
     advisorName,
     recommendedActionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

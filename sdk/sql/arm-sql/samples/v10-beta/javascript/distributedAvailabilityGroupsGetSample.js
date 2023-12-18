@@ -29,7 +29,7 @@ async function getsTheDistributedAvailabilityGroupInfo() {
   const result = await client.distributedAvailabilityGroups.get(
     resourceGroupName,
     managedInstanceName,
-    distributedAvailabilityGroupName
+    distributedAvailabilityGroupName,
   );
   console.log(result);
 }

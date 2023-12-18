@@ -36,7 +36,7 @@ async function listJobStepTargetExecutions() {
     jobAgentName,
     jobName,
     jobExecutionId,
-    stepName
+    stepName,
   )) {
     resArray.push(item);
   }

@@ -31,7 +31,7 @@ async function getTheLongTermRetentionPolicyForTheManagedDatabase() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    policyName
+    policyName,
   );
   console.log(result);
 }
