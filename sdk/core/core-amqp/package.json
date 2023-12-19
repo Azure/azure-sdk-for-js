@@ -73,7 +73,7 @@
     "playwright": "^1.40.1",
     "prettier": "^3.0.3",
     "rimraf": "^5.0.5",
-    "tshy": "^1.8.1",
+    "tshy": "^1.8.2",
     "typescript": "~5.2.0",
     "vitest": "^1.1.0",
     "webdriverio": "^8.20.4",

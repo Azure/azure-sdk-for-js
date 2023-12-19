@@ -10217,22 +10217,6 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
-  /tshy@1.8.1:
-    resolution: {integrity: sha512-O9WxN6r0v1r0e77xvSo3FpFkMqKX0ZFMbOcHD4SGQqPCF5fnyHAMzb7CygZ8Po8jVFoJVcahWG+qDRNaPp66Og==}
-    engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
-    hasBin: true
-    dependencies:
-      chalk: 5.3.0
-      chokidar: 3.5.3
-      foreground-child: 3.1.1
-      mkdirp: 3.0.1
-      resolve-import: 1.4.5
-      rimraf: 5.0.5
-      sync-content: 1.0.2
-      typescript: 5.2.2
-      walk-up-path: 3.0.1
-    dev: false
-
   /tshy@1.8.2:
     resolution: {integrity: sha512-aGlSY+jkZYAv0YDgtdv1U2vvbGTUdlXmhVP4uegujlJ/wuznmJqSu5cUV/6IW7N7a3HFRhofWvIS/FquYN9zgA==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
@@ -11232,7 +11216,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-Rbwdt6K9FJcmrnbOgIsddd2ZnKnWNgWw3FOvESez2QUS2Zw8rjD1zjyMKrbGu+JNk0/+9rRv+V0W5M0LYKs2AQ==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-cDNZFI1wHQJS/EV6Y/AijW9SOTz7KUNkoZXPaE0shtnivgUVpXuVGdJaYDViDQycfsXlf0/aswfcrXeqwHzO0Q==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -11261,7 +11245,7 @@ packages:
       prettier: 3.1.1
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
@@ -18626,7 +18610,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-u8pqSPrP2MJTCrO/Khd5/iOZ3+7B6Na5jIWogAUaRP3x5o5BE07oYfGPuAuGb7ZcpTaibjueaFG/eJqoF39WbA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-nxg54q7GzWr4bXuClfpDG/AxaRfp6k1u0qa2/HCvTLqL9XqH7VkUCZOU52qVUNI2qBVHZQLVROHrS5GSexKFyw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18659,7 +18643,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -18686,7 +18670,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-akxKGwaNvOWQ0pkA/zGVtrPZQCAca86O1awnrgkltTZnsdWtMf/uJmfLJkztyrrxriXVP4bXw+s6uMD2Qi5glQ==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-nL970BQfweJj4a+7tIf7RZzhhn9cdPSXAy7v7W/J9NRlUdiTGT/KUEmKMtfOIlXj6+1xCGm5pc/DMcRJzYG79w==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -18708,7 +18692,7 @@ packages:
       prettier: 2.8.8
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -18731,7 +18715,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-A4xyHHjbnVdBRRdotUf69G4ApZTumy6c7ksUgA1sq2r+TLL6e2Nj/42D02fXLPPbItS0ztklNYHbebPi2OsLmg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-akfl9jCQbcIrxcxttJGGjIPqbmhSND+zOROqDTQERRUEC9lXxlnQJCTPveRYe7raz25XGNGpf8hisivt0NguJQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -18762,7 +18746,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -18785,7 +18769,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-Jr9w7H+9QQhEsgH+BYPLQrtF06I4LtTt/nqv6x/NCrSOfNOBl6pq2E3r1ZrCOQE26zRXU6gADU7d4cCTCDUfOw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-rNqbPgvlAd8TTUugIiIvRNdiq446XUJMw/xRL3GlAArT6hbV1V2iYbqkQEh2F0gFfcUuRAfQTZL/U6GsESG2OQ==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18816,7 +18800,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
@@ -18837,7 +18821,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-aTQEAqgYesGysFz1zO+h5C+Jab+PeGul1NmH3ng9T0FMSoCjxfX6JdX2p5dS5JOElqN4IL5C2PppAR7w3z4/uw==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-R4W8fAqY/cZv2iPNcMb6t6rci87YwyY8xIv/sWiM1zv1fSHqADQs/q3sfKn0sotziqGPnxHHqCxZsI3W6b13Fw==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -18853,7 +18837,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
       webdriverio: 8.26.1(typescript@5.2.2)
@@ -18874,7 +18858,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-+F8pRcPQi0vu40D0/1KPljDpoEz3N0FFCGzV5lSUROxhEF+XXvAGECBoUR+7I+jwHsPuxFk7UKJIqTu/Yk3jHA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-sgb3R+lemk4NYznEvNCnA6yuy0zsG53dbEQbUbwuqbNXotEBZyhEllQzEmKvQ8vy4/009ckL6h6vPDBbBGUl7g==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -18900,7 +18884,7 @@ packages:
       prettier: 3.1.1
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
@@ -18922,7 +18906,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-EwO+nh0hG1Wb3MddyMmz66K5bur/UM0YwjVfQ55tEBhw7x3xKEvak+aFxGHv28EzB0OqeyxE8/t5aZLoXywwoA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-8J+XwLZ9XWKHP5M55Ca1F8N9H6dJs6wuGvKoac0pqDA15uaolZtok3sMp95d4mV/WH8uHmUh29BV1RJfJiJH1g==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -18949,7 +18933,7 @@ packages:
       prettier: 3.1.1
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
@@ -18971,7 +18955,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-KxKquDKeX09Cvh/n0oJEipsFLu6674ZUQlSz0RK/01irJzd8RM5bynkiUzpYYYDT5Yzhsqomhrw3J4mkAJUFzg==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-hvqvsem8Rla+lrFexU6+p8mFEaN+qcezbRgL0TSMc3SffMWu/j4qnmPZ6DHX8eK7gjsT5yd977svfoXhJMOM6Q==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -19010,7 +18994,7 @@ packages:
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -19033,7 +19017,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-la1bPV1iOWl3vFFwTDOTJR4Xw82e0UNWzCRoRb7/+CbDxZ+tCwbz4CKR4o6/rVtbl2BMec2dsTyhzhUYol+P2w==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-JyMK0Iice0DRV4QdF3MMkQ6YwBP6T2rYKQN+iMpnVWPz3zzOrZzftm0pZoaD232iHTOJGRE8Njnrv2KPZQAUYA==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -19065,7 +19049,7 @@ packages:
       puppeteer: 19.11.1(typescript@5.2.2)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
@@ -19087,7 +19071,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-ezI9x61KxKrPrNocLtGMYoNyoFQbikQJ2TeyklfOsUFqIqUiuP1bVpLEUPJQdSlLlIlHzeVp2gX8t1qpkzApsQ==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-QDVMaSzoDcxzbRRJnueDv6LAEEZWb4dtN3MMh7yFfsLBUXKq6EJl5TuX2y9YPHeM2kroKHWQwpMXNLnXZMJt3g==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -19118,7 +19102,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -19141,7 +19125,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-omSFnUWFLW+z1bx5ndCE5UZaJej7hz+CLi7YnBO+V9WQIANyV4uHPjm/m7v24L1bd42aX8OgXfsQJX9umuOh2g==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-O+o/LsH6xpYRBjFvLoPXWJgatK/Tr5tfbLEnMXBuQLsM4b3qr7H0muvzc2RhDCTs659iUpjiIjvx1Tn8yyL0sg==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -19173,7 +19157,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -19196,7 +19180,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-agRUZSi2smG24IsnTzjlRPZzdnTPz/IKXXNBSCCrEJ7YiWxoljnTcUSAJbaOSrPpcxW1h5X6uW4vsb5gnHAb3g==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-PM0mIKVJirlPycFOKi0ThculbykPXZBPJzOINTZ4O30yynZXWNONaCcaIWk6PlRZrxMlmAixym1XGAMBHPt+Hw==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -19226,7 +19210,7 @@ packages:
       prettier: 3.1.1
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       util: 0.12.5
@@ -20436,7 +20420,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-MFgDmi+HfYLUjtqAJifBykHSoHGHcoFdwFqLzlq8rA+fpdDoNqXDevrr8jE4UIoIL8Kgi3sScyqmjX/Jc+Gdxw==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-rOWn1xdIzf9Bn6rsbJ85OjZ2f2kQ8qIV9PsIb331DV3mUaLng3OhntDxV/ymgT9gIJ9sSdMoIfA3m0wZ7Bu+RA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -20468,7 +20452,7 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tshy: 1.8.1
+      tshy: 1.8.2
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
