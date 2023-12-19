@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { SmsSendOptions, SmsSendRequest } from "../../../src";
 import { env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import { assertIsSuccessResult } from "../utils/assertHelpers";
+import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
 
 export default function testCases(): void {
   it("can send an SMS message", async function (this: Context) {
@@ -81,7 +81,7 @@ export default function testCases(): void {
     );
 
     assertIsSuccessResult(results[0], validToNumber);
-    assertIsSuccessResult(results[1], invalidToNumber);
+    assertIsFailureResult(results[1], invalidToNumber, "Invalid To phone number format.");
   }).timeout(4000);
 
   it("throws an exception when sending from a number you don't own", async function (this: Context) {

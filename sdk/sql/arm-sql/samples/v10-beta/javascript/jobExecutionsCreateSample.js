@@ -31,7 +31,7 @@ async function startAJobExecution() {
     resourceGroupName,
     serverName,
     jobAgentName,
-    jobName
+    jobName,
   );
   console.log(result);
 }

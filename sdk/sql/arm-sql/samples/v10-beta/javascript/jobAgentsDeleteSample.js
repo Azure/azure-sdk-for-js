@@ -29,7 +29,7 @@ async function deleteAJobAgent() {
   const result = await client.jobAgents.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    jobAgentName
+    jobAgentName,
   );
   console.log(result);
 }

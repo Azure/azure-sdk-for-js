@@ -47,7 +47,7 @@ async function createFailoverGroup() {
     resourceGroupName,
     locationName,
     failoverGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

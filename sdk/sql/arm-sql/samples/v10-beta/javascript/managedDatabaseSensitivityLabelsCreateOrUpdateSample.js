@@ -43,7 +43,7 @@ async function updatesOrCreatesASensitivityLabelOfAGivenColumnWithAllParametersI
     schemaName,
     tableName,
     columnName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

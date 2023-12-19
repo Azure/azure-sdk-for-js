@@ -31,7 +31,7 @@ async function listInstancePoolUsagesExpandedWithChildren() {
   for await (let item of client.usages.listByInstancePool(
     resourceGroupName,
     instancePoolName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

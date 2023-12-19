@@ -28,7 +28,7 @@ async function listAdministratorsOfManagedInstance() {
   const resArray = new Array();
   for await (let item of client.managedInstanceAdministrators.listByInstance(
     resourceGroupName,
-    managedInstanceName
+    managedInstanceName,
   )) {
     resArray.push(item);
   }

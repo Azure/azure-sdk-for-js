@@ -29,7 +29,7 @@ async function permissionBindingsGet() {
   const result = await client.permissionBindings.get(
     resourceGroupName,
     namespaceName,
-    permissionBindingName
+    permissionBindingName,
   );
   console.log(result);
 }

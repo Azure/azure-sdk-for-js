@@ -18,9 +18,9 @@ dotenv.config();
  * This sample demonstrates how to List all valid sender usernames for a domains resource.
  *
  * @summary List all valid sender usernames for a domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/senderUsernames/listByDomain.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/senderUsernames/listByDomain.json
  */
-async function getSenderUsernamesResource() {
+async function getAllSenderUsernamesResourcesForADomain() {
   const subscriptionId =
     process.env["COMMUNICATION_SUBSCRIPTION_ID"] ||
     "11112222-3333-4444-5555-666677778888";
@@ -45,7 +45,7 @@ async function getSenderUsernamesResource() {
 }
 
 async function main() {
-  getSenderUsernamesResource();
+  getAllSenderUsernamesResourcesForADomain();
 }
 
 main().catch(console.error);

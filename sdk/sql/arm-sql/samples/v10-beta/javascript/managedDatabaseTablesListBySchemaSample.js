@@ -32,7 +32,7 @@ async function listManagedDatabaseTables() {
     resourceGroupName,
     managedInstanceName,
     databaseName,
-    schemaName
+    schemaName,
   )) {
     resArray.push(item);
   }
