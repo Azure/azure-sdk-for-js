@@ -185,7 +185,7 @@ You shall update the version number according to [semantic versioning rule](http
 
 ## Test recordings
 
-Please ensure that your test recordings are committed together with your code.
+After [writing and running test cases](#how-to-write-test-for-dpgrlc), you need to push the recordings to [assets repo](https://github.com/Azure/azure-sdk-assets). Please refer to [push recording guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/ASSET_SYNC_MIGRATION.md#new-package---no-recorded-tests) to push recordings.
 
 ## Fix CI for PR
 You may meet the CI failures after submitting the PR, so please refer to [Troubleshoot CI Failure](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Troubleshoot-ci-failure.md) to fix it.
