@@ -183,7 +183,7 @@ export class LongTermRetentionPoliciesImpl
   }
 
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -268,7 +268,7 @@ export class LongTermRetentionPoliciesImpl
   }
 
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -329,7 +329,9 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionPolicyListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -350,7 +352,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionPolicy
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
@@ -381,9 +385,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.LongTermRetentionPolicy
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
-  requestBody: Parameters.parameters107,
+  requestBody: Parameters.parameters103,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -404,7 +410,9 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.LongTermRetentionPolicyListResult
     },
-    default: {}
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
   },
   urlParameters: [
     Parameters.$host,

@@ -13,24 +13,31 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Deletes a server.
+ * This sample demonstrates how to Updates a server.
  *
- * @summary Deletes a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerDelete.json
+ * @summary Updates a server.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerUpdate.json
  */
-async function deleteServer() {
+async function updateAServer() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
-  const serverName = "sqlcrudtest-6661";
+  const serverName = "sqlcrudtest-4645";
+  const parameters = {
+    administratorLogin: "dummylogin",
+    administratorLoginPassword: "placeholder",
+    isIPv6Enabled: "Enabled",
+    publicNetworkAccess: "Disabled",
+    restrictOutboundNetworkAccess: "Enabled",
+  };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginDeleteAndWait(resourceGroupName, serverName);
+  const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
   console.log(result);
 }
 
 async function main() {
-  deleteServer();
+  updateAServer();
 }
 
 main().catch(console.error);

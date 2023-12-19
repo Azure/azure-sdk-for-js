@@ -8,44 +8,36 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ServerUpdate, SqlManagementClient } from "@azure/arm-sql";
+import { SqlManagementClient } from "@azure/arm-sql";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Updates a server.
+ * This sample demonstrates how to Refresh external governance enablement status.
  *
- * @summary Updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerUpdate.json
+ * @summary Refresh external governance enablement status.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/RefreshExternalGovernanceStatus.json
  */
-async function updateAServer() {
+async function refreshExternalGovernanceEnablementStatus() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
   const resourceGroupName =
     process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const serverName = "sqlcrudtest-4645";
-  const parameters: ServerUpdate = {
-    administratorLogin: "dummylogin",
-    administratorLoginPassword: "placeholder",
-    isIPv6Enabled: "Enabled",
-    publicNetworkAccess: "Disabled",
-    restrictOutboundNetworkAccess: "Enabled"
-  };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginUpdateAndWait(
+  const result = await client.servers.beginRefreshStatusAndWait(
     resourceGroupName,
-    serverName,
-    parameters
+    serverName
   );
   console.log(result);
 }
 
 async function main() {
-  updateAServer();
+  refreshExternalGovernanceEnablementStatus();
 }
 
 main().catch(console.error);

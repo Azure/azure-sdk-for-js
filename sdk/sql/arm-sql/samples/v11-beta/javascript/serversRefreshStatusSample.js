@@ -13,43 +13,24 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Creates or updates a server.
+ * This sample demonstrates how to Refresh external governance enablement status.
  *
- * @summary Creates or updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerCreate.json
+ * @summary Refresh external governance enablement status.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/RefreshExternalGovernanceStatus.json
  */
-async function createServer() {
+async function refreshExternalGovernanceEnablementStatus() {
   const subscriptionId =
     process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
   const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "sqlcrudtest-7398";
   const serverName = "sqlcrudtest-4645";
-  const parameters = {
-    administratorLogin: "dummylogin",
-    administratorLoginPassword: "PLACEHOLDER",
-    administrators: {
-      azureADOnlyAuthentication: true,
-      login: "bob@contoso.com",
-      principalType: "User",
-      sid: "00000011-1111-2222-2222-123456789111",
-      tenantId: "00000011-1111-2222-2222-123456789111",
-    },
-    isIPv6Enabled: "Enabled",
-    location: "Japan East",
-    publicNetworkAccess: "Enabled",
-    restrictOutboundNetworkAccess: "Enabled",
-  };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
-  const result = await client.servers.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    serverName,
-    parameters,
-  );
+  const result = await client.servers.beginRefreshStatusAndWait(resourceGroupName, serverName);
   console.log(result);
 }
 
 async function main() {
-  createServer();
+  refreshExternalGovernanceEnablementStatus();
 }
 
 main().catch(console.error);

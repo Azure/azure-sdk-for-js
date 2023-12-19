@@ -8,32 +8,30 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { LongTermRetentionPolicy, SqlManagementClient } from "@azure/arm-sql";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { SqlManagementClient } = require("@azure/arm-sql");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
- * This sample demonstrates how to Sets a database's long term retention policy.
+ * This sample demonstrates how to Set or update a database's long term retention policy.
  *
- * @summary Sets a database's long term retention policy.
+ * @summary Set or update a database's long term retention policy.
  * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionPolicyCreateOrUpdate.json
  */
 async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
   const subscriptionId =
-    process.env["SQL_SUBSCRIPTION_ID"] ||
-    "00000000-1111-2222-3333-444444444444";
-  const resourceGroupName =
-    process.env["SQL_RESOURCE_GROUP"] || "resourceGroup";
+    process.env["SQL_SUBSCRIPTION_ID"] || "00000000-1111-2222-3333-444444444444";
+  const resourceGroupName = process.env["SQL_RESOURCE_GROUP"] || "resourceGroup";
   const serverName = "testserver";
   const databaseName = "testDatabase";
   const policyName = "default";
-  const parameters: LongTermRetentionPolicy = {
+  const parameters = {
+    backupStorageAccessTier: "Hot",
+    makeBackupsImmutable: true,
     monthlyRetention: "P1Y",
     weekOfYear: 5,
     weeklyRetention: "P1M",
-    yearlyRetention: "P5Y"
+    yearlyRetention: "P5Y",
   };
   const credential = new DefaultAzureCredential();
   const client = new SqlManagementClient(credential, subscriptionId);
@@ -42,7 +40,7 @@ async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
     serverName,
     databaseName,
     policyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
