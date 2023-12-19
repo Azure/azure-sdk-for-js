@@ -121,8 +121,8 @@
     "@opentelemetry/api": "^1.4.1",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.1",
-    "@vitest/browser": "^1.0.4",
-    "@vitest/coverage-istanbul": "^1.0.4",
+    "@vitest/browser": "^1.1.0",
+    "@vitest/coverage-istanbul": "^1.1.0",
     "eslint": "^8.52.0",
     "playwright": "^1.40.1",
     "prettier": "^3.1.1",
@@ -130,7 +130,7 @@
     "sinon": "^17.0.1",
     "tshy": "^1.8.1",
     "typescript": "~5.2.0",
-    "vitest": "1.0.4"
+    "vitest": "^1.1.0"
   },
   "tshy": {
     "exports": {
