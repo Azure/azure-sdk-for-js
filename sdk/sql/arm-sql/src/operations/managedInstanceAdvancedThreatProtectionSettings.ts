@@ -325,7 +325,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -345,7 +345,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -375,8 +375,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters86,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters77,
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

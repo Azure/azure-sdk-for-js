@@ -216,6 +216,8 @@ describe("BlobClient Node.js only", () => {
       result3.segment.blobItems![1].properties.accessTier = undefined;
     result3.segment.blobItems![0].properties.accessTierInferred =
       result3.segment.blobItems![1].properties.accessTierInferred = undefined;
+    result3.segment.blobItems![0].properties.lastAccessedOn =
+      result3.segment.blobItems![1].properties.lastAccessedOn = undefined;
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,
@@ -609,8 +611,8 @@ describe("BlobClient Node.js only", () => {
 
     const response = await blockBlobClient.query("select * from BlobStorage", {
       conditions: {
-        ifModifiedSince: new Date("2010/01/01"),
-        ifUnmodifiedSince: new Date("2100/01/01"),
+        ifModifiedSince: new Date(Date.UTC(2010, 0, 1)),
+        ifUnmodifiedSince: new Date(Date.UTC(2100, 0, 1)),
         ifMatch: uploadResponse.etag,
         ifNoneMatch: "invalidetag",
       },
@@ -625,7 +627,7 @@ describe("BlobClient Node.js only", () => {
     try {
       await blockBlobClient.query("select * from BlobStorage", {
         conditions: {
-          ifModifiedSince: new Date("2100/01/01"),
+          ifModifiedSince: new Date(Date.UTC(2100, 0, 1)),
         },
       });
     } catch (err: any) {
@@ -964,6 +966,10 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     }
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers(
+      { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
+      ["playback"]
+    );
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
     blobName = recorder.variable("blob", getUniqueName("blob"));

@@ -4,8 +4,8 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
@@ -710,7 +710,7 @@ export class NotificationHubsClient {
 }
 
 // @public
-export interface NotificationHubsClientOptions extends CommonClientOptions {
+export interface NotificationHubsClientOptions extends ClientOptions {
 }
 
 // @public
@@ -834,7 +834,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
 // @public
 export interface WindowsNotification extends NotificationCommon {
     contentType: WindowsContentType;
-    platform: "wns";
+    platform: "windows";
 }
 
 // @public

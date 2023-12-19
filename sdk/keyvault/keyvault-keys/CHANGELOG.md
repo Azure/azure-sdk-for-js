@@ -1,6 +1,6 @@
 # Release History
 
-## 4.7.2 (Unreleased)
+## 4.8.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,23 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.8.0-beta.1 (2023-11-08)
+
+### Features Added
+
+- Added `hsmPlatform` property to `KeyProperties`.
+
+### Other Changes
+
+- The default service version is now `7.5-preview.1`.
+
+## 4.7.2 (2023-08-10)
+
+### Bugs Fixed
+
+- Fixed a bug where `listPropertiesOfKeysVersions` failed to retrieve the second page of results. Issue [#26547](https://github.com/Azure/azure-sdk-for-js/issues/26547); PR [#26584](https://github.com/Azure/azure-sdk-for-js/pull/26584).
+- Bumped `@azure/core-rest-pipeline` dependency to version including the `isRestError` helper, which was used in PR [#26016](https://github.com/Azure/azure-sdk-for-js/issues/26016).
 
 ## 4.7.1 (2023-06-06)
 

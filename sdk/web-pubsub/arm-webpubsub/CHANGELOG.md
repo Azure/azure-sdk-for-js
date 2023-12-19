@@ -1,5 +1,48 @@
 # Release History
     
+## 2.0.0-beta.2 (2023-10-10)
+    
+**Features**
+
+  - Added operation group WebPubSubReplicas
+  - Added operation WebPubSub.listReplicaSkus
+  - Added Interface IPRule
+  - Added Interface Replica
+  - Added Interface ReplicaList
+  - Added Interface WebPubSubListReplicaSkusOptionalParams
+  - Added Interface WebPubSubRegenerateKeyHeaders
+  - Added Interface WebPubSubReplicasCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubReplicasDeleteOptionalParams
+  - Added Interface WebPubSubReplicasGetOptionalParams
+  - Added Interface WebPubSubReplicasListNextOptionalParams
+  - Added Interface WebPubSubReplicasListOptionalParams
+  - Added Interface WebPubSubReplicasRestartHeaders
+  - Added Interface WebPubSubReplicasRestartOptionalParams
+  - Added Interface WebPubSubReplicasUpdateHeaders
+  - Added Interface WebPubSubReplicasUpdateOptionalParams
+  - Added Interface WebPubSubRestartHeaders
+  - Added Interface WebPubSubUpdateHeaders
+  - Added Type Alias ServiceKind
+  - Added Type Alias WebPubSubListReplicaSkusResponse
+  - Added Type Alias WebPubSubReplicasCreateOrUpdateResponse
+  - Added Type Alias WebPubSubReplicasGetResponse
+  - Added Type Alias WebPubSubReplicasListNextResponse
+  - Added Type Alias WebPubSubReplicasListResponse
+  - Added Type Alias WebPubSubReplicasRestartResponse
+  - Added Type Alias WebPubSubReplicasUpdateResponse
+  - Added Type Alias WebPubSubRestartResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface WebPubSubNetworkACLs has a new optional parameter ipRules
+  - Interface WebPubSubResource has a new optional parameter kind
+  - Interface WebPubSubResource has a new optional parameter regionEndpointEnabled
+  - Interface WebPubSubResource has a new optional parameter resourceStopped
+  - Added Enum KnownServiceKind
+
+**Breaking Changes**
+
+  - Parameter location of interface TrackedResource is now required
+    
+    
 ## 2.0.0-beta.1 (2023-07-11)
     
 **Features**
@@ -44,7 +87,7 @@
 
   - Parameter location of interface TrackedResource is now required
     
-    
+ 
 ## 1.1.0 (2023-03-09)
     
 **Features**
@@ -99,4 +142,4 @@
     
 ## 1.0.0 (2021-12-16)
 
-- The package of @azure/arm-webpubsub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+- The package of @azure/arm-webpubsub is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

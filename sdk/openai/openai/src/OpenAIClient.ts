@@ -10,36 +10,76 @@
  */
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createOpenAI } from "./api/OpenAIContext.js";
 import {
-  _getChatCompletionsSend,
-  _getCompletionsSend,
-  beginAzureBatchImageGeneration,
-  getAzureBatchImageGenerationOperationStatus,
+  getAudioTranscription,
+  getAudioTranslation,
+  getImages,
+  listChatCompletions,
+  listCompletions,
+} from "./api/index.js";
+import {
   getChatCompletions,
-  getChatCompletionsResult,
   getCompletions,
-  getCompletionsResult,
   getEmbeddings,
-} from "./api/operations.js";
+} from "./api/client/openAIClient/index.js";
+import { OpenAIClientOptions, OpenAIContext, createOpenAI } from "./api/index.js";
+import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import {
-  ChatCompletions,
-  ChatMessage,
-  Completions,
-  Embeddings,
-  GetAzureBatchImageGenerationOperationStatusOptions,
-  GetChatCompletionsOptions,
+  AudioResult,
+  AudioResultFormat,
+  AudioResultSimpleJson,
+  GetAudioTranscriptionOptions,
+  GetAudioTranslationOptions,
+} from "./models/audio.js";
+import {
+  GetImagesOptions,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
-  ImageGenerationOptions,
-  ImageGenerationResponse,
-  OpenAIClientOptions,
-} from "./index.js";
-import { OpenAIContext } from "./rest/clientDefinitions.js";
-import { getSSEs } from "./api/sse.js";
+  GetChatCompletionsOptions,
+} from "./models/options.js";
+import {
+  ChatCompletions,
+  ChatRequestMessage,
+  Completions,
+  Embeddings,
+  ImageGenerations,
+} from "./models/models.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
+/**
+ * A client for interacting with Azure OpenAI.
+ *
+ * The client needs the endpoint of an OpenAI resource and an authentication
+ * method such as an API key or token. The API key and endpoint can be found in
+ * the OpenAI resource page. They will be located in the resource's Keys and Endpoint page.
+ *
+ * ### Examples for authentication:
+ *
+ * #### API Key
+ *
+ * ```js
+ * import { OpenAIClient } from "@azure/openai";
+ * import { AzureKeyCredential } from "@azure/core-auth";
+ *
+ * const endpoint = "<azure endpoint>";
+ * const credential = new AzureKeyCredential("<api key>");
+ *
+ * const client = new OpenAIClient(endpoint, credential);
+ * ```
+ *
+ * #### Azure Active Directory
+ *
+ * ```js
+ * import { OpenAIClient } from "@azure/openai";
+ * import { DefaultAzureCredential } from "@azure/identity";
+ *
+ * const endpoint = "<azure endpoint>";
+ * const credential = new DefaultAzureCredential();
+ *
+ * const client = new OpenAIClient(endpoint, credential);
+ * ```
+ */
 export class OpenAIClient {
   private _client: OpenAIContext;
   private _isAzure = false;
@@ -107,143 +147,206 @@ export class OpenAIClient {
               ...(opts.additionalPolicies ?? []),
               {
                 position: "perCall",
-                policy: {
-                  name: "openAiEndpoint",
-                  sendRequest: (request, next) => {
-                    const obj = new URL(request.url);
-                    const parts = obj.pathname.split("/");
-                    obj.pathname = `/${parts[1]}/${parts.slice(5).join("/")}`;
-                    obj.searchParams.delete("api-version");
-                    request.url = obj.toString();
-                    return next(request);
-                  },
-                },
+                policy: nonAzurePolicy(),
               },
             ],
           }),
     });
   }
 
-  /** Returns the status of the images operation */
-  getAzureBatchImageGenerationOperationStatus(
-    operationId: string,
-    options: GetAzureBatchImageGenerationOperationStatusOptions = {
-      requestOptions: {},
-    }
-  ): Promise<ImageGenerationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(this._client, operationId, options);
-  }
-
-  /** Starts the generation of a batch of images from a text caption */
-  beginAzureBatchImageGeneration(
-    prompt: string,
-    options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
-  }
-
-  /**
-   * Starts the generation of a batch of images from a text caption
-   * @param prompt - The prompt to use for this request.
-   * @param options - The options for this image request.
-   * @returns The image generation response (containing url or base64 data).
-   */
-  getImages(
-    prompt: string,
-    options: ImageGenerationOptions = { requestOptions: {} }
-  ): Promise<ImageGenerationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
-  }
-
   /**
    * Returns textual completions as configured for a given prompt.
-   * @param deploymentOrModelName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - Specifies either the model deployment name (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The options for this completions request.
    * @returns The completions for the given prompt.
    */
   getCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
-    this.setModel(deploymentOrModelName, options);
-    return getCompletions(this._client, prompt, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getCompletions(this._client, deploymentName, prompt, options);
   }
 
   /**
    * Lists the completions tokens as they become available for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
   listCompletions(
-    deploymentOrModelName: string,
+    deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): Promise<AsyncIterable<Omit<Completions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getCompletionsSend(this._client, prompt, deploymentOrModelName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getCompletionsResult);
+  ): AsyncIterable<Omit<Completions, "usage">> {
+    this.setModel(deploymentName, options);
+    return listCompletions(this._client, deploymentName, prompt, options);
   }
 
   /**
    * Return the computed embeddings for a given prompt.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param input - The prompt to use for this request.
    * @param options - The embeddings options for this embeddings request.
    * @returns The embeddings for the given prompt.
    */
   getEmbeddings(
-    deploymentOrModelName: string,
+    deploymentName: string,
     input: string[],
     options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
-    this.setModel(deploymentOrModelName, options);
-    return getEmbeddings(this._client, input, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
   }
 
   /**
    * Get chat completions for provided chat context messages.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this completions request.
    * @returns The chat completions for the given chat context messages.
    */
   getChatCompletions(
-    deploymentOrModelName: string,
-    messages: ChatMessage[],
+    deploymentName: string,
+    messages: ChatRequestMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
-    this.setModel(deploymentOrModelName, options);
-    return getChatCompletions(this._client, messages, deploymentOrModelName, options);
+    this.setModel(deploymentName, options);
+    return getChatCompletions(this._client, deploymentName, messages, options);
   }
 
   /**
    * Lists the chat completions tokens as they become available for a chat context.
-   * @param deploymentOrModelName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param messages - The chat context messages to use for this request.
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
   listChatCompletions(
-    deploymentOrModelName: string,
-    messages: ChatMessage[],
+    deploymentName: string,
+    messages: ChatRequestMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<AsyncIterable<Omit<ChatCompletions, "usage">>> {
-    this.setModel(deploymentOrModelName, options);
-    const response = _getChatCompletionsSend(this._client, messages, deploymentOrModelName, {
-      ...options,
-      stream: true,
-    });
-    return getSSEs(response, getChatCompletionsResult);
+  ): AsyncIterable<ChatCompletions> {
+    this.setModel(deploymentName, options);
+    return listChatCompletions(this._client, deploymentName, messages, options);
   }
 
-  private setModel(model: string, options: { model?: string }): void {
+  /**
+   * Starts the generation of a batch of images from a text caption
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param prompt - The prompt to use for this request.
+   * @param options - The options for this image request.
+   * @returns The image generation response (containing url or base64 data).
+   */
+  getImages(
+    deploymentName: string,
+    prompt: string,
+    options: GetImagesOptions = { requestOptions: {} }
+  ): Promise<ImageGenerations> {
+    this.setModel(deploymentName, options);
+    return getImages(this._client, deploymentName, prompt, options);
+  }
+
+  /**
+   * Returns the transcription of an audio file in a simple JSON format.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to transcribe.
+   * @param options - The options for this audio transcription request.
+   * @returns The audio transcription result in a simple JSON format.
+   */
+  async getAudioTranscription(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    options?: GetAudioTranscriptionOptions
+  ): Promise<AudioResultSimpleJson>;
+  /**
+   * Returns the transcription of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to transcribe.
+   * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+   * @param options - The options for this audio transcription request.
+   * @returns The audio transcription result in a format of your choice.
+   */
+  async getAudioTranscription<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    format: Format,
+    options?: GetAudioTranscriptionOptions
+  ): Promise<AudioResult<Format>>;
+  async getAudioTranscription<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    formatOrOptions?: Format | GetAudioTranscriptionOptions,
+    inputOptions?: GetAudioTranscriptionOptions
+  ): Promise<AudioResult<Format>> {
+    const options =
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+    this.setModel(deploymentName, options);
+    if (response_format === undefined) {
+      return getAudioTranscription(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
+    }
+
+    return getAudioTranscription(
+      this._client,
+      deploymentName,
+      fileContent,
+      response_format,
+      options
+    );
+  }
+
+  /**
+   * Returns the translation of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to translate.
+   * @param options - The options for this audio translation request.
+   * @returns The audio translation result.
+   */
+  async getAudioTranslation(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    options?: GetAudioTranslationOptions
+  ): Promise<AudioResultSimpleJson>;
+  /**
+   * Returns the translation of an audio file.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param fileContent - The content of the audio file to translate.
+   * @param format - The format of the result object. See {@link AudioResultFormat} for possible values.
+   * @param options - The options for this audio translation request.
+   * @returns The audio translation result.
+   */
+  async getAudioTranslation<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    format: Format,
+    options?: GetAudioTranslationOptions
+  ): Promise<AudioResult<Format>>;
+  async getAudioTranslation<Format extends AudioResultFormat>(
+    deploymentName: string,
+    fileContent: Uint8Array,
+    formatOrOptions?: Format | GetAudioTranslationOptions,
+    inputOptions?: GetAudioTranslationOptions
+  ): Promise<AudioResult<Format>> {
+    const options =
+      inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
+    const response_format = typeof formatOrOptions === "string" ? formatOrOptions : undefined;
+    this.setModel(deploymentName, options);
+    if (response_format === undefined) {
+      return getAudioTranslation(this._client, deploymentName, fileContent, options) as Promise<
+        AudioResult<Format>
+      >;
+    }
+
+    return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
+  }
+
+  private setModel(model: string, options: Record<string, any>): void {
     if (!this._isAzure) {
       options.model = model;
     }

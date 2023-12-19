@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RegistrationDescription } from "../models/registration.js";
 import { RestError } from "@azure/core-rest-pipeline";
 import { createOrUpdateRegistrationDescription } from "./internal/_createOrUpdateRegistrationDescription.js";
@@ -20,7 +20,7 @@ const OPERATION_NAME = "updateRegistration";
 export function updateRegistration(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<RegistrationDescription> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -30,6 +30,6 @@ export function updateRegistration(
         throw new RestError("ETag is required for registration update", { statusCode: 400 });
       }
       return createOrUpdateRegistrationDescription(context, registration, "update", updatedOptions);
-    }
+    },
   );
 }

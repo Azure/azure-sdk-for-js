@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
  *
  * @summary Creates a VpnSite resource if it doesn't exist else updates the existing VpnSite.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-02-01/examples/VpnSitePut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-05-01/examples/VpnSitePut.json
  */
 async function vpnSiteCreate() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -40,7 +40,6 @@ async function vpnSiteCreate() {
       {
         name: "vpnSiteLink1",
         bgpProperties: { asn: 1234, bgpPeeringAddress: "192.168.0.0" },
-        fqdn: "link1.vpnsite1.contoso.com",
         ipAddress: "50.50.50.56",
         linkProperties: { linkProviderName: "vendor1", linkSpeedInMbps: 0 }
       }

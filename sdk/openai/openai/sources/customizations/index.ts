@@ -13,29 +13,6 @@
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
-
 export { OpenAIClient } from "./OpenAIClient.js";
-export {
-  ChatChoice,
-  ChatCompletions,
-  ChatCompletionsOptions,
-  ChatMessage,
-  ChatRole,
-  Choice,
-  Completions,
-  CompletionsFinishReason,
-  CompletionsLogProbabilityModel,
-  CompletionsOptions,
-  CompletionsUsage,
-  EmbeddingItem,
-  Embeddings,
-  EmbeddingsOptions,
-  EmbeddingsUsage,
-} from "../generated/api/models.js";
-export {
-  GetEmbeddingsOptions,
-  GetChatCompletionsOptions,
-  GetCompletionsOptions,
-} from "../generated/api/operations.js";
-export { ClientOptions, RequestOptions } from "../generated/common/interfaces.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+export * from "./models/audio.js";

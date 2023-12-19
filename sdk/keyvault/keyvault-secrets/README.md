@@ -205,7 +205,7 @@ the following attributes:
 - `contentType`: Any string that can be used to help the receiver of the secret understand how to use the secret value.
 - `enabled`: A boolean value that determines whether the secret value can be read or not.
 - `notBefore`: A given date after which the secret value can be retrieved.
-- `expires`: A given date after which the secret value cannot be retrieved.
+- `expiresOn`: A given date after which the secret value cannot be retrieved.
 
 An object with these attributes can be sent as the third parameter of
 `setSecret`, right after the secret's name and value, as follows:
@@ -369,7 +369,7 @@ Another way to wait until the secret is fully deleted is to do individual calls,
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SecretClient } = require("@azure/keyvault-secrets");
-const { delay } = require("@azure/core-http");
+const { delay } = require("@azure/core-util");
 
 const credential = new DefaultAzureCredential();
 

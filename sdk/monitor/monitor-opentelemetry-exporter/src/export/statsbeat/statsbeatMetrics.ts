@@ -21,29 +21,40 @@ import {
 const os = require("os");
 
 export class StatsbeatMetrics {
-  protected _resourceProvider: string = StatsbeatResourceProvider.unknown;
-  protected _vmInfo: VirtualMachineInfo = {};
-  protected _os: string = os.type();
-  protected _resourceIdentifier = "";
+  protected resourceProvider: string = StatsbeatResourceProvider.unknown;
+  protected vmInfo: VirtualMachineInfo = {};
+  protected os: string = os.type();
+  protected resourceIdentifier = "";
 
-  protected async _getResourceProvider(): Promise<void> {
+  protected async getResourceProvider(): Promise<void> {
     // Check resource provider
-    this._resourceProvider = StatsbeatResourceProvider.unknown;
-    if (process.env.WEBSITE_SITE_NAME) {
+    this.resourceProvider = StatsbeatResourceProvider.unknown;
+    if (process.env.AKS_ARM_NAMESPACE_ID) {
+      // AKS
+      this.resourceProvider = StatsbeatResourceProvider.aks;
+      this.resourceIdentifier = process.env.AKS_ARM_NAMESPACE_ID;
+    } else if (process.env.WEBSITE_SITE_NAME) {
       // Web apps
-      this._resourceProvider = StatsbeatResourceProvider.appsvc;
+      this.resourceProvider = StatsbeatResourceProvider.appsvc;
+      this.resourceIdentifier = process.env.WEBSITE_SITE_NAME;
+      if (process.env.WEBSITE_HOME_STAMPNAME) {
+        this.resourceIdentifier += "/" + process.env.WEBSITE_HOME_STAMPNAME;
+      }
     } else if (process.env.FUNCTIONS_WORKER_RUNTIME) {
       // Function apps
-      this._resourceProvider = StatsbeatResourceProvider.functions;
+      this.resourceProvider = StatsbeatResourceProvider.functions;
+      if (process.env.WEBSITE_HOSTNAME) {
+        this.resourceIdentifier = process.env.WEBSITE_HOSTNAME;
+      }
     } else if (await this.getAzureComputeMetadata()) {
-      this._resourceProvider = StatsbeatResourceProvider.vm;
-      this._resourceIdentifier = this._vmInfo.id + "/" + this._vmInfo.subscriptionId;
+      this.resourceProvider = StatsbeatResourceProvider.vm;
+      this.resourceIdentifier = this.vmInfo.id + "/" + this.vmInfo.subscriptionId;
       // Overrride OS as VM info have higher precedence
-      if (this._vmInfo.osType) {
-        this._os = this._vmInfo.osType;
+      if (this.vmInfo.osType) {
+        this.os = this.vmInfo.osType;
       }
     } else {
-      this._resourceProvider = StatsbeatResourceProvider.unknown;
+      this.resourceProvider = StatsbeatResourceProvider.unknown;
     }
   }
 
@@ -64,17 +75,17 @@ export class StatsbeatMetrics {
       .then((res: any) => {
         if (res.status === 200) {
           // Success; VM
-          this._vmInfo.isVM = true;
+          this.vmInfo.isVM = true;
           let virtualMachineData = "";
           res.on("data", (data: any) => {
             virtualMachineData += data;
           });
           res.on("end", () => {
             try {
-              let data = JSON.parse(virtualMachineData);
-              this._vmInfo.id = data["vmId"] || "";
-              this._vmInfo.subscriptionId = data["subscriptionId"] || "";
-              this._vmInfo.osType = data["osType"] || "";
+              const data = JSON.parse(virtualMachineData);
+              this.vmInfo.id = data["vmId"] || "";
+              this.vmInfo.subscriptionId = data["subscriptionId"] || "";
+              this.vmInfo.osType = data["osType"] || "";
             } catch (error) {
               diag.debug("Failed to parse JSON: ", error);
             }
@@ -90,8 +101,8 @@ export class StatsbeatMetrics {
     return false;
   }
 
-  protected _getConnectionString(endpointUrl: string) {
-    let currentEndpoint = endpointUrl;
+  protected getConnectionString(endpointUrl: string): string {
+    const currentEndpoint = endpointUrl;
     for (let i = 0; i < EU_ENDPOINTS.length; i++) {
       if (currentEndpoint.includes(EU_ENDPOINTS[i])) {
         return EU_CONNECTION_STRING;

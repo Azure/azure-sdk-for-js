@@ -37,7 +37,7 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
   }
 
   /**
-   * Implements NetworkFabricSkus list by subscription GET method.
+   * Implements Network Fabric SKUs list by subscription GET method.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -91,8 +91,8 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
   }
 
   /**
-   * Implements Network Fabric Sku GET method.
-   * @param networkFabricSkuName Name of the Network Fabric Sku
+   * Implements Network Fabric SKU GET method.
+   * @param networkFabricSkuName Name of the Network Fabric SKU.
    * @param options The options parameters.
    */
   get(
@@ -106,7 +106,7 @@ export class NetworkFabricSkusImpl implements NetworkFabricSkus {
   }
 
   /**
-   * Implements NetworkFabricSkus list by subscription GET method.
+   * Implements Network Fabric SKUs list by subscription GET method.
    * @param options The options parameters.
    */
   private _listBySubscription(

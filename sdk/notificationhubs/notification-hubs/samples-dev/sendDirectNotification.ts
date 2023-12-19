@@ -44,7 +44,7 @@ async function main() {
   const context = createClientContext(connectionString, hubName);
 
   /* Can also send a stringified JSON object
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
+  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there!" } } }`;
   */
 
   const notification = createAppleNotification({
@@ -52,7 +52,7 @@ async function main() {
       aps: {
         alert: {
           title: "Hello",
-          body: "Hello there SDK Review!",
+          body: "Hello there!",
         },
       },
     },
@@ -80,7 +80,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

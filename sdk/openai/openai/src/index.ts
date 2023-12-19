@@ -1,45 +1,116 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
+/** *
+ * [Azure OpenAI](https://learn.microsoft.com/azure/cognitive-services/openai/overview)
+ * provides REST API access to OpenAI's powerful language models including the GPT-3,
+ * Codex and Embeddings model series. In addition, the new GPT-4 and ChatGPT (gpt-35-turbo)
+ * model series have now reached general availability. These models can be easily adapted
+ * to your specific task including but not limited to content generation, summarization,
+ * semantic search, and natural language to code translation.
  *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
+ * @packageDocumentation
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
+export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+export * from "./models/audio.js";
 export {
-  AzureOpenAIOperationState,
-  BatchImageGenerationOperationResponse,
-  ChatChoice,
-  ChatCompletions,
-  ChatMessage,
+  AzureChatEnhancementConfiguration,
+  AzureChatEnhancements,
+  AzureChatExtensionType,
+  AzureChatExtensionsMessageContext,
+  AzureChatGroundingEnhancementConfiguration,
+  AzureChatOCREnhancementConfiguration,
+  AzureCognitiveSearchIndexFieldMappingOptions,
+  AzureCognitiveSearchQueryType,
+  AzureCosmosDBFieldMappingOptions,
+  AzureGroundingEnhancement,
+  AzureGroundingEnhancementCoordinatePoint,
+  AzureGroundingEnhancementLine,
+  AzureGroundingEnhancementLineSpan,
+  ChatCompletionsNamedToolSelection,
+  ChatCompletionsResponseFormat,
+  ChatCompletionsToolDefinition,
+  ChatFinishDetails,
+  ChatMessageContentItem,
+  ChatMessageImageDetailLevel,
+  ChatMessageImageUrl,
+  ChatResponseMessage,
   ChatRole,
-  Choice,
-  Completions,
   CompletionsFinishReason,
   CompletionsLogProbabilityModel,
   CompletionsUsage,
+  ContentFilterBlocklistIdResult,
+  ContentFilterCitedDetectionResult,
+  ContentFilterDetectionResult,
+  ContentFilterSeverity,
+  ContentFilterResult,
+  ElasticsearchIndexFieldMappingOptions,
+  ElasticsearchQueryType,
   EmbeddingItem,
   Embeddings,
   EmbeddingsUsage,
-  ImageGenerationResponse,
+  FunctionCall,
+  FunctionCallPreset,
+  FunctionDefinition,
+  FunctionName,
+  ImageGenerationData,
+  ImageGenerationQuality,
   ImageGenerationResponseFormat,
+  ImageGenerationStyle,
   ImageGenerations,
-  ImageLocation,
-  ImagePayload,
   ImageSize,
-} from "./api/models.js";
-export {
-  BeginAzureBatchImageGenerationOptions,
-  ImageGenerationOptions,
-  GetAzureBatchImageGenerationOperationStatusOptions,
-  GetChatCompletionsOptions,
+  OnYourDataAuthenticationOptions,
+  OnYourDataAuthenticationType,
+  OnYourDataVectorizationSource,
+  OnYourDataVectorizationSourceType,
+  PineconeFieldMappingOptions,
+  ChatChoice,
+  ChatCompletions,
+  Choice,
+  Completions,
+  ContentFilterResultDetailsForPrompt,
+  ContentFilterResultsForChoice,
+  ContentFilterResultsForPrompt,
+  ContentFilterErrorResults,
+  ContentFilterSuccessResultDetailsForPrompt,
+  ContentFilterSuccessResultsForChoice,
+  ChatRequestAssistantMessage,
+  ChatRequestFunctionMessage,
+  ChatRequestMessage,
+  ChatRequestSystemMessage,
+  ChatRequestToolMessage,
+  ChatRequestUserMessage,
+  ChatCompletionsFunctionToolCall,
+  ChatCompletionsToolCall,
+  MaxTokensFinishDetails,
+  StopFinishDetails,
   GetCompletionsOptions,
   GetEmbeddingsOptions,
-} from "./api/operations.js";
-export { RequestOptions } from "./common/interfaces.js";
-export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+  GetImagesOptions,
+  AzureExtensionsOptions,
+  GetChatCompletionsOptions,
+  AzureChatExtensionConfiguration,
+  AzureCognitiveSearchChatExtensionConfiguration,
+  AzureCosmosDBChatExtensionConfiguration,
+  AzureMachineLearningIndexChatExtensionConfiguration,
+  ElasticsearchChatExtensionConfiguration,
+  PineconeChatExtensionConfiguration,
+  ChatCompletionsNamedFunctionToolSelection,
+  ChatMessageTextContentItem,
+  ChatCompletionsFunctionToolDefinition,
+  ChatMessageImageContentItem,
+  ChatCompletionsToolSelectionPreset,
+  OnYourDataApiKeyAuthenticationOptions,
+  OnYourDataConnectionStringAuthenticationOptions,
+  OnYourDataDeploymentNameVectorizationSource,
+  OnYourDataEndpointVectorizationSource,
+  OnYourDataKeyAndKeyIdAuthenticationOptions,
+  OnYourDataModelIdVectorizationSource,
+  OnYourDataSystemAssignedManagedIdentityAuthenticationOptions,
+  OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
+  ChatCompletionsTextResponseFormat,
+  ChatCompletionsJsonResponseFormat,
+} from "./models/index.js";

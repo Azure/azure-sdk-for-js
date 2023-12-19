@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="dom" />
+import { PriorityLevel } from "../documents/PriorityLevel";
 import { CosmosHeaders } from "../index";
 import { AbortSignal } from "node-abort-controller";
 
@@ -33,4 +34,12 @@ export interface SharedOptions {
    * <p>Cache Staleness is supported in milliseconds granularity. Anything smaller than milliseconds will be ignored.</p>
    */
   maxIntegratedCacheStalenessInMs?: number;
+
+  /**
+   * Priority Level (Low/High) for each request.
+   * Low priority requests are always throttled before any high priority requests.
+   *
+   * <p>Default value is null. By default all requests are of High priority</p>
+   */
+  priorityLevel?: PriorityLevel;
 }

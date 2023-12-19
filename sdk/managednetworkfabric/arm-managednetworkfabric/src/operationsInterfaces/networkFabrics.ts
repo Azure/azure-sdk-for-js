@@ -16,14 +16,32 @@ import {
   NetworkFabricsCreateResponse,
   NetworkFabricsGetOptionalParams,
   NetworkFabricsGetResponse,
-  NetworkFabricPatchParameters,
+  NetworkFabricPatch,
   NetworkFabricsUpdateOptionalParams,
   NetworkFabricsUpdateResponse,
   NetworkFabricsDeleteOptionalParams,
+  NetworkFabricsDeleteResponse,
   NetworkFabricsProvisionOptionalParams,
   NetworkFabricsProvisionResponse,
   NetworkFabricsDeprovisionOptionalParams,
-  NetworkFabricsDeprovisionResponse
+  NetworkFabricsDeprovisionResponse,
+  UpdateVersion,
+  NetworkFabricsUpgradeOptionalParams,
+  NetworkFabricsUpgradeResponse,
+  NetworkFabricsRefreshConfigurationOptionalParams,
+  NetworkFabricsRefreshConfigurationResponse,
+  UpdateAdministrativeState,
+  NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams,
+  NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse,
+  NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams,
+  NetworkFabricsUpdateInfraManagementBfdConfigurationResponse,
+  ValidateConfigurationProperties,
+  NetworkFabricsValidateConfigurationOptionalParams,
+  NetworkFabricsValidateConfigurationResponse,
+  NetworkFabricsGetTopologyOptionalParams,
+  NetworkFabricsGetTopologyResponse,
+  NetworkFabricsCommitConfigurationOptionalParams,
+  NetworkFabricsCommitConfigurationResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,7 +66,7 @@ export interface NetworkFabrics {
   /**
    * Create Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -66,7 +84,7 @@ export interface NetworkFabrics {
   /**
    * Create Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -79,7 +97,7 @@ export interface NetworkFabrics {
   /**
    * Get Network Fabric resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   get(
@@ -90,14 +108,14 @@ export interface NetworkFabrics {
   /**
    * Update certain properties of the Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Network Fabric properties to update.
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     networkFabricName: string,
-    body: NetworkFabricPatchParameters,
+    body: NetworkFabricPatch,
     options?: NetworkFabricsUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -108,42 +126,47 @@ export interface NetworkFabrics {
   /**
    * Update certain properties of the Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param body Network Fabric properties to update.
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     networkFabricName: string,
-    body: NetworkFabricPatchParameters,
+    body: NetworkFabricPatch,
     options?: NetworkFabricsUpdateOptionalParams
   ): Promise<NetworkFabricsUpdateResponse>;
   /**
    * Delete Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsDeleteResponse>,
+      NetworkFabricsDeleteResponse
+    >
+  >;
   /**
    * Delete Network Fabric resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the Network Fabric
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     networkFabricName: string,
     options?: NetworkFabricsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<NetworkFabricsDeleteResponse>;
   /**
    * Provisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginProvision(
@@ -159,7 +182,7 @@ export interface NetworkFabrics {
   /**
    * Provisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginProvisionAndWait(
@@ -170,7 +193,7 @@ export interface NetworkFabrics {
   /**
    * Deprovisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginDeprovision(
@@ -186,7 +209,7 @@ export interface NetworkFabrics {
   /**
    * Deprovisions the underlying resources in the given Network Fabric instance.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkFabricName Name of the NetworkFabric.
+   * @param networkFabricName Name of the Network Fabric.
    * @param options The options parameters.
    */
   beginDeprovisionAndWait(
@@ -194,4 +217,217 @@ export interface NetworkFabrics {
     networkFabricName: string,
     options?: NetworkFabricsDeprovisionOptionalParams
   ): Promise<NetworkFabricsDeprovisionResponse>;
+  /**
+   * Upgrades the version of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Network Fabric properties to update.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateVersion,
+    options?: NetworkFabricsUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsUpgradeResponse>,
+      NetworkFabricsUpgradeResponse
+    >
+  >;
+  /**
+   * Upgrades the version of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Network Fabric properties to update.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateVersion,
+    options?: NetworkFabricsUpgradeOptionalParams
+  ): Promise<NetworkFabricsUpgradeResponse>;
+  /**
+   * Refreshes the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginRefreshConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsRefreshConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsRefreshConfigurationResponse>,
+      NetworkFabricsRefreshConfigurationResponse
+    >
+  >;
+  /**
+   * Refreshes the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginRefreshConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsRefreshConfigurationOptionalParams
+  ): Promise<NetworkFabricsRefreshConfigurationResponse>;
+  /**
+   * Updates the Workload Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateWorkloadManagementBfdConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
+      >,
+      NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse
+    >
+  >;
+  /**
+   * Updates the Workload Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateWorkloadManagementBfdConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateWorkloadManagementBfdConfigurationOptionalParams
+  ): Promise<NetworkFabricsUpdateWorkloadManagementBfdConfigurationResponse>;
+  /**
+   * Updates the Infra Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateInfraManagementBfdConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
+      >,
+      NetworkFabricsUpdateInfraManagementBfdConfigurationResponse
+    >
+  >;
+  /**
+   * Updates the Infra Management BFD Configuration of the underlying resources in the given Network
+   * Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Request payload.
+   * @param options The options parameters.
+   */
+  beginUpdateInfraManagementBfdConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: UpdateAdministrativeState,
+    options?: NetworkFabricsUpdateInfraManagementBfdConfigurationOptionalParams
+  ): Promise<NetworkFabricsUpdateInfraManagementBfdConfigurationResponse>;
+  /**
+   * Validates the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Validate configuration properties.
+   * @param options The options parameters.
+   */
+  beginValidateConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: ValidateConfigurationProperties,
+    options?: NetworkFabricsValidateConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsValidateConfigurationResponse>,
+      NetworkFabricsValidateConfigurationResponse
+    >
+  >;
+  /**
+   * Validates the configuration of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param body Validate configuration properties.
+   * @param options The options parameters.
+   */
+  beginValidateConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    body: ValidateConfigurationProperties,
+    options?: NetworkFabricsValidateConfigurationOptionalParams
+  ): Promise<NetworkFabricsValidateConfigurationResponse>;
+  /**
+   * Gets Topology of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginGetTopology(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsGetTopologyOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsGetTopologyResponse>,
+      NetworkFabricsGetTopologyResponse
+    >
+  >;
+  /**
+   * Gets Topology of the underlying resources in the given Network Fabric instance.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginGetTopologyAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsGetTopologyOptionalParams
+  ): Promise<NetworkFabricsGetTopologyResponse>;
+  /**
+   * Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginCommitConfiguration(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsCommitConfigurationOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NetworkFabricsCommitConfigurationResponse>,
+      NetworkFabricsCommitConfigurationResponse
+    >
+  >;
+  /**
+   * Atomic update of the given Network Fabric instance. Sync update of NFA resources at Fabric level.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param networkFabricName Name of the Network Fabric.
+   * @param options The options parameters.
+   */
+  beginCommitConfigurationAndWait(
+    resourceGroupName: string,
+    networkFabricName: string,
+    options?: NetworkFabricsCommitConfigurationOptionalParams
+  ): Promise<NetworkFabricsCommitConfigurationResponse>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider, createSasTokenProvider } from "./sasTokenProvider.js";
+import { SasTokenCredential } from "./sasTokenCredential.js";
 
 /**
  * Defines an object with possible properties defined in T.
@@ -37,7 +37,7 @@ function parseConnectionString<T>(connectionString: string): ParsedOutput<T> {
     const splitIndex = part.indexOf("=");
     if (splitIndex === -1) {
       throw new Error(
-        "Connection string malformed: each part of the connection string must have an `=` assignment."
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
       );
     }
 
@@ -77,16 +77,16 @@ export interface NotificationHubsConnectionStringProperties {
 }
 
 /**
- * Creates a SasTokenProvider from a shared access key and shared access key name.
+ * Creates a SasTokenCredential from a shared access key and shared access key name.
  * @param sharedAccessKey - The shared access key value.
  * @param sharedAccessKeyName - The shared access key name.
- * @returns A SasTokenProvider with the given shared access token information.
+ * @returns A SasTokenCredential with the given shared access token information.
  */
-export function createTokenProviderFromConnection(
+export function createTokenCredentialFromConnection(
   sharedAccessKey: string,
-  sharedAccessKeyName: string
-): SasTokenProvider {
-  return createSasTokenProvider({ sharedAccessKey, sharedAccessKeyName });
+  sharedAccessKeyName: string,
+): SasTokenCredential {
+  return new SasTokenCredential({ sharedAccessKey, sharedAccessKeyName });
 }
 
 /**
@@ -96,7 +96,7 @@ export function createTokenProviderFromConnection(
  * for the Service Bus namespace, queue or topic.
  */
 export function parseNotificationHubsConnectionString(
-  connectionString: string
+  connectionString: string,
 ): NotificationHubsConnectionStringProperties {
   const parsedResult = parseConnectionString<{
     Endpoint: string;
@@ -111,7 +111,7 @@ export function parseNotificationHubsConnectionString(
     throw new Error("Connection string with SharedAccessKey should have SharedAccessKeyName.");
   } else if (!parsedResult.SharedAccessKey && parsedResult.SharedAccessKeyName) {
     throw new Error(
-      "Connection string with SharedAccessKeyName should have SharedAccessKey as well."
+      "Connection string with SharedAccessKeyName should have SharedAccessKey as well.",
     );
   }
 

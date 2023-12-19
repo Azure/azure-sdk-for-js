@@ -13,16 +13,20 @@ import {
   StorageManagementClient
 } from "@azure/arm-storage";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileServicesPut.json
  */
 async function putFileServices() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
     cors: {
@@ -72,17 +76,16 @@ async function putFileServices() {
   console.log(result);
 }
 
-putFileServices().catch(console.error);
-
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSMBMultichannel.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileServicesPut_EnableSMBMultichannel.json
  */
 async function putFileServicesEnableSmbMultichannel() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
     protocolSettings: { smb: { multichannel: { enabled: true } } }
@@ -97,17 +100,16 @@ async function putFileServicesEnableSmbMultichannel() {
   console.log(result);
 }
 
-putFileServicesEnableSmbMultichannel().catch(console.error);
-
 /**
  * This sample demonstrates how to Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
  *
  * @summary Sets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
- * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2022-09-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
+ * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2023-01-01/examples/FileServicesPut_EnableSecureSmbFeatures.json
  */
 async function putFileServicesEnableSecureSmbFeatures() {
-  const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "res4410";
+  const subscriptionId =
+    process.env["STORAGE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["STORAGE_RESOURCE_GROUP"] || "res4410";
   const accountName = "sto8607";
   const parameters: FileServiceProperties = {
     protocolSettings: {
@@ -129,4 +131,10 @@ async function putFileServicesEnableSecureSmbFeatures() {
   console.log(result);
 }
 
-putFileServicesEnableSecureSmbFeatures().catch(console.error);
+async function main() {
+  putFileServices();
+  putFileServicesEnableSmbMultichannel();
+  putFileServicesEnableSecureSmbFeatures();
+}
+
+main().catch(console.error);

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update Sign-In settings.
  *
  * @summary Update Sign-In settings.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementPortalSettingsUpdateSignIn.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementPortalSettingsUpdateSignIn.json
  */
 async function apiManagementPortalSettingsUpdateSignIn() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/PUTVault.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/PUTVault.json
  */
 async function createOrUpdateRecoveryServicesVault() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function createOrUpdateRecoveryServicesVault() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/PUTVault_WithMonitoringSettings.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/PUTVault_WithMonitoringSettings.json
  */
 async function createOrUpdateVaultWithMonitoringSetting() {
   const subscriptionId =
@@ -78,7 +78,7 @@ async function createOrUpdateVaultWithMonitoringSetting() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/PUTVault_WithCMK.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/PUTVault_WithCMK.json
  */
 async function createOrUpdateVaultWithCustomerManagedKeys() {
   const subscriptionId =
@@ -124,7 +124,7 @@ async function createOrUpdateVaultWithCustomerManagedKeys() {
  * This sample demonstrates how to Creates or updates a Recovery Services vault.
  *
  * @summary Creates or updates a Recovery Services vault.
- * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-02-01/examples/PUTVault_WithUserAssignedIdentity.json
+ * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2023-04-01/examples/PUTVault_WithUserAssignedIdentity.json
  */
 async function createOrUpdateVaultWithUserAssignedIdentity() {
   const subscriptionId =

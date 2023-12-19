@@ -15,7 +15,9 @@ import {
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
   UpdateSupportTicket as UpdateSupportTicketMapper,
   SupportTicketDetails as SupportTicketDetailsMapper,
-  CommunicationDetails as CommunicationDetailsMapper
+  CommunicationDetails as CommunicationDetailsMapper,
+  FileDetails as FileDetailsMapper,
+  UploadFile as UploadFileMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -45,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-04-01",
+    defaultValue: "2022-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -171,4 +173,61 @@ export const communicationName: OperationURLParameter = {
 export const createCommunicationParameters: OperationParameter = {
   parameterPath: "createCommunicationParameters",
   mapper: CommunicationDetailsMapper
+};
+
+export const chatTranscriptName: OperationURLParameter = {
+  parameterPath: "chatTranscriptName",
+  mapper: {
+    serializedName: "chatTranscriptName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileWorkspaceName: OperationURLParameter = {
+  parameterPath: "fileWorkspaceName",
+  mapper: {
+    serializedName: "fileWorkspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileWorkspaceName1: OperationURLParameter = {
+  parameterPath: "fileWorkspaceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[0-9a-zA-Z_\\-. ]+$")
+    },
+    serializedName: "fileWorkspaceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileName: OperationURLParameter = {
+  parameterPath: "fileName",
+  mapper: {
+    serializedName: "fileName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const createFileParameters: OperationParameter = {
+  parameterPath: "createFileParameters",
+  mapper: FileDetailsMapper
+};
+
+export const uploadFile: OperationParameter = {
+  parameterPath: "uploadFile",
+  mapper: UploadFileMapper
 };

@@ -4,7 +4,7 @@
 import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { NotificationHubsResponse } from "../models/notificationDetails.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "cancelScheduledNotification";
@@ -20,7 +20,7 @@ const OPERATION_NAME = "cancelScheduledNotification";
 export function cancelScheduledNotification(
   context: NotificationHubsClientContext,
   notificationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function cancelScheduledNotification(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationSendResponse(response);
-    }
+    },
   );
 }

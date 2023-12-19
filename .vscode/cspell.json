@@ -1,8 +1,12 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "language": "en",
   "languageId": "typescript,javascript",
-  "dictionaries": ["powershell", "typescript", "node"],
+  "dictionaries": [
+    "powershell",
+    "typescript",
+    "node"
+  ],
   "ignorePaths": [
     "**/node_modules/**",
     "**/recordings/**",
@@ -64,6 +68,7 @@
     "eastus",
     "ECONNRESET",
     "Eloqua",
+    "entra",
     "Esdni",
     "ESDNI",
     "etags",
@@ -104,6 +109,7 @@
     "PLREGON",
     "pnpm",
     "prettierrc",
+    "pstn",
     "pwsh",
     "Rasterize",
     "reoffer",
@@ -138,21 +144,39 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi"
+    "Xiaomi",
+    "Onco",
+    "oncophenotype"
   ],
   "allowCompoundWords": true,
   "overrides": [
     {
       "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "policheck", "gdnbaselines"]
+      "words": [
+        "azuresdkartifacts",
+        "policheck",
+        "gdnbaselines"
+      ]
     },
     {
       "filename": "sdk/videoanalyzer/video-analyzer-edge/review/**/*.md",
-      "words": ["abgr", "Abgr", "argb", "Argb", "bgra", "Bgra", "Grpc", "onvif", "Onvif"]
+      "words": [
+        "abgr",
+        "Abgr",
+        "argb",
+        "Argb",
+        "bgra",
+        "Bgra",
+        "Grpc",
+        "onvif",
+        "Onvif"
+      ]
     },
     {
       "filename": "sdk/storage/storage-blob/review/**/*.md",
-      "words": ["RAGRS"]
+      "words": [
+        "RAGRS"
+      ]
     },
     {
       "filename": "sdk/search/search-documents/review/**/*.md",
@@ -160,6 +184,7 @@
         "Adls",
         "adlsgen",
         "bangla",
+        "beider",
         "Bokmaal",
         "Decompounder",
         "haase",
@@ -175,20 +200,35 @@
         "Rslp",
         "sorani",
         "Sorani",
-        "beider"
+        "Vectorizable",
+        "vectorizer",
+        "vectorizers"
       ]
     },
     {
       "filename": "sdk/keyvault/keyvault-keys/review/**/*.md",
-      "words": ["ECHSM", "OKPHSM", "RSAHSM", "RSNULL", "Rsnull"]
+      "words": [
+        "ECHSM",
+        "OKPHSM",
+        "RSAHSM",
+        "RSNULL",
+        "Rsnull"
+      ]
     },
     {
       "filename": "sdk/keyvault/keyvault-certificates/review/**/*.md",
-      "words": ["ECHSM", "ekus", "RSAHSM", "upns"]
+      "words": [
+        "ECHSM",
+        "ekus",
+        "RSAHSM",
+        "upns"
+      ]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/**/*.md",
-      "words": ["dtdl"]
+      "words": [
+        "dtdl"
+      ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/**/*.md",
@@ -218,7 +258,9 @@
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/README.md",
-      "words": ["iddocument"]
+      "words": [
+        "iddocument"
+      ]
     },
     {
       "filename": "sdk/formrecognizer/ai-form-recognizer/review/**/*.md",
@@ -235,95 +277,186 @@
     },
     {
       "filename": "sdk/core/core-amqp/review/**/*.md",
-      "words": ["EHOSTDOWN", "ENONET", "sastoken"]
+      "words": [
+        "EHOSTDOWN",
+        "ENONET",
+        "sastoken"
+      ]
     },
     {
       "filename": "sdk/containerregistry/container-registry/review/**/*.md",
-      "words": ["illumos", "Illumos", "mipsle", "riscv"]
+      "words": [
+        "illumos",
+        "Illumos",
+        "mipsle",
+        "riscv"
+      ]
     },
     {
       "filename": "sdk/communication/communication-call-automation/review/**/*.md",
-      "words": ["ssml", "Ssml"]
+      "words": [
+        "ssml",
+        "Ssml",
+        "answeredby",
+        "playsourcacheid",
+        "playsourcecacheid",
+        "sipx",
+        "sipuui"
+      ]
     },
     {
       "filename": "sdk/communication/communication-common/review/**/*.md",
-      "words": ["gcch"]
+      "words": [
+        "gcch"
+      ]
     },
     {
       "filename": "sdk/communication/communication-email/review/**/*.md",
-      "words": ["rpmsg", "xlsb"]
+      "words": [
+        "rpmsg",
+        "xlsb"
+      ]
     },
     {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
-      "words": ["Dicom"]
+      "words": [
+        "Dicom"
+      ]
+    },
+    {
+      "filename": "sdk/identity/**/*.md",
+      "words": [
+        "MSAL",
+        "PKCE"
+      ]
     },
     {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
-      "words": ["Dtmi", "dtmis"]
+      "words": [
+        "Dtmi",
+        "dtmis"
+      ]
     },
     {
       "filename": "sdk/storage/storage-blob/review/storage-blob.api.md",
-      "words": ["Uncommited"]
+      "words": [
+        "Uncommited"
+      ]
     },
     {
       "filename": "sdk/search/search-documents/review/search-documents.api.md",
-      "words": ["Createor"]
+      "words": [
+        "Createor"
+      ]
     },
     {
       "filename": "sdk/monitor/monitor-query/review/monitor-query.api.md",
-      "words": ["fourty"]
+      "words": [
+        "fourty",
+        "Milli"
+      ]
     },
     {
       "filename": "sdk/digitaltwins/digital-twins-core/review/digital-twins-core.api.md",
-      "words": ["dependecies"]
+      "words": [
+        "dependecies"
+      ]
     },
     {
       "filename": "sdk/cosmosdb/cosmos/review/cosmos.api.md",
-      "words": ["Funtion"]
+      "words": [
+        "Funtion"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": ["scaffolder", "APIM"]
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-tools/review/api-management-custom-widgets-tools.api.md",
-      "words": ["MSAPIM", "APIM"]
+      "words": [
+        "MSAPIM",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/maps/maps-common/review/maps-common.api.md",
-      "words": ["bbox"]
-    },
-    {
-      "filename": "sdk/maps/maps-search/review/maps-search.api.md",
-      "words": ["bbox", "Neighbourhood", "Xstr"]
+      "words": [
+        "bbox"
+      ]
     },
     {
       "filename": "sdk/maps/maps-route-rest/review/maps-route.api.md",
-      "words": ["bbox", "UTURN", "Hundredkm"]
+      "words": [
+        "bbox",
+        "UTURN",
+        "Hundredkm"
+      ]
     },
     {
       "filename": "sdk/maps/maps-render-rest/review/maps-render.api.md",
-      "words": ["bbox"]
+      "words": [
+        "bbox"
+      ]
     },
     {
       "filename": "sdk/maps/maps-search-rest/review/maps-search.api.md",
-      "words": ["Neighbourhood", "Xstr"]
+      "words": [
+        "Neighbourhood",
+        "Xstr",
+        "bbox"
+      ]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",
-      "words": ["scaffolder", "APIM"]
+      "words": [
+        "scaffolder",
+        "APIM"
+      ]
     },
     {
       "filename": "sdk/loadtestservice/load-testing-rest/review/load-testing.api.md",
-      "words": ["vusers"]
+      "words": [
+        "vusers"
+      ]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
-      "words": ["protobuf"]
+      "words": [
+        "protobuf"
+      ]
     },
     {
       "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
-      "words": ["protobuf"]
+      "words": [
+        "protobuf"
+      ]
+    },
+    {
+      "filename": "sdk/easm/defender-easm-rest/review/defender-easm.api.md",
+      "words": [
+        "Alexa",
+        "alexa",
+        "Asns",
+        "asns",
+        "cnames",
+        "Easm",
+        "easm",
+        "nxdomain",
+        "Whois",
+        "whois"
+      ]
+    },
+    {
+      "filename": "sdk/documentintelligence/ai-document-intelligence-rest/review/ai-document-intelligence.api.md",
+      "words": [
+        "wordprocessingml",
+        "spreadsheetml",
+        "presentationml"
+      ]
     }
   ]
 }

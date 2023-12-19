@@ -1,5 +1,58 @@
 # Release History
 
+## 1.0.0-beta.19 ()
+
+### Other Changes
+
+- Statsbeat will stop being exported when user iKey is invalid.
+
+## 1.0.0-beta.18 (2023-11-09)
+
+### Bugs Fixed
+
+- Fix Feature and Instrumentation Statsbeat type value.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
+
+## 1.0.0-beta.17 (2023-10-09)
+
+### Features Added
+
+- Update OpenTelemetry dependency packages.
+- Add support for aadAudience configuration using connection string.
+
+### Bugs Fixed
+
+- Fix issue with credentialScopes setup not being passed to core-client.
+- Fix Statsbeat metric names.
+
+### Other Changes
+
+- Add performance tests.
+- Add metric and span util tests.
+
+## 1.0.0-beta.16 (2023-08-30)
+
+### Bugs Fixed
+
+- Avoid dependency telemetry for ingestion endpoint calls.
+
+## 1.0.0-beta.15 (2023-08-24)
+
+### Breaking Changes
+
+- `AzureMonitorExporterOptions.aadTokenCredential` is now `AzureMonitorExporterOptions.credential`.
+- No longer expose the `MonitorBase`, `MonitorDomain`, or `TelemetryItem` interfaces.
+
+### Bugs Fixed
+
+- Fix issue with wrong name for _OTELRESOURCE_ metric.
+- Fix an issue with serializing nested log messages.
+
 ## 1.0.0-beta.14 (2023-06-15)
 
 ### Features Added

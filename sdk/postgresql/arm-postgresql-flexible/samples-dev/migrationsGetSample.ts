@@ -18,21 +18,109 @@ dotenv.config();
  * This sample demonstrates how to Gets details of a migration.
  *
  * @summary Gets details of a migration.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Get.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Get.json
  */
 async function migrationsGet() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName =
     process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(
-    credential,
-    subscriptionId
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.get(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName
   );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets details of a migration.
+ *
+ * @summary Gets details of a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationAndMigration.json
+ */
+async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigrationwithsuccessfulvalidationandmigration";
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.get(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets details of a migration.
+ *
+ * @summary Gets details of a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationButMigrationFailure.json
+ */
+async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName =
+    "testmigrationwithsuccessfulvalidationbutmigrationfailure";
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.get(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets details of a migration.
+ *
+ * @summary Gets details of a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_GetMigrationWithSuccessfulValidationOnly.json
+ */
+async function migrationsGetMigrationWithSuccessfulValidationOnly() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigrationwithsuccessfulvalidationonly";
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
+  const result = await client.migrations.get(
+    subscriptionId,
+    resourceGroupName,
+    targetDbServerName,
+    migrationName
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets details of a migration.
+ *
+ * @summary Gets details of a migration.
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_GetMigrationWithValidationFailures.json
+ */
+async function migrationsGetMigrationWithValidationFailures() {
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+  const resourceGroupName =
+    process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
+  const targetDbServerName = "testtarget";
+  const migrationName = "testmigrationwithvalidationfailure";
+  const credential = new DefaultAzureCredential();
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.get(
     subscriptionId,
     resourceGroupName,
@@ -44,6 +132,10 @@ async function migrationsGet() {
 
 async function main() {
   migrationsGet();
+  migrationsGetMigrationWithSuccessfulValidationAndMigration();
+  migrationsGetMigrationWithSuccessfulValidationButMigrationFailure();
+  migrationsGetMigrationWithSuccessfulValidationOnly();
+  migrationsGetMigrationWithValidationFailures();
 }
 
 main().catch(console.error);

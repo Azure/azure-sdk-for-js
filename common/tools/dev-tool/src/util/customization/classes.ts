@@ -7,7 +7,6 @@ import {
   MethodDeclaration,
   Scope,
   PropertyDeclaration,
-  CommentRange,
   JSDoc,
   ParameterDeclaration,
   ConstructorDeclaration,
@@ -20,11 +19,11 @@ export const AUGMENT_CLASS_TOKEN = "___";
 export function augmentClass(
   originalClassDeclaration: ClassDeclaration | undefined,
   customClassDeclaration: ClassDeclaration,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   // If there is no original class declaration, we'll just copy the custom one
   if (!originalClassDeclaration) {
-    const classComments = getComments(customClassDeclaration, originalClassDeclaration);
+    const classComments = getDocs(customClassDeclaration, originalClassDeclaration);
     addClass(customClassDeclaration, originalFile, classComments);
     return;
   }
@@ -42,7 +41,7 @@ export function augmentClass(
     }
 
     const originalProperty = originalClassDeclaration.getProperty(propertyName);
-    const propertyComments = getComments(customProperty, originalProperty);
+    const propertyComments = getDocs(customProperty, originalProperty);
 
     // If the property already exists in the original declaration, we'll replace it
     originalProperty?.remove();
@@ -63,28 +62,23 @@ export function augmentClass(
   // Get custom constructors
   const customConstructors = customClassDeclaration.getConstructors();
   for (const customConstructor of customConstructors) {
-    const originalConstructor = originalClassDeclaration
-      .getConstructors()
-      .find((c) => !isOverload(c.getStructure()));
-    augmentConstructor(customConstructor, originalConstructor, originalClassDeclaration);
+    augmentConstructor(customConstructor, originalClassDeclaration);
   }
 }
 
 export function augmentConstructor(
   customConstructor: ConstructorDeclaration,
-  originalConstructor: ConstructorDeclaration | undefined,
-  originalClassDeclaration: ClassDeclaration
+  originalClassDeclaration: ClassDeclaration,
 ) {
-  const constructorComments = getComments(customConstructor, originalConstructor);
-  addConstructorsToClass(customConstructor, originalClassDeclaration, constructorComments);
+  addConstructorsToClass(customConstructor, originalClassDeclaration);
 }
 
 export function augmentMethod(
   originalMethod: MethodDeclaration | undefined,
   customMethod: MethodDeclaration,
-  originalClass: ClassDeclaration
+  originalClass: ClassDeclaration,
 ) {
-  const methodComments = getComments(customMethod, originalMethod);
+  const methodComments = getDocs(customMethod, originalMethod);
   // custom is adding a new method this is a new method on the class, we'll add it to original
   if (!originalMethod) {
     addMethodToClass(customMethod, originalClass, methodComments);
@@ -106,7 +100,7 @@ export function augmentMethod(
 
 export function isAugmentingConstructor(
   customConstructor: ConstructorDeclaration,
-  originalConstructor?: ConstructorDeclaration
+  originalConstructor?: ConstructorDeclaration,
 ): boolean {
   if (!originalConstructor) {
     // If there is no original constructor, we'll just copy the custom one
@@ -118,7 +112,7 @@ export function isAugmentingConstructor(
 
 export function getConstructorAugmentationParameters(
   customConstructor: ConstructorDeclaration,
-  originalParameters?: ParameterDeclaration[]
+  originalParameters?: ParameterDeclaration[],
 ): Map<string, string> {
   const expectedAugmentationParams = new Map<string, string>();
 
@@ -129,11 +123,11 @@ export function getConstructorAugmentationParameters(
   for (const originalParameter of originalParameters) {
     expectedAugmentationParams.set(
       originalParameter.getName(),
-      `${AUGMENT_CLASS_TOKEN}${originalParameter.getName()}`
+      `${AUGMENT_CLASS_TOKEN}${originalParameter.getName()}`,
     );
   }
 
-  for (const [_, augmentedParameter] of expectedAugmentationParams) {
+  for (const augmentedParameter of expectedAugmentationParams.values()) {
     if (!customConstructor.getBodyText()?.includes(augmentedParameter)) {
       throw new Error(`Custom constructor is missing parameter ${augmentedParameter}`);
     }
@@ -148,7 +142,7 @@ export function isAugmentingMethod(customMethod: MethodDeclaration): boolean {
 
 export function convertToPrivateMethod(
   originalMethod: MethodDeclaration,
-  originalClass: ClassDeclaration
+  originalClass: ClassDeclaration,
 ) {
   const methodStructure = originalMethod.getStructure();
   const methodOverloads = originalMethod.getOverloads();
@@ -174,7 +168,6 @@ export function convertToPrivateMethod(
 export function addConstructorsToClass(
   customConstructor: ConstructorDeclaration,
   originalClass: ClassDeclaration,
-  _comments: Comments = {}
 ) {
   const originalConstructor = originalClass
     .getConstructors()
@@ -182,7 +175,7 @@ export function addConstructorsToClass(
   if (isAugmentingConstructor(customConstructor, originalConstructor)) {
     const augmentingParams = getConstructorAugmentationParameters(
       customConstructor,
-      originalConstructor?.getParameters()
+      originalConstructor?.getParameters(),
     );
 
     // Rename the parameters in the original constructor
@@ -215,12 +208,12 @@ export function addConstructorsToClass(
     customConstructor.setBodyText(augmentedConstructorBody);
     originalConstructor?.remove();
     originalClass.addConstructor(
-      customConstructor.getStructure() as ConstructorDeclarationStructure
+      customConstructor.getStructure() as ConstructorDeclarationStructure,
     );
   } else {
     originalConstructor?.remove();
     originalClass.addConstructor(
-      customConstructor.getStructure() as ConstructorDeclarationStructure
+      customConstructor.getStructure() as ConstructorDeclarationStructure,
     );
   }
 }
@@ -228,7 +221,7 @@ export function addConstructorsToClass(
 export function addMethodToClass(
   customMethod: MethodDeclaration,
   classDeclaration: ClassDeclaration,
-  { comments, jsdoc }: Comments = {}
+  jsdoc: JSDoc[],
 ) {
   // We need to replace the augmentation call with the private method call
   if (isAugmentingMethod(customMethod) && !isOverload(customMethod.getStructure())) {
@@ -243,12 +236,7 @@ export function addMethodToClass(
   if (!isOverload(methodStructure)) {
     classDeclaration.addMethod({
       ...methodStructure,
-      docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
-      leadingTrivia: (writer) => {
-        comments?.forEach((comment) => {
-          writer.writeLine(comment.getText());
-        });
-      },
+      docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
     });
   }
 }
@@ -256,7 +244,7 @@ export function addMethodToClass(
 export function augmentClasses(
   originalClasses: Map<string, ClassDeclaration>,
   customClasses: ClassDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customClass of customClasses) {
     const customClassName = customClass.getName();
@@ -265,73 +253,38 @@ export function augmentClasses(
   }
 }
 
-interface Comments {
-  comments?: CommentRange[];
-  jsdoc?: JSDoc[];
-}
-
 interface WithCommentGetter {
-  getLeadingCommentRanges(): CommentRange[];
   getJsDocs(): JSDoc[];
 }
 
-export function getComments(
+export function getDocs(
   customClass: WithCommentGetter,
-  originalClass?: WithCommentGetter
-): Comments {
-  const customClassComments = customClass.getLeadingCommentRanges();
-  const customClassJSDocs = customClass.getJsDocs();
-
-  if (!originalClass) {
-    return {
-      comments: customClassComments,
-      jsdoc: customClassJSDocs,
-    };
-  }
-
-  const originalClassComments = originalClass?.getLeadingCommentRanges();
-  const originalClassJSDocs = originalClass?.getJsDocs();
-
-  const comments: CommentRange[] = customClassComments ?? originalClassComments;
-  const jsdoc: JSDoc[] = customClassJSDocs ?? originalClassJSDocs;
-
-  return {
-    comments,
-    jsdoc,
-  };
+  originalClass?: WithCommentGetter,
+): JSDoc[] {
+  return [customClass.getJsDocs(), originalClass?.getJsDocs()].find((docs) => docs?.length) ?? [];
 }
 
 export function addPropertyToClass(
   property: PropertyDeclaration,
   classDeclaration: ClassDeclaration,
-  { comments, jsdoc }: Comments = {}
+  jsdoc: JSDoc[],
 ) {
-  // Insert the class declaration, JSDocs, and leading comments into the target file
+  // Insert the class declaration and JSDocs into the target file
   classDeclaration.addProperty({
     ...property.getStructure(),
-    docs: jsdoc?.map((jsDoc) => jsDoc.getStructure()),
-    leadingTrivia: (writer) => {
-      comments?.forEach((comment) => {
-        writer.writeLine(comment.getText());
-      });
-    },
+    docs: jsdoc.map((jsDoc) => jsDoc.getStructure()),
   });
 }
 
 export function addClass(
   classDeclaration: ClassDeclaration,
   targetFile: SourceFile,
-  { comments, jsdoc }: Comments = {}
+  jsdoc: JSDoc[],
 ) {
-  // Insert the class declaration, JSDocs, and leading comments into the target file
+  // Insert the class declaration and JSDocs into the target file
   targetFile.addStatements((writer) => {
-    // Write leading comments
-    comments?.forEach((comment) => {
-      writer.writeLine(comment.getText());
-    });
-
     // Write JSDocs
-    jsdoc?.forEach((jsDoc) => {
+    jsdoc.forEach((jsDoc) => {
       writer.writeLine(jsDoc.getText());
     });
 

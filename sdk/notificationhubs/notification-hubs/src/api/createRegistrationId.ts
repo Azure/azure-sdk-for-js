@@ -3,7 +3,7 @@
 
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -17,7 +17,7 @@ const OPERATION_NAME = "createRegistrationId";
  */
 export function createRegistrationId(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<string> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -45,6 +45,6 @@ export function createRegistrationId(
       const registrationId = locationUrl.pathname.split("/")[3];
 
       return registrationId;
-    }
+    },
   );
 }

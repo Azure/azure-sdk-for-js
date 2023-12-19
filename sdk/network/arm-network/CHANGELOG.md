@@ -1,4 +1,46 @@
 # Release History
+
+## 32.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 32.2.0 (2023-09-07)
+    
+**Features**
+
+  - Added Interface BastionHostPropertiesFormatNetworkAcls
+  - Added Interface IPRule
+  - Added Interface VirtualNetworkGatewayAutoScaleBounds
+  - Added Interface VirtualNetworkGatewayAutoScaleConfiguration
+  - Interface BastionHost has a new optional parameter networkAcls
+  - Interface BastionHost has a new optional parameter virtualNetwork
+  - Interface FirewallPolicy has a new optional parameter size
+  - Interface FirewallPolicyRuleCollectionGroup has a new optional parameter size
+  - Interface Subnet has a new optional parameter defaultOutboundAccess
+  - Interface VirtualNetworkGateway has a new optional parameter autoScaleConfiguration
+    
+    
+## 32.1.0 (2023-08-08)
+    
+**Features**
+
+  - Added operation LoadBalancers.migrateToIpBased
+  - Added Interface LoadBalancersMigrateToIpBasedOptionalParams
+  - Added Interface MigratedPools
+  - Added Interface MigrateLoadBalancerToIpBasedRequest
+  - Added Type Alias LoadBalancersMigrateToIpBasedResponse
+  - Added Type Alias SyncMode
+  - Interface BackendAddressPool has a new optional parameter syncMode
+  - Added Enum KnownSyncMode
+  - Enum KnownApplicationGatewaySkuName has a new value Basic
+  - Enum KnownApplicationGatewayTier has a new value Basic
+    
     
 ## 32.0.0 (2023-07-06)
     
@@ -859,4 +901,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

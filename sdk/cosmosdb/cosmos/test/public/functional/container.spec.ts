@@ -5,8 +5,10 @@ import { Suite } from "mocha";
 import {
   Constants,
   ContainerResponse,
+  OperationType,
   PartitionKeyDefinition,
   PartitionKeyKind,
+  ResourceType,
   StatusCodes,
 } from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
@@ -18,6 +20,7 @@ import {
   getTestContainer,
   assertThrowsAsync,
   addEntropy,
+  testForDiagnostics,
 } from "../common/TestHelpers";
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
@@ -48,7 +51,22 @@ describe("Containers", function (this: Suite) {
         containerDefinition.partitionKey = partitionKey;
       }
 
-      const { resource: containerDef } = await database.containers.create(containerDefinition);
+      const { resource: containerDef } = await testForDiagnostics(
+        async () => {
+          return database.containers.create(containerDefinition);
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Create,
+            },
+          ],
+        }
+      );
       const container = database.container(containerDef.id);
       assert.equal(containerDefinition.id, containerDef.id);
       assert.equal("consistent", containerDef.indexingPolicy.indexingMode);
@@ -60,7 +78,23 @@ describe("Containers", function (this: Suite) {
         assert.deepStrictEqual(containerDef.partitionKey.paths, comparePaths);
       }
       // read containers after creation
-      const { resources: containers } = await database.containers.readAll().fetchAll();
+      const { resources: containers } = await testForDiagnostics(
+        async () => {
+          return database.containers.readAll().fetchAll();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Query,
+            },
+          ],
+        },
+        false
+      );
 
       assert.equal(containers.length, 1, "create should increase the number of containers");
       // query containers
@@ -94,7 +128,23 @@ describe("Containers", function (this: Suite) {
       ];
 
       containerDef.geospatialConfig.type = GeospatialType.Geometry;
-      await container.replace(containerDef);
+
+      await testForDiagnostics(
+        async () => {
+          return container.replace(containerDef);
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Replace,
+            },
+          ],
+        }
+      );
 
       // Replacing partition key is not allowed.
       try {
@@ -127,11 +177,40 @@ describe("Containers", function (this: Suite) {
       assert.equal(containerDefinition.id, readcontainer.id);
 
       // delete container
-      await container.delete();
-
+      await testForDiagnostics(
+        async () => {
+          return container.delete();
+        },
+        {
+          locationEndpointsContacted: 1,
+          metadataCallCount: 2,
+          retryCount: 0,
+          gatewayStatisticsTestSpec: [
+            {
+              resourceType: ResourceType.container,
+              operationType: OperationType.Delete,
+            },
+          ],
+        }
+      );
       // read container after deletion
       try {
-        await container.read();
+        await testForDiagnostics(
+          async () => {
+            return container.read();
+          },
+          {
+            locationEndpointsContacted: 1,
+            metadataCallCount: 2,
+            retryCount: 0,
+            gatewayStatisticsTestSpec: [
+              {
+                resourceType: ResourceType.container,
+                operationType: OperationType.Read,
+              },
+            ],
+          }
+        );
         assert.fail("Must fail to read container after delete");
       } catch (err: any) {
         const notFoundErrorCode = 404;
@@ -172,7 +251,16 @@ describe("Containers", function (this: Suite) {
         };
 
         try {
-          await database.containers.create(containerDefinition);
+          await testForDiagnostics(
+            async () => {
+              return database.containers.create(containerDefinition);
+            },
+            {
+              locationEndpointsContacted: 1,
+              metadataCallCount: 2,
+              retryCount: 0,
+            }
+          );
           assert.fail(
             `Container Creation should have failed, for partitionkey: ${badPartitionKeyDefinition}`
           );

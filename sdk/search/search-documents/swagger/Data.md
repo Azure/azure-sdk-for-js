@@ -10,13 +10,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/data
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/0cfd102a6ecb172f04ec915732bd8ca6f6b2a7af/specification/search/data-plane/Azure.Search/preview/2023-07-01-Preview/searchindex.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchindex.json
 add-credentials: false
 title: SearchClient
 use-extension:
   "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
 core-http-compat-mode: true
-package-version: 12.0.0-beta.2
+package-version: 12.0.0-beta.4
 disable-async-iterators: true
 api-version-parameter: choice
 v3: true
@@ -100,20 +100,21 @@ directive:
 ```
 
 ### Rename Vector property `K`
+
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.Vector.properties.k
-  transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
+  - from: swagger-document
+    where: $.definitions.VectorQuery.properties.k
+    transform: $["x-ms-client-name"] = "KNearestNeighborsCount";
 ```
 
 ### Rename QueryResultDocumentSemanticFieldState
 
- Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
+Simplify `QueryResultDocumentSemanticFieldState` name by renaming it to `SemanticFieldState`
 
 ```yaml
 directive:
-- from: swagger-document
-  where: $.definitions.QueryResultDocumentSemanticFieldState
-  transform: $["x-ms-enum"].name = "SemanticFieldState";
+  - from: swagger-document
+    where: $.definitions.QueryResultDocumentSemanticFieldState
+    transform: $["x-ms-enum"].name = "SemanticFieldState";
 ```

@@ -14,7 +14,7 @@ import {
   NotificationHubsResponse,
 } from "../../models/notificationDetails.js";
 import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { isDefined } from "../../utils/utils.js";
 import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";
@@ -23,7 +23,7 @@ export function createRequest(
   endpoint: URL,
   method: HttpMethods,
   headers: HttpHeaders,
-  options: OperationOptions
+  options: OperationOptions,
 ): PipelineRequest {
   return createPipelineRequest({
     ...options.tracingOptions,
@@ -58,7 +58,7 @@ export function parseNotificationResponse(response: PipelineResponse): Notificat
  * @returns A NotificationHubsMessageResponse with results from the notification.
  */
 export async function parseNotificationSendResponse(
-  response: PipelineResponse
+  response: PipelineResponse,
 ): Promise<NotificationHubsMessageResponse> {
   const result = parseNotificationResponse(response);
   let notificationId: string | undefined;
@@ -87,7 +87,7 @@ export async function parseNotificationSendResponse(
 
 function createDefaultResponse(
   response: NotificationHubsResponse,
-  notificationId?: string
+  notificationId?: string,
 ): NotificationHubsMessageResponse {
   return {
     ...response,
@@ -109,7 +109,7 @@ function createDefaultResponse(
 export async function sendRequest(
   context: NotificationHubsClientContext,
   request: PipelineRequest,
-  successStatusCode: number | number[]
+  successStatusCode: number | number[],
 ): Promise<PipelineResponse> {
   const statuses: number[] = Array.isArray(successStatusCode)
     ? successStatusCode

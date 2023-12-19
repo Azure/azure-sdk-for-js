@@ -361,6 +361,18 @@ export const BackupStatusResponse: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      protectedItemsCount: {
+        serializedName: "protectedItemsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      acquireStorageAccountLock: {
+        serializedName: "acquireStorageAccountLock",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -750,6 +762,12 @@ export const BackupResourceVaultConfig: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
+        type: {
+          name: "Number"
+        }
+      },
       resourceGuardOperationRequests: {
         serializedName: "resourceGuardOperationRequests",
         type: {
@@ -828,6 +846,17 @@ export const PrivateEndpointConnection: coreClient.CompositeMapper = {
           className: "PrivateEndpoint"
         }
       },
+      groupIds: {
+        serializedName: "groupIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       privateLinkServiceConnectionState: {
         serializedName: "privateLinkServiceConnectionState",
         type: {
@@ -871,8 +900,8 @@ export const PrivateLinkServiceConnectionState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      actionRequired: {
-        serializedName: "actionRequired",
+      actionsRequired: {
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
@@ -1290,10 +1319,17 @@ export const ProtectedItem: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      softDeleteRetentionPeriod: {
-        serializedName: "softDeleteRetentionPeriod",
+      softDeleteRetentionPeriodInDays: {
+        serializedName: "softDeleteRetentionPeriodInDays",
         type: {
           name: "Number"
+        }
+      },
+      vaultId: {
+        serializedName: "vaultId",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1531,6 +1567,29 @@ export const OperationWorkerResponse: coreClient.CompositeMapper = {
           value: {
             type: { name: "Sequence", element: { type: { name: "String" } } }
           }
+        }
+      }
+    }
+  }
+};
+
+export const ValidateOperationRequestResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateOperationRequestResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ValidateOperationRequest"
         }
       }
     }
@@ -2158,6 +2217,7 @@ export const ResourceGuardProxyBase: coreClient.CompositeMapper = {
     modelProperties: {
       resourceGuardResourceId: {
         serializedName: "resourceGuardResourceId",
+        required: true,
         type: {
           name: "String"
         }
@@ -2244,6 +2304,64 @@ export const UnlockDeleteResponse: coreClient.CompositeMapper = {
     modelProperties: {
       unlockDeleteExpiryTime: {
         serializedName: "unlockDeleteExpiryTime",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FetchTieringCostInfoRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostInfoRequest",
+    uberParent: "FetchTieringCostInfoRequest",
+    polymorphicDiscriminator: {
+      serializedName: "objectType",
+      clientName: "objectType"
+    },
+    modelProperties: {
+      sourceTierType: {
+        serializedName: "sourceTierType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
+        }
+      },
+      targetTierType: {
+        serializedName: "targetTierType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["Invalid", "InstantRP", "HardenedRP", "ArchivedRP"]
+        }
+      },
+      objectType: {
+        serializedName: "objectType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TieringCostInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TieringCostInfo",
+    uberParent: "TieringCostInfo",
+    polymorphicDiscriminator: {
+      serializedName: "objectType",
+      clientName: "objectType"
+    },
+    modelProperties: {
+      objectType: {
+        serializedName: "objectType",
+        required: true,
         type: {
           name: "String"
         }
@@ -2495,6 +2613,13 @@ export const SubProtectionPolicy: coreClient.CompositeMapper = {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "TieringPolicy" } }
         }
+      },
+      snapshotBackupAdditionalDetails: {
+        serializedName: "snapshotBackupAdditionalDetails",
+        type: {
+          name: "Composite",
+          className: "SnapshotBackupAdditionalDetails"
+        }
       }
     }
   }
@@ -2563,6 +2688,108 @@ export const TieringPolicy: coreClient.CompositeMapper = {
         serializedName: "durationType",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotBackupAdditionalDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotBackupAdditionalDetails",
+    modelProperties: {
+      instantRpRetentionRangeInDays: {
+        serializedName: "instantRpRetentionRangeInDays",
+        type: {
+          name: "Number"
+        }
+      },
+      instantRPDetails: {
+        serializedName: "instantRPDetails",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedManagedIdentityDetails: {
+        serializedName: "userAssignedManagedIdentityDetails",
+        type: {
+          name: "Composite",
+          className: "UserAssignedManagedIdentityDetails"
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedManagedIdentityDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedManagedIdentityDetails",
+    modelProperties: {
+      identityArmId: {
+        serializedName: "identityArmId",
+        type: {
+          name: "String"
+        }
+      },
+      identityName: {
+        serializedName: "identityName",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentityProperties: {
+        serializedName: "userAssignedIdentityProperties",
+        type: {
+          name: "Composite",
+          className: "UserAssignedIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
+export const VaultRetentionPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VaultRetentionPolicy",
+    modelProperties: {
+      vaultRetention: {
+        serializedName: "vaultRetention",
+        type: {
+          name: "Composite",
+          className: "RetentionPolicy"
+        }
+      },
+      snapshotRetentionInDays: {
+        serializedName: "snapshotRetentionInDays",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -3000,6 +3227,40 @@ export const AzureVmWorkloadProtectedItemExtendedInfo: coreClient.CompositeMappe
   }
 };
 
+export const DistributedNodesInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DistributedNodesInfo",
+    modelProperties: {
+      nodeName: {
+        serializedName: "nodeName",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errorDetail: {
+        serializedName: "errorDetail",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      },
+      sourceResourceId: {
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureWorkloadErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3202,6 +3463,27 @@ export const TargetRestoreInfo: coreClient.CompositeMapper = {
       },
       targetDirectoryForFileRestore: {
         serializedName: "targetDirectoryForFileRestore",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SnapshotRestoreParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SnapshotRestoreParameters",
+    modelProperties: {
+      skipAttachAndMount: {
+        serializedName: "skipAttachAndMount",
+        type: {
+          name: "Boolean"
+        }
+      },
+      logPointInTimeForDBRecovery: {
+        serializedName: "logPointInTimeForDBRecovery",
         type: {
           name: "String"
         }
@@ -4680,33 +4962,13 @@ export const InquiryValidation: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const DistributedNodesInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DistributedNodesInfo",
-    modelProperties: {
-      nodeName: {
-        serializedName: "nodeName",
-        type: {
-          name: "String"
-        }
       },
-      status: {
-        serializedName: "status",
+      protectableItemCount: {
+        serializedName: "protectableItemCount",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      },
-      errorDetail: {
-        serializedName: "errorDetail",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -6296,6 +6558,18 @@ export const AzureVmWorkloadProtectedItem: coreClient.CompositeMapper = {
             type: { name: "Composite", className: "KPIResourceHealthDetails" }
           }
         }
+      },
+      nodesList: {
+        serializedName: "nodesList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedNodesInfo"
+            }
+          }
+        }
       }
     }
   }
@@ -6728,6 +7002,13 @@ export const IaasVMRecoveryPoint: coreClient.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
       }
     }
   }
@@ -6831,6 +7112,26 @@ export const AzureWorkloadRestoreRequest: coreClient.CompositeMapper = {
         serializedName: "recoveryMode",
         type: {
           name: "String"
+        }
+      },
+      targetResourceGroupName: {
+        serializedName: "targetResourceGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedManagedIdentityDetails: {
+        serializedName: "userAssignedManagedIdentityDetails",
+        type: {
+          name: "Composite",
+          className: "UserAssignedManagedIdentityDetails"
+        }
+      },
+      snapshotRestoreParameters: {
+        serializedName: "snapshotRestoreParameters",
+        type: {
+          name: "Composite",
+          className: "SnapshotRestoreParameters"
         }
       },
       targetVirtualMachineId: {
@@ -7084,6 +7385,13 @@ export const AzureFileShareProtectionPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RetentionPolicy"
+        }
+      },
+      vaultRetentionPolicy: {
+        serializedName: "vaultRetentionPolicy",
+        type: {
+          name: "Composite",
+          className: "VaultRetentionPolicy"
         }
       },
       timeZone: {
@@ -8440,6 +8748,185 @@ export const AzureVmWorkloadProtectableItem: coreClient.CompositeMapper = {
           name: "Composite",
           className: "PreBackupValidation"
         }
+      },
+      isProtectable: {
+        serializedName: "isProtectable",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const FetchTieringCostInfoForRehydrationRequest: coreClient.CompositeMapper = {
+  serializedName: "FetchTieringCostInfoForRehydrationRequest",
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostInfoForRehydrationRequest",
+    uberParent: "FetchTieringCostInfoRequest",
+    polymorphicDiscriminator:
+      FetchTieringCostInfoRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FetchTieringCostInfoRequest.type.modelProperties,
+      containerName: {
+        serializedName: "containerName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protectedItemName: {
+        serializedName: "protectedItemName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      recoveryPointId: {
+        serializedName: "recoveryPointId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      rehydrationPriority: {
+        serializedName: "rehydrationPriority",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FetchTieringCostSavingsInfoForPolicyRequest: coreClient.CompositeMapper = {
+  serializedName: "FetchTieringCostSavingsInfoForPolicyRequest",
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostSavingsInfoForPolicyRequest",
+    uberParent: "FetchTieringCostInfoRequest",
+    polymorphicDiscriminator:
+      FetchTieringCostInfoRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FetchTieringCostInfoRequest.type.modelProperties,
+      policyName: {
+        serializedName: "policyName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FetchTieringCostSavingsInfoForProtectedItemRequest: coreClient.CompositeMapper = {
+  serializedName: "FetchTieringCostSavingsInfoForProtectedItemRequest",
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostSavingsInfoForProtectedItemRequest",
+    uberParent: "FetchTieringCostInfoRequest",
+    polymorphicDiscriminator:
+      FetchTieringCostInfoRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FetchTieringCostInfoRequest.type.modelProperties,
+      containerName: {
+        serializedName: "containerName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      protectedItemName: {
+        serializedName: "protectedItemName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FetchTieringCostSavingsInfoForVaultRequest: coreClient.CompositeMapper = {
+  serializedName: "FetchTieringCostSavingsInfoForVaultRequest",
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostSavingsInfoForVaultRequest",
+    uberParent: "FetchTieringCostInfoRequest",
+    polymorphicDiscriminator:
+      FetchTieringCostInfoRequest.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...FetchTieringCostInfoRequest.type.modelProperties
+    }
+  }
+};
+
+export const TieringCostRehydrationInfo: coreClient.CompositeMapper = {
+  serializedName: "TieringCostRehydrationInfo",
+  type: {
+    name: "Composite",
+    className: "TieringCostRehydrationInfo",
+    uberParent: "TieringCostInfo",
+    polymorphicDiscriminator: TieringCostInfo.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TieringCostInfo.type.modelProperties,
+      rehydrationSizeInBytes: {
+        serializedName: "rehydrationSizeInBytes",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      retailRehydrationCostPerGBPerMonth: {
+        serializedName: "retailRehydrationCostPerGBPerMonth",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TieringCostSavingInfo: coreClient.CompositeMapper = {
+  serializedName: "TieringCostSavingInfo",
+  type: {
+    name: "Composite",
+    className: "TieringCostSavingInfo",
+    uberParent: "TieringCostInfo",
+    polymorphicDiscriminator: TieringCostInfo.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...TieringCostInfo.type.modelProperties,
+      sourceTierSizeReductionInBytes: {
+        serializedName: "sourceTierSizeReductionInBytes",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      targetTierSizeIncreaseInBytes: {
+        serializedName: "targetTierSizeIncreaseInBytes",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      retailSourceTierCostPerGBPerMonth: {
+        serializedName: "retailSourceTierCostPerGBPerMonth",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      retailTargetTierCostPerGBPerMonth: {
+        serializedName: "retailTargetTierCostPerGBPerMonth",
+        required: true,
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -9178,11 +9665,11 @@ export const AzureVmWorkloadSAPHanaDBInstance: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureVmWorkloadSAPHanaHSR: coreClient.CompositeMapper = {
-  serializedName: "SAPHanaHSR",
+export const AzureVmWorkloadSAPHanaHSRProtectableItem: coreClient.CompositeMapper = {
+  serializedName: "HanaHSRContainer",
   type: {
     name: "Composite",
-    className: "AzureVmWorkloadSAPHanaHSR",
+    className: "AzureVmWorkloadSAPHanaHSRProtectableItem",
     uberParent: "AzureVmWorkloadProtectableItem",
     polymorphicDiscriminator:
       AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
@@ -9201,7 +9688,19 @@ export const AzureVmWorkloadSQLAvailabilityGroupProtectableItem: coreClient.Comp
     polymorphicDiscriminator:
       AzureVmWorkloadProtectableItem.type.polymorphicDiscriminator,
     modelProperties: {
-      ...AzureVmWorkloadProtectableItem.type.modelProperties
+      ...AzureVmWorkloadProtectableItem.type.modelProperties,
+      nodesList: {
+        serializedName: "nodesList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DistributedNodesInfo"
+            }
+          }
+        }
+      }
     }
   }
 };
@@ -9423,6 +9922,21 @@ export const AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest: coreClient.
   }
 };
 
+export const FetchTieringCostPostHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FetchTieringCostPostHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export let discriminators = {
   FeatureSupportRequest: FeatureSupportRequest,
   ProtectionIntent: ProtectionIntent,
@@ -9442,6 +9956,8 @@ export let discriminators = {
   BackupRequest: BackupRequest,
   ILRRequest: ILRRequest,
   WorkloadProtectableItem: WorkloadProtectableItem,
+  FetchTieringCostInfoRequest: FetchTieringCostInfoRequest,
+  TieringCostInfo: TieringCostInfo,
   SchedulePolicy: SchedulePolicy,
   RetentionPolicy: RetentionPolicy,
   "FeatureSupportRequest.AzureBackupGoals": AzureBackupGoalFeatureSupportRequest,
@@ -9504,6 +10020,12 @@ export let discriminators = {
   "WorkloadProtectableItem.AzureFileShare": AzureFileShareProtectableItem,
   "WorkloadProtectableItem.IaaSVMProtectableItem": IaaSVMProtectableItem,
   "WorkloadProtectableItem.AzureVmWorkloadProtectableItem": AzureVmWorkloadProtectableItem,
+  "FetchTieringCostInfoRequest.FetchTieringCostInfoForRehydrationRequest": FetchTieringCostInfoForRehydrationRequest,
+  "FetchTieringCostInfoRequest.FetchTieringCostSavingsInfoForPolicyRequest": FetchTieringCostSavingsInfoForPolicyRequest,
+  "FetchTieringCostInfoRequest.FetchTieringCostSavingsInfoForProtectedItemRequest": FetchTieringCostSavingsInfoForProtectedItemRequest,
+  "FetchTieringCostInfoRequest.FetchTieringCostSavingsInfoForVaultRequest": FetchTieringCostSavingsInfoForVaultRequest,
+  "TieringCostInfo.TieringCostRehydrationInfo": TieringCostRehydrationInfo,
+  "TieringCostInfo.TieringCostSavingInfo": TieringCostSavingInfo,
   "SchedulePolicy.LogSchedulePolicy": LogSchedulePolicy,
   "SchedulePolicy.LongTermSchedulePolicy": LongTermSchedulePolicy,
   "SchedulePolicy.SimpleSchedulePolicy": SimpleSchedulePolicy,
@@ -9542,7 +10064,7 @@ export let discriminators = {
   "AzureVmWorkloadProtectableItem.SAPHanaDatabase": AzureVmWorkloadSAPHanaDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaSystem": AzureVmWorkloadSAPHanaSystemProtectableItem,
   "AzureVmWorkloadProtectableItem.SAPHanaDBInstance": AzureVmWorkloadSAPHanaDBInstance,
-  "AzureVmWorkloadProtectableItem.SAPHanaHSR": AzureVmWorkloadSAPHanaHSR,
+  "AzureVmWorkloadProtectableItem.HanaHSRContainer": AzureVmWorkloadSAPHanaHSRProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLAvailabilityGroupContainer": AzureVmWorkloadSQLAvailabilityGroupProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLDataBase": AzureVmWorkloadSQLDatabaseProtectableItem,
   "AzureVmWorkloadProtectableItem.SQLInstance": AzureVmWorkloadSQLInstanceProtectableItem,

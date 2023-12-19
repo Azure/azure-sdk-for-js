@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   NginxCertificate,
   CertificatesListOptionalParams,
@@ -22,9 +22,9 @@ import {
 /** Interface representing a Certificates. */
 export interface Certificates {
   /**
-   * List all certificates of given Nginx deployment
+   * List all certificates of given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   list(
@@ -33,9 +33,9 @@ export interface Certificates {
     options?: CertificatesListOptionalParams
   ): PagedAsyncIterableIterator<NginxCertificate>;
   /**
-   * Get a certificate of given Nginx deployment
+   * Get a certificate of given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
@@ -46,9 +46,9 @@ export interface Certificates {
     options?: CertificatesGetOptionalParams
   ): Promise<CertificatesGetResponse>;
   /**
-   * Create or update the Nginx certificates for given Nginx deployment
+   * Create or update the NGINX certificates for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
@@ -58,15 +58,15 @@ export interface Certificates {
     certificateName: string,
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CertificatesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<CertificatesCreateOrUpdateResponse>,
       CertificatesCreateOrUpdateResponse
     >
   >;
   /**
-   * Create or update the Nginx certificates for given Nginx deployment
+   * Create or update the NGINX certificates for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
@@ -77,9 +77,9 @@ export interface Certificates {
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
-   * Deletes a certificate from the nginx deployment
+   * Deletes a certificate from the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */
@@ -88,11 +88,11 @@ export interface Certificates {
     deploymentName: string,
     certificateName: string,
     options?: CertificatesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
-   * Deletes a certificate from the nginx deployment
+   * Deletes a certificate from the NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param certificateName The name of certificate
    * @param options The options parameters.
    */

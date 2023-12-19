@@ -1,27 +1,10 @@
 {
-  "azureMonitorExporterConfig": {
+  "azureMonitorExporterOptions": {
     "connectionString": "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
     "disableOfflineStorage": true,
     "storageDirectory": "testPath"
   },
-  "otlpTraceExporterConfig": {
-    "enabled": true,
-    "keepAlive": false,
-    "url": "someurlfortraces"
-  },
-  "otlpMetricExporterConfig": {
-    "enabled": true,
-    "keepAlive": true,
-    "url": "someurlformetrics"
-  },
-  "otlpLogExporterConfig": {
-    "enabled": true,
-    "keepAlive": true,
-    "url": "someurlforlogs"
-  },
   "samplingRatio": 0.3,
-  "enableAutoCollectPerformance": false,
-  "enableAutoCollectStandardMetrics": false,
   "instrumentationOptions": {
     "azureSdk": {
       "enabled": true

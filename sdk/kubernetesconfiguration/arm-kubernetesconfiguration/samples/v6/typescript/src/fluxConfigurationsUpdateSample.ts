@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update an existing Kubernetes Flux Configuration.
  *
  * @summary Update an existing Kubernetes Flux Configuration.
- * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2022-11-01/examples/PatchFluxConfiguration.json
+ * x-ms-original-file: specification/kubernetesconfiguration/resource-manager/Microsoft.KubernetesConfiguration/stable/2023-05-01/examples/PatchFluxConfiguration.json
  */
 async function patchFluxConfiguration() {
   const subscriptionId =

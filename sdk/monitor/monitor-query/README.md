@@ -46,13 +46,20 @@ An authenticated client is required to query Logs or Metrics. To authenticate, t
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
-import { LogsQueryClient, MetricsQueryClient } from "@azure/monitor-query";
+import { LogsQueryClient, MetricsQueryClient, MetricsBatchQueryClient } from "@azure/monitor-query";
 
 const credential = new DefaultAzureCredential();
 
-const logsQueryClient = new LogsQueryClient(credential);
+const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential);
 // or
-const metricsQueryClient = new MetricsQueryClient(credential);
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential);
+// or
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  batchEndPoint,
+  credential
+);
 ```
 
 #### Configure clients for non-public Azure clouds
@@ -101,6 +108,8 @@ Each set of metric values is a time series with the following characteristics:
 ## Examples
 
 - [Logs query](#logs-query)
+  - [Workspace-centric logs query](#workspace-centric-logs-query)
+  - [Resource-centric logs query](#resource-centric-logs-query)
   - [Handle logs query response](#handle-logs-query-response)
 - [Batch logs query](#batch-logs-query)
   - [Handle logs batch query response](#handle-logs-batch-query-response)
@@ -110,10 +119,17 @@ Each set of metric values is a time series with the following characteristics:
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
+- [Batch metrics query](#batch-metrics-query)
 
 ### Logs query
 
 The `LogsQueryClient` can be used to query a Log Analytics workspace using the [Kusto Query Language][kusto_query_language]. The `timespan.duration` can be specified as a string in an ISO 8601 duration format. You can use the `Durations` constants provided for some commonly used ISO 8601 durations.
+
+You can query logs by workspace ID or resource ID. The result is returned as a table with a collection of rows.
+
+#### Workspace-centric logs query
+
+To query by workspace ID, use the `LogsQueryClient.queryWorkspace` method:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -161,6 +177,106 @@ async function processTables(tablesFromResult: LogsTable[]) {
 }
 
 run().catch((err) => console.log("ERROR:", err));
+```
+
+#### Resource-centric logs query
+
+The following example demonstrates how to query logs directly from an Azure resource. Here, the `queryResource` method is used and an Azure resource ID is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
+
+To find the resource ID:
+
+1. Navigate to your resource's page in the Azure portal.
+2. From the **Overview** blade, select the **JSON View** link.
+3. In the resulting JSON, copy the value of the `id` property.
+
+```ts
+/**
+ * @summary Demonstrates how to run a query against a Log Analytics workspace, using an Azure resource ID.
+ */
+
+import { DefaultAzureCredential } from "@azure/identity";
+import {
+  Durations,
+  LogsQueryClient,
+  LogsTable,
+  LogsQueryOptions,
+  LogsQueryResultStatus,
+} from "@azure/monitor-query";
+import * as dotenv from "dotenv";
+dotenv.config();
+
+const logsResourceId = process.env.LOGS_RESOURCE_ID;
+
+export async function main() {
+  const tokenCredential = new DefaultAzureCredential();
+  const logsQueryClient = new LogsQueryClient(tokenCredential);
+
+  if (!logsResourceId) {
+    throw new Error("LOGS_RESOURCE_ID must be set in the environment for this sample");
+  }
+
+  const kustoQuery = `MyTable_CL | summarize count()`
+
+  console.log(`Running '${kustoQuery}' over the last One Hour`);
+  const queryLogsOptions: LogsQueryOptions = {
+    // explicitly control the amount of time the server can spend processing the query.
+    serverTimeoutInSeconds: 600, // sets the timeout to 10 minutes
+    // optionally enable returning additional statistics about the query's execution.
+    // (by default, this is off)
+    includeQueryStatistics: true,
+  };
+
+  const result = await logsQueryClient.queryResource(
+    logsResourceId, 
+    kustoQuery,
+    { duration: Durations.sevenDays },
+    queryLogsOptions);
+
+  const executionTime =
+    result.statistics && result.statistics.query && (result.statistics.query as any).executionTime;
+
+  console.log(
+    `Results for query '${kustoQuery}', execution time: ${
+      executionTime == null ? "unknown" : executionTime
+    }`
+  );
+
+  if (result.status === LogsQueryResultStatus.Success) {
+    const tablesFromResult: LogsTable[] = result.tables;
+
+    if (tablesFromResult.length === 0) {
+      console.log(`No results for query '${kustoQuery}'`);
+      return;
+    }
+    console.log(`This query has returned table(s) - `);
+    processTables(tablesFromResult);
+  } else {
+    console.log(`Error processing the query '${kustoQuery}' - ${result.partialError}`);
+    if (result.partialTables.length > 0) {
+      console.log(`This query has also returned partial data in the following table(s) - `);
+      processTables(result.partialTables);
+    }
+  }
+}
+
+async function processTables(tablesFromResult: LogsTable[]) {
+  for (const table of tablesFromResult) {
+    const columnHeaderString = table.columnDescriptors
+      .map((column) => `${column.name}(${column.type}) `)
+      .join("| ");
+    console.log("| " + columnHeaderString);
+
+    for (const row of table.rows) {
+      const columnValuesString = row.map((columnValue) => `'${columnValue}' `).join("| ");
+      console.log("| " + columnValuesString);
+    }
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+  process.exit(1);
+});
 ```
 
 #### Handle logs query response
@@ -312,7 +428,6 @@ The `queryBatch` function of `LogsQueryClient` returns a `LogsQueryBatchResult` 
 Here's a hierarchy of the response:
 
 ```
-
 LogsQuerySuccessfulResult
 |---statistics
 |---visualization
@@ -715,6 +830,32 @@ main().catch((err) => {
 ```
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
+
+### Batch metrics query
+
+The following example executes multiple metrics queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
+
+```ts
+let resourceIds: string[] = [
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs",
+  "/subscriptions/0000000-0000-000-0000-000000/resourceGroups/test/providers/Microsoft.OperationalInsights/workspaces/test-logs2",
+];
+let metricsNamespace: string = "<YOUR_METRICS_NAMESPACE>";
+let metricNames: string[] = ["requests", "count"];
+const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+
+const credential = new DefaultAzureCredential();
+const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+  batchEndPoint,
+  credential
+);
+
+const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+  resourceIds,
+  metricsNamespace,
+  metricNames
+);
+```
 
 ## Troubleshooting
 

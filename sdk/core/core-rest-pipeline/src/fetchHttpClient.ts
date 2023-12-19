@@ -11,24 +11,7 @@ import {
 } from "./interfaces";
 import { RestError } from "./restError";
 import { createHttpHeaders } from "./httpHeaders";
-
-/**
- * Checks if the body is a NodeReadable stream which is not supported in Browsers
- */
-function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
-  return body && typeof body.pipe === "function";
-}
-
-/**
- * Checks if the body is a ReadableStream supported by browsers
- */
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -72,41 +55,55 @@ class FetchHttpClient implements HttpClient {
  */
 async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> {
   const { abortController, abortControllerCleanup } = setupAbortSignal(request);
-
   try {
     const headers = buildFetchHeaders(request.headers);
-    const requestBody = buildRequestBody(request);
+    const { streaming, body: requestBody } = buildRequestBody(request);
+    const requestInit: RequestInit = {
+      body: requestBody,
+      method: request.method,
+      headers: headers,
+      signal: abortController.signal,
+      // Cloudflare doesn't implement the full Fetch API spec
+      // because of some of it doesn't make sense in the edge.
+      // See https://github.com/cloudflare/workerd/issues/902
+      ...("credentials" in Request.prototype
+        ? { credentials: request.withCredentials ? "include" : "same-origin" }
+        : {}),
+      ...("cache" in Request.prototype ? { cache: "no-store" } : {}),
+    };
 
+    // According to https://fetch.spec.whatwg.org/#fetch-method,
+    // init.duplex must be set when body is a ReadableStream object.
+    // currently "half" is the only valid value.
+    if (streaming) {
+      (requestInit as any).duplex = "half";
+    }
     /**
      * Developers of the future:
      * Do not set redirect: "manual" as part
      * of request options.
      * It will not work as you expect.
      */
-    const response = await fetch(request.url, {
-      body: requestBody,
-      method: request.method,
-      headers: headers,
-      signal: abortController.signal,
-      credentials: request.withCredentials ? "include" : "same-origin",
-      cache: "no-store",
-    });
+    const response = await fetch(request.url, requestInit);
     // If we're uploading a blob, we need to fire the progress event manually
     if (isBlob(request.body) && request.onUploadProgress) {
       request.onUploadProgress({ loadedBytes: request.body.size });
     }
-    return buildPipelineResponse(response, request);
-  } finally {
-    if (abortControllerCleanup) {
-      abortControllerCleanup();
-    }
+    return buildPipelineResponse(response, request, abortControllerCleanup);
+  } catch (e) {
+    abortControllerCleanup?.();
+    throw e;
   }
 }
 
 /**
  * Creates a pipeline response from a Fetch response;
  */
-async function buildPipelineResponse(httpResponse: Response, request: PipelineRequest) {
+async function buildPipelineResponse(
+  httpResponse: Response,
+  request: PipelineRequest,
+  abortControllerCleanup?: () => void
+) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
     request,
@@ -114,8 +111,11 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     status: httpResponse.status,
   };
 
-  const bodyStream = isReadableStream(httpResponse.body)
-    ? buildBodyStream(httpResponse.body, request.onDownloadProgress)
+  const bodyStream = isWebReadableStream(httpResponse.body)
+    ? buildBodyStream(httpResponse.body, {
+        onProgress: request.onDownloadProgress,
+        onEnd: abortControllerCleanup,
+      })
     : httpResponse.body;
 
   if (
@@ -128,11 +128,13 @@ async function buildPipelineResponse(httpResponse: Response, request: PipelineRe
     } else {
       const responseStream = new Response(bodyStream);
       response.blobBody = responseStream.blob();
+      abortControllerCleanup?.();
     }
   } else {
     const responseStream = new Response(bodyStream);
 
     response.bodyAsText = await responseStream.text();
+    abortControllerCleanup?.();
   }
 
   return response;
@@ -220,7 +222,9 @@ function buildRequestBody(request: PipelineRequest) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(body) ? buildBodyStream(body, request.onUploadProgress) : body;
+  return isWebReadableStream(body)
+    ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
+    : { streaming: false, body };
 }
 
 /**
@@ -231,9 +235,10 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  onProgress?: (progress: TransferProgressEvent) => void
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
+  const { onProgress, onEnd } = options;
 
   // If the current browser supports pipeThrough we use a TransformStream
   // to report progress
@@ -252,6 +257,9 @@ function buildBodyStream(
             onProgress({ loadedBytes });
           }
         },
+        flush() {
+          onEnd?.();
+        },
       })
     );
   } else {
@@ -263,6 +271,7 @@ function buildBodyStream(
         const { done, value } = await reader.read();
         // When no more data needs to be consumed, break the reading
         if (done || !value) {
+          onEnd?.();
           // Close the stream
           controller.close();
           reader.releaseLock();
@@ -277,6 +286,10 @@ function buildBodyStream(
         if (onProgress) {
           onProgress({ loadedBytes });
         }
+      },
+      cancel(reason?: string) {
+        onEnd?.();
+        return reader.cancel(reason);
       },
     });
   }

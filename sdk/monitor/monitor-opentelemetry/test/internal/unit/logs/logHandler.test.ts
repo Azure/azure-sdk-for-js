@@ -4,44 +4,29 @@
 import * as assert from "assert";
 import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
-import { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
+import { LogRecord as APILogRecord, logs } from "@opentelemetry/api-logs";
 import { ExportResultCode } from "@opentelemetry/core";
+import { LoggerProvider } from "@opentelemetry/sdk-logs";
 import { LogHandler } from "../../../../src/logs";
 import { MetricHandler } from "../../../../src/metrics";
-import { TraceHandler } from "../../../../src/traces";
-import { AzureMonitorOpenTelemetryConfig } from "../../../../src/shared";
+import { InternalConfig } from "../../../../src/shared";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
   let handler: LogHandler;
-  let traceHandler: TraceHandler;
   let exportStub: sinon.SinonStub;
-  let otlpExportStub: sinon.SinonStub;
   let metricHandler: MetricHandler;
-  const _config = new AzureMonitorOpenTelemetryConfig();
-  if (_config.azureMonitorExporterConfig) {
-    _config.azureMonitorExporterConfig.connectionString =
+  const _config = new InternalConfig();
+  if (_config.azureMonitorExporterOptions) {
+    _config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
   }
-  _config.otlpLogExporterConfig.enabled = true;
 
   before(() => {
     sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
-    sandbox.restore();
-    handler.shutdown();
-    if (traceHandler) {
-      traceHandler.shutdown();
-    }
-    if (metricHandler) {
-      metricHandler.shutdown();
-    }
-  });
-
-  function createLogHandler(config: AzureMonitorOpenTelemetryConfig, metricHandler: MetricHandler) {
-    handler = new LogHandler(config, metricHandler);
+    metricHandler = new MetricHandler(_config);
+    handler = new LogHandler(_config, metricHandler);
     exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
       (logs: any, resultCallback: any) =>
         new Promise((resolve) => {
@@ -51,62 +36,55 @@ describe("LogHandler", () => {
           resolve(logs);
         })
     );
-    otlpExportStub = sinon.stub(handler["_otlpExporter"] as any, "export").callsFake(
-      (result: any, resultCallback: any) =>
-        new Promise((resolve) => {
-          resultCallback({
-            code: ExportResultCode.SUCCESS,
-          });
-          resolve(result);
-        })
-    );
-  }
+    const loggerProvider: LoggerProvider = new LoggerProvider();
+    loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());
+    logs.setGlobalLoggerProvider(loggerProvider);
+    handler.start();
+
+    const tracerProvider = new NodeTracerProvider();
+    tracerProvider.register();
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+    exportStub.resetHistory();
+  });
+
+  after(() => {
+    logs.disable();
+    trace.disable();
+  });
 
   describe("#logger", () => {
-    it("constructor", () => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
-      assert.ok(handler.getLoggerProvider(), "LoggerProvider not available");
-      assert.ok(handler.getLogger(), "Logger not available");
-    });
-
     it("export", (done) => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
       // Generate exception Log record
       const logRecord: APILogRecord = {
         body: "testLog",
       };
-      handler.getLogger().emit(logRecord);
-      handler
-        .flush()
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
         .then(() => {
           let result = exportStub.args;
           assert.strictEqual(result.length, 1);
           assert.strictEqual(result[0][0][0].body, "testLog");
-          result = otlpExportStub.args;
-          assert.strictEqual(result.length, 1);
-          assert.strictEqual(result[0][0][0].body, "testLog");
           done();
         })
-        .catch((error) => {
+        .catch((error: Error) => {
           done(error);
         });
     });
 
     it("tracing", (done) => {
-      metricHandler = new MetricHandler(_config);
-      createLogHandler(_config, metricHandler);
-      traceHandler = new TraceHandler(_config, metricHandler);
-      traceHandler["_tracer"].startActiveSpan("test", () => {
+      trace.getTracer("testTracer").startActiveSpan("test", () => {
         // Generate Log record
         const logRecord: APILogRecord = {
           attributes: {},
           body: "testRecord",
         };
-        handler.getLogger().emit(logRecord);
-        handler
-          .flush()
+        logs.getLogger("testLogger").emit(logRecord);
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             assert.ok(exportStub.calledOnce, "Export called");
             const logs = exportStub.args[0][0];
@@ -118,15 +96,12 @@ describe("LogHandler", () => {
             assert.deepStrictEqual(logs[0].spanContext.spanId, spanContext?.spanId);
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
 
       it("Exception standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
-        metricHandler = new MetricHandler(_config);
-        createLogHandler(_config, metricHandler);
         // Generate exception Log record
         const logRecord: APILogRecord = {
           attributes: {
@@ -134,9 +109,9 @@ describe("LogHandler", () => {
           },
           body: "testErrorRecord",
         };
-        handler.getLogger().emit(logRecord);
-        handler
-          .flush()
+        logs.getLogger("testLogger").emit(logRecord);
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             let result = exportStub.args;
             assert.strictEqual(result.length, 1);
@@ -146,23 +121,20 @@ describe("LogHandler", () => {
             );
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });
 
       it("Trace standard metrics processed", (done) => {
-        _config.enableAutoCollectStandardMetrics = true;
-        metricHandler = new MetricHandler(_config);
-        createLogHandler(_config, metricHandler);
         // Generate Log record
         const logRecord: APILogRecord = {
           attributes: {},
           body: "testRecord",
         };
-        handler.getLogger().emit(logRecord);
-        handler
-          .flush()
+        logs.getLogger("testLogger").emit(logRecord);
+        (logs.getLoggerProvider() as LoggerProvider)
+          .forceFlush()
           .then(() => {
             let result = exportStub.args;
             assert.strictEqual(result.length, 1);
@@ -172,7 +144,7 @@ describe("LogHandler", () => {
             );
             done();
           })
-          .catch((error) => {
+          .catch((error: Error) => {
             done(error);
           });
       });

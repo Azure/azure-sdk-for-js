@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the entity state (ETag) version of the developer portal's content item specified by its identifier.
  *
  * @summary Returns the entity state (ETag) version of the developer portal's content item specified by its identifier.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementHeadContentTypeContentItem.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementHeadContentTypeContentItem.json
  */
 async function apiManagementHeadContentTypeContentItem() {
   const subscriptionId = process.env["APIMANAGEMENT_SUBSCRIPTION_ID"] || "subid";

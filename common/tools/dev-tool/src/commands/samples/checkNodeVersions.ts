@@ -13,7 +13,7 @@ import { S_IRWXO } from "constants";
 import { resolveProject } from "../../util/resolveProject";
 import { findSamplesRelativeDir } from "../../util/findSamplesDir";
 
-const defaultVersions = [14, 16, 18, 19];
+const defaultVersions = [18, 20, 21];
 
 const log = createPrinter("check-node-versions-samples");
 
@@ -35,8 +35,8 @@ async function deleteDockerContainers(deleteContainerNames?: string[]): Promise<
       "docker",
       ["rm", ...deleteContainerNames, "-f"],
       `Attempted to delete ${deleteContainerNames.join(
-        ", "
-      )} docker containers but encountered an error doing so`
+        ", ",
+      )} docker containers but encountered an error doing so`,
     );
   }
 }
@@ -48,8 +48,8 @@ async function deleteDockerImages(dockerImageNames?: string[]) {
       "docker",
       ["rmi", ...dockerImageNames, "-f"],
       `Attempted to delete the ${dockerImageNames.join(
-        ", "
-      )} docker images but encountered an error doing so`
+        ", ",
+      )} docker images but encountered an error doing so`,
     );
   }
 }
@@ -64,7 +64,7 @@ async function deleteDockerContext(dockerContextDirectory?: string) {
 async function cleanup(
   dockerContextDirectory?: string,
   dockerContainerNames?: string[],
-  dockerImageNames?: string[]
+  dockerImageNames?: string[],
 ) {
   await deleteDockerContext(dockerContextDirectory);
   await deleteDockerContainers(dockerContainerNames);
@@ -76,7 +76,7 @@ function buildRunSamplesScript(
   samplesPath: string,
   artifactURL: string,
   envFileName: string,
-  logFilePath?: string
+  logFilePath?: string,
 ) {
   function compileCMD(cmd: string, printToScreen?: boolean) {
     return printToScreen ? cmd : `${cmd} >> ${logFilePath} 2>&1`;
@@ -134,7 +134,7 @@ function createDockerContextDirectory(
   samplesPath: string,
   envPath: string,
   artifactPath?: string,
-  logFilePath?: string
+  logFilePath?: string,
 ): void {
   const stringIsAValidUrl = (s: string) => {
     try {
@@ -167,9 +167,9 @@ function createDockerContextDirectory(
       samplesPath,
       artifactURL,
       envFileName,
-      logFilePath
+      logFilePath,
     ),
-    { mode: S_IRWXO }
+    { mode: S_IRWXO },
   );
 }
 
@@ -179,7 +179,7 @@ async function runDockerContainer(
   dockerContainerName: string,
   containerWorkspace: string,
   stdoutListener: (chunk: string | Buffer) => void,
-  stderrListener: (chunk: string | Buffer) => void
+  stderrListener: (chunk: string | Buffer) => void,
 ): Promise<void> {
   pr.execSync(`docker pull ${dockerImageName}`);
   const args = [
@@ -190,12 +190,15 @@ async function runDockerContainer(
     containerWorkspace,
     "-v",
     `${dockerContextDirectory}:${containerWorkspace}`,
+    "--entrypoint",
+    "sh",
     dockerImageName,
     "./run_samples.sh",
   ];
   const dockerContainerRunProcess = pr.spawn("docker", args, {
     cwd: dockerContextDirectory,
   });
+  log.debug(`Running docker container with the following args: ${args.join(" ")}`);
   log.info(`Started running the docker container ${dockerContainerName}`);
   dockerContainerRunProcess.stdout.on("data", stdoutListener);
   dockerContainerRunProcess.stderr.on("data", stderrListener);
@@ -266,7 +269,7 @@ export const commandInfo = makeCommandInfo(
       description: "Boolean to indicate whether to keep the downloaded docker images",
       default: false,
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
@@ -275,7 +278,7 @@ export default leafCommand(commandInfo, async (options) => {
       options["node-versions"]
         ?.split(",")
         .concat(options["node-version"])
-        .filter((ver) => ver !== "" && !isNaN(parseInt(ver)))
+        .filter((ver) => ver !== "" && !isNaN(parseInt(ver))),
     ),
   ];
   const dockerContextDirectory: string =
@@ -302,14 +305,14 @@ export default leafCommand(commandInfo, async (options) => {
       dockerContextDirectoryChildren.length === 0 ? undefined : dockerContextDirectory,
       useExistingDockerContainer ? undefined : dockerContainerNames,
       // Do not delete the image
-      undefined
+      undefined,
     );
   }
   async function cleanupAfter(): Promise<void> {
     await cleanup(
       keepDockerContextDirectory ? undefined : dockerContextDirectory,
       keepDockerContainers ? undefined : dockerContainerNames,
-      keepDockerImages ? undefined : dockerImageNames
+      keepDockerImages ? undefined : dockerImageNames,
     );
   }
   function createDockerContextDirectoryThunk(): void {
@@ -319,7 +322,7 @@ export default leafCommand(commandInfo, async (options) => {
       samplesPath,
       envFilePath,
       options["artifact-path"],
-      containerLogFilePath
+      containerLogFilePath,
     );
   }
   async function runContainers(): Promise<void> {
@@ -331,8 +334,8 @@ export default leafCommand(commandInfo, async (options) => {
           dockerContainerNames[containerIndex],
           containerWorkspace,
           stdoutListener,
-          stderrListener
-        )
+          stderrListener,
+        ),
     );
     for (const run of containerRuns) {
       await run();

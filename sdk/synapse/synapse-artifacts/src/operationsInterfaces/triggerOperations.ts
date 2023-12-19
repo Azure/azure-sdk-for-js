@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TriggerResource,
   TriggerGetTriggersByWorkspaceOptionalParams,
@@ -47,8 +47,8 @@ export interface TriggerOperations {
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerCreateOrUpdateTriggerResponse>,
+    SimplePollerLike<
+      OperationState<TriggerCreateOrUpdateTriggerResponse>,
       TriggerCreateOrUpdateTriggerResponse
     >
   >;
@@ -80,7 +80,7 @@ export interface TriggerOperations {
   beginDeleteTrigger(
     triggerName: string,
     options?: TriggerDeleteTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a trigger.
    * @param triggerName The trigger name.
@@ -99,8 +99,8 @@ export interface TriggerOperations {
     triggerName: string,
     options?: TriggerSubscribeTriggerToEventsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerSubscribeTriggerToEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerSubscribeTriggerToEventsResponse>,
       TriggerSubscribeTriggerToEventsResponse
     >
   >;
@@ -131,8 +131,8 @@ export interface TriggerOperations {
     triggerName: string,
     options?: TriggerUnsubscribeTriggerFromEventsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
+    SimplePollerLike<
+      OperationState<TriggerUnsubscribeTriggerFromEventsResponse>,
       TriggerUnsubscribeTriggerFromEventsResponse
     >
   >;
@@ -153,7 +153,7 @@ export interface TriggerOperations {
   beginStartTrigger(
     triggerName: string,
     options?: TriggerStartTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts a trigger.
    * @param triggerName The trigger name.
@@ -171,7 +171,7 @@ export interface TriggerOperations {
   beginStopTrigger(
     triggerName: string,
     options?: TriggerStopTriggerOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a trigger.
    * @param triggerName The trigger name.

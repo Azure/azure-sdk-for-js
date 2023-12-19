@@ -11,8 +11,6 @@ import {
   DocumentTable as GeneratedDocumentTable,
   DocumentTableCell as GeneratedDocumentTableCell,
   DocumentWord as GeneratedDocumentWord,
-  DocumentImage as GeneratedDocumentImage,
-  DocumentAnnotation as GeneratedDocumentAnnotation,
   DocumentBarcode as GeneratedDocumentBarcode,
   DocumentFormula as GeneratedDocumentFormula,
 } from "../../src/generated";
@@ -26,7 +24,6 @@ import {
   DocumentTable,
   DocumentTableCell,
   DocumentWord,
-  DocumentImage,
   DocumentAnnotation,
   DocumentBarcode,
   DocumentFormula,
@@ -47,7 +44,6 @@ declare const documentTableCell: DocumentTableCell;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const document: Document;
 declare const documentPage: DocumentPage;
-declare const documentImage: DocumentImage;
 declare const documentAnnotation: DocumentAnnotation;
 declare const documentBarcode: DocumentBarcode;
 declare const documentFormula: DocumentFormula;
@@ -55,8 +51,6 @@ declare const documentFormula: DocumentFormula;
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
-checkAssign<Omit<GeneratedDocumentImage, "polygon">>(documentImage);
-checkAssign<Omit<GeneratedDocumentAnnotation, "polygon">>(documentAnnotation);
 checkAssign<Omit<GeneratedDocumentBarcode, "polygon">>(documentBarcode);
 checkAssign<Omit<GeneratedDocumentFormula, "polygon">>(documentFormula);
 checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagraph);
@@ -84,16 +78,12 @@ declare const generatedDocumentTableCell: GeneratedDocumentTableCell;
 declare const generatedDocumentKeyValueElement: GeneratedDocumentKeyValueElement;
 declare const generatedDocument: GeneratedDocument;
 declare const generatedDocumentPage: GeneratedDocumentPage;
-declare const generatedDocumentImage: GeneratedDocumentImage;
-declare const generatedDocumentAnnotation: GeneratedDocumentAnnotation;
 declare const generatedDocumentBarcode: GeneratedDocumentBarcode;
 declare const generatedDocumentFormula: GeneratedDocumentFormula;
 
 checkAssign<Omit<DocumentWord, "polygon">>(generatedWord);
 checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
-checkAssign<Omit<DocumentImage, "polygon">>(generatedDocumentImage);
-checkAssign<Omit<DocumentAnnotation, "polygon">>(generatedDocumentAnnotation);
 checkAssign<Omit<DocumentBarcode, "polygon">>(generatedDocumentBarcode);
 checkAssign<Omit<DocumentFormula, "polygon">>(generatedDocumentFormula);
 checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagraph);
@@ -104,15 +94,5 @@ checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footn
 checkAssign<Omit<DocumentKeyValueElement, "boundingRegions">>(generatedDocumentKeyValueElement);
 checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
 checkAssign<
-  Omit<
-    DocumentPage,
-    | "images"
-    | "words"
-    | "selectionMarks"
-    | "lines"
-    | "annotations"
-    | "barcodes"
-    | "formulas"
-    | "kind"
-  >
+  Omit<DocumentPage, "words" | "selectionMarks" | "lines" | "annotations" | "barcodes" | "formulas">
 >(generatedDocumentPage);

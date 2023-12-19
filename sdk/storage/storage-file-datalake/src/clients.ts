@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
 import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import {
@@ -131,6 +131,8 @@ export class DataLakePathClient extends StorageClient {
    * blobClient provided by `@azure/storage-blob` package.
    */
   private blobClient: BlobClient;
+
+  private isTokenCredential?: boolean;
 
   /**
    * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
@@ -437,6 +439,15 @@ export class DataLakePathClient extends StorageClient {
   ): Promise<PathDeleteResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan("DataLakePathClient-delete", options, async (updatedOptions) => {
+      if (this.isTokenCredential === undefined) {
+        this.isTokenCredential = false;
+        this.pipeline.factories.forEach((factory) => {
+          if (isTokenCredential((factory as any).credential)) {
+            this.isTokenCredential = true;
+          }
+        });
+      }
+      const paginated = recursive === true && this.isTokenCredential === true;
       let continuation: string | undefined;
       let response: PathDeleteResponse;
 
@@ -450,6 +461,7 @@ export class DataLakePathClient extends StorageClient {
             leaseAccessConditions: options.conditions,
             modifiedAccessConditions: options.conditions,
             abortSignal: options.abortSignal,
+            paginated,
           })
         );
         continuation = response.continuation;

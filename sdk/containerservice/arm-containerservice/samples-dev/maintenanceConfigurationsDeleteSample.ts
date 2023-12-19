@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-05-01/examples/MaintenanceConfigurationsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/MaintenanceConfigurationsDelete.json
  */
 async function deleteMaintenanceConfiguration() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
@@ -41,11 +42,12 @@ async function deleteMaintenanceConfiguration() {
  * This sample demonstrates how to Deletes a maintenance configuration.
  *
  * @summary Deletes a maintenance configuration.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-05-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/MaintenanceConfigurationsDelete_MaintenanceWindow.json
  */
 async function deleteMaintenanceConfigurationForNodeOSUpgrade() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";

@@ -57,9 +57,6 @@ import {
   BareMetalMachinesStartResponse,
   BareMetalMachinesUncordonOptionalParams,
   BareMetalMachinesUncordonResponse,
-  BareMetalMachineValidateHardwareParameters,
-  BareMetalMachinesValidateHardwareOptionalParams,
-  BareMetalMachinesValidateHardwareResponse,
   BareMetalMachinesListBySubscriptionNextResponse,
   BareMetalMachinesListByResourceGroupNextResponse
 } from "../models";
@@ -504,7 +501,7 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -1483,107 +1480,6 @@ export class BareMetalMachinesImpl implements BareMetalMachines {
   }
 
   /**
-   * Validate the hardware of the provided bare metal machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param bareMetalMachineName The name of the bare metal machine.
-   * @param bareMetalMachineValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  async beginValidateHardware(
-    resourceGroupName: string,
-    bareMetalMachineName: string,
-    bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters,
-    options?: BareMetalMachinesValidateHardwareOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<BareMetalMachinesValidateHardwareResponse>,
-      BareMetalMachinesValidateHardwareResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BareMetalMachinesValidateHardwareResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        bareMetalMachineName,
-        bareMetalMachineValidateHardwareParameters,
-        options
-      },
-      spec: validateHardwareOperationSpec
-    });
-    const poller = await createHttpPoller<
-      BareMetalMachinesValidateHardwareResponse,
-      OperationState<BareMetalMachinesValidateHardwareResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Validate the hardware of the provided bare metal machine.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param bareMetalMachineName The name of the bare metal machine.
-   * @param bareMetalMachineValidateHardwareParameters The request body.
-   * @param options The options parameters.
-   */
-  async beginValidateHardwareAndWait(
-    resourceGroupName: string,
-    bareMetalMachineName: string,
-    bareMetalMachineValidateHardwareParameters: BareMetalMachineValidateHardwareParameters,
-    options?: BareMetalMachinesValidateHardwareOptionalParams
-  ): Promise<BareMetalMachinesValidateHardwareResponse> {
-    const poller = await this.beginValidateHardware(
-      resourceGroupName,
-      bareMetalMachineName,
-      bareMetalMachineValidateHardwareParameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -1773,16 +1669,16 @@ const cordonOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesCordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1806,16 +1702,16 @@ const powerOffOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesPowerOffHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1839,16 +1735,16 @@ const reimageOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesReimageHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1870,16 +1766,16 @@ const replaceOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesReplaceHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1903,16 +1799,16 @@ const restartOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRestartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1934,16 +1830,16 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunCommandHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1967,16 +1863,16 @@ const runDataExtractsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunDataExtractsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -2000,16 +1896,16 @@ const runReadCommandsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesRunReadCommandsHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -2033,16 +1929,16 @@ const startOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesStartHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -2064,16 +1960,16 @@ const uncordonOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     201: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     202: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     204: {
-      headersMapper: Mappers.BareMetalMachinesUncordonHeaders
+      bodyMapper: Mappers.OperationStatusResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -2087,39 +1983,6 @@ const uncordonOperationSpec: coreClient.OperationSpec = {
     Parameters.bareMetalMachineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const validateHardwareOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/bareMetalMachines/{bareMetalMachineName}/validateHardware",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      headersMapper: Mappers.BareMetalMachinesValidateHardwareHeaders
-    },
-    201: {
-      headersMapper: Mappers.BareMetalMachinesValidateHardwareHeaders
-    },
-    202: {
-      headersMapper: Mappers.BareMetalMachinesValidateHardwareHeaders
-    },
-    204: {
-      headersMapper: Mappers.BareMetalMachinesValidateHardwareHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.bareMetalMachineValidateHardwareParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.bareMetalMachineName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {

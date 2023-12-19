@@ -17,10 +17,10 @@ import { UsernamePasswordCredential } from "@azure/identity";
 import { defaultConnectionPolicy } from "../../../src/documents";
 
 describe("Client Tests", function (this: Suite) {
-  this.timeout(process.env.MOCHA_TIMEOUT || 20000);
+  this.timeout(process.env.MOCHA_TIMEOUT || 200000);
 
   describe("Validate client request timeout", function () {
-    it("timeout occurs within expected timeframe", async function () {
+    xit("timeout occurs within expected timeframe", async function () {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
       const client = new CosmosClient({

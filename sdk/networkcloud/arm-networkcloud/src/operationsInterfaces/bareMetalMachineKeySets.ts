@@ -10,7 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BareMetalMachineKeySet,
-  BareMetalMachineKeySetsListByResourceGroupOptionalParams,
+  BareMetalMachineKeySetsListByClusterOptionalParams,
   BareMetalMachineKeySetsGetOptionalParams,
   BareMetalMachineKeySetsGetResponse,
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
@@ -24,15 +24,15 @@ import {
 /** Interface representing a BareMetalMachineKeySets. */
 export interface BareMetalMachineKeySets {
   /**
-   * Get a list of bare metal machine key sets of the cluster in the provided resource group.
+   * Get a list of bare metal machine key sets for the provided cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  listByResourceGroup(
+  listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByResourceGroupOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams
   ): PagedAsyncIterableIterator<BareMetalMachineKeySet>;
   /**
    * Get bare metal machine key set of the provided cluster.

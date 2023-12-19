@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { CosmosDiagnostics } from "./CosmosDiagnostics";
 import { Constants } from "./common";
 import { CosmosHeaders } from "./queryExecutionContext";
 
@@ -23,7 +24,8 @@ export class ChangeFeedResponse<T> {
      * Gets the status code of the response from Azure Cosmos DB
      */
     public readonly statusCode: number,
-    headers: CosmosHeaders
+    headers: CosmosHeaders,
+    public readonly diagnostics: CosmosDiagnostics
   ) {
     this.headers = Object.freeze(headers);
   }

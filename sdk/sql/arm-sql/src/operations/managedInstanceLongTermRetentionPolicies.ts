@@ -356,7 +356,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -380,7 +380,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters39,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
@@ -388,7 +388,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.managedInstanceName,
-    Parameters.policyName2
+    Parameters.policyName1
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",

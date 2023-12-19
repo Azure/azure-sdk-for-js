@@ -36,6 +36,7 @@ describe("defaultLogPolicy", function () {
       "formDataPolicy",
       "userAgentPolicy",
       "setClientRequestIdPolicy",
+      "multipartPolicy",
       "defaultRetryPolicy",
       "tracingPolicy"
     );

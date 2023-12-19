@@ -1,14 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PluginContext, RollupWarning, WarningHandler } from "rollup";
+import {
+  LoadResult,
+  PluginContext,
+  RollupOptions,
+  RollupLog,
+  WarningHandlerWithDefault,
+} from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import sourcemaps from "rollup-plugin-sourcemaps";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
 import * as path from "path";
+import { readFile } from "node:fs/promises";
 
 import nodeBuiltins from "builtin-modules";
 import { createPrinter } from "../util/printer";
@@ -17,47 +23,9 @@ const { debug } = createPrinter("rollup.base.config");
 
 interface PackageJson {
   name: string;
-  module: string;
+  module?: string;
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
-}
-
-/**
- * The default sourcemaps plugin does not provide very much information in warnings, so this shim allows us to capture
- * the active sourcemaps loading context.
- *
- * This allows us to selectively disable warnings about missing source maps, for example in core-asynciterator-polyfill.
- */
-export function sourcemapsExtra() {
-  const _sourcemaps = sourcemaps();
-
-  const load = _sourcemaps.load;
-
-  if (!load) return _sourcemaps;
-
-  return Object.assign(_sourcemaps, {
-    load(this: PluginContext, id: string) {
-      const shim = new Proxy(this, {
-        get(context, p, ...rest) {
-          if (p === "warn") {
-            const warn = context.warn;
-            return (warning: unknown) => {
-              const warningObject = (
-                typeof warning === "string" ? { message: warning } : warning
-              ) as RollupWarning;
-
-              warningObject.id = id;
-
-              warn(warningObject);
-            };
-          }
-          return Reflect.get(context, p, ...rest);
-        },
-      });
-
-      return load instanceof Function ? load.call(shim, id) : load.handler.call(shim, id);
-    },
-  });
 }
 
 // #region Warning Handler
@@ -66,13 +34,13 @@ export function sourcemapsExtra() {
  * A function that can determine whether a rollup warning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
-export type WarningInhibitor = (warning: RollupWarning) => boolean;
+export type WarningInhibitor = (warning: RollupLog) => boolean;
 
 function matchesPathSegments(str: string | undefined, segments: string[]): boolean {
   return !str ? false : str.includes(segments.join("/")) || str.includes(segments.join("\\"));
 }
 
-function ignoreNiseSinonEval(warning: RollupWarning): boolean {
+function ignoreNiseSinonEval(warning: RollupLog): boolean {
   return (
     warning.code === "EVAL" &&
     (matchesPathSegments(warning.id, ["node_modules", "nise"]) ||
@@ -80,24 +48,31 @@ function ignoreNiseSinonEval(warning: RollupWarning): boolean {
   );
 }
 
-function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
+function ignoreChaiCircularDependency(warning: RollupLog): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    matchesPathSegments(warning.importer, ["node_modules", "chai"])
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "chai"])
   );
 }
 
-function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
+function ignoreRheaPromiseCircularDependency(warning: RollupLog): boolean {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
-    matchesPathSegments(warning.importer, ["node_modules", "rhea-promise"])
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "rhea-promise"])
   );
 }
 
-function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
+function ignoreOpenTelemetryCircularDependency(warning: RollupLog): boolean {
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    matchesPathSegments(warning.ids?.[0], ["node_modules", "@opentelemetry"])
+  );
+}
+
+function ignoreOpenTelemetryThisIsUndefined(warning: RollupLog): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
-    matchesPathSegments(warning.id, ["node_modules", "@opentelemetry", "api"])
+    matchesPathSegments(warning.id, ["node_modules", "@opentelemetry"])
   );
 }
 
@@ -106,47 +81,98 @@ function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
  * complain that node-resolve's empty module does not export symbols from them, but as long as the package doesn't
  * actually use those symbols at runtime in the browser tests, it should be fine.
  */
-function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
+function ignoreMissingExportsFromEmpty(warning: RollupLog): boolean {
   return (
     // I absolutely cannot explain why, but node-resolve's internal module ID for empty.js begins with a null byte.
     warning.code === "MISSING_EXPORT" && warning.exporter?.trim() === "\0node-resolve:empty.js"
   );
 }
 
-const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
-  ignoreChaiCircularDependency,
-  ignoreRheaPromiseCircularDependency,
-  ignoreNiseSinonEval,
-  ignoreOpenTelemetryThisIsUndefined,
-  ignoreMissingExportsFromEmpty,
-];
+function ignoreExternalModules(warning: RollupLog): boolean {
+  return (
+    (warning.code === "MISSING_GLOBAL_NAME" && nodeBuiltins.includes(warning.id!)) ||
+    (warning.code === "UNRESOLVED_IMPORT" && nodeBuiltins.includes(warning.exporter!)) ||
+    warning.code === "MISSING_NODE_BUILTINS"
+  );
+}
+
+function createWarningInhibitors({
+  ignoreMissingNodeBuiltins,
+}: MakeOnWarnForTestingOptions = {}): Array<(warning: RollupLog) => boolean> {
+  return [
+    ignoreChaiCircularDependency,
+    ignoreRheaPromiseCircularDependency,
+    ignoreNiseSinonEval,
+    ignoreOpenTelemetryCircularDependency,
+    ignoreOpenTelemetryThisIsUndefined,
+    ignoreMissingExportsFromEmpty,
+    ...(ignoreMissingNodeBuiltins ? [ignoreExternalModules] : []),
+  ];
+}
+
+interface MakeOnWarnForTestingOptions {
+  ignoreMissingNodeBuiltins?: boolean;
+}
 
 /**
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-export function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
+export function makeOnWarnForTesting(
+  opts: MakeOnWarnForTestingOptions = {},
+): (warning: RollupLog, warn: WarningHandlerWithDefault) => void {
+  const warningInhibitors = createWarningInhibitors(opts);
   return (warning, warn) => {
     if (!warningInhibitors.some((inhibited) => inhibited(warning))) {
       debug("Warning:", warning.code, warning.id, warning.loc);
-      warn(warning);
+      warn(warning, console.warn);
     }
+  };
+}
+
+export function sourcemaps() {
+  return {
+    name: "load-source-maps",
+    async load(this: PluginContext, id: string): Promise<LoadResult> {
+      if (!id.endsWith(".js")) {
+        return null;
+      }
+      try {
+        const code = await readFile(id, "utf8");
+        if (code.includes("sourceMappingURL")) {
+          const basePath = path.dirname(id);
+          const mapPath = code.match(/sourceMappingURL=(.*)/)?.[1];
+          if (!mapPath) {
+            this.warn({ message: "Could not find map path in file " + id, id });
+            return null;
+          }
+          const absoluteMapPath = path.join(basePath, mapPath);
+          const map = JSON.parse(await readFile(absoluteMapPath, "utf8"));
+          debug("got map for file ", id);
+          return { code, map };
+        }
+        debug("no map for file ", id);
+        return { code, map: null };
+      } catch (e) {
+        // eslint-disable-next-line no-inner-declarations
+        function toString(error: any): string {
+          return error instanceof Error ? error.stack ?? error.toString() : JSON.stringify(error);
+        }
+        this.warn({ message: toString(e), id });
+        return null;
+      }
+    },
   };
 }
 
 // #endregion
 
 export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
-  // ./dist-esm/src/index.js -> ./dist-esm
-  // ./dist-esm/keyvault-keys/src/index.js -> ./dist-esm/keyvault-keys
   const module = pkg["module"] ?? "dist-esm/src/index.js";
   const basePath = path.dirname(path.parse(module).dir);
 
   const config: RollupOptions = {
-    input: {
-      include: [path.join(basePath, "test", "**", "*.spec.js")],
-      exclude: [path.join(basePath, "test", "**", "node", "**")],
-    },
+    input: path.join(basePath, "test", "**", "*.spec.js"),
     output: {
       file: `dist-test/index.browser.js`,
       format: "umd",
@@ -154,15 +180,15 @@ export function makeBrowserTestConfig(pkg: PackageJson): RollupOptions {
     },
     preserveSymlinks: false,
     plugins: [
-      multiEntry({ exports: false }),
+      multiEntry({ exports: false, exclude: ["**/test/**/node/**/*.js"] }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false,
+        browser: true,
       }),
       cjs(),
       json(),
-      sourcemapsExtra(),
-      //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
+      sourcemaps(),
     ],
     onwarn: makeOnWarnForTesting(),
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
@@ -185,7 +211,7 @@ const defaultConfigurationOptions: ConfigurationOptions = {
 
 export function makeConfig(
   pkg: PackageJson,
-  options?: Partial<ConfigurationOptions>
+  options?: Partial<ConfigurationOptions>,
 ): RollupOptions[] {
   options = {
     ...defaultConfigurationOptions,

@@ -13,17 +13,24 @@ import {
   SiteRecoveryManagementClient
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to The operation to resume an Azure Site Recovery job.
  *
  * @summary The operation to resume an Azure Site Recovery job.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationJobs_Resume.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Resume.json
  */
 async function resumesTheSpecifiedJob() {
-  const subscriptionId = "c183865e-6077-46f2-a3b1-deb0f4f4650a";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "c183865e-6077-46f2-a3b1-deb0f4f4650a";
   const resourceName = "vault1";
-  const resourceGroupName = "resourceGroupPS1";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "resourceGroupPS1";
   const jobName = "58776d0b-3141-48b2-a377-9ad863eb160d";
   const resumeJobParams: ResumeJobParams = { properties: { comments: " " } };
   const credential = new DefaultAzureCredential();
@@ -37,4 +44,8 @@ async function resumesTheSpecifiedJob() {
   console.log(result);
 }
 
-resumesTheSpecifiedJob().catch(console.error);
+async function main() {
+  resumesTheSpecifiedJob();
+}
+
+main().catch(console.error);

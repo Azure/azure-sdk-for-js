@@ -22,7 +22,9 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ResolvePrivateLinkServiceIdImpl,
-  SnapshotsImpl
+  SnapshotsImpl,
+  TrustedAccessRoleBindingsImpl,
+  TrustedAccessRolesImpl
 } from "./operations";
 import {
   Operations,
@@ -32,7 +34,9 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ResolvePrivateLinkServiceId,
-  Snapshots
+  Snapshots,
+  TrustedAccessRoleBindings,
+  TrustedAccessRoles
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -44,7 +48,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the ContainerServiceClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
@@ -68,7 +72,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/19.1.0`;
+    const packageDetails = `azsdk-js-arm-containerservice/19.5.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -121,7 +125,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2023-09-01";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -132,6 +136,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       this
     );
     this.snapshots = new SnapshotsImpl(this);
+    this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
+    this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -171,4 +177,6 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
   snapshots: Snapshots;
+  trustedAccessRoleBindings: TrustedAccessRoleBindings;
+  trustedAccessRoles: TrustedAccessRoles;
 }

@@ -173,7 +173,11 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
     const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    const accountName = getAccountNameFromUrl(fileEndpoint);
+    let accountName = getValueInConnString(connectionString, "AccountName");
+    // if accountName is empty, try to read it from BlobEndpoint
+    if (!accountName) {
+      accountName = getAccountNameFromUrl(fileEndpoint);
+    }
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -474,11 +478,11 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   const host = parsedUrl.host;
 
   // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
-  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 2: localhost(:port) or host.docker.internal, use broad regex to match port part.
   // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
-    /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
       host
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
@@ -749,4 +753,15 @@ export function ConvertInternalResponseOfListHandles(
   };
 
   return wrappedResponse;
+}
+
+/**
+ * A small helper to handle converting an empty string "" into undefined
+ * This is used in the case of query parameters (like continuation token) where
+ * we don't want to send an empty query parameter to the service since the signing
+ * policy for shared key will fail.
+ * @internal
+ */
+export function removeEmptyString(value: string | undefined): string | undefined {
+  return value ? value : undefined;
 }

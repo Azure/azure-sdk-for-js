@@ -13,19 +13,10 @@
     "./dist-esm/src/xml.js": "./dist-esm/src/xml.js"
   },
   "types": "types/latest/core-xml.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
@@ -41,14 +32,13 @@
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace  --exclude \"test/**/browser/*.spec.ts\" \"test/**/*.spec.ts\"",
+    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
     "types/latest/core-xml.d.ts",
-    "types/3.1/core-xml.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -63,7 +53,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-xml/",
   "sideEffects": false,
@@ -76,13 +66,11 @@
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
     "@types/trusted-types": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
-    "downlevel-dts": "^0.10.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
@@ -95,13 +83,11 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
+    "mocha": "^10.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1"
   },
   "//metadata": {

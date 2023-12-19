@@ -2,76 +2,34 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import {
+  getClientOperations,
+  ClientOperations,
+} from "./classic/client/index.js";
+import {
+  createOpenAI,
+  OpenAIClientOptions,
+  OpenAIContext,
+} from "./api/index.js";
 
 export { OpenAIClientOptions } from "./api/OpenAIContext.js";
 
 export class OpenAIClient {
   private _client: OpenAIContext;
+  /** The pipeline used by this client to make requests */
+  public readonly pipeline: Pipeline;
 
-  /** Azure OpenAI APIs for completions and search */
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
     options: OpenAIClientOptions = {}
   ) {
     this._client = createOpenAI(endpoint, credential, options);
+    this.pipeline = this._client.pipeline;
+    this.client = getClientOperations(this._client);
   }
 
-  /** Return the embeddings for a given prompt. */
-  getEmbeddings(
-    input: string[],
-    deploymentId: string,
-    options: GetEmbeddingsOptions = { requestOptions: {} }
-  ): Promise<Embeddings> {
-    return getEmbeddings(this._client, input, deploymentId, options);
-  }
-
-  /**
-   * Gets completions for the provided input prompts.
-   * Completions support a wide variety of tasks and generate text that continues from or "completes"
-   * provided prompt data.
-   */
-  getCompletions(
-    prompt: string[],
-    deploymentId: string,
-    options: GetCompletionsOptions = { requestOptions: {} }
-  ): Promise<Completions> {
-    return getCompletions(this._client, prompt, deploymentId, options);
-  }
-
-  /**
-   * Gets chat completions for the provided chat messages.
-   * Completions support a wide variety of tasks and generate text that continues from or "completes"
-   * provided prompt data.
-   */
-  getChatCompletions(
-    messages: ChatMessage[],
-    deploymentId: string,
-    options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): Promise<ChatCompletions> {
-    return getChatCompletions(this._client, messages, deploymentId, options);
-  }
-
-  /** Returns the status of the images operation */
-  getAzureBatchImageGenerationOperationStatus(
-    operationId: string,
-    options: GetAzureBatchImageGenerationOperationStatusOptions = {
-      requestOptions: {},
-    }
-  ): Promise<BatchImageGenerationOperationResponse> {
-    return getAzureBatchImageGenerationOperationStatus(
-      this._client,
-      operationId,
-      options
-    );
-  }
-
-  /** Starts the generation of a batch of images from a text caption */
-  beginAzureBatchImageGeneration(
-    prompt: string,
-    options: BeginAzureBatchImageGenerationOptions = { requestOptions: {} }
-  ): Promise<BatchImageGenerationOperationResponse> {
-    return beginAzureBatchImageGeneration(this._client, prompt, options);
-  }
+  /** The operation groups for ClientOpenAIClient */
+  public readonly client: ClientOperations;
 }

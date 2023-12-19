@@ -1,18 +1,11 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.20.0",
+  "version": "12.22.0-beta.2",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-datalake/src/index.js",
   "types": "./types/latest/storage-file-datalake.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "./types/3.1/storage-file-datalake.d.ts"
-      ]
-    }
-  },
   "browser": {
     "./dist-esm/storage-file-datalake/src/index.js": "./dist-esm/storage-file-datalake/src/index.browser.js",
     "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.js": "./dist-esm/storage-file-datalake/src/credentials/StorageSharedKeyCredential.browser.js",
@@ -29,15 +22,14 @@
     "./dist/index.js": "./dist-esm/storage-file-datalake/src/index.js"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "build:samples": "echo Obsolete.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
@@ -65,7 +57,6 @@
     "dist-esm/storage-file-datalake/src/",
     "dist-esm/storage-common/src/",
     "types/latest/storage-file-datalake.d.ts",
-    "types/3.1/storage-file-datalake.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -126,27 +117,26 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.20.0",
+    "@azure/storage-blob": "^12.23.0-beta.1",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^9.0.4",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "es6-promise": "^4.2.5",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
@@ -162,16 +152,15 @@
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
-    "mocha": "^7.1.1",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
+    "mocha": "^10.0.0",
+    "c8": "^8.0.0",
     "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1"
   }
 }

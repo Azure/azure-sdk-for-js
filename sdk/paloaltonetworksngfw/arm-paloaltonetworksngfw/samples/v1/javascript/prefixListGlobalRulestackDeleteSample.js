@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a PrefixListGlobalRulestackResource
  *
  * @summary Delete a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListGlobalRulestack_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Delete_MaximumSet_Gen.json
  */
 async function prefixListGlobalRulestackDeleteMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -34,7 +34,7 @@ async function prefixListGlobalRulestackDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete a PrefixListGlobalRulestackResource
  *
  * @summary Delete a PrefixListGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PrefixListGlobalRulestack_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PrefixListGlobalRulestack_Delete_MinimumSet_Gen.json
  */
 async function prefixListGlobalRulestackDeleteMinimumSetGen() {
   const globalRulestackName = "praval";

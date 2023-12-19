@@ -12,7 +12,7 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "dependencies": {
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@azure/service-bus": "^7.0.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -21,7 +21,7 @@
   "devDependencies": {
     "@azure/identity-cache-persistence": "^1.0.0",
     "@types/express": "^4.16.0",
-    "@types/node": "14.0.0",
+    "@types/node": "^18.0.0",
     "@types/react": "^16.8.24",
     "@types/react-dom": "^16.8.5",
     "@types/webpack": "^4.4.13",
@@ -29,7 +29,7 @@
     "dotenv": "^16.0.0",
     "prettier": "^2.5.1",
     "ts-loader": "^8.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "webpack": "^4.0.0",
     "webpack-cli": "^3.0.0",
     "webpack-dev-server": "^3.7.2"

@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MetadataLookUpType } from "../CosmosDiagnostics";
-import { CosmosDiagnosticContext } from "../CosmosDiagnosticsContext";
+import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { PartitionKeyDefinition } from "../documents";
 import { Container } from "./Container";
 
-export async function readAndRecordPartitionKeyDefinition(container: Container): Promise<{
-  diagnosticContext: CosmosDiagnosticContext;
-  partitionKeyDefinition: PartitionKeyDefinition;
-}> {
-  const diagnosticContext: CosmosDiagnosticContext = new CosmosDiagnosticContext();
-
-  const { resource: partitionKeyDefinition, diagnostics } =
-    await container.readPartitionKeyDefinition();
-  diagnosticContext.recordMetaDataLookup(diagnostics, MetadataLookUpType.PartitionKeyRangeLookUp);
-  return { diagnosticContext, partitionKeyDefinition };
+export async function readPartitionKeyDefinition(
+  diagnosticNode: DiagnosticNodeInternal,
+  container: Container
+): Promise<PartitionKeyDefinition> {
+  const partitionKeyDefinition = await container.readPartitionKeyDefinition(diagnosticNode);
+  return partitionKeyDefinition.resource;
 }

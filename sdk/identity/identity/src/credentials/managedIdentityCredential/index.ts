@@ -60,7 +60,7 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
  * Azure Kubernetes Services, Azure Service Fabric instances and inside of the Azure Cloud Shell.
  *
  * More information about configuring managed identities can be found here:
- * https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
+ * https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
  */
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
@@ -124,17 +124,20 @@ export class ManagedIdentityCredential implements TokenCredential {
         maxRetries: 0,
       },
     });
+
     /**  authority host validation and metadata discovery to be skipped in managed identity
      * since this wasn't done previously before adding token cache support
      */
     this.confidentialApp = new ConfidentialClientApplication({
       auth: {
+        authority: "https://login.microsoftonline.com/managed_identity",
         clientId: this.clientId ?? DeveloperSignOnClientId,
         clientSecret: "dummy-secret",
         cloudDiscoveryMetadata:
           '{"tenant_discovery_endpoint":"https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration","api-version":"1.1","metadata":[{"preferred_network":"login.microsoftonline.com","preferred_cache":"login.windows.net","aliases":["login.microsoftonline.com","login.windows.net","login.microsoft.com","sts.windows.net"]},{"preferred_network":"login.partner.microsoftonline.cn","preferred_cache":"login.partner.microsoftonline.cn","aliases":["login.partner.microsoftonline.cn","login.chinacloudapi.cn"]},{"preferred_network":"login.microsoftonline.de","preferred_cache":"login.microsoftonline.de","aliases":["login.microsoftonline.de"]},{"preferred_network":"login.microsoftonline.us","preferred_cache":"login.microsoftonline.us","aliases":["login.microsoftonline.us","login.usgovcloudapi.net"]},{"preferred_network":"login-us.microsoftonline.com","preferred_cache":"login-us.microsoftonline.com","aliases":["login-us.microsoftonline.com"]}]}',
         authorityMetadata:
           '{"token_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/token","token_endpoint_auth_methods_supported":["client_secret_post","private_key_jwt","client_secret_basic"],"jwks_uri":"https://login.microsoftonline.com/common/discovery/v2.0/keys","response_modes_supported":["query","fragment","form_post"],"subject_types_supported":["pairwise"],"id_token_signing_alg_values_supported":["RS256"],"response_types_supported":["code","id_token","code id_token","id_token token"],"scopes_supported":["openid","profile","email","offline_access"],"issuer":"https://login.microsoftonline.com/{tenantid}/v2.0","request_uri_parameter_supported":false,"userinfo_endpoint":"https://graph.microsoft.com/oidc/userinfo","authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/authorize","device_authorization_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/devicecode","http_logout_supported":true,"frontchannel_logout_supported":true,"end_session_endpoint":"https://login.microsoftonline.com/common/oauth2/v2.0/logout","claims_supported":["sub","iss","cloud_instance_name","cloud_instance_host_name","cloud_graph_host_name","msgraph_host","aud","exp","iat","auth_time","acr","nonce","preferred_username","name","tid","ver","at_hash","c_hash","email"],"kerberos_endpoint":"https://login.microsoftonline.com/common/kerberos","tenant_region_scope":null,"cloud_instance_name":"microsoftonline.com","cloud_graph_host_name":"graph.windows.net","msgraph_host":"graph.microsoft.com","rbac_url":"https://pas.windows.net"}',
+        clientCapabilities: [],
       },
       system: {
         loggerOptions: {
@@ -217,7 +220,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    * If an unexpected error occurs, an {@link AuthenticationError} will be thrown with the details of the failure.
    *
@@ -245,7 +248,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         } else {
           const appTokenParameters: AppTokenProviderParameters = {
             correlationId: this.identityClient.getCorrelationId(),
-            tenantId: options?.tenantId || "organizations",
+            tenantId: options?.tenantId || "managed_identity",
             scopes: Array.isArray(scopes) ? scopes : [scopes],
             claims: options?.claims,
           };
@@ -333,6 +336,19 @@ export class ManagedIdentityCredential implements TokenCredential {
         throw new CredentialUnavailableError(
           `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
         );
+      }
+
+      // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+      // rather than just timing out, as expected.
+      if (err.statusCode === 403 || err.code === 403) {
+        if (err.message.includes("A socket operation was attempted to an unreachable network")) {
+          const error = new CredentialUnavailableError(
+            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
+          );
+
+          logger.getToken.info(formatError(scopes, error));
+          throw error;
+        }
       }
 
       // If the error has no status code, we can assume there was no available identity.

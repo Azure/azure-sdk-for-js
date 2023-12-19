@@ -15,7 +15,7 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   let client: AnomalyDetectorRestClient;
-  function sleep(time: number): Promise<NodeJS.Timer> {
+  function sleep(time: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, time));
   }
   const series = [

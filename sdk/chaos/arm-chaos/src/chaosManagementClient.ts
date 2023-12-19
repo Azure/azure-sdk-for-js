@@ -18,6 +18,7 @@ import {
   CapabilitiesImpl,
   CapabilityTypesImpl,
   ExperimentsImpl,
+  OperationStatusesImpl,
   OperationsImpl,
   TargetTypesImpl,
   TargetsImpl
@@ -26,6 +27,7 @@ import {
   Capabilities,
   CapabilityTypes,
   Experiments,
+  OperationStatuses,
   Operations,
   TargetTypes,
   Targets
@@ -35,7 +37,7 @@ import { ChaosManagementClientOptionalParams } from "./models";
 export class ChaosManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ChaosManagementClient class.
@@ -47,12 +49,26 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ChaosManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ChaosManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ChaosManagementClientOptionalParams | string,
+    options?: ChaosManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -64,7 +80,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-chaos/1.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-chaos/1.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -117,10 +133,11 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-10-01-preview";
+    this.apiVersion = options.apiVersion || "2023-11-01";
     this.capabilities = new CapabilitiesImpl(this);
     this.capabilityTypes = new CapabilityTypesImpl(this);
     this.experiments = new ExperimentsImpl(this);
+    this.operationStatuses = new OperationStatusesImpl(this);
     this.operations = new OperationsImpl(this);
     this.targetTypes = new TargetTypesImpl(this);
     this.targets = new TargetsImpl(this);
@@ -158,6 +175,7 @@ export class ChaosManagementClient extends coreClient.ServiceClient {
   capabilities: Capabilities;
   capabilityTypes: CapabilityTypes;
   experiments: Experiments;
+  operationStatuses: OperationStatuses;
   operations: Operations;
   targetTypes: TargetTypes;
   targets: Targets;

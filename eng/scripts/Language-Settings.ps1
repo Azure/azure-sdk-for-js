@@ -128,6 +128,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
+    LegacyReadMeLocation  = 'docs-ref-services/legacy'
     Suffix                = ''
   }
 }
@@ -214,40 +215,6 @@ function Get-PackageNameFromDocsMsConfig($DocsConfigName) {
 # "@azure/package-name@1.2.3" "1.3.0" -> "@azure/package-name@1.3.0"
 function Get-DocsMsPackageName($packageName, $packageVersion) { 
   return "$(Get-PackageNameFromDocsMsConfig $packageName)@$packageVersion"
-}
-
-
-# Performs package validation for a list of packages provided in the doc 
-# onboarding format ("name" is the only required field): 
-# @{
-#   name = "@azure/attestation@dev";
-#   folder = "./types";
-#   registry = "<url>";
-#   ...
-# }
-function ValidatePackagesForDocs($packages, $DocValidationImageId) {
-  # Using GetTempPath because it works on linux and windows
-  $tempDirectory = Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName())
-  New-Item -ItemType Directory -Force -Path $tempDirectory | Out-Null
-
-  $scriptRoot = $PSScriptRoot
-  # Run this in parallel as each step takes a long time to run
-  $validationOutput = $packages | Foreach-Object -Parallel {
-    # Get value for variables outside of the Foreach-Object scope
-    $scriptRoot = "$using:scriptRoot"
-    $workingDirectory = "$using:tempDirectory"
-    return ."$scriptRoot\validate-docs-package.ps1" -Package $_ -DocValidationImageId "$using:DocValidationImageId" -WorkingDirectory $workingDirectory 
-  }
-
-  # Clean up temp folder
-  Remove-Item -Path $tempDirectory -Force -Recurse -ErrorAction Ignore | Out-Null
-
-  return $validationOutput
-}
-
-$PackageExclusions = @{
-  '@azure/identity-vscode'            = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
-  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
@@ -450,39 +417,68 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   }
 }
 
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
+# Defined in common.ps1 as:
+# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages" 
+function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
   if (!$PackageInfos) {
     $PackageInfos = @($PackageInfo)
   }
 
-  $outputPackages = @()
+  $allSucceeded = $true
 
   foreach ($packageInfo in $PackageInfos) {
-    $fileLocation = ""
-    if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
-      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
-      if ($packageInfo.DevVersion) {
-        $packageInfo.Version = $packageInfo.DevVersion
+    $outputLocation = New-Item `
+      -ItemType Directory `
+      -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
+    
+    Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
+    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
+    if ($LASTEXITCODE) {
+      $allSucceeded = $false
+      Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
+      $output | Write-Host
+    }
+  }
+
+  return $allSucceeded
+}
+
+function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
+  $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
+  
+  $directoriesWithErrors = @()
+
+  foreach ($directory in $moduleFolders) {
+    $directoryPath = "$RepoRoot/sdk/$directory"
+
+    if (Test-Path "$directoryPath/tsp-location.yaml") {
+      Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
+      Write-Host "$directory" -ForegroundColor Yellow
+
+      Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
+      }
+
+      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
       }
     }
     else {
-      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+      Write-Host "No tsp-location.yaml found in $directory"
     }
-
-    $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
-    
-    $outputPackage = $packageInfo
-    
-    foreach ($package in $packageConfig.npm_package_sources) {
-      if ($package.name -eq $packageInfo.Name) {
-        $outputPackage = $package
-        $outputPackage.name = Get-DocsMsPackageName $package.name $packageInfo.Version
-        break
-      }
-    }
-
-    $outputPackages += $outputPackage
   }
 
-  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
+  if ($directoriesWithErrors.Count -gt 0) {
+    Write-Host "##[error]Generation errors found in $($directoriesWithErrors.Count) directories:"
+    foreach ($directory in $directoriesWithErrors) {
+      Write-Host "  $directory"
+    }
+    exit 1
+  }
 }

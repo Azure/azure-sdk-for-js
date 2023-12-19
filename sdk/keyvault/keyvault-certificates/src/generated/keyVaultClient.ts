@@ -11,7 +11,7 @@ import * as coreHttpCompat from "@azure/core-http-compat";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion74,
+  ApiVersion75Preview1,
   KeyVaultClientOptionalParams,
   GetCertificatesOptionalParams,
   GetCertificatesResponse,
@@ -80,7 +80,7 @@ import {
 
 /** @internal */
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
-  apiVersion: ApiVersion74;
+  apiVersion: ApiVersion75Preview1;
 
   /**
    * Initializes a new instance of the KeyVaultClient class.
@@ -88,7 +88,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion74,
+    apiVersion: ApiVersion75Preview1,
     options?: KeyVaultClientOptionalParams
   ) {
     if (apiVersion === undefined) {
@@ -103,7 +103,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-certificates/4.7.1`;
+    const packageDetails = `azsdk-js-keyvault-certificates/4.8.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

@@ -10,17 +10,21 @@
 // Licensed under the MIT License.
 const { SiteRecoveryManagementClient } = require("@azure/arm-recoveryservices-siterecovery");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Lists the networks available for a fabric.
  *
  * @summary Lists the networks available for a fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationNetworks_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworks_ListByReplicationFabrics.json
  */
 async function getsTheListOfNetworksUnderAFabric() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "srce2avaultbvtaC27";
-  const resourceGroupName = "srcBvte2a14C27";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] || "srcBvte2a14C27";
   const fabricName = "b0cef6e9a4437b81803d0b55ada4f700ab66caae59c35d62723a1589c0cd13ac";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -35,4 +39,8 @@ async function getsTheListOfNetworksUnderAFabric() {
   console.log(resArray);
 }
 
-getsTheListOfNetworksUnderAFabric().catch(console.error);
+async function main() {
+  getsTheListOfNetworksUnderAFabric();
+}
+
+main().catch(console.error);

@@ -14,6 +14,10 @@ import {
   ManagedClustersListByResourceGroupOptionalParams,
   OutboundEnvironmentEndpoint,
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
+  MeshRevisionProfile,
+  ManagedClustersListMeshRevisionProfilesOptionalParams,
+  MeshUpgradeProfile,
+  ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ManagedClustersGetOSOptionsOptionalParams,
   ManagedClustersGetOSOptionsResponse,
   ManagedClustersListKubernetesVersionsOptionalParams,
@@ -55,7 +59,11 @@ import {
   ManagedClustersRunCommandOptionalParams,
   ManagedClustersRunCommandResponse,
   ManagedClustersGetCommandResultOptionalParams,
-  ManagedClustersGetCommandResultResponse
+  ManagedClustersGetCommandResultResponse,
+  ManagedClustersGetMeshRevisionProfileOptionalParams,
+  ManagedClustersGetMeshRevisionProfileResponse,
+  ManagedClustersGetMeshUpgradeProfileOptionalParams,
+  ManagedClustersGetMeshUpgradeProfileResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -90,8 +98,29 @@ export interface ManagedClusters {
     options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
+   * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
+   * available upgrades
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  listMeshRevisionProfiles(
+    location: string,
+    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
+  ): PagedAsyncIterableIterator<MeshRevisionProfile>;
+  /**
+   * Lists available upgrades for all service meshes in a specific cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param options The options parameters.
+   */
+  listMeshUpgradeProfiles(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
+  ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
+  /**
    * Gets supported OS options in the specified subscription.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   getOSOptions(
@@ -101,7 +130,7 @@ export interface ManagedClusters {
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
    * upgrades, and details on preview status of the version
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   listKubernetesVersions(
@@ -522,4 +551,29 @@ export interface ManagedClusters {
     commandId: string,
     options?: ManagedClustersGetCommandResultOptionalParams
   ): Promise<ManagedClustersGetCommandResultResponse>;
+  /**
+   * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
+   * available upgrades
+   * @param location The name of the Azure region.
+   * @param mode The mode of the mesh.
+   * @param options The options parameters.
+   */
+  getMeshRevisionProfile(
+    location: string,
+    mode: string,
+    options?: ManagedClustersGetMeshRevisionProfileOptionalParams
+  ): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
+  /**
+   * Gets available upgrades for a service mesh in a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param mode The mode of the mesh.
+   * @param options The options parameters.
+   */
+  getMeshUpgradeProfile(
+    resourceGroupName: string,
+    resourceName: string,
+    mode: string,
+    options?: ManagedClustersGetMeshUpgradeProfileOptionalParams
+  ): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
 }

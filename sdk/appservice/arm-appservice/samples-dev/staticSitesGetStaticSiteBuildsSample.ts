@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets all static site builds for a particular static site.
  *
  * @summary Description for Gets all static site builds for a particular static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetStaticSiteBuilds.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetStaticSiteBuilds.json
  */
 async function getAllBuildsForAStaticSite() {
   const subscriptionId =

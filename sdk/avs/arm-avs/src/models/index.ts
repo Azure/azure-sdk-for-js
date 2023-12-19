@@ -152,14 +152,14 @@ export interface MetricDimension {
   toBeExportedForShoebox?: boolean;
 }
 
-/** API error response */
-export interface CloudError {
-  /** An error returned by the API */
-  error?: ErrorResponse;
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
-export interface ErrorResponse {
+/** The error detail. */
+export interface ErrorDetail {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -179,7 +179,7 @@ export interface ErrorResponse {
    * The error details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: ErrorDetail[];
   /**
    * The error additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -304,6 +304,8 @@ export interface PrivateCloudUpdateProperties {
   availability?: AvailabilityProperties;
   /** Customer managed key encryption, can be enabled or disabled */
   encryption?: Encryption;
+  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
+  extendedNetworkBlocks?: string[];
 }
 
 /** The common properties of a cluster */
@@ -442,6 +444,8 @@ export interface PrivateCloudUpdate {
   availability?: AvailabilityProperties;
   /** Customer managed key encryption, can be enabled or disabled */
   encryption?: Encryption;
+  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
+  extendedNetworkBlocks?: string[];
 }
 
 /** A paged list of clusters */
@@ -1258,6 +1262,8 @@ export interface PrivateCloud extends TrackedResource {
   availability?: AvailabilityProperties;
   /** Customer managed key encryption, can be enabled or disabled */
   encryption?: Encryption;
+  /** Array of additional networks noncontiguous with networkBlock. Networks must be unique and non-overlapping across VNet in your subscription, on-premise, and this privateCloud networkBlock attribute. Make sure the CIDR format conforms to (A.B.C.D/X). */
+  extendedNetworkBlocks?: string[];
   /**
    * The provisioning state
    * NOTE: This property will not be serialized. It can only be populated by the server.

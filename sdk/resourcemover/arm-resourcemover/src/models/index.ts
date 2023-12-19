@@ -74,14 +74,20 @@ export interface Identity {
 /** Defines the move collection properties. */
 export interface MoveCollectionProperties {
   /** Gets or sets the source region. */
-  sourceRegion: string;
+  sourceRegion?: string;
   /** Gets or sets the target region. */
-  targetRegion: string;
+  targetRegion?: string;
+  /** Gets or sets the move region which indicates the region where the VM Regional to Zonal move will be conducted. */
+  moveRegion?: string;
   /**
    * Defines the provisioning states.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** Gets or sets the version of move collection. */
+  version?: string;
+  /** Defines the MoveType. */
+  moveType?: MoveType;
   /**
    * Defines the move collection errors.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -412,7 +418,9 @@ export interface ResourceSettings {
     | "Microsoft.KeyVault/vaults"
     | "Microsoft.Compute/diskEncryptionSets";
   /** Gets or sets the target Resource name. */
-  targetResourceName: string;
+  targetResourceName?: string;
+  /** Gets or sets the target resource group name. */
+  targetResourceGroupName?: string;
 }
 
 /** Defines the move resource status. */
@@ -1016,6 +1024,24 @@ export enum KnownProvisioningState {
  * **Failed**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link MoveType} that the service accepts. */
+export enum KnownMoveType {
+  /** RegionToRegion */
+  RegionToRegion = "RegionToRegion",
+  /** RegionToZone */
+  RegionToZone = "RegionToZone"
+}
+
+/**
+ * Defines values for MoveType. \
+ * {@link KnownMoveType} can be used interchangeably with MoveType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RegionToRegion** \
+ * **RegionToZone**
+ */
+export type MoveType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {

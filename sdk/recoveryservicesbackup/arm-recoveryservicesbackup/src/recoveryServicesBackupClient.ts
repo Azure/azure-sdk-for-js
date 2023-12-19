@@ -69,7 +69,10 @@ import {
   SecurityPINsImpl,
   RecoveryPointsRecommendedForMoveImpl,
   ResourceGuardProxiesImpl,
-  ResourceGuardProxyImpl
+  ResourceGuardProxyImpl,
+  FetchTieringCostImpl,
+  GetTieringCostOperationResultImpl,
+  TieringCostOperationStatusImpl
 } from "./operations";
 import {
   BackupResourceStorageConfigsNonCRR,
@@ -120,7 +123,10 @@ import {
   SecurityPINs,
   RecoveryPointsRecommendedForMove,
   ResourceGuardProxies,
-  ResourceGuardProxy
+  ResourceGuardProxy,
+  FetchTieringCost,
+  GetTieringCostOperationResult,
+  TieringCostOperationStatus
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -168,7 +174,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/10.1.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/12.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -221,7 +227,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-02-01";
+    this.apiVersion = options.apiVersion || "2023-06-01";
     this.backupResourceStorageConfigsNonCRR = new BackupResourceStorageConfigsNonCRRImpl(
       this
     );
@@ -297,6 +303,11 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
     );
     this.resourceGuardProxies = new ResourceGuardProxiesImpl(this);
     this.resourceGuardProxy = new ResourceGuardProxyImpl(this);
+    this.fetchTieringCost = new FetchTieringCostImpl(this);
+    this.getTieringCostOperationResult = new GetTieringCostOperationResultImpl(
+      this
+    );
+    this.tieringCostOperationStatus = new TieringCostOperationStatusImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -693,6 +704,9 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
   recoveryPointsRecommendedForMove: RecoveryPointsRecommendedForMove;
   resourceGuardProxies: ResourceGuardProxies;
   resourceGuardProxy: ResourceGuardProxy;
+  fetchTieringCost: FetchTieringCost;
+  getTieringCostOperationResult: GetTieringCostOperationResult;
+  tieringCostOperationStatus: TieringCostOperationStatus;
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified release in the API.
  *
  * @summary Deletes the specified release in the API.
- * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementDeleteApiRelease.json
+ * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2022-08-01/examples/ApiManagementDeleteApiRelease.json
  */
 async function apiManagementDeleteApiRelease() {
   const subscriptionId =

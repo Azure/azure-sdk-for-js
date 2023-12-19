@@ -1,5 +1,127 @@
 # Release History
     
+## 10.1.0-beta.3 (2023-12-05)
+    
+**Features**
+
+  - Added operation group JobPrivateEndpoints
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTier
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierAndWait
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroup
+  - Added operation LongTermRetentionBackups.beginChangeAccessTierByResourceGroupAndWait
+  - Added Interface ChangeLongTermRetentionBackupAccessTierParameters
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Interface JobPrivateEndpoint
+  - Added Interface JobPrivateEndpointListResult
+  - Added Interface JobPrivateEndpointsCreateOrUpdateOptionalParams
+  - Added Interface JobPrivateEndpointsDeleteOptionalParams
+  - Added Interface JobPrivateEndpointsGetOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentNextOptionalParams
+  - Added Interface JobPrivateEndpointsListByAgentOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  - Added Interface LongTermRetentionBackupsChangeAccessTierOptionalParams
+  - Added Type Alias BackupStorageAccessTier
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Added Type Alias FreeLimitExhaustionBehavior
+  - Added Type Alias JobPrivateEndpointsCreateOrUpdateResponse
+  - Added Type Alias JobPrivateEndpointsGetResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentNextResponse
+  - Added Type Alias JobPrivateEndpointsListByAgentResponse
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
+  - Added Type Alias LongTermRetentionBackupsChangeAccessTierResponse
+  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
+  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter useFreeLimit
+  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
+  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
+  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface InstancePool has a new optional parameter dnsZone
+  - Interface InstancePool has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter dnsZone
+  - Interface InstancePoolUpdate has a new optional parameter licenseType
+  - Interface InstancePoolUpdate has a new optional parameter maintenanceConfigurationId
+  - Interface InstancePoolUpdate has a new optional parameter sku
+  - Interface InstancePoolUpdate has a new optional parameter subnetId
+  - Interface InstancePoolUpdate has a new optional parameter vCores
+  - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Added Enum KnownBackupStorageAccessTier
+  - Added Enum KnownFreeLimitExhaustionBehavior
+    
+    
+## 10.1.0-beta.2 (2023-09-20)
+
+**Features**
+
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Added Type Alias FreeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter encryptionProtectorAutoRotation
+  - Interface Database has a new optional parameter freeLimitExhaustionBehavior
+  - Interface Database has a new optional parameter useFreeLimit
+  - Interface DatabaseUpdate has a new optional parameter encryptionProtectorAutoRotation
+  - Interface DatabaseUpdate has a new optional parameter freeLimitExhaustionBehavior
+  - Interface DatabaseUpdate has a new optional parameter useFreeLimit
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface FailoverGroupReadOnlyEndpoint has a new optional parameter targetServer
+  - Interface FailoverGroupUpdate has a new optional parameter partnerServers
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface Server has a new optional parameter isIPv6Enabled
+  - Interface ServerUpdate has a new optional parameter isIPv6Enabled
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+  - Added Enum KnownFreeLimitExhaustionBehavior
+
+## 10.1.0-beta.1 (2023-07-28)
+
+**Features**
+
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailover
+  - Added operation FailoverGroups.beginTryPlannedBeforeForcedFailoverAndWait
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverHeaders
+  - Added Interface FailoverGroupsTryPlannedBeforeForcedFailoverOptionalParams
+  - Added Type Alias FailoverGroupsTryPlannedBeforeForcedFailoverResponse
+  - Interface ElasticPool has a new optional parameter availabilityZone
+  - Interface ElasticPool has a new optional parameter minCapacity
+  - Interface ElasticPool has a new optional parameter preferredEnclaveType
+  - Interface ElasticPoolUpdate has a new optional parameter availabilityZone
+  - Interface ElasticPoolUpdate has a new optional parameter minCapacity
+  - Interface ElasticPoolUpdate has a new optional parameter preferredEnclaveType
+  - Interface ManagedDatabase has a new optional parameter isLedgerOn
+  - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
+  - Interface PrivateEndpointConnection has a new optional parameter groupIds
+  - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
+
+
 ## 10.0.0 (2023-03-22)
     
 **Features**
@@ -722,4 +844,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

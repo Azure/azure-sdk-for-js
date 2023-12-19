@@ -5,28 +5,43 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
+  TranscriptionConfiguration,
   CallRejectReason,
   FileSource,
   TextSource,
   SsmlSource,
   DtmfTone,
-  Choice,
+  RecognitionChoice,
   RecordingContent,
   RecordingChannel,
   RecordingFormat,
   CallLocator,
   ChannelAffinity,
+  CallIntelligenceOptions,
+  CustomCallingContext,
 } from "./models";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {
+  /** The source of the audio to be played for recognition. */
   playPrompt?: FileSource | TextSource | SsmlSource;
+  /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
+  /** @deprecated Not in use, instead use interruptCallMediaOperation for similar functionality*/
   stopCurrentOperations?: boolean;
+  /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Determines if we interrupt the prompt and start recognizing. */
   interruptPrompt?: boolean;
+  /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
+  /** speechModelEndpointId. */
   speechModelEndpointId?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /** The recognize configuration specific to Dtmf. */
@@ -35,31 +50,47 @@ export interface CallMediaRecognizeDtmfOptions extends CallMediaRecognizeOptions
   interToneTimeoutInSeconds?: number;
   /** List of tones that will stop recognizing. */
   stopDtmfTones?: DtmfTone[];
+  /** Maximum number of DTMF tones to be collected. */
+  maxTonesToCollect?: number;
   readonly kind: "callMediaRecognizeDtmfOptions";
 }
 
 /** The recognize configuration specific to Choices. */
 export interface CallMediaRecognizeChoiceOptions extends CallMediaRecognizeOptions {
   /** The IvR choices for recognize. */
-  choices: Choice[];
+  choices: RecognitionChoice[];
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeChoiceOptions";
 }
 
 /** The recognize configuration specific to Speech. */
 export interface CallMediaRecognizeSpeechOptions extends CallMediaRecognizeOptions {
   /** The length of end silence when user stops speaking and cogservice send response. */
-  endSilenceTimeoutInMs?: number;
+  endSilenceTimeoutInSeconds?: number;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOptions";
 }
 
 /** The recognize configuration for Speech or Dtmf  */
 export interface CallMediaRecognizeSpeechOrDtmfOptions extends CallMediaRecognizeOptions {
   /** The length of end silence when user stops speaking and cogservice send response. */
-  endSilenceTimeoutInMs?: number;
+  endSilenceTimeoutInSeconds?: number;
   /** Time to wait between DTMF inputs to stop recognizing. */
   interToneTimeoutInSeconds?: number;
   /** List of tones that will stop recognizing. */
   stopDtmfTones?: DtmfTone[];
+  /** Maximum number of DTMF tones to be collected. */
+  maxTonesToCollect?: number;
+  /** Speech language to be recognized, If not set default is en-US */
+  speechLanguage?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   readonly kind: "callMediaRecognizeSpeechOrDtmfOptions";
 }
 
@@ -76,24 +107,26 @@ export interface CreateCallOptions extends OperationOptions {
   sourceDisplayName?: string;
   /** The operation context. */
   operationContext?: string;
-  /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
+  /** Configuration of live transcription. */
+  transcriptionConfiguration?: TranscriptionConfiguration;
+  /** The Custom Context. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /**
  * Options to answer a call.
  */
 export interface AnswerCallOptions extends OperationOptions {
-  /** The Azure cognitive services end point url. */
-  azureCognitiveServicesEndpointUrl?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** Configuration of live transcription. */
+  transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
 }
@@ -102,10 +135,8 @@ export interface AnswerCallOptions extends OperationOptions {
  * Options to redirect call.
  */
 export interface RedirectCallOptions extends OperationOptions {
-  /** Headers for SIP calls */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Headers for VOIP calls */
-  voipHeaders?: { [propertyName: string]: string };
+  /** The Custom Context. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -122,14 +153,15 @@ export interface RejectCallOptions extends OperationOptions {
 export interface TransferCallToParticipantOptions extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Custom context for PSTN. */
-  sipHeaders?: { [propertyName: string]: string };
-  /** Custom context for voip. */
-  voipHeaders?: { [propertyName: string]: string };
-  /** Call back URI override for this request */
-  callbackUrlOverride?: string;
-  /** Participant that is being transferred away */
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** Transferee is the participant who is transferred away. */
   transferee?: CommunicationIdentifier;
+  /** Used by customer to send custom context to targets. */
+  customCallingContext?: CustomCallingContext;
 }
 
 /** Options to add participants. */
@@ -141,8 +173,11 @@ export interface AddParticipantOptions extends OperationOptions {
   invitationTimeoutInSeconds?: number;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Call back URI override for this request */
-  callbackUrlOverride?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -151,14 +186,17 @@ export interface AddParticipantOptions extends OperationOptions {
 export interface RemoveParticipantsOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
-  /** Call back URI override for this request */
-  callbackUrlOverride?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
- * Options to mute participants.
+ * Options to mute participant.
  */
-export interface MuteParticipantsOption extends OperationOptions {
+export interface MuteParticipantOption extends OperationOptions {
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
 }
@@ -167,8 +205,15 @@ export interface MuteParticipantsOption extends OperationOptions {
  * Options to play audio.
  */
 export interface PlayOptions extends OperationOptions {
+  /** Determine if it is looping */
   loop?: boolean;
+  /** The value to identify context of the operation. */
   operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -200,6 +245,8 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
+  /** Pause on start call recording option. */
+  pauseOnStart?: boolean;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
@@ -256,12 +303,51 @@ export interface DownloadRecordingOptions extends OperationOptions {
 export interface ContinuousDtmfRecognitionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
- * Options to send Dtmf tone.
+ * Options to send Dtmf tones.
  */
-export interface SendDtmfOptions extends OperationOptions {
+export interface SendDtmfTonesOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+}
+
+/** Options for cancelling add participant request. */
+export interface CancelAddParticipantOperationOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+}
+
+/**
+ * Options to start transcription
+ */
+export interface StartTranscriptionOptions extends OperationOptions {
+  /** Defines Locale for the transcription e,g en-US */
+  locale?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to stop transcription
+ */
+export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
 }

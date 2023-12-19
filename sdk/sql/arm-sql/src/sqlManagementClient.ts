@@ -34,12 +34,11 @@ import {
   DeletedServersImpl,
   ElasticPoolOperationsImpl,
   EncryptionProtectorsImpl,
-  FailoverGroupsImpl,
   FirewallRulesImpl,
-  InstancePoolsImpl,
   JobAgentsImpl,
   JobCredentialsImpl,
   JobExecutionsImpl,
+  JobPrivateEndpointsImpl,
   JobsImpl,
   JobStepExecutionsImpl,
   JobStepsImpl,
@@ -47,7 +46,6 @@ import {
   JobTargetGroupsImpl,
   JobVersionsImpl,
   CapabilitiesImpl,
-  LongTermRetentionPoliciesImpl,
   MaintenanceWindowOptionsOperationsImpl,
   MaintenanceWindowsOperationsImpl,
   ManagedBackupShortTermRetentionPoliciesImpl,
@@ -106,13 +104,11 @@ import {
   LedgerDigestUploadsOperationsImpl,
   OutboundFirewallRulesImpl,
   UsagesImpl,
-  LongTermRetentionBackupsImpl,
   LongTermRetentionManagedInstanceBackupsImpl,
   RestorableDroppedManagedDatabasesImpl,
   ServerConnectionPoliciesImpl,
   DistributedAvailabilityGroupsImpl,
   ServerTrustCertificatesImpl,
-  IPv6FirewallRulesImpl,
   EndpointCertificatesImpl,
   ManagedDatabaseSensitivityLabelsImpl,
   ManagedDatabaseRecommendedSensitivityLabelsImpl,
@@ -125,15 +121,25 @@ import {
   DatabaseAdvancedThreatProtectionSettingsImpl,
   ServerAdvancedThreatProtectionSettingsImpl,
   ManagedServerDnsAliasesImpl,
-  DatabaseSqlVulnerabilityAssessmentBaselinesImpl,
-  DatabaseSqlVulnerabilityAssessmentExecuteScanImpl,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl,
-  DatabaseSqlVulnerabilityAssessmentScanResultImpl,
-  DatabaseSqlVulnerabilityAssessmentScansImpl,
-  DatabaseSqlVulnerabilityAssessmentsSettingsImpl,
   ManagedDatabaseAdvancedThreatProtectionSettingsImpl,
   ManagedInstanceAdvancedThreatProtectionSettingsImpl,
   ReplicationLinksImpl,
+  ManagedDatabaseMoveOperationsImpl,
+  ManagedInstanceDtcsImpl,
+  SynapseLinkWorkspacesImpl,
+  VirtualClustersImpl,
+  InstanceFailoverGroupsImpl,
+  ManagedDatabaseRestoreDetailsImpl,
+  DatabaseEncryptionProtectorsImpl,
+  ManagedDatabasesImpl,
+  ManagedInstancesImpl,
+  ManagedLedgerDigestUploadsOperationsImpl,
+  RecoverableDatabasesImpl,
+  RestorableDroppedDatabasesImpl,
+  ServerConfigurationOptionsImpl,
+  StartStopManagedInstanceSchedulesImpl,
+  TransparentDataEncryptionsImpl,
+  IPv6FirewallRulesImpl,
   SqlVulnerabilityAssessmentBaselineImpl,
   SqlVulnerabilityAssessmentBaselinesImpl,
   SqlVulnerabilityAssessmentExecuteScanImpl,
@@ -143,22 +149,17 @@ import {
   SqlVulnerabilityAssessmentScansImpl,
   SqlVulnerabilityAssessmentsSettingsImpl,
   SqlVulnerabilityAssessmentsImpl,
-  ManagedDatabaseMoveOperationsImpl,
-  ManagedInstanceDtcsImpl,
-  SynapseLinkWorkspacesImpl,
-  VirtualClustersImpl,
-  InstanceFailoverGroupsImpl,
-  ManagedDatabaseRestoreDetailsImpl,
-  ManagedDatabasesImpl,
-  DatabaseEncryptionProtectorsImpl,
-  ManagedInstancesImpl,
-  ManagedLedgerDigestUploadsOperationsImpl,
-  RecoverableDatabasesImpl,
-  RestorableDroppedDatabasesImpl,
-  ServerConfigurationOptionsImpl,
+  DatabaseSqlVulnerabilityAssessmentBaselinesImpl,
+  DatabaseSqlVulnerabilityAssessmentExecuteScanImpl,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl,
+  DatabaseSqlVulnerabilityAssessmentScanResultImpl,
+  DatabaseSqlVulnerabilityAssessmentScansImpl,
+  DatabaseSqlVulnerabilityAssessmentsSettingsImpl,
   ServersImpl,
-  StartStopManagedInstanceSchedulesImpl,
-  TransparentDataEncryptionsImpl
+  FailoverGroupsImpl,
+  InstancePoolsImpl,
+  LongTermRetentionBackupsImpl,
+  LongTermRetentionPoliciesImpl
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -185,12 +186,11 @@ import {
   DeletedServers,
   ElasticPoolOperations,
   EncryptionProtectors,
-  FailoverGroups,
   FirewallRules,
-  InstancePools,
   JobAgents,
   JobCredentials,
   JobExecutions,
+  JobPrivateEndpoints,
   Jobs,
   JobStepExecutions,
   JobSteps,
@@ -198,7 +198,6 @@ import {
   JobTargetGroups,
   JobVersions,
   Capabilities,
-  LongTermRetentionPolicies,
   MaintenanceWindowOptionsOperations,
   MaintenanceWindowsOperations,
   ManagedBackupShortTermRetentionPolicies,
@@ -257,13 +256,11 @@ import {
   LedgerDigestUploadsOperations,
   OutboundFirewallRules,
   Usages,
-  LongTermRetentionBackups,
   LongTermRetentionManagedInstanceBackups,
   RestorableDroppedManagedDatabases,
   ServerConnectionPolicies,
   DistributedAvailabilityGroups,
   ServerTrustCertificates,
-  IPv6FirewallRules,
   EndpointCertificates,
   ManagedDatabaseSensitivityLabels,
   ManagedDatabaseRecommendedSensitivityLabels,
@@ -276,15 +273,25 @@ import {
   DatabaseAdvancedThreatProtectionSettings,
   ServerAdvancedThreatProtectionSettings,
   ManagedServerDnsAliases,
-  DatabaseSqlVulnerabilityAssessmentBaselines,
-  DatabaseSqlVulnerabilityAssessmentExecuteScan,
-  DatabaseSqlVulnerabilityAssessmentRuleBaselines,
-  DatabaseSqlVulnerabilityAssessmentScanResult,
-  DatabaseSqlVulnerabilityAssessmentScans,
-  DatabaseSqlVulnerabilityAssessmentsSettings,
   ManagedDatabaseAdvancedThreatProtectionSettings,
   ManagedInstanceAdvancedThreatProtectionSettings,
   ReplicationLinks,
+  ManagedDatabaseMoveOperations,
+  ManagedInstanceDtcs,
+  SynapseLinkWorkspaces,
+  VirtualClusters,
+  InstanceFailoverGroups,
+  ManagedDatabaseRestoreDetails,
+  DatabaseEncryptionProtectors,
+  ManagedDatabases,
+  ManagedInstances,
+  ManagedLedgerDigestUploadsOperations,
+  RecoverableDatabases,
+  RestorableDroppedDatabases,
+  ServerConfigurationOptions,
+  StartStopManagedInstanceSchedules,
+  TransparentDataEncryptions,
+  IPv6FirewallRules,
   SqlVulnerabilityAssessmentBaseline,
   SqlVulnerabilityAssessmentBaselines,
   SqlVulnerabilityAssessmentExecuteScan,
@@ -294,22 +301,17 @@ import {
   SqlVulnerabilityAssessmentScans,
   SqlVulnerabilityAssessmentsSettings,
   SqlVulnerabilityAssessments,
-  ManagedDatabaseMoveOperations,
-  ManagedInstanceDtcs,
-  SynapseLinkWorkspaces,
-  VirtualClusters,
-  InstanceFailoverGroups,
-  ManagedDatabaseRestoreDetails,
-  ManagedDatabases,
-  DatabaseEncryptionProtectors,
-  ManagedInstances,
-  ManagedLedgerDigestUploadsOperations,
-  RecoverableDatabases,
-  RestorableDroppedDatabases,
-  ServerConfigurationOptions,
+  DatabaseSqlVulnerabilityAssessmentBaselines,
+  DatabaseSqlVulnerabilityAssessmentExecuteScan,
+  DatabaseSqlVulnerabilityAssessmentRuleBaselines,
+  DatabaseSqlVulnerabilityAssessmentScanResult,
+  DatabaseSqlVulnerabilityAssessmentScans,
+  DatabaseSqlVulnerabilityAssessmentsSettings,
   Servers,
-  StartStopManagedInstanceSchedules,
-  TransparentDataEncryptions
+  FailoverGroups,
+  InstancePools,
+  LongTermRetentionBackups,
+  LongTermRetentionPolicies
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -344,7 +346,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.0.0`;
+    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -435,12 +437,11 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.deletedServers = new DeletedServersImpl(this);
     this.elasticPoolOperations = new ElasticPoolOperationsImpl(this);
     this.encryptionProtectors = new EncryptionProtectorsImpl(this);
-    this.failoverGroups = new FailoverGroupsImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
-    this.instancePools = new InstancePoolsImpl(this);
     this.jobAgents = new JobAgentsImpl(this);
     this.jobCredentials = new JobCredentialsImpl(this);
     this.jobExecutions = new JobExecutionsImpl(this);
+    this.jobPrivateEndpoints = new JobPrivateEndpointsImpl(this);
     this.jobs = new JobsImpl(this);
     this.jobStepExecutions = new JobStepExecutionsImpl(this);
     this.jobSteps = new JobStepsImpl(this);
@@ -448,7 +449,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.jobTargetGroups = new JobTargetGroupsImpl(this);
     this.jobVersions = new JobVersionsImpl(this);
     this.capabilities = new CapabilitiesImpl(this);
-    this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
     this.maintenanceWindowOptionsOperations = new MaintenanceWindowOptionsOperationsImpl(
       this
     );
@@ -563,7 +563,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     );
     this.outboundFirewallRules = new OutboundFirewallRulesImpl(this);
     this.usages = new UsagesImpl(this);
-    this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
     this.longTermRetentionManagedInstanceBackups = new LongTermRetentionManagedInstanceBackupsImpl(
       this
     );
@@ -575,7 +574,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.serverTrustCertificates = new ServerTrustCertificatesImpl(this);
-    this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
     this.endpointCertificates = new EndpointCertificatesImpl(this);
     this.managedDatabaseSensitivityLabels = new ManagedDatabaseSensitivityLabelsImpl(
       this
@@ -604,24 +602,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.managedServerDnsAliases = new ManagedServerDnsAliasesImpl(this);
-    this.databaseSqlVulnerabilityAssessmentBaselines = new DatabaseSqlVulnerabilityAssessmentBaselinesImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentExecuteScan = new DatabaseSqlVulnerabilityAssessmentExecuteScanImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentRuleBaselines = new DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentScanResult = new DatabaseSqlVulnerabilityAssessmentScanResultImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentScans = new DatabaseSqlVulnerabilityAssessmentScansImpl(
-      this
-    );
-    this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
-      this
-    );
     this.managedDatabaseAdvancedThreatProtectionSettings = new ManagedDatabaseAdvancedThreatProtectionSettingsImpl(
       this
     );
@@ -629,6 +609,32 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       this
     );
     this.replicationLinks = new ReplicationLinksImpl(this);
+    this.managedDatabaseMoveOperations = new ManagedDatabaseMoveOperationsImpl(
+      this
+    );
+    this.managedInstanceDtcs = new ManagedInstanceDtcsImpl(this);
+    this.synapseLinkWorkspaces = new SynapseLinkWorkspacesImpl(this);
+    this.virtualClusters = new VirtualClustersImpl(this);
+    this.instanceFailoverGroups = new InstanceFailoverGroupsImpl(this);
+    this.managedDatabaseRestoreDetails = new ManagedDatabaseRestoreDetailsImpl(
+      this
+    );
+    this.databaseEncryptionProtectors = new DatabaseEncryptionProtectorsImpl(
+      this
+    );
+    this.managedDatabases = new ManagedDatabasesImpl(this);
+    this.managedInstances = new ManagedInstancesImpl(this);
+    this.managedLedgerDigestUploadsOperations = new ManagedLedgerDigestUploadsOperationsImpl(
+      this
+    );
+    this.recoverableDatabases = new RecoverableDatabasesImpl(this);
+    this.restorableDroppedDatabases = new RestorableDroppedDatabasesImpl(this);
+    this.serverConfigurationOptions = new ServerConfigurationOptionsImpl(this);
+    this.startStopManagedInstanceSchedules = new StartStopManagedInstanceSchedulesImpl(
+      this
+    );
+    this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
+    this.iPv6FirewallRules = new IPv6FirewallRulesImpl(this);
     this.sqlVulnerabilityAssessmentBaseline = new SqlVulnerabilityAssessmentBaselineImpl(
       this
     );
@@ -656,32 +662,29 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.sqlVulnerabilityAssessments = new SqlVulnerabilityAssessmentsImpl(
       this
     );
-    this.managedDatabaseMoveOperations = new ManagedDatabaseMoveOperationsImpl(
+    this.databaseSqlVulnerabilityAssessmentBaselines = new DatabaseSqlVulnerabilityAssessmentBaselinesImpl(
       this
     );
-    this.managedInstanceDtcs = new ManagedInstanceDtcsImpl(this);
-    this.synapseLinkWorkspaces = new SynapseLinkWorkspacesImpl(this);
-    this.virtualClusters = new VirtualClustersImpl(this);
-    this.instanceFailoverGroups = new InstanceFailoverGroupsImpl(this);
-    this.managedDatabaseRestoreDetails = new ManagedDatabaseRestoreDetailsImpl(
+    this.databaseSqlVulnerabilityAssessmentExecuteScan = new DatabaseSqlVulnerabilityAssessmentExecuteScanImpl(
       this
     );
-    this.managedDatabases = new ManagedDatabasesImpl(this);
-    this.databaseEncryptionProtectors = new DatabaseEncryptionProtectorsImpl(
+    this.databaseSqlVulnerabilityAssessmentRuleBaselines = new DatabaseSqlVulnerabilityAssessmentRuleBaselinesImpl(
       this
     );
-    this.managedInstances = new ManagedInstancesImpl(this);
-    this.managedLedgerDigestUploadsOperations = new ManagedLedgerDigestUploadsOperationsImpl(
+    this.databaseSqlVulnerabilityAssessmentScanResult = new DatabaseSqlVulnerabilityAssessmentScanResultImpl(
       this
     );
-    this.recoverableDatabases = new RecoverableDatabasesImpl(this);
-    this.restorableDroppedDatabases = new RestorableDroppedDatabasesImpl(this);
-    this.serverConfigurationOptions = new ServerConfigurationOptionsImpl(this);
+    this.databaseSqlVulnerabilityAssessmentScans = new DatabaseSqlVulnerabilityAssessmentScansImpl(
+      this
+    );
+    this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
+      this
+    );
     this.servers = new ServersImpl(this);
-    this.startStopManagedInstanceSchedules = new StartStopManagedInstanceSchedulesImpl(
-      this
-    );
-    this.transparentDataEncryptions = new TransparentDataEncryptionsImpl(this);
+    this.failoverGroups = new FailoverGroupsImpl(this);
+    this.instancePools = new InstancePoolsImpl(this);
+    this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
+    this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -708,12 +711,11 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   deletedServers: DeletedServers;
   elasticPoolOperations: ElasticPoolOperations;
   encryptionProtectors: EncryptionProtectors;
-  failoverGroups: FailoverGroups;
   firewallRules: FirewallRules;
-  instancePools: InstancePools;
   jobAgents: JobAgents;
   jobCredentials: JobCredentials;
   jobExecutions: JobExecutions;
+  jobPrivateEndpoints: JobPrivateEndpoints;
   jobs: Jobs;
   jobStepExecutions: JobStepExecutions;
   jobSteps: JobSteps;
@@ -721,7 +723,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   jobTargetGroups: JobTargetGroups;
   jobVersions: JobVersions;
   capabilities: Capabilities;
-  longTermRetentionPolicies: LongTermRetentionPolicies;
   maintenanceWindowOptionsOperations: MaintenanceWindowOptionsOperations;
   maintenanceWindowsOperations: MaintenanceWindowsOperations;
   managedBackupShortTermRetentionPolicies: ManagedBackupShortTermRetentionPolicies;
@@ -780,13 +781,11 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   ledgerDigestUploadsOperations: LedgerDigestUploadsOperations;
   outboundFirewallRules: OutboundFirewallRules;
   usages: Usages;
-  longTermRetentionBackups: LongTermRetentionBackups;
   longTermRetentionManagedInstanceBackups: LongTermRetentionManagedInstanceBackups;
   restorableDroppedManagedDatabases: RestorableDroppedManagedDatabases;
   serverConnectionPolicies: ServerConnectionPolicies;
   distributedAvailabilityGroups: DistributedAvailabilityGroups;
   serverTrustCertificates: ServerTrustCertificates;
-  iPv6FirewallRules: IPv6FirewallRules;
   endpointCertificates: EndpointCertificates;
   managedDatabaseSensitivityLabels: ManagedDatabaseSensitivityLabels;
   managedDatabaseRecommendedSensitivityLabels: ManagedDatabaseRecommendedSensitivityLabels;
@@ -799,15 +798,25 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   databaseAdvancedThreatProtectionSettings: DatabaseAdvancedThreatProtectionSettings;
   serverAdvancedThreatProtectionSettings: ServerAdvancedThreatProtectionSettings;
   managedServerDnsAliases: ManagedServerDnsAliases;
-  databaseSqlVulnerabilityAssessmentBaselines: DatabaseSqlVulnerabilityAssessmentBaselines;
-  databaseSqlVulnerabilityAssessmentExecuteScan: DatabaseSqlVulnerabilityAssessmentExecuteScan;
-  databaseSqlVulnerabilityAssessmentRuleBaselines: DatabaseSqlVulnerabilityAssessmentRuleBaselines;
-  databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
-  databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
-  databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
   managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettings;
   managedInstanceAdvancedThreatProtectionSettings: ManagedInstanceAdvancedThreatProtectionSettings;
   replicationLinks: ReplicationLinks;
+  managedDatabaseMoveOperations: ManagedDatabaseMoveOperations;
+  managedInstanceDtcs: ManagedInstanceDtcs;
+  synapseLinkWorkspaces: SynapseLinkWorkspaces;
+  virtualClusters: VirtualClusters;
+  instanceFailoverGroups: InstanceFailoverGroups;
+  managedDatabaseRestoreDetails: ManagedDatabaseRestoreDetails;
+  databaseEncryptionProtectors: DatabaseEncryptionProtectors;
+  managedDatabases: ManagedDatabases;
+  managedInstances: ManagedInstances;
+  managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperations;
+  recoverableDatabases: RecoverableDatabases;
+  restorableDroppedDatabases: RestorableDroppedDatabases;
+  serverConfigurationOptions: ServerConfigurationOptions;
+  startStopManagedInstanceSchedules: StartStopManagedInstanceSchedules;
+  transparentDataEncryptions: TransparentDataEncryptions;
+  iPv6FirewallRules: IPv6FirewallRules;
   sqlVulnerabilityAssessmentBaseline: SqlVulnerabilityAssessmentBaseline;
   sqlVulnerabilityAssessmentBaselines: SqlVulnerabilityAssessmentBaselines;
   sqlVulnerabilityAssessmentExecuteScan: SqlVulnerabilityAssessmentExecuteScan;
@@ -817,20 +826,15 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   sqlVulnerabilityAssessmentScans: SqlVulnerabilityAssessmentScans;
   sqlVulnerabilityAssessmentsSettings: SqlVulnerabilityAssessmentsSettings;
   sqlVulnerabilityAssessments: SqlVulnerabilityAssessments;
-  managedDatabaseMoveOperations: ManagedDatabaseMoveOperations;
-  managedInstanceDtcs: ManagedInstanceDtcs;
-  synapseLinkWorkspaces: SynapseLinkWorkspaces;
-  virtualClusters: VirtualClusters;
-  instanceFailoverGroups: InstanceFailoverGroups;
-  managedDatabaseRestoreDetails: ManagedDatabaseRestoreDetails;
-  managedDatabases: ManagedDatabases;
-  databaseEncryptionProtectors: DatabaseEncryptionProtectors;
-  managedInstances: ManagedInstances;
-  managedLedgerDigestUploadsOperations: ManagedLedgerDigestUploadsOperations;
-  recoverableDatabases: RecoverableDatabases;
-  restorableDroppedDatabases: RestorableDroppedDatabases;
-  serverConfigurationOptions: ServerConfigurationOptions;
+  databaseSqlVulnerabilityAssessmentBaselines: DatabaseSqlVulnerabilityAssessmentBaselines;
+  databaseSqlVulnerabilityAssessmentExecuteScan: DatabaseSqlVulnerabilityAssessmentExecuteScan;
+  databaseSqlVulnerabilityAssessmentRuleBaselines: DatabaseSqlVulnerabilityAssessmentRuleBaselines;
+  databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
+  databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
+  databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
   servers: Servers;
-  startStopManagedInstanceSchedules: StartStopManagedInstanceSchedules;
-  transparentDataEncryptions: TransparentDataEncryptions;
+  failoverGroups: FailoverGroups;
+  instancePools: InstancePools;
+  longTermRetentionBackups: LongTermRetentionBackups;
+  longTermRetentionPolicies: LongTermRetentionPolicies;
 }

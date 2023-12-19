@@ -17,7 +17,6 @@ PackageVersions:
 - '@azure/event-hubs': source
   '@azure/core-amqp': source
   '@azure/core-auth': source
-  '@azure/core-http': source
   '@azure/core-rest-pipeline': source
   '@azure/core-tracing': source
   '@azure/core-util': source
@@ -25,12 +24,12 @@ PackageVersions:
   '@azure/logger': source
 
 Tests:
-- Test: send
+- Test: send-events-batch
   Class: SendTest
   Arguments:
   - --event-size 1024 --batch-size 100 --parallel 64
 
-- Test: subscribe
+- Test: process-events-batch
   Class: SubscribeTest
   Arguments:
   - --event-size 1024 --max-batch-size 100 --events 1000000

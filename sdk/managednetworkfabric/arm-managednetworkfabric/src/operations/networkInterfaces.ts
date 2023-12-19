@@ -21,9 +21,9 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   NetworkInterface,
-  NetworkInterfacesListNextOptionalParams,
-  NetworkInterfacesListOptionalParams,
-  NetworkInterfacesListResponse,
+  NetworkInterfacesListByNetworkDeviceNextOptionalParams,
+  NetworkInterfacesListByNetworkDeviceOptionalParams,
+  NetworkInterfacesListByNetworkDeviceResponse,
   NetworkInterfacesCreateOptionalParams,
   NetworkInterfacesCreateResponse,
   NetworkInterfacesGetOptionalParams,
@@ -32,12 +32,10 @@ import {
   NetworkInterfacesUpdateOptionalParams,
   NetworkInterfacesUpdateResponse,
   NetworkInterfacesDeleteOptionalParams,
-  NetworkInterfacesGetStatusOptionalParams,
-  NetworkInterfacesGetStatusResponse,
   UpdateAdministrativeState,
   NetworkInterfacesUpdateAdministrativeStateOptionalParams,
   NetworkInterfacesUpdateAdministrativeStateResponse,
-  NetworkInterfacesListNextResponse
+  NetworkInterfacesListByNetworkDeviceNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,15 +54,15 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * List all the Network Interface resources in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
-  public list(
+  public listByNetworkDevice(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams
   ): PagedAsyncIterableIterator<NetworkInterface> {
-    const iter = this.listPagingAll(
+    const iter = this.listByNetworkDevicePagingAll(
       resourceGroupName,
       networkDeviceName,
       options
@@ -80,7 +78,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
         if (settings?.maxPageSize) {
           throw new Error("maxPageSize is not supported by this operation.");
         }
-        return this.listPagingPage(
+        return this.listByNetworkDevicePagingPage(
           resourceGroupName,
           networkDeviceName,
           options,
@@ -90,23 +88,27 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     };
   }
 
-  private async *listPagingPage(
+  private async *listByNetworkDevicePagingPage(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListOptionalParams,
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<NetworkInterface[]> {
-    let result: NetworkInterfacesListResponse;
+    let result: NetworkInterfacesListByNetworkDeviceResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._list(resourceGroupName, networkDeviceName, options);
+      result = await this._listByNetworkDevice(
+        resourceGroupName,
+        networkDeviceName,
+        options
+      );
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
       yield page;
     }
     while (continuationToken) {
-      result = await this._listNext(
+      result = await this._listByNetworkDeviceNext(
         resourceGroupName,
         networkDeviceName,
         continuationToken,
@@ -119,12 +121,12 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     }
   }
 
-  private async *listPagingAll(
+  private async *listByNetworkDevicePagingAll(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams
   ): AsyncIterableIterator<NetworkInterface> {
-    for await (const page of this.listPagingPage(
+    for await (const page of this.listByNetworkDevicePagingPage(
       resourceGroupName,
       networkDeviceName,
       options
@@ -136,8 +138,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Create a Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -218,8 +220,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Create a Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -243,8 +245,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Get the Network Interface resource details.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   get(
@@ -262,8 +264,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Update certain properties of the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body NetworkInterface properties to update. Only tags are supported.
    * @param options The options parameters.
    */
@@ -335,7 +337,7 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
@@ -344,8 +346,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Update certain properties of the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body NetworkInterface properties to update. Only tags are supported.
    * @param options The options parameters.
    */
@@ -369,8 +371,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Delete the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -440,8 +442,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Delete the Network Interface resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice
-   * @param networkInterfaceName Name of the NetworkInterfaceName
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -462,126 +464,25 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * List all the Network Interface resources in a given resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
+   * @param networkDeviceName Name of the Network Device.
    * @param options The options parameters.
    */
-  private _list(
+  private _listByNetworkDevice(
     resourceGroupName: string,
     networkDeviceName: string,
-    options?: NetworkInterfacesListOptionalParams
-  ): Promise<NetworkInterfacesListResponse> {
+    options?: NetworkInterfacesListByNetworkDeviceOptionalParams
+  ): Promise<NetworkInterfacesListByNetworkDeviceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkDeviceName, options },
-      listOperationSpec
+      listByNetworkDeviceOperationSpec
     );
-  }
-
-  /**
-   * Get the running status of the Network Interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
-   * @param options The options parameters.
-   */
-  async beginGetStatus(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetStatusOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<NetworkInterfacesGetStatusResponse>,
-      NetworkInterfacesGetStatusResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<NetworkInterfacesGetStatusResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        networkDeviceName,
-        networkInterfaceName,
-        options
-      },
-      spec: getStatusOperationSpec
-    });
-    const poller = await createHttpPoller<
-      NetworkInterfacesGetStatusResponse,
-      OperationState<NetworkInterfacesGetStatusResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Get the running status of the Network Interface.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
-   * @param options The options parameters.
-   */
-  async beginGetStatusAndWait(
-    resourceGroupName: string,
-    networkDeviceName: string,
-    networkInterfaceName: string,
-    options?: NetworkInterfacesGetStatusOptionalParams
-  ): Promise<NetworkInterfacesGetStatusResponse> {
-    const poller = await this.beginGetStatus(
-      resourceGroupName,
-      networkDeviceName,
-      networkInterfaceName,
-      options
-    );
-    return poller.pollUntilDone();
   }
 
   /**
    * Update the admin state of the Network Interface.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -662,8 +563,8 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   /**
    * Update the admin state of the Network Interface.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param networkInterfaceName Name of the NetworkInterface
+   * @param networkDeviceName Name of the Network Device.
+   * @param networkInterfaceName Name of the Network Interface.
    * @param body Request payload.
    * @param options The options parameters.
    */
@@ -685,21 +586,21 @@ export class NetworkInterfacesImpl implements NetworkInterfaces {
   }
 
   /**
-   * ListNext
+   * ListByNetworkDeviceNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param networkDeviceName Name of the NetworkDevice.
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param networkDeviceName Name of the Network Device.
+   * @param nextLink The nextLink from the previous successful call to the ListByNetworkDevice method.
    * @param options The options parameters.
    */
-  private _listNext(
+  private _listByNetworkDeviceNext(
     resourceGroupName: string,
     networkDeviceName: string,
     nextLink: string,
-    options?: NetworkInterfacesListNextOptionalParams
-  ): Promise<NetworkInterfacesListNextResponse> {
+    options?: NetworkInterfacesListByNetworkDeviceNextOptionalParams
+  ): Promise<NetworkInterfacesListByNetworkDeviceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkDeviceName, nextLink, options },
-      listNextOperationSpec
+      listByNetworkDeviceNextOperationSpec
     );
   }
 }
@@ -727,7 +628,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body22,
+  requestBody: Parameters.body28,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -784,7 +685,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body23,
+  requestBody: Parameters.body29,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -821,7 +722,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listOperationSpec: coreClient.OperationSpec = {
+const listByNetworkDeviceOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/networkInterfaces",
   httpMethod: "GET",
@@ -843,64 +744,28 @@ const listOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getStatusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/networkInterfaces/{networkInterfaceName}/getStatus",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InterfaceStatus,
-      headersMapper: Mappers.NetworkInterfacesGetStatusHeaders
-    },
-    201: {
-      bodyMapper: Mappers.InterfaceStatus,
-      headersMapper: Mappers.NetworkInterfacesGetStatusHeaders
-    },
-    202: {
-      bodyMapper: Mappers.InterfaceStatus,
-      headersMapper: Mappers.NetworkInterfacesGetStatusHeaders
-    },
-    204: {
-      bodyMapper: Mappers.InterfaceStatus,
-      headersMapper: Mappers.NetworkInterfacesGetStatusHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.networkDeviceName,
-    Parameters.networkInterfaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedNetworkFabric/networkDevices/{networkDeviceName}/networkInterfaces/{networkInterfaceName}/updateAdministrativeState",
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper: Mappers.NetworkInterfacesUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     201: {
-      headersMapper: Mappers.NetworkInterfacesUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     202: {
-      headersMapper: Mappers.NetworkInterfacesUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     204: {
-      headersMapper: Mappers.NetworkInterfacesUpdateAdministrativeStateHeaders
+      bodyMapper: Mappers.CommonPostActionResponseForStateUpdate
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.body10,
+  requestBody: Parameters.body2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -913,7 +778,7 @@ const updateAdministrativeStateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
+const listByNetworkDeviceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

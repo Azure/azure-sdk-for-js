@@ -8,7 +8,6 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
-  AppConfigurationApiVersion,
   AppConfigurationClientOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
@@ -22,20 +21,18 @@ import {
   GetSnapshotResponse,
   HttpResponseField,
   ListConfigurationSettingPage,
+  ListConfigurationSettingsForSnapshotOptions,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
   ListRevisionsPage,
-  ListSettingsSnapshotsOptions,
   ListSnapshotsOptions,
   ListSnapshotsPage,
   PageSettings,
-  SendConfigurationSettingsOptions,
   SetConfigurationSettingOptions,
   SetConfigurationSettingParam,
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
-  SnapshotId,
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
@@ -47,7 +44,7 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
-  Snapshot,
+  ConfigurationSnapshot,
 } from "./generated/src/models";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
@@ -59,10 +56,12 @@ import {
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
+  SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
+  formatConfigurationSettingsFiltersAndSelect,
   formatFieldsForSelect,
   formatFiltersAndSelect,
   formatSnapshotFiltersAndSelect,
@@ -80,6 +79,7 @@ import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { appConfigurationApiVersion } from "./internal/constants";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -160,7 +160,8 @@ export class AppConfigurationClient {
         authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
-          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
+          `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`
         );
       }
     }
@@ -178,7 +179,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigOptions?.apiVersion || AppConfigurationApiVersion.Latest,
+      appConfigurationApiVersion,
       internalClientPipelineOptions
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
@@ -364,7 +365,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListSettingsSnapshotsOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {}
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -402,7 +403,7 @@ export class AppConfigurationClient {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
+          ...formatConfigurationSettingsFiltersAndSelect(options),
           after: pageLink,
         });
 
@@ -619,7 +620,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   recoverSnapshot(
-    snapshotId: SnapshotId,
+    name: string,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -628,11 +629,14 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "ready" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options }
+            ),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -641,19 +645,18 @@ export class AppConfigurationClient {
       }
     );
   }
-
   /**
    * Archive a ready snapshot
    *
    * Example usage:
    * ```ts
-   * const result = await client.archiveSnapshot("MySnapshot");
+   * const result = await client.archiveSnapshot({name: "MySnapshot"});
    * ```
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
-    snapshotId: SnapshotId,
+    name: string,
     options: UpdateSnapshotOptions = {}
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -662,11 +665,14 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "archived" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options }
+            ),
           }
         );
         const response = transformSnapshotResponse(originalResponse);
@@ -687,7 +693,7 @@ export class AppConfigurationClient {
    */
   listSnapshots(
     options: ListSnapshotsOptions = {}
-  ): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings> {
+  ): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings> {
     const pagedResult: PagedResult<ListSnapshotsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {

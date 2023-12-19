@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified managed cluster agent pool.
  *
  * @summary Gets the specified managed cluster agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-05-01/examples/AgentPoolsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/AgentPoolsGet.json
  */
 async function getAgentPool() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";

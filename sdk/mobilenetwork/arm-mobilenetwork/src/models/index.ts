@@ -120,7 +120,7 @@ export interface PinholeTimeouts {
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
@@ -178,6 +178,17 @@ export interface AttachedDataNetworkListResult {
 export interface DataNetworkListResult {
   /** A list of data networks. */
   value?: DataNetwork[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Response for diagnostics package API service call. */
+export interface DiagnosticsPackageListResult {
+  /** A list of diagnostics packages under a packet core control plane. */
+  value?: DiagnosticsPackage[];
   /**
    * The URL to get the next set of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -246,12 +257,63 @@ export interface OperationDisplay {
   description?: string;
 }
 
+/** The current status of an async operation. */
+export interface AsyncOperationStatus {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** The operation status. */
+  status: string;
+  /** Fully qualified ID for the resource that this async operation status relates to. */
+  resourceId?: string;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** Percentage of the operation that is complete. */
+  percentComplete?: number;
+  /** Properties returned by the resource provider on a successful operation */
+  properties?: Record<string, unknown>;
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** Response for packet capture API service call. */
+export interface PacketCaptureListResult {
+  /** A list of packet capture sessions under a packet core control plane. */
+  value?: PacketCapture[];
+  /**
+   * The URL to get the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** The installation state of the packet core. */
 export interface Installation {
-  /** Installation state */
-  state?: InstallationState;
-  /** A reference to an in-progress installation operation */
-  operation?: AsyncOperationId;
+  /** The desired installation state */
+  desiredState?: DesiredInstallationState;
+  /**
+   * Installation state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: InstallationState;
+  /**
+   * Whether a reinstall of the packet core is required to pick up the latest configuration changes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reinstallRequired?: ReinstallRequired;
+  /**
+   * Reason(s) for the current installation state of the packet core.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reasons?: InstallationReason[];
+  /**
+   * A reference to an in-progress installation operation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: AsyncOperationId;
 }
 
 /** Reference to an Azure Async Operation ID. */
@@ -342,19 +404,35 @@ export interface CertificateProvisioning {
   readonly reason?: string;
 }
 
-/** Managed service identity (system assigned and/or user assigned identities) */
+/** Configuration for uploading packet core diagnostics. */
+export interface DiagnosticsUploadConfiguration {
+  /** The Storage Account Container URL to upload diagnostics to. */
+  storageAccountContainerUrl: string;
+}
+
+/** Configuration for sending packet core events to Azure Event Hub. */
+export interface EventHubConfiguration {
+  /** Resource ID  of Azure Event Hub to send packet core events to. */
+  id: string;
+  /** The duration (in seconds) between UE usage reports. */
+  reportingInterval?: number;
+}
+
+/** Signaling configuration for the packet core. */
+export interface SignalingConfiguration {
+  /** Configuration enabling 4G NAS reroute. */
+  nasReroute?: NASRerouteConfiguration;
+}
+
+/** Configuration enabling NAS reroute. */
+export interface NASRerouteConfiguration {
+  /** The macro network's MME group ID. This is where unknown UEs are sent to via NAS reroute. */
+  macroMmeGroupId: number;
+}
+
+/** Managed service identity (User assigned identity) */
 export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  /** Type of managed service identity (currently only UserAssigned allowed). */
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
   userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
@@ -374,6 +452,14 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
+/** Identity and Tags object for patch operations. */
+export interface IdentityAndTagsObject {
+  /** The managed service identity associated with this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** Response for packet core control planes API service call. */
 export interface PacketCoreControlPlaneListResult {
   /** A list of packet core control planes in a resource group. */
@@ -383,28 +469,6 @@ export interface PacketCoreControlPlaneListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** The current status of an async operation. */
-export interface AsyncOperationStatus {
-  /** Fully qualified ID for the async operation. */
-  id?: string;
-  /** Name of the async operation. */
-  name?: string;
-  /** The operation status. */
-  status: string;
-  /** Fully qualified ID for the resource that this async operation status relates to. */
-  resourceId?: string;
-  /** The start time of the operation. */
-  startTime?: Date;
-  /** The end time of the operation. */
-  endTime?: Date;
-  /** Percentage of the operation that is complete. */
-  percentComplete?: number;
-  /** Properties returned by the resource provider on a successful operation */
-  properties?: Record<string, unknown>;
-  /** If present, details of the operation error. */
-  error?: ErrorDetail;
 }
 
 /** Packet core control plane collect diagnostics package options */
@@ -453,7 +517,7 @@ export interface PacketCoreDataPlaneListResult {
 
 /** QoS policy */
 export interface QosPolicy {
-  /** QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values. */
+  /** 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition the 5QI values. */
   fiveQi?: number;
   /** QoS Flow allocation and retention priority (ARP) level. Flows with higher priority preempt flows with lower priority, if the settings of `preemptionCapability` and `preemptionVulnerability` allow it. 1 is the highest level of priority. If this field is not specified then `5qi` is used to derive the ARP value. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters. */
   allocationAndRetentionPriorityLevel?: number;
@@ -763,7 +827,7 @@ export interface DataNetworkConfiguration {
   dataNetwork: DataNetworkResourceId;
   /** Aggregate maximum bit rate across all non-GBR QoS flows of a given PDU session. See 3GPP TS23.501 section 5.7.2.6 for a full description of the Session-AMBR. */
   sessionAmbr: Ambr;
-  /** Default QoS Flow 5G QoS Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. This must not be a standardized 5QI value corresponding to a GBR (guaranteed bit rate) QoS Flow. The illegal GBR 5QI values are: 1, 2, 3, 4, 65, 66, 67, 71, 72, 73, 74, 75, 76, 82, 83, 84, and 85. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition of which are the GBR 5QI values. */
+  /** Default 5G QoS Flow Indicator value. The 5QI identifies a specific QoS forwarding treatment to be provided to a flow. See 3GPP TS23.501 section 5.7.2.1 for a full description of the 5QI parameter, and table 5.7.4-1 for the definition the 5QI values. */
   fiveQi?: number;
   /** Default QoS Flow allocation and retention priority (ARP) level. Flows with higher priority preempt flows with lower priority, if the settings of `preemptionCapability` and `preemptionVulnerability` allow it. 1 is the highest level of priority. If this field is not specified then `5qi` is used to derive the ARP value. See 3GPP TS23.501 section 5.7.2.2 for a full description of the ARP parameters. */
   allocationAndRetentionPriorityLevel?: number;
@@ -813,6 +877,18 @@ export interface SiteListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** The packet core to delete under a site. */
+export interface SiteDeletePacketCore {
+  /** Reference to an packet core control plane resource. */
+  packetCore?: PacketCoreControlPlaneResourceId;
+}
+
+/** Reference to an packet core control plane resource. */
+export interface PacketCoreControlPlaneResourceId {
+  /** Packet core control plane resource ID. */
+  id: string;
 }
 
 /** Single-network slice selection assistance information (S-NSSAI). */
@@ -948,19 +1024,21 @@ export interface PacketCoreControlPlane extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /**
-   * The installation state of the packet core control plane resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly installation?: Installation;
+  /** The installation state of the packet core control plane resource. */
+  installation?: Installation;
   /** Site(s) under which this packet core control plane should be deployed. The sites must be in the same location as the packet core control plane. */
   sites: SiteResourceId[];
   /** The platform where the packet core is deployed. */
   platform: PlatformConfiguration;
   /** The core network technology generation (5G core or EPC / 4G core). */
   coreNetworkTechnology?: CoreNetworkType;
-  /** The version of the packet core software that is deployed. */
+  /** The desired version of the packet core software. */
   version?: string;
+  /**
+   * The currently installed version of the packet core software.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly installedVersion?: string;
   /**
    * The previous version of the packet core software that was deployed. Used when performing the rollback action.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -968,12 +1046,20 @@ export interface PacketCoreControlPlane extends TrackedResource {
   readonly rollbackVersion?: string;
   /** The control plane interface on the access network. For 5G networks, this is the N2 interface. For 4G networks, this is the S1-MME interface. */
   controlPlaneAccessInterface: InterfaceProperties;
+  /** The virtual IP address(es) for the control plane on the access network in a High Availability (HA) system. In an HA deployment the access network router should be configured to anycast traffic for this address to the control plane access interfaces on the active and standby nodes. In non-HA system this list should be omitted or empty. */
+  controlPlaneAccessVirtualIpv4Addresses?: string[];
   /** The SKU defining the throughput and SIM allowances for this packet core control plane deployment. */
   sku: BillingSku;
   /** The MTU (in bytes) signaled to the UE. The same MTU is set on the user plane data links for all data networks. The MTU set on the user plane access link is calculated to be 60 bytes greater than this value to allow for GTP encapsulation. */
   ueMtu?: number;
   /** The kubernetes ingress configuration to control access to packet core diagnostics over local APIs. */
   localDiagnosticsAccess: LocalDiagnosticsAccessConfiguration;
+  /** Configuration for uploading packet core diagnostics */
+  diagnosticsUpload?: DiagnosticsUploadConfiguration;
+  /** Configuration for sending packet core events to an Azure Event Hub. */
+  eventHub?: EventHubConfiguration;
+  /** Signaling configuration for the packet core. */
+  signaling?: SignalingConfiguration;
   /** Settings to allow interoperability with third party components e.g. RANs and UEs. */
   interopSettings?: Record<string, unknown>;
 }
@@ -987,6 +1073,8 @@ export interface PacketCoreDataPlane extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** The user plane interface on the access network. For 5G networks, this is the N3 interface. For 4G networks, this is the S1-U interface. */
   userPlaneAccessInterface: InterfaceProperties;
+  /** The virtual IP address(es) for the user plane on the access network in a High Availability (HA) system. In an HA deployment the access network router should be configured to forward traffic for this address to the control plane access interface on the active or standby node. In non-HA system this list should be omitted or empty. */
+  userPlaneAccessVirtualIpv4Addresses?: string[];
 }
 
 /** Service resource. Must be created in the same location as its parent mobile network. */
@@ -1039,7 +1127,7 @@ export interface SimPolicy extends TrackedResource {
   defaultSlice: SliceResourceId;
   /** RAT/Frequency Selection Priority Index, defined in 3GPP TS 36.413. This is an optional setting and by default is unspecified. */
   rfspIndex?: number;
-  /** Interval for the UE periodic registration update procedure, in seconds. */
+  /** UE periodic registration update timer (5G) or UE periodic tracking area update timer (4G), in seconds. */
   registrationTimer?: number;
   /** The allowed slices and the settings to use for them. The list must not contain duplicate items and must contain at least one item. */
   sliceConfigurations: SliceConfiguration[];
@@ -1070,6 +1158,62 @@ export interface Slice extends TrackedResource {
   snssai: Snssai;
   /** An optional description for this network slice. */
   description?: string;
+}
+
+/** Diagnostics package resource. */
+export interface DiagnosticsPackage extends ProxyResource {
+  /**
+   * The provisioning state of the diagnostics package resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The status of the diagnostics package collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: DiagnosticsPackageStatus;
+  /**
+   * The reason for the current state of the diagnostics package collection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** Packet capture session resource. */
+export interface PacketCapture extends ProxyResource {
+  /**
+   * The provisioning state of the packet capture session resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /**
+   * The status of the packet capture session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: PacketCaptureStatus;
+  /**
+   * The reason the current packet capture session state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+  /**
+   * The start time of the packet capture session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly captureStartTime?: Date;
+  /** List of network interfaces to capture on. */
+  networkInterfaces?: string[];
+  /** Number of bytes captured per packet, the remaining bytes are truncated. The default "0" means the entire packet is captured. */
+  bytesToCapturePerPacket?: number;
+  /** Maximum size of the capture output. */
+  totalBytesPerSession?: number;
+  /** Maximum duration of the capture session in seconds. */
+  timeLimitInSeconds?: number;
+  /**
+   * The list of output files of a packet capture session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputFiles?: string[];
 }
 
 /** Packet core control plane version resource. */
@@ -1203,6 +1347,72 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link DiagnosticsPackageStatus} that the service accepts. */
+export enum KnownDiagnosticsPackageStatus {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Collecting */
+  Collecting = "Collecting",
+  /** Collected */
+  Collected = "Collected",
+  /** Error */
+  Error = "Error"
+}
+
+/**
+ * Defines values for DiagnosticsPackageStatus. \
+ * {@link KnownDiagnosticsPackageStatus} can be used interchangeably with DiagnosticsPackageStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Collecting** \
+ * **Collected** \
+ * **Error**
+ */
+export type DiagnosticsPackageStatus = string;
+
+/** Known values of {@link PacketCaptureStatus} that the service accepts. */
+export enum KnownPacketCaptureStatus {
+  /** NotStarted */
+  NotStarted = "NotStarted",
+  /** Running */
+  Running = "Running",
+  /** Stopped */
+  Stopped = "Stopped",
+  /** Error */
+  Error = "Error"
+}
+
+/**
+ * Defines values for PacketCaptureStatus. \
+ * {@link KnownPacketCaptureStatus} can be used interchangeably with PacketCaptureStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotStarted** \
+ * **Running** \
+ * **Stopped** \
+ * **Error**
+ */
+export type PacketCaptureStatus = string;
+
+/** Known values of {@link DesiredInstallationState} that the service accepts. */
+export enum KnownDesiredInstallationState {
+  /** Don't install the packet core. */
+  Uninstalled = "Uninstalled",
+  /** Install the packet core. */
+  Installed = "Installed"
+}
+
+/**
+ * Defines values for DesiredInstallationState. \
+ * {@link KnownDesiredInstallationState} can be used interchangeably with DesiredInstallationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Uninstalled**: Don't install the packet core. \
+ * **Installed**: Install the packet core.
+ */
+export type DesiredInstallationState = string;
+
 /** Known values of {@link InstallationState} that the service accepts. */
 export enum KnownInstallationState {
   /** The packet core is uninstalled. */
@@ -1242,6 +1452,63 @@ export enum KnownInstallationState {
  */
 export type InstallationState = string;
 
+/** Known values of {@link ReinstallRequired} that the service accepts. */
+export enum KnownReinstallRequired {
+  /** A reinstall of the packet core is required. */
+  Required = "Required",
+  /** A reinstall of the packet core is not required. */
+  NotRequired = "NotRequired"
+}
+
+/**
+ * Defines values for ReinstallRequired. \
+ * {@link KnownReinstallRequired} can be used interchangeably with ReinstallRequired,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Required**: A reinstall of the packet core is required. \
+ * **NotRequired**: A reinstall of the packet core is not required.
+ */
+export type ReinstallRequired = string;
+
+/** Known values of {@link InstallationReason} that the service accepts. */
+export enum KnownInstallationReason {
+  /** The packet core has not been installed as the mobile network does not have any applicable configured slices. */
+  NoSlices = "NoSlices",
+  /** The packet core has not been installed as there is no configured data plane for this packet core. */
+  NoPacketCoreDataPlane = "NoPacketCoreDataPlane",
+  /** The packet core has not been installed as the packet core has no attached data networks. */
+  NoAttachedDataNetworks = "NoAttachedDataNetworks",
+  /** A reinstall is required as the packet core is running with out-of-date PLMN ID. */
+  PublicLandMobileNetworkIdentifierHasChanged = "PublicLandMobileNetworkIdentifierHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date control plane access interface information. */
+  ControlPlaneAccessInterfaceHasChanged = "ControlPlaneAccessInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane core interface. */
+  UserPlaneAccessInterfaceHasChanged = "UserPlaneAccessInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane access interface. */
+  UserPlaneDataInterfaceHasChanged = "UserPlaneDataInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. */
+  ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address. */
+  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged"
+}
+
+/**
+ * Defines values for InstallationReason. \
+ * {@link KnownInstallationReason} can be used interchangeably with InstallationReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NoSlices**: The packet core has not been installed as the mobile network does not have any applicable configured slices. \
+ * **NoPacketCoreDataPlane**: The packet core has not been installed as there is no configured data plane for this packet core. \
+ * **NoAttachedDataNetworks**: The packet core has not been installed as the packet core has no attached data networks. \
+ * **PublicLandMobileNetworkIdentifierHasChanged**: A reinstall is required as the packet core is running with out-of-date PLMN ID. \
+ * **ControlPlaneAccessInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date control plane access interface information. \
+ * **UserPlaneAccessInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane core interface. \
+ * **UserPlaneDataInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane access interface. \
+ * **ControlPlaneAccessVirtualIpv4AddressesHasChanged**: A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. \
+ * **UserPlaneAccessVirtualIpv4AddressesHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address.
+ */
+export type InstallationReason = string;
+
 /** Known values of {@link PlatformType} that the service accepts. */
 export enum KnownPlatformType {
   /** If this option is chosen, you must set one of "azureStackEdgeDevice", "connectedCluster" or "customLocation". If multiple are set, they must be consistent with each other. */
@@ -1262,16 +1529,12 @@ export type PlatformType = string;
 
 /** Known values of {@link BillingSku} that the service accepts. */
 export enum KnownBillingSku {
-  /** 100 Mbps, 20 active SIMs plan */
+  /** 100 Mbps, 20 active SIMs plan, 2 RANs */
   G0 = "G0",
-  /** 1 Gbps, 100 active SIMs plan */
+  /** 1 Gbps, 100 active SIMs plan, 5 RANs */
   G1 = "G1",
-  /** 2 Gbps, 200 active SIMs plan */
+  /** 2 Gbps, 200 active SIMs plan, 10 RANs */
   G2 = "G2",
-  /** 3 Gbps, 300 active SIMs plan */
-  G3 = "G3",
-  /** 4 Gbps, 400 active SIMs plan */
-  G4 = "G4",
   /** 5 Gbps, 500 active SIMs plan */
   G5 = "G5",
   /** 10 Gbps, 1000 active SIMs plan */
@@ -1283,11 +1546,9 @@ export enum KnownBillingSku {
  * {@link KnownBillingSku} can be used interchangeably with BillingSku,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **G0**: 100 Mbps, 20 active SIMs plan \
- * **G1**: 1 Gbps, 100 active SIMs plan \
- * **G2**: 2 Gbps, 200 active SIMs plan \
- * **G3**: 3 Gbps, 300 active SIMs plan \
- * **G4**: 4 Gbps, 400 active SIMs plan \
+ * **G0**: 100 Mbps, 20 active SIMs plan, 2 RANs \
+ * **G1**: 1 Gbps, 100 active SIMs plan, 5 RANs \
+ * **G2**: 2 Gbps, 200 active SIMs plan, 10 RANs \
  * **G5**: 5 Gbps, 500 active SIMs plan \
  * **G10**: 10 Gbps, 1000 active SIMs plan
  */
@@ -1336,12 +1597,8 @@ export type CertificateProvisioningState = string;
 export enum KnownManagedServiceIdentityType {
   /** None */
   None = "None",
-  /** SystemAssigned */
-  SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned",
-  /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  UserAssigned = "UserAssigned"
 }
 
 /**
@@ -1350,9 +1607,7 @@ export enum KnownManagedServiceIdentityType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **UserAssigned**
  */
 export type ManagedServiceIdentityType = string;
 
@@ -1566,7 +1821,7 @@ export enum KnownPduSessionType {
  */
 export type PduSessionType = string;
 /** Defines values for CoreNetworkType. */
-export type CoreNetworkType = "5GC" | "EPC";
+export type CoreNetworkType = "5GC" | "EPC" | "EPC + 5GC";
 
 /** Optional parameters. */
 export interface AttachedDataNetworksDeleteOptionalParams
@@ -1667,6 +1922,48 @@ export interface DataNetworksListByMobileNetworkNextOptionalParams
 export type DataNetworksListByMobileNetworkNextResponse = DataNetworkListResult;
 
 /** Optional parameters. */
+export interface DiagnosticsPackagesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DiagnosticsPackagesCreateOrUpdateResponse = DiagnosticsPackage;
+
+/** Optional parameters. */
+export interface DiagnosticsPackagesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DiagnosticsPackagesGetResponse = DiagnosticsPackage;
+
+/** Optional parameters. */
+export interface DiagnosticsPackagesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DiagnosticsPackagesListByPacketCoreControlPlaneOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPacketCoreControlPlane operation. */
+export type DiagnosticsPackagesListByPacketCoreControlPlaneResponse = DiagnosticsPackageListResult;
+
+/** Optional parameters. */
+export interface DiagnosticsPackagesListByPacketCoreControlPlaneNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPacketCoreControlPlaneNext operation. */
+export type DiagnosticsPackagesListByPacketCoreControlPlaneNextResponse = DiagnosticsPackageListResult;
+
+/** Optional parameters. */
 export interface MobileNetworksDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -1742,6 +2039,60 @@ export interface OperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type OperationsListNextResponse = OperationList;
+
+/** Optional parameters. */
+export interface PacketCapturesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PacketCapturesCreateOrUpdateResponse = PacketCapture;
+
+/** Optional parameters. */
+export interface PacketCapturesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PacketCapturesGetResponse = PacketCapture;
+
+/** Optional parameters. */
+export interface PacketCapturesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PacketCapturesStopOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the stop operation. */
+export type PacketCapturesStopResponse = AsyncOperationStatus;
+
+/** Optional parameters. */
+export interface PacketCapturesListByPacketCoreControlPlaneOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPacketCoreControlPlane operation. */
+export type PacketCapturesListByPacketCoreControlPlaneResponse = PacketCaptureListResult;
+
+/** Optional parameters. */
+export interface PacketCapturesListByPacketCoreControlPlaneNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByPacketCoreControlPlaneNext operation. */
+export type PacketCapturesListByPacketCoreControlPlaneNextResponse = PacketCaptureListResult;
 
 /** Optional parameters. */
 export interface PacketCoreControlPlanesDeleteOptionalParams
@@ -1857,11 +2208,32 @@ export interface PacketCoreControlPlaneVersionsListOptionalParams
 export type PacketCoreControlPlaneVersionsListResponse = PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
+export interface PacketCoreControlPlaneVersionsGetBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getBySubscription operation. */
+export type PacketCoreControlPlaneVersionsGetBySubscriptionResponse = PacketCoreControlPlaneVersion;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlaneVersionsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type PacketCoreControlPlaneVersionsListBySubscriptionResponse = PacketCoreControlPlaneVersionListResult;
+
+/** Optional parameters. */
 export interface PacketCoreControlPlaneVersionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type PacketCoreControlPlaneVersionsListNextResponse = PacketCoreControlPlaneVersionListResult;
+
+/** Optional parameters. */
+export interface PacketCoreControlPlaneVersionsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PacketCoreControlPlaneVersionsListBySubscriptionNextResponse = PacketCoreControlPlaneVersionListResult;
 
 /** Optional parameters. */
 export interface PacketCoreDataPlanesDeleteOptionalParams
@@ -2188,6 +2560,15 @@ export interface SitesListByMobileNetworkOptionalParams
 
 /** Contains response data for the listByMobileNetwork operation. */
 export type SitesListByMobileNetworkResponse = SiteListResult;
+
+/** Optional parameters. */
+export interface SitesDeletePacketCoreOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface SitesListByMobileNetworkNextOptionalParams

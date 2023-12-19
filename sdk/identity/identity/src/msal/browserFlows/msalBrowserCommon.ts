@@ -7,7 +7,7 @@ import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 import { AccessToken } from "@azure/core-auth";
@@ -16,6 +16,7 @@ import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentia
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -26,6 +27,19 @@ export interface MsalBrowserFlowOptions extends MsalFlowOptions {
   redirectUri?: string;
   loginStyle: BrowserLoginStyle;
   loginHint?: string;
+  /**
+   * Allows users to configure settings for logging policy options, allow logging account information and personally identifiable information for customer support.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    /**
+     * Allows logging account information once the authentication flow succeeds.
+     */
+    allowLoggingAccountIdentifiers?: boolean;
+    /**
+     * Allows logging personally identifiable information for customer support.
+     */
+    enableUnsafeSupportLogging?: boolean;
+  };
 }
 
 /**
@@ -87,7 +101,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       throw new CredentialUnavailableError("A client ID is required in browsers");
     }
     this.clientId = options.clientId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);

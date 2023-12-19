@@ -14,6 +14,31 @@ import { SimplePollerLike } from '@azure/core-lro';
 export type ActionType = string;
 
 // @public
+export type AggregationType = string;
+
+// @public
+export interface AutomatedCheckResult {
+    result?: string;
+    type?: AutomatedCheckResultType;
+}
+
+// @public
+export type AutomatedCheckResultType = string;
+
+// @public
+export interface CheckNameAvailability {
+    post(scope: string, options?: CheckNameAvailabilityPostOptionalParams): Promise<CheckNameAvailabilityPostResponse>;
+}
+
+// @public
+export interface CheckNameAvailabilityPostOptionalParams extends coreClient.OperationOptions {
+    checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
+}
+
+// @public
+export type CheckNameAvailabilityPostResponse = CheckNameAvailabilityResponse;
+
+// @public
 export interface CheckNameAvailabilityRequest {
     name?: string;
     type?: string;
@@ -24,6 +49,16 @@ export interface CheckNameAvailabilityResponse {
     message?: string;
     nameAvailable?: boolean;
     reason?: string;
+}
+
+// @public
+export type Confidence = string;
+
+// @public
+export interface ContinueRequestBody {
+    // (undocumented)
+    responses?: TroubleshooterResponse[];
+    stepId?: string;
 }
 
 // @public
@@ -46,6 +81,9 @@ export interface DiagnosticInvocation {
 }
 
 // @public
+export type DiagnosticProvisioningState = string;
+
+// @public
 export interface DiagnosticResource extends ProxyResource {
     readonly acceptedAt?: string;
     readonly diagnostics?: Diagnostic[];
@@ -53,24 +91,15 @@ export interface DiagnosticResource extends ProxyResource {
         [propertyName: string]: string;
     };
     insights?: DiagnosticInvocation[];
-    readonly provisioningState?: ProvisioningState;
+    readonly provisioningState?: DiagnosticProvisioningState;
 }
 
 // @public
 export interface Diagnostics {
     beginCreate(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<SimplePollerLike<OperationState<DiagnosticsCreateResponse>, DiagnosticsCreateResponse>>;
     beginCreateAndWait(scope: string, diagnosticsResourceName: string, options?: DiagnosticsCreateOptionalParams): Promise<DiagnosticsCreateResponse>;
-    checkNameAvailability(scope: string, options?: DiagnosticsCheckNameAvailabilityOptionalParams): Promise<DiagnosticsCheckNameAvailabilityResponse>;
     get(scope: string, diagnosticsResourceName: string, options?: DiagnosticsGetOptionalParams): Promise<DiagnosticsGetResponse>;
 }
-
-// @public
-export interface DiagnosticsCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
-    checkNameAvailabilityRequest?: CheckNameAvailabilityRequest;
-}
-
-// @public
-export type DiagnosticsCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface DiagnosticsCreateOptionalParams extends coreClient.OperationOptions {
@@ -145,6 +174,21 @@ export interface ErrorResponse {
 }
 
 // @public
+export type ExecutionStatus = string;
+
+// @public
+export interface Filter {
+    name?: string;
+    operator?: string;
+    values?: string;
+}
+
+// @public
+export interface FilterGroup {
+    filter?: Filter[];
+}
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public (undocumented)
@@ -155,11 +199,17 @@ export class HelpRP extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    checkNameAvailability: CheckNameAvailability;
+    // (undocumented)
     diagnostics: Diagnostics;
     // (undocumented)
     discoverySolution: DiscoverySolution;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    solution: Solution;
+    // (undocumented)
+    troubleshooters: Troubleshooters;
 }
 
 // @public
@@ -186,11 +236,51 @@ export enum KnownActionType {
 }
 
 // @public
+export enum KnownAggregationType {
+    Avg = "Avg",
+    Count = "Count",
+    Max = "Max",
+    Min = "Min",
+    Sum = "Sum"
+}
+
+// @public
+export enum KnownAutomatedCheckResultType {
+    Error = "Error",
+    Information = "Information",
+    Success = "Success",
+    Warning = "Warning"
+}
+
+// @public
+export enum KnownConfidence {
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
+}
+
+// @public
 export enum KnownCreatedByType {
     Application = "Application",
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownDiagnosticProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    PartialComplete = "PartialComplete",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownExecutionStatus {
+    Failed = "Failed",
+    Running = "Running",
+    Success = "Success",
+    Warning = "Warning"
 }
 
 // @public
@@ -201,6 +291,13 @@ export enum KnownImportanceLevel {
 }
 
 // @public
+export enum KnownName {
+    ProblemClassificationId = "ProblemClassificationId",
+    ReplacementKey = "ReplacementKey",
+    SolutionId = "SolutionId"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -208,11 +305,37 @@ export enum KnownOrigin {
 }
 
 // @public
-export enum KnownProvisioningState {
+export enum KnownQuestionContentType {
+    Html = "Html",
+    Markdown = "Markdown",
+    Text = "Text"
+}
+
+// @public
+export enum KnownQuestionType {
+    Dropdown = "Dropdown",
+    MultiLineInfoBox = "MultiLineInfoBox",
+    RadioButton = "RadioButton",
+    TextInput = "TextInput"
+}
+
+// @public
+export enum KnownResultType {
+    Community = "Community",
+    Documentation = "Documentation"
+}
+
+// @public
+export enum KnownSolutionProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
-    PartialComplete = "PartialComplete",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownSolutionType {
+    Diagnostics = "Diagnostics",
+    Solutions = "Solutions"
 }
 
 // @public
@@ -223,6 +346,36 @@ export enum KnownStatus {
     Succeeded = "Succeeded",
     Timeout = "Timeout"
 }
+
+// @public
+export enum KnownTroubleshooterProvisioningState {
+    AutoContinue = "AutoContinue",
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownType {
+    AutomatedCheck = "AutomatedCheck",
+    Decision = "Decision",
+    Insight = "Insight",
+    Solution = "Solution"
+}
+
+// @public
+export interface MetricsBasedChart {
+    aggregationType?: AggregationType;
+    filterGroup?: FilterGroup;
+    name?: string;
+    replacementKey?: string;
+    timeSpanDuration?: string;
+    title?: string;
+}
+
+// @public
+export type Name = string;
 
 // @public
 export interface Operation {
@@ -270,10 +423,23 @@ export type OperationsListResponse = OperationListResult;
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
+export interface ProxyResource extends Resource {
+}
 
 // @public
-export interface ProxyResource extends Resource {
+export type QuestionContentType = string;
+
+// @public
+export type QuestionType = string;
+
+// @public
+export interface ReplacementMaps {
+    diagnostics?: SolutionsDiagnostic[];
+    metricsBasedCharts?: MetricsBasedChart[];
+    troubleshooters?: SolutionsTroubleshooters[];
+    videoGroups?: VideoGroup[];
+    videos?: Video[];
+    webResults?: WebResult[];
 }
 
 // @public
@@ -285,15 +451,185 @@ export interface Resource {
 }
 
 // @public
-export interface SolutionMetadataResource extends ProxyResource {
-    description?: string;
-    requiredParameterSets?: string[][];
-    solutionId?: string;
-    solutionType?: string;
+export interface ResponseOption {
+    key?: string;
+    value?: string;
 }
 
 // @public
+export interface ResponseValidationProperties {
+    isRequired?: boolean;
+    maxLength?: number;
+    regex?: string;
+    validationErrorMessage?: string;
+}
+
+// @public
+export interface RestartTroubleshooterResponse {
+    readonly troubleshooterResourceName?: string;
+}
+
+// @public
+export type ResultType = string;
+
+// @public
+export interface SearchResult {
+    confidence?: Confidence;
+    content?: string;
+    link?: string;
+    rank?: number;
+    resultType?: ResultType;
+    solutionId?: string;
+    source?: string;
+    title?: string;
+}
+
+// @public
+export interface Section {
+    content?: string;
+    replacementMaps?: ReplacementMaps;
+    title?: string;
+}
+
+// @public
+export interface Solution {
+    beginCreate(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionCreateResponse>, SolutionCreateResponse>>;
+    beginCreateAndWait(scope: string, solutionResourceName: string, options?: SolutionCreateOptionalParams): Promise<SolutionCreateResponse>;
+    beginUpdate(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SolutionUpdateResponse>, SolutionUpdateResponse>>;
+    beginUpdateAndWait(scope: string, solutionResourceName: string, options?: SolutionUpdateOptionalParams): Promise<SolutionUpdateResponse>;
+    get(scope: string, solutionResourceName: string, options?: SolutionGetOptionalParams): Promise<SolutionGetResponse>;
+}
+
+// @public
+export interface SolutionCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    solutionRequestBody?: SolutionResource;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SolutionCreateResponse = SolutionResource;
+
+// @public
+export interface SolutionGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SolutionGetResponse = SolutionResource;
+
+// @public
+export interface SolutionMetadataProperties {
+    readonly description?: string;
+    readonly requiredInputs?: string[];
+    solutionId?: string;
+    readonly solutionType?: SolutionType;
+}
+
+// @public
+export interface SolutionMetadataResource extends ProxyResource {
+    solutions?: SolutionMetadataProperties[];
+}
+
+// @public
+export interface SolutionPatchRequestBody {
+    properties?: SolutionResourceProperties;
+}
+
+// @public
+export type SolutionProvisioningState = string;
+
+// @public
+export interface SolutionResource {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SolutionResourceProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface SolutionResourceProperties {
+    content?: string;
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    provisioningState?: SolutionProvisioningState;
+    replacementMaps?: ReplacementMaps;
+    sections?: Section[];
+    solutionId?: string;
+    title?: string;
+    triggerCriteria?: TriggerCriterion[];
+}
+
+// @public
+export interface SolutionsDiagnostic {
+    insights?: Insight[];
+    replacementKey?: string;
+    requiredParameters?: string[];
+    solutionId?: string;
+    status?: Status;
+    statusDetails?: string;
+}
+
+// @public
+export interface SolutionsTroubleshooters {
+    solutionId?: string;
+    summary?: string;
+    title?: string;
+}
+
+// @public
+export type SolutionType = string;
+
+// @public
+export interface SolutionUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface SolutionUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    solutionPatchRequestBody?: SolutionPatchRequestBody;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SolutionUpdateResponse = SolutionUpdateHeaders & SolutionResource;
+
+// @public
 export type Status = string;
+
+// @public
+export interface Step {
+    automatedCheckResults?: AutomatedCheckResult;
+    description?: string;
+    error?: ErrorDetail;
+    executionStatus?: ExecutionStatus;
+    executionStatusDescription?: string;
+    guidance?: string;
+    id?: string;
+    // (undocumented)
+    inputs?: StepInput[];
+    // (undocumented)
+    insights?: Insight[];
+    isLastStep?: boolean;
+    title?: string;
+    type?: Type;
+}
+
+// @public
+export interface StepInput {
+    questionContent?: string;
+    questionContentType?: QuestionContentType;
+    questionId?: string;
+    questionType?: string;
+    recommendedOption?: string;
+    responseHint?: string;
+    // (undocumented)
+    responseOptions?: ResponseOption[];
+    responseValidationProperties?: ResponseValidationProperties;
+    selectedOptionValue?: string;
+}
 
 // @public
 export interface SystemData {
@@ -303,6 +639,122 @@ export interface SystemData {
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
     lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export interface TriggerCriterion {
+    name?: Name;
+    value?: string;
+}
+
+// @public
+export type TroubleshooterProvisioningState = string;
+
+// @public
+export interface TroubleshooterResource extends ProxyResource {
+    parameters?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: TroubleshooterProvisioningState;
+    solutionId?: string;
+    readonly steps?: Step[];
+}
+
+// @public
+export interface TroubleshooterResponse {
+    questionId?: string;
+    questionType?: QuestionType;
+    response?: string;
+}
+
+// @public
+export interface Troubleshooters {
+    continue(scope: string, troubleshooterName: string, options?: TroubleshootersContinueOptionalParams): Promise<TroubleshootersContinueResponse>;
+    create(scope: string, troubleshooterName: string, options?: TroubleshootersCreateOptionalParams): Promise<TroubleshootersCreateResponse>;
+    end(scope: string, troubleshooterName: string, options?: TroubleshootersEndOptionalParams): Promise<TroubleshootersEndResponse>;
+    get(scope: string, troubleshooterName: string, options?: TroubleshootersGetOptionalParams): Promise<TroubleshootersGetResponse>;
+    restart(scope: string, troubleshooterName: string, options?: TroubleshootersRestartOptionalParams): Promise<TroubleshootersRestartResponse>;
+}
+
+// @public
+export interface TroubleshootersContinueHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersContinueOptionalParams extends coreClient.OperationOptions {
+    continueRequestBody?: ContinueRequestBody;
+}
+
+// @public
+export type TroubleshootersContinueResponse = TroubleshootersContinueHeaders;
+
+// @public
+export interface TroubleshootersCreateOptionalParams extends coreClient.OperationOptions {
+    createTroubleshooterRequestBody?: TroubleshooterResource;
+}
+
+// @public
+export type TroubleshootersCreateResponse = TroubleshooterResource;
+
+// @public
+export interface TroubleshootersEndHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersEndOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersEndResponse = TroubleshootersEndHeaders;
+
+// @public
+export interface TroubleshootersGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersGetResponse = TroubleshooterResource;
+
+// @public
+export interface TroubleshootersRestartHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface TroubleshootersRestartOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TroubleshootersRestartResponse = TroubleshootersRestartHeaders & RestartTroubleshooterResponse;
+
+// @public
+export type Type = string;
+
+// @public
+export interface Video extends VideoGroupVideo {
+    replacementKey?: string;
+}
+
+// @public
+export interface VideoGroup {
+    replacementKey?: string;
+    videos?: VideoGroupVideo[];
+}
+
+// @public
+export interface VideoGroupVideo {
+    src?: string;
+    title?: string;
+}
+
+// @public
+export interface WebResult {
+    replacementKey?: string;
+    searchResults?: SearchResult[];
 }
 
 // (No @packageDocumentation comment for this package)

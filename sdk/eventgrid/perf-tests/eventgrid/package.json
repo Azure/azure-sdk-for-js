@@ -8,18 +8,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure/eventgrid": "^4.10.0-beta",
+    "@azure/eventgrid": "^5.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^16.0.0"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "tslib": "^2.2.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0"
+    "typescript": "~5.2.0"
   },
   "private": true,
   "scripts": {

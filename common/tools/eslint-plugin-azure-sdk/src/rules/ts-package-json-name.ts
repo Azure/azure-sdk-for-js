@@ -24,7 +24,7 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "name",
     });
-    const fileName = context.getFilename();
+    const fileName = context.filename;
     return stripPath(fileName) === "package.json"
       ? ({
           // callback functions

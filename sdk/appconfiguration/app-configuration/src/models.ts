@@ -6,69 +6,36 @@ import { FeatureFlagValue } from "./featureFlag";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { SecretReferenceValue } from "./secretReference";
 import {
-  CompositionType,
+  SnapshotComposition,
   ConfigurationSettingsFilter,
-  OperationDetails,
-  Snapshot,
-  SnapshotStatus,
+  ConfigurationSnapshot,
+  ConfigurationSnapshotStatus,
 } from "./generated/src";
 
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {
-  /**
-   * The version of the App Configuration REST API to call.
-   *
-   * Default: AppConfigurationApiVersion.Latest ("2022-11-01-preview")
-   */
-  apiVersion?: AppConfigurationApiVersion;
-}
-
-/**
- * Valid values of the App Configuration service REST API version.
- */
-export type AppConfigurationApiVersion =
-  (typeof AppConfigurationApiVersion)[keyof typeof AppConfigurationApiVersion];
-
-/**
- * Supported and common values of AppConfigurationApiVersion.
- */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AppConfigurationApiVersion = {
-  /**
-   * The newest version of the service known to be supported by the client (default).
-   *
-   * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
-   * identical to the latest stable version.
-   */
-  Latest: "2022-11-01-preview",
-
-  /**
-   * The newest stable version of the service known to be supported by the package. This will be a Generally Available
-   * (GA) version, even if the package version is a beta.
-   */
-  Stable: "1.0",
-
-  /**
-   * App Configuration API version "1.0" (GA).
-   */
-  "1.0": "1.0",
-
-  /**
-   * App Configuration API version 2022-11-01-preview.
-   */
-  "2022-11-01-preview": "2022-11-01-preview",
-} as const;
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Fields that uniquely identify a configuration setting
  */
-export interface ConfigurationSettingId extends ConfigurationSettingsFilter {
+export interface ConfigurationSettingId {
   /**
    * The etag for this setting
    */
   etag?: string;
+  /**
+   * The key for this setting.
+   * Feature flags must be prefixed with `.appconfig.featureflag/<feature-flag-name>`.
+   */
+  key: string;
+
+  /**
+   * The label for this setting. Leaving this undefined means this
+   * setting does not have a label.
+   */
+  label?: string;
 }
 /**
  * Necessary fields for updating or creating a new configuration setting
@@ -206,7 +173,7 @@ export interface OptionalSnapshotFields {
   /**
    * Which fields to return for each ConfigurationSetting
    */
-  fields?: (keyof Snapshot)[];
+  fields?: (keyof ConfigurationSnapshot)[];
 }
 
 /**
@@ -342,12 +309,9 @@ export interface ListSettingsOptions extends OptionalFields {
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface ListSettingsSnapshotsOptions extends OperationOptions, OptionalFields {
-  /**
-   * Requests the server to respond with the state of the resource at the specified time.
-   */
-  acceptDateTime?: Date;
-}
+export interface ListConfigurationSettingsForSnapshotOptions
+  extends OperationOptions,
+    OptionalFields {}
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -360,30 +324,12 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface SendSettingsOptions extends ListSettingsOptions {
-  /**
-   * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
-   */
-  snapshotName?: string;
-}
-
-/**
- * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
- * Also provides `fields` which allows you to selectively choose which fields are populated in the
- * result.
- */
-export interface SendConfigurationSettingsOptions extends OperationOptions, SendSettingsOptions {}
-
-/**
- * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
- * the accept date time header.
- */
 export interface ListSnapshots extends OptionalSnapshotFields {
   /** A filter for the name of the returned snapshots. */
   nameFilter?: string;
 
   /** Used to filter returned snapshots by their status property. */
-  statusFilter?: SnapshotStatus[];
+  statusFilter?: ConfigurationSnapshotStatus[];
 }
 
 /**
@@ -391,7 +337,10 @@ export interface ListSnapshots extends OptionalSnapshotFields {
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListSnapshotsOptions extends OperationOptions, ListSnapshots {}
+export interface ListSnapshotsOptions
+  extends OperationOptions,
+    ListSnapshots,
+    OptionalSnapshotFields {}
 
 /**
  * An interface that tracks the settings for paged iteration
@@ -420,11 +369,11 @@ export interface ListConfigurationSettingPage
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListSnapshotsPage extends SyncTokenHeaderField, PageSettings {
   /**
    * The configuration settings for this page of results.
    */
-  items: Snapshot[];
+  items: ConfigurationSnapshot[];
 }
 
 /**
@@ -432,7 +381,7 @@ export interface ListSnapshotsPage extends HttpResponseField<SyncTokenHeaderFiel
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface ListRevisionsOptions extends OperationOptions, SendSettingsOptions {}
+export interface ListRevisionsOptions extends OperationOptions, ListSettingsOptions {}
 
 /**
  * A page of configuration settings and the corresponding HTTP response
@@ -475,25 +424,22 @@ export interface RetryOptions {
 /**
  * Options used when creating a Snapshot.
  */
-export interface CreateSnapshotOptions extends OperationOptions {}
+export interface CreateSnapshotOptions extends OperationOptions {
+  /**
+   * The amount of time to wait (in milliseconds) between subsequent requests relating to the same operation.
+   */
+  updateIntervalInMs?: number;
+}
 
 /**
  * Response from adding a Snapshot.
  */
-export interface SnapshotResponse extends Snapshot, SyncTokenHeaderField {}
-
-/**
- * Response from adding a Snapshot.
- */
-export interface OperationDetailsResponse extends OperationDetails {}
+export interface SnapshotResponse extends ConfigurationSnapshot, SyncTokenHeaderField {}
 
 /**
  * Options used when getting a Snapshot.
  */
-export interface GetSnapshotOptions
-  extends OperationOptions,
-    HttpOnlyIfChangedField,
-    OptionalSnapshotFields {}
+export interface GetSnapshotOptions extends OperationOptions, OptionalSnapshotFields {}
 
 /**
  * Response from getting a Snapshot.
@@ -501,9 +447,14 @@ export interface GetSnapshotOptions
 export interface GetSnapshotResponse extends SnapshotResponse {}
 
 /**
- * Options used when upadting a Snapshot.
+ * Options used when updating a Snapshot.
  */
-export interface UpdateSnapshotOptions extends HttpOnlyIfUnchangedField, OperationOptions {}
+export interface UpdateSnapshotOptions extends OperationOptions {
+  /**
+   * The etag for this snapshot
+   */
+  etag?: string;
+}
 
 /**
  * Response from updating a Snapshot.
@@ -514,44 +465,27 @@ export interface UpdateSnapshotResponse extends SnapshotResponse {}
  */
 export interface CreateSnapshotResponse extends SnapshotResponse {}
 
-export { CompositionType, SnapshotStatus };
-
 /**
  * Fields that uniquely identify a snapshot
  */
 export interface SnapshotInfo {
-  /**
-   * The name for this snapshot
-   */
+  /** The name for this snapshot */
   name: string;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: ConfigurationSettingsFilter[];
   /** The composition type describes how the key-values within the snapshot are composed. The 'all' composition type includes all key-values. The 'group_by_key' composition type ensures there are no two key-values containing the same key. */
-  compositionType?: CompositionType;
+  compositionType?: SnapshotComposition;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
-  retentionPeriod?: number;
+  retentionPeriodInSeconds?: number;
   /** The tags of the snapshot. */
   tags?: { [propertyName: string]: string };
 }
-/**
- * Fields for the snapshot
- */
-export interface SnapshotId {
-  /**
-   * The name for this snapshot
-   */
-  name: string;
-  /**
-   * The etag for this snapshot
-   */
-  etag?: string;
-}
 
 export {
-  OperationDetails,
-  State,
-  ErrorDetail,
-  Snapshot,
+  ConfigurationSnapshot,
   ConfigurationSettingsFilter,
-  InnerError,
+  SnapshotComposition,
+  KnownSnapshotComposition,
+  KnownConfigurationSnapshotStatus,
+  ConfigurationSnapshotStatus,
 } from "./generated/src";

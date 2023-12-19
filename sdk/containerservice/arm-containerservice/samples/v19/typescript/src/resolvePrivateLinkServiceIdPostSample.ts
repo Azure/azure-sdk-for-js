@@ -21,11 +21,12 @@ dotenv.config();
  * This sample demonstrates how to Gets the private link service ID for the specified managed cluster.
  *
  * @summary Gets the private link service ID for the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-05-01/examples/ResolvePrivateLinkServiceId.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ResolvePrivateLinkServiceId.json
  */
 async function resolveThePrivateLinkServiceIdForManagedCluster() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";

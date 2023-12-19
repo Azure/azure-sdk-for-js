@@ -25,6 +25,7 @@ import {
   appendToURLPath,
   extractConnectionStringParts,
   assertResponse,
+  removeEmptyString,
 } from "./utils/utils.common";
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
@@ -604,7 +605,7 @@ export class ShareServiceClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.listSegments(settings.continuationToken, {
+        return this.listSegments(removeEmptyString(settings.continuationToken), {
           maxResults: settings.maxPageSize,
           ...updatedOptions,
         });

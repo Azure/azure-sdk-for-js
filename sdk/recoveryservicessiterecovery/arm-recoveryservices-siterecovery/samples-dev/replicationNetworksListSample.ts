@@ -10,17 +10,24 @@
 // Licensed under the MIT License.
 import { SiteRecoveryManagementClient } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the networks available in a vault.
  *
  * @summary Lists the networks available in a vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2022-10-01/examples/ReplicationNetworks_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworks_List.json
  */
 async function getsTheListOfNetworksViewOnlyApi() {
-  const subscriptionId = "9112a37f-0f3e-46ec-9c00-060c6edca071";
+  const subscriptionId =
+    process.env["RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID"] ||
+    "9112a37f-0f3e-46ec-9c00-060c6edca071";
   const resourceName = "srce2avaultbvtaC27";
-  const resourceGroupName = "srcBvte2a14C27";
+  const resourceGroupName =
+    process.env["RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP"] ||
+    "srcBvte2a14C27";
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
@@ -33,4 +40,8 @@ async function getsTheListOfNetworksViewOnlyApi() {
   console.log(resArray);
 }
 
-getsTheListOfNetworksViewOnlyApi().catch(console.error);
+async function main() {
+  getsTheListOfNetworksViewOnlyApi();
+}
+
+main().catch(console.error);

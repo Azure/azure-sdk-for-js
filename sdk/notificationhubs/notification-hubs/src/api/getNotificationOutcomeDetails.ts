@@ -4,7 +4,7 @@
 import { createRequest, sendRequest } from "./internal/_client.js";
 import { NotificationDetails } from "../models/notificationDetails.js";
 import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure-rest/core-client";
 import { parseNotificationDetails } from "../serializers/notificationDetailsSerializer.js";
 import { tracingClient } from "../utils/tracing.js";
 
@@ -21,7 +21,7 @@ const OPERATION_NAME = "getNotificationOutcomeDetails";
 export function getNotificationOutcomeDetails(
   context: NotificationHubsClientContext,
   notificationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationDetails> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function getNotificationOutcomeDetails(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationDetails(response.bodyAsText!);
-    }
+    },
   );
 }

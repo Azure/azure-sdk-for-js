@@ -122,6 +122,7 @@ import {
   ConvertInternalResponseOfListHandles,
   WithResponse,
   assertResponse,
+  removeEmptyString,
 } from "./utils/utils.common";
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
@@ -162,7 +163,7 @@ import {
   streamToBuffer,
 } from "./utils/utils.node";
 import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
@@ -2278,10 +2279,13 @@ export class ShareDirectoryClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
-          maxResults: settings.maxPageSize,
-          ...updatedOptions,
-        });
+        return this.iterateFilesAndDirectoriesSegments(
+          removeEmptyString(settings.continuationToken),
+          {
+            maxResults: settings.maxPageSize,
+            ...updatedOptions,
+          }
+        );
       },
     };
   }
@@ -2470,7 +2474,7 @@ export class ShareDirectoryClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateHandleSegments(settings.continuationToken, {
+        return this.iterateHandleSegments(removeEmptyString(settings.continuationToken), {
           maxResults: settings.maxPageSize,
           ...options,
         });
@@ -4883,7 +4887,7 @@ export class ShareFileClient extends StorageClient {
        * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
-        return this.iterateHandleSegments(settings.continuationToken, {
+        return this.iterateHandleSegments(removeEmptyString(settings.continuationToken), {
           maxPageSize: settings.maxPageSize,
           ...options,
         });
@@ -5214,7 +5218,7 @@ export class ShareLeaseClient {
     this._url = client.url;
 
     if (!leaseId) {
-      leaseId = generateUuid();
+      leaseId = randomUUID();
     }
     this._leaseId = leaseId;
   }

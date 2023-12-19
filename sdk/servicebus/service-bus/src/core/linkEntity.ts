@@ -137,7 +137,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
-  private _tokenRenewalTimer?: NodeJS.Timer;
+  private _tokenRenewalTimer?: NodeJS.Timeout;
   /**
    * Indicates token timeout
    */
@@ -167,7 +167,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * A lock that ensures that opening and closing this
    * link properly cooperate.
    */
-  private _openLock: string = generate_uuid();
+  private _openLock: string = `linkEntity-${generate_uuid()}`;
 
   /**
    * Creates a new ClientEntity instance.
@@ -336,7 +336,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   private async closeLinkImpl(): Promise<void> {
     this._logger.verbose(`${this._logPrefix} closeLinkImpl() called`);
 
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timeout);
     this._tokenRenewalTimer = undefined;
 
     if (this._link) {
@@ -424,7 +424,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
-      tokenObject = this._context.tokenCredential.getToken(this.audience);
+      tokenObject = await this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
       // renew sas token in every 45 minutes

@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Fabric,
   ReplicationFabricsListNextOptionalParams,
@@ -183,8 +187,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     input: FabricCreationInput,
     options?: ReplicationFabricsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsCreateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsCreateResponse>,
       ReplicationFabricsCreateResponse
     >
   > {
@@ -194,7 +198,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     ): Promise<ReplicationFabricsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -227,13 +231,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, input, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, fabricName, input, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsCreateResponse,
+      OperationState<ReplicationFabricsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -279,14 +286,14 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsPurgeOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -319,13 +326,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
-      purgeOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, fabricName, options },
+      spec: purgeOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -369,8 +376,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     fabricName: string,
     options?: ReplicationFabricsCheckConsistencyOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsCheckConsistencyResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsCheckConsistencyResponse>,
       ReplicationFabricsCheckConsistencyResponse
     >
   > {
@@ -380,7 +387,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     ): Promise<ReplicationFabricsCheckConsistencyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -413,13 +420,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
-      checkConsistencyOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, fabricName, options },
+      spec: checkConsistencyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsCheckConsistencyResponse,
+      OperationState<ReplicationFabricsCheckConsistencyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -462,14 +472,14 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsMigrateToAadOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -502,13 +512,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
-      migrateToAadOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, fabricName, options },
+      spec: migrateToAadOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -554,8 +564,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     failoverProcessServerRequest: FailoverProcessServerRequest,
     options?: ReplicationFabricsReassociateGatewayOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsReassociateGatewayResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsReassociateGatewayResponse>,
       ReplicationFabricsReassociateGatewayResponse
     >
   > {
@@ -565,7 +575,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     ): Promise<ReplicationFabricsReassociateGatewayResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -598,19 +608,22 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         failoverProcessServerRequest,
         options
       },
-      reassociateGatewayOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: reassociateGatewayOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsReassociateGatewayResponse,
+      OperationState<ReplicationFabricsReassociateGatewayResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -656,14 +669,14 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationFabricsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -696,13 +709,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceName, resourceGroupName, fabricName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceName, resourceGroupName, fabricName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -748,8 +761,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     renewCertificate: RenewCertificateInput,
     options?: ReplicationFabricsRenewCertificateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ReplicationFabricsRenewCertificateResponse>,
+    SimplePollerLike<
+      OperationState<ReplicationFabricsRenewCertificateResponse>,
       ReplicationFabricsRenewCertificateResponse
     >
   > {
@@ -759,7 +772,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     ): Promise<ReplicationFabricsRenewCertificateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -792,19 +805,22 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceName,
         resourceGroupName,
         fabricName,
         renewCertificate,
         options
       },
-      renewCertificateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: renewCertificateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsRenewCertificateResponse,
+      OperationState<ReplicationFabricsRenewCertificateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

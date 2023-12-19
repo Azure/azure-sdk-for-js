@@ -30,7 +30,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: new Date().getTime() })
     );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
@@ -66,10 +66,10 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       mockToken2 = "token2";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken1, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken1, expiresOnTimestamp: new Date().getTime() })
     );
     const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken2, expiresOn: new Date() })
+      Promise.resolve({ token: mockToken2, expiresOnTimestamp: new Date().getTime() })
     );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
@@ -215,10 +215,16 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
   it("should not add auxiliary header if all tokens are invalid", async function () {
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: null, expiresOn: new Date() })
+      Promise.resolve({
+        token: null,
+        expiresOnTimestamp: new Date().getTime(),
+      } as unknown as AccessToken)
     );
     const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: null, expiresOn: new Date() })
+      Promise.resolve({
+        token: null,
+        expiresOnTimestamp: new Date().getTime(),
+      } as unknown as AccessToken)
     );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
