@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TemplateTest } from "./templateBase.spec";
 
@@ -16,7 +16,7 @@ interface GetConfigurationSettingTestOptions {
 }
 
 export class GetConfigurationSettingTest extends TemplateTest<GetConfigurationSettingTestOptions> {
-  static prefix = generateUuid();
+  static prefix = randomUUID();
   public options: PerfOptionDictionary<GetConfigurationSettingTestOptions> = {
     settingName: {
       required: true,

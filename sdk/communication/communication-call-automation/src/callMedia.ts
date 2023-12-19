@@ -20,13 +20,15 @@ import {
   SpeechOptions,
   StartHoldMusicRequest,
   StopHoldMusicRequest,
+  StartTranscriptionRequest,
+  StopTranscriptionRequest,
+  UpdateTranscriptionRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
 
 import {
   CommunicationIdentifier,
-  createCommunicationAuthPolicy,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
@@ -39,6 +41,8 @@ import {
   SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
+  StartTranscriptionOptions,
+  StopTranscriptionOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -54,7 +58,8 @@ import {
   StartRecognizingEventResult,
 } from "./eventprocessor/eventResponses";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -71,9 +76,11 @@ export class CallMedia {
     eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint
+    );
     this.callConnectionId = callConnectionId;
     this.callAutomationEventProcessor = eventProcessor;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
@@ -89,7 +96,9 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.File,
         file: fileSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        playSourceCacheId: playSource.playSourceCacheId
+          ? playSource.playSourceCacheId
+          : playSource.playsourcacheid,
       };
     } else if (playSource.kind === "textSource") {
       const textSource: TextSourceInternal = {
@@ -102,7 +111,9 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Text,
         text: textSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        playSourceCacheId: playSource.playSourceCacheId
+          ? playSource.playSourceCacheId
+          : playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
@@ -112,7 +123,9 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Ssml,
         ssml: ssmlSource,
-        playSourceCacheId: playSource.playsourcacheid,
+        playSourceCacheId: playSource.playSourceCacheId
+          ? playSource.playSourceCacheId
+          : playSource.playsourcacheid,
       };
     }
     throw new Error("Invalid play source");
@@ -136,7 +149,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -198,7 +211,7 @@ export class CallMedia {
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -412,7 +425,7 @@ export class CallMedia {
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
       maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
         ? maxTonesOrOptions.operationContext
-        : uuidv4();
+        : randomUUID();
       // New function signature logic
       await this.callMedia.recognize(
         this.callConnectionId,
@@ -505,7 +518,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
@@ -525,7 +538,7 @@ export class CallMedia {
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext,
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
@@ -549,7 +562,7 @@ export class CallMedia {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     await this.callMedia.sendDtmfTones(this.callConnectionId, sendDtmfTonesRequest, {});
@@ -630,5 +643,43 @@ export class CallMedia {
     };
 
     return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
+  }
+
+  /**
+   * Starts transcription in the call
+   * @param options - Additional attributes for start transcription.
+   */
+  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
+    const startTranscriptionRequest: StartTranscriptionRequest = {
+      locale: options.locale,
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+    };
+    return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
+  }
+
+  /**
+   * Stops transcription in the call.
+   * @param options - Additional attributes for stop transcription.
+   */
+  public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
+    const stopTranscriptionRequest: StopTranscriptionRequest = {
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+    };
+    return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
+  }
+
+  /**
+   * Update transcription language.
+   * @param locale - Defines new locale for transcription.
+   */
+  public async updateTranscription(locale: string): Promise<void> {
+    const updateTranscriptionRequest: UpdateTranscriptionRequest = {
+      locale: locale,
+    };
+    return this.callMedia.updateTranscription(
+      this.callConnectionId,
+      updateTranscriptionRequest,
+      {}
+    );
   }
 }

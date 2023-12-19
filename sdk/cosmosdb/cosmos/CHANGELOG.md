@@ -6,6 +6,9 @@
 
 ### Breaking Changes
 
+####  Dropped Support for TypeScript 4.1
+- We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
+
 ### Bugs Fixed
 
 ### Other Changes

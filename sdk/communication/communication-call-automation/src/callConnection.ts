@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  CommunicationIdentifier,
-  createCommunicationAuthPolicy,
-} from "@azure/communication-common";
+import { CommunicationIdentifier } from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
 import {
   AddParticipantRequest,
@@ -48,7 +45,7 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
 import {
@@ -57,6 +54,7 @@ import {
   RemoveParticipantEventResult,
   TransferCallToParticipantEventResult,
 } from "./eventprocessor/eventResponses";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallConnection class represents call connection based APIs.
@@ -76,9 +74,11 @@ export class CallConnection {
     eventProcessor: CallAutomationEventProcessor,
     options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint
+    );
     this.callConnectionId = callConnectionId;
     this.callConnection = new CallConnectionImpl(this.callAutomationApiClient);
     this.endpoint = endpoint;
@@ -130,7 +130,7 @@ export class CallConnection {
       const optionsInternal = {
         ...options,
         repeatabilityFirstSent: new Date(),
-        repeatabilityRequestID: uuidv4(),
+        repeatabilityRequestID: randomUUID(),
       };
       await this.callConnection.terminateCall(this.callConnectionId, optionsInternal);
     } else {
@@ -219,7 +219,7 @@ export class CallConnection {
       ),
       sourceDisplayName: targetParticipant.sourceDisplayName,
       invitationTimeoutInSeconds: options.invitationTimeoutInSeconds,
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!
@@ -228,7 +228,7 @@ export class CallConnection {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const result = await this.callConnection.addParticipant(
       this.callConnectionId,
@@ -289,7 +289,7 @@ export class CallConnection {
   ): Promise<TransferCallResult> {
     const transferToParticipantRequest: TransferToParticipantRequest = {
       targetParticipant: communicationIdentifierModelConverter(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
       transferee: options.transferee && communicationIdentifierModelConverter(options.transferee),
       customCallingContext: this.createCustomCallingContextInternal(options.customCallingContext!),
@@ -297,7 +297,7 @@ export class CallConnection {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const result = await this.callConnection.transferToParticipant(
       this.callConnectionId,
@@ -352,13 +352,13 @@ export class CallConnection {
   ): Promise<RemoveParticipantResult> {
     const removeParticipantRequest: RemoveParticipantRequest = {
       participantToRemove: communicationIdentifierModelConverter(participant),
-      operationContext: options.operationContext ? options.operationContext : uuidv4(),
+      operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
     };
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const result = await this.callConnection.removeParticipant(
       this.callConnectionId,
@@ -419,7 +419,7 @@ export class CallConnection {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const result = await this.callConnection.mute(
       this.callConnectionId,
@@ -447,13 +447,13 @@ export class CallConnection {
     } = options;
     const cancelAddParticipantRequest = {
       invitationId,
-      operationContext: operationContext ? operationContext : uuidv4(),
+      operationContext: operationContext ? operationContext : randomUUID(),
       operationCallbackUri,
     };
     const optionsInternal = {
       ...operationOptions,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
 
     const result = await this.callConnection.cancelAddParticipant(

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a SenderUsernames resource.
  *
  * @summary Operation to delete a SenderUsernames resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/senderUsernames/delete.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/senderUsernames/delete.json
  */
 async function deleteSenderUsernamesResource() {
   const subscriptionId =

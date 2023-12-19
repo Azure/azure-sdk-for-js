@@ -18,10 +18,10 @@ import {
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import * as fs from "fs";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src";
-import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -36,9 +36,11 @@ export class CallRecording {
     credential: KeyCredential | TokenCredential,
     options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint
+    );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
@@ -90,7 +92,7 @@ export class CallRecording {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const response = await this.callRecordingImpl.startRecording(
       startCallRecordingRequest,
