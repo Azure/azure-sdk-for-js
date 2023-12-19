@@ -7,7 +7,7 @@
 ### Breaking Changes
 
 ####  Dropped Support for TypeScript 4.1
-- In response to compatibility issues with Node 18, support for TypeScript version 4.1 has been discontinued. The new minimum supported TypeScript version is now 4.2. Please ensure your environment is updated accordingly.
+- We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
 
 ### Bugs Fixed
 
