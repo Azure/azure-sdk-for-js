@@ -1,6 +1,6 @@
 # Release History
     
-## 11.0.0-beta.1 (2023-12-18)
+## 10.1.0-beta.3 (2023-12-18)
     
 **Features**
 
@@ -71,9 +71,6 @@
   - Added Enum KnownBackupStorageAccessTier
   - Added Enum KnownFreeLimitExhaustionBehavior
   - Added Enum KnownMinimalTlsVersion
-
-**Breaking Changes**
-
   - Type of parameter minimalTlsVersion of interface Server is changed from string to MinimalTlsVersion
   - Type of parameter minimalTlsVersion of interface ServerUpdate is changed from string to MinimalTlsVersion
     
