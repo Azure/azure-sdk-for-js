@@ -30,7 +30,7 @@ async function updateADiskAccessResource() {
   const result = await client.diskAccesses.beginUpdateAndWait(
     resourceGroupName,
     diskAccessName,
-    diskAccess
+    diskAccess,
   );
   console.log(result);
 }

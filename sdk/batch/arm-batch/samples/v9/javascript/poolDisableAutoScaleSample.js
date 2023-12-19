@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Disables automatic scaling for a pool.
  *
  * @summary Disables automatic scaling for a pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolDisableAutoScale.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolDisableAutoScale.json
  */
 async function disableAutoScale() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function disableAutoScale() {
   const result = await client.poolOperations.disableAutoScale(
     resourceGroupName,
     accountName,
-    poolName
+    poolName,
   );
   console.log(result);
 }

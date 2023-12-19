@@ -36,7 +36,7 @@ async function partnerDestinationsCreateOrUpdate() {
   const result = await client.partnerDestinations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     partnerDestinationName,
-    partnerDestination
+    partnerDestination,
   );
   console.log(result);
 }

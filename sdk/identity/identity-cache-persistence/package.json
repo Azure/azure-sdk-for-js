@@ -62,7 +62,7 @@
     "@azure/core-auth": "^1.5.0",
     "@azure/identity": "^4.0.0",
     "@azure/msal-node": "^2.5.1",
-    "@azure/msal-node-extensions": "^1.0.7",
+    "@azure/msal-node-extensions": "1.0.8",
     "keytar": "^7.6.0",
     "tslib": "^2.2.0"
   },
@@ -82,7 +82,6 @@
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",

@@ -12,7 +12,7 @@ export const commandInfo = makeCommandInfo(
 
 export default leafCommand(commandInfo, async (options) => {
   const karmaArgs = options["--"]?.length
-    ? options["--"]?.join(" ")
+    ? options["--"].join(" ")
     : `${(await isModuleProject()) ? "karma.conf.cjs" : ""} --single-run`;
   return runTestsWithProxyTool({
     command: `karma start ${karmaArgs}`,
