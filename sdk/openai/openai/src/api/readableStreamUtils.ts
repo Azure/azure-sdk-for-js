@@ -11,10 +11,10 @@
 
 export function polyfillStream<T>(
   stream: ReadableStream<T>,
-  dispose: () => PromiseLike<void>
+  cancel: () => PromiseLike<void>
 ): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
-  makeAsyncIterable<T>(stream);
-  makeAsyncDisposable(stream, dispose);
+  makeAsyncIterable<T>(stream, cancel);
+  makeAsyncDisposable(stream, cancel);
   return stream;
 }
 
@@ -28,18 +28,22 @@ function makeAsyncDisposable<T>(
 }
 
 function makeAsyncIterable<T>(
-  webStream: any
+  webStream: any,
+  cancel: () => PromiseLike<void>
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
-    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
+    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream, cancel);
   }
 
   if (!webStream.values) {
-    webStream.values = () => toAsyncIterable(webStream);
+    webStream.values = () => toAsyncIterable(webStream, cancel);
   }
 }
 
-export async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterableIterator<T> {
+async function* toAsyncIterable<T>(
+  stream: ReadableStream<T>,
+  cancel: () => PromiseLike<void>
+): AsyncIterableIterator<T> {
   const reader = stream.getReader();
   try {
     while (true) {
@@ -51,6 +55,7 @@ export async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncItera
     }
   } finally {
     reader.releaseLock();
+    cancel();
   }
 }
 

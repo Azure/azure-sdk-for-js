@@ -49,10 +49,7 @@ describe("createStream", () => {
     assert.isTrue(disposed);
   });
 
-  it("creates stream that is canceled when looping exits early", async function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
+  it("creates stream that is canceled when looping exits early", async () => {
     let canceled = false;
     const stream = createStream(createIter(), async () => {
       canceled = true;
@@ -64,10 +61,7 @@ describe("createStream", () => {
     assert.isTrue(canceled);
   });
 
-  it("creates stream that can be canceled multiple times", async function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
+  it("creates stream that can be canceled multiple times", async () => {
     let canceled = false;
     const stream = createStream(createIter(), async () => {
       canceled = true;

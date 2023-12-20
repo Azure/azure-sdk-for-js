@@ -26,9 +26,9 @@ export function createSseStream(chunkIter: NodeJS.ReadableStream): EventMessageS
 export function createSseStream(
   chunkIter: NodeJS.ReadableStream | ReadableStream<Uint8Array>,
 ): EventMessageStream {
-  const { dispose, iterable } = ensureAsyncIterable(chunkIter);
+  const { cancel, iterable } = ensureAsyncIterable(chunkIter);
   const asyncIter = toMessage(toLine(iterable));
-  return createStream(asyncIter, dispose);
+  return createStream(asyncIter, cancel);
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {

@@ -3,19 +3,19 @@
 
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
-  dispose: () => PromiseLike<void>,
+  cancel: () => PromiseLike<void>,
 ): ReadableStream<T> & AsyncDisposable & AsyncIterable<T> {
-  const stream = iteratorToStream(asyncIter, dispose);
+  const stream = iteratorToStream(asyncIter, cancel);
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillStream(stream, dispose);
+  return polyfillStream(stream, cancel);
 }
 
 function polyfillStream<T>(
   stream: ReadableStream<T>,
-  dispose: () => PromiseLike<void>,
+  cancel: () => PromiseLike<void>,
 ): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
-  makeAsyncIterable<T>(stream);
-  makeAsyncDisposable(stream, dispose);
+  makeAsyncIterable<T>(stream, cancel);
+  makeAsyncDisposable(stream, cancel);
   return stream;
 }
 
@@ -30,13 +30,14 @@ function makeAsyncDisposable<T>(
 
 function makeAsyncIterable<T>(
   webStream: any,
+  cancel: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
-    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
+    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream, cancel);
   }
 
   if (!webStream.values) {
-    webStream.values = () => toAsyncIterable(webStream);
+    webStream.values = () => toAsyncIterable(webStream, cancel);
   }
 }
 
@@ -57,26 +58,23 @@ function iteratorToStream<T>(
   });
 }
 
-export function ensureAsyncIterable(
-  chunkIter: NodeJS.ReadableStream | ReadableStream<Uint8Array>,
-): {
-  dispose(): Promise<void>;
+export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStream<Uint8Array>): {
+  cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
 } {
-  if (isReadableStream(chunkIter)) {
+  if (isReadableStream(stream)) {
+    const cancel = async () => stream.cancel();
     return {
-      dispose: async () => {
-        /** nothing needs to be cleaned up */
-      },
-      iterable: toAsyncIterable(chunkIter),
+      cancel,
+      iterable: toAsyncIterable(stream, cancel),
     };
   } else {
     return {
-      dispose: async () => {
+      cancel: async () => {
         // drain the stream
-        chunkIter.resume();
+        stream.resume();
       },
-      iterable: chunkIter as AsyncIterable<Uint8Array>,
+      iterable: stream as AsyncIterable<Uint8Array>,
     };
   }
 }
@@ -89,7 +87,10 @@ function isReadableStream(body: unknown): body is ReadableStream {
   );
 }
 
-async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterableIterator<T> {
+async function* toAsyncIterable<T>(
+  stream: ReadableStream<T>,
+  cancel: () => PromiseLike<void>,
+): AsyncIterableIterator<T> {
   const reader = stream.getReader();
   try {
     while (true) {
@@ -101,5 +102,6 @@ async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterableIter
     }
   } finally {
     reader.releaseLock();
+    cancel();
   }
 }
