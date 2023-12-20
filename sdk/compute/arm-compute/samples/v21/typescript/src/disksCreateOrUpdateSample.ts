@@ -451,7 +451,7 @@ async function createAManagedDiskFromElasticSanVolumeSnapshot() {
   const disk: Disk = {
     creationData: {
       createOption: "CopyFromSanSnapshot",
-      sourceResourceId:
+      elasticSanResourceId:
         "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot"
     },
     location: "West US"

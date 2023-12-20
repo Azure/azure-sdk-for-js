@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Type guards", function () {
   describe("isDefined", function () {
