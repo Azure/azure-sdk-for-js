@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
  *
  * @summary Create a new CommunicationService or update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/createOrUpdate.json
  */
 async function createOrUpdateResource() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function createOrUpdateResource() {
  * This sample demonstrates how to Create a new CommunicationService or update an existing CommunicationService.
  *
  * @summary Create a new CommunicationService or update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/createOrUpdateWithSystemAssignedIdentity.json
  */
 async function createOrUpdateResourceWithManagedIdentity() {
   const subscriptionId =

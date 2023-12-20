@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetAppManagementClient.",
-  "version": "19.0.0",
+  "version": "20.0.0-beta.1",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -34,15 +34,17 @@
     "uglify-js": "^3.4.9",
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^3.3.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
+    "@types/mocha": "^10.0.0",
+    "esm": "^3.2.18",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
-    "@azure/dev-tool": "^1.0.0",
     "ts-node": "^10.0.0"
   },
   "repository": {

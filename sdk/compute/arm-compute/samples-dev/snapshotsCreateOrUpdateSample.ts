@@ -91,7 +91,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
   const snapshot: Snapshot = {
     creationData: {
       createOption: "CopyFromSanSnapshot",
-      sourceResourceId:
+      elasticSanResourceId:
         "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot"
     },
     location: "West US"

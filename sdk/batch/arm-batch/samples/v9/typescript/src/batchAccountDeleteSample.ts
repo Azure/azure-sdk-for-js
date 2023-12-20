@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified Batch account.
  *
  * @summary Deletes the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/BatchAccountDelete.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountDelete.json
  */
 async function batchAccountDelete() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
