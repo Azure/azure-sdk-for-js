@@ -19,9 +19,11 @@ import {
   RunCommandRequest as RunCommandRequestMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
   AgentPool as AgentPoolMapper,
+  AgentPoolDeleteMachinesParameter as AgentPoolDeleteMachinesParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
+  ManagedClusterSnapshot as ManagedClusterSnapshotMapper,
   TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper
 } from "../models/mappers";
 
@@ -52,7 +54,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-09-01",
+    defaultValue: "2023-10-02-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -182,6 +184,16 @@ export const parameters1: OperationParameter = {
   mapper: TagsObjectMapper
 };
 
+export const ignorePodDisruptionBudget: OperationQueryParameter = {
+  parameterPath: ["options", "ignorePodDisruptionBudget"],
+  mapper: {
+    serializedName: "ignore-pod-disruption-budget",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterServicePrincipalProfileMapper
@@ -201,6 +213,21 @@ export const commandId: OperationURLParameter = {
   parameterPath: "commandId",
   mapper: {
     serializedName: "commandId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const version: OperationURLParameter = {
+  parameterPath: "version",
+  mapper: {
+    constraints: {
+      MaxLength: 24,
+      MinLength: 1
+    },
+    serializedName: "version",
     required: true,
     type: {
       name: "String"
@@ -275,6 +302,25 @@ export const parameters5: OperationParameter = {
   mapper: AgentPoolMapper
 };
 
+export const machines: OperationParameter = {
+  parameterPath: "machines",
+  mapper: AgentPoolDeleteMachinesParameterMapper
+};
+
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$")
+    },
+    serializedName: "machineName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -296,9 +342,28 @@ export const parameters7: OperationParameter = {
   mapper: PrivateLinkResourceMapper
 };
 
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ManagedClusterSnapshotMapper
 };
 
 export const trustedAccessRoleBindingName: OperationURLParameter = {

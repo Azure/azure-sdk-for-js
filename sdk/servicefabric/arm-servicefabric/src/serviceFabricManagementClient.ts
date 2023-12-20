@@ -66,7 +66,7 @@ export class ServiceFabricManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-servicefabric/2.1.1`;
+    const packageDetails = `azsdk-js-arm-servicefabric/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
