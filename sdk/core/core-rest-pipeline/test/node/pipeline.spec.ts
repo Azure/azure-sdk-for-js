@@ -9,12 +9,11 @@ import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
 
 import { HttpClient } from "../../src/interfaces";
 import { HttpsProxyAgent } from "https-proxy-agent";
-import { assert } from "chai";
+import { assert, describe, it, afterEach } from "vitest";
 import { createEmptyPipeline } from "../../src/pipeline";
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { createNodeHttpClient } from "../../src/nodeHttpClient";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
-import sinon from "sinon";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {

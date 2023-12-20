@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { redirectPolicy } from "../src/policies/redirectPolicy";
-import * as sinon from "sinon";
+
 import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
 
 describe("RedirectPolicy", () => {

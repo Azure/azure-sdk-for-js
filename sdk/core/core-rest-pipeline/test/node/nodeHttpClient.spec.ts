@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { assert, describe, it } from "vitest";
+
 import { PassThrough, Writable } from "stream";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import https from "https";

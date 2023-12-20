@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import * as sinon from "sinon";
+
 import {
   PipelineResponse,
   RestError,
@@ -10,7 +10,7 @@ import {
   retryPolicy,
 } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
-import { assert } from "chai";
+import { assert, describe, it, afterEach } from "vitest";
 import { makeTestLogger } from "./util";
 
 describe("retryPolicy", function () {

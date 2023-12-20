@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it, beforeEach, afterEach } from "vitest";
 import { createFetchHttpClient } from "../../src/fetchHttpClient";
 import { createPipelineRequest } from "../../src/pipelineRequest";
 import { png } from "./mocks/encodedPng";
-import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "../../src/util/helpers";

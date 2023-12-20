@@ -3,7 +3,7 @@
 
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 import { PipelinePolicy } from "../src/pipeline";
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions";
 import { createPipelineRequest } from "../src/pipelineRequest";

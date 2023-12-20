@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { PipelineResponse, RestError, createHttpHeaders, createPipelineRequest } from "../../src";
 import { inspect } from "util";
 

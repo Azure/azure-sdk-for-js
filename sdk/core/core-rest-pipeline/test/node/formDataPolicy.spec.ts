@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { MultipartRequestBody } from "../../src/interfaces";
 import { isBlob } from "../../src/util/typeGuards";

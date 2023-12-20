@@ -6,7 +6,7 @@ import { createHttpHeaders } from "../src/httpHeaders";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
 import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "./util";
