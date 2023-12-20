@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/CommunityGallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -40,7 +40,7 @@ async function createACommunityGallery() {
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function createACommunityGallery() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -65,7 +65,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -74,7 +74,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -90,7 +90,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }
@@ -99,7 +99,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -114,7 +114,7 @@ async function createOrUpdateASimpleGallery() {
   const result = await client.galleries.beginCreateOrUpdateAndWait(
     resourceGroupName,
     galleryName,
-    gallery
+    gallery,
   );
   console.log(result);
 }

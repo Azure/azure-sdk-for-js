@@ -35,7 +35,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentSubscription() 
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -70,7 +70,7 @@ async function createADiskEncryptionSetWithKeyVaultFromADifferentTenant() {
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }
@@ -101,7 +101,7 @@ async function createADiskEncryptionSet() {
   const result = await client.diskEncryptionSets.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskEncryptionSetName,
-    diskEncryptionSet
+    diskEncryptionSet,
   );
   console.log(result);
 }

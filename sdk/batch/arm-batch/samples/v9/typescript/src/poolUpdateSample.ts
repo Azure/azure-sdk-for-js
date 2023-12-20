@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolUpdate_EnableAutoScale.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_EnableAutoScale.json
  */
 async function updatePoolEnableAutoscale() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -44,7 +44,7 @@ async function updatePoolEnableAutoscale() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolUpdate_OtherProperties.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_OtherProperties.json
  */
 async function updatePoolOtherProperties() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -90,7 +90,7 @@ async function updatePoolOtherProperties() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolUpdate_RemoveStartTask.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_RemoveStartTask.json
  */
 async function updatePoolRemoveStartTask() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -114,7 +114,7 @@ async function updatePoolRemoveStartTask() {
  * This sample demonstrates how to Updates the properties of an existing pool.
  *
  * @summary Updates the properties of an existing pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolUpdate_ResizePool.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolUpdate_ResizePool.json
  */
 async function updatePoolResizePool() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
