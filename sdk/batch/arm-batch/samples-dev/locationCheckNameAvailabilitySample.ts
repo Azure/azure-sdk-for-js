@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
  *
  * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/LocationCheckNameAvailability_AlreadyExists.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/LocationCheckNameAvailability_AlreadyExists.json
  */
 async function locationCheckNameAvailabilityAlreadyExists() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -43,7 +43,7 @@ async function locationCheckNameAvailabilityAlreadyExists() {
  * This sample demonstrates how to Checks whether the Batch account name is available in the specified region.
  *
  * @summary Checks whether the Batch account name is available in the specified region.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/LocationCheckNameAvailability_Available.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/LocationCheckNameAvailability_Available.json
  */
 async function locationCheckNameAvailabilityAvailable() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

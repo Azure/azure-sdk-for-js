@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a gallery Application Version.
  *
  * @summary Create or update a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryApplicationVersion() {
   const subscriptionId =
