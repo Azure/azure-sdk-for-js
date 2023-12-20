@@ -7375,9 +7375,9 @@ packages:
     hasBin: true
     dev: false
 
-  /mime@3.0.0:
-    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
-    engines: {node: '>=10.0.0'}
+  /mime@4.0.1:
+    resolution: {integrity: sha512-5lZ5tyrIfliMXzFtkYyekWbtRXObT9OWa8IwQ5uxTBDHucNNwniRqo0yInflj+iYi5CBa6qxadGzGarDfuEOxA==}
+    engines: {node: '>=16'}
     hasBin: true
     dev: false
 
@@ -10928,7 +10928,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-GGP6rIfW8IwAATmMVsOUR+UiQc1w7betEg/esZ5zI6XU21MIlQLjeNfrXWbcxGgDGf5lOaNev9UjXBOaNb2Fpg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-Hk7mC+5QvE7XSa5kbROfscgw6CSQVHwFaHt48+3IZ6ZjAwMqLBj1DkwoL1zsyvUkMMsXMbZdHxCMCxXudRFHQQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -10958,7 +10958,7 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      mime: 3.0.0
+      mime: 4.0.1
       mocha: 10.2.0
       mustache: 4.2.0
       prettier: 2.8.8
