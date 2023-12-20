@@ -86,7 +86,7 @@ async function createOrUpdateANetworkFunctionDefinitionVersionResource() {
     publisherName,
     networkFunctionDefinitionGroupName,
     networkFunctionDefinitionVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -169,7 +169,7 @@ async function createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureCo
     publisherName,
     networkFunctionDefinitionGroupName,
     networkFunctionDefinitionVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -255,7 +255,7 @@ async function createOrUpdateANetworkFunctionDefinitionVersionResourceForAzureOp
     publisherName,
     networkFunctionDefinitionGroupName,
     networkFunctionDefinitionVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

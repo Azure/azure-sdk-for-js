@@ -34,7 +34,7 @@ async function updateNetworkServiceDesignVersionState() {
     publisherName,
     networkServiceDesignGroupName,
     networkServiceDesignVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

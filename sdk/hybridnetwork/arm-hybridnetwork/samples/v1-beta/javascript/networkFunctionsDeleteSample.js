@@ -26,7 +26,7 @@ async function deleteNetworkFunctionResource() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.networkFunctions.beginDeleteAndWait(
     resourceGroupName,
-    networkFunctionName
+    networkFunctionName,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function deleteVirtualNetworkFunctionResourceOnAzureCore() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.networkFunctions.beginDeleteAndWait(
     resourceGroupName,
-    networkFunctionName
+    networkFunctionName,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function deleteVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.networkFunctions.beginDeleteAndWait(
     resourceGroupName,
-    networkFunctionName
+    networkFunctionName,
   );
   console.log(result);
 }

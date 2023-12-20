@@ -30,7 +30,7 @@ async function getAArtifactManifestResource() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    artifactManifestName
+    artifactManifestName,
   );
   console.log(result);
 }

@@ -30,7 +30,7 @@ async function createOrUpdateTheNetworkFunctionDefinitionGroup() {
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

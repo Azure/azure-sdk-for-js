@@ -32,7 +32,7 @@ async function createOrUpdateAPublisherResource() {
   const result = await client.publishers.beginCreateOrUpdateAndWait(
     resourceGroupName,
     publisherName,
-    options
+    options,
   );
   console.log(result);
 }

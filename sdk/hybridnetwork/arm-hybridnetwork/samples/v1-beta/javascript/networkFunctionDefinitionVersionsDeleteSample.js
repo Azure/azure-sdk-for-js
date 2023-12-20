@@ -30,7 +30,7 @@ async function deleteANetworkFunctionDefinitionVersion() {
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function deleteANetworkFunctionDefinitionVersionForAzureCoreVnf() {
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }
@@ -76,7 +76,7 @@ async function deleteANetworkFunctionDefinitionVersionForAzureOperatorNexusVnf()
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }

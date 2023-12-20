@@ -26,7 +26,7 @@ async function deleteHybridConfigurationGroupResource() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.configurationGroupValues.beginDeleteAndWait(
     resourceGroupName,
-    configurationGroupValueName
+    configurationGroupValueName,
   );
   console.log(result);
 }

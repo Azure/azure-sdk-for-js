@@ -30,7 +30,7 @@ async function getANetworkFunctionDefinitionVersionResource() {
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function getNetworkFunctionDefinitionVersionResourceForAzureCoreVnf() {
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }
@@ -76,7 +76,7 @@ async function getNetworkFunctionDefinitionVersionResourceForAzureOperatorNexusV
     resourceGroupName,
     publisherName,
     networkFunctionDefinitionGroupName,
-    networkFunctionDefinitionVersionName
+    networkFunctionDefinitionVersionName,
   );
   console.log(result);
 }

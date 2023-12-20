@@ -30,7 +30,7 @@ async function updateArtifactStoreResourceTags() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

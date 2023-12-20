@@ -27,7 +27,7 @@ async function getNetworkServiceDesignGroupsUnderPublisherResource() {
   const resArray = new Array();
   for await (let item of client.networkServiceDesignGroups.listByPublisher(
     resourceGroupName,
-    publisherName
+    publisherName,
   )) {
     resArray.push(item);
   }

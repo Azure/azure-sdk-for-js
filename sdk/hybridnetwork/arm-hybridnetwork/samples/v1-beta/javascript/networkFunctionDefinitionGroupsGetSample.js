@@ -28,7 +28,7 @@ async function getANetworkFunctionDefinitionGroupResource() {
   const result = await client.networkFunctionDefinitionGroups.get(
     resourceGroupName,
     publisherName,
-    networkFunctionDefinitionGroupName
+    networkFunctionDefinitionGroupName,
   );
   console.log(result);
 }

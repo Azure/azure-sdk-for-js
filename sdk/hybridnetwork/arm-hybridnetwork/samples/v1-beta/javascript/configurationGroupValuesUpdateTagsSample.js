@@ -28,7 +28,7 @@ async function updateHybridConfigurationGroupTags() {
   const result = await client.configurationGroupValues.updateTags(
     resourceGroupName,
     configurationGroupValueName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

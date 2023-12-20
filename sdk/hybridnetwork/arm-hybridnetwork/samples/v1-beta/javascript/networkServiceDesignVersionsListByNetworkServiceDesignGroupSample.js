@@ -29,7 +29,7 @@ async function getPublisherResource() {
   for await (let item of client.networkServiceDesignVersions.listByNetworkServiceDesignGroup(
     resourceGroupName,
     publisherName,
-    networkServiceDesignGroupName
+    networkServiceDesignGroupName,
   )) {
     resArray.push(item);
   }

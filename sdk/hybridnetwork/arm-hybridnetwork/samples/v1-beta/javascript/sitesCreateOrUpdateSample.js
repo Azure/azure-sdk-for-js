@@ -49,7 +49,7 @@ async function createNetworkSite() {
   const result = await client.sites.beginCreateOrUpdateAndWait(
     resourceGroupName,
     siteName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -28,7 +28,7 @@ async function deleteANetworkFunctionGroupResource() {
   const result = await client.networkFunctionDefinitionGroups.beginDeleteAndWait(
     resourceGroupName,
     publisherName,
-    networkFunctionDefinitionGroupName
+    networkFunctionDefinitionGroupName,
   );
   console.log(result);
 }

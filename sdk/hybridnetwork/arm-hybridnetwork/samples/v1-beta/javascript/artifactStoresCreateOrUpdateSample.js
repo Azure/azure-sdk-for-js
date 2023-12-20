@@ -37,7 +37,7 @@ async function createOrUpdateAnArtifactStoreOfPublisherResource() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -30,7 +30,7 @@ async function createOrUpdateTheConfigurationGroupSchemaResource() {
     resourceGroupName,
     publisherName,
     configurationGroupSchemaName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

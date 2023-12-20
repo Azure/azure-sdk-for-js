@@ -29,7 +29,7 @@ async function getArtifactManifestListResource() {
   for await (let item of client.artifactManifests.listByArtifactStore(
     resourceGroupName,
     publisherName,
-    artifactStoreName
+    artifactStoreName,
   )) {
     resArray.push(item);
   }

@@ -28,7 +28,7 @@ async function getAArtifactStoreResource() {
   const result = await client.artifactStores.get(
     resourceGroupName,
     publisherName,
-    artifactStoreName
+    artifactStoreName,
   );
   console.log(result);
 }

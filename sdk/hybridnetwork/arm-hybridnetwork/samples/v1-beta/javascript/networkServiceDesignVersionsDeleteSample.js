@@ -30,7 +30,7 @@ async function deleteANetworkServiceDesignVersion() {
     resourceGroupName,
     publisherName,
     networkServiceDesignGroupName,
-    networkServiceDesignVersionName
+    networkServiceDesignVersionName,
   );
   console.log(result);
 }

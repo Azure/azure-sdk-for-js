@@ -48,7 +48,7 @@ async function createOrUpdateTheArtifactManifestResource() {
     publisherName,
     artifactStoreName,
     artifactManifestName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

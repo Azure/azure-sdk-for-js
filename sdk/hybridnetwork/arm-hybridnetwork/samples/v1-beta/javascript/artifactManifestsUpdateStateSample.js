@@ -34,7 +34,7 @@ async function updateArtifactManifestState() {
     publisherName,
     artifactStoreName,
     artifactManifestName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

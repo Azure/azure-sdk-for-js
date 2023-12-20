@@ -28,7 +28,7 @@ async function getANetworkFunctionDefinitionGroupResource() {
   const result = await client.configurationGroupSchemas.get(
     resourceGroupName,
     publisherName,
-    configurationGroupSchemaName
+    configurationGroupSchemaName,
   );
   console.log(result);
 }

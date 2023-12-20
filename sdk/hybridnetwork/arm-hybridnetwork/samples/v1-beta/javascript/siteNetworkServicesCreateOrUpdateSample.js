@@ -45,7 +45,7 @@ async function createFirstPartySiteNetworkService() {
   const result = await client.siteNetworkServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     siteNetworkServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -83,7 +83,7 @@ async function createSiteNetworkService() {
   const result = await client.siteNetworkServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     siteNetworkServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

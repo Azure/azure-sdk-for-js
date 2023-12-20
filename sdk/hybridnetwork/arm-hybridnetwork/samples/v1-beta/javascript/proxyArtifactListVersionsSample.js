@@ -31,7 +31,7 @@ async function getAnArtifactOverview() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    artifactName
+    artifactName,
   )) {
     resArray.push(item);
   }

@@ -30,7 +30,7 @@ async function deleteAArtifactManifestResource() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    artifactManifestName
+    artifactManifestName,
   );
   console.log(result);
 }

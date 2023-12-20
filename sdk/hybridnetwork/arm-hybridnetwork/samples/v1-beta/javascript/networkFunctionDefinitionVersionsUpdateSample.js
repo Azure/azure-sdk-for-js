@@ -32,7 +32,7 @@ async function updateTheNetworkFunctionDefinitionVersionTags() {
     publisherName,
     networkFunctionDefinitionGroupName,
     networkFunctionDefinitionVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

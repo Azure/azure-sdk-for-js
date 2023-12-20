@@ -27,7 +27,7 @@ async function getNetworkFunctionDefinitionGroupsUnderPublisherResource() {
   const resArray = new Array();
   for await (let item of client.networkFunctionDefinitionGroups.listByPublisher(
     resourceGroupName,
-    publisherName
+    publisherName,
   )) {
     resArray.push(item);
   }

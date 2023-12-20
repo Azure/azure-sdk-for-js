@@ -30,7 +30,7 @@ async function createOrUpdateTheNetworkServiceDesignGroupResource() {
     resourceGroupName,
     publisherName,
     networkServiceDesignGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

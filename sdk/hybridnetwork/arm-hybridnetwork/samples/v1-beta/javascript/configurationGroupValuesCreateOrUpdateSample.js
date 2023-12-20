@@ -39,7 +39,7 @@ async function createOrUpdateConfigurationGroupValue() {
   const result = await client.configurationGroupValues.beginCreateOrUpdateAndWait(
     resourceGroupName,
     configurationGroupValueName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -71,7 +71,7 @@ async function createOrUpdateConfigurationGroupValueWithSecrets() {
   const result = await client.configurationGroupValues.beginCreateOrUpdateAndWait(
     resourceGroupName,
     configurationGroupValueName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -103,7 +103,7 @@ async function createOrUpdateFirstPartyConfigurationGroupValue() {
   const result = await client.configurationGroupValues.beginCreateOrUpdateAndWait(
     resourceGroupName,
     configurationGroupValueName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

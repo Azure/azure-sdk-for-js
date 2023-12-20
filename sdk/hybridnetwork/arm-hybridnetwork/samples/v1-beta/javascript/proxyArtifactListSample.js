@@ -29,7 +29,7 @@ async function listArtifactsUnderAnArtifactStore() {
   for await (let item of client.proxyArtifact.list(
     resourceGroupName,
     publisherName,
-    artifactStoreName
+    artifactStoreName,
   )) {
     resArray.push(item);
   }

@@ -26,7 +26,7 @@ async function getHybridConfigurationGroup() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.configurationGroupValues.get(
     resourceGroupName,
-    configurationGroupValueName
+    configurationGroupValueName,
   );
   console.log(result);
 }

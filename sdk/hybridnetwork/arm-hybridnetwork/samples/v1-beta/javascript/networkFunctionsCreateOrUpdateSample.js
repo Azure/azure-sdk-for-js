@@ -46,7 +46,7 @@ async function createFirstPartyNetworkFunctionResource() {
   const result = await client.networkFunctions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -85,7 +85,7 @@ async function createNetworkFunctionResource() {
   const result = await client.networkFunctions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -124,7 +124,7 @@ async function createNetworkFunctionResourceWithSecrets() {
   const result = await client.networkFunctions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -159,7 +159,7 @@ async function createVirtualNetworkFunctionResourceOnAzureCore() {
   const result = await client.networkFunctions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -195,7 +195,7 @@ async function createVirtualNetworkFunctionResourceOnAzureOperatorNexus() {
   const result = await client.networkFunctions.beginCreateOrUpdateAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -37,7 +37,7 @@ async function sendRequestToNetworkFunctionServices() {
   const result = await client.networkFunctions.beginExecuteRequestAndWait(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

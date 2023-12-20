@@ -27,7 +27,7 @@ async function listComponentsInNetworkFunction() {
   const resArray = new Array();
   for await (let item of client.components.listByNetworkFunction(
     resourceGroupName,
-    networkFunctionName
+    networkFunctionName,
   )) {
     resArray.push(item);
   }

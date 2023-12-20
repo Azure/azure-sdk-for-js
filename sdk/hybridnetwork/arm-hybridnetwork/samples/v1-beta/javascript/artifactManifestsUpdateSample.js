@@ -32,7 +32,7 @@ async function updateAArtifactManifestResourceTags() {
     publisherName,
     artifactStoreName,
     artifactManifestName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

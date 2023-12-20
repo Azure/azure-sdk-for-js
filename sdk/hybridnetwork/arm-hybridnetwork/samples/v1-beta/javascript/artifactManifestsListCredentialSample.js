@@ -30,7 +30,7 @@ async function listACredentialForArtifactManifest() {
     resourceGroupName,
     publisherName,
     artifactStoreName,
-    artifactManifestName
+    artifactManifestName,
   );
   console.log(result);
 }

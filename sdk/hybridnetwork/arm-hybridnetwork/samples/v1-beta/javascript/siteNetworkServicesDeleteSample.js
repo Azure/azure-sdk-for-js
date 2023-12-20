@@ -26,7 +26,7 @@ async function deleteNetworkSite() {
   const client = new HybridNetworkManagementClient(credential, subscriptionId);
   const result = await client.siteNetworkServices.beginDeleteAndWait(
     resourceGroupName,
-    siteNetworkServiceName
+    siteNetworkServiceName,
   );
   console.log(result);
 }

@@ -36,7 +36,7 @@ async function updateAnArtifactState() {
     artifactStoreName,
     artifactName,
     artifactVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function updateTheNetworkServiceDesignVersionTags() {
     publisherName,
     networkServiceDesignGroupName,
     networkServiceDesignVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -28,7 +28,7 @@ async function getANetworkServiceDesignGroupResource() {
   const result = await client.networkServiceDesignGroups.get(
     resourceGroupName,
     publisherName,
-    networkServiceDesignGroupName
+    networkServiceDesignGroupName,
   );
   console.log(result);
 }

@@ -34,7 +34,7 @@ async function updateNetworkFunctionDefinitionVersionState() {
     publisherName,
     networkFunctionDefinitionGroupName,
     networkFunctionDefinitionVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -28,7 +28,7 @@ async function updateNetworkSiteTags() {
   const result = await client.siteNetworkServices.updateTags(
     resourceGroupName,
     siteNetworkServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

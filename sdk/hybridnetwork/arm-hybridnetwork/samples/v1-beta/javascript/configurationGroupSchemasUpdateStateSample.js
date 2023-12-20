@@ -32,7 +32,7 @@ async function updateNetworkServiceDesignVersionState() {
     resourceGroupName,
     publisherName,
     configurationGroupSchemaName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

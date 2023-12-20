@@ -28,7 +28,7 @@ async function deleteAArtifactStoreOfPublisherResource() {
   const result = await client.artifactStores.beginDeleteAndWait(
     resourceGroupName,
     publisherName,
-    artifactStoreName
+    artifactStoreName,
   );
   console.log(result);
 }

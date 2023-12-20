@@ -61,7 +61,7 @@ async function createOrUpdateANetworkServiceDesignVersionResource() {
     publisherName,
     networkServiceDesignGroupName,
     networkServiceDesignVersionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

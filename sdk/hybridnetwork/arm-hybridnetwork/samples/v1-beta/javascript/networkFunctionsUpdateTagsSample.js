@@ -28,7 +28,7 @@ async function updateTagsForNetworkFunctionResource() {
   const result = await client.networkFunctions.updateTags(
     resourceGroupName,
     networkFunctionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
