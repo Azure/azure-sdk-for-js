@@ -12,10 +12,10 @@ export function createStream<T>(
 
 function polyfillStream<T>(
   stream: ReadableStream<T>,
-  cancel: () => PromiseLike<void>,
+  dispose: () => PromiseLike<void>,
 ): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
-  makeAsyncIterable<T>(stream, cancel);
-  makeAsyncDisposable(stream, cancel);
+  makeAsyncIterable<T>(stream);
+  makeAsyncDisposable(stream, dispose);
   return stream;
 }
 
@@ -30,14 +30,13 @@ function makeAsyncDisposable<T>(
 
 function makeAsyncIterable<T>(
   webStream: any,
-  cancel: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
-    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream, cancel);
+    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
   }
 
   if (!webStream.values) {
-    webStream.values = () => toAsyncIterable(webStream, cancel);
+    webStream.values = () => toAsyncIterable(webStream);
   }
 }
 
@@ -63,10 +62,9 @@ export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStre
   iterable: AsyncIterable<Uint8Array>;
 } {
   if (isReadableStream(stream)) {
-    const cancel = async () => stream.cancel();
     return {
-      cancel,
-      iterable: toAsyncIterable(stream, cancel),
+      cancel: () => stream.cancel(),
+      iterable: toAsyncIterable(stream),
     };
   } else {
     return {
@@ -87,10 +85,7 @@ function isReadableStream(body: unknown): body is ReadableStream {
   );
 }
 
-async function* toAsyncIterable<T>(
-  stream: ReadableStream<T>,
-  cancel: () => PromiseLike<void>,
-): AsyncIterableIterator<T> {
+async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterableIterator<T> {
   const reader = stream.getReader();
   try {
     while (true) {
@@ -101,7 +96,8 @@ async function* toAsyncIterable<T>(
       yield value;
     }
   } finally {
+    const cancelPromise = reader.cancel();
     reader.releaseLock();
-    cancel();
+    await cancelPromise;
   }
 }
