@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert, isNode } from "@azure/test-utils";
 import { createStream } from "../../src/utils.js";
 import { Context } from "mocha";
 
@@ -33,7 +33,7 @@ describe("createStream", () => {
   });
 
   it("creates disposable stream", async function (this: Context) {
-    if (process.version.startsWith("v18")) {
+    if (!isNode || process.version.startsWith("v18")) {
       // Node 18 has a bug where the async dispose symbol is
       // not referenced correctly. See release notes in
       // https://nodejs.org/en/blog/release/v20.5.0
@@ -49,15 +49,35 @@ describe("createStream", () => {
     assert.isTrue(disposed);
   });
 
-  it("creates stream that is cancelled when looping exits early", async function (this: Context) {
-    let disposed = false;
+  it("creates stream that is canceled when looping exits early", async function (this: Context) {
+    if (!isNode) {
+      this.skip();
+    }
+    let canceled = false;
     const stream = createStream(createIter(), async () => {
-      disposed = true;
+      canceled = true;
     });
     for await (const item of stream) {
       assert.isDefined(item);
       break;
     }
-    assert.isTrue(disposed);
+    assert.isTrue(canceled);
+  });
+
+  it("creates stream that can be canceled multiple times", async function (this: Context) {
+    if (!isNode) {
+      this.skip();
+    }
+    let canceled = false;
+    const stream = createStream(createIter(), async () => {
+      canceled = true;
+    });
+    for await (const item of stream) {
+      assert.isDefined(item);
+      break;
+    }
+    assert.isTrue(canceled);
+    stream.cancel();
+    assert.isTrue(canceled);
   });
 });

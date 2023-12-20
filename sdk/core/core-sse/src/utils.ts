@@ -24,7 +24,7 @@ function makeAsyncDisposable<T>(
   dispose: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncDisposable {
   if (!webStream[Symbol.asyncDispose]) {
-    webStream[Symbol.asyncDispose] = dispose.bind(webStream);
+    webStream[Symbol.asyncDispose] = () => dispose();
   }
 }
 
@@ -32,11 +32,11 @@ function makeAsyncIterable<T>(
   webStream: any,
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
-    webStream[Symbol.asyncIterator] = toAsyncIterable.bind(webStream);
+    webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
   }
 
   if (!webStream.values) {
-    webStream.values = toAsyncIterable.bind(webStream);
+    webStream.values = () => toAsyncIterable(webStream);
   }
 }
 
