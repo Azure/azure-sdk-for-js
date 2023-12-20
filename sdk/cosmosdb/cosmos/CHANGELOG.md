@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for passing a custom `HttpClient` when constructing a `CosmosClient`.
+
 ### Breaking Changes
 
 ####  Dropped Support for TypeScript 4.1

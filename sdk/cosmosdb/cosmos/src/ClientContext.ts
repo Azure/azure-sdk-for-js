@@ -3,6 +3,7 @@
 import { v4 } from "uuid";
 const uuid = v4;
 import {
+  HttpClient,
   Pipeline,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
@@ -959,6 +960,7 @@ export class ClientContext {
     client?: ClientContext;
     pipeline?: Pipeline;
     plugins: PluginConfig[];
+    httpClient?: HttpClient;
   } {
     return {
       globalEndpointManager: this.globalEndpointManager,
@@ -967,6 +969,7 @@ export class ClientContext {
       client: this,
       plugins: this.cosmosClientOptions.plugins,
       pipeline: this.pipeline,
+      httpClient: this.cosmosClientOptions.httpClient,
     };
   }
 
