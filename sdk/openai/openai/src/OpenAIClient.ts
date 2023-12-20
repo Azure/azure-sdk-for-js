@@ -14,8 +14,8 @@ import {
   getAudioTranscription,
   getAudioTranslation,
   getImages,
-  listChatCompletions,
-  listCompletions,
+  streamChatCompletions,
+  streamCompletions,
 } from "./api/index.js";
 import {
   getChatCompletions,
@@ -42,6 +42,7 @@ import {
   ChatRequestMessage,
   Completions,
   Embeddings,
+  EventStream,
   ImageGenerations,
 } from "./models/models.js";
 
@@ -177,13 +178,13 @@ export class OpenAIClient {
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
-  listCompletions(
+  streamCompletions(
     deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): AsyncIterable<Omit<Completions, "usage">> {
+  ): Promise<EventStream<Omit<Completions, "usage">>> {
     this.setModel(deploymentName, options);
-    return listCompletions(this._client, deploymentName, prompt, options);
+    return streamCompletions(this._client, deploymentName, prompt, options);
   }
 
   /**
@@ -225,13 +226,13 @@ export class OpenAIClient {
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
-  listChatCompletions(
+  streamChatCompletions(
     deploymentName: string,
     messages: ChatRequestMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<ChatCompletions> {
+  ): Promise<EventStream<ChatCompletions>> {
     this.setModel(deploymentName, options);
-    return listChatCompletions(this._client, deploymentName, messages, options);
+    return streamChatCompletions(this._client, deploymentName, messages, options);
   }
 
   /**

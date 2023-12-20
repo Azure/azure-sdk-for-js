@@ -4,6 +4,14 @@
 
 ```ts
 
+/// <reference types="node" />
+
+// @public
+export function createSseStream(chunkIter: ReadableStream<Uint8Array>): EventMessageStream;
+
+// @public
+export function createSseStream(chunkIter: NodeJS.ReadableStream): EventMessageStream;
+
 // @public
 export interface EventMessage {
     data: string;
@@ -13,10 +21,8 @@ export interface EventMessage {
 }
 
 // @public
-export function iterateSseStream(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
-
-// @public
-export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
+export interface EventMessageStream extends ReadableStream<EventMessage>, AsyncDisposable, AsyncIterable<EventMessage> {
+}
 
 // (No @packageDocumentation comment for this package)
 

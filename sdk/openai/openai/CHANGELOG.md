@@ -6,6 +6,15 @@
 
 ### Breaking Changes
 
+- `listChatCompletions` and `listCompletions` are renamed to `streamChatCompletions` and `streamCompletions` respectively and their return types are updated to be a `ReadableStream`. For example, `streamChatCompletions` can be used as follows:
+
+```js
+  await using events = await client.streamChatCompletions(deploymentId, messages);
+  for await (const event of events) {
+    // use event ...
+  }
+```
+
 ### Bugs Fixed
 
 ### Other Changes
