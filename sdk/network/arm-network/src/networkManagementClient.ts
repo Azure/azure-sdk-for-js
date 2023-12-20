@@ -307,6 +307,9 @@ import {
   DisconnectActiveSessionsOptionalParams,
   DisconnectActiveSessionsResponse,
   DeleteBastionShareableLinkOptionalParams,
+  BastionShareableLinkTokenListRequest,
+  DeleteBastionShareableLinkByTokenOptionalParams,
+  DeleteBastionShareableLinkByTokenResponse,
   CheckDnsNameAvailabilityOptionalParams,
   CheckDnsNameAvailabilityResponse,
   ExpressRouteProviderPortOptionalParams,
@@ -379,7 +382,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/32.2.1`;
+    const packageDetails = `azsdk-js-arm-network/33.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -650,7 +653,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * Creates a Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   public beginListPutBastionShareableLinkAndWait(
@@ -744,7 +747,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * Return the Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   public listBastionShareableLink(
@@ -1015,7 +1018,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * Creates a Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   private async _putBastionShareableLink(
@@ -1089,7 +1092,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * Deletes the Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   async beginDeleteBastionShareableLink(
@@ -1155,7 +1158,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * Deletes the Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   async beginDeleteBastionShareableLinkAndWait(
@@ -1174,10 +1177,106 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   }
 
   /**
+   * Deletes the Bastion Shareable Links for all the tokens specified in the request.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param bslTokenRequest Post request for Delete Bastion Shareable Link By Token endpoint.
+   * @param options The options parameters.
+   */
+  async beginDeleteBastionShareableLinkByToken(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslTokenRequest: BastionShareableLinkTokenListRequest,
+    options?: DeleteBastionShareableLinkByTokenOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DeleteBastionShareableLinkByTokenResponse>,
+      DeleteBastionShareableLinkByTokenResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DeleteBastionShareableLinkByTokenResponse> => {
+      return this.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, bastionHostName, bslTokenRequest, options },
+      spec: deleteBastionShareableLinkByTokenOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DeleteBastionShareableLinkByTokenResponse,
+      OperationState<DeleteBastionShareableLinkByTokenResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes the Bastion Shareable Links for all the tokens specified in the request.
+   * @param resourceGroupName The name of the resource group.
+   * @param bastionHostName The name of the Bastion Host.
+   * @param bslTokenRequest Post request for Delete Bastion Shareable Link By Token endpoint.
+   * @param options The options parameters.
+   */
+  async beginDeleteBastionShareableLinkByTokenAndWait(
+    resourceGroupName: string,
+    bastionHostName: string,
+    bslTokenRequest: BastionShareableLinkTokenListRequest,
+    options?: DeleteBastionShareableLinkByTokenOptionalParams
+  ): Promise<DeleteBastionShareableLinkByTokenResponse> {
+    const poller = await this.beginDeleteBastionShareableLinkByToken(
+      resourceGroupName,
+      bastionHostName,
+      bslTokenRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Return the Bastion Shareable Links for all the VMs specified in the request.
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param options The options parameters.
    */
   private _getBastionShareableLink(
@@ -1515,7 +1614,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * PutBastionShareableLinkNext
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param nextLink The nextLink from the previous successful call to the PutBastionShareableLink
    *                 method.
    * @param options The options parameters.
@@ -1537,7 +1636,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
    * GetBastionShareableLinkNext
    * @param resourceGroupName The name of the resource group.
    * @param bastionHostName The name of the Bastion Host.
-   * @param bslRequest Post request for all the Bastion Shareable Link endpoints.
+   * @param bslRequest Post request for Create/Delete/Get Bastion Shareable Link endpoints.
    * @param nextLink The nextLink from the previous successful call to the GetBastionShareableLink
    *                 method.
    * @param options The options parameters.
@@ -1779,6 +1878,43 @@ const deleteBastionShareableLinkOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.bslRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.bastionHostName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteBastionShareableLinkByTokenOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinksByToken",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders
+    },
+    201: {
+      headersMapper:
+        Mappers.NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders
+    },
+    202: {
+      headersMapper:
+        Mappers.NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders
+    },
+    204: {
+      headersMapper:
+        Mappers.NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.bslTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
