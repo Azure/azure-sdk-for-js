@@ -8,5 +8,5 @@
     },
     "lib": ["dom", "dom.iterable"]
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
 }
