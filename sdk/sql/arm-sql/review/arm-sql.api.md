@@ -4128,6 +4128,15 @@ export enum KnownMetricType {
 }
 
 // @public
+export enum KnownMinimalTlsVersion {
+    None = "None",
+    One0 = "1.0",
+    One1 = "1.1",
+    One2 = "1.2",
+    One3 = "1.3"
+}
+
+// @public
 export enum KnownMoveOperationMode {
     Copy = "Copy",
     Move = "Move"
@@ -5157,6 +5166,8 @@ export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionP
 
 // @public
 export interface LongTermRetentionPolicy extends ProxyResource {
+    backupStorageAccessTier?: BackupStorageAccessTier;
+    makeBackupsImmutable?: boolean;
     monthlyRetention?: string;
     weeklyRetention?: string;
     weekOfYear?: number;
@@ -7443,6 +7454,9 @@ export interface MinCapacityCapability {
 }
 
 // @public
+export type MinimalTlsVersion = string;
+
+// @public
 export type MoveOperationMode = string;
 
 // @public
@@ -8540,7 +8554,7 @@ export interface Server extends TrackedResource {
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
-    minimalTlsVersion?: string;
+    minimalTlsVersion?: MinimalTlsVersion;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9546,7 +9560,7 @@ export interface ServerUpdate {
     identity?: ResourceIdentity;
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
-    minimalTlsVersion?: string;
+    minimalTlsVersion?: MinimalTlsVersion;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;

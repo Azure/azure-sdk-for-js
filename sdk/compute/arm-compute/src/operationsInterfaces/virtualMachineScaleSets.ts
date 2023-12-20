@@ -39,6 +39,8 @@ import {
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsReimageOptionalParams,
   VirtualMachineScaleSetsReimageAllOptionalParams,
+  VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetsApproveRollingUpgradeResponse,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse,
   VMScaleSetConvertToSinglePlacementGroupInput,
@@ -478,6 +480,33 @@ export interface VirtualMachineScaleSets {
     vmScaleSetName: string,
     options?: VirtualMachineScaleSetsReimageAllOptionalParams
   ): Promise<void>;
+  /**
+   * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginApproveRollingUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsApproveRollingUpgradeResponse>,
+      VirtualMachineScaleSetsApproveRollingUpgradeResponse
+    >
+  >;
+  /**
+   * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  beginApproveRollingUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  ): Promise<VirtualMachineScaleSetsApproveRollingUpgradeResponse>;
   /**
    * Manual platform update domain walk to update virtual machines in a service fabric virtual machine
    * scale set.

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a new EmailService or update an existing EmailService.
  *
  * @summary Create a new EmailService or update an existing EmailService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/emailServices/createOrUpdate.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/emailServices/createOrUpdate.json
  */
 async function createOrUpdateEmailServiceResource() {
   const subscriptionId =

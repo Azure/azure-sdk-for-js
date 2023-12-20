@@ -36,6 +36,8 @@ import {
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
   AccountsRenewCredentialsOptionalParams,
+  AccountsMigrateEncryptionKeyOptionalParams,
+  AccountsMigrateEncryptionKeyResponse,
   AccountsListBySubscriptionNextResponse,
   AccountsListNextResponse
 } from "../models";
@@ -577,6 +579,101 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginMigrateEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsMigrateEncryptionKeyResponse>,
+      AccountsMigrateEncryptionKeyResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AccountsMigrateEncryptionKeyResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, options },
+      spec: migrateEncryptionKeyOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AccountsMigrateEncryptionKeyResponse,
+      OperationState<AccountsMigrateEncryptionKeyResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  async beginMigrateEncryptionKeyAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<AccountsMigrateEncryptionKeyResponse> {
+    const poller = await this.beginMigrateEncryptionKey(
+      resourceGroupName,
+      accountName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -757,6 +854,39 @@ const renewCredentialsOperationSpec: coreClient.OperationSpec = {
   ],
   serializer
 };
+const migrateEncryptionKeyOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/migrateEncryption",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    201: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    202: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    204: {
+      headersMapper: Mappers.AccountsMigrateEncryptionKeyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.body7,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -786,8 +916,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
