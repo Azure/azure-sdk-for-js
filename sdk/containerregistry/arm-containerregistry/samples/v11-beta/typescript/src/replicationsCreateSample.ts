@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/ReplicationCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationCreate.json
  */
 async function replicationCreate() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function replicationCreate() {
  * This sample demonstrates how to Creates a replication for a container registry with the specified parameters.
  *
  * @summary Creates a replication for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/ReplicationCreateZoneRedundant.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ReplicationCreateZoneRedundant.json
  */
 async function replicationCreateZoneRedundant() {
   const subscriptionId =

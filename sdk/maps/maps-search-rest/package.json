@@ -2,7 +2,7 @@
   "name": "@azure-rest/maps-search",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.4",
+  "version": "2.0.0-beta.1",
   "description": "A generated SDK for MapsSearchClient.",
   "keywords": [
     "node",
@@ -66,7 +66,8 @@
     "@azure/core-rest-pipeline": "^1.8.0",
     "tslib": "^2.2.0",
     "@azure/core-lro": "^2.2.0",
-    "@azure/maps-common": "1.0.0-beta.2"
+    "@azure/maps-common": "1.0.0-beta.2",
+    "@azure/logger": "^1.0.5"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -86,7 +87,6 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "mocha": "^10.0.0",
     "@types/mocha": "^10.0.0",
-    "mocha-junit-reporter": "^1.18.0",
     "cross-env": "^7.0.2",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",

@@ -1,6 +1,7 @@
-# AzureCommunicationRoutingService REST client library for JavaScript
+# Azure Communication Services Job Router REST client library for JavaScript
 
-Azure Communication Routing Service
+This package contains a JavaScript SDK for Azure Communication Services Job Router.
+Read more about Azure Communication Services [here](https://learn.microsoft.com/azure/communication-services/overview)
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
@@ -8,6 +9,8 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest)
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/communication-job-router)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest/samples)
+
 
 ## Getting started
 
@@ -23,22 +26,21 @@ Key links:
 
 Create an ACS resource in the [Azure Portal](https://ms.portal.azure.com/#home) or use an existing resource.
 
-
 ### Install the `@azure-rest/communication-job-router` package
 
-Install the AzureCommunicationRoutingService REST client REST client library for JavaScript with `npm`:
+Install the Job Router REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/communication-job-router
 ```
 
-### Create and authenticate a `AzureCommunicationRoutingServiceClient`
+### Create and authenticate an `AzureCommunicationRoutingServiceClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) 
+To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
 
 After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
 As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
@@ -47,7 +49,7 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
-## Tutorial: Route jobs to workers using the Azure Communication Services (ACS) Job Router Rest SDK
+## Tutorial: Route jobs to workers using the Azure Communication Services Job Router SDK
 
 In this tutorial, you will learn:
 
@@ -59,7 +61,7 @@ In this tutorial, you will learn:
 
 ### Start a NodeJS Express server
 
-In a shell (cmd, PowerShell, Bash, etc.), create a folder called `RouterQuickStart` and inside this folder execute `npx express-generator`. This will generate a simple Express project that will listen on `port 3000`.
+In a shell (cmd, PowerShell, Bash, etc.) create a folder called `RouterQuickStart` and inside this folder execute `npx express-generator`. This will generate a simple Express project that will listen on `port 3000`.
 
 #### Example
 
@@ -77,19 +79,15 @@ In the `RouterQuickStart` folder, install the ACS Job Router SDK by executing `n
 
 ## Routing Jobs
 
-### Construct Job Router Client
+### Construct an AzureCommunicationRoutingServiceClient
 
-First we need to construct a `AzureCommunicationRoutingServiceClient`.
+First we need to construct an `AzureCommunicationRoutingServiceClient`.
 
 ```js
-const {
-  createClient,
-} = require("@azure-rest/communication-job-router");
+const JobRouterClient = require("@azure-rest/communication-job-router").default;
 
-const acsConnectionString =
-  "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
-const jobRouterClient : AzureCommunicationRoutingServiceClient =
-  createClient(connectionString);
+const connectionString = "endpoint=https://<YOUR_ACS>.communication.azure.com/;accesskey=<YOUR_ACCESS_KEY>";
+const routerClient = JobRouterClient(connectionString);
 ```
 
 ### Create a Distribution Policy
@@ -97,49 +95,17 @@ const jobRouterClient : AzureCommunicationRoutingServiceClient =
 This policy determines which workers will receive job offers as jobs are distributed off their queues.
 
 ```js
-const result = await routerClient.path("/routing/distributionPolicies/{id}", id).patch({
+const distributionPolicyId = "distribution-policy-id-1";
+const distributionPolicy = await routerClient.path("/routing/distributionPolicies/{id}", distributionPolicyId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    name: "distribution-policy-123",
+    name: "Default Distribution Policy",
     offerExpiresAfterSeconds: 30,
     mode: {
-      kind: "longest-idle",
+      kind: "longestIdle",
       minConcurrentOffers: 1,
       maxConcurrentOffers: 3,
     },
-  }
-})
-```
-
-### Create a Classification Policy
-
-This policy classifies jobs upon creation.
-
-- Refer to our [rules documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript#rule-engine-types) to better understand prioritization rules.
-
-```js
-const classificationPolicyId = "classification-policy-123";
-const salesQueueId = "queue-123";
-const result = await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
-  contentType: "application/merge-patch+json",
-  body: {
-    name: "Default Classification Policy",
-    fallbackQueueId: salesQueueId,
-    queueSelectorAttachments: [
-      {
-        kind: "static",
-        queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
-      },
-    ],
-    workerSelectorAttachments: [{
-      kind: "static",
-      workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
-    }],
-    prioritizationRule: {
-      kind: "expression-rule",
-      language: "powerFx",
-      expression: "If(job.department = \"xbox\", 2, 1)"
-    }
   }
 });
 ```
@@ -149,15 +115,15 @@ const result = await routerClient.path("/routing/classificationPolicies/{id}", c
 This queue offers jobs to workers according to our previously created distribution policy.
 
 ```js
-await routerClient.path("/routing/queues/{id}", salesQueueId).patch({
+const salesQueueId = "sales-queue-id-1";
+const salesQueue = await routerClient.path("/routing/queues/{id}", salesQueueId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    distributionPolicyId: "distribution-policy-123",
+    distributionPolicyId: distributionPolicyId,
     name: "Main",
     labels: {},
-    exceptionPolicyId: "exception-policy-123",
   }
-})
+});
 ```
 
 ### Create Workers
@@ -168,55 +134,55 @@ These workers are assigned to our previously created "Sales" queue and have some
 - refer to our [labels documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/concepts#labels) to better understand labels and label selectors.
 
 ```js
-  // Create worker "Alice".
+// Create worker "Alice".
 const workerAliceId = "773accfb-476e-42f9-a202-b211b41a4ea4";
-const workerAliceResponse = await routerClient.path("/routing/workers/{workerId}", workerAliceId).patch({
+const workerAlice = await routerClient.path("/routing/workers/{id}", workerAliceId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    totalCapacity: 120,
-    queueAssignments: 
-      [salesQueueResponse.id]
-    ,
+    capacity: 120,
+    queues: [salesQueueId],
     labels: {
       Xbox: 5,
       german: 4,
       name: "Alice"
     },
-    channelConfigurations: {
-      CustomChatChannel: {
+    channels: [
+      {
+        channelId: "CustomChatChannel",
         capacityCostPerJob: 10,
       },
-      CustomVoiceChannel: {
+      {
+        channelId: "CustomVoiceChannel",
         capacityCostPerJob: 100,
       },
-    },
+    ],
   }
-})
+});
 
 // Create worker "Bob".
 const workerBobId = "21837c88-6967-4078-86b9-1207821a8392";
-const workerBobResponse = await routerClient.path("/routing/workers/{workerId}", workerBobId).patch({
+const workerBob = await routerClient.path("/routing/workers/{id}", workerBobId).patch({
   contentType: "application/merge-patch+json",
   body: {
-    totalCapacity: 100,
-    queues: 
-      [salesQueueResponse.id]
-    ,
+    capacity: 100,
+    queues: [salesQueueId],
     labels: {
       Xbox: 5,
       english: 3,
       name: "Alice"
     },
-    channelConfigurations: {
-      CustomChatChannel: {
+    channels: [
+      {
+        channelId: "CustomChatChannel",
         capacityCostPerJob: 10,
       },
-      CustomVoiceChannel: {
+      {
+        channelId: "CustomVoiceChannel",
         capacityCostPerJob: 100,
       },
-    },
+    ],
   }
-})
+});
 ```
 
 ### Job Lifecycle
@@ -238,25 +204,62 @@ const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
     queueId: salesQueueId,
     labels: {},
   }
-})
+});
 ```
 
-### (Optional) Create Job With a Classification Policy
+### (Optional) Create a Job With a Classification Policy
+
+#### Create a Classification Policy
+
+This policy classifies jobs upon creation.
+
+```js
+const classificationPolicyId = "classification-policy-1";
+const classificationPolicy = await routerClient.path("/routing/classificationPolicies/{id}", classificationPolicyId).patch({
+  contentType: "application/merge-patch+json",
+  body: {
+    name: "Default Classification Policy",
+    fallbackQueueId: salesQueueId,
+    queueSelectorAttachments: [
+      {
+        kind: "static",
+        queueSelector: { key: "department", labelOperator: "equal", value: "xbox" }
+      },
+    ],
+    workerSelectorAttachments: [
+      {
+        kind: "static",
+        workerSelector: { key: "english", labelOperator: "greaterThan", value: 5 }
+      }
+    ],
+    prioritizationRule: {
+      kind: "expression",
+      language: "powerFx",
+      expression: "If(job.department = \"xbox\", 2, 1)"
+    }
+  }
+});
+```
+
+- Refer to our [classification concepts documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/classification-concepts) to better understand queue selectors and worker selectors.
+- Refer to our [rules documentation](https://learn.microsoft.com/azure/communication-services/concepts/router/router-rule-concepts?pivots=programming-language-javascript) to better understand prioritization rules.
+
+#### Create and classify a job
 
 This job will be classified with our previously created classification policy. It also has a label.
 
 ```js
-const result = await routerClient.path("/routing/jobs/{id}", jobId).patch({
+const job = await routerClient.path("/routing/jobs/{id}", jobId).patch({
   contentType: "application/merge-patch+json",
   body: {
     channelReference: "66e4362e-aad5-4d71-bb51-448672ebf492",
     channelId: "voice",
-    classificationPolicyId: classificationPolicy.id,
+    classificationPolicyId: classificationPolicy.body.id,
     labels: {
-      department: "xbox",
+      department: "xbox"
     },
   }
-})
+});
 ```
 
 ## Events
@@ -320,7 +323,7 @@ app.post('/event', (req, res) => {
     req.body.forEach(eventGridEvent => {
         // Deserialize the event data into the appropriate type
         if (eventGridEvent.eventType === "Microsoft.EventGrid.SubscriptionValidationEvent") {
-            res.send({ validationResponse: eventGridEvent.data.validationCode };
+            res.send({ validationResponse: eventGridEvent.data.validationCode });
         } else if (eventGridEvent.eventType === "Microsoft.Azure.CommunicationServices.RouterWorkerOfferIssued") {
            // RouterWorkerOfferIssued handling logic;
         } else if ...
@@ -333,39 +336,37 @@ app.post('/event', (req, res) => {
 
 Once you receive a `RouterWorkerOfferIssued` event you can accept or decline the job offer.
 
-- `workerid` - The id of the worker accepting the job offer.
-- `offerId` - The id of the offer being accepted or declined.
+- `workerId` - Id of the worker accepting or declining the job offer.
+- `offerId` - Id of the offer being accepted or declined.
 
 ```js
-const acceptResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId).post()
+const acceptResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:accept", workerId, offerId).post();
 // or
-const declineResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:decline", workerId, offerId).post()
+const declineResponse = await routerClient.path("/routing/workers/{workerId}/offers/{offerId}:decline", workerId, offerId).post();
 ```
 
 ### Complete the Job
 
-The `assignmentId` received from the previous step's response is required to complete the job.
+The `assignmentId` received from the previous step's response is required to complete the job. Completing the job puts it in the wrap-up phase of its lifecycle.
 
 ```ts
-  const completeJob = await routerClient.path("/routing/jobs/{id}:complete", jobId).post({
-    body: {
-      assignmentId: (acceptJobOfferResult as AcceptJobAction200Response).body.assignmentId,
-      note: `Job has been completed by ${workerId} at ${new Date()}`
-    }
-  })
+const completeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:complete", jobId, acceptResponse.body.assignmentId).post({
+  body: {
+    note: `Job has been completed by ${workerId} at ${new Date()}`
+  }
+});
 ```
 
 ### Close the Job
 
-Once the worker has completed the wrap-up phase of the job the `jobRouterClient` can close the job and attach a disposition code to it for future reference.
+Once the worker has completed the wrap-up phase of the job we can close the job and attach a note to it for future reference.
 
 ```ts
-const closeJob = await routerClient.path("/routing/jobs/{id}:close", jobId).post({
+const closeJob = await routerClient.path("/routing/jobs/{jobId}/assignments/{assignmentId}:close", jobId, acceptResponse.body.assignmentId).post({
   body: {
-    assignmentId: (acceptJobOfferResult as AcceptJobAction200Response).body.assignmentId,
     note: `Job has been closed by ${workerId} at ${new Date()}`
   }
-})
+});
 ```
 
 ## Troubleshooting

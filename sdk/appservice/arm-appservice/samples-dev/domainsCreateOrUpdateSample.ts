@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates or updates a domain.
  *
  * @summary Description for Creates or updates a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/CreateAppServiceDomain.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/CreateAppServiceDomain.json
  */
 async function createAppServiceDomain() {
   const subscriptionId =

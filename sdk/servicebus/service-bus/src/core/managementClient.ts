@@ -223,7 +223,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   /**
    * lock token for init operation
    */
-  private _initLock: string = generate_uuid();
+  private _initLock: string = `initMgmtLink-${generate_uuid()}`;
   /**
    * Instantiates the management client.
    * @param context - The connection context

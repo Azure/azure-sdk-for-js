@@ -10,7 +10,12 @@ Key links:
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/maps-search)
 - [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/maps-search?view=azure-node-preview)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/samples)
-- [Product Information](https://docs.microsoft.com/rest/api/maps/search)
+- [Product Information](https://docs.microsoft.com/rest/api/maps/search-v2)
+
+| Package Version | Service Version |
+| --------------- | --------------- |
+| ^1.0.0          | V1              |
+| ^2.0.0          | V2              |
 
 ## Getting started
 
@@ -77,6 +82,52 @@ const credential = new AzureKeyCredential("<subscription-key>");
 const client = MapsSearch(credential);
 ```
 
+#### Using a Shared Access Signature (SAS) Token Credential
+
+Shared access signature (SAS) tokens are authentication tokens created using the JSON Web token (JWT) format and are cryptographically signed to prove authentication for an application to the Azure Maps REST API.
+
+You can get the SAS token using [`AzureMapsManagementClient.accounts.listSas`](https://learn.microsoft.com/javascript/api/%40azure/arm-maps/accounts?view=azure-node-latest#@azure-arm-maps-accounts-listsas) from ["@azure/arm-maps"](https://www.npmjs.com/package/@azure/arm-maps) package. Please follow the section [Create and authenticate a `AzureMapsManagementClient`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/arm-maps#create-and-authenticate-a-azuremapsmanagementclient) to setup first.
+
+Second, follow [Managed identities for Azure Maps](https://techcommunity.microsoft.com/t5/azure-maps-blog/managed-identities-for-azure-maps/ba-p/3666312) to create a managed identity for your Azure Maps account. Copy the principal ID (object ID) of the managed identity.
+
+Third, you will need to install["@azure/core-auth"](https://www.npmjs.com/package/@azure/core-auth)package to use `AzureSASCredential`:
+
+```bash
+npm install @azure/core-auth
+```
+
+Finally, you can use the SAS token to authenticate the client:
+
+```javascript
+  const MapsSearch = require("@azure-rest/maps-search").default;
+  const { AzureSASCredential } = require("@azure/core-auth");
+  const { DefaultAzureCredential } = require("@azure/identity");
+  const { AzureMapsManagementClient } = require("@azure/arm-maps");
+
+  const subscriptionId = "<subscription ID of the map account>"
+  const resourceGroupName = "<resource group name of the map account>";
+  const accountName = "<name of the map account>";
+  const mapsAccountSasParameters = {
+    start: "<start time in ISO format>", // e.g. "2023-11-24T03:51:53.161Z"
+    expiry: "<expiry time in ISO format>", // maximum value to start + 1 day
+    maxRatePerSecond: 500,
+    principalId: "<principle ID (object ID) of the managed identity>",
+    signingKey: "primaryKey",
+  };
+  const credential = new DefaultAzureCredential();
+  const managementClient = new AzureMapsManagementClient(credential, subscriptionId);
+  const {accountSasToken} = await managementClient.accounts.listSas(
+    resourceGroupName,
+    accountName,
+    mapsAccountSasParameters
+  );
+  if (accountSasToken === undefined) {
+    throw new Error("No accountSasToken was found for the Maps Account.");
+  }
+  const sasCredential = new AzureSASCredential(accountSasToken);
+  const client = MapsSearch(sasCredential);
+```
+
 ## Key concepts
 
 ### MapsSearchClient
@@ -88,13 +139,11 @@ const client = MapsSearch(credential);
 The following sections provide several code snippets covering some of the most common Azure Maps Search tasks, including:
 
 - [Request latitude and longitude coordinates for an address](#request-latitude-and-longitude-coordinates-for-an-address)
-- [Search for an address or Point of Interest](#search-for-an-address-or-point-of-interest)
 - [Make a Reverse Address Search to translate coordinate location to street address](#make-a-reverse-address-search-to-translate-coordinate-location-to-street-address)
-- [Translate coordinate location into a human understandable cross street](#translate-coordinate-location-into-a-human-understandable-cross-street)
 
 ### Request latitude and longitude coordinates for an address
 
-You can use an authenticated client to convert an address into latitude and longitude coordinates. This process is also called geocoding. In addition to returning the coordinates, the response will also return detailed address properties such as street, postal code, municipality, and country/region information.
+You can use an authenticated client to convert an address into latitude and longitude coordinates. This process is also called geocoding. In addition to returning the coordinates, the response will also return detailed address properties such as postal code, admin districts, and country/region information.
 
 ```javascript
 const MapsSearch = require("@azure-rest/maps-search").default;
@@ -107,51 +156,25 @@ const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
 async function main(){
   /** Make a request to the geocoding API */
   const response = await client
-    .path("/search/address/{format}", "json")
+    .path("/geocode")
     .get({ queryParameters: { query: "400 Broad, Seattle" } });
   /** Handle error response */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
   /** Log the response body. */
-  console.log(`The followings are the possible coordinates of the address:`);
-  response.body.results.forEach((result) => {
-    const { lat, lon } = result.position;
-    console.log(`Latitude: ${lat}, Longitude: ${lon}`);
-  });
-}
-
-main().catch((err) => {
-    console.log(err);
-})
-```
-
-### Search for an address or Point of Interest
-
-You can use Fuzzy Search to search an address or a point of interest (POI). The following example demonstrates how to search for `pizza` over the scope of a specific country (`France`, in this example).
-
-```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
-const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("@azure-rest/maps-search");
-
-/** Initialize the MapsSearchClient */
-const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
-
-async function main(){
-  /** Make a request */
-  const response = await client
-    .path("/search/fuzzy/{format}", "json")
-    .get({ queryParameters: { query: "pizza", countrySet: ["fr"] } });
-  /** Handle the error response */
-  if (isUnexpected(response)) {
-    throw response.body.error;
+  if (!response.body.features) {
+    console.log(`No coordinates found for the address.`);
+  } else {
+    console.log(`The followings are the possible coordinates of the address:`);
+    for(const result of response.body.features) {
+      const [lon, lat] = result.geometry.coordinates;
+      console.log(`Latitude: ${lat}, Longitude ${lon}`);
+      console.log("Postal code: ", result.properties?.address?.postalCode)
+      console.log("Admin districts: ", result.properties?.address?.adminDistricts?.join(", "));
+      console.log("Country region: ", result.properties?.address?.countryRegion);
+    }
   }
-/** Log the response body */
-  response.body.results.forEach((result) => {
-    console.log(`Address: ${result.address.freeformAddress}`);
-    console.log(`Coordinate: (${result.position.lat}, ${result.position.lon})\n`);
-  });
 }
 
 main().catch((err) => {
@@ -174,17 +197,25 @@ const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
 
 async function main(){
   /** Make the request. */
-  const response = await client.path("/search/address/reverse/{format}", "json").get({
-    queryParameters: { query: [37.337, -121.89] }, // [latitude, longitude],
+  const response = await client.path("/reverseGeocode").get({
+    queryParameters: { coordinates: [-121.89, 37.337] }, // [longitude, latitude],
   });
   /** Handle error response. */
   if (isUnexpected(response)) {
     throw response.body.error;
   }
-  /** Log the response body. */
-  response.body.addresses.forEach((address) => {
-    console.log(address.address.freeformAddress);
-  });
+  if (!response.body.features || response.body.features.length === 0) {
+    console.log("No results found.");
+  } else {
+    /** Log the response body. */
+    for(const feature of response.body.features) {
+      if (feature.properties?.address?.formattedAddress) {
+        console.log(feature.properties.address.formattedAddress);
+      } else {
+        console.log("No address found.");
+      }
+    }
+  }
 }
 
 main().catch((err) => {
@@ -192,34 +223,67 @@ main().catch((err) => {
 })
 ```
 
-### Translate coordinate location into a human understandable cross street
+## Use V1 SDK
 
-Translate coordinate location into a human understandable cross street by using Search Address Reverse Cross Street API. Most often, this is needed in tracking applications that receive a GPS feed from a device or asset, and wish to know where the coordinate is located.
+We'll bring all the V1 features to V2 in the near future, but if you want to use V1 SDK, you can install the packages as below:
+
+```bash
+npm install @azure-rest/map-search-v1@npm:@azure-rest/map-search@^1.0.0
+npm install @azure-rest/map-search-v2@npm:@azure-rest/map-search@^2.0.0
+```
+
+Then, you can import the two packages:
 
 ```javascript
-const MapsSearch = require("@azure-rest/maps-search").default;
+const MapsSearchV1 = require("@azure-rest/map-search-v1").default;
+const MapsSearchV2 = require("@azure-rest/map-search-v2").default;
+```
+
+In the following example, we want to accept an address and search POIs around it. We'll use V2 SDK to get the coordinate of the address(/geocode), and use V1 SDK to search POIs around it(/search/nearby).
+
+```javascript
+const MapsSearchV1 = require("@azure-rest/map-search-v1").default;
+const MapsSearchV2 = require("@azure-rest/map-search-v2").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
-const { isUnexpected } = require("@azure-rest/maps-search");
+const { isUnexpected: isUnexpectedV1 } = require("@azure-rest/maps-search-v1");
+const { isUnexpected: isUnexpectedV2 } = require("@azure-rest/maps-search-v2");
 
 /** Initialize the MapsSearchClient */
-const client = MapsSearch(new AzureKeyCredential("<subscription-key>"));
+const clientV1 = MapsSearchV1(new AzureKeyCredential("<subscription-key>"));
+const clientV2 = MapsSearchV2(new AzureKeyCredential("<subscription-key>"));
 
-async function main(){
-  /** Make the request. */
-  const response = await client.path("/search/address/reverse/crossStreet/{format}", "json").get({
-    queryParameters: { query: [37.337, -121.89] },
+async function searchNearby(address) {
+  /** Make a request to the geocoding API */
+  const geocodeResponse = await clientV2
+    .path("/geocode")
+    .get({ queryParameters: { query: address } });
+  /** Handle error response */
+  if (isUnexpectedV2(geocodeResponse)) {
+    throw geocodeResponse.body.error;
+  }
+
+  const [lon, lat] = geocodeResponse.body.features[0].geometry.coordinates;
+  
+  /** Make a request to the search nearby API */
+  const nearByResponse = await clientV1.path("/search/nearby/{format}", "json").get({
+    queryParameters: { lat, lon },
   });
   /** Handle error response */
-  if (isUnexpected(response)) {
-    throw response.body.error;
+  if (isUnexpectedV1(nearByResponse)) {
+    throw nearByResponse.body.error;
   }
-  /** Log the response body */
-  response.body.addresses.forEach(({ address }) => {
-    if (!address) {
-      throw Error("Unexpected error: address is undefined");
-    }
-    console.log(address.streetName);
-  });
+  /** Log response body */
+  for(const results of nearByResponse.body.results) {
+    console.log(
+      `${result.poi ? result.poi.name + ":" : ""} ${result.address.freeformAddress}. (${
+        result.position.lat
+      }, ${result.position.lon})\n`
+    );
+  }
+}
+
+async function main(){
+  searchNearBy("15127 NE 24th Street, Redmond, WA 98052");
 }
 
 main().catch((err) => {

@@ -16,14 +16,14 @@ require("dotenv").config();
  * This sample demonstrates how to Puts the Hybrid AKS virtual network
  *
  * @summary Puts the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/PutVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/PutVirtualNetwork.json
  */
 async function putVirtualNetwork() {
   const subscriptionId =
     process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] || "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
   const resourceGroupName =
     process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] || "test-arcappliance-resgrp";
-  const virtualNetworksName = "test-vnet-static";
+  const virtualNetworkName = "test-vnet-static";
   const virtualNetworks = {
     extendedLocation: {
       name: "/subscriptions/a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b/resourcegroups/test-arcappliance-resgrp/providers/microsoft.extendedlocation/customlocations/testcustomlocation",
@@ -31,22 +31,20 @@ async function putVirtualNetwork() {
     },
     location: "westus",
     properties: {
-      infraVnetProfile: {
-        hci: {
-          mocGroup: "target-group",
-          mocLocation: "MocLocation",
-          mocVnetName: "test-vnet",
-        },
-      },
+      dnsServers: ["192.168.0.1"],
+      gateway: "192.168.0.1",
+      infraVnetProfile: { vmware: { segmentName: "test-network" } },
+      ipAddressPrefix: "192.168.0.0/16",
       vipPool: [{ endIP: "192.168.0.50", startIP: "192.168.0.10" }],
+      vlanID: 10,
       vmipPool: [{ endIP: "192.168.0.130", startIP: "192.168.0.110" }],
     },
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
-  const result = await client.virtualNetworksOperations.beginCreateOrUpdateAndWait(
+  const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    virtualNetworksName,
+    virtualNetworkName,
     virtualNetworks
   );
   console.log(result);

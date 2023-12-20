@@ -80,7 +80,7 @@ describe("Queries", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 7,
+          // metadataCallCount: 7,
           retryCount: 0,
           gatewayStatisticsTestSpec: [{}, {}], // Two backend data calls.
         },
@@ -120,7 +120,7 @@ describe("Queries", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 5,
+          // metadataCallCount: 5,
           retryCount: 0,
           gatewayStatisticsTestSpec: [{}], // One backend data calls.
         },

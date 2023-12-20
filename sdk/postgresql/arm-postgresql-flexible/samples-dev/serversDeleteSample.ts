@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a server.
  *
  * @summary Deletes a server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerDelete.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerDelete.json
  */
 async function serverDelete() {
   const subscriptionId =

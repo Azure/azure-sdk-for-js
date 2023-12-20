@@ -14,7 +14,13 @@ import {
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "../src";
 import {
   createRecorder,
   createTestUser,
@@ -30,7 +36,7 @@ import {
   persistEvents,
 } from "./utils/recordedClient";
 import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -59,7 +65,7 @@ describe("Call Automation Client Unit Tests", () => {
   it("RepeatabilityHeadersGeneration", async () => {
     // mocks
     const repeatabilityFirstSent: string = new Date().toUTCString();
-    const repeatabilityRequestID: string = uuidv4();
+    const repeatabilityRequestID: string = randomUUID();
 
     // asserts
     assert.isNotNull(repeatabilityFirstSent);
@@ -214,7 +220,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
       try {
         await callConnection.hangUp(true);
       } catch (e) {
-        console.log("Call is terminated");
+        console.log(e);
       }
     }
     serviceBusReceivers.forEach((receiver) => {
@@ -238,8 +244,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -247,7 +258,14 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOptions: AnswerCallOptions = {
+        operationContext: "operationContextAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions
+      );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -265,8 +283,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextRejectCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId

@@ -12,13 +12,13 @@ import {
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v1 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 export function getTestUSCampaignBrief(): {
   campaignBrief: CampaignBrief;
   campaignBriefSummary: CampaignBriefSummary;
 } {
-  let campaignBriefId = uuid();
+  let campaignBriefId = randomUUID();
 
   if (isPlaybackMode()) {
     campaignBriefId = "00000000-0000-0000-0000-000000000000";

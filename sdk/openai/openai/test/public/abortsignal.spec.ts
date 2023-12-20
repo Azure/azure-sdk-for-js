@@ -18,15 +18,18 @@ describe("AbortSignal", () => {
       this.skip();
     }
 
-    client = createClient("OpenAIKey", {});
+    client = createClient("OpenAIKey", "completions", {});
   });
 
   it("Abort signal test for streaming method", async function () {
     const messages = [
-      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-      { role: "user", content: "Can you help me?" },
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-      { role: "user", content: "What's the best way to train a parrot?" },
+      {
+        role: "system",
+        content: "You are a helpful assistant. You will talk like a pirate.",
+      } as const,
+      { role: "user", content: "Can you help me?" } as const,
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" } as const,
+      { role: "user", content: "What's the best way to train a parrot?" } as const,
     ];
 
     const deploymentName = "gpt-3.5-turbo";
