@@ -6,9 +6,9 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
 export type AddOnFeatures = string;
@@ -97,14 +97,14 @@ export interface ApplicationResourceUpdateProperties {
 
 // @public
 export interface Applications {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsCreateOrUpdateResponse>, ApplicationsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResource, options?: ApplicationsCreateOrUpdateOptionalParams): Promise<ApplicationsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResourceUpdate, options?: ApplicationsUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationsUpdateResponse>, ApplicationsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResourceUpdate, options?: ApplicationsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationsUpdateResponse>, ApplicationsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, parameters: ApplicationResourceUpdate, options?: ApplicationsUpdateOptionalParams): Promise<ApplicationsUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, applicationName: string, options?: ApplicationsGetOptionalParams): Promise<ApplicationsGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams): Promise<ApplicationsListResponse>;
+    list(resourceGroupName: string, clusterName: string, options?: ApplicationsListOptionalParams): PagedAsyncIterableIterator<ApplicationResource>;
 }
 
 // @public
@@ -128,6 +128,13 @@ export interface ApplicationsGetOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type ApplicationsGetResponse = ApplicationResource;
+
+// @public
+export interface ApplicationsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationsListNextResponse = ApplicationResourceList;
 
 // @public
 export interface ApplicationsListOptionalParams extends coreClient.OperationOptions {
@@ -159,11 +166,11 @@ export interface ApplicationTypeResourceList {
 
 // @public
 export interface ApplicationTypes {
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesDeleteOptionalParams): Promise<void>;
     createOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, parameters: ApplicationTypeResource, options?: ApplicationTypesCreateOrUpdateOptionalParams): Promise<ApplicationTypesCreateOrUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypesGetOptionalParams): Promise<ApplicationTypesGetResponse>;
-    list(resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): Promise<ApplicationTypesListResponse>;
+    list(resourceGroupName: string, clusterName: string, options?: ApplicationTypesListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeResource>;
 }
 
 // @public
@@ -185,6 +192,13 @@ export interface ApplicationTypesGetOptionalParams extends coreClient.OperationO
 
 // @public
 export type ApplicationTypesGetResponse = ApplicationTypeResource;
+
+// @public
+export interface ApplicationTypesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationTypesListNextResponse = ApplicationTypeResourceList;
 
 // @public
 export interface ApplicationTypesListOptionalParams extends coreClient.OperationOptions {
@@ -211,12 +225,12 @@ export interface ApplicationTypeVersionResourceList {
 
 // @public
 export interface ApplicationTypeVersions {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ApplicationTypeVersionsCreateOrUpdateResponse>, ApplicationTypeVersionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>, ApplicationTypeVersionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, parameters: ApplicationTypeVersionResource, options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams): Promise<ApplicationTypeVersionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, applicationTypeName: string, version: string, options?: ApplicationTypeVersionsGetOptionalParams): Promise<ApplicationTypeVersionsGetResponse>;
-    list(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListOptionalParams): Promise<ApplicationTypeVersionsListResponse>;
+    list(resourceGroupName: string, clusterName: string, applicationTypeName: string, options?: ApplicationTypeVersionsListOptionalParams): PagedAsyncIterableIterator<ApplicationTypeVersionResource>;
 }
 
 // @public (undocumented)
@@ -245,6 +259,13 @@ export interface ApplicationTypeVersionsGetOptionalParams extends coreClient.Ope
 
 // @public
 export type ApplicationTypeVersionsGetResponse = ApplicationTypeVersionResource;
+
+// @public
+export interface ApplicationTypeVersionsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ApplicationTypeVersionsListNextResponse = ApplicationTypeVersionResourceList;
 
 // @public
 export interface ApplicationTypeVersionsListOptionalParams extends coreClient.OperationOptions {
@@ -411,14 +432,14 @@ export interface ClusterListResult {
 
 // @public
 export interface Clusters {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersCreateOrUpdateResponse>, ClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: Cluster, options?: ClustersCreateOrUpdateOptionalParams): Promise<ClustersCreateOrUpdateResponse>;
-    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdateParameters, options?: ClustersUpdateOptionalParams): Promise<PollerLike<PollOperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, parameters: ClusterUpdateParameters, options?: ClustersUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ClustersUpdateResponse>, ClustersUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterUpdateParameters, options?: ClustersUpdateOptionalParams): Promise<ClustersUpdateResponse>;
     delete(resourceGroupName: string, clusterName: string, options?: ClustersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, options?: ClustersGetOptionalParams): Promise<ClustersGetResponse>;
-    list(options?: ClustersListOptionalParams): Promise<ClustersListResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): Promise<ClustersListByResourceGroupResponse>;
+    list(options?: ClustersListOptionalParams): PagedAsyncIterableIterator<Cluster>;
+    listByResourceGroup(resourceGroupName: string, options?: ClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Cluster>;
     listUpgradableVersions(resourceGroupName: string, clusterName: string, options?: ClustersListUpgradableVersionsOptionalParams): Promise<ClustersListUpgradableVersionsResponse>;
 }
 
@@ -443,11 +464,25 @@ export interface ClustersGetOptionalParams extends coreClient.OperationOptions {
 export type ClustersGetResponse = Cluster;
 
 // @public
+export interface ClustersListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListByResourceGroupNextResponse = ClusterListResult;
+
+// @public
 export interface ClustersListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
 export type ClustersListByResourceGroupResponse = ClusterListResult;
+
+// @public
+export interface ClustersListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ClustersListNextResponse = ClusterListResult;
 
 // @public
 export interface ClustersListOptionalParams extends coreClient.OperationOptions {
@@ -541,10 +576,13 @@ export interface ClusterVersionDetails {
 // @public
 export interface ClusterVersions {
     get(location: string, clusterVersion: string, options?: ClusterVersionsGetOptionalParams): Promise<ClusterVersionsGetResponse>;
-    getByEnvironment(location: string, environment: Enum14, clusterVersion: string, options?: ClusterVersionsGetByEnvironmentOptionalParams): Promise<ClusterVersionsGetByEnvironmentResponse>;
+    getByEnvironment(location: string, environment: ClusterVersionsEnvironment, clusterVersion: string, options?: ClusterVersionsGetByEnvironmentOptionalParams): Promise<ClusterVersionsGetByEnvironmentResponse>;
     list(location: string, options?: ClusterVersionsListOptionalParams): Promise<ClusterVersionsListResponse>;
-    listByEnvironment(location: string, environment: Enum14, options?: ClusterVersionsListByEnvironmentOptionalParams): Promise<ClusterVersionsListByEnvironmentResponse>;
+    listByEnvironment(location: string, environment: ClusterVersionsEnvironment, options?: ClusterVersionsListByEnvironmentOptionalParams): Promise<ClusterVersionsListByEnvironmentResponse>;
 }
+
+// @public
+export type ClusterVersionsEnvironment = string;
 
 // @public
 export interface ClusterVersionsGetByEnvironmentOptionalParams extends coreClient.OperationOptions {
@@ -592,9 +630,6 @@ export interface EndpointRangeDescription {
     endPort: number;
     startPort: number;
 }
-
-// @public
-export type Enum14 = string;
 
 // @public
 export interface ErrorModel {
@@ -658,16 +693,16 @@ export enum KnownClusterUpgradeCadence {
 }
 
 // @public
+export enum KnownClusterVersionsEnvironment {
+    Linux = "Linux",
+    Windows = "Windows"
+}
+
+// @public
 export enum KnownDurabilityLevel {
     Bronze = "Bronze",
     Gold = "Gold",
     Silver = "Silver"
-}
-
-// @public
-export enum KnownEnum14 {
-    Linux = "Linux",
-    Windows = "Windows"
 }
 
 // @public
@@ -1079,14 +1114,14 @@ export type ServiceResourceUpdatePropertiesUnion = ServiceResourceUpdateProperti
 
 // @public
 export interface Services {
-    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesCreateOrUpdateResponse>, ServicesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResourceUpdate, options?: ServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResourceUpdate, options?: ServicesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, parameters: ServiceResourceUpdate, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
     get(resourceGroupName: string, clusterName: string, applicationName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
-    list(resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListOptionalParams): Promise<ServicesListResponse>;
+    list(resourceGroupName: string, clusterName: string, applicationName: string, options?: ServicesListOptionalParams): PagedAsyncIterableIterator<ServiceResource>;
 }
 
 // @public
@@ -1110,6 +1145,13 @@ export interface ServicesGetOptionalParams extends coreClient.OperationOptions {
 
 // @public
 export type ServicesGetResponse = ServiceResource;
+
+// @public
+export interface ServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServicesListNextResponse = ServiceResourceList;
 
 // @public
 export interface ServicesListOptionalParams extends coreClient.OperationOptions {

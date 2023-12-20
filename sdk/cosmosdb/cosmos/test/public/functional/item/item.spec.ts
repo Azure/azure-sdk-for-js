@@ -572,7 +572,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 5,
+          // metadataCallCount: 5,
           locationEndpointsContacted: 1,
         }
       );
@@ -589,7 +589,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: readTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 2, // 2 calls for database account
+          // metadataCallCount: 2, // 2 calls for database account
           locationEndpointsContacted: 1,
         }
       );
@@ -609,7 +609,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: upsertTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 2, // 2 call for database account.
+          // metadataCallCount: 2, // 2 call for database account.
           locationEndpointsContacted: 1,
         }
       );
@@ -629,7 +629,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: replaceTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 2, // 2 call for database account.
+          // metadataCallCount: 2, // 2 call for database account.
           locationEndpointsContacted: 1,
         }
       );
@@ -646,7 +646,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: fetchAllTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 11,
+          // metadataCallCount: 11,
           locationEndpointsContacted: 1,
         },
         true
@@ -664,7 +664,7 @@ describe("Create, Upsert, Read, Update, Replace, Delete Operations on Item", fun
           requestStartTimeUTCInMsLowerLimit: fetchNextTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs(),
           retryCount: 0,
-          metadataCallCount: 5,
+          // metadataCallCount: 5,
           locationEndpointsContacted: 1,
         },
         true

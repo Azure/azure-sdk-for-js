@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves information about a gallery Application Definition.
  *
  * @summary Retrieves information about a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryApplication_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplication_Get.json
  */
 async function getAGalleryApplication() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function getAGalleryApplication() {
   const result = await client.galleryApplications.get(
     resourceGroupName,
     galleryName,
-    galleryApplicationName
+    galleryApplicationName,
   );
   console.log(result);
 }
