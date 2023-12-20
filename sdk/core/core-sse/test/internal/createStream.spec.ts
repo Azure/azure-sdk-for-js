@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, isNode } from "@azure/test-utils";
+import { assert } from "@azure/test-utils";
 import { createStream } from "../../src/utils.js";
 import { Context } from "mocha";
 
@@ -33,12 +33,6 @@ describe("createStream", () => {
   });
 
   it("creates disposable stream", async function (this: Context) {
-    if (!isNode || process.version.startsWith("v18")) {
-      // Node 18 has a bug where the async dispose symbol is
-      // not referenced correctly. See release notes in
-      // https://nodejs.org/en/blog/release/v20.5.0
-      this.skip();
-    }
     let disposed = false;
     {
       await using stream = createStream(createIter(), async () => {
