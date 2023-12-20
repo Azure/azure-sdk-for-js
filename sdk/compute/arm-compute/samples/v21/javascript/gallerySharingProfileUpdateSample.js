@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_AddToSharingProfile.json
  */
 async function addSharingIdToTheSharingProfileOfAGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -37,7 +37,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
   const result = await client.gallerySharingProfile.beginUpdateAndWait(
     resourceGroupName,
     galleryName,
-    sharingUpdate
+    sharingUpdate,
   );
   console.log(result);
 }
@@ -46,7 +46,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_ResetSharingProfile.json
  */
 async function resetSharingProfileOfAGallery() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -58,7 +58,7 @@ async function resetSharingProfileOfAGallery() {
   const result = await client.gallerySharingProfile.beginUpdateAndWait(
     resourceGroupName,
     galleryName,
-    sharingUpdate
+    sharingUpdate,
   );
   console.log(result);
 }
@@ -67,7 +67,7 @@ async function resetSharingProfileOfAGallery() {
  * This sample demonstrates how to Update sharing profile of a gallery.
  *
  * @summary Update sharing profile of a gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_EnableCommunityGallery.json
  */
 async function shareAGalleryToCommunity() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -79,7 +79,7 @@ async function shareAGalleryToCommunity() {
   const result = await client.gallerySharingProfile.beginUpdateAndWait(
     resourceGroupName,
     galleryName,
-    sharingUpdate
+    sharingUpdate,
   );
   console.log(result);
 }

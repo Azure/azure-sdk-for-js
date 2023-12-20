@@ -30,7 +30,7 @@ async function revokesAccessToADiskRestorePoint() {
     resourceGroupName,
     restorePointCollectionName,
     vmRestorePointName,
-    diskRestorePointName
+    diskRestorePointName,
   );
   console.log(result);
 }
