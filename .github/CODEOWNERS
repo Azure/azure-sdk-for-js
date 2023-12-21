@@ -357,6 +357,9 @@
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
