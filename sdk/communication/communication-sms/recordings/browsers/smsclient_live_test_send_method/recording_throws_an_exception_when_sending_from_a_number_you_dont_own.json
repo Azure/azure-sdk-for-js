@@ -6,22 +6,23 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not.A/Brand\u0022;v=\u00228\u0022, \u0022Chromium\u0022;v=\u0022114\u0022, \u0022HeadlessChrome\u0022;v=\u0022114\u0022",
+        "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/114.0.5735.133 Safari/537.36",
-        "x-ms-client-request-id": "72eeefd6-93a2-4d03-a5fa-c8a243962446",
-        "x-ms-content-sha256": "1NIeLgLneivcqh9iQdbHIPY750Ao2V7OhFShad0J1FM=",
-        "x-ms-date": "Wed, 21 Jun 2023 14:28:05 GMT",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "e0255419-3d87-461e-ac5f-5d301f48a781",
+        "x-ms-content-sha256": "h2f/XBPKX\u002BqP2IDen7vnH7gyzvXN0t0Yt8gb83q\u002BUGY=",
+        "x-ms-date": "Thu, 14 Dec 2023 16:16:07 GMT",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 OS"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -40,15 +41,15 @@
       },
       "StatusCode": 401,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json",
-        "Date": "Wed, 21 Jun 2023 14:28:05 GMT",
-        "MS-CV": "zJ1oLCcy80aPNHWt0dLIcw.0",
+        "Date": "Thu, 14 Dec 2023 16:16:07 GMT",
+        "MS-CV": "UJo9Ow80DUSTf81Xj8Pvgw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09QiTZAAAAAB23Mj8aTx4RaA/rrDKi2sbSEVMMDFFREdFMjAxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0SCp7ZQAAAABRT\u002BsC72i6TbOMF9cR9C75U1ZHMjBFREdFMDYwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "101ms"
+        "X-Processing-Time": "18ms"
       },
       "ResponseBody": {
         "error": {

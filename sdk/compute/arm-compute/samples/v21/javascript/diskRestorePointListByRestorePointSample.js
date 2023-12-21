@@ -29,7 +29,7 @@ async function getAnIncrementalDiskRestorePointResource() {
   for await (let item of client.diskRestorePointOperations.listByRestorePoint(
     resourceGroupName,
     restorePointCollectionName,
-    vmRestorePointName
+    vmRestorePointName,
   )) {
     resArray.push(item);
   }
