@@ -1175,6 +1175,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-network@32.2.0:
+    resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.13.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -7360,9 +7375,9 @@ packages:
     hasBin: true
     dev: false
 
-  /mime@3.0.0:
-    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
-    engines: {node: '>=10.0.0'}
+  /mime@4.0.1:
+    resolution: {integrity: sha512-5lZ5tyrIfliMXzFtkYyekWbtRXObT9OWa8IwQ5uxTBDHucNNwniRqo0yInflj+iYi5CBa6qxadGzGarDfuEOxA==}
+    engines: {node: '>=16'}
     hasBin: true
     dev: false
 
@@ -10913,7 +10928,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-GGP6rIfW8IwAATmMVsOUR+UiQc1w7betEg/esZ5zI6XU21MIlQLjeNfrXWbcxGgDGf5lOaNev9UjXBOaNb2Fpg==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-Hk7mC+5QvE7XSa5kbROfscgw6CSQVHwFaHt48+3IZ6ZjAwMqLBj1DkwoL1zsyvUkMMsXMbZdHxCMCxXudRFHQQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -10943,7 +10958,7 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.2)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
-      mime: 3.0.0
+      mime: 4.0.1
       mocha: 10.2.0
       mustache: 4.2.0
       prettier: 2.8.8
@@ -11946,11 +11961,12 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-zXzkb4wA9xbe2xs61W40vq61Ua53X5CZlLKdMu8iqZ3B1S7l6ejHEMvjXfvNWpjQBlrjdRa+A1fYnisjBsCCSg==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-LVpmbaNllJkbJ0qqkoNNuYNYdfAL/JdZ5yTpS2HoPvHnOwj5wYOQMJ2cQqn93fzePqdsRp1FZWGtMwLShsBMhA==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -12000,10 +12016,11 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-rX0TDro2h4u9e386lnpZdqpwnTq6lQnNF9p1OBntoN5q1qWaIvqILvLr4ph0QDNIoOvdEQall2f6rGWioPQQJw==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-uJw/Bt35aXPbhN6J9yZ5lLOUEwD4G/cd8EVOfpl8NnhuIzUDOUVQoPn1qEXhsksdwjlS0Fi46enVIJu5mxdbFA==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -13211,11 +13228,12 @@ packages:
     dev: false
 
   file:projects/arm-eventhub.tgz:
-    resolution: {integrity: sha512-zjBEAszvhXFQjyldFLyTclNPYcUyg5XYRzP/VxS26Nt/rikF+6zrB6/H4gRV1f4UEkhEmPOsmSZxyfEuzu2tvg==, tarball: file:projects/arm-eventhub.tgz}
+    resolution: {integrity: sha512-suisMne906UGxscZh0d36pm3zc1/51MdIt0Ah2F3rPC0GhtA6Rl0tIkArHAUNrbphh0XrdQlacLbMu0h98FLLA==, tarball: file:projects/arm-eventhub.tgz}
     name: '@rush-temp/arm-eventhub'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -14539,7 +14557,7 @@ packages:
     dev: false
 
   file:projects/arm-network-1.tgz:
-    resolution: {integrity: sha512-0JOoNH3kIr1+/ypCJ7dSLYHBKCcRUf9jscjtFyPzXXF/ZluhXGQl4DRifegtyVjlgKhe4eUYM5zcl7Oopv71uQ==, tarball: file:projects/arm-network-1.tgz}
+    resolution: {integrity: sha512-nMvhos86Y+Anuh8YF4W5w1bcJmxBCbFgUT00rFVe8vMFt5QzLnD5lvwBfxMBRXfw74r1D/1wdvVldD2L1fcL3g==, tarball: file:projects/arm-network-1.tgz}
     name: '@rush-temp/arm-network-1'
     version: 0.0.0
     dependencies:
@@ -14547,13 +14565,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -15414,11 +15434,12 @@ packages:
     dev: false
 
   file:projects/arm-rediscache.tgz:
-    resolution: {integrity: sha512-ugd8ljVo/gjN15fXMxIkyN2WiVKn5zw68cWXGqfS5PtQsRIasBOXxheU41FqbCCL2DlUDHdp/35heHigY/493g==, tarball: file:projects/arm-rediscache.tgz}
+    resolution: {integrity: sha512-oSpiSvEF99hV1GcF7DLuFDk4u0xM0EJdIJHbZ9mIv6Lr/3jfULWPkbLOySsHsVZqJ4jz4DVblrxSBZetKA9PTw==, tarball: file:projects/arm-rediscache.tgz}
     name: '@rush-temp/arm-rediscache'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-network': 32.2.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -15928,7 +15949,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric-1.tgz:
-    resolution: {integrity: sha512-cIUSGqF22J/36I5bcwLeMFMQrpQGVp4gNix8x6P2A8uO4TURYwnO/0Ry0bXl6WsE1ja0UM4HRWp2i+hy7EMi6w==, tarball: file:projects/arm-servicefabric-1.tgz}
+    resolution: {integrity: sha512-7pjyRLOk/8NZyil4uRDCohJk7461Dv/GNebHRet8m6EAEFfLBmZfgdqmyMs569dpz3qKGKAefwWPRuShgXVwgA==, tarball: file:projects/arm-servicefabric-1.tgz}
     name: '@rush-temp/arm-servicefabric-1'
     version: 0.0.0
     dependencies:
@@ -15936,12 +15957,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
