@@ -29,7 +29,7 @@ async function firewallRuleDelete() {
   const result = await client.firewallRules.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    firewallRuleName
+    firewallRuleName,
   );
   console.log(result);
 }
