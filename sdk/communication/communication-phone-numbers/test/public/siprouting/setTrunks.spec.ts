@@ -134,6 +134,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunk(invalidTrunk);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "fqdn");
 
         try {
           await client.getTrunk("-1");
@@ -155,6 +156,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunk(invalidTrunk);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "port");
 
         try {
           await client.getTrunk(firstFqdn);
@@ -194,6 +196,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setTrunks([{ fqdn: firstFqdn, sipSignalingPort: 1234, enabled: true }]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "trunks");
         const storedTrunks = await listAllTrunks(client);
         assert.isNotNull(storedTrunks);
         assert.isArray(storedTrunks);

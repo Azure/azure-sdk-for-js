@@ -170,6 +170,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "name");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(storedRoutes.find((item) => item.name === ""));
         return;
@@ -187,6 +188,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "numberPattern");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(storedRoutes.find((item) => item.name === "invalidNumberPatternRoute"));
         return;
@@ -210,6 +212,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes(invalidRoutes);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "routes");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(storedRoutes.find((item) => item.name === "sameNameRoute"));
         return;
@@ -234,6 +237,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "trunks");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(
           storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute")
@@ -254,6 +258,7 @@ matrix([[true, false]], async function (useAad) {
         await client.setRoutes([invalidRoute]);
       } catch (error: any) {
         assert.equal(error.code, "UnprocessableConfiguration");
+        assert.equal(error.target, "trunks");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(storedRoutes.find((item) => item.name === "invalidRoutingTrunkRoute"));
         return;
