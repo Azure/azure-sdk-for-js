@@ -65,7 +65,6 @@ describe("createStream", () => {
       break;
     }
     assert.isTrue(canceled);
-    stream.cancel();
-    assert.isTrue(canceled);
+    await stream.cancel();
   });
 });

@@ -7,10 +7,10 @@
 /// <reference types="node" />
 
 // @public
-export function createSseStream(chunkIter: ReadableStream<Uint8Array>): EventMessageStream;
+export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 
 // @public
-export function createSseStream(chunkIter: NodeJS.ReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: NodeJS.ReadableStream): EventMessageStream;
 
 // @public
 export interface EventMessage {

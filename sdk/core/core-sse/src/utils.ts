@@ -63,9 +63,10 @@ export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStre
   iterable: AsyncIterable<Uint8Array>;
 } {
   if (isReadableStream(stream)) {
+    makeAsyncIterable<Uint8Array>(stream);
     return {
       cancel: () => stream.cancel(),
-      iterable: toAsyncIterable(stream),
+      iterable: stream,
     };
   } else {
     return {

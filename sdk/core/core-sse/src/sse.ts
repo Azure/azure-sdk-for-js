@@ -13,20 +13,20 @@ const enum ControlChars {
 
 /**
  * Processes a response stream into a stream of events.
- * @param chunkIter - A stream of Uint8Array chunks
+ * @param chunkStream - A stream of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function createSseStream(chunkIter: ReadableStream<Uint8Array>): EventMessageStream;
+export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
- * @param chunkIter - An async iterable of Uint8Array chunks
+ * @param chunkStream - An async iterable of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function createSseStream(chunkIter: NodeJS.ReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: NodeJS.ReadableStream): EventMessageStream;
 export function createSseStream(
-  chunkIter: NodeJS.ReadableStream | ReadableStream<Uint8Array>,
+  chunkStream: NodeJS.ReadableStream | ReadableStream<Uint8Array>,
 ): EventMessageStream {
-  const { cancel, iterable } = ensureAsyncIterable(chunkIter);
+  const { cancel, iterable } = ensureAsyncIterable(chunkStream);
   const asyncIter = toMessage(toLine(iterable));
   return createStream(asyncIter, cancel);
 }

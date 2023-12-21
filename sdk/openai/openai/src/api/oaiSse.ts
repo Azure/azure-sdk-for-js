@@ -21,7 +21,6 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   toEvent: (obj: O) => TEvent
 ): Promise<EventStream<TEvent>> {
   const stringStream = await getStream(response);
-  // TODO: use await using once we drop support for NodeJS v18.
   const eventStream = createSseStream(stringStream);
   const jsonParser = new TransformStream<EventMessage, TEvent>({
     transform: async (chunk, controller) => {
