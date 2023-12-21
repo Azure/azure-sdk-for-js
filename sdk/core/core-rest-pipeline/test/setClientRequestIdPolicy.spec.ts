@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, vi } from "vitest";
 
 import {
   HttpClient,
@@ -14,10 +14,6 @@ import {
 } from "../src";
 
 describe("setClientRequestIdPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it("should set the header name with `x-ms-client-request-id` if no header name is provided", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -28,8 +24,8 @@ describe("setClientRequestIdPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.onFirstCall().resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValueOnce(successResponse);
     assert.isFalse(request.headers.has("x-ms-client-request-id"));
     await policy.sendRequest(request, next);
     assert.isTrue(request.headers.has("x-ms-client-request-id"));

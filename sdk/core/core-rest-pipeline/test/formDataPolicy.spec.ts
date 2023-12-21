@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, vi, expect } from "vitest";
 
 import {
   PipelineResponse,
@@ -26,8 +26,8 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
     request,
     status: 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(successResponse);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(successResponse);
 
   const policy = formDataPolicy();
 
@@ -35,10 +35,6 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
 }
 
 describe("formDataPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -55,8 +51,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -82,8 +78,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -108,13 +104,12 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(successResponse);
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockResolvedValue(successResponse);
 
       const policy = formDataPolicy();
 
-      assert.isRejected(
-        policy.sendRequest(request, next),
+      await expect(policy.sendRequest(request, next)).rejects.toThrow(
         /multipart\/form-data request must not have a request body already specified/
       );
     });

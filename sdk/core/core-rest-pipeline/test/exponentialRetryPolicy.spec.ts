@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, afterEach, vi, expect } from "vitest";
 
 import {
   PipelineResponse,
@@ -15,7 +15,7 @@ import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {
-    sinon.restore();
+    vi.useRealTimers();
   });
 
   it("It should throw immediately if we get a 416 response", async () => {
@@ -30,11 +30,11 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416, response });
 
     const policy = exponentialRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
-    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
-    assert.strictEqual(next.callCount, 1);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
+    expect(next).toHaveBeenCalledOnce();
   });
 
   it("It should retry with a 503 response", async () => {
@@ -49,14 +49,14 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 503, response });
 
     const policy = exponentialRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
-    const clock = sinon.useFakeTimers();
+    vi.useFakeTimers();
 
-    const promise = assert.isRejected(policy.sendRequest(request, next), /Test Error/);
-    await clock.runAllAsync();
+    const promise = expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
+    await vi.runAllTimersAsync();
     await promise;
-    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
+    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
   });
 });

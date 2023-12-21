@@ -56,7 +56,7 @@ describe("FetchHttpClient", function () {
   let fetchMock: sinon.SinonStub;
   let clock: sinon.SinonFakeTimers;
   beforeEach(() => {
-    fetchMock = sinon.stub(self, "fetch");
+    fetchMock = vi.fn(self, "fetch");
   });
 
   afterEach(() => {
@@ -108,9 +108,9 @@ describe("FetchHttpClient", function () {
       },
     });
     const promise = client.sendRequest(request);
-    clock.tick(timeoutLength - 1);
+    vi.advanceTimersByTime(timeoutLength - 1);
     controller.abort();
-    clock.tick(1);
+    vi.advanceTimersByTime(1);
 
     try {
       await promise;
@@ -141,9 +141,9 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
-    clock.tick(100);
+    vi.advanceTimersByTime(100);
     controller.abort();
-    clock.tick(1);
+    vi.advanceTimersByTime(1);
     try {
       const response = await promise;
       const reader = response.browserStreamBody!.getReader();
@@ -226,7 +226,7 @@ describe("FetchHttpClient", function () {
     const chunk = await reader.read();
     // Advance the mocked clock 1000ms so that the mock response
     // enqueues the second chunk
-    clock.tick(1000);
+    vi.advanceTimersByTime(1000);
 
     // Verify that only one chunk was loaded
     assert.equal(downloadCalled, 1);
@@ -255,7 +255,7 @@ describe("FetchHttpClient", function () {
 
   it("should report download progress and decode chunks without TransformStream", async function () {
     // Make TransformStream undefined to simulate Firefox where it is not available
-    const transformStub = sinon.stub(self, "TransformStream").value(undefined);
+    const transformStub = vi.fn(self, "TransformStream").value(undefined);
 
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
@@ -481,7 +481,7 @@ describe("FetchHttpClient", function () {
       method: "GET",
     });
     const promise = client.sendRequest(request);
-    clock.tick(timeoutLength);
+    vi.advanceTimersByTime(timeoutLength);
 
     try {
       await promise;

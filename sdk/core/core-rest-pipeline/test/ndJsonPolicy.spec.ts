@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, vi } from "vitest";
 
 import {
   PipelineResponse,
@@ -12,10 +12,6 @@ import {
 } from "../src";
 
 describe("NdJsonPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it("Formats arrays correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -26,8 +22,8 @@ describe("NdJsonPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = ndJsonPolicy();
 

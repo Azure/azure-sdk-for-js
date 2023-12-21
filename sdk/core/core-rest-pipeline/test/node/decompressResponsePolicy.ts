@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, vi } from "vitest";
 
 import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
 
@@ -15,11 +15,11 @@ describe("decompressResponsePolicy (node)", function () {
 
     assert.isFalse(request.headers.has("Accept-Encoding"), "acceptEncoding is set.");
 
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     policy.sendRequest(request, next);
 
-    assert.isTrue(next.calledOnceWith(request), "next called with request");
+    assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
     assert.strictEqual(request.headers.get("Accept-Encoding"), "gzip,deflate");
   });
 });

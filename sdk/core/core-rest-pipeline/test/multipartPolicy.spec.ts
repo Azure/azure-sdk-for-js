@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import sinon from "sinon";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
 import { createPipelineRequest } from "../src/pipelineRequest";
 import { multipartPolicy } from "../src/policies/multipartPolicy";
-import { assert, describe, it } from "vitest";
+import { assert, describe, it, vi, expect } from "vitest";
 import { PipelineRequestOptions } from "../src/pipelineRequest";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "./util";
@@ -26,8 +25,8 @@ export async function performRequest(
     request,
     status: 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(successResponse);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(successResponse);
 
   await policy.sendRequest(request, next);
   return request;
@@ -56,8 +55,8 @@ describe("multipartPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     await policy.sendRequest(request, next);
 
@@ -86,7 +85,7 @@ describe("multipartPolicy", function () {
     });
 
     it("throws when multipart request body present but content-type is not multipart", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "application/json",
@@ -94,13 +93,14 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
+        })
+      ).rejects.toThrow(
         /Got multipart request body, but content-type header was not multipart: application\/json/
       );
     });
 
     it("throws when invalid boundary is set in content-type header", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           headers: createHttpHeaders({
             "content-type": "multipart/form-data; boundary=%%%%%%%",
@@ -108,21 +108,19 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
-        /Multipart boundary "%%%%%%%" contains invalid characters/
-      );
+        })
+      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
     it("throws when invalid boundary is set in body", async function () {
-      await assert.isRejected(
+      await expect(
         performRequest({
           multipartBody: {
             boundary: "%%%%%%%",
             parts: [],
           },
-        }),
-        /Multipart boundary "%%%%%%%" contains invalid characters/
-      );
+        })
+      ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
     it("generates boundary when none specified in existing header", async function () {
