@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the specified private link resource.
  *
  * @summary Gets information about the specified private link resource.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PrivateLinkResourceGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateLinkResourceGet.json
  */
 async function getPrivateLinkResource() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

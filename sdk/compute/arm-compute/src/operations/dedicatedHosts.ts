@@ -35,6 +35,8 @@ import {
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
   DedicatedHostsRestartOptionalParams,
+  DedicatedHostsRedeployOptionalParams,
+  DedicatedHostsRedeployResponse,
   DedicatedHostsListByHostGroupNextResponse
 } from "../models";
 
@@ -629,6 +631,107 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
+   * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
+   * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
+   * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  async beginRedeploy(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DedicatedHostsRedeployResponse>,
+      DedicatedHostsRedeployResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<DedicatedHostsRedeployResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, hostGroupName, hostName, options },
+      spec: redeployOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DedicatedHostsRedeployResponse,
+      OperationState<DedicatedHostsRedeployResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
+   * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
+   * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  async beginRedeployAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
+  ): Promise<DedicatedHostsRedeployResponse> {
+    const poller = await this.beginRedeploy(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Lists all available dedicated host sizes to which the specified dedicated host can be resized. NOTE:
    * The dedicated host sizes provided can be used to only scale up the existing dedicated host.
    * @param resourceGroupName The name of the resource group.
@@ -691,7 +794,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -725,7 +828,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters17,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -827,6 +930,38 @@ const restartOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const redeployOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/redeploy",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.DedicatedHostsRedeployHeaders
+    },
+    201: {
+      headersMapper: Mappers.DedicatedHostsRedeployHeaders
+    },
+    202: {
+      headersMapper: Mappers.DedicatedHostsRedeployHeaders
+    },
+    204: {
+      headersMapper: Mappers.DedicatedHostsRedeployHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName1,
+    Parameters.hostName1
   ],
   headerParameters: [Parameters.accept],
   serializer

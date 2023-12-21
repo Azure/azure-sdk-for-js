@@ -1021,174 +1021,9 @@ export interface DialogSensitivityUpdate {
   readonly correlationId?: string;
 }
 
-export interface TranscriptionStarted {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
-}
-
-export interface TranscriptionStopped {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface TranscriptionResumed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface TranscriptionFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface TranscriptionUpdated {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
 }
 
 /** The participant successfully added event. */
@@ -1876,6 +1711,171 @@ export interface RestCancelAddParticipantFailed {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly invitationId?: string;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTranscriptionStarted {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTranscriptionStopped {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTranscriptionUpdated {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTranscriptionFailed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTranscriptionResumed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.

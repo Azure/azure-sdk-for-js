@@ -10,7 +10,6 @@
   },
   "types": "types/latest/core-client-rest.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",

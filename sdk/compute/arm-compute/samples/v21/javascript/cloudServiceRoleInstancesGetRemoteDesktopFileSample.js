@@ -28,7 +28,7 @@ async function getCloudServiceRole() {
   const result = await client.cloudServiceRoleInstances.getRemoteDesktopFile(
     roleInstanceName,
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

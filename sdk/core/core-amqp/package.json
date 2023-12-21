@@ -13,13 +13,6 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/latest/core-amqp.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
     "./dist-esm/src/util/hmacSha256.js": "./dist-esm/src/util/hmacSha256.browser.js",
@@ -34,17 +27,14 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/core-amqp.d.ts",
-    "types/3.1",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "bundle": "tsc -p . && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && npm run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
     "execute:samples": "echo skipped",
@@ -98,7 +88,6 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",

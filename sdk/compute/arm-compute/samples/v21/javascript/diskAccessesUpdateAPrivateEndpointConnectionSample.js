@@ -35,7 +35,7 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
     resourceGroupName,
     diskAccessName,
     privateEndpointConnectionName,
-    privateEndpointConnection
+    privateEndpointConnection,
   );
   console.log(result);
 }

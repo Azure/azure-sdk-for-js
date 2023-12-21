@@ -89,7 +89,6 @@
     "mocha": "^10.0.0",
     "esm": "^3.2.18",
     "@types/mocha": "^10.0.0",
-    "mocha-junit-reporter": "^1.18.0",
     "cross-env": "^7.0.2",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",

@@ -29,7 +29,7 @@ async function domainEventSubscriptionsDelete() {
   const result = await client.domainEventSubscriptions.beginDeleteAndWait(
     resourceGroupName,
     domainName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

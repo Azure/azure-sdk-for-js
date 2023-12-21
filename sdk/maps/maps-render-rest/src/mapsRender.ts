@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { ClientOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, isTokenCredential, TokenCredential } from "@azure/core-auth";
+import {
+  AzureKeyCredential,
+  AzureSASCredential,
+  isSASCredential,
+  isTokenCredential,
+  TokenCredential,
+} from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
 import { MapsRenderClient } from "./generated";
@@ -47,8 +53,27 @@ export default function MapsRender(
   mapsAccountClientId: string,
   options?: ClientOptions
 ): MapsRenderClient;
+/**
+ * Creates an instance of MapsRender from an Azure Identity `AzureSASCredential`.
+ *
+ * @example
+ * ```ts
+ * import MapsRender from "@azure-rest/maps-render";
+ * import { AzureSASCredential } from "@azure/core-auth";
+ *
+ * const credential = new AzureSASCredential("<SAS Token>");
+ * const client = MapsRender(credential);
+ * ```
+ *
+ * @param credential - An AzureSASCredential instance used to authenticate requests to the service
+ * @param options - Options used to configure the Render Client
+ */
 export default function MapsRender(
-  credential: TokenCredential | AzureKeyCredential,
+  credential: AzureSASCredential,
+  options?: ClientOptions
+): MapsRenderClient;
+export default function MapsRender(
+  credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
   maybeOptions: ClientOptions = {}
 ): MapsRenderClient {
@@ -74,5 +99,18 @@ export default function MapsRender(
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
   }
+
+  if (isSASCredential(credential)) {
+    const client = createClient(undefined as any, options);
+    client.pipeline.addPolicy({
+      name: "mapsSASCredentialPolicy",
+      async sendRequest(request, next) {
+        request.headers.set("Authorization", `jwt-sas ${credential.signature}`);
+        return next(request);
+      },
+    });
+    return client;
+  }
+
   return createClient(credential, options);
 }
