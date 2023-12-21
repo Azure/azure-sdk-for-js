@@ -43,22 +43,22 @@ export * from "./models";
 export interface SipRoutingClientOptions extends CommonClientOptions {}
 const getErrorTargetField = (error: any): string => {
   const errorCodeToFieldName: Record<SipRoutingError["code"], string> = {
-    "InvalidRouteName": "name",
-    "InvalidRouteNumberPattern": "numberPattern",
-    "RouteWithDuplicatedTrunk": "trunks",
-    "InvalidRouteTrunk": "trunks",
-    "MissingTrunk": "trunks",
-    "InvalidTrunkSipSignalingPort": "port",
-    "DuplicatedRoute": "routes",
-    "InvalidTrunkFqdn": "fqdn",
-    "InvalidDomain": "fqdn",
+    InvalidRouteName: "name",
+    InvalidRouteNumberPattern: "numberPattern",
+    RouteWithDuplicatedTrunk: "trunks",
+    InvalidRouteTrunk: "trunks",
+    MissingTrunk: "trunks",
+    InvalidTrunkSipSignalingPort: "port",
+    DuplicatedRoute: "routes",
+    InvalidTrunkFqdn: "fqdn",
+    InvalidDomain: "fqdn",
   };
   if (error && error.details && error.details.error && error.details.error.innerError) {
     return errorCodeToFieldName[error.details.error.innerError.code];
   } else {
     return "unknown";
   }
-}
+};
 
 /**
  * Checks whether the type of a value is SipClientOptions or not.
@@ -323,7 +323,7 @@ export class SipRoutingClient {
           config = await this.client.sipRouting.update(payload);
         } catch (error: any) {
           if (error.code === "UnprocessableConfiguration") {
-            throw Object.assign((error as SipRoutingError), {target: getErrorTargetField(error)})
+            throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
           } else {
             throw error;
           }
@@ -349,20 +349,18 @@ export class SipRoutingClient {
         ...update,
       };
 
-
       try {
         const config = await this.client.sipRouting.update(payload);
         const storedTrunk = transformFromRestModel(config.trunks).find(
-            (value: SipTrunk) => value.fqdn === trunk.fqdn
+          (value: SipTrunk) => value.fqdn === trunk.fqdn
         );
 
         if (storedTrunk) {
           return storedTrunk;
         }
-
       } catch (error: any) {
         if (error.code === "UnprocessableConfiguration") {
-          throw Object.assign((error as SipRoutingError), {target: getErrorTargetField(error)})
+          throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
         } else {
           throw error;
         }
@@ -397,7 +395,7 @@ export class SipRoutingClient {
         return storedRoutes;
       } catch (error: any) {
         if (error.code === "UnprocessableConfiguration") {
-          throw Object.assign((error as SipRoutingError), {target: getErrorTargetField(error)})
+          throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
         } else {
           throw error;
         }
