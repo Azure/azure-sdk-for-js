@@ -19,7 +19,7 @@ export interface Account extends TrackedResource {
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
-    sku?: SKU;
+    sku?: Sku;
 }
 
 // @public
@@ -758,7 +758,7 @@ export interface Resource {
 export type Role = string;
 
 // @public
-export type SKU = string;
+export type Sku = string;
 
 // @public
 export interface SystemData {

@@ -532,7 +532,7 @@ export interface Account extends TrackedResource {
   /** List of private endpoint connections associated with the account. */
   privateEndpointConnections?: PrivateEndpointConnection[];
   /** Device Update Sku */
-  sku?: SKU;
+  sku?: Sku;
   /** CMK encryption at rest properties */
   encryption?: Encryption;
   /**
@@ -758,7 +758,7 @@ export enum KnownSku {
  * **Free** \
  * **Standard**
  */
-export type SKU = string;
+export type Sku = string;
 
 /** Known values of {@link Role} that the service accepts. */
 export enum KnownRole {
