@@ -155,7 +155,7 @@ describe("README samples", () => {
           ];
           const finalResult = await client.getChatCompletions(
             deploymentName,
-            toolCallResolutionMessages
+            toolCallResolutionMessages,
           );
           assert.isDefined(finalResult.choices[0].message?.content);
         }

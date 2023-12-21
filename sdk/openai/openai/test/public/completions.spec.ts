@@ -54,7 +54,7 @@ describe("OpenAI", function () {
           await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,
             (deploymentName) => client.getCompletions(deploymentName, prompt),
-            assertCompletions
+            assertCompletions,
           );
         });
       });
@@ -136,7 +136,7 @@ describe("OpenAI", function () {
               // The API returns an empty choice in the first event for some
               // reason. This should be fixed in the API.
               allowEmptyChoices: true,
-            }
+            },
           );
         });
       });
@@ -191,14 +191,14 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 (deploymentName) => client.getChatCompletions(deploymentName, pirateMessages),
-                assertChatCompletions
+                assertChatCompletions,
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -210,7 +210,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 async (deploymentName) => {
                   const weatherMessages: ChatRequestMessage[] = [
@@ -238,11 +238,11 @@ describe("OpenAI", function () {
                   });
                   return client.getChatCompletions(deploymentName, weatherMessages);
                 },
-                (result) => assertChatCompletions(result, { functions: true })
+                (result) => assertChatCompletions(result, { functions: true }),
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -257,7 +257,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 (deploymentName) =>
                   client.getChatCompletions(deploymentName, byodMessages, {
@@ -265,11 +265,11 @@ describe("OpenAI", function () {
                       extensions: [createAzureCognitiveSearchExtension()],
                     },
                   }),
-                assertChatCompletions
+                assertChatCompletions,
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -281,7 +281,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 (deploymentName) =>
                   client.getChatCompletions(
@@ -290,17 +290,17 @@ describe("OpenAI", function () {
                     {
                       toolChoice: "none",
                       tools: [{ type: "function", function: getCurrentWeather }],
-                    }
+                    },
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
                   assert.isEmpty(res.choices[0].message?.toolCalls);
                   assert.isUndefined(res.choices[0].message?.functionCall);
-                }
+                },
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -315,7 +315,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 (deploymentName) =>
                   client.getChatCompletions(
@@ -327,7 +327,7 @@ describe("OpenAI", function () {
                           "Answer the following question in JSON format: What are the capital cities in Africa?",
                       },
                     ],
-                    { responseFormat: { type: "json_object" } }
+                    { responseFormat: { type: "json_object" } },
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
@@ -338,11 +338,11 @@ describe("OpenAI", function () {
                   } catch (e) {
                     assert.fail(`Invalid JSON: ${content}`);
                   }
-                }
+                },
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
         });
@@ -356,11 +356,11 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 async (deploymentName) =>
                   bufferAsyncIterable(
-                    await client.streamChatCompletions(deploymentName, pirateMessages)
+                    await client.streamChatCompletions(deploymentName, pirateMessages),
                   ),
                 (res) =>
                   assertChatCompletionsList(res, {
@@ -370,11 +370,11 @@ describe("OpenAI", function () {
                     // The API returns an empty ID in the first event for some
                     // reason. This should be fixed in the API.
                     allowEmptyId: true,
-                  })
+                  }),
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -386,7 +386,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 async (deploymentName) =>
                   bufferAsyncIterable(
@@ -395,8 +395,8 @@ describe("OpenAI", function () {
                       [{ role: "user", content: "What's the weather like in Boston?" }],
                       {
                         functions: [getCurrentWeather],
-                      }
-                    )
+                      },
+                    ),
                   ),
                 (res) =>
                   assertChatCompletionsList(res, {
@@ -404,11 +404,11 @@ describe("OpenAI", function () {
                     // The API returns an empty choice in the first event for some
                     // reason. This should be fixed in the API.
                     allowEmptyChoices: true,
-                  })
+                  }),
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
 
@@ -423,7 +423,7 @@ describe("OpenAI", function () {
                   deployments,
                   models,
                   chatCompletionDeployments,
-                  chatCompletionModels
+                  chatCompletionModels,
                 ),
                 async (deploymentName) =>
                   bufferAsyncIterable(
@@ -431,13 +431,13 @@ describe("OpenAI", function () {
                       azureExtensionOptions: {
                         extensions: [createAzureCognitiveSearchExtension()],
                       },
-                    })
+                    }),
                   ),
-                assertChatCompletionsList
+                assertChatCompletionsList,
               ),
               chatCompletionDeployments,
               chatCompletionModels,
-              authMethod
+              authMethod,
             );
           });
         });

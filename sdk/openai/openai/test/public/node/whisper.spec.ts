@@ -53,7 +53,7 @@ describe("OpenAI", function () {
               assertAudioResult(format, res);
             });
           });
-        }
+        },
       );
     });
   });

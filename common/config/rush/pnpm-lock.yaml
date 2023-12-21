@@ -20006,7 +20006,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-BDNerKgsHlXrNztIq+CxELP/DgWTGNVS6Kt2jwj3SNr4Wy/a29Jw9l/dBTK74JQQBAtbrk42VaOvEgqabYCFzA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-g7pv6Vy5FTMRNRt4S51iAuUXu0nuaqsdripQD9jeRYjwCOjNVL+NDjchBrclUTEDEvCv8N/zmYMm7JD6MJgqoA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20034,12 +20034,12 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.2)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
-      prettier: 2.8.8
-      puppeteer: 19.11.1(typescript@5.2.2)
+      prettier: 3.1.1
+      puppeteer: 19.11.1(typescript@5.3.3)
       rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'

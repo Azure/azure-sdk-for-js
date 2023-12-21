@@ -14,7 +14,7 @@ import { wrapError } from "./util.js";
 import { streamToText } from "./readableStreamUtils.js";
 
 export async function getStream<TResponse>(
-  response: StreamableMethod<TResponse>
+  response: StreamableMethod<TResponse>,
 ): Promise<ReadableStream<Uint8Array>> {
   const { body, status } = await response.asBrowserStream();
   if (status !== "200" && body !== undefined) {
