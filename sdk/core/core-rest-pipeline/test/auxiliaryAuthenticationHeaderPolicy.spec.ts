@@ -96,7 +96,6 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
-    console.log(`fakeGetToken1 called with`, fakeGetToken1.mock.calls);
     expect(fakeGetToken1).toHaveBeenCalledWith(tokenScopes, {
       abortSignal: undefined,
       tracingOptions: undefined,

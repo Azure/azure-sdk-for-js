@@ -84,7 +84,6 @@ describe("FetchHttpClient", function () {
       await delay(timeoutLength);
       if (options?.signal) {
         const signal: AbortSignalLike = options.signal;
-        console.log(`${signal.aborted}`);
 
         if (signal.aborted) {
           throw new AbortError();
@@ -462,7 +461,6 @@ describe("FetchHttpClient", function () {
 
       if (options?.signal) {
         const signal: AbortSignalLike = options.signal;
-        console.log(`${signal.aborted}`);
 
         if (signal.aborted) {
           throw new AbortError();
