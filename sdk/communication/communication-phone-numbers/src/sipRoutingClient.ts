@@ -50,7 +50,8 @@ const getErrorTargetField = (error: any): string => {
     "MissingTrunk": "trunks",
     "InvalidTrunkSipSignalingPort": "port",
     "DuplicatedRoute": "routes",
-    "InvalidTrunkFqdn": "fqdn"
+    "InvalidTrunkFqdn": "fqdn",
+    "InvalidDomain": "fqdn",
   };
   if (error && error.details && error.details.error && error.details.error.innerError) {
     return errorCodeToFieldName[error.details.error.innerError.code];
