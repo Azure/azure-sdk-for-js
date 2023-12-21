@@ -58,21 +58,21 @@ npx cross-env IMAGEBUILDER_SUBSCRIPTION_ID="<imagebuilder subscription id>" node
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/operationsListSample.js
-[triggerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/triggersCreateOrUpdateSample.js
-[triggersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/triggersDeleteSample.js
-[triggersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/triggersGetSample.js
-[triggerslistbyimagetemplatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/triggersListByImageTemplateSample.js
-[virtualmachineimagetemplatescancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesCancelSample.js
-[virtualmachineimagetemplatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesCreateOrUpdateSample.js
-[virtualmachineimagetemplatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesDeleteSample.js
-[virtualmachineimagetemplatesgetrunoutputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesGetRunOutputSample.js
-[virtualmachineimagetemplatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesGetSample.js
-[virtualmachineimagetemplateslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesListByResourceGroupSample.js
-[virtualmachineimagetemplateslistrunoutputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesListRunOutputsSample.js
-[virtualmachineimagetemplateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesListSample.js
-[virtualmachineimagetemplatesrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesRunSample.js
-[virtualmachineimagetemplatesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v3/javascript/virtualMachineImageTemplatesUpdateSample.js
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/operationsListSample.js
+[triggerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/triggersCreateOrUpdateSample.js
+[triggersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/triggersDeleteSample.js
+[triggersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/triggersGetSample.js
+[triggerslistbyimagetemplatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/triggersListByImageTemplateSample.js
+[virtualmachineimagetemplatescancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesCancelSample.js
+[virtualmachineimagetemplatescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesCreateOrUpdateSample.js
+[virtualmachineimagetemplatesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesDeleteSample.js
+[virtualmachineimagetemplatesgetrunoutputsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesGetRunOutputSample.js
+[virtualmachineimagetemplatesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesGetSample.js
+[virtualmachineimagetemplateslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesListByResourceGroupSample.js
+[virtualmachineimagetemplateslistrunoutputssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesListRunOutputsSample.js
+[virtualmachineimagetemplateslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesListSample.js
+[virtualmachineimagetemplatesrunsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesRunSample.js
+[virtualmachineimagetemplatesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/imagebuilder/arm-imagebuilder/samples/v4/javascript/virtualMachineImageTemplatesUpdateSample.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-imagebuilder?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/imagebuilder/arm-imagebuilder/README.md

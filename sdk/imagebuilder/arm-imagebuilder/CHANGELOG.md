@@ -1,6 +1,6 @@
 # Release History
     
-## 3.1.0 (2023-12-06)
+## 4.0.0 (2023-12-21)
     
 **Features**
 
@@ -16,7 +16,12 @@
   - Interface ImageTemplateUpdateParameters has a new optional parameter properties
   - Added Enum KnownOnBuildError
     
-    
+**Breaking Changes**
+
+  - Removed interface CloudError
+  - Removed interface CloudErrorBody
+
+  
 ## 3.0.0 (2023-03-24)
     
 **Features**
