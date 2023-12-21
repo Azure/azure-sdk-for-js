@@ -8,11 +8,9 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageTemplate, ImageBuilderClient } from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Create or update a virtual machine image template
@@ -21,18 +19,16 @@ dotenv.config();
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/CreateImageTemplateLinux.json
  */
 async function createAnImageTemplateForLinux() {
-  const subscriptionId =
-    process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
-  const parameters: ImageTemplate = {
+  const parameters = {
     customize: [
       {
         name: "Shell Customizer Example",
         type: "Shell",
-        scriptUri: "https://example.com/path/to/script.sh"
-      }
+        scriptUri: "https://example.com/path/to/script.sh",
+      },
     ],
     distribute: [
       {
@@ -41,20 +37,21 @@ async function createAnImageTemplateForLinux() {
         imageId:
           "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Compute/images/image_it_1",
         location: "1_location",
-        runOutputName: "image_it_pir_1"
-      }
+        runOutputName: "image_it_pir_1",
+      },
     ],
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     location: "westus",
     source: {
       type: "ManagedImage",
       imageId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/images/source_image"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/images/source_image",
     },
     tags: { imagetemplateTag1: "IT_T1", imagetemplateTag2: "IT_T2" },
     vmProfile: {
@@ -62,16 +59,16 @@ async function createAnImageTemplateForLinux() {
       vmSize: "Standard_D2s_v3",
       vnetConfig: {
         subnetId:
-          "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name"
-      }
-    }
+          "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const result = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageTemplateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -83,82 +80,64 @@ async function createAnImageTemplateForLinux() {
  * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2023-07-01/examples/CreateImageTemplateWindows.json
  */
 async function createAnImageTemplateForWindows() {
-  const subscriptionId =
-    process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
-  const resourceGroupName =
-    process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
+  const subscriptionId = process.env["IMAGEBUILDER_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName = process.env["IMAGEBUILDER_RESOURCE_GROUP"] || "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
-  const parameters: ImageTemplate = {
+  const parameters = {
     customize: [
       {
         name: "PowerShell (inline) Customizer Example",
         type: "PowerShell",
-        inline: [
-          "Powershell command-1",
-          "Powershell command-2",
-          "Powershell command-3"
-        ]
+        inline: ["Powershell command-1", "Powershell command-2", "Powershell command-3"],
       },
       {
         name: "PowerShell (inline) Customizer Elevated user Example",
         type: "PowerShell",
-        inline: [
-          "Powershell command-1",
-          "Powershell command-2",
-          "Powershell command-3"
-        ],
-        runElevated: true
+        inline: ["Powershell command-1", "Powershell command-2", "Powershell command-3"],
+        runElevated: true,
       },
       {
-        name:
-          "PowerShell (inline) Customizer Elevated Local System user Example",
+        name: "PowerShell (inline) Customizer Elevated Local System user Example",
         type: "PowerShell",
-        inline: [
-          "Powershell command-1",
-          "Powershell command-2",
-          "Powershell command-3"
-        ],
+        inline: ["Powershell command-1", "Powershell command-2", "Powershell command-3"],
         runAsSystem: true,
-        runElevated: true
+        runElevated: true,
       },
       {
         name: "PowerShell (script) Customizer Example",
         type: "PowerShell",
         scriptUri: "https://example.com/path/to/script.ps1",
-        validExitCodes: [0, 1]
+        validExitCodes: [0, 1],
       },
       {
-        name:
-          "PowerShell (script) Customizer Elevated Local System user Example",
+        name: "PowerShell (script) Customizer Elevated Local System user Example",
         type: "PowerShell",
         runElevated: true,
         scriptUri: "https://example.com/path/to/script.ps1",
-        validExitCodes: [0, 1]
+        validExitCodes: [0, 1],
       },
       {
-        name:
-          "PowerShell (script) Customizer Elevated Local System user Example",
+        name: "PowerShell (script) Customizer Elevated Local System user Example",
         type: "PowerShell",
         runAsSystem: true,
         runElevated: true,
         scriptUri: "https://example.com/path/to/script.ps1",
-        validExitCodes: [0, 1]
+        validExitCodes: [0, 1],
       },
       {
         name: "Restart Customizer Example",
         type: "WindowsRestart",
-        restartCheckCommand:
-          "powershell -command \"& {Write-Output 'restarted.'}\"",
+        restartCheckCommand: "powershell -command \"& {Write-Output 'restarted.'}\"",
         restartCommand: 'shutdown /f /r /t 0 /c "packer restart"',
-        restartTimeout: "10m"
+        restartTimeout: "10m",
       },
       {
         name: "Windows Update Customizer Example",
         type: "WindowsUpdate",
         filters: ["$_.BrowseOnly"],
         searchCriteria: "BrowseOnly=0 and IsInstalled=0",
-        updateLimit: 100
-      }
+        updateLimit: 100,
+      },
     ],
     distribute: [
       {
@@ -167,20 +146,21 @@ async function createAnImageTemplateForWindows() {
         imageId:
           "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Compute/images/image_it_1",
         location: "1_location",
-        runOutputName: "image_it_pir_1"
-      }
+        runOutputName: "image_it_pir_1",
+      },
     ],
     identity: {
       type: "UserAssigned",
       userAssignedIdentities: {
-        "/subscriptions/00000000000000000000000000000000/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1": {}
-      }
+        "/subscriptions/00000000000000000000000000000000/resourcegroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+          {},
+      },
     },
     location: "westus",
     source: {
       type: "ManagedImage",
       imageId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/images/source_image"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Compute/images/source_image",
     },
     tags: { imagetemplateTag1: "IT_T1", imagetemplateTag2: "IT_T2" },
     vmProfile: {
@@ -188,16 +168,16 @@ async function createAnImageTemplateForWindows() {
       vmSize: "Standard_D2s_v3",
       vnetConfig: {
         subnetId:
-          "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name"
-      }
-    }
+          "/subscriptions/{subscription-id}/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet_name/subnets/subnet_name",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
   const result = await client.virtualMachineImageTemplates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     imageTemplateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
