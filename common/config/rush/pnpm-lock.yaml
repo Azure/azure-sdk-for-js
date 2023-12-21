@@ -12867,7 +12867,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
-    resolution: {integrity: sha512-aeylCXzTpWJuSr6Ah1sJd5f6NVbU4bRkngP2S4H9OUzBdeROiDJB2zan6X6o0w5AZeP2txkiFGhiUZh1j5FPBw==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-aRFAhHXs+QKvsiFYIm6qsRRFInGNS6ySUDxJWGhvgpaChUVV6hs89aMk9HY9ifNpozDGw+7fpGo/YPceC01UdA==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
@@ -12875,13 +12875,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes account.
  *
  * @summary Deletes account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Delete.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Accounts/Accounts_Delete.json
  */
 async function deletesAnAccount() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates account's patchable properties
  *
  * @summary Updates account's patchable properties
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Update.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Accounts/Accounts_Update.json
  */
 async function updatesAccount() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function updatesAccount() {
   const result = await client.accounts.beginUpdateAndWait(
     resourceGroupName,
     accountName,
-    accountUpdatePayload
+    accountUpdatePayload,
   );
   console.log(result);
 }
