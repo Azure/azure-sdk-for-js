@@ -12686,7 +12686,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-jHVYae6tvgB7vu9GHl+ygIJI5Zp3BOfedZpmFlXgp29HUfS4cY5AZOeyvWa1h0HOxL+MjvU/iAkazGd38OLLpA==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-YhgI6WEUkkP63pi7Lidlpd9jTNCredZUTKpgTxaeXdFjFHi8w5727haclZU2KP1MQw4w4YkhV8xys0atpZGOWw==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -12694,13 +12694,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -13507,7 +13509,7 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-C+NGHnRvp/xXIj7dBBBowSOjJoVYnPrQKys14jdjSnJjscJxEVqw7jKRy+1clD/LwAmIGYxUjIEFHCs3X2dPPw==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-XqPT3oebdjJqKjBNe6iblzQELKFU5psH81RreLEkcgJ95yPANIG1iDDYptQUYGHabE9oqhQDqPn8eTSM73pCUg==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
@@ -13515,12 +13517,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -15871,7 +15876,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-X+PJNgAH5gt181nvOVnJU1u+uOD14rCv+kJJDo/x7n1Q+VjIqFDQEpidT2Xm24a2Ph8f/BfpX7E/XA/xZXc8EA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-DAfnFx6dpuSZC3hfm+2D5OblM7ok0dPhtUlCSHluLaItq5d3dFV0w1NWaYiu/EmOgkZOlDs4s+KdHgbR5hu5LA==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -15879,10 +15884,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
