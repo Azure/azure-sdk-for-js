@@ -14,7 +14,7 @@ export default defineConfig({
       provider: "playwright",
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
     include: ["test/**/*.spec.ts"],
