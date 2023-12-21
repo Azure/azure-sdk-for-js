@@ -9,7 +9,11 @@ function hasPackageCache<T extends {}>(
 
 function rewriteDistPath(path: string): string {
   return path.replace(/^\.\/dist-esm\/(\S+)\.js$/, function replacer(_match, path) {
-    return `./src/${path}`;
+    if (path.startsWith("src")) {
+      return `./${path}`;
+    } else {
+      return `./src/${path}`;
+    }
   });
 }
 
