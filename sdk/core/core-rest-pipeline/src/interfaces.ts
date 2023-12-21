@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.

@@ -3,10 +3,10 @@
 
 import * as http from "http";
 import * as https from "https";
-import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
-import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import { HttpsProxyAgent, type HttpsProxyAgentOptions } from "https-proxy-agent";
+import { HttpProxyAgent, type HttpProxyAgentOptions } from "http-proxy-agent";
+import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
 import { logger } from "../log";
 
 const HTTPS_PROXY = "HTTPS_PROXY";

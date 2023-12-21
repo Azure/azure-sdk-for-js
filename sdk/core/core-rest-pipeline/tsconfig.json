@@ -6,7 +6,8 @@
     "paths": {
       "@azure/core-rest-pipeline": ["./src/index"]
     },
-    "lib": ["dom", "dom.iterable"]
+    "lib": ["dom", "dom.iterable"],
+    "verbatimModuleSyntax": true
   },
   "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
 }

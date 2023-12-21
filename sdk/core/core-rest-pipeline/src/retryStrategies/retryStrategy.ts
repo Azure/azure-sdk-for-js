@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogger } from "@azure/logger";
-import { PipelineResponse } from "../interfaces";
+import type { AzureLogger } from "@azure/logger";
+import type { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
 
 /**

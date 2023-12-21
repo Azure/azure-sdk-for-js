@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import type { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
 import { toStream, concatenateStreams } from "../util/stream";
 import { isBlob } from "../util/typeGuards";
 
