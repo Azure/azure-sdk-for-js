@@ -665,6 +665,9 @@
 /sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/signalr/arm-signalr/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

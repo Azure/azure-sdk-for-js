@@ -15871,7 +15871,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-X+PJNgAH5gt181nvOVnJU1u+uOD14rCv+kJJDo/x7n1Q+VjIqFDQEpidT2Xm24a2Ph8f/BfpX7E/XA/xZXc8EA==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-DAfnFx6dpuSZC3hfm+2D5OblM7ok0dPhtUlCSHluLaItq5d3dFV0w1NWaYiu/EmOgkZOlDs4s+KdHgbR5hu5LA==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -15879,10 +15879,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
