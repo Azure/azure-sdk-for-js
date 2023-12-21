@@ -54,7 +54,7 @@ describe("throttlingRetryPolicy", function () {
         next.mockResolvedValueOnce(retryResponse);
         next.mockResolvedValueOnce(successResponse);
 
-        vi.useFakeTimers();
+        vi.useFakeTimers({ now: 0 });
 
         const promise = policy.sendRequest(request, next);
         expect(next).toHaveBeenCalledOnce();
@@ -67,7 +67,6 @@ describe("throttlingRetryPolicy", function () {
         const result = await promise;
 
         assert.strictEqual(result, successResponse);
-        vi.useRealTimers();
       });
     });
   });
@@ -94,7 +93,7 @@ describe("throttlingRetryPolicy", function () {
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
-    const clock = vi.useFakeTimers({ now: new Date("Wed, 21 Oct 2015 07:20:00 GMT") });
+    vi.useFakeTimers({ now: new Date("Wed, 21 Oct 2015 07:20:00 GMT") });
 
     const promise = policy.sendRequest(request, next);
     expect(next).toHaveBeenCalledOnce();
@@ -111,7 +110,6 @@ describe("throttlingRetryPolicy", function () {
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
-    vi.useRealTimers();
   });
 
   it("It should retry after a given number of seconds on a response with status code 503", async () => {
@@ -136,7 +134,7 @@ describe("throttlingRetryPolicy", function () {
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
-    vi.useFakeTimers();
+    vi.useFakeTimers({ now: 0 });
 
     const promise = policy.sendRequest(request, next);
     expect(next).toHaveBeenCalledOnce();
@@ -149,7 +147,6 @@ describe("throttlingRetryPolicy", function () {
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
-    vi.useRealTimers();
   });
 
   it("It should retry after a given date occurs on a response with status code 503", async () => {
@@ -191,7 +188,6 @@ describe("throttlingRetryPolicy", function () {
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
-    vi.useRealTimers();
   });
 
   it("It should retry after 0 seconds with status code 503 for a past date", async () => {
@@ -226,7 +222,6 @@ describe("throttlingRetryPolicy", function () {
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
-    vi.useRealTimers();
   });
 
   it("It should retry up to the default max retries", async function () {
@@ -264,8 +259,6 @@ describe("throttlingRetryPolicy", function () {
     const response = await promise;
     assert.equal(response.status, 503);
     assert.equal(response.headers.get("final-response"), "final-response");
-
-    vi.useRealTimers();
   });
 
   it("throttlingRetryPolicy should honor abort signal", async () => {

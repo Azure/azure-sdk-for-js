@@ -6,9 +6,11 @@ import { assert, describe, it, vi, expect } from "vitest";
 import {
   PipelineResponse,
   SendRequest,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
+  multipartPolicy,
 } from "../src";
 import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
 import { createFile } from "../src/util/file";
@@ -106,11 +108,12 @@ describe("formDataPolicy", function () {
       };
       const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
       next.mockResolvedValue(successResponse);
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(formDataPolicy());
+      pipeline.addPolicy(multipartPolicy());
 
-      const policy = formDataPolicy();
-
-      await expect(policy.sendRequest(request, next)).rejects.toThrow(
-        /multipart\/form-data request must not have a request body already specified/
+      await expect(pipeline.sendRequest({ sendRequest: next }, request)).rejects.toThrow(
+        /multipartBody and regular body cannot be set at the same time/
       );
     });
 
@@ -144,11 +147,7 @@ describe("formDataPolicy", function () {
     });
 
     describe("file uploads", function () {
-      it("can upload a File object", async function () {
-        if (typeof File === "undefined") {
-          this.skip();
-        }
-
+      it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
         const result = await performRequest({
           file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
             type: "application/octet-stream",
@@ -170,11 +169,7 @@ describe("formDataPolicy", function () {
         assert.deepEqual([...buf], [1, 2, 3]);
       });
 
-      it("can upload a Blob object", async function () {
-        if (typeof Blob === "undefined") {
-          this.skip();
-        }
-
+      it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
         const result = await performRequest({
           file: new Blob([new Uint8Array([1, 2, 3])]),
         });
