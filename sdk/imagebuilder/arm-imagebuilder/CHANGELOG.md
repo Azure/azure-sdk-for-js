@@ -5,8 +5,6 @@
 **Features**
 
   - Added Interface ErrorAdditionalInfo
-  - Added Interface ErrorDetail
-  - Added Interface ErrorResponse
   - Added Interface ImageTemplatePropertiesErrorHandling
   - Added Interface ImageTemplateUpdateParametersProperties
   - Added Type Alias OnBuildError
@@ -18,8 +16,8 @@
     
 **Breaking Changes**
 
-  - Removed interface CloudError
-  - Removed interface CloudErrorBody
+  - Changed interface CloudError to ErrorResponse
+  - Changed interface CloudErrorBody ErrorDetail
 
   
 ## 3.0.0 (2023-03-24)
