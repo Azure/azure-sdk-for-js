@@ -41,6 +41,24 @@ export * from "./models";
  * Client options used to configure the SipRoutingClient API requests.
  */
 export interface SipRoutingClientOptions extends CommonClientOptions {}
+const getErrorTargetField = (error: any): string => {
+  const errorCodeToFieldName: Record<SipRoutingError["code"], string> = {
+    InvalidRouteName: "name",
+    InvalidRouteNumberPattern: "numberPattern",
+    RouteWithDuplicatedTrunk: "trunks",
+    InvalidRouteTrunk: "trunks",
+    MissingTrunk: "trunks",
+    InvalidTrunkSipSignalingPort: "port",
+    DuplicatedRoute: "routes",
+    InvalidTrunkFqdn: "fqdn",
+    InvalidDomain: "fqdn",
+  };
+  if (error && error.details && error.details.error && error.details.error.innerError) {
+    return errorCodeToFieldName[error.details.error.innerError.code];
+  } else {
+    return "unknown";
+  }
+};
 
 /**
  * Checks whether the type of a value is SipClientOptions or not.
@@ -301,7 +319,15 @@ export class SipRoutingClient {
           ...updatedOptions,
           ...update,
         };
-        config = await this.client.sipRouting.update(payload);
+        try {
+          config = await this.client.sipRouting.update(payload);
+        } catch (error: any) {
+          if (error.code === "UnprocessableConfiguration") {
+            throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
+          } else {
+            throw error;
+          }
+        }
       }
 
       return transformFromRestModel(config.trunks);
@@ -322,12 +348,22 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...update,
       };
-      const config = await this.client.sipRouting.update(payload);
-      const storedTrunk = transformFromRestModel(config.trunks).find(
-        (value: SipTrunk) => value.fqdn === trunk.fqdn,
-      );
-      if (storedTrunk) {
-        return storedTrunk;
+
+      try {
+        const config = await this.client.sipRouting.update(payload);
+        const storedTrunk = transformFromRestModel(config.trunks).find(
+            (value: SipTrunk) => value.fqdn === trunk.fqdn,
+        );
+
+        if (storedTrunk) {
+          return storedTrunk;
+        }
+      } catch (error: any) {
+        if (error.code === "UnprocessableConfiguration") {
+          throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
+        } else {
+          throw error;
+        }
       }
 
       throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
@@ -351,9 +387,19 @@ export class SipRoutingClient {
         ...updatedOptions,
         ...update,
       };
-      const config = await this.client.sipRouting.update(payload);
-      const storedRoutes = config.routes || (await this.getRoutesInternal(updatedOptions));
-      return storedRoutes;
+
+      try {
+        const config = await this.client.sipRouting.update(payload);
+        const storedRoutes = config.routes || (await this.getRoutesInternal(updatedOptions));
+
+        return storedRoutes;
+      } catch (error: any) {
+        if (error.code === "UnprocessableConfiguration") {
+          throw Object.assign(error as SipRoutingError, { target: getErrorTargetField(error) });
+        } else {
+          throw error;
+        }
+      }
     });
   }
 
