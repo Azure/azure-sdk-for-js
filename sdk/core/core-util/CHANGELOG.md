@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Created new "reshape" helper for serialization/deserialization operations on JS objects.
+
 ### Breaking Changes
 
 ### Bugs Fixed
@@ -21,7 +23,7 @@
 ### Features Added
 
 - Add support for hex encoding to `uint8ArrayToString` and `stringToUint8Array`
-- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data 
+- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data
   containing bytes which are not valid ISO/IEC 8859-1 (latin1) characters.
 
 ### Bugs Fixed
