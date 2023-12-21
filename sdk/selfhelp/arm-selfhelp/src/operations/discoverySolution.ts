@@ -38,15 +38,15 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
    * Lists the relevant Azure diagnostics and solutions using [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
    * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
-   * which identifies relevant Azure diagnostics and solutions. We will do our best to return the most
-   * effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
    * problemClassificationId (Use the [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
    * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
    * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
    * and Solutions API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
    * @param options The options parameters.
    */
   public list(
@@ -106,15 +106,15 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
    * Lists the relevant Azure diagnostics and solutions using [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP)) AND
    * resourceUri or resourceType.<br/> Discovery Solutions is the initial entry point within Help API,
-   * which identifies relevant Azure diagnostics and solutions. We will do our best to return the most
-   * effective solutions based on the type of inputs, in the request URL  <br/><br/> Mandatory input :
+   * which identifies relevant Azure diagnostics and solutions. <br/><br/> Required Input :
    * problemClassificationId (Use the [problemClassification
    * API](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP))
    * <br/>Optional input: resourceUri OR resource Type <br/><br/> <b>Note: </b>  ‘requiredInputs’ from
    * Discovery solutions response must be passed via ‘additionalParameters’ as an input to Diagnostics
    * and Solutions API.
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
    * @param options The options parameters.
    */
   private _list(
@@ -129,8 +129,9 @@ export class DiscoverySolutionImpl implements DiscoverySolution {
 
   /**
    * ListNext
-   * @param scope This is an extension resource provider and only resource level extension is supported
-   *              at the moment.
+   * @param scope scope = resourceUri of affected resource.<br/> For example:
+   *              /subscriptions/0d0fcd2e-c4fd-4349-8497-200edb3923c6/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-non-read
+   *
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

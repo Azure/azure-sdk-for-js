@@ -54,7 +54,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the HealthcareApisManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The subscription identifier.
+   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
@@ -78,7 +78,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-healthcareapis/2.2.1`;
+    const packageDetails = `azsdk-js-arm-healthcareapis/3.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -131,7 +131,7 @@ export class HealthcareApisManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-01";
+    this.apiVersion = options.apiVersion || "2023-11-01";
     this.services = new ServicesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
