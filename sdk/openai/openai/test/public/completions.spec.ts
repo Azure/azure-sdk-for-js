@@ -59,11 +59,11 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("listCompletions", function () {
+      describe("streamCompletions", function () {
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
           const modelName = "text-davinci-003";
-          await assertCompletionsStream(client.listCompletions(modelName, prompt), {
+          await assertCompletionsStream(await client.streamCompletions(modelName, prompt), {
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
             allowEmptyChoices: true,
@@ -129,7 +129,7 @@ describe("OpenAI", function () {
           ];
           const modelName = "text-davinci-003";
           await assertCompletionsStream(
-            client.listCompletions(modelName, prompt, {
+            await client.streamCompletions(modelName, prompt, {
               maxTokens: 2048,
             }),
             {
@@ -347,7 +347,7 @@ describe("OpenAI", function () {
           });
         });
 
-        describe("listChatCompletions", function () {
+        describe("streamChatCompletions", function () {
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(
@@ -358,8 +358,10 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                (deploymentName) =>
-                  bufferAsyncIterable(client.listChatCompletions(deploymentName, pirateMessages)),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.streamChatCompletions(deploymentName, pirateMessages)
+                  ),
                 (res) =>
                   assertChatCompletionsList(res, {
                     // The API returns an empty choice in the first event for some
@@ -386,9 +388,9 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                (deploymentName) =>
+                async (deploymentName) =>
                   bufferAsyncIterable(
-                    client.listChatCompletions(
+                    await client.streamChatCompletions(
                       deploymentName,
                       [{ role: "user", content: "What's the weather like in Boston?" }],
                       {
@@ -423,9 +425,9 @@ describe("OpenAI", function () {
                   chatCompletionDeployments,
                   chatCompletionModels
                 ),
-                (deploymentName) =>
+                async (deploymentName) =>
                   bufferAsyncIterable(
-                    client.listChatCompletions(deploymentName, byodMessages, {
+                    await client.streamChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {
                         extensions: [createAzureCognitiveSearchExtension()],
                       },

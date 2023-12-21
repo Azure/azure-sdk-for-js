@@ -6,7 +6,7 @@ import { assert } from "@azure/test-utils";
 export async function assertAsyncIterable<T>(
   iter: AsyncIterable<T>,
   count: number,
-  validate: (x: T, idx: number) => void
+  validate: (x: T, idx: number) => void,
 ): Promise<void> {
   let i = 0;
   for await (const item of iter) {

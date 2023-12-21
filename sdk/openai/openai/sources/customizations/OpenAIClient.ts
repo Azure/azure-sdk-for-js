@@ -9,8 +9,8 @@ import {
   getChatCompletions,
   getCompletions,
   getImages,
-  listChatCompletions,
-  listCompletions,
+  streamChatCompletions,
+  streamCompletions,
 } from "./api/client/openAIClient/index.js";
 import { Embeddings, ImageGenerations } from "../generated/src/models/models.js";
 import { getEmbeddings } from "../generated/src/api/client/openAIClient/index.js";
@@ -30,7 +30,7 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "./models/audio.js";
-import { ChatCompletions, ChatRequestMessage, Completions } from "./models/models.js";
+import { ChatCompletions, ChatRequestMessage, Completions, EventStream } from "./models/models.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -175,13 +175,13 @@ export class OpenAIClient {
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
-  listCompletions(
+  streamCompletions(
     deploymentName: string,
     prompt: string[],
     options: GetCompletionsOptions = {}
-  ): AsyncIterable<Omit<Completions, "usage">> {
+  ): Promise<EventStream<Omit<Completions, "usage">>> {
     this.setModel(deploymentName, options);
-    return listCompletions(this._client, deploymentName, prompt, options);
+    return streamCompletions(this._client, deploymentName, prompt, options);
   }
 
   /**
@@ -223,13 +223,13 @@ export class OpenAIClient {
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
-  listChatCompletions(
+  streamChatCompletions(
     deploymentName: string,
     messages: ChatRequestMessage[],
     options: GetChatCompletionsOptions = { requestOptions: {} }
-  ): AsyncIterable<ChatCompletions> {
+  ): Promise<EventStream<ChatCompletions>> {
     this.setModel(deploymentName, options);
-    return listChatCompletions(this._client, deploymentName, messages, options);
+    return streamChatCompletions(this._client, deploymentName, messages, options);
   }
 
   /**

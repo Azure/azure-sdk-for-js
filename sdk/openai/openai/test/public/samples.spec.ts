@@ -38,7 +38,7 @@ describe("README samples", () => {
         { role: "user", content: "What's the best way to train a parrot?" },
       ];
 
-      const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+      const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
       for await (const event of events) {
         for (const choice of event.choices) {
           const delta = choice.delta?.content;

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 /**
- * @summary processes server-sent events.
+ * @summary parses server-sent events.
  */
-import { iterateSseStream } from "@azure/core-sse";
+import { createSseStream } from "@azure/core-sse";
 
 function* createChunkedEvent(str: string, chunkLen: number): Iterable<Uint8Array> {
   const encoder = new TextEncoder();
@@ -31,7 +31,7 @@ function createStream(txt: string, chunkLen: number) {
 
 async function main() {
   const stream = createStream("hello world", 2);
-  const events = iterateSseStream(stream);
+  await using events = createSseStream(stream);
   for await (const event of events) {
     console.log(event.data);
   }

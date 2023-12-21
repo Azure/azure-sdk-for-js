@@ -31,6 +31,7 @@ import {
   CompletionsOptions,
   Embeddings,
   EmbeddingsOptions,
+  EventStream,
   ImageGenerations,
 } from "../../../models/models.js";
 import {
@@ -500,12 +501,12 @@ export async function getEmbeddings(
   return _getEmbeddingsDeserialize(result);
 }
 
-export function listCompletions(
+export function streamCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<Completions, "usage">> {
+): Promise<EventStream<Omit<Completions, "usage">>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
@@ -536,12 +537,12 @@ export async function getImages(
   return _getImageGenerationsDeserialize(result);
 }
 
-export function listChatCompletions(
+export function streamChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
   options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletions> {
+): Promise<EventStream<ChatCompletions>> {
   const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,

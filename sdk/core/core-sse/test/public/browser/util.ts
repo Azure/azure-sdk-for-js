@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventMessage, iterateSseStream } from "../../src/index.js";
+import { EventMessage, createSseStream } from "../../../src/index.js";
 
 export function createStream(
-  cb: (write: (chunk: Uint8Array) => void) => void
+  cb: (write: (chunk: Uint8Array) => void) => void,
 ): AsyncIterable<EventMessage> {
   const stream = new ReadableStream({
     start(controller) {
@@ -12,5 +12,5 @@ export function createStream(
       controller.close();
     },
   });
-  return iterateSseStream(stream);
+  return createSseStream(stream);
 }

@@ -26,7 +26,12 @@ import {
   ChatRequestMessage as RestChatRequestMessage,
 } from "../../../../generated/src/rest/index.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { ChatCompletions, ChatRequestMessage, Completions } from "../../../models/models.js";
+import {
+  ChatCompletions,
+  ChatRequestMessage,
+  Completions,
+  EventStream,
+} from "../../../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
 import { GetImagesOptions } from "../../../models/options.js";
 import { camelCaseKeys, snakeCaseKeys } from "../../util.js";
@@ -58,12 +63,12 @@ export async function _getCompletionsDeserialize(
   return getCompletionsResult(result.body);
 }
 
-export function listCompletions(
+export function streamCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
   options: GetCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<Completions, "usage">> {
+): Promise<EventStream<Omit<Completions, "usage">>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
@@ -158,12 +163,12 @@ function _getChatCompletionsSendX(
     : _getChatCompletionsSend(context, deploymentName, { messages, ...rest }, coreOptions);
 }
 
-export function listChatCompletions(
+export function streamChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
   options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletions> {
+): Promise<EventStream<ChatCompletions>> {
   const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,

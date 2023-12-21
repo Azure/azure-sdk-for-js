@@ -9,7 +9,7 @@
  */
 
 import { AzureKeyCredential } from "@azure/openai";
-import { listCompletions, createOpenAI } from "@azure/openai/api";
+import { streamCompletions, createOpenAI } from "@azure/openai/api";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -26,7 +26,7 @@ export async function main() {
 
   const client = createOpenAI(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
-  const events = listCompletions(client, deploymentId, prompt, { maxTokens: 128 });
+  const events = await streamCompletions(client, deploymentId, prompt, { maxTokens: 128 });
 
   for await (const event of events) {
     for (const choice of event.choices) {
