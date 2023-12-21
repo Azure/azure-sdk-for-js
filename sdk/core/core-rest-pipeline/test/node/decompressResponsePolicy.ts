@@ -3,7 +3,7 @@
 
 import { assert, describe, it, vi } from "vitest";
 
-import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
+import { type SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
 
 describe("decompressResponsePolicy (node)", function () {
   it("Sets the expected flag on the request", function () {

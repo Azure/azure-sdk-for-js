@@ -3,11 +3,11 @@
 
 import { assert, describe, it, beforeEach, afterEach, vi } from "vitest";
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  AuthorizeRequestOnChallengeOptions,
-  HttpClient,
-  PipelineResponse,
+  type AuthorizeRequestOnChallengeOptions,
+  type HttpClient,
+  type PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,

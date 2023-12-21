@@ -4,9 +4,9 @@
 import { assert, describe, it, vi } from "vitest";
 
 import {
-  HttpClient,
-  PipelineResponse,
-  SendRequest,
+  type HttpClient,
+  type PipelineResponse,
+  type SendRequest,
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,

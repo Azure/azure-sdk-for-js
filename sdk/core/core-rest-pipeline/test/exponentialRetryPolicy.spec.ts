@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, afterEach, vi, expect } from "vitest";
+import { describe, it, afterEach, vi, expect } from "vitest";
 
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   exponentialRetryPolicy,

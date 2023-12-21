@@ -4,7 +4,7 @@
 import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
 
-import { HttpClient } from "../../src/interfaces";
+import type { HttpClient } from "../../src/interfaces";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert, describe, it, afterEach, vi } from "vitest";
 import { createEmptyPipeline } from "../../src/pipeline";

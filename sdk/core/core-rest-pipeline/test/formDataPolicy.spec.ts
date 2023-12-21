@@ -4,15 +4,15 @@
 import { assert, describe, it, vi, expect } from "vitest";
 
 import {
-  PipelineResponse,
-  SendRequest,
+  type PipelineResponse,
+  type SendRequest,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
   multipartPolicy,
 } from "../src";
-import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
+import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
 import { createFile } from "../src/util/file";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {

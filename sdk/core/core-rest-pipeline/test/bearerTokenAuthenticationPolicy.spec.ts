@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it, beforeEach, afterEach, vi, expect } from "vitest";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
-  PipelinePolicy,
-  PipelineResponse,
-  SendRequest,
+  type PipelinePolicy,
+  type PipelineResponse,
+  type SendRequest,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,

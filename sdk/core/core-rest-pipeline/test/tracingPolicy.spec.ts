@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi, afterEach, beforeEach, Mock, expect } from "vitest";
+import { assert, describe, it, vi, afterEach, beforeEach, expect, type Mock } from "vitest";
 import {
-  PipelineRequest,
-  PipelineResponse,
+  type PipelineRequest,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
 } from "../src";
 import {
-  Instrumenter,
-  InstrumenterSpanOptions,
-  SpanStatus,
-  TracingContext,
-  TracingSpan,
-  TracingSpanOptions,
+  type Instrumenter,
+  type InstrumenterSpanOptions,
+  type SpanStatus,
+  type TracingContext,
+  type TracingSpan,
+  type TracingSpanOptions,
   useInstrumenter,
 } from "@azure/core-tracing";
 

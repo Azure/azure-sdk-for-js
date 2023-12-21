@@ -3,7 +3,7 @@
 
 import { assert, describe, it } from "vitest";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { MultipartRequestBody } from "../../src/interfaces";
+import type { MultipartRequestBody } from "../../src/interfaces";
 import { isBlob } from "../../src/util/typeGuards";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec";

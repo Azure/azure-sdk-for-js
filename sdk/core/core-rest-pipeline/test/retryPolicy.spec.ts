@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   retryPolicy,

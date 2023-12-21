@@ -4,8 +4,8 @@
 import { assert, describe, it, vi } from "vitest";
 
 import {
-  PipelineResponse,
-  SendRequest,
+  type PipelineResponse,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   ndJsonPolicy,

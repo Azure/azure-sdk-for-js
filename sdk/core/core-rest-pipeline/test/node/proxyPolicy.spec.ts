@@ -4,8 +4,8 @@
 import { assert, describe, it, vi, afterEach } from "vitest";
 
 import {
-  ProxySettings,
-  SendRequest,
+  type ProxySettings,
+  type SendRequest,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,

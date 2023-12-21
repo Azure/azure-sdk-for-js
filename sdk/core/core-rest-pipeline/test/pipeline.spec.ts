@@ -3,8 +3,8 @@
 
 import { assert, describe, it } from "vitest";
 import {
-  HttpClient,
-  PipelinePolicy,
+  type HttpClient,
+  type PipelinePolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineFromOptions,

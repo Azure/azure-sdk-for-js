@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
-import { PipelinePolicy } from "../src/pipeline";
+import type { PipelinePolicy } from "../src/pipeline";
 import { assert, describe, it, vi } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions";
@@ -51,7 +51,7 @@ describe("defaultLogPolicy", function () {
     const order: string[] = [];
     for (const policy of orderedPolicies) {
       const originalSendRequest = policy.sendRequest;
-      const stub = vi.spyOn(policy, "sendRequest").mockImplementation(async function (req, next) {
+      vi.spyOn(policy, "sendRequest").mockImplementation(async function (req, next) {
         order.push(policy.name);
         return originalSendRequest(req, next);
       });
