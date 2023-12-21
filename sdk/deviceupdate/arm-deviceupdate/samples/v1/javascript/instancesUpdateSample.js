@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates instance's tags.
  *
  * @summary Updates instance's tags.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Update.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_Update.json
  */
 async function updatesInstance() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function updatesInstance() {
     resourceGroupName,
     accountName,
     instanceName,
-    tagUpdatePayload
+    tagUpdatePayload,
   );
   console.log(result);
 }

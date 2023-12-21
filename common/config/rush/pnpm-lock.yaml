@@ -4993,7 +4993,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231220
+      typescript: 5.4.0-dev.20231221
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9748,8 +9748,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231220:
-    resolution: {integrity: sha512-gO+86xJ5TnxXTrU2jXZewS9x95rKXCGpDuYUmdKC8rVfEchLrcH2LASQUXguQ2yinln8lrCttDZfO4d6gpuE4g==}
+  /typescript@5.4.0-dev.20231221:
+    resolution: {integrity: sha512-vsu9WExlMAmSoA/elxcmBTyRDyf9REJCKV2DowCmSpp+oqv+oq0yku8490q1r2YBC7o9DP+u/q58J5sjqaAD+g==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12787,7 +12787,7 @@ packages:
     dev: false
 
   file:projects/arm-dataprotection.tgz:
-    resolution: {integrity: sha512-/HYSXKUqoXw7ItgHKd9geFxTbUghbv3KD4BlNnrvYD8FzzFhKp0JtTW1IIMvI0zxN3IkmiR58H+QKuH+IETg6w==, tarball: file:projects/arm-dataprotection.tgz}
+    resolution: {integrity: sha512-kignDmcYwtjGgI8iuPq+abxZXJS/x3aYNkw2N01HtagCKHyB7od/p3uzaF8rMhIMoLCrEst3UPCQlqbUem+vkA==, tarball: file:projects/arm-dataprotection.tgz}
     name: '@rush-temp/arm-dataprotection'
     version: 0.0.0
     dependencies:
@@ -12795,13 +12795,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -12966,7 +12968,7 @@ packages:
     dev: false
 
   file:projects/arm-deviceupdate.tgz:
-    resolution: {integrity: sha512-QfgtbUUfqWAENkSLylG0HTKRdZQZGLqp6lZ267iYnpuSJ0GIEOpj6RCQwbrvPSY529O8TvFbfKE4i8crN9HhHg==, tarball: file:projects/arm-deviceupdate.tgz}
+    resolution: {integrity: sha512-xPsOtef95b/7bgPauzL7dSClkVY1CcYjpwUFXbfjW+SD4D2pW0tBm/ElMrEpKIm0sSMgjWF51dLZ/F14qsVujA==, tarball: file:projects/arm-deviceupdate.tgz}
     name: '@rush-temp/arm-deviceupdate'
     version: 0.0.0
     dependencies:
@@ -12974,13 +12976,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -13608,7 +13612,7 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-BKRjUU58qQij+LSvc/DfUqAN5ZNbmC9yKS6ACnmEyEmp0a3qj+E1z0L6ilukRB/bwNSQyt2ioAOgVEy7T18mWg==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-ml5HJ/RXXNKw7NQg5Xsv+MyRwaKdaqLV7UEp4HoYQIHp6wFMBVNXiKUsTqXMafsdIcG0a2Aa009DsC+6+mK7Qw==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
@@ -13616,12 +13620,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -13739,7 +13746,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-3R2W+3kcy+uVoqNoKhclt+WsIEk6hUESAEGmnqYEdhT8vCxPy6O4W65v1oWB82c+gbxqyaGh3kYRw9Bdw3y9cA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-jy4nsfvNSrj5Sm0Pm/CS0HOMBxxdTCbxFBbjcXKbi1E0UnhrvwrJEgvS0XeGh8oSIhV/A8yNYClO4Vc9dJA8Mg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -13747,13 +13754,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -15972,7 +15981,7 @@ packages:
     dev: false
 
   file:projects/arm-selfhelp.tgz:
-    resolution: {integrity: sha512-I2D4Nw41CkC/UzLq1eqTLBpKYWRj/JRWGfZb91veLqHgzyOCbharjz6fuJWLQtY3p4T/Ur1xYlm0iwpuo6qmZQ==, tarball: file:projects/arm-selfhelp.tgz}
+    resolution: {integrity: sha512-DSdz5cwu1caW7HIjJ4XrQEP7bNwMAjBSqII747IMgOuciq2tLkCHoMvtjntLPXOheqM7ANqdYWAjm3IE2Uhm+Q==, tarball: file:projects/arm-selfhelp.tgz}
     name: '@rush-temp/arm-selfhelp'
     version: 0.0.0
     dependencies:
@@ -15980,10 +15989,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
