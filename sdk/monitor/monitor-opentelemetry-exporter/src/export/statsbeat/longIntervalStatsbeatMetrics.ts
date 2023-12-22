@@ -41,7 +41,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "sdk";
+  private attach: string = "Manual";
 
   private commonProperties: CommonStatsbeatProperties;
   private attachProperties: AttachStatsbeatProperties;
