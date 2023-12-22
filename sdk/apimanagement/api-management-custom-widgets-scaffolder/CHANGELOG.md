@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- added a prefix to result of "displayNameToName" function to prevent conflicts in name with existing, build-in widgets
+
 ### Bugs Fixed
 
 ### Other Changes
