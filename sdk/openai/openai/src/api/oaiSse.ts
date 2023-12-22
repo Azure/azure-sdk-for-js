@@ -18,7 +18,7 @@ import { polyfillStream } from "./readableStreamUtils.js";
 
 export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   response: StreamableMethod<unknown>,
-  toEvent: (obj: O) => TEvent
+  toEvent: (obj: O) => TEvent,
 ): Promise<EventStream<TEvent>> {
   const stringStream = await getStream(response);
   const eventStream = createSseStream(stringStream);
@@ -32,9 +32,9 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
         toEvent(
           wrapError(
             () => JSON.parse(chunk.data),
-            "Error parsing an event. See 'cause' for more details"
-          )
-        )
+            "Error parsing an event. See 'cause' for more details",
+          ),
+        ),
       );
     },
   });

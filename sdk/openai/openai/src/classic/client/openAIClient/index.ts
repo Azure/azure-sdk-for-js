@@ -51,47 +51,47 @@ export interface ClientOpenAIClientOperations {
   getAudioTranscriptionAsPlainText: (
     deploymentId: string,
     body: AudioTranscriptionOptions,
-    options?: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions
+    options?: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions,
   ) => Promise<string>;
   getAudioTranscriptionAsResponseObject: (
     deploymentId: string,
     body: AudioTranscriptionOptions,
-    options?: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions
+    options?: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions,
   ) => Promise<AudioTranscription>;
   getAudioTranslationAsPlainText: (
     deploymentId: string,
     body: AudioTranslationOptions,
-    options?: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions
+    options?: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions,
   ) => Promise<string>;
   getAudioTranslationAsResponseObject: (
     deploymentId: string,
     body: AudioTranslationOptions,
-    options?: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions
+    options?: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions,
   ) => Promise<AudioTranslation>;
   getCompletions: (
     deploymentId: string,
     body: CompletionsOptions,
-    options?: ClientOpenAIClientGetCompletionsOptions
+    options?: ClientOpenAIClientGetCompletionsOptions,
   ) => Promise<Completions>;
   getChatCompletions: (
     deploymentId: string,
     body: ChatCompletionsOptions,
-    options?: ClientOpenAIClientGetChatCompletionsOptions
+    options?: ClientOpenAIClientGetChatCompletionsOptions,
   ) => Promise<ChatCompletions>;
   getChatCompletionsWithAzureExtensions: (
     deploymentId: string,
     body: ChatCompletionsOptions,
-    options?: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions
+    options?: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions,
   ) => Promise<ChatCompletions>;
   getImageGenerations: (
     deploymentId: string,
     body: ImageGenerationOptions,
-    options?: ClientOpenAIClientGetImageGenerationsOptions
+    options?: ClientOpenAIClientGetImageGenerationsOptions,
   ) => Promise<ImageGenerations>;
   getEmbeddings: (
     deploymentId: string,
     body: EmbeddingsOptions,
-    options?: ClientOpenAIClientGetEmbeddingsOptions
+    options?: ClientOpenAIClientGetEmbeddingsOptions,
   ) => Promise<Embeddings>;
 }
 
@@ -100,53 +100,53 @@ export function getClientOpenAIClient(context: OpenAIContext): ClientOpenAIClien
     getAudioTranscriptionAsPlainText: (
       deploymentId: string,
       body: AudioTranscriptionOptions,
-      options?: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions
+      options?: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions,
     ) => getAudioTranscriptionAsPlainText(context, deploymentId, body, options),
     getAudioTranscriptionAsResponseObject: (
       deploymentId: string,
       body: AudioTranscriptionOptions,
-      options?: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions
+      options?: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions,
     ) => getAudioTranscriptionAsResponseObject(context, deploymentId, body, options),
     getAudioTranslationAsPlainText: (
       deploymentId: string,
       body: AudioTranslationOptions,
-      options?: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions
+      options?: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions,
     ) => getAudioTranslationAsPlainText(context, deploymentId, body, options),
     getAudioTranslationAsResponseObject: (
       deploymentId: string,
       body: AudioTranslationOptions,
-      options?: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions
+      options?: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions,
     ) => getAudioTranslationAsResponseObject(context, deploymentId, body, options),
     getCompletions: (
       deploymentId: string,
       body: CompletionsOptions,
-      options?: ClientOpenAIClientGetCompletionsOptions
+      options?: ClientOpenAIClientGetCompletionsOptions,
     ) => getCompletions(context, deploymentId, body.prompt, { ...body, ...options }),
     getChatCompletions: (
       deploymentId: string,
       body: ChatCompletionsOptions,
-      options?: ClientOpenAIClientGetChatCompletionsOptions
+      options?: ClientOpenAIClientGetChatCompletionsOptions,
     ) => getChatCompletions(context, deploymentId, body.messages, { ...body, ...options }),
     getChatCompletionsWithAzureExtensions: (
       deploymentId: string,
       body: ChatCompletionsOptions,
-      options?: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions
+      options?: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions,
     ) => getChatCompletionsWithAzureExtensions(context, deploymentId, body, options),
     getImageGenerations: (
       deploymentId: string,
       body: ImageGenerationOptions,
-      options?: ClientOpenAIClientGetImageGenerationsOptions
+      options?: ClientOpenAIClientGetImageGenerationsOptions,
     ) => getImageGenerations(context, deploymentId, body, options),
     getEmbeddings: (
       deploymentId: string,
       body: EmbeddingsOptions,
-      options?: ClientOpenAIClientGetEmbeddingsOptions
+      options?: ClientOpenAIClientGetEmbeddingsOptions,
     ) => getEmbeddings(context, deploymentId, body, options),
   };
 }
 
 export function getClientOpenAIClientOperations(
-  context: OpenAIContext
+  context: OpenAIContext,
 ): ClientOpenAIClientOperations {
   return {
     ...getClientOpenAIClient(context),

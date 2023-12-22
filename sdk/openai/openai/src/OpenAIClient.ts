@@ -116,7 +116,7 @@ export class OpenAIClient {
   constructor(
     endpointOrOpenAiKey: string | KeyCredential,
     credOrOptions: KeyCredential | TokenCredential | OpenAIClientOptions = {},
-    options: OpenAIClientOptions = {}
+    options: OpenAIClientOptions = {},
   ) {
     let opts: OpenAIClientOptions;
     let endpoint: string;
@@ -165,7 +165,7 @@ export class OpenAIClient {
   getCompletions(
     deploymentName: string,
     prompt: string[],
-    options: GetCompletionsOptions = { requestOptions: {} }
+    options: GetCompletionsOptions = { requestOptions: {} },
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
     return getCompletions(this._client, deploymentName, prompt, options);
@@ -181,7 +181,7 @@ export class OpenAIClient {
   streamCompletions(
     deploymentName: string,
     prompt: string[],
-    options: GetCompletionsOptions = {}
+    options: GetCompletionsOptions = {},
   ): Promise<EventStream<Omit<Completions, "usage">>> {
     this.setModel(deploymentName, options);
     return streamCompletions(this._client, deploymentName, prompt, options);
@@ -197,7 +197,7 @@ export class OpenAIClient {
   getEmbeddings(
     deploymentName: string,
     input: string[],
-    options: GetEmbeddingsOptions = { requestOptions: {} }
+    options: GetEmbeddingsOptions = { requestOptions: {} },
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
     return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
@@ -213,7 +213,7 @@ export class OpenAIClient {
   getChatCompletions(
     deploymentName: string,
     messages: ChatRequestMessage[],
-    options: GetChatCompletionsOptions = { requestOptions: {} }
+    options: GetChatCompletionsOptions = { requestOptions: {} },
   ): Promise<ChatCompletions> {
     this.setModel(deploymentName, options);
     return getChatCompletions(this._client, deploymentName, messages, options);
@@ -229,7 +229,7 @@ export class OpenAIClient {
   streamChatCompletions(
     deploymentName: string,
     messages: ChatRequestMessage[],
-    options: GetChatCompletionsOptions = { requestOptions: {} }
+    options: GetChatCompletionsOptions = { requestOptions: {} },
   ): Promise<EventStream<ChatCompletions>> {
     this.setModel(deploymentName, options);
     return streamChatCompletions(this._client, deploymentName, messages, options);
@@ -245,7 +245,7 @@ export class OpenAIClient {
   getImages(
     deploymentName: string,
     prompt: string,
-    options: GetImagesOptions = { requestOptions: {} }
+    options: GetImagesOptions = { requestOptions: {} },
   ): Promise<ImageGenerations> {
     this.setModel(deploymentName, options);
     return getImages(this._client, deploymentName, prompt, options);
@@ -261,7 +261,7 @@ export class OpenAIClient {
   async getAudioTranscription(
     deploymentName: string,
     fileContent: Uint8Array,
-    options?: GetAudioTranscriptionOptions
+    options?: GetAudioTranscriptionOptions,
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the transcription of an audio file.
@@ -275,13 +275,13 @@ export class OpenAIClient {
     deploymentName: string,
     fileContent: Uint8Array,
     format: Format,
-    options?: GetAudioTranscriptionOptions
+    options?: GetAudioTranscriptionOptions,
   ): Promise<AudioResult<Format>>;
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
     formatOrOptions?: Format | GetAudioTranscriptionOptions,
-    inputOptions?: GetAudioTranscriptionOptions
+    inputOptions?: GetAudioTranscriptionOptions,
   ): Promise<AudioResult<Format>> {
     const options =
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -298,7 +298,7 @@ export class OpenAIClient {
       deploymentName,
       fileContent,
       response_format,
-      options
+      options,
     );
   }
 
@@ -312,7 +312,7 @@ export class OpenAIClient {
   async getAudioTranslation(
     deploymentName: string,
     fileContent: Uint8Array,
-    options?: GetAudioTranslationOptions
+    options?: GetAudioTranslationOptions,
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the translation of an audio file.
@@ -326,13 +326,13 @@ export class OpenAIClient {
     deploymentName: string,
     fileContent: Uint8Array,
     format: Format,
-    options?: GetAudioTranslationOptions
+    options?: GetAudioTranslationOptions,
   ): Promise<AudioResult<Format>>;
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
     formatOrOptions?: Format | GetAudioTranslationOptions,
-    inputOptions?: GetAudioTranslationOptions
+    inputOptions?: GetAudioTranslationOptions,
   ): Promise<AudioResult<Format>> {
     const options =
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});

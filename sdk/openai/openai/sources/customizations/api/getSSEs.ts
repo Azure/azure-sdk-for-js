@@ -6,7 +6,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 import { wrapError } from "./util.js";
 
 export async function getStream<TResponse>(
-  response: StreamableMethod<TResponse>
+  response: StreamableMethod<TResponse>,
 ): Promise<NodeJS.ReadableStream> {
   const { body, status } = await response.asNodeStream();
   if (status !== "200" && body !== undefined) {
@@ -39,7 +39,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
         reject(
           new RestError(`Error reading response as text: ${e.message}`, {
             code: RestError.PARSE_ERROR,
-          })
+          }),
         );
       }
     });

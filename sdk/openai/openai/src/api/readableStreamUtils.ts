@@ -11,7 +11,7 @@
 
 export function polyfillStream<T>(
   stream: ReadableStream<T>,
-  dispose: () => PromiseLike<void>
+  dispose: () => PromiseLike<void>,
 ): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
   makeAsyncIterable<T>(stream);
   makeAsyncDisposable(stream, dispose);
@@ -20,7 +20,7 @@ export function polyfillStream<T>(
 
 function makeAsyncDisposable<T>(
   webStream: any,
-  dispose: () => PromiseLike<void>
+  dispose: () => PromiseLike<void>,
 ): asserts webStream is ReadableStream<T> & AsyncDisposable {
   (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
   if (!webStream[Symbol.asyncDispose]) {
@@ -29,7 +29,7 @@ function makeAsyncDisposable<T>(
 }
 
 function makeAsyncIterable<T>(
-  webStream: any
+  webStream: any,
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
     webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
