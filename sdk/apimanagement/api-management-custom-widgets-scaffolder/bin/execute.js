@@ -27,10 +27,11 @@ const OVERRIDE_DEFAULT_PORT = 3000;
 const TECHNOLOGIES = ["typescript", "react", "vue"];
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
+ * Prefix "cw-" to avoid conflicts with existing widgets.
  *
  * @param displayName - User defined name of the custom widget.
  */
-const displayNameToName = (displayName) => encodeURIComponent(displayName
+const displayNameToName = (displayName) => encodeURIComponent(("cw-" + displayName)
     .normalize("NFD")
     .toLowerCase()
     .replace(/[\u0300-\u036f]/g, "")
