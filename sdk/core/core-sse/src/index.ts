@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-declare global {
-  interface ReadableStream<R = any> {}
-}
-
-export { EventMessage, iterateSseStream } from "./sse.js";
+export { createSseStream } from "./sse.js";
+export { EventMessage, EventMessageStream } from "./models.js";

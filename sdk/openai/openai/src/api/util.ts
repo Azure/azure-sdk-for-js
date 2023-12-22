@@ -45,8 +45,8 @@ export function camelCaseKeys<O extends Record<string, any>>(obj: O): CamelCaseK
   if (Array.isArray(obj)) {
     return obj.map((v) =>
       camelCaseKeys<O extends Array<infer X> ? (X extends Record<string, any> ? X : never) : never>(
-        v
-      )
+        v,
+      ),
     ) as CamelCaseKeys<O>;
   } else {
     for (const key of Object.keys(obj)) {
@@ -67,8 +67,8 @@ export function snakeCaseKeys<O extends Record<string, any>>(obj: O): SnakeCaseK
   if (Array.isArray(obj)) {
     return obj.map((v) =>
       snakeCaseKeys<O extends Array<infer X> ? (X extends Record<string, any> ? X : never) : never>(
-        v
-      )
+        v,
+      ),
     ) as SnakeCaseKeys<O>;
   } else {
     for (const key of Object.keys(obj)) {

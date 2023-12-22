@@ -1,6 +1,6 @@
 # Release History
 
-## 19.5.1 (Unreleased)
+## 19.6.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,196 @@
 
 ### Other Changes
 
+## 19.6.0 (2023-12-21)
+    
+**Features**
+
+  - Added Interface AgentPoolNetworkProfile
+  - Added Interface IPTag
+  - Added Interface PortRange
+  - Added Type Alias BackendPoolType
+  - Added Type Alias Protocol
+  - Interface AgentPool has a new optional parameter capacityReservationGroupID
+  - Interface AgentPool has a new optional parameter networkProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
+  - Added Enum KnownBackendPoolType
+  - Added Enum KnownProtocol
+    
+    
+## 19.6.0-beta.1 (2023-11-30)
+    
+**Features**
+
+  - Added operation group Machines
+  - Added operation group ManagedClusterSnapshots
+  - Added operation group OperationStatusResultOperations
+  - Added operation AgentPools.beginDeleteMachines
+  - Added operation AgentPools.beginDeleteMachinesAndWait
+  - Added operation ManagedClusters.getGuardrailsVersions
+  - Added operation ManagedClusters.listGuardrailsVersions
+  - Added Interface AgentPoolArtifactStreamingProfile
+  - Added Interface AgentPoolDeleteMachinesParameter
+  - Added Interface AgentPoolGPUProfile
+  - Added Interface AgentPoolNetworkProfile
+  - Added Interface AgentPoolsDeleteMachinesHeaders
+  - Added Interface AgentPoolsDeleteMachinesOptionalParams
+  - Added Interface AgentPoolSecurityProfile
+  - Added Interface AgentPoolWindowsProfile
+  - Added Interface ContainerServiceNetworkProfileKubeProxyConfig
+  - Added Interface ContainerServiceNetworkProfileKubeProxyConfigIpvsConfig
+  - Added Interface GuardrailsAvailableVersion
+  - Added Interface GuardrailsAvailableVersionsList
+  - Added Interface GuardrailsAvailableVersionsProperties
+  - Added Interface GuardrailsProfile
+  - Added Interface IPTag
+  - Added Interface Machine
+  - Added Interface MachineIpAddress
+  - Added Interface MachineListResult
+  - Added Interface MachineNetworkProperties
+  - Added Interface MachineProperties
+  - Added Interface MachinesGetOptionalParams
+  - Added Interface MachinesListNextOptionalParams
+  - Added Interface MachinesListOptionalParams
+  - Added Interface ManagedClusterAIToolchainOperatorProfile
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoring
+  - Added Interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+  - Added Interface ManagedClusterAzureMonitorProfileContainerInsights
+  - Added Interface ManagedClusterAzureMonitorProfileLogs
+  - Added Interface ManagedClusterAzureMonitorProfileWindowsHostLogs
+  - Added Interface ManagedClusterCostAnalysis
+  - Added Interface ManagedClusterIngressProfile
+  - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Added Interface ManagedClusterMetricsProfile
+  - Added Interface ManagedClusterNodeProvisioningProfile
+  - Added Interface ManagedClusterNodeResourceGroupProfile
+  - Added Interface ManagedClusterPropertiesForSnapshot
+  - Added Interface ManagedClusterSecurityProfileImageIntegrity
+  - Added Interface ManagedClusterSecurityProfileNodeRestriction
+  - Added Interface ManagedClustersGetGuardrailsVersionsOptionalParams
+  - Added Interface ManagedClustersListGuardrailsVersionsNextOptionalParams
+  - Added Interface ManagedClustersListGuardrailsVersionsOptionalParams
+  - Added Interface ManagedClusterSnapshot
+  - Added Interface ManagedClusterSnapshotListResult
+  - Added Interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
+  - Added Interface ManagedClusterSnapshotsDeleteOptionalParams
+  - Added Interface ManagedClusterSnapshotsGetOptionalParams
+  - Added Interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
+  - Added Interface ManagedClusterSnapshotsListByResourceGroupOptionalParams
+  - Added Interface ManagedClusterSnapshotsListNextOptionalParams
+  - Added Interface ManagedClusterSnapshotsListOptionalParams
+  - Added Interface ManagedClusterSnapshotsUpdateTagsOptionalParams
+  - Added Interface ManualScaleProfile
+  - Added Interface NetworkMonitoring
+  - Added Interface NetworkProfileForSnapshot
+  - Added Interface OperationStatusResult
+  - Added Interface OperationStatusResultGetByAgentPoolOptionalParams
+  - Added Interface OperationStatusResultGetOptionalParams
+  - Added Interface OperationStatusResultList
+  - Added Interface OperationStatusResultListNextOptionalParams
+  - Added Interface OperationStatusResultListOptionalParams
+  - Added Interface PortRange
+  - Added Interface ScaleProfile
+  - Added Interface VirtualMachineNodes
+  - Added Interface VirtualMachinesProfile
+  - Added Type Alias AddonAutoscaling
+  - Added Type Alias AgentPoolsDeleteMachinesResponse
+  - Added Type Alias AgentPoolSSHAccess
+  - Added Type Alias BackendPoolType
+  - Added Type Alias GuardrailsSupport
+  - Added Type Alias IpvsScheduler
+  - Added Type Alias Level
+  - Added Type Alias MachinesGetResponse
+  - Added Type Alias MachinesListNextResponse
+  - Added Type Alias MachinesListResponse
+  - Added Type Alias ManagedClustersGetGuardrailsVersionsResponse
+  - Added Type Alias ManagedClustersListGuardrailsVersionsNextResponse
+  - Added Type Alias ManagedClustersListGuardrailsVersionsResponse
+  - Added Type Alias ManagedClusterSnapshotsCreateOrUpdateResponse
+  - Added Type Alias ManagedClusterSnapshotsGetResponse
+  - Added Type Alias ManagedClusterSnapshotsListByResourceGroupNextResponse
+  - Added Type Alias ManagedClusterSnapshotsListByResourceGroupResponse
+  - Added Type Alias ManagedClusterSnapshotsListNextResponse
+  - Added Type Alias ManagedClusterSnapshotsListResponse
+  - Added Type Alias ManagedClusterSnapshotsUpdateTagsResponse
+  - Added Type Alias Mode
+  - Added Type Alias NodeProvisioningMode
+  - Added Type Alias OperationStatusResultGetByAgentPoolResponse
+  - Added Type Alias OperationStatusResultGetResponse
+  - Added Type Alias OperationStatusResultListNextResponse
+  - Added Type Alias OperationStatusResultListResponse
+  - Added Type Alias Protocol
+  - Added Type Alias RestrictionLevel
+  - Interface AgentPool has a new optional parameter artifactStreamingProfile
+  - Interface AgentPool has a new optional parameter capacityReservationGroupID
+  - Interface AgentPool has a new optional parameter enableCustomCATrust
+  - Interface AgentPool has a new optional parameter gpuProfile
+  - Interface AgentPool has a new optional parameter messageOfTheDay
+  - Interface AgentPool has a new optional parameter networkProfile
+  - Interface AgentPool has a new optional parameter nodeInitializationTaints
+  - Interface AgentPool has a new optional parameter securityProfile
+  - Interface AgentPool has a new optional parameter virtualMachineNodesStatus
+  - Interface AgentPool has a new optional parameter virtualMachinesProfile
+  - Interface AgentPool has a new optional parameter windowsProfile
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
+  - Interface ContainerServiceNetworkProfile has a new optional parameter kubeProxyConfig
+  - Interface ContainerServiceNetworkProfile has a new optional parameter monitoring
+  - Interface ManagedCluster has a new optional parameter aiToolchainOperatorProfile
+  - Interface ManagedCluster has a new optional parameter creationData
+  - Interface ManagedCluster has a new optional parameter enableNamespaceResources
+  - Interface ManagedCluster has a new optional parameter guardrailsProfile
+  - Interface ManagedCluster has a new optional parameter ingressProfile
+  - Interface ManagedCluster has a new optional parameter metricsProfile
+  - Interface ManagedCluster has a new optional parameter nodeProvisioningProfile
+  - Interface ManagedCluster has a new optional parameter nodeResourceGroupProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter artifactStreamingProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter capacityReservationGroupID
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter enableCustomCATrust
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter gpuProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter messageOfTheDay
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter networkProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter nodeInitializationTaints
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter securityProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter virtualMachineNodesStatus
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter virtualMachinesProfile
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter windowsProfile
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter enableVnetIntegration
+  - Interface ManagedClusterAPIServerAccessProfile has a new optional parameter subnetId
+  - Interface ManagedClusterAzureMonitorProfile has a new optional parameter logs
+  - Interface ManagedClusterAzureMonitorProfileMetrics has a new optional parameter appMonitoringOpenTelemetryMetrics
+  - Interface ManagedClusterHttpProxyConfig has a new optional parameter effectiveNoProxy
+  - Interface ManagedClusterLoadBalancerProfile has a new optional parameter backendPoolType
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForEmptyNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter daemonsetEvictionForOccupiedNodes
+  - Interface ManagedClusterPropertiesAutoScalerProfile has a new optional parameter ignoreDaemonsetsUtilization
+  - Interface ManagedClustersDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+  - Interface ManagedClusterSecurityProfile has a new optional parameter customCATrustCertificates
+  - Interface ManagedClusterSecurityProfile has a new optional parameter imageIntegrity
+  - Interface ManagedClusterSecurityProfile has a new optional parameter nodeRestriction
+  - Interface ManagedClusterStorageProfileDiskCSIDriver has a new optional parameter version
+  - Interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler has a new optional parameter addonAutoscaling
+  - Added Enum KnownAddonAutoscaling
+  - Added Enum KnownAgentPoolSSHAccess
+  - Added Enum KnownBackendPoolType
+  - Added Enum KnownGuardrailsSupport
+  - Added Enum KnownIpvsScheduler
+  - Added Enum KnownLevel
+  - Added Enum KnownMode
+  - Added Enum KnownNodeProvisioningMode
+  - Added Enum KnownProtocol
+  - Added Enum KnownRestrictionLevel
+  - Enum KnownAgentPoolType has a new value VirtualMachines
+  - Enum KnownNetworkPolicy has a new value None
+  - Enum KnownNodeOSUpgradeChannel has a new value SecurityPatch
+  - Enum KnownOssku has a new value Mariner
+  - Enum KnownOssku has a new value WindowsAnnual
+  - Enum KnownPublicNetworkAccess has a new value SecuredByPerimeter
+  - Enum KnownSnapshotType has a new value ManagedCluster
+  - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
+    
+    
 ## 19.5.0 (2023-11-22)
     
 **Features**

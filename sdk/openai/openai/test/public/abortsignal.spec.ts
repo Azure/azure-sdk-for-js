@@ -37,7 +37,7 @@ describe("AbortSignal", () => {
     const abortSignal = abortController.signal;
     let currentMessage = "";
     try {
-      const events = client.listChatCompletions(deploymentName, messages, {
+      const events = await client.streamChatCompletions(deploymentName, messages, {
         maxTokens: 800,
         temperature: 0.7,
         presencePenalty: 0,

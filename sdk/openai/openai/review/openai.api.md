@@ -500,6 +500,10 @@ export interface EmbeddingsUsage {
 }
 
 // @public
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {
+}
+
+// @public
 export interface FunctionCall {
     arguments: string;
     name: string;
@@ -689,8 +693,8 @@ export class OpenAIClient {
     getCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<Completions>;
     getEmbeddings(deploymentName: string, input: string[], options?: GetEmbeddingsOptions): Promise<Embeddings>;
     getImages(deploymentName: string, prompt: string, options?: GetImagesOptions): Promise<ImageGenerations>;
-    listChatCompletions(deploymentName: string, messages: ChatRequestMessage[], options?: GetChatCompletionsOptions): AsyncIterable<ChatCompletions>;
-    listCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): AsyncIterable<Omit<Completions, "usage">>;
+    streamChatCompletions(deploymentName: string, messages: ChatRequestMessage[], options?: GetChatCompletionsOptions): Promise<EventStream<ChatCompletions>>;
+    streamCompletions(deploymentName: string, prompt: string[], options?: GetCompletionsOptions): Promise<EventStream<Omit<Completions, "usage">>>;
 }
 
 // @public (undocumented)

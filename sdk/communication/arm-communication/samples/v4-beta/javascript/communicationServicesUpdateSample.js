@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/update.json
  */
 async function updateResource() {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function updateResource() {
   const resourceGroupName = process.env["COMMUNICATION_RESOURCE_GROUP"] || "MyResourceGroup";
   const communicationServiceName = "MyCommunicationResource";
   const parameters = {
+    identity: { type: "SystemAssigned" },
     tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
@@ -40,7 +41,7 @@ async function updateResource() {
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/updateWithSystemAndUserIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/updateWithSystemAndUserIdentity.json
  */
 async function updateResourceToAddSystemAndUserManagedIdentities() {
   const subscriptionId =
@@ -68,7 +69,7 @@ async function updateResourceToAddSystemAndUserManagedIdentities() {
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/updateWithSystemAssignedIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/updateWithSystemAssignedIdentity.json
  */
 async function updateResourceToAddASystemAssignedManagedIdentity() {
   const subscriptionId =
@@ -93,7 +94,7 @@ async function updateResourceToAddASystemAssignedManagedIdentity() {
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/updateWithUserAssignedIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/updateWithUserAssignedIdentity.json
  */
 async function updateResourceToAddAUserAssignedManagedIdentity() {
   const subscriptionId =
@@ -121,7 +122,7 @@ async function updateResourceToAddAUserAssignedManagedIdentity() {
  * This sample demonstrates how to Operation to update an existing CommunicationService.
  *
  * @summary Operation to update an existing CommunicationService.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/updateRemoveSystemIdentity.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/updateRemoveSystemIdentity.json
  */
 async function updateResourceToRemoveIdentity() {
   const subscriptionId =
@@ -130,7 +131,6 @@ async function updateResourceToRemoveIdentity() {
   const communicationServiceName = "MyCommunicationResource";
   const parameters = {
     identity: { type: "None" },
-    tags: { newTag: "newVal" },
   };
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
