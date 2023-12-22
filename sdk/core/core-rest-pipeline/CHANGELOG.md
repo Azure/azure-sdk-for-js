@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix issue where `formDataPolicy` did not work in browser without HTTP/2
+
 ### Other Changes
 
 ## 1.13.0 (2023-12-07)
