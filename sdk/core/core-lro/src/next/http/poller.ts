@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { LongRunningOperation, LroResponse } from "./models";
-import { OperationState, SimplePollerLike } from "../poller/models";
+import { OperationState, PollerLike } from "../poller/models";
 import {
   getErrorFromResponse,
   getOperationLocation,
@@ -25,7 +25,7 @@ import { buildCreatePoller } from "../poller/poller";
 export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>
-): Promise<SimplePollerLike<TState, TResult>> {
+): Promise<PollerLike<TState, TResult>> {
   const {
     resourceLocationConfig,
     intervalInMs,

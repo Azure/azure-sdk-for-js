@@ -8,7 +8,7 @@ import {
   Operation,
   OperationState,
   RestorableOperationState,
-  SimplePollerLike,
+  PollerLike,
   StateProxy,
 } from "./models";
 import { deserializeState, initOperation, pollOperation } from "./operation";
@@ -48,7 +48,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>
-) => Promise<SimplePollerLike<TState, TResult>> {
+) => Promise<PollerLike<TState, TResult>> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -73,24 +73,24 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-          let called = false;
-          return (operationLocation: string, isUpdated: boolean) => {
-            if (isUpdated) withOperationLocationCallback(operationLocation);
-            else if (!called) withOperationLocationCallback(operationLocation);
-            called = true;
-          };
-        })()
+        let called = false;
+        return (operationLocation: string, isUpdated: boolean) => {
+          if (isUpdated) withOperationLocationCallback(operationLocation);
+          else if (!called) withOperationLocationCallback(operationLocation);
+          called = true;
+        };
+      })()
       : undefined;
     const state: RestorableOperationState<TState> = restoreFrom
       ? deserializeState(restoreFrom)
       : await initOperation({
-          init,
-          stateProxy,
-          processResult,
-          getOperationStatus: getStatusFromInitialResponse,
-          withOperationLocation,
-          setErrorAsResult: !resolveOnUnsuccessful,
-        });
+        init,
+        stateProxy,
+        processResult,
+        getOperationStatus: getStatusFromInitialResponse,
+        withOperationLocation,
+        setErrorAsResult: !resolveOnUnsuccessful,
+      });
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();
     // Progress handlers
@@ -100,7 +100,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    const poller: SimplePollerLike<TState, TResult> = {
+    const poller: PollerLike<TState, TResult> = {
       getOperationState: () => state,
       getResult: () => state.result,
       isDone: () => ["succeeded", "failed", "canceled"].includes(state.status),
@@ -118,48 +118,48 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         return () => handlers.delete(s);
       },
       pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
-        (resultPromise ??= (async () => {
-          const { abortSignal: inputAbortSignal } = pollOptions || {};
-          // In the future we can use AbortSignal.any() instead
-          function abortListener(): void {
-            abortController.abort();
-          }
-          const abortSignal = abortController.signal;
-          if (inputAbortSignal?.aborted) {
-            abortController.abort();
-          } else if (!abortSignal.aborted) {
-            inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
-          }
+      (resultPromise ??= (async () => {
+        const { abortSignal: inputAbortSignal } = pollOptions || {};
+        // In the future we can use AbortSignal.any() instead
+        function abortListener(): void {
+          abortController.abort();
+        }
+        const abortSignal = abortController.signal;
+        if (inputAbortSignal?.aborted) {
+          abortController.abort();
+        } else if (!abortSignal.aborted) {
+          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+        }
 
-          try {
-            if (!poller.isDone()) {
+        try {
+          if (!poller.isDone()) {
+            await poller.poll({ abortSignal });
+            while (!poller.isDone()) {
+              await delay(currentPollIntervalInMs, { abortSignal });
               await poller.poll({ abortSignal });
-              while (!poller.isDone()) {
-                await delay(currentPollIntervalInMs, { abortSignal });
-                await poller.poll({ abortSignal });
-              }
-            }
-          } finally {
-            inputAbortSignal?.removeEventListener("abort", abortListener);
-          }
-          if (resolveOnUnsuccessful) {
-            return poller.getResult() as TResult;
-          } else {
-            switch (state.status) {
-              case "succeeded":
-                return poller.getResult() as TResult;
-              case "canceled":
-                throw new Error(cancelErrMsg);
-              case "failed":
-                throw state.error;
-              case "notStarted":
-              case "running":
-                throw new Error(`Polling completed without succeeding or failing`);
             }
           }
-        })().finally(() => {
-          resultPromise = undefined;
-        })),
+        } finally {
+          inputAbortSignal?.removeEventListener("abort", abortListener);
+        }
+        if (resolveOnUnsuccessful) {
+          return poller.getResult() as TResult;
+        } else {
+          switch (state.status) {
+            case "succeeded":
+              return poller.getResult() as TResult;
+            case "canceled":
+              throw new Error(cancelErrMsg);
+            case "failed":
+              throw state.error;
+            case "notStarted":
+            case "running":
+              throw new Error(`Polling completed without succeeding or failing`);
+          }
+        }
+      })().finally(() => {
+        resultPromise = undefined;
+      })),
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<void> {
         if (resolveOnUnsuccessful) {
           if (poller.isDone()) return;

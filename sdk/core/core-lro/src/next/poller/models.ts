@@ -173,12 +173,31 @@ export type CancelOnProgress = () => void;
 /**
  * A simple poller interface.
  */
-export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
+  /**
+   * Returns true if the poller has finished polling.
+   */
+  isDone: boolean;
+  /**
+   * Returns true if the poller is stopped.
+   */
+  isStopped: boolean;
+  /**
+   * Returns the state of the operation.
+   */
+  operationState: TState;
+  /**
+   * Returns the result value of the operation,
+   * regardless of the state of the poller.
+   * It can return undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
+  result: TResult | undefined;
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    */
-  poll(options?: { abortSignal?: AbortSignalLike }): Promise<void>;
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<TState>;
   /**
    * Returns a promise that will resolve once the underlying operation is completed.
    */
@@ -190,34 +209,17 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
   onProgress(callback: (state: TState) => void): CancelOnProgress;
-  /**
-   * Returns true if the poller has finished polling.
-   */
-  isDone(): boolean;
-  /**
-   * Stops the poller. After this, no manual or automated requests can be sent.
-   */
-  stopPolling(): void;
-  /**
-   * Returns true if the poller is stopped.
-   */
-  isStopped(): boolean;
-  /**
-   * Returns the state of the operation.
-   */
-  getOperationState(): TState;
-  /**
-   * Returns the result value of the operation,
-   * regardless of the state of the poller.
-   * It can return undefined or an incomplete form of the final TResult value
-   * depending on the implementation.
-   */
-  getResult(): TResult | undefined;
+
   /**
    * Returns a serialized version of the poller's operation
    * by invoking the operation's toString method.
    */
-  toString(): string;
+  serialize(): Promise<string>;
+
+  /**
+   * 
+   */
+  submitted(): Promise<void>;
 }
 
 /**
