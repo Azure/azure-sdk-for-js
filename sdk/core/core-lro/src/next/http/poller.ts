@@ -25,7 +25,7 @@ import { buildCreatePoller } from "../poller/poller";
 export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>
-): Promise<PollerLike<TState, TResult>> {
+): PollerLike<TState, TResult> {
   const {
     resourceLocationConfig,
     intervalInMs,

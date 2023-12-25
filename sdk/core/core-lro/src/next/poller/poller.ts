@@ -48,7 +48,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>
-) => Promise<PollerLike<TState, TResult>> {
+) => PollerLike<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -118,7 +118,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         return () => handlers.delete(s);
       },
       pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
-      (resultPromise ??= (async () => {
+      (resultPromise ??= (() => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
         function abortListener(): void {
