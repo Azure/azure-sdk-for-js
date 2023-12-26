@@ -623,7 +623,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -2144,6 +2146,11 @@
     {
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"
     },
     {
