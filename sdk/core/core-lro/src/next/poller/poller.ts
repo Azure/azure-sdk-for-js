@@ -124,49 +124,50 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       submitted: async () => {
         await statePromise;
       },
-      pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) =>
-      (resultPromise ??= (() => {
-        const { abortSignal: inputAbortSignal } = pollOptions || {};
-        // In the future we can use AbortSignal.any() instead
-        function abortListener(): void {
-          abortController.abort();
-        }
-        const abortSignal = abortController.signal;
-        if (inputAbortSignal?.aborted) {
-          abortController.abort();
-        } else if (!abortSignal.aborted) {
-          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
-        }
+      pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
+        resultPromise ??= (async () => {
+          await statePromise;
+          const { abortSignal: inputAbortSignal } = pollOptions || {};
+          // In the future we can use AbortSignal.any() instead
+          function abortListener(): void {
+            abortController.abort();
+          }
+          const abortSignal = abortController.signal;
+          if (inputAbortSignal?.aborted) {
+            abortController.abort();
+          } else if (!abortSignal.aborted) {
+            inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+          }
 
-        try {
-          if (!poller.isDone) {
-            await poller.poll({ abortSignal });
-            while (!poller.isDone()) {
-              await delay(currentPollIntervalInMs, { abortSignal });
+          try {
+            if (!poller.isDone) {
               await poller.poll({ abortSignal });
+              while (!poller.isDone) {
+                await delay(currentPollIntervalInMs, { abortSignal });
+                await poller.poll({ abortSignal });
+              }
+            }
+          } finally {
+            inputAbortSignal?.removeEventListener("abort", abortListener);
+          }
+          if (resolveOnUnsuccessful) {
+            return poller.result as TResult;
+          } else {
+            switch (state!.status) {
+              case "succeeded":
+                return poller.result as TResult;
+              case "canceled":
+                throw new Error(cancelErrMsg);
+              case "failed":
+                throw state!.error;
+              case "notStarted":
+              case "running":
+                throw new Error(`Polling completed without succeeding or failing`);
             }
           }
-        } finally {
-          inputAbortSignal?.removeEventListener("abort", abortListener);
-        }
-        if (resolveOnUnsuccessful) {
-          return poller.result as TResult;
-        } else {
-          switch (state.status) {
-            case "succeeded":
-              return poller.result as TResult;
-            case "canceled":
-              throw new Error(cancelErrMsg);
-            case "failed":
-              throw state.error;
-            case "notStarted":
-            case "running":
-              throw new Error(`Polling completed without succeeding or failing`);
-          }
-        }
-      })().finally(() => {
-        resultPromise = undefined;
-      })),
+        })().finally(() => { resultPromise = undefined; });
+        return resultPromise;
+      },
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
         await statePromise;
         if (resolveOnUnsuccessful) {
