@@ -185,7 +185,7 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
   /**
    * Returns the state of the operation.
    */
-  operationState: TState;
+  operationState: TState | undefined;
   /**
    * Returns the result value of the operation,
    * regardless of the state of the poller.
@@ -208,7 +208,7 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
    *
    * It returns a method that can be used to stop receiving updates on the given callback function.
    */
-  onProgress(callback: (state: TState) => void): CancelOnProgress;
+  onProgress(callback: (state?: TState) => void): CancelOnProgress;
 
   /**
    * Returns a serialized version of the poller's operation

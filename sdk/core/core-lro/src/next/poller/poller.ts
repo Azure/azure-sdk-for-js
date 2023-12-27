@@ -59,7 +59,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     getError,
     resolveOnUnsuccessful,
   } = inputs;
-  return async (
+  return (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
     options?: CreatePollerOptions<TResponse, TResult, TState>
   ) => {
@@ -81,9 +81,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         };
       })()
       : undefined;
-    const state: RestorableOperationState<TState> = restoreFrom
-      ? deserializeState(restoreFrom)
-      : await initOperation({
+    let statePromise: Promise<TState>;
+    let state: RestorableOperationState<TState> | undefined = undefined;
+    if (restoreFrom) {
+      state = deserializeState(restoreFrom);
+      statePromise = Promise.resolve(state);
+    } else {
+      statePromise = initOperation({
         init,
         stateProxy,
         processResult,
@@ -91,33 +95,36 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         withOperationLocation,
         setErrorAsResult: !resolveOnUnsuccessful,
       });
+    }
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();
     // Progress handlers
-    type Handler = (state: TState) => void;
+    type Handler = (state?: TState) => void;
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
     const poller: PollerLike<TState, TResult> = {
-      getOperationState: () => state,
-      getResult: () => state.result,
-      isDone: () => ["succeeded", "failed", "canceled"].includes(state.status),
-      isStopped: () => resultPromise === undefined,
-      stopPolling: () => {
-        abortController.abort();
-      },
-      toString: () =>
-        JSON.stringify({
-          state,
-        }),
-      onProgress: (callback: (state: TState) => void) => {
+      operationState: state,
+      result: state?.result,
+      isDone: ["succeeded", "failed", "canceled"].includes(state?.status ?? ""),
+      isStopped: resultPromise === undefined,
+      onProgress: (callback: (state?: TState) => void) => {
         const s = Symbol();
         handlers.set(s, callback);
         return () => handlers.delete(s);
       },
-      pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
+      serialize: async () => {
+        await statePromise;
+        return JSON.stringify({
+          state,
+        });
+      },
+      submitted: async () => {
+        await statePromise;
+      },
+      pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) =>
       (resultPromise ??= (() => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
         // In the future we can use AbortSignal.any() instead
@@ -132,7 +139,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         }
 
         try {
-          if (!poller.isDone()) {
+          if (!poller.isDone) {
             await poller.poll({ abortSignal });
             while (!poller.isDone()) {
               await delay(currentPollIntervalInMs, { abortSignal });
@@ -143,11 +150,11 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           inputAbortSignal?.removeEventListener("abort", abortListener);
         }
         if (resolveOnUnsuccessful) {
-          return poller.getResult() as TResult;
+          return poller.result as TResult;
         } else {
           switch (state.status) {
             case "succeeded":
-              return poller.getResult() as TResult;
+              return poller.result as TResult;
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
@@ -160,22 +167,23 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       })().finally(() => {
         resultPromise = undefined;
       })),
-      async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<void> {
+      async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
+        await statePromise;
         if (resolveOnUnsuccessful) {
-          if (poller.isDone()) return;
+          if (poller.isDone) return state!;
         } else {
-          switch (state.status) {
+          switch (state!.status) {
             case "succeeded":
-              return;
+              return state!;
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
-              throw state.error;
+              throw state!.error;
           }
         }
         await pollOperation({
           poll,
-          state,
+          state: state!,
           stateProxy,
           getOperationLocation,
           isOperationError,
@@ -194,14 +202,31 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         });
         await handleProgressEvents();
         if (!resolveOnUnsuccessful) {
-          switch (state.status) {
+          switch (state!.status) {
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
-              throw state.error;
+              throw state!.error;
           }
         }
+
+        return state!;
       },
+      // promise operations - directly delegate then/catch/finally to the promise of pollUntilDone() returned
+      then<TResult1 = TResult, TResult2 = never>(
+        onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+      ): Promise<TResult1 | TResult2> {
+        return poller.pollUntilDone().then(onfulfilled, onrejected);
+      },
+      catch<TResult2 = never>(onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult | TResult2> {
+        return poller.pollUntilDone().catch(onrejected);
+      },
+      finally(onfinally?: (() => void) | undefined | null): Promise<TResult> {
+        return poller.pollUntilDone().finally(onfinally);
+      },
+      [Symbol.toStringTag]: "Poller"
+
     };
     return poller;
   };

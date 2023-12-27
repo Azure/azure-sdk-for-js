@@ -22,7 +22,7 @@ import { buildCreatePoller } from "../poller/poller";
  * @param options - options to configure the poller
  * @returns an initialized poller
  */
-export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>
 ): PollerLike<TState, TResult> {
