@@ -50,6 +50,17 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "exports": {
+    ".": {
+      "types": "./types/src/index.d.ts",
+      "require": "./dist/index.cjs",
+      "import": "./dist-esm/src/index.js"
+    },
+    "./next": {
+      "types": "./types/src/next/index.d.ts",
+      "import": "./dist-esm/src/next/index.js"
+    }
+  },
   "nyc": {
     "extension": [
       ".ts"
