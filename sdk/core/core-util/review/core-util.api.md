@@ -89,6 +89,24 @@ export function objectHasProperty<Thing, PropertyName extends string>(thing: Thi
 export function randomUUID(): string;
 
 // @public
+export function reshape(object: unknown, selector: string, newPropertyName: string): unknown;
+
+// @public
+export function reshape(object: unknown, selector: string, mapFunction: (value: unknown) => unknown): unknown;
+
+// @public
+export function reshape(object: unknown, selector: string, newPropertyName: string, mapFunction: (value: unknown) => unknown): unknown;
+
+// @public
+export function reshape(object: unknown, selector: string, options: ReshapeOptions): unknown;
+
+// @public
+export interface ReshapeOptions {
+    mapFunction?: (value: unknown) => unknown;
+    newPropertyName?: string;
+}
+
+// @public
 export function stringToUint8Array(value: string, format: EncodingType): Uint8Array;
 
 // @public
