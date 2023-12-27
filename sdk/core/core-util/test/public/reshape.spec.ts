@@ -12,6 +12,12 @@ describe("reshape", function () {
     assert.deepEqual(actual, expected);
   });
 
+  it("can remap the root object", function () {
+    const actual = reshape({ properties: { a: 1, b: 2 } }, "", (input: any) => input.properties);
+    const expected = { a: 1, b: 2 };
+    assert.deepEqual(actual, expected);
+  });
+
   it("maps a simple property", function () {
     const input = { a: 1, b: 2 };
     const actual = reshape(input, "a", String);
@@ -91,6 +97,23 @@ describe("reshape", function () {
     const input = { a: { "\\c\\": { e: 4 }, d: 3 }, b: 2 };
     const actual = reshape(input, String.raw`a.\\c\\.e`, "f");
     const expected = { a: { "\\c\\": { f: 4 }, d: 3 }, b: 2 };
+    assert.deepEqual(actual, expected);
+  });
+
+  it("can handle nested arrays", function () {
+    const input = {
+      a: [
+        [1, 2],
+        [3, 4],
+      ],
+    };
+    const actual = reshape(input, "a[][]", String);
+    const expected = {
+      a: [
+        ["1", "2"],
+        ["3", "4"],
+      ],
+    };
     assert.deepEqual(actual, expected);
   });
 });

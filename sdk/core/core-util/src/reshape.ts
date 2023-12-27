@@ -210,16 +210,22 @@ export function reshape(
           if (newPropertyName) {
             throw new Error("cannot rename array indices");
           }
-          if (mapFunction && targetProp) {
-            parent[targetProp] = value.map(mapFunction);
+          if (mapFunction) {
+            value = value.map(mapFunction);
           }
-        } else if (targetProp) {
-          parent[targetProp] = value.map((arrayItem) => {
+        } else {
+          value = value.map((arrayItem) => {
             return reshape(arrayItem, part.remainingSelector, {
               newPropertyName,
               mapFunction,
             });
           });
+        }
+
+        if (parent && targetProp) {
+          parent[targetProp] = value;
+        } else {
+          return value;
         }
       }
       return object;
@@ -237,9 +243,10 @@ export function reshape(
     targetProp = newPropertyName;
   }
 
-  if (targetProp) {
+  if (parent && targetProp) {
     parent[targetProp] = value;
+    return object;
+  } else {
+    return value;
   }
-
-  return object;
 }
