@@ -74,7 +74,7 @@ export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStre
     return {
       cancel: async () => {
         // drain the stream
-        if (typeof (stream as Readable).destroy === "function"){
+        if (typeof (stream as Readable).destroy === "function") {
           (stream as Readable).destroy();
         } else {
           stream.resume();
