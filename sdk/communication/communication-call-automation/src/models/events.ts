@@ -24,12 +24,16 @@ import {
   RestContinuousDtmfRecognitionToneReceived,
   RestContinuousDtmfRecognitionToneFailed,
   RestContinuousDtmfRecognitionStopped,
-  RestSendDtmfCompleted,
-  RestSendDtmfFailed,
-  RestToneInfo,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
   Tone,
-  RestAddParticipantCancelled,
+  RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
+  RestTranscriptionStarted,
+  RestTranscriptionStopped,
+  RestTranscriptionUpdated,
+  RestTranscriptionResumed,
+  RestTranscriptionFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -55,10 +59,15 @@ export type CallAutomationEvent =
   | ContinuousDtmfRecognitionToneReceived
   | ContinuousDtmfRecognitionToneFailed
   | ContinuousDtmfRecognitionStopped
-  | SendDtmfCompleted
-  | SendDtmfFailed
-  | AddParticipantCancelled
-  | CancelAddParticipantFailed;
+  | SendDtmfTonesCompleted
+  | SendDtmfTonesFailed
+  | CancelAddParticipantSucceeded
+  | CancelAddParticipantFailed
+  | TranscriptionStarted
+  | TranscriptionStopped
+  | TranscriptionUpdated
+  | TranscriptionResumed
+  | TranscriptionFailed;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -350,35 +359,27 @@ export interface RecognizeCanceled
   kind: "RecognizeCanceled";
 }
 
-/** The information about the tone. */
-export interface ToneInfo extends Omit<RestToneInfo, "sequenceId" | "tone"> {
-  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
-  sequenceId: number;
-  /** Defines values for Tone. */
-  tone: Tone;
-}
-
 /** Event sent when Dtmf tone received from targeted participant in call. */
 export interface ContinuousDtmfRecognitionToneReceived
   extends Omit<
     RestContinuousDtmfRecognitionToneReceived,
-    | "toneInfo"
+    | "sequenceId"
+    | "tone"
     | "callConnectionId"
     | "serverCallId"
     | "correlationId"
-    | "operationContext"
     | "resultInformation"
   > {
-  /** Information about Tone. */
-  toneInfo: ToneInfo;
+  /** The sequence id which can be used to determine if the same tone was played multiple times or if any tones were missed. */
+  sequenceId: number;
+  /** Defines values for Tone. */
+  tone: Tone;
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId or skype chain ID. */
   correlationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -389,7 +390,7 @@ export interface ContinuousDtmfRecognitionToneReceived
 export interface ContinuousDtmfRecognitionToneFailed
   extends Omit<
     RestContinuousDtmfRecognitionToneFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -397,8 +398,6 @@ export interface ContinuousDtmfRecognitionToneFailed
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -409,7 +408,7 @@ export interface ContinuousDtmfRecognitionToneFailed
 export interface ContinuousDtmfRecognitionStopped
   extends Omit<
     RestContinuousDtmfRecognitionStopped,
-    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -417,8 +416,6 @@ export interface ContinuousDtmfRecognitionStopped
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
@@ -426,10 +423,10 @@ export interface ContinuousDtmfRecognitionStopped
 }
 
 /** Event sent when Dtmf tones send successfully. */
-export interface SendDtmfCompleted
+export interface SendDtmfTonesCompleted
   extends Omit<
-    RestSendDtmfCompleted,
-    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
+    RestSendDtmfTonesCompleted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -437,19 +434,17 @@ export interface SendDtmfCompleted
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfCompleted";
+  kind: "SendDtmfTonesCompleted";
 }
 
 /** Event sent when Dtmf tones send failed. */
-export interface SendDtmfFailed
+export interface SendDtmfTonesFailed
   extends Omit<
-    RestSendDtmfFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "operationContext" | "resultInformation"
+    RestSendDtmfTonesFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -457,24 +452,17 @@ export interface SendDtmfFailed
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "SendDtmfFailed";
+  kind: "SendDtmfTonesFailed";
 }
 
-/** The add participant cancelled event. */
-export interface AddParticipantCancelled
+/** Successful cancel add participant event. */
+export interface CancelAddParticipantSucceeded
   extends Omit<
-    RestAddParticipantCancelled,
-    | "callConnectionId"
-    | "serverCallId"
-    | "correlationId"
-    | "participant"
-    | "invitationId"
-    | "operationContext"
+    RestCancelAddParticipantSucceeded,
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -484,24 +472,15 @@ export interface AddParticipantCancelled
   correlationId: string;
   /** Invitation ID used to cancel the add participant request. */
   invitationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
-  /** The participant whoose invitation was cancelled. */
-  participant?: CommunicationIdentifier;
   /** kind of this event. */
-  kind: "AddParticipantCancelled";
+  kind: "CancelAddParticipantSucceeded";
 }
 
 /** The failed to cancel add participant event. */
 export interface CancelAddParticipantFailed
   extends Omit<
     RestCancelAddParticipantFailed,
-    | "callConnectionId"
-    | "serverCallId"
-    | "correlationId"
-    | "invitationId"
-    | "operationContext"
-    | "resultInformation"
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -511,10 +490,93 @@ export interface CancelAddParticipantFailed
   correlationId: string;
   /** Invitation ID used to cancel the add participant request. */
   invitationId: string;
-  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
-  operationContext?: string;
   /** Contains the resulting SIP code/sub-code and message from NGC services. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CancelAddParticipantFailed";
+}
+
+export interface TranscriptionStarted
+  extends Omit<
+    RestTranscriptionStarted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionStarted";
+}
+
+export interface TranscriptionStopped
+  extends Omit<
+    RestTranscriptionStopped,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionStopped";
+}
+
+export interface TranscriptionUpdated
+  extends Omit<
+    RestTranscriptionUpdated,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionUpdated";
+}
+
+export interface TranscriptionResumed
+  extends Omit<
+    RestTranscriptionResumed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionResumed";
+}
+
+export interface TranscriptionFailed
+  extends Omit<
+    RestTranscriptionFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "TranscriptionFailed";
 }

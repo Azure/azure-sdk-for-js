@@ -28,7 +28,7 @@ async function getCloudServiceUpdateDomain() {
   const result = await client.cloudServicesUpdateDomain.getUpdateDomain(
     resourceGroupName,
     cloudServiceName,
-    updateDomain
+    updateDomain,
   );
   console.log(result);
 }

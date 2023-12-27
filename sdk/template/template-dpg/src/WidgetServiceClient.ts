@@ -10,6 +10,7 @@
  */
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { WidgetServiceClientOptions, createWidgetService } from "./api/WidgetServiceContext.js";
 import {
   AnalyzeResult,
   AnalyzeWidgetOptions,
@@ -20,16 +21,14 @@ import {
   ListWidgetsOptions,
   UpdateWidgetOptions,
   Widget,
-  WidgetServiceClientOptions,
-  WidgetServiceContext,
   analyzeWidget,
   createWidget,
-  createWidgetService,
   deleteWidget,
   getWidget,
   listWidgets,
   updateWidget,
 } from "./api/index.js";
+import { WidgetServiceContext } from "./rest/clientDefinitions.js";
 
 export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 

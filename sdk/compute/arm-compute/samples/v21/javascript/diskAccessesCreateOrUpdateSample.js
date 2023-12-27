@@ -28,7 +28,7 @@ async function createADiskAccessResource() {
   const result = await client.diskAccesses.beginCreateOrUpdateAndWait(
     resourceGroupName,
     diskAccessName,
-    diskAccess
+    diskAccess,
   );
   console.log(result);
 }

@@ -36,7 +36,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -81,7 +81,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -96,7 +96,7 @@ export class NetAppResourceQuotaLimitsImpl
 
   /**
    * Get the default and current subscription quota limit
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param quotaLimitName The name of the Quota Limit
    * @param options The options parameters.
    */

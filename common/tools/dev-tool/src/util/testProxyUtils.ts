@@ -6,7 +6,6 @@ import { createPrinter } from "./printer";
 import { ProjectInfo, resolveProject, resolveRoot } from "./resolveProject";
 import fs from "fs-extra";
 import path from "path";
-import axios from "axios";
 import decompress from "decompress";
 import envPaths from "env-paths";
 import { promisify } from "util";
@@ -101,7 +100,8 @@ function getDownloadUrl(binary: TestProxyBinary, version: string): string {
 
 async function downloadTestProxy(downloadLocation: string, downloadUrl: string): Promise<void> {
   log(`Downloading test proxy binary from ${downloadUrl}`);
-  const { data } = await axios.get<ArrayBuffer>(downloadUrl, { responseType: "arraybuffer" });
+  const response = await fetch(downloadUrl);
+  const data = await response.arrayBuffer();
   log(`Extracting test proxy binary to ${downloadLocation}`);
   await decompress(Buffer.from(data), downloadLocation);
 }
@@ -117,7 +117,7 @@ export async function getTestProxyExecutable(): Promise<string> {
   }
 
   const targetVersion = await getTargetVersion();
-  const binary = await getTestProxyBinary();
+  const binary = getTestProxyBinary();
 
   // The artifact is downloaded and extracted to <sdk root>/.test-proxy/<version>/.
   const downloadLocationWithVersion = path.join(downloadLocation, targetVersion);
@@ -255,7 +255,7 @@ export interface TestProxy {
 }
 
 export async function startTestProxy(): Promise<TestProxy> {
-  const testProxy = await runCommand(await getTestProxyExecutable(), [
+  const testProxy = runCommand(await getTestProxyExecutable(), [
     "start",
     "--storage-location",
     await resolveRoot(),
@@ -278,7 +278,13 @@ export async function startTestProxy(): Promise<TestProxy> {
 
 export async function isProxyToolActive(): Promise<boolean> {
   try {
-    await axios.get(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`);
+    const response = await fetch(
+      `http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`,
+    );
+
+    if (!response.ok) {
+      return false;
+    }
 
     log.info(
       `Proxy tool seems to be active at http://localhost:${
@@ -304,9 +310,6 @@ async function getTargetVersion() {
     );
 
     const tag = contentInVersionFile.trim();
-    if (tag === undefined) {
-      throw new Error();
-    }
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;

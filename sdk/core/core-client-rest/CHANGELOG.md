@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.6 (Unreleased)
+## 1.2.0 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,17 @@
 
 ### Bugs Fixed
 
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` to `^2.0.0`.
+
+## 1.1.6 (2023-11-30)
+
+### Features Added
+
+- Add an overload for `createRestError` to accept `PathUncheckedResponse` only.
 
 ## 1.1.5 (2023-11-20)
 

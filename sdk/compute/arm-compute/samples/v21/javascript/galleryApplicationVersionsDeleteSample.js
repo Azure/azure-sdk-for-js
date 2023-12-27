@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a gallery Application Version.
  *
  * @summary Delete a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryApplicationVersion_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Delete.json
  */
 async function deleteAGalleryApplicationVersion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function deleteAGalleryApplicationVersion() {
     resourceGroupName,
     galleryName,
     galleryApplicationName,
-    galleryApplicationVersionName
+    galleryApplicationVersionName,
   );
   console.log(result);
 }

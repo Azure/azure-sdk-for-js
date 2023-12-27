@@ -27,7 +27,7 @@ async function partnerNamespacesDelete() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerNamespaces.beginDeleteAndWait(
     resourceGroupName,
-    partnerNamespaceName
+    partnerNamespaceName,
   );
   console.log(result);
 }

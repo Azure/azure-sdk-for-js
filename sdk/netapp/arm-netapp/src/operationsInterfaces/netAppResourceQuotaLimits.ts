@@ -19,7 +19,7 @@ import {
 export interface NetAppResourceQuotaLimits {
   /**
    * Get the default and current limits for quotas
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   list(
@@ -28,7 +28,7 @@ export interface NetAppResourceQuotaLimits {
   ): PagedAsyncIterableIterator<SubscriptionQuotaItem>;
   /**
    * Get the default and current subscription quota limit
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param quotaLimitName The name of the Quota Limit
    * @param options The options parameters.
    */

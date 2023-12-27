@@ -1060,7 +1060,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters31,
+  requestBody: Parameters.parameters33,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1093,7 +1093,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters32,
+  requestBody: Parameters.parameters34,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1269,7 +1269,7 @@ const restartOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1294,7 +1294,7 @@ const reimageOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1319,7 +1319,7 @@ const rebuildOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,
@@ -1344,7 +1344,7 @@ const deleteInstancesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters33,
+  requestBody: Parameters.parameters35,
   queryParameters: [Parameters.apiVersion4],
   urlParameters: [
     Parameters.$host,

@@ -32,7 +32,7 @@ async function getASasOnAManagedDisk() {
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function getSasOnManagedDiskAndVMGuestState() {
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }
