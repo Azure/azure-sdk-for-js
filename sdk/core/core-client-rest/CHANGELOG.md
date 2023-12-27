@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fix the issue where onResponse is not called when `asNodeStream` or `asBrowserStream` are called.
 
 ### Other Changes
 

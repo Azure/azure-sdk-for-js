@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Readable } from "stream";
+
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
@@ -72,7 +74,11 @@ export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStre
     return {
       cancel: async () => {
         // drain the stream
-        stream.resume();
+        if (typeof (stream as Readable).destroy === "function"){
+          (stream as Readable).destroy();
+        } else {
+          stream.resume();
+        }
       },
       iterable: stream as AsyncIterable<Uint8Array>,
     };

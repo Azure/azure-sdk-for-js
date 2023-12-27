@@ -12,7 +12,7 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common";
-import { sendRequest, sendRequestAsStream } from "./sendRequest";
+import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
 /**
@@ -174,22 +174,22 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient
-      );
+      ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }
