@@ -220,6 +220,56 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
   toString(): string;
 }
 
+export interface PromisePollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
+  /**
+   * Returns true if the poller has finished polling.
+   */
+  isDone: boolean;
+  /**
+   * Returns true if the poller is stopped.
+   */
+  isStopped: boolean;
+  /**
+   * Returns the state of the operation.
+   */
+  operationState: TState | undefined;
+  /**
+   * Returns the result value of the operation,
+   * regardless of the state of the poller.
+   * It can return undefined or an incomplete form of the final TResult value
+   * depending on the implementation.
+   */
+  result: TResult | undefined;
+  /**
+   * Returns a promise that will resolve once a single polling request finishes.
+   * It does this by calling the update method of the Poller's operation.
+   */
+  poll(options?: { abortSignal?: AbortSignalLike }): Promise<TState>;
+  /**
+   * Returns a promise that will resolve once the underlying operation is completed.
+   */
+  pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TResult>;
+  /**
+   * Invokes the provided callback after each polling is completed,
+   * sending the current state of the poller's operation.
+   *
+   * It returns a method that can be used to stop receiving updates on the given callback function.
+   */
+  onProgress(callback: (state?: TState) => void): CancelOnProgress;
+
+  /**
+   * Returns a serialized version of the poller's operation
+   * by invoking the operation's toString method.
+   */
+  serialize(): Promise<string>;
+
+  /**
+   * 
+   */
+  submitted(): Promise<void>;
+}
+
+
 /**
  * A state proxy that allows poller implementation to abstract away the operation
  * state. This is useful to implement `lroEngine` and `createPoller` in a modular
