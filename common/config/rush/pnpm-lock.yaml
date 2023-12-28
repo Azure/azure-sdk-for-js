@@ -4996,7 +4996,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231225
+      typescript: 5.4.0-dev.20231228
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231225:
-    resolution: {integrity: sha512-5cTYQI4FrVz8ceeX+EsAzZLscTzKvwIRdyAkNQncqraQJqHToyL/r3Nt6oPtZxedrYqOzOXTTLdY8cdsHzDCcQ==}
+  /typescript@5.4.0-dev.20231228:
+    resolution: {integrity: sha512-LRdJTPnj+MTmEI+AYsKHdpxa2FhmBP8NbEDu0sQC8pYOggvnbg0W5idoFkJz5Y4TXLRPRbAgqemoJOCuwxLaBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10642,7 +10642,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-cphf6VXXBNsAz60oK4685lohj/V5XojNy0lfXvkSLkjEgWZB48jFKRVKz9dABkw7MknpBLwuUYDR6a+qlXmv2w==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-Q8CLkpq6mf8nm8zfPelY0zqA0kuNCnXtiXse9nTFzCdX9OFu6CQGMDgW8XTunxdFchcsNrAmnvgMbeAlKJtebg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -10673,7 +10673,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       magic-string: 0.27.0
       mocha: 10.2.0
-      prettier: 2.8.8
+      prettier: 3.1.1
       rimraf: 3.0.2
       rollup: 4.9.1
       sinon: 17.0.1
