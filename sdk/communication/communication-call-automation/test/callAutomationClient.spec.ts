@@ -216,13 +216,6 @@ describe("Call Automation Main Client Live Tests", function () {
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -233,6 +226,13 @@ describe("Call Automation Main Client Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("Create a call and hangup", async function () {
@@ -267,11 +267,13 @@ describe("Call Automation Main Client Live Tests", function () {
         answerCallOptions
       );
     }
+
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
     await callConnection.hangUp(true);
+
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
