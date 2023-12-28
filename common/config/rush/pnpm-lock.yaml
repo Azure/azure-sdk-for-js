@@ -4996,7 +4996,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231225
+      typescript: 5.4.0-dev.20231228
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -8234,8 +8234,8 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /priorityqueuejs@1.0.0:
-    resolution: {integrity: sha512-lg++21mreCEOuGWTbO5DnJKAdxfjrdN0S9ysoW9SzdSJvbkWpkaDdpG/cdsPCsEnoLUwmd9m3WcZhngW7yKA2g==}
+  /priorityqueuejs@2.0.0:
+    resolution: {integrity: sha512-19BMarhgpq3x4ccvVi8k2QpJZcymo/iFUcrhPd4V96kYGovOdTsWwy7fxChYi4QY+m2EnGBWSX9Buakz+tWNQQ==}
     dev: false
 
   /process-nextick-args@2.0.1:
@@ -9751,8 +9751,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231225:
-    resolution: {integrity: sha512-5cTYQI4FrVz8ceeX+EsAzZLscTzKvwIRdyAkNQncqraQJqHToyL/r3Nt6oPtZxedrYqOzOXTTLdY8cdsHzDCcQ==}
+  /typescript@5.4.0-dev.20231228:
+    resolution: {integrity: sha512-LRdJTPnj+MTmEI+AYsKHdpxa2FhmBP8NbEDu0sQC8pYOggvnbg0W5idoFkJz5Y4TXLRPRbAgqemoJOCuwxLaBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18252,7 +18252,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-NKuXa58RfzN0Gk0ewc5tp/kt6AoEXUNt/wgNFpB84Iw207sNQGpAxrWeYr8CWaMchSAMA+d0rPb4gEt+31uQPw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-2i11HWWIceXQDbZ6GhyTf9jtgwuSZ55O25qj1VbotPD0EkHw73B8/c8/hXuiESZsr2vlGHjdVyO7VNY9iyJhww==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -18283,7 +18283,7 @@ packages:
       nock: 12.0.3
       node-abort-controller: 3.1.1
       prettier: 2.8.8
-      priorityqueuejs: 1.0.0
+      priorityqueuejs: 2.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
       semaphore: 1.1.0
