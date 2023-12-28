@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { LongRunningOperation, LroResponse } from "./models";
-import { OperationState, SimplePollerLike } from "../poller/models";
+import { OperationState, PromisePollerLike, SimplePollerLike } from "../poller/models";
 import {
   getErrorFromResponse,
   getOperationLocation,
@@ -14,7 +14,7 @@ import {
   parseRetryAfter,
 } from "./operation";
 import { CreateHttpPollerOptions } from "./models";
-import { buildCreatePoller } from "../poller/poller";
+import { buildCreatePoller, buildCreatePromisePoller } from "../poller/poller";
 
 /**
  * Creates a poller that can be used to poll a long-running operation.
@@ -26,6 +26,41 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
   lro: LongRunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>
 ): Promise<SimplePollerLike<TState, TResult>> {
+  return createHttpPollerOrPromisePoller(lro, false, options);
+}
+
+/**
+ * Creates a poller which is also a promise that can be used to poll a long-running operation.
+ * @param lro - Description of the long-running operation
+ * @param options - options to configure the poller
+ * @returns a poller which may not be initialized yet
+ */
+export function createHttpPromisePoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  options?: CreateHttpPollerOptions<TResult, TState>
+): PromisePollerLike<TState, TResult> {
+  return createHttpPollerOrPromisePoller(lro, true, options);
+}
+
+/**
+ * Helper function to create a poller or a promise poller. 
+ */
+function createHttpPollerOrPromisePoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  isPromisePoller: false,
+  options?: CreateHttpPollerOptions<TResult, TState>
+): Promise<SimplePollerLike<TState, TResult>>;
+function createHttpPollerOrPromisePoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  isPromisePoller: true,
+  options?: CreateHttpPollerOptions<TResult, TState>
+): PromisePollerLike<TState, TResult>;
+function createHttpPollerOrPromisePoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  isPromisePoller: boolean,
+  options?: CreateHttpPollerOptions<TResult, TState>
+): Promise<SimplePollerLike<TState, TResult>> | PromisePollerLike<TState, TResult> {
+  const buildFunction = isPromisePoller ? buildCreatePromisePoller : buildCreatePoller;
   const {
     resourceLocationConfig,
     intervalInMs,
@@ -35,7 +70,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     withOperationLocation,
     resolveOnUnsuccessful = false,
   } = options || {};
-  return buildCreatePoller<LroResponse, TResult, TState>({
+  return buildFunction<LroResponse, TResult, TState>({
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     isOperationError,
