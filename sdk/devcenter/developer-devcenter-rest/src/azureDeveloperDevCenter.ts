@@ -19,7 +19,7 @@ export default function createClient(
 ): AzureDeveloperDevCenterClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "2023-04-01";
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.3`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
