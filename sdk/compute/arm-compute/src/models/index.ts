@@ -2975,6 +2975,8 @@ export interface CreationData {
   performancePlus?: boolean;
   /** Required if createOption is CopyFromSanSnapshot. This is the ARM id of the source elastic san volume snapshot. */
   elasticSanResourceId?: string;
+  /** If this field is set on a snapshot and createOption is CopyStart, the snapshot will be copied at a quicker speed. */
+  provisionedBandwidthCopySpeed?: ProvisionedBandwidthCopyOption;
 }
 
 /** The source image used for creating the disk. */
@@ -8769,6 +8771,24 @@ export enum KnownDiskCreateOption {
  */
 export type DiskCreateOption = string;
 
+/** Known values of {@link ProvisionedBandwidthCopyOption} that the service accepts. */
+export enum KnownProvisionedBandwidthCopyOption {
+  /** None */
+  None = "None",
+  /** Enhanced */
+  Enhanced = "Enhanced"
+}
+
+/**
+ * Defines values for ProvisionedBandwidthCopyOption. \
+ * {@link KnownProvisionedBandwidthCopyOption} can be used interchangeably with ProvisionedBandwidthCopyOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Enhanced**
+ */
+export type ProvisionedBandwidthCopyOption = string;
+
 /** Known values of {@link DiskState} that the service accepts. */
 export enum KnownDiskState {
   /** The disk is not being used and can be attached to a VM. */
@@ -8856,7 +8876,9 @@ export enum KnownDiskSecurityTypes {
   /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key */
   ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
   /** Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key */
-  ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey"
+  ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
+  /** Indicates Confidential VM disk with a ephemeral vTPM. vTPM state is not persisted across VM reboots. */
+  ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM"
 }
 
 /**
@@ -8867,7 +8889,8 @@ export enum KnownDiskSecurityTypes {
  * **TrustedLaunch**: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM) \
  * **ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey**: Indicates Confidential VM disk with only VM guest state encrypted \
  * **ConfidentialVM_DiskEncryptedWithPlatformKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key \
- * **ConfidentialVM_DiskEncryptedWithCustomerKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
+ * **ConfidentialVM_DiskEncryptedWithCustomerKey**: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key \
+ * **ConfidentialVM_NonPersistedTPM**: Indicates Confidential VM disk with a ephemeral vTPM. vTPM state is not persisted across VM reboots.
  */
 export type DiskSecurityTypes = string;
 

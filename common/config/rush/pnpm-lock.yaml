@@ -1163,6 +1163,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.3.0:
+    resolution: {integrity: sha512-WbGMsAeqDb1eTDkGfUqKPjgfT5LqDRKi3PYyW32BxBQxPv5MwzvAX42Q9MB4oNBskTRHTRr4W/DMWaTCfPTL1A==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-lro': 2.5.4
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.13.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -4996,7 +5011,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231225
+      typescript: 5.4.0-dev.20231227
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9766,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231225:
-    resolution: {integrity: sha512-5cTYQI4FrVz8ceeX+EsAzZLscTzKvwIRdyAkNQncqraQJqHToyL/r3Nt6oPtZxedrYqOzOXTTLdY8cdsHzDCcQ==}
+  /typescript@5.4.0-dev.20231227:
+    resolution: {integrity: sha512-lUTwqlRFd+OYg6urfqgdDBiEs4rUyejfaNeLLE9x77VYwHGPNS+Hg6/UQiXTpHuQIk+aMjxZkBJDDuGbD+SEdA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -12065,7 +12080,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-LVpmbaNllJkbJ0qqkoNNuYNYdfAL/JdZ5yTpS2HoPvHnOwj5wYOQMJ2cQqn93fzePqdsRp1FZWGtMwLShsBMhA==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-qd4ravymZboyTYih9gJoKNduJTo17lz1lKoQCzjocEF5Fjw4EJdPe8Foo/Ub5MJdwF2Y7VIU0c2RuH9zZH65mw==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13777,11 +13792,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-LaetMwvYvnVIg+DWwuK/ZCBlBEfRPdKqASMMjChc8+3vrzYr4FcM/GGajMrlKETf87wgv46UcS/VA3oZ0YUfUg==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-jWjqJhzLRGevNX6hhplZIWlshNQ97jQYe6+5KTJMVu6C91yRJWvV59fo+iUInjSp9NBLzgbFwNrGy7rZC4FpTg==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.3.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
