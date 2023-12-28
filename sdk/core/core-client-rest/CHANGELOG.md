@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+
 ### Other Changes
 
 - Upgrade dependency `@azure/abort-controller` to `^2.0.0`.

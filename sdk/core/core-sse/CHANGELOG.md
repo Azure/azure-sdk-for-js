@@ -1,10 +1,14 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 2.0.0 (Unreleased)
 
 ### Features Added
 
+- `createSseStream` returns a `ReadableStream` that is iterable and can also be disposed.
+
 ### Breaking Changes
+
+- `iterateSseStream` is renamed to `createSseStream` and no longer takes arbitrary `AsyncIterable<Uint8Array>` as input and instead only accepts `ReadableStream<Uint8Array>` and `NodeJS.ReadableStream` as input.
 
 ### Bugs Fixed
 

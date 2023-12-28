@@ -178,7 +178,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
   for await (const event of events) {
     for (const choice of event.choices) {
       const delta = choice.delta?.content;
@@ -408,7 +408,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { 
+  const events = await client.streamChatCompletions(deploymentId, messages, { 
     maxTokens: 128,
     azureExtensionOptions: {
       extensions: [
