@@ -648,16 +648,28 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const continuousDtmfRecognitionOptions1: ContinuousDtmfRecognitionOptions = { operationContext: "ContinuousDtmfRecognitionStart" };
-    await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions1);
+    const continuousDtmfRecognitionOptions1: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionStart",
+    };
+    await callConnection
+      .getCallMedia()
+      .startContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions1);
 
-    const continuousDtmfRecognitionOptions2: ContinuousDtmfRecognitionOptions = { operationContext: "ContinuousDtmfRecognitionSend" };
-    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser, continuousDtmfRecognitionOptions2);
+    const continuousDtmfRecognitionOptions2: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionSend",
+    };
+    await callConnection
+      .getCallMedia()
+      .sendDtmfTones([DtmfTone.Pound], receiverPhoneUser, continuousDtmfRecognitionOptions2);
     const sendDtmfCompleted = await waitForEvent("SendDtmfTonesCompleted", callConnectionId, 8000);
     assert.isDefined(sendDtmfCompleted);
 
-    const continuousDtmfRecognitionOptions3: ContinuousDtmfRecognitionOptions = { operationContext: "ContinuousDtmfRecognitionStop" };
-    await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions3);
+    const continuousDtmfRecognitionOptions3: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionStop",
+    };
+    await callConnection
+      .getCallMedia()
+      .stopContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions3);
     const continuousDtmfRecognitionStopped = await waitForEvent(
       "ContinuousDtmfRecognitionStopped",
       callConnectionId,
