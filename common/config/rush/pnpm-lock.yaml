@@ -353,6 +353,9 @@ dependencies:
   '@rush-temp/arm-hybridkubernetes':
     specifier: file:./projects/arm-hybridkubernetes.tgz
     version: file:projects/arm-hybridkubernetes.tgz
+  '@rush-temp/arm-hybridnetwork':
+    specifier: file:./projects/arm-hybridnetwork.tgz
+    version: file:projects/arm-hybridnetwork.tgz
   '@rush-temp/arm-imagebuilder':
     specifier: file:./projects/arm-imagebuilder.tgz
     version: file:projects/arm-imagebuilder.tgz
@@ -2932,6 +2935,29 @@ packages:
       - supports-color
     dev: false
 
+  /@puppeteer/browsers@0.5.0(typescript@5.3.3):
+    resolution: {integrity: sha512-Uw6oB7VvmPRLE4iKsjuOh8zgDabhNX67dzo8U/BB0f9527qx+4eeUs+korU98OhG5C4ubg7ufBgVi63XYwS6TQ==}
+    engines: {node: '>=14.1.0'}
+    hasBin: true
+    peerDependencies:
+      typescript: '>= 4.7.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      debug: 4.3.4(supports-color@8.1.1)
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.1
+      progress: 2.0.3
+      proxy-from-env: 1.1.0
+      tar-fs: 2.1.1
+      typescript: 5.3.3
+      unbzip2-stream: 1.4.3
+      yargs: 17.7.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@puppeteer/browsers@1.4.6(typescript@5.0.4):
     resolution: {integrity: sha512-x4BEjr2SjOPowNeiguzjozQbsc6h437ovD/wu+JpaenxVLm3jkgzHY2xOslMTp50HoTvQreMjiexiGQw1sqZlQ==}
     engines: {node: '>=16.3.0'}
@@ -5053,7 +5079,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231221
+      typescript: 5.4.0-dev.20231228
     dev: false
 
   /downlevel-dts@0.11.0:
@@ -8331,6 +8357,12 @@ packages:
     hasBin: true
     dev: false
 
+  /prettier@3.1.1:
+    resolution: {integrity: sha512-22UbSzg8luF4UuZtzgiUOfcGM8s4tjBv6dJRT7j275NXsy2jb4aJa4NNveul5x4eqlF1wuhuR2RElK71RvmVaw==}
+    engines: {node: '>=14'}
+    hasBin: true
+    dev: false
+
   /pretty-format@29.7.0:
     resolution: {integrity: sha512-Pdlw/oPxN+aXdmM9R00JVC9WVFoCLTKJvDVLgmJ+qAffBMxsV85l/Lu7sNx4zSzPyoL2euImuEwHhOXdEgNFZQ==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
@@ -8487,6 +8519,34 @@ packages:
       - utf-8-validate
     dev: false
 
+  /puppeteer-core@19.11.1(typescript@5.3.3):
+    resolution: {integrity: sha512-qcuC2Uf0Fwdj9wNtaTZ2OvYRraXpAK+puwwVW8ofOhOgLPZyz1c68tsorfIZyCUOpyBisjr+xByu7BMbEYMepA==}
+    engines: {node: '>=14.14.0'}
+    peerDependencies:
+      typescript: '>= 4.7.4'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@puppeteer/browsers': 0.5.0(typescript@5.3.3)
+      chromium-bidi: 0.4.7(devtools-protocol@0.0.1107588)
+      cross-fetch: 3.1.5
+      debug: 4.3.4(supports-color@8.1.1)
+      devtools-protocol: 0.0.1107588
+      extract-zip: 2.0.1
+      https-proxy-agent: 5.0.1
+      proxy-from-env: 1.1.0
+      tar-fs: 2.1.1
+      typescript: 5.3.3
+      unbzip2-stream: 1.4.3
+      ws: 8.13.0
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /puppeteer-core@20.9.0(typescript@5.0.4):
     resolution: {integrity: sha512-H9fYZQzMTRrkboEfPmf7m3CLDN6JvbxXA3qTtS+dFt27tR+CsFHzPsT6pzp6lYL6bJbAPaR0HaPO6uSi+F94Pg==}
     engines: {node: '>=16.3.0'}
@@ -8520,6 +8580,24 @@ packages:
       progress: 2.0.3
       proxy-from-env: 1.1.0
       puppeteer-core: 19.11.1(typescript@5.2.2)
+    transitivePeerDependencies:
+      - bufferutil
+      - encoding
+      - supports-color
+      - typescript
+      - utf-8-validate
+    dev: false
+
+  /puppeteer@19.11.1(typescript@5.3.3):
+    resolution: {integrity: sha512-39olGaX2djYUdhaQQHDZ0T0GwEp+5f9UB9HmEP0qHfdQHIq0xGQZuAZ5TLnJIc/88SrPLpEflPC+xUqOTv3c5g==}
+    requiresBuild: true
+    dependencies:
+      '@puppeteer/browsers': 0.5.0(typescript@5.3.3)
+      cosmiconfig: 8.1.3
+      https-proxy-agent: 5.0.1
+      progress: 2.0.3
+      proxy-from-env: 1.1.0
+      puppeteer-core: 19.11.1(typescript@5.3.3)
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -9628,6 +9706,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node@10.9.1(@types/node@18.18.10)(typescript@5.3.3):
+    resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.18.10
+      acorn: 8.11.2
+      acorn-walk: 8.3.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.3.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}
     dependencies:
@@ -9782,8 +9891,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231221:
-    resolution: {integrity: sha512-vsu9WExlMAmSoA/elxcmBTyRDyf9REJCKV2DowCmSpp+oqv+oq0yku8490q1r2YBC7o9DP+u/q58J5sjqaAD+g==}
+  /typescript@5.4.0-dev.20231228:
+    resolution: {integrity: sha512-LRdJTPnj+MTmEI+AYsKHdpxa2FhmBP8NbEDu0sQC8pYOggvnbg0W5idoFkJz5Y4TXLRPRbAgqemoJOCuwxLaBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13795,6 +13904,34 @@ packages:
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
+      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-hybridnetwork.tgz:
+    resolution: {integrity: sha512-LwWLiW4DS2EzuDqifNZ235JVTbIpgi4p35KkZFmmsFY0peISr1TAdol4YJCPskaNOlEU/jCNueMHOTWzFgwPIQ==, tarball: file:projects/arm-hybridnetwork.tgz}
+    name: '@rush-temp/arm-hybridnetwork'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.3(@types/node@18.18.10)
+      '@types/chai': 4.3.10
+      '@types/mocha': 10.0.4
+      '@types/node': 18.18.10
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
       ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
@@ -18173,7 +18310,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-M2Yxe9mXPLB8em/dr5F1dtDxWvzTPpMaaOfmRT8CX58b4UirilDsLHTkfLOw7WkfRN+m2KWCYKlWDDCrjKpYDw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-k9GDYZ6rO4pQw5+h0VdSjDi5jv2ihGRcC7DL7rwoYt+maxeMZRP+H8xojZF30xZu1L5VZ+9oZZ1qB6zw0qpBgw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -18199,12 +18336,12 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
-      prettier: 2.8.8
-      puppeteer: 19.11.1(typescript@5.2.2)
+      prettier: 3.1.1
+      puppeteer: 19.11.1(typescript@5.3.3)
       rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -20169,7 +20306,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-2o5JTVtn8wyAVHaO3RW5AQMMvFUcNr5kqf4QtmsZrLmVKre5Gh2Ima0B7A6Ob7h4W5XnzYhoK540pkDjZ4N5mw==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-g7pv6Vy5FTMRNRt4S51iAuUXu0nuaqsdripQD9jeRYjwCOjNVL+NDjchBrclUTEDEvCv8N/zmYMm7JD6MJgqoA==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20198,12 +20335,12 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
       mocha-junit-reporter: 2.2.1(mocha@10.2.0)
-      prettier: 2.8.8
-      puppeteer: 19.11.1(typescript@5.2.2)
+      prettier: 3.1.1
+      puppeteer: 19.11.1(typescript@5.3.3)
       rimraf: 3.0.2
-      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.2.2)
+      ts-node: 10.9.1(@types/node@18.18.10)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
