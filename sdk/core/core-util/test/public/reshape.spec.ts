@@ -100,6 +100,13 @@ describe("reshape", function () {
     assert.deepEqual(actual, expected);
   });
 
+  it("property with a backslash and dot in the name can be selected", function () {
+    const input = { a: { "odata\\.c": { e: 4 }, d: 3 }, b: 2, odata: { c: 5 } };
+    const actual = reshape(input, String.raw`a.odata\\\.c`, "z");
+    const expected = { a: { z: { e: 4 }, d: 3 }, b: 2, odata: { c: 5 } };
+    assert.deepEqual(actual, expected);
+  });
+
   it("can handle nested arrays", function () {
     const input = {
       a: [
@@ -114,6 +121,13 @@ describe("reshape", function () {
         ["3", "4"],
       ],
     };
+    assert.deepEqual(actual, expected);
+  });
+
+  it("can handle arrays as the initial input", function () {
+    const input = [1, 2, 3];
+    const actual = reshape(input, "[]", String);
+    const expected = ["1", "2", "3"];
     assert.deepEqual(actual, expected);
   });
 });
