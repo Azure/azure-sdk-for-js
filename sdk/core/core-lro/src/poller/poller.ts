@@ -208,6 +208,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
   };
 }
 
+/**
+ * Returns a poller&promise factory.
+ */
 export function buildCreatePromisePoller<TResponse, TResult, TState extends OperationState<TResult>>(
   inputs: BuildCreatePollerOptions<TResponse, TState>
 ): (
@@ -247,7 +250,7 @@ export function buildCreatePromisePoller<TResponse, TResult, TState extends Oper
       })()
       : undefined;
     let statePromise: Promise<TState>;
-    let state: RestorableOperationState<TState> | undefined = undefined;
+    let state: RestorableOperationState<TState> | undefined;
     if (restoreFrom) {
       state = deserializeState(restoreFrom);
       statePromise = Promise.resolve(state);
@@ -259,7 +262,7 @@ export function buildCreatePromisePoller<TResponse, TResult, TState extends Oper
         getOperationStatus: getStatusFromInitialResponse,
         withOperationLocation,
         setErrorAsResult: !resolveOnUnsuccessful,
-      });
+      }).then((s) => state = s);
     }
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();

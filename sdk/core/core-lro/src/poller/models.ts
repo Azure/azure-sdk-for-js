@@ -224,22 +224,22 @@ export interface PromisePollerLike<TState extends OperationState<TResult>, TResu
   /**
    * Returns true if the poller has finished polling.
    */
-  isDone: boolean;
+  readonly isDone: boolean;
   /**
    * Returns true if the poller is stopped.
    */
-  isStopped: boolean;
+  readonly isStopped: boolean;
   /**
    * Returns the state of the operation.
    */
-  operationState: TState | undefined;
+  readonly operationState: TState | undefined;
   /**
    * Returns the result value of the operation,
    * regardless of the state of the poller.
    * It can return undefined or an incomplete form of the final TResult value
    * depending on the implementation.
    */
-  result: TResult | undefined;
+  readonly result: TResult | undefined;
   /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
