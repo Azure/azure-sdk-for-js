@@ -192,15 +192,22 @@ describe("Test Index metrics", function (this: Suite) {
 
   it("validate that index metrics are correct", async function () {
     const collectionId = "testCollection3";
-    const createdContainerSinglePartition = await setupContainer(
+    const containerDefinition = {
+      id: collectionId,
+    };
+    const containerOptions1 = { offerThroughput: 4000 };
+    const createdContainerSinglePartition = await getTestContainer(
       "index metrics test db",
-      collectionId,
-      4000
+      undefined,
+      containerDefinition,
+      containerOptions1
     );
-    const createdContainerMultiPartition = await setupContainer(
+    const containerOptions2 = { offerThroughput: 12000 };
+    const createdContainerMultiPartition = await getTestContainer(
       "index metrics test db multipartioned",
-      collectionId,
-      12000
+      undefined,
+      containerDefinition,
+      containerOptions2
     );
 
     await validateIndexMetrics(createdContainerSinglePartition, collectionId);
@@ -232,24 +239,6 @@ describe("Test Index metrics", function (this: Suite) {
       }
     }
   }
-  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
-    const database = await getTestDatabase(datbaseName);
-
-    const collectionDefinition = {
-      id: collectionId,
-      partitionKey: {
-        paths: ["/pk"],
-      },
-    };
-    const collectionOptions = { offerThroughput: throughput };
-
-    const { resource: createdCollectionDef } = await database.containers.create(
-      collectionDefinition,
-      collectionOptions
-    );
-    const createdContainer = database.container(createdCollectionDef.id);
-    return createdContainer;
-  }
 });
 
 describe("Test RU Capping query", function (this: Suite) {
@@ -259,10 +248,13 @@ describe("Test RU Capping query", function (this: Suite) {
 
   it("For Single partition query", async function () {
     const collectionId = "testCollection4";
-    const createdContainerSinglePartition = await setupContainer(
+    const containerDefinition = { id: collectionId };
+    const containerOptions1 = { offerThroughput: 4000 };
+    const createdContainerSinglePartition = await await getTestContainer(
       "RU Capping test db for single partition",
-      collectionId,
-      4000
+      undefined,
+      containerDefinition,
+      containerOptions1
     );
 
     createdContainerSinglePartition.items.create({ id: "myId1", pk: "pk1", name: "test1" });
@@ -314,10 +306,13 @@ describe("Test RU Capping query", function (this: Suite) {
     beforeEach(async function () {
       await removeAllDatabases();
       const collectionId = "testCollection5";
-      const createdContainerMultiPartition = await setupContainer(
+      const containerDefinition = { id: collectionId };
+      const containerOptions1 = { offerThroughput: 30000 };
+      const createdContainerMultiPartition = await getTestContainer(
         "RU Capping test db for multi partition",
-        collectionId,
-        30000
+        undefined,
+        containerDefinition,
+        containerOptions1
       );
       const data = [
         { id: "myId1", pk: "pk1", name: "test1" },
@@ -390,23 +385,4 @@ describe("Test RU Capping query", function (this: Suite) {
       console.log("FetchAll RU Cap not breached results: ", results);
     });
   });
-
-  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
-    const database = await getTestDatabase(datbaseName);
-
-    const collectionDefinition = {
-      id: collectionId,
-      partitionKey: {
-        paths: ["/pk"],
-      },
-    };
-    const collectionOptions = { offerThroughput: throughput };
-
-    const { resource: createdCollectionDef } = await database.containers.create(
-      collectionDefinition,
-      collectionOptions
-    );
-    const createdContainer = database.container(createdCollectionDef.id);
-    return createdContainer;
-  }
 });

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+import { ErrorResponse } from "./ErrorResponse";
 /**
  * @hidden
  */
-
-import { ErrorResponse } from "./ErrorResponse";
-
 export const RUCapPerOperationExceededErrorCode = "OPERATION_RU_LIMIT_EXCEEDED";
 
 export class RUCapPerOperationExceededError extends ErrorResponse {

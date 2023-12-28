@@ -12,7 +12,7 @@ export interface ErrorBody {
   /**
    * @hidden
    */
-  fetchedSoFarResults?: any[];
+  [key: string]: any;
 }
 
 /**
