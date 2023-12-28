@@ -650,6 +650,9 @@
 /sdk/search/arm-search/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/security/arm-security/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
