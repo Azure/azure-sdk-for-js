@@ -209,7 +209,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 }
 
 /**
- * Returns a poller&promise factory.
+ * Returns a promise poller factory.
  */
 export function buildCreatePromisePoller<TResponse, TResult, TState extends OperationState<TResult>>(
   inputs: BuildCreatePollerOptions<TResponse, TState>
@@ -274,10 +274,18 @@ export function buildCreatePromisePoller<TResponse, TResult, TState extends Oper
     let currentPollIntervalInMs = intervalInMs;
 
     const poller: PromisePollerLike<TState, TResult> = {
-      operationState: state,
-      result: state?.result,
-      isDone: ["succeeded", "failed", "canceled"].includes(state?.status ?? ""),
-      isStopped: resultPromise === undefined,
+      get operationState(): TState | undefined {
+        return state;
+      },
+      get result(): TResult | undefined {
+        return state?.result;
+      },
+      get isDone(): boolean {
+        return ["succeeded", "failed", "canceled"].includes(state?.status ?? "");
+      },
+      get isStopped(): boolean {
+        return resultPromise === undefined;
+      },
       onProgress: (callback: (state?: TState) => void) => {
         const s = Symbol();
         handlers.set(s, callback);

@@ -24,6 +24,9 @@ export interface CreateHttpPollerOptions<TResult, TState> {
 }
 
 // @public
+export function createHttpPromisePoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PromisePollerLike<TState, TResult>;
+
+// @public
 export interface LongRunningOperation<T = unknown> {
     requestMethod?: string;
     requestPath?: string;
@@ -149,6 +152,24 @@ export interface PollOperationState<TResult> {
 
 // @public
 export type PollProgressCallback<TState> = (state: TState) => void;
+
+// @public (undocumented)
+export interface PromisePollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
+    readonly isDone: boolean;
+    readonly isStopped: boolean;
+    onProgress(callback: (state?: TState) => void): CancelOnProgress;
+    readonly operationState: TState | undefined;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    readonly result: TResult | undefined;
+    serialize(): Promise<string>;
+    // (undocumented)
+    submitted(): Promise<void>;
+}
 
 // @public
 export interface RawResponse {
