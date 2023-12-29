@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract text, layout, entities, and general key-value pairs from documents.
  */
 export const PrebuiltDocumentModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltDocumentResult>;
 
 export interface PrebuiltDocumentResult extends fr.AnalyzeResultCommon {

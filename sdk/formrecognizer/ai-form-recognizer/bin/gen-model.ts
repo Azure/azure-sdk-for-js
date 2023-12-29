@@ -130,7 +130,7 @@ async function main(): Promise<void> {
           "no authentication method is available;",
           "provide an API key or install and configure the `@azure/identity` package",
           "(`npm i --save-dev @azure/identity`)",
-        ].join(" ")
+        ].join(" "),
       );
     }
   }
