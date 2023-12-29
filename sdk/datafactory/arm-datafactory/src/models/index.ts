@@ -141,7 +141,9 @@ export type LinkedServiceUnion =
   | SnowflakeLinkedService
   | SharePointOnlineListLinkedService
   | AzureSynapseArtifactsLinkedService
-  | LakeHouseLinkedService;
+  | LakeHouseLinkedService
+  | SalesforceV2LinkedService
+  | SalesforceServiceCloudV2LinkedService;
 export type DatasetUnion =
   | Dataset
   | AmazonS3Dataset
@@ -240,7 +242,9 @@ export type DatasetUnion =
   | SnowflakeDataset
   | SharePointOnlineListResourceDataset
   | AzureDatabricksDeltaLakeDataset
-  | LakeHouseTableDataset;
+  | LakeHouseTableDataset
+  | SalesforceV2ObjectDataset
+  | SalesforceServiceCloudV2ObjectDataset;
 export type ActivityUnion =
   | Activity
   | ControlActivityUnion
@@ -386,7 +390,8 @@ export type CopySourceUnion =
   | LakeHouseTableSource
   | SnowflakeSource
   | AzureDatabricksDeltaLakeSource
-  | SharePointOnlineListSource;
+  | SharePointOnlineListSource
+  | SalesforceServiceCloudV2Source;
 export type CopySinkUnion =
   | CopySink
   | DelimitedTextSink
@@ -428,7 +433,9 @@ export type CopySinkUnion =
   | MongoDbAtlasSink
   | MongoDbV2Sink
   | CosmosDbMongoDbApiSink
-  | LakeHouseTableSink;
+  | LakeHouseTableSink
+  | SalesforceV2Sink
+  | SalesforceServiceCloudV2Sink;
 export type ExportSettingsUnion =
   | ExportSettings
   | SnowflakeExportCopyCommand
@@ -550,7 +557,8 @@ export type TabularSourceUnion =
   | DynamicsAXSource
   | OracleServiceCloudSource
   | GoogleAdWordsSource
-  | AmazonRedshiftSource;
+  | AmazonRedshiftSource
+  | SalesforceV2Source;
 export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
@@ -1368,7 +1376,9 @@ export interface LinkedService {
     | "Snowflake"
     | "SharePointOnlineList"
     | "AzureSynapseArtifacts"
-    | "LakeHouse";
+    | "LakeHouse"
+    | "SalesforceV2"
+    | "SalesforceServiceCloudV2";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** The integration runtime reference. */
@@ -1507,7 +1517,9 @@ export interface Dataset {
     | "SnowflakeTable"
     | "SharePointOnlineListResource"
     | "AzureDatabricksDeltaLakeDataset"
-    | "LakeHouseTable";
+    | "LakeHouseTable"
+    | "SalesforceV2Object"
+    | "SalesforceServiceCloudV2Object";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Dataset description. */
@@ -3110,6 +3122,16 @@ export interface StoreWriteSettings {
   disableMetricsCollection?: any;
   /** The type of copy behavior for copy sink. */
   copyBehavior?: any;
+  /** Specify the custom metadata to be added to sink data. Type: array of objects (or Expression with resultType array of objects). */
+  metadata?: MetadataItem[];
+}
+
+/** Specify the name and value of custom metadata item. */
+export interface MetadataItem {
+  /** Metadata item key name. Type: string (or Expression with resultType string). */
+  name?: any;
+  /** Metadata item value. Type: string (or Expression with resultType string). */
+  value?: any;
 }
 
 /** Distcp settings. */
@@ -3256,7 +3278,9 @@ export interface CopySource {
     | "LakeHouseTableSource"
     | "SnowflakeSource"
     | "AzureDatabricksDeltaLakeSource"
-    | "SharePointOnlineListSource";
+    | "SharePointOnlineListSource"
+    | "SalesforceV2Source"
+    | "SalesforceServiceCloudV2Source";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Source retry count. Type: integer (or Expression with resultType integer). */
@@ -3312,7 +3336,9 @@ export interface CopySink {
     | "MongoDbAtlasSink"
     | "MongoDbV2Sink"
     | "CosmosDbMongoDbApiSink"
-    | "LakeHouseTableSink";
+    | "LakeHouseTableSink"
+    | "SalesforceV2Sink"
+    | "SalesforceServiceCloudV2Sink";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Write batch size. Type: integer (or Expression with resultType integer), minimum: 0. */
@@ -3521,14 +3547,6 @@ export interface StoredProcedureParameter {
   value?: any;
   /** Stored procedure parameter type. */
   type?: StoredProcedureParameterType;
-}
-
-/** Specify the name and value of custom metadata item. */
-export interface MetadataItem {
-  /** Metadata item key name. Type: string (or Expression with resultType string). */
-  name?: any;
-  /** Metadata item value. Type: string (or Expression with resultType string). */
-  value?: any;
 }
 
 /** Sql upsert option settings */
@@ -4758,8 +4776,22 @@ export interface AzureMySqlLinkedService extends LinkedService {
 export interface MySqlLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MySql";
+  /** The version of the MySQL driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  driverVersion?: any;
   /** The connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
-  connectionString: any;
+  connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
+  /** SSL mode for connection. Type: integer. 0: disable, 1: prefer, 2: require, 3: verify-ca, 4: verify-full. */
+  sslMode?: any;
+  /** Use system trust store for connection. Type: integer. 0: enable, 1: disable. */
+  useSystemTrustStore?: any;
   /** The Azure key vault secret reference of password in connection string. */
   password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
@@ -4966,7 +4998,7 @@ export interface ODataLinkedService extends LinkedService {
   userName?: any;
   /** Password of the OData service. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Specify the tenant information (domain name or tenant ID) under which your application resides. Type: string (or Expression with resultType string). */
   tenant?: any;
@@ -5502,7 +5534,7 @@ export interface HttpLinkedService extends LinkedService {
   userName?: any;
   /** Password for Basic, Digest, Windows, or ClientCertificate with EmbeddedCertData authentication. */
   password?: SecretBaseUnion;
-  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: object (or Expression with resultType object). */
+  /** The additional HTTP headers in the request to RESTful API used for authorization. Type: key value pairs (value should be string type). */
   authHeaders?: any;
   /** Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password should be specified. Type: string (or Expression with resultType string). */
   embeddedCertData?: any;
@@ -5908,10 +5940,20 @@ export interface MagentoLinkedService extends LinkedService {
 export interface MariaDBLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "MariaDB";
+  /** The version of the MariaDB driver. Type: string. V1 or empty for legacy driver, V2 for new driver. V1 can support connection string and property bag, V2 can only support connection string. */
+  driverVersion?: any;
   /** An ODBC connection string. Type: string, SecureString or AzureKeyVaultSecretReference. */
   connectionString?: any;
+  /** Server name for connection. Type: string. */
+  server?: any;
+  /** The port for the connection. Type: integer. */
+  port?: any;
+  /** Username for authentication. Type: string. */
+  username?: any;
+  /** Database name for connection. Type: string. */
+  database?: any;
   /** The Azure key vault secret reference of password in connection string. */
-  pwd?: AzureKeyVaultSecretReference;
+  password?: AzureKeyVaultSecretReference;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
   encryptedCredential?: string;
 }
@@ -6251,7 +6293,7 @@ export interface SalesforceMarketingCloudLinkedService extends LinkedService {
 export interface HDInsightOnDemandLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HDInsightOnDemand";
-  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: string (or Expression with resultType string). */
+  /** Number of worker/data nodes in the cluster. Suggestion value: 4. Type: int (or Expression with resultType int). */
   clusterSize: any;
   /** The allowed idle time for the on-demand HDInsight cluster. Specifies how long the on-demand HDInsight cluster stays alive after completion of an activity run if there are no other active jobs in the cluster. The minimum value is 5 mins. Type: string (or Expression with resultType string). */
   timeToLive: any;
@@ -6561,7 +6603,7 @@ export interface AzureDataExplorerLinkedService extends LinkedService {
 export interface AzureFunctionLinkedService extends LinkedService {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "AzureFunction";
-  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. */
+  /** The endpoint of the Azure Function App. URL will be in the format https://<accountName>.azurewebsites.net. Type: string (or Expression with resultType string). */
   functionAppUrl: any;
   /** Function or Host key for Azure Function App. */
   functionKey?: SecretBaseUnion;
@@ -6569,7 +6611,7 @@ export interface AzureFunctionLinkedService extends LinkedService {
   encryptedCredential?: string;
   /** The credential reference containing authentication information. */
   credential?: CredentialReference;
-  /** Allowed token audiences for azure function. */
+  /** Allowed token audiences for azure function. Type: string (or Expression with resultType string). */
   resourceId?: any;
   /** Type of authentication (Required to specify MSI) used to connect to AzureFunction. Type: string (or Expression with resultType string). */
   authentication?: any;
@@ -6635,6 +6677,38 @@ export interface LakeHouseLinkedService extends LinkedService {
   servicePrincipalCredentialType?: any;
   /** The credential of the service principal object in Azure Active Directory. If servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference. */
   servicePrincipalCredential?: SecretBaseUnion;
+}
+
+/** Linked service for Salesforce V2. */
+export interface SalesforceV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2";
+  /** The URL of Salesforce instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
+}
+
+/** Linked service for Salesforce Service Cloud V2. */
+export interface SalesforceServiceCloudV2LinkedService extends LinkedService {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2";
+  /** The URL of Salesforce Service Cloud instance. For example, 'https://[domain].my.salesforce.com'. Type: string (or Expression with resultType string). */
+  environmentUrl?: any;
+  /** The client Id for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. Type: string (or Expression with resultType string). */
+  clientId?: any;
+  /** The client secret for OAuth 2.0 Client Credentials Flow authentication of the Salesforce instance. */
+  clientSecret?: SecretBaseUnion;
+  /** The Salesforce API version used in ADF. The version must be larger than or equal to 47.0 which is required by Salesforce BULK API 2.0. Type: string (or Expression with resultType string). */
+  apiVersion?: any;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string. */
+  encryptedCredential?: string;
 }
 
 /** A single Amazon Simple Storage Service (S3) object or a set of S3 objects. */
@@ -7634,6 +7708,26 @@ export interface LakeHouseTableDataset extends Dataset {
   table?: any;
 }
 
+/** The Salesforce V2 object dataset. */
+export interface SalesforceV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Object";
+  /** The Salesforce V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce V2 report Id. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
+/** The Salesforce Service Cloud V2 object dataset. */
+export interface SalesforceServiceCloudV2ObjectDataset extends Dataset {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Object";
+  /** The Salesforce Service Cloud V2 object API name. Type: string (or Expression with resultType string). */
+  objectApiName?: any;
+  /** The Salesforce Service Cloud V2 reportId. Type: string (or Expression with resultType string). */
+  reportId?: any;
+}
+
 /** Base class for all control activities like IfCondition, ForEach , Until. */
 export interface ControlActivity extends Activity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -8072,9 +8166,9 @@ export interface ParquetFormat extends DatasetStorageFormat {
 export interface CmdkeySetup extends CustomSetupBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "CmdkeySetup";
-  /** The server name of data source access. */
+  /** The server name of data source access. Type: string. */
   targetName: any;
-  /** The user name of data source access. */
+  /** The user name of data source access. Type: string. */
   userName: any;
   /** The password of data source access. */
   password: SecretBaseUnion;
@@ -8839,7 +8933,8 @@ export interface TabularSource extends CopySource {
     | "DynamicsAXSource"
     | "OracleServiceCloudSource"
     | "GoogleAdWordsSource"
-    | "AmazonRedshiftSource";
+    | "AmazonRedshiftSource"
+    | "SalesforceV2Source";
   /** Query timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   queryTimeout?: any;
   /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
@@ -8978,7 +9073,7 @@ export interface RestSource extends CopySource {
   httpRequestTimeout?: any;
   /** The time to await before sending next page request. */
   requestInterval?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  /** Specifies the additional columns to be added to source data. Type: key value pairs (value should be string type). */
   additionalColumns?: any;
 }
 
@@ -9202,6 +9297,18 @@ export interface SharePointOnlineListSource extends CopySource {
   httpRequestTimeout?: any;
 }
 
+/** A copy activity Salesforce Service Cloud V2 source. */
+export interface SalesforceServiceCloudV2Source extends CopySource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** The read behavior for the operation. Default is query. Allowed values: query/queryAll. Type: string (or Expression with resultType string). */
+  readBehavior?: any;
+  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
+  additionalColumns?: any;
+}
+
 /** A copy activity DelimitedText sink. */
 export interface DelimitedTextSink extends CopySink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -9238,13 +9345,13 @@ export interface RestSink extends CopySink {
   type: "RestSink";
   /** The HTTP method used to call the RESTful API. The default is POST. Type: string (or Expression with resultType string). */
   requestMethod?: any;
-  /** The additional HTTP headers in the request to the RESTful API. Type: string (or Expression with resultType string). */
+  /** The additional HTTP headers in the request to the RESTful API. Type: key value pairs (value should be string type). */
   additionalHeaders?: any;
   /** The timeout (TimeSpan) to get an HTTP response. It is the timeout to get a response, not the timeout to read response data. Default value: 00:01:40. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   httpRequestTimeout?: any;
   /** The time to await before sending next request, in milliseconds */
   requestInterval?: any;
-  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. */
+  /** Http Compression Type to Send data in compressed format with Optimal Compression Level, Default is None. And The Only Supported option is Gzip. Type: string (or Expression with resultType string). */
   httpCompressionType?: any;
 }
 
@@ -9392,7 +9499,7 @@ export interface SqlSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9416,7 +9523,7 @@ export interface SqlServerSink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** Write behavior when copying data into sql server. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** Write behavior when copying data into sql server. Type: string (or Expression with resultType string). */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9464,7 +9571,7 @@ export interface SqlMISink extends CopySink {
   tableOption?: any;
   /** Whether to use table lock during bulk copy. Type: boolean (or Expression with resultType boolean). */
   sqlWriterUseTableLock?: any;
-  /** White behavior when copying data into azure SQL MI. Type: SqlWriteBehaviorEnum (or Expression with resultType SqlWriteBehaviorEnum) */
+  /** White behavior when copying data into azure SQL MI. Type: string (or Expression with resultType string) */
   writeBehavior?: any;
   /** SQL upsert settings. */
   upsertSettings?: SqlUpsertSettings;
@@ -9670,6 +9777,30 @@ export interface LakeHouseTableSink extends CopySink {
   partitionOption?: any;
   /** Specify the partition column names from sink columns. Type: array of objects (or Expression with resultType array of objects). */
   partitionNameList?: any;
+}
+
+/** A copy activity Salesforce V2 sink. */
+export interface SalesforceV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
+}
+
+/** A copy activity Salesforce Service Cloud V2 sink. */
+export interface SalesforceServiceCloudV2Sink extends CopySink {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceServiceCloudV2Sink";
+  /** The write behavior for the operation. Default is Insert. */
+  writeBehavior?: SalesforceV2SinkWriteBehavior;
+  /** The name of the external ID field for upsert operation. Default value is 'Id' column. Type: string (or Expression with resultType string). */
+  externalIdFieldName?: any;
+  /** The flag indicating whether or not to ignore null values from input dataset (except key fields) during write operation. Default value is false. If set it to true, it means ADF will leave the data in the destination object unchanged when doing upsert/update operation and insert defined default value when doing insert operation, versus ADF will update the data in the destination object to NULL when doing upsert/update operation and insert NULL value when doing insert operation. Type: boolean (or Expression with resultType boolean). */
+  ignoreNullValues?: any;
 }
 
 /** Snowflake export command settings. */
@@ -9906,7 +10037,7 @@ export interface WebHookActivity extends ControlActivity {
   url: any;
   /** The timeout within which the webhook should be called back. If there is no value specified, it defaults to 10 minutes. Type: string. Pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
   timeout?: string;
-  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
+  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: dictionary (or Expression with resultType dictionary). */
   headers?: any;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
@@ -10182,7 +10313,7 @@ export interface WebActivity extends ExecutionActivity {
   method: WebActivityMethod;
   /** Web activity target endpoint and path. Type: string (or Expression with resultType string). */
   url: any;
-  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
+  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: dictionary (or Expression with resultType dictionary). */
   headers?: any;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
@@ -10190,6 +10321,10 @@ export interface WebActivity extends ExecutionActivity {
   authentication?: WebActivityAuthentication;
   /** When set to true, Certificate validation will be disabled. */
   disableCertValidation?: boolean;
+  /** Timeout for the HTTP request to get a response. Format is in TimeSpan (hh:mm:ss). This value is the timeout to get a response, not the activity timeout. The default value is 00:01:00 (1 minute). The range is from 1 to 10 minutes */
+  httpRequestTimeout?: any;
+  /** Option to disable invoking HTTP GET on location given in response header of a HTTP 202 Response. If set true, it stops invoking HTTP GET on http location given in response header. If set false then continues to invoke HTTP GET call on location given in http response headers. */
+  turnOffAsync?: boolean;
   /** List of datasets passed to web endpoint. */
   datasets?: DatasetReference[];
   /** List of linked services passed to web endpoint. */
@@ -10250,7 +10385,7 @@ export interface AzureMLExecutePipelineActivity extends ExecutionActivity {
   experimentName?: any;
   /** Key,Value pairs to be passed to the published Azure ML pipeline endpoint. Keys must match the names of pipeline parameters defined in the published pipeline. Values will be passed in the ParameterAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
   mlPipelineParameters?: any;
-  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object with key value pairs (or Expression with resultType object). */
+  /** Dictionary used for changing data path assignments without retraining. Values will be passed in the dataPathAssignments property of the published pipeline execution request. Type: object (or Expression with resultType object). */
   dataPathAssignments?: any;
   /** The parent Azure ML Service pipeline run id. This information will be passed in the ParentRunId property of the published pipeline execution request. Type: string (or Expression with resultType string). */
   mlParentRunId?: any;
@@ -10322,7 +10457,7 @@ export interface AzureFunctionActivity extends ExecutionActivity {
   method: AzureFunctionActivityMethod;
   /** Name of the Function that the Azure Function Activity will call. Type: string (or Expression with resultType string) */
   functionName: any;
-  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: string (or Expression with resultType string). */
+  /** Represents the headers that will be sent to the request. For example, to set the language and type on a request: "headers" : { "Accept-Language": "en-us", "Content-Type": "application/json" }. Type: dictionary (or Expression with resultType dictionary). */
   headers?: any;
   /** Represents the payload that will be sent to the endpoint. Required for POST/PUT method, not allowed for GET method Type: string (or Expression with resultType string). */
   body?: any;
@@ -10662,7 +10797,7 @@ export interface SqlSource extends TabularSource {
   storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10682,7 +10817,7 @@ export interface SqlServerSource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10722,7 +10857,7 @@ export interface AzureSqlSource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10742,7 +10877,7 @@ export interface SqlMISource extends TabularSource {
   isolationLevel?: any;
   /** Which additional types to produce. */
   produceAdditionalTypes?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -10760,7 +10895,7 @@ export interface SqlDWSource extends TabularSource {
   storedProcedureParameters?: any;
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
-  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
+  /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". Type: string (or Expression with resultType string). */
   partitionOption?: any;
   /** The settings that will be leveraged for Sql source partitioning. */
   partitionSettings?: SqlPartitionSettings;
@@ -11082,6 +11217,16 @@ export interface AmazonRedshiftSource extends TabularSource {
   query?: any;
   /** The Amazon S3 settings needed for the interim Amazon S3 when copying from Amazon Redshift with unload. With this, data from Amazon Redshift source will be unloaded into S3 first and then copied into the targeted sink from the interim S3. */
   redshiftUnloadSettings?: RedshiftUnloadSettings;
+}
+
+/** A copy activity Salesforce V2 source. */
+export interface SalesforceV2Source extends TabularSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SalesforceV2Source";
+  /** Database query. Type: string (or Expression with resultType string). */
+  soqlQuery?: any;
+  /** The read behavior for the operation. Default is query. Allowed values: query/queryAll. Type: string (or Expression with resultType string). */
+  readBehavior?: any;
 }
 
 /** Referenced tumbling window trigger dependency. */
@@ -13063,6 +13208,24 @@ export enum KnownSparkJobReferenceType {
  */
 export type SparkJobReferenceType = string;
 
+/** Known values of {@link SalesforceV2SinkWriteBehavior} that the service accepts. */
+export enum KnownSalesforceV2SinkWriteBehavior {
+  /** Insert */
+  Insert = "Insert",
+  /** Upsert */
+  Upsert = "Upsert"
+}
+
+/**
+ * Defines values for SalesforceV2SinkWriteBehavior. \
+ * {@link KnownSalesforceV2SinkWriteBehavior} can be used interchangeably with SalesforceV2SinkWriteBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Insert** \
+ * **Upsert**
+ */
+export type SalesforceV2SinkWriteBehavior = string;
+
 /** Known values of {@link RecurrenceFrequency} that the service accepts. */
 export enum KnownRecurrenceFrequency {
   /** NotSpecified */
@@ -13608,6 +13771,24 @@ export enum KnownNetezzaPartitionOption {
  * **DynamicRange**
  */
 export type NetezzaPartitionOption = string;
+
+/** Known values of {@link SalesforceV2SourceReadBehavior} that the service accepts. */
+export enum KnownSalesforceV2SourceReadBehavior {
+  /** Query */
+  Query = "query",
+  /** QueryAll */
+  QueryAll = "queryAll"
+}
+
+/**
+ * Defines values for SalesforceV2SourceReadBehavior. \
+ * {@link KnownSalesforceV2SourceReadBehavior} can be used interchangeably with SalesforceV2SourceReadBehavior,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **query** \
+ * **queryAll**
+ */
+export type SalesforceV2SourceReadBehavior = string;
 /** Defines values for DaysOfWeek. */
 export type DaysOfWeek =
   | "Sunday"
