@@ -32,7 +32,7 @@ describe("multipartPolicy (node-only)", function () {
     await assertBodyMatches(request.body, expectedBody);
     assert.isUndefined(
       request.headers.get("Content-Length"),
-      "Content-Length value should not be inferred from a stream"
+      "Content-Length value should not be inferred from a stream",
     );
   });
 });
