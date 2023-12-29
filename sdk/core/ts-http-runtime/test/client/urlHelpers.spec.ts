@@ -61,7 +61,7 @@ describe("urlHelpers", () => {
 
     assert.equal(
       result,
-      `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`
+      `https://example.org/foo/one?foo=1&bar=two&%24maxpagesize=1&%24skip=%24_20`,
     );
   });
 
@@ -107,7 +107,7 @@ describe("urlHelpers", () => {
 
     assert.equal(
       result,
-      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`,
     );
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {

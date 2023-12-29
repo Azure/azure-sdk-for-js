@@ -12,7 +12,7 @@ import { delay } from "./helpers";
  */
 export type AccessTokenGetter = (
   scopes: string | string[],
-  options: GetTokenOptions
+  options: GetTokenOptions,
 ) => Promise<AccessToken>;
 
 export interface TokenCyclerOptions {
@@ -56,7 +56,7 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 async function beginRefresh(
   getAccessToken: () => Promise<AccessToken | null>,
   retryIntervalInMs: number,
-  refreshTimeout: number
+  refreshTimeout: number,
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
@@ -106,7 +106,7 @@ async function beginRefresh(
  */
 export function createTokenCycler(
   credential: TokenCredential,
-  tokenCyclerOptions?: Partial<TokenCyclerOptions>
+  tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
@@ -155,7 +155,7 @@ export function createTokenCycler(
    */
   function refresh(
     scopes: string | string[],
-    getTokenOptions: GetTokenOptions
+    getTokenOptions: GetTokenOptions,
   ): Promise<AccessToken> {
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
@@ -168,7 +168,7 @@ export function createTokenCycler(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now()
+        token?.expiresOnTimestamp ?? Date.now(),
       )
         .then((_token) => {
           refreshWorker = null;

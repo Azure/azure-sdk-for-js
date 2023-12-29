@@ -75,7 +75,7 @@ export interface LongRunningOperation<T = unknown> {
    */
   sendPollRequest: (
     path: string,
-    options?: { abortSignal?: AbortSignalLike }
+    options?: { abortSignal?: AbortSignalLike },
   ) => Promise<LroResponse<T>>;
 }
 

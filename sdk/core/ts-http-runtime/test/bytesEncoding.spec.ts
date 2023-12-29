@@ -13,7 +13,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of base64 to bytes."
+        "Incorrect conversion of base64 to bytes.",
       );
     });
 
@@ -30,7 +30,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes."
+        "Incorrect conversion of utf-8 to bytes.",
       );
     });
 
@@ -41,7 +41,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes."
+        "Incorrect conversion of utf-8 to bytes.",
       );
     });
   });
