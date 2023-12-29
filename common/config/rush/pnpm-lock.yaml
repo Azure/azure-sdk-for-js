@@ -4985,18 +4985,13 @@ packages:
     engines: {node: '>=12'}
     dev: false
 
-  /dotenv@8.6.0:
-    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
-    engines: {node: '>=10'}
-    dev: false
-
   /downlevel-dts@0.10.1:
     resolution: {integrity: sha512-bwY63Y0Gfwotcly4vU6rB66m5txvfQzDGd1Gai9E9orqsDIswXKjkdR18Tm6TidnAk9+J5N68a5VMDO2bsQCKQ==}
     hasBin: true
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20231225
+      typescript: 5.4.0-dev.20231228
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9751,8 +9746,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20231225:
-    resolution: {integrity: sha512-5cTYQI4FrVz8ceeX+EsAzZLscTzKvwIRdyAkNQncqraQJqHToyL/r3Nt6oPtZxedrYqOzOXTTLdY8cdsHzDCcQ==}
+  /typescript@5.4.0-dev.20231228:
+    resolution: {integrity: sha512-LRdJTPnj+MTmEI+AYsKHdpxa2FhmBP8NbEDu0sQC8pYOggvnbg0W5idoFkJz5Y4TXLRPRbAgqemoJOCuwxLaBQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10787,7 +10782,7 @@ packages:
     dev: false
 
   file:projects/ai-language-textauthoring.tgz:
-    resolution: {integrity: sha512-wmR2P7LwMR8EeKM1vFVx3phMipNnF+5VriLmluJPmqjs8SZ7jZ16zd8wM+P09vcn/bCqpwMgdyA06NtzykclCQ==, tarball: file:projects/ai-language-textauthoring.tgz}
+    resolution: {integrity: sha512-vPJE7PdO6G353B6wQYx8+YR8CLXGam0h8C7BlpBBD78K76i488TjQV4w+QZuDQ6HUeujwtd1G0/Ic7egSHmA2w==, tarball: file:projects/ai-language-textauthoring.tgz}
     name: '@rush-temp/ai-language-textauthoring'
     version: 0.0.0
     dependencies:
@@ -10795,7 +10790,7 @@ packages:
       '@types/node': 18.19.3
       autorest: 3.7.1
       c8: 8.0.1
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       eslint: 8.56.0
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11551,7 +11546,7 @@ packages:
     dev: false
 
   file:projects/arm-automanage.tgz:
-    resolution: {integrity: sha512-zHjra+GG7SgCgFskOs/3bEqJWPGBSzlmAet3kvXiRSivT1aXmzJRG908H2itjCZH4NUnqktd/5WdLrr20W8m8Q==, tarball: file:projects/arm-automanage.tgz}
+    resolution: {integrity: sha512-5R7UMy2Vdh7lYqjG8oO3vu1D6XMEG191Pj36kp3NIfB3+n6NHcw4w0aRooWKosCU5X2XKV/gv5i8khftV+PvDg==, tarball: file:projects/arm-automanage.tgz}
     name: '@rush-temp/arm-automanage'
     version: 0.0.0
     dependencies:
@@ -11561,7 +11556,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -11576,7 +11571,7 @@ packages:
     dev: false
 
   file:projects/arm-automation.tgz:
-    resolution: {integrity: sha512-yV8qy6AFS9+RiJU8QI685JTxJ/+XoRwHVVkiiAbx4o1A/JjLKRtRinGIf4vAalIYADTivEOW6GoxPdCNA6os4g==, tarball: file:projects/arm-automation.tgz}
+    resolution: {integrity: sha512-Qha4RiuR+mNB+XE160qw3XzQLIfG4kObwqRow38EVGhSx+fVuuZHX7yPcIshdwaaXCjyfkXk6Uo83SFmWF1IGQ==, tarball: file:projects/arm-automation.tgz}
     name: '@rush-temp/arm-automation'
     version: 0.0.0
     dependencies:
@@ -11587,7 +11582,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -13126,7 +13121,7 @@ packages:
     dev: false
 
   file:projects/arm-dnsresolver.tgz:
-    resolution: {integrity: sha512-GlO4Lmt31PjGVWPv7KGWUrqPgcvxin0FbE0sCHtgAGsNJkxtDGC9uFhRfq3vBsw1Qvs4eCzElCBVPjPqvg3HHw==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-wdayLTZ11vXGQEyHs3ZCNPJykKSGiT38qXwzOrfdWldTbS+ZIQ0rp+AElxcVqYMqjr0aSymAX+G694BsvjjfNw==, tarball: file:projects/arm-dnsresolver.tgz}
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
@@ -13137,7 +13132,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -13203,7 +13198,7 @@ packages:
     dev: false
 
   file:projects/arm-education.tgz:
-    resolution: {integrity: sha512-BKSAHaTn5C9R3+w1DQdlN+VfK9NyI4SrdWNPEjjtSaMU8TGnYPfHX7NLh7WKROWlAasK6afHrr0ber+yqDqFUw==, tarball: file:projects/arm-education.tgz}
+    resolution: {integrity: sha512-C5KqCvYx65Qe1NTHNhIJ0Ld75aEjFuuWIiayY0iSCZjPkEb2phv95MmiDNXXRrRfMPmP79mmRZNUpEs6OSVvdw==, tarball: file:projects/arm-education.tgz}
     name: '@rush-temp/arm-education'
     version: 0.0.0
     dependencies:
@@ -13213,7 +13208,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14013,7 +14008,7 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-trswSL/O01h1sb3uA959eYl54RMmtxIkSBXFwD8JfoQ30RqDLaiwr6B7o1Qpawi305kjepSB15JlThAWoUiypQ==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-QQeGRP/4J1XrCMnJfmGGN1PEVbgwWuZ6xijb5CDHB9WG3jdO3JmuE8TCHbDYu9Cbel6emRs7S0gOYjG2dGNSdQ==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
@@ -14024,7 +14019,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14063,7 +14058,7 @@ packages:
     dev: false
 
   file:projects/arm-loadtesting.tgz:
-    resolution: {integrity: sha512-908gq9pt1bphLNck3dHGEl6uW6fAkFxfb3eyCY+tI9oM7Eo9GKHYtKH/6A8X4V/rtmyCFvFF2WE1cYbwDcP/Og==, tarball: file:projects/arm-loadtesting.tgz}
+    resolution: {integrity: sha512-seLOmIPeUaIjuUHs9PYnhHdJff0LrlXzymjUj47iGaGRS8WCRakyEu0Lo9hoEwc71C5TTJk+O5ZIIAVJcl/pGQ==, tarball: file:projects/arm-loadtesting.tgz}
     name: '@rush-temp/arm-loadtesting'
     version: 0.0.0
     dependencies:
@@ -14074,7 +14069,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14138,7 +14133,7 @@ packages:
     dev: false
 
   file:projects/arm-logic.tgz:
-    resolution: {integrity: sha512-6nILt+dLgYUTl/4q0TP/Yd5d3djxC3d1w5Pz8gHP/14rdI/rFSNuLPeSKTJTFZKeD25rG/8j+J0WRy1/uGtD9g==, tarball: file:projects/arm-logic.tgz}
+    resolution: {integrity: sha512-Fo40gaQAFtVDoFP5QafgrOCWf8VvxQO6drf3L5X/iXx+Q79tVNZ2GkC9/OnX3vevTDxaAf1P2vusfIVY6aPnng==, tarball: file:projects/arm-logic.tgz}
     name: '@rush-temp/arm-logic'
     version: 0.0.0
     dependencies:
@@ -14149,7 +14144,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14214,7 +14209,7 @@ packages:
     dev: false
 
   file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-r8VPX7auQEAs76z3qNS8Lv3m9YOiLaHG8jaT9vxjYO55Ftc57WB+h5eWwFdwuTRT1je1CVD9RDlKRUqcaLPyrA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
+    resolution: {integrity: sha512-+gEtnuwCayXWni1TRMj22Zkf25rRpDhYTkjxeyG7/A0BuD845hSajTAEgJjd1MNFB/lFVN31ATTFJDXZLzjIJA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
     name: '@rush-temp/arm-machinelearningexperimentation'
     version: 0.0.0
     dependencies:
@@ -14224,7 +14219,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14338,7 +14333,7 @@ packages:
     dev: false
 
   file:projects/arm-managementpartner.tgz:
-    resolution: {integrity: sha512-qdNxjRUMn3a5WvKdbvt0CzJdNEAGKppTABtgxBqlq4g2DtG4qkQ0fTppXzmG1B6qguR3BFCLEROYOYKMqzv3Mw==, tarball: file:projects/arm-managementpartner.tgz}
+    resolution: {integrity: sha512-Q1a2UreYeBb/aMPi5N99O/usrbtYgC8dyKsa4zlYnGuoq1WMiX6GXjnJ0z+xCeIT6oNsMGE67/gf7K25uOEK9Q==, tarball: file:projects/arm-managementpartner.tgz}
     name: '@rush-temp/arm-managementpartner'
     version: 0.0.0
     dependencies:
@@ -14348,7 +14343,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14413,7 +14408,7 @@ packages:
     dev: false
 
   file:projects/arm-marketplaceordering.tgz:
-    resolution: {integrity: sha512-J7bE8QMMRJoi/6ZMZsCs8+gihw2znTl6E8fBuKTqZBujfnamGR23uaKjtSzMWuFNl5qEz56yCzli4qBiebxi3Q==, tarball: file:projects/arm-marketplaceordering.tgz}
+    resolution: {integrity: sha512-JnnZjaR7UuTJIv/+m3RfyE1fwVl7htUYv678hyLN1GEuI+aub2RxoUBrO721qnInC0PPG1u/gTvGYZI7DzuKMA==, tarball: file:projects/arm-marketplaceordering.tgz}
     name: '@rush-temp/arm-marketplaceordering'
     version: 0.0.0
     dependencies:
@@ -14423,7 +14418,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14464,7 +14459,7 @@ packages:
     dev: false
 
   file:projects/arm-migrate.tgz:
-    resolution: {integrity: sha512-YB8tlqxYPdlmzLHTmsSkyjYtIxgOp6yxYzn3H5pQ+IQWu98rJW+q/ROxHaEgOVJseD/J5NwZ5KGkkyQyzdiSqw==, tarball: file:projects/arm-migrate.tgz}
+    resolution: {integrity: sha512-f6NFvW88XbfPNiBa9lZf1XjSWx0paxkFDg5ZiSZGFCgPpsM1tVpbm7nhAPlRJ2bPrX4ma4lKyT7fSHlOHfbMtA==, tarball: file:projects/arm-migrate.tgz}
     name: '@rush-temp/arm-migrate'
     version: 0.0.0
     dependencies:
@@ -14474,7 +14469,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14592,7 +14587,7 @@ packages:
     dev: false
 
   file:projects/arm-msi.tgz:
-    resolution: {integrity: sha512-D8r+6WD6eo5W2BJElt4lpYgGZIaxl9uXyNGm+lQSNGzxoMuFSe64u6R1CgJTRtdHResaHx7lk46AYnWTIVX6mg==, tarball: file:projects/arm-msi.tgz}
+    resolution: {integrity: sha512-M64asTlD/0V8rw/H3Z2E34WbXrWlwCN4TMANcJDT4wM44YjwnksHKPTTSxlnYqk3JFAq+kpABEv7gfBI72dg7w==, tarball: file:projects/arm-msi.tgz}
     name: '@rush-temp/arm-msi'
     version: 0.0.0
     dependencies:
@@ -14602,7 +14597,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -14976,7 +14971,7 @@ packages:
     dev: false
 
   file:projects/arm-operationalinsights.tgz:
-    resolution: {integrity: sha512-XLM7LkduN6MaEjnp3zcYDitxRDweA/3ra+ZhOUCgh/gqoBCgtpi81I5ku5EeHioEL6sXiINrSpXmy0rDEpqFhw==, tarball: file:projects/arm-operationalinsights.tgz}
+    resolution: {integrity: sha512-FAaeATOERnWqR2p+cAwaBYfZ+hLqQ4grsanafdRkvW237mtiQ87sdO8uF8BLRoJQwvPavzB0IDaHHAiVPgHNYQ==, tarball: file:projects/arm-operationalinsights.tgz}
     name: '@rush-temp/arm-operationalinsights'
     version: 0.0.0
     dependencies:
@@ -14987,7 +14982,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15181,7 +15176,7 @@ packages:
     dev: false
 
   file:projects/arm-policyinsights.tgz:
-    resolution: {integrity: sha512-9QgUKSFGrpUkvwaJvLPpFVWLNCbNEGOK4CQrBr7JKJ1ZbfzrCiDhVHEaVrpTGTaNOIm/RvZf8NvDKR/I2E4vQA==, tarball: file:projects/arm-policyinsights.tgz}
+    resolution: {integrity: sha512-mkbkZOUHQ9z/1Y9iLIMpny5Zs+VBFzHQRpz2nZr7DMw6SCnJs7ylcaJPTQ+K8xOyYTMK4uaMcM5tW1I9tbnR9A==, tarball: file:projects/arm-policyinsights.tgz}
     name: '@rush-temp/arm-policyinsights'
     version: 0.0.0
     dependencies:
@@ -15192,7 +15187,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15207,7 +15202,7 @@ packages:
     dev: false
 
   file:projects/arm-portal.tgz:
-    resolution: {integrity: sha512-ShC/7USX7awcEq5KW878mhIp1/D4loaXWRzguU+bpbDUzZMfVkCXKjfu1RjajBEGQ2+iTxLY+cBuKxwQT4leLQ==, tarball: file:projects/arm-portal.tgz}
+    resolution: {integrity: sha512-pf4Jwvp3r0b5g33pyw2cNud9zDGRBv1BPBSiYnJho5XAAY5NA5XoNWYQGuBxjwVoEZrbjj/mUMUXHfQi+vYzkA==, tarball: file:projects/arm-portal.tgz}
     name: '@rush-temp/arm-portal'
     version: 0.0.0
     dependencies:
@@ -15217,7 +15212,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15285,7 +15280,7 @@ packages:
     dev: false
 
   file:projects/arm-powerbidedicated.tgz:
-    resolution: {integrity: sha512-oPVjoe+1O5EER76zFp06mb61gWH30VLqMbOfWxcSlmtvhDw1vfT4+5bcqPHRSmonEx+mTK96Mp4rHAde6cV1bg==, tarball: file:projects/arm-powerbidedicated.tgz}
+    resolution: {integrity: sha512-u6iji3CkXX6nvfKVbRye1qsq6XT4IrRjhHo7tBM8IB7/ChmtkQNbLus2/E9x/OCYPr/ihNfryaSjsZ/qZNbOsw==, tarball: file:projects/arm-powerbidedicated.tgz}
     name: '@rush-temp/arm-powerbidedicated'
     version: 0.0.0
     dependencies:
@@ -15296,7 +15291,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15626,7 +15621,7 @@ packages:
     dev: false
 
   file:projects/arm-relay.tgz:
-    resolution: {integrity: sha512-eXA9c0W96TAsD9Jl+yAxlr3ZpF5nzoKgwjNTLNKzK6TrCQGxTfA3WE5g8G0yOHD8g+ewrbGI/2kDc9+sUfWdFA==, tarball: file:projects/arm-relay.tgz}
+    resolution: {integrity: sha512-VDqA9tMjFrewt2VKLOcv9DR7kS6ZsCcpTVFn+PwlD/UYmogrmp0jyeklXXcXmmaKAJl0OWSWLEpkIkOuxobydw==, tarball: file:projects/arm-relay.tgz}
     name: '@rush-temp/arm-relay'
     version: 0.0.0
     dependencies:
@@ -15637,7 +15632,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15882,7 +15877,7 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-FjQCeXqzoX2T7Uxn/pANTc3Zxs7Cofx+IbVmLQpGt3viqJzIGDdtc3iEJCh236W4uFQJ0OWF5YeASs6FxPl28Q==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-buQkcIBS3NMmF5GTrmIooZOv7laQYesMN9Hm+LDiWp5CK9wOGmEONtgGczEiRc1htKsx5wrYVicdaLqCpsaI/A==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
@@ -15893,7 +15888,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15960,7 +15955,7 @@ packages:
     dev: false
 
   file:projects/arm-securitydevops.tgz:
-    resolution: {integrity: sha512-2EMy6pvNmfEM+zF/cny41o8mJ5XRwE4MxlDRHPFEYzR3EcVFAqzYWSlww4bZEqXstheUzbNcwVtj0nJsX5xNhQ==, tarball: file:projects/arm-securitydevops.tgz}
+    resolution: {integrity: sha512-qmOdO9uPSVNHSW1Dffp7QKYGSXErle1euCNxzMBBnHhS6yOBweCW8nxgvu6dMjRfj2hhd+Qmt4gs2hHSgvVFyw==, tarball: file:projects/arm-securitydevops.tgz}
     name: '@rush-temp/arm-securitydevops'
     version: 0.0.0
     dependencies:
@@ -15971,7 +15966,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -15986,7 +15981,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-zTjeQICOt8epVOHIK2anALXq0a8ZD1jy2JTZENoBhyotliPuPkfvyYWmh8hsp7qt5agIqkbI9w52pqhabubqSA==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-CTRy49yCzIVwVp6GcEZDiJxfsqXzsuYPZxTIY1xoXcOUyEQQ4gFjV7ChSpbBUzpW8rLpgrPt1R1UGDQtqO40oA==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -15997,7 +15992,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16064,7 +16059,7 @@ packages:
     dev: false
 
   file:projects/arm-servicebus.tgz:
-    resolution: {integrity: sha512-yM0HP2VUDY1DT5CSqU1aCyoah7ef35zYcj+KL6Na2zf4z3Self0f7x0sxemkAyxs++9r/RyOl/ws+yyVLfijbw==, tarball: file:projects/arm-servicebus.tgz}
+    resolution: {integrity: sha512-nnFgGqRwTqkKnkfhfMTUtnPgOdhQPcUrnQ5UIcgJyXTlYkz37Sy54f/ZrirqgovfwLdS88ENisMpdYoGIHvLgw==, tarball: file:projects/arm-servicebus.tgz}
     name: '@rush-temp/arm-servicebus'
     version: 0.0.0
     dependencies:
@@ -16075,7 +16070,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16161,7 +16156,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-BRpgxLJXiItpVwSjHuvXfpz+QJFX+KFeBdOwM6uoo2o0vTIsF8BCIUNU/rx4anzmP3L31lypwv7LsipHOoUGJQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
+    resolution: {integrity: sha512-95jWzWyMHz7QgoE2LlYCICMO8K5v5lJ/5b7MP2XSaB1Bc00gSQAEH88eL2V10TQN/ATUSQuKXi+0Eys/r55BJQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
     name: '@rush-temp/arm-servicefabricmesh'
     version: 0.0.0
     dependencies:
@@ -16171,7 +16166,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16449,7 +16444,7 @@ packages:
     dev: false
 
   file:projects/arm-storageimportexport.tgz:
-    resolution: {integrity: sha512-G2uijgb7RNTZrT2Cin5T7L+N60q4kJyzvP65ehKrDd2oYp0tYRX37/43ze/iv14cM1Um+kpYp/UnW2L4ElPOuw==, tarball: file:projects/arm-storageimportexport.tgz}
+    resolution: {integrity: sha512-jD2FHBiBRjjTxyHMAkgvzgdKFWkXot/KpAT5Rov49UDiVwLipI/sUq2eam83D6cxilpSoJWNCnmRMr8x+WZHJg==, tarball: file:projects/arm-storageimportexport.tgz}
     name: '@rush-temp/arm-storageimportexport'
     version: 0.0.0
     dependencies:
@@ -16459,7 +16454,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16676,7 +16671,7 @@ packages:
     dev: false
 
   file:projects/arm-synapse.tgz:
-    resolution: {integrity: sha512-8+iWu72kqBdcB0LCPRnOYXJBgPNxe9MytDH0R50iOaGCAuqxc4gENZjwWLiTr538qDpNkXoqxW1Crd1r9MnuxA==, tarball: file:projects/arm-synapse.tgz}
+    resolution: {integrity: sha512-26MK/OziDoaG0ZOELgt+/LNDdRlcuP0nXjor358W6QksX3a4HAT4LE5FJinJl33Bk+SXCHSNLkR2dKpei8Fnzg==, tarball: file:projects/arm-synapse.tgz}
     name: '@rush-temp/arm-synapse'
     version: 0.0.0
     dependencies:
@@ -16687,7 +16682,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16802,7 +16797,7 @@ packages:
     dev: false
 
   file:projects/arm-vmwarecloudsimple.tgz:
-    resolution: {integrity: sha512-ae8OL0M/qFHS13oTZpUdS/HsMHK1tTn9k8O7Jh2ZRW1tibT8DOZSIDG601BM6T8OlBdc+x7UDlnvB+kieLJ+TA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-3dgWRl6OzYlEaj2XAIUvOQmouIfp7CsOl6YGkAZ6nqI0+/MiDiudSuQ22nzSStRIEz1Cl3Kkaa6tx4fufMHVQA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
@@ -16813,7 +16808,7 @@ packages:
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 8.6.0
+      dotenv: 16.3.1
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
