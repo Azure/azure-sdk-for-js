@@ -42,7 +42,7 @@ matrix([[true, false]] as const, async (useAad) => {
       client = new DocumentAnalysisClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
     });
 
@@ -64,11 +64,11 @@ matrix([[true, false]] as const, async (useAad) => {
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
         _classifierId = recorder.variable(
           "customClassifierId",
-          `customClassifier${getRandomNumber()}`
+          `customClassifier${getRandomNumber()}`,
         );
 
         const poller = await trainingClient.beginBuildDocumentClassifier(
@@ -86,7 +86,7 @@ matrix([[true, false]] as const, async (useAad) => {
               },
             },
           },
-          { ...testPollingOptions, description: customClassifierDescription }
+          { ...testPollingOptions, description: customClassifierDescription },
         );
 
         _classifier = await poller.pollUntilDone();
@@ -135,7 +135,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const poller = await client.beginClassifyDocumentFromUrl(
         classifierId,
         url,
-        testPollingOptions
+        testPollingOptions,
       );
 
       const result = await poller.pollUntilDone();
@@ -153,7 +153,7 @@ matrix([[true, false]] as const, async (useAad) => {
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
         makeCredential(useAad),
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       );
       await trainingClient.getDocumentClassifier(_classifierId);
 
@@ -166,7 +166,7 @@ matrix([[true, false]] as const, async (useAad) => {
       await assert.isRejected(
         (async function () {
           await trainingClient.getDocumentClassifier(_classifierId);
-        })()
+        })(),
       );
     });
   });

@@ -10637,7 +10637,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-cphf6VXXBNsAz60oK4685lohj/V5XojNy0lfXvkSLkjEgWZB48jFKRVKz9dABkw7MknpBLwuUYDR6a+qlXmv2w==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-Q8CLkpq6mf8nm8zfPelY0zqA0kuNCnXtiXse9nTFzCdX9OFu6CQGMDgW8XTunxdFchcsNrAmnvgMbeAlKJtebg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -10668,7 +10668,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       magic-string: 0.27.0
       mocha: 10.2.0
-      prettier: 2.8.8
+      prettier: 3.1.1
       rimraf: 3.0.2
       rollup: 4.9.1
       sinon: 17.0.1
