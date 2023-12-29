@@ -235,15 +235,17 @@ export async function waitForIncomingCallContext(
   uniqueId: string,
   timeOut: number
 ): Promise<string | undefined> {
-  let currentTime = new Date().getTime();
-  const timeOutTime = currentTime + timeOut;
-  while (currentTime < timeOutTime) {
-    const incomingCallContext = incomingCallContexts.get(uniqueId);
-    if (incomingCallContext) {
-      return incomingCallContext;
+  if (!isPlaybackMode()) {
+    let currentTime = new Date().getTime();
+    const timeOutTime = currentTime + timeOut;
+    while (currentTime < timeOutTime) {
+      const incomingCallContext = incomingCallContexts.get(uniqueId);
+      if (incomingCallContext) {
+        return incomingCallContext;
+      }
+      await sleep(1000);
+      currentTime += 1000;
     }
-    await sleep(1000);
-    currentTime += 1000;
   }
   return "";
 }
@@ -268,7 +270,23 @@ export async function waitForEvent(
 
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
-    fs.writeFile(`recordings\\${testName}.json`, eventsToPersist.join("\n"), (err) => {
+    // sanitize the events values accordingly
+    const sanatizedEvents: any[] = [];
+    for (const event of eventsToPersist) {
+      const jsonData = JSON.parse(event);
+      sanitizeObject(jsonData, [
+        "rawId",
+        "id",
+        "incomingCallContext",
+        "value",
+        "correlationId",
+        "serverCallId",
+      ]);
+      sanatizedEvents.push(jsonData);
+    }
+
+    const jsonArrayString = JSON.stringify(sanatizedEvents, null, 2);
+    fs.writeFile(`recordings\\${testName}.json`, jsonArrayString, (err) => {
       if (err) throw err;
     });
     // Clear the array for next test to use
@@ -288,11 +306,10 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
       console.log("original path doesn't work");
       data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
     }
-    const eventStrings = data.split("\n");
+    const loadedEvents = JSON.parse(data);
 
-    eventStrings.forEach(async (eventString) => {
-      const event: any = JSON.parse(eventString);
-      await eventBodyHandler(event);
+    loadedEvents.forEach(async (oneEvent: any) => {
+      await eventBodyHandler(oneEvent);
     });
   }
 }
@@ -308,4 +325,17 @@ export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
     phoneNumbers.push(purchasedNumber.phoneNumber);
   }
   return phoneNumbers;
+}
+
+function sanitizeObject(obj: any, keysToSanitize: string[]) {
+  for (const key in obj) {
+    if (typeof obj[key] === "object") {
+      sanitizeObject(obj[key], keysToSanitize);
+    } else {
+      // Replace keys in the keysToSanitize array with 'sanitized'
+      if (keysToSanitize.includes(key)) {
+        obj[key] = "sanitized";
+      }
+    }
+  }
 }
