@@ -8229,8 +8229,8 @@ packages:
       react-is: 18.2.0
     dev: false
 
-  /priorityqueuejs@1.0.0:
-    resolution: {integrity: sha512-lg++21mreCEOuGWTbO5DnJKAdxfjrdN0S9ysoW9SzdSJvbkWpkaDdpG/cdsPCsEnoLUwmd9m3WcZhngW7yKA2g==}
+  /priorityqueuejs@2.0.0:
+    resolution: {integrity: sha512-19BMarhgpq3x4ccvVi8k2QpJZcymo/iFUcrhPd4V96kYGovOdTsWwy7fxChYi4QY+m2EnGBWSX9Buakz+tWNQQ==}
     dev: false
 
   /process-nextick-args@2.0.1:
@@ -18247,7 +18247,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-NKuXa58RfzN0Gk0ewc5tp/kt6AoEXUNt/wgNFpB84Iw207sNQGpAxrWeYr8CWaMchSAMA+d0rPb4gEt+31uQPw==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-2i11HWWIceXQDbZ6GhyTf9jtgwuSZ55O25qj1VbotPD0EkHw73B8/c8/hXuiESZsr2vlGHjdVyO7VNY9iyJhww==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -18278,7 +18278,7 @@ packages:
       nock: 12.0.3
       node-abort-controller: 3.1.1
       prettier: 2.8.8
-      priorityqueuejs: 1.0.0
+      priorityqueuejs: 2.0.0
       requirejs: 2.3.6
       rimraf: 3.0.2
       semaphore: 1.1.0
