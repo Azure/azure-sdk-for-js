@@ -171,7 +171,7 @@ class NodeHttpClient implements HttpClient {
       if (request.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
         if (isReadableStream(body)) {
-          uploadStreamDone = isStreamComplete(body as NodeJS.ReadableStream);
+          uploadStreamDone = isStreamComplete(body);
         }
         let downloadStreamDone = Promise.resolve();
         if (isReadableStream(responseStream)) {

@@ -20,7 +20,28 @@ describe("Request options", () => {
     await recorder.stop();
   });
 
-  it("onResponse is called", async function () {
+  it("onResponse is called in non-streaming methods", async function () {
+    const messages = [
+      {
+        role: "system",
+        content: "You are a helpful assistant. You will talk like a pirate.",
+      } as const,
+      { role: "user", content: "Can you help me?" } as const,
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" } as const,
+      { role: "user", content: "What's the best way to train a parrot?" } as const,
+    ];
+
+    const deploymentName = "gpt-3.5-turbo";
+    let called = false;
+    await client.getChatCompletions(deploymentName, messages, {
+      onResponse: () => {
+        called = true;
+      },
+    });
+    assert.isTrue(called);
+  });
+
+  it("onResponse is called in streaming methods", async function () {
     const messages = [
       {
         role: "system",

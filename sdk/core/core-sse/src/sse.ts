@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { IncomingMessage } from "http";
 import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
@@ -22,9 +23,9 @@ export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventM
  * @param chunkStream - An async iterable of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function createSseStream(chunkStream: NodeJS.ReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
 export function createSseStream(
-  chunkStream: NodeJS.ReadableStream | ReadableStream<Uint8Array>,
+  chunkStream: IncomingMessage | ReadableStream<Uint8Array>,
 ): EventMessageStream {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
   const asyncIter = toMessage(toLine(iterable));
