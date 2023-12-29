@@ -1,0 +1,146 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools?api-version=2022-10-01.16.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "287",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0a33237a-7046-4f43-884f-58a82c6d4c21"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Pool-Datadisk-8190",
+        "vmSize": "Standard_A1_v2",
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "18.04-LTS"
+          },
+          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
+          "dataDisks": [
+            {
+              "lun": 1,
+              "diskSizeGB": 50
+            }
+          ]
+        },
+        "targetDedicatedNodes": 0
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-8190",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:39 GMT",
+        "ETag": "0x8DB505C371FE505",
+        "Last-Modified": "Tue, 09 May 2023 07:08:39 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-8190",
+        "request-id": "125ec328-2a17-4629-a603-aba0269a5da3",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "fccbc02a-bb42-4365-839c-b438d095cced"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:49 GMT",
+        "ETag": "0x8DB505C371FE505",
+        "Last-Modified": "Tue, 09 May 2023 07:08:39 GMT",
+        "request-id": "81aa94a6-7977-4fd1-8187-00a05edd47d5",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Datadisk-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-8190",
+        "eTag": "0x8DB505C371FE505",
+        "lastModified": "2023-05-09T07:08:39.5107589Z",
+        "creationTime": "2023-05-09T07:08:39.5107589Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:08:39.5107589Z",
+        "allocationState": "steady",
+        "allocationStateTransitionTime": "2023-05-09T07:08:40.6087747Z",
+        "vmSize": "standard_a1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 0,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "UbuntuServer",
+            "sku": "18.04-LTS",
+            "version": "latest"
+          },
+          "nodeAgentSKUId": "batch.node.ubuntu 18.04",
+          "dataDisks": [
+            {
+              "lun": 1,
+              "caching": "none",
+              "diskSizeGB": 50,
+              "storageAccountType": "standard_lrs"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Datadisk-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0a996cc1-00e9-4c4b-aef0-898f904b919e"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:49 GMT",
+        "request-id": "8238ef63-9739-4d89-a937-b35959610a74",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "DISK_POOL": "JSSDKTest-Pool-Datadisk-8190"
+  }
+}

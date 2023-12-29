@@ -1,0 +1,90 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools?maxResults=2\u0026api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "078b7775-2eb6-420c-b032-02f263b6b82a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:33 GMT",
+        "request-id": "8eaba8e4-0ec8-4f0c-9a79-51a75591ce16",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools",
+        "value": [
+          {
+            "id": "JSSDKTest-Pool-Basic-8190",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+            "eTag": "0x8DB505C3148F213",
+            "lastModified": "2023-05-09T07:08:29.7134611Z",
+            "creationTime": "2023-05-09T07:06:56.0892396Z",
+            "state": "active",
+            "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+            "allocationState": "steady",
+            "allocationStateTransitionTime": "2023-05-09T07:08:18.5882357Z",
+            "vmSize": "standard_d1_v2",
+            "resizeTimeout": "PT15M",
+            "currentDedicatedNodes": 4,
+            "targetDedicatedNodes": 4,
+            "currentLowPriorityNodes": 0,
+            "targetLowPriorityNodes": 0,
+            "enableAutoScale": false,
+            "enableInterNodeCommunication": false,
+            "startTask": {
+              "commandLine": "cmd /c echo hello \u003E hello.txt",
+              "userIdentity": {
+                "autoUser": {
+                  "scope": "pool",
+                  "elevationLevel": "nonadmin"
+                }
+              },
+              "maxTaskRetryCount": 0,
+              "waitForSuccess": true
+            },
+            "userAccounts": [
+              {
+                "name": "nonAdminUser",
+                "elevationLevel": "nonadmin",
+                "windowsUserConfiguration": {
+                  "loginMode": "interactive"
+                }
+              }
+            ],
+            "certificateReferences": [],
+            "metadata": [
+              {
+                "name": "foo",
+                "value": "bar"
+              }
+            ],
+            "taskSlotsPerNode": 1,
+            "taskSchedulingPolicy": {
+              "nodeFillType": "Spread"
+            },
+            "cloudServiceConfiguration": {
+              "osFamily": "4",
+              "osVersion": "*"
+            },
+            "targetNodeCommunicationMode": "default",
+            "currentNodeCommunicationMode": "classic"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,37 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/lifetimepoolstats?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a5e89335-01c5-4e68-b68b-e0554b03cfd7"
+      },
+      "RequestBody": null,
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "332",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:10:29 GMT",
+        "request-id": "390ba5e5-ee2d-49e0-826f-e85e0444eb33",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
+        "code": "LifetimeStatsAPIRetired",
+        "message": {
+          "lang": "en-US",
+          "value": "Lifetime statistics API was retired on 04/30/2023\nRequestId:390ba5e5-ee2d-49e0-826f-e85e0444eb33\nTime:2023-05-09T07:10:29.8901555Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

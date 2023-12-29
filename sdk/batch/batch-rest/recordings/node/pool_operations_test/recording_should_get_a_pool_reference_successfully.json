@@ -1,0 +1,568 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "7ebb62b1-194a-47f0-b098-5348b69d46ef"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:07:28 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "f0b3954d-7f6b-40db-b510-3541c7678ea5",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2e229a23-ef51-4fd5-a836-424b7b69f89f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:07:37 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "b1e1cc4c-71a1-4a4d-b172-343d5047db9c",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e1b996f6-355d-4b02-bdbc-222ef6dad43c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:07:48 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "fe877b66-21a8-42a8-b453-9618128715e9",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "54e5c4ff-18a0-4a02-8bd5-1aaf23a69be2"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:07:58 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "ea57e926-f9a6-4e4a-9b5b-7052caad9df7",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "d2460295-fa01-462a-bb87-291b0ef2b780"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:07 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "c70b5a3e-dac7-4485-888f-dea11a5bbfcf",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "96b8001a-d07f-4a4c-ab7b-c6deef3738aa"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:18 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "823ce0db-ef7d-4fb3-8d72-b7b1704b883b",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 4,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "91f2d02a-6a3f-4c95-8206-a122c24f00da"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:08:27 GMT",
+        "ETag": "0x8DB505C06361269",
+        "Last-Modified": "Tue, 09 May 2023 07:07:17 GMT",
+        "request-id": "ccba5518-db66-4d60-a9fc-ef53a2894ee3",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "eTag": "0x8DB505C06361269",
+        "lastModified": "2023-05-09T07:07:17.4477417Z",
+        "creationTime": "2023-05-09T07:06:56.0892396Z",
+        "state": "active",
+        "stateTransitionTime": "2023-05-09T07:06:56.0892396Z",
+        "allocationState": "steady",
+        "allocationStateTransitionTime": "2023-05-09T07:08:18.5882357Z",
+        "vmSize": "standard_d1_v2",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 4,
+        "targetDedicatedNodes": 4,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "elevationLevel": "nonadmin",
+            "windowsUserConfiguration": {
+              "loginMode": "interactive"
+            }
+          }
+        ],
+        "metadata": [
+          {
+            "name": "foo2",
+            "value": "bar2"
+          }
+        ],
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        },
+        "currentNodeCommunicationMode": "classic"
+      }
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-8190"
+  }
+}

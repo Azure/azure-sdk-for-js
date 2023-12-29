@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/poolusagemetrics?api-version=2022-10-01.16.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "237cabcb-386f-4192-8491-bbabf875b599"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:10:30 GMT",
+        "request-id": "f4b59cc5-ed94-41da-8947-0d5db3a873dc",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#poolusagemetrics",
+        "value": [
+          {
+            "poolId": "jssdktest-basic-hoppe_temp",
+            "startTime": "2023-05-08T09:00:00Z",
+            "endTime": "2023-05-08T09:30:00Z",
+            "vmSize": "Standard_D2s_v3",
+            "totalCoreHours": 0.58687021955555552
+          },
+          {
+            "poolId": "jssdktest-endpoint-hoppe_temp",
+            "startTime": "2023-05-08T09:00:00Z",
+            "endTime": "2023-05-08T09:30:00Z",
+            "vmSize": "Standard_A1_v2",
+            "totalCoreHours": 0.10253957019444443
+          },
+          {
+            "poolId": "jssdktest-nodecommunication-hoppe_temp",
+            "startTime": "2023-05-08T09:00:00Z",
+            "endTime": "2023-05-08T09:30:00Z",
+            "vmSize": "Standard_D1_v2",
+            "totalCoreHours": 0.13844399691666665
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

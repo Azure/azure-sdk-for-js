@@ -1,0 +1,54 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools?api-version=2022-10-01.16.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "290",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "0a3f228b-7695-4729-bb17-e4fc3df11e1e"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Pool-Basic-8190",
+        "vmSize": "Standard_D1_v2",
+        "cloudServiceConfiguration": {
+          "osFamily": "4"
+        },
+        "targetDedicatedNodes": 4,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt"
+        },
+        "userAccounts": [
+          {
+            "name": "nonAdminUser",
+            "password": "fakePasswordValue",
+            "elevationLevel": "nonadmin"
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 09 May 2023 07:06:55 GMT",
+        "ETag": "0x8DB505BF97B05EC",
+        "Last-Modified": "Tue, 09 May 2023 07:06:56 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "request-id": "1de894b4-36f7-41e4-9780-2e18040347fd",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-8190"
+  }
+}
