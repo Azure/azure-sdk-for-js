@@ -325,7 +325,7 @@ describe("CallConnection Unit Tests", () => {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnection Live Tests", function () {
+describe("CallConnection Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -345,13 +345,6 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnect
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -362,6 +355,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnect
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("List all participants", async function () {
@@ -513,7 +513,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnect
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
 
-  it.skip("Skipping to update this test later: Mute a participant", async function () {
+  it("Mute a participant", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "mute_participant";
@@ -539,7 +539,8 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnect
     const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
     const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
 
-    const addResult = await callConnection.addParticipant(participantInvite);
+    const addParticipantOption: AddParticipantOptions = { operationContext: "addParticipant" };
+    const addResult = await callConnection.addParticipant(participantInvite, addParticipantOption);
     assert.isDefined(addResult);
 
     // A call needs at least 3 participants to mute a participant. So adding one more participant.
@@ -564,18 +565,14 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. CallConnect
     const muteResult = await callConnection.muteParticipant(testUser2);
     assert.isDefined(muteResult);
 
-    const participantsUpdatedEvent = await waitForEvent(
-      "ParticipantsUpdated",
-      callConnectionId,
-      8000
-    );
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    assert.isDefined(participantsUpdatedEvent);
+    const participantLists = await callConnection.listParticipants();
     let isMuted = false;
-    const participantsUpdatedEventJson = JSON.parse(JSON.stringify(participantsUpdatedEvent));
-    for (const participant of participantsUpdatedEventJson["participants"]) {
-      if (participant["identifier"]["communicationUserId"] === testUser2.communicationUserId) {
-        isMuted = participant["isMuted"];
+    for (const participant of participantLists.values!) {
+      const communicationUser = participant.identifier as CommunicationUserIdentifier;
+      if (communicationUser.communicationUserId === testUser2.communicationUserId) {
+        isMuted = participant.isMuted!;
       }
     }
     assert.isTrue(isMuted);
