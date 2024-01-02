@@ -102,7 +102,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromPollResponse: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   /**
    * Determines if the input error is an operation error.
@@ -113,14 +113,14 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   /**
    * Gets the resource location from a response.
    */
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   /**
    * Gets from the response the time interval the service suggests the client to

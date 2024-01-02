@@ -21,7 +21,7 @@ async function getResponseBuffer(response: PipelineResponse): Promise<Buffer> {
 }
 
 export async function getImageDimensionsFromResponse(
-  response: PipelineResponse
+  response: PipelineResponse,
 ): Promise<Dimensions> {
   const buffer = await getResponseBuffer(response);
   return { width: buffer.readInt32BE(16), height: buffer.readInt32BE(20) };

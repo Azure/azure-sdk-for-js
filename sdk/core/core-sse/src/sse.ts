@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type { IncomingMessage } from "http";
+import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
+import { createStream, ensureAsyncIterable } from "./utils.js";
+
 const enum ControlChars {
   NewLine = 10,
   CarriageReturn = 13,
@@ -9,71 +13,23 @@ const enum ControlChars {
 }
 
 /**
- * Represents a message sent in an event stream
- * https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events#Event_stream_format
- */
-export interface EventMessage {
-  /** The event ID to set the EventSource object's last event ID value. */
-  id: string;
-  /** A string identifying the type of event described. */
-  event: string;
-  /** The event data */
-  data: string;
-  /** The reconnection interval (in milliseconds) to wait before retrying the connection */
-  retry?: number;
-}
-
-type PartialSome<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
-
-/**
  * Processes a response stream into a stream of events.
- * @param chunkIter - A stream of Uint8Array chunks
+ * @param chunkStream - A stream of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function iterateSseStream(
-  chunkIter: ReadableStream<Uint8Array>
-): AsyncIterable<EventMessage>;
+export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 /**
  * Processes a response stream into a stream of events.
- * @param chunkIter - An async iterable of Uint8Array chunks
+ * @param chunkStream - An async iterable of Uint8Array chunks
  * @returns An async iterable of EventMessage objects
  */
-export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
-export function iterateSseStream(
-  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
-): AsyncIterable<EventMessage> {
-  return toMessage(toLine(ensureAsyncIterable(chunkIter)));
-}
-
-function ensureAsyncIterable(
-  chunkIter: AsyncIterable<Uint8Array> | ReadableStream<Uint8Array>
-): AsyncIterable<Uint8Array> {
-  return isReadableStream(chunkIter) && (chunkIter as any)[Symbol.asyncIterator] === undefined
-    ? toAsyncIterable(chunkIter)
-    : (chunkIter as AsyncIterable<Uint8Array>);
-}
-
-function isReadableStream(body: unknown): body is ReadableStream {
-  return Boolean(
-    body &&
-      typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
-  );
-}
-
-async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
-  const reader = stream.getReader();
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        return;
-      }
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
-  }
+export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
+export function createSseStream(
+  chunkStream: IncomingMessage | ReadableStream<Uint8Array>,
+): EventMessageStream {
+  const { cancel, iterable } = ensureAsyncIterable(chunkStream);
+  const asyncIter = toMessage(toLine(iterable));
+  return createStream(asyncIter, cancel);
 }
 
 function concatBuffer(a: Uint8Array, b: Uint8Array): Uint8Array {
@@ -93,7 +49,7 @@ function createMessage(): PartialSome<EventMessage, "data"> {
 }
 
 async function* toLine(
-  chunkIter: AsyncIterable<Uint8Array>
+  chunkIter: AsyncIterable<Uint8Array>,
 ): AsyncIterable<{ line: Uint8Array; fieldLen: number }> {
   let buf: Uint8Array | undefined;
   let bufIdx = 0;
@@ -155,8 +111,8 @@ async function* toLine(
 }
 
 async function* toMessage(
-  lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>
-): AsyncIterable<EventMessage> {
+  lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>,
+): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
   const decoder = new TextDecoder();
   for await (const { line, fieldLen } of lineIter) {

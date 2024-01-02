@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
  *
  * @summary Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified managed cluster. The operation returns properties of each egress endpoint.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/OutboundNetworkDependenciesEndpointsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/OutboundNetworkDependenciesEndpointsList.json
  */
 async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listOutboundNetworkDependenciesEndpointsByManagedCluster() {
   const resArray = new Array();
   for await (let item of client.managedClusters.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

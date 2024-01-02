@@ -20,7 +20,9 @@ import {
   DedicatedHostsDeleteOptionalParams,
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
-  DedicatedHostsRestartOptionalParams
+  DedicatedHostsRestartOptionalParams,
+  DedicatedHostsRedeployOptionalParams,
+  DedicatedHostsRedeployResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -193,4 +195,41 @@ export interface DedicatedHosts {
     hostName: string,
     options?: DedicatedHostsRestartOptionalParams
   ): Promise<void>;
+  /**
+   * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
+   * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
+   * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRedeploy(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<DedicatedHostsRedeployResponse>,
+      DedicatedHostsRedeployResponse
+    >
+  >;
+  /**
+   * Redeploy the dedicated host. The operation will complete successfully once the dedicated host has
+   * migrated to a new node and is running. To determine the health of VMs deployed on the dedicated host
+   * after the redeploy check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  beginRedeployAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRedeployOptionalParams
+  ): Promise<DedicatedHostsRedeployResponse>;
 }
