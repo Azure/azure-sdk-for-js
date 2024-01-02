@@ -16,7 +16,7 @@ export const keyCredentialAuthenticationPolicyName = "keyCredentialAuthenticatio
 
 export function keyCredentialAuthenticationPolicy(
   credential: KeyCredential,
-  apiKeyHeaderName: string
+  apiKeyHeaderName: string,
 ): PipelinePolicy {
   return {
     name: keyCredentialAuthenticationPolicyName,

@@ -18,9 +18,8 @@ describe("sendRequest", () => {
   describe("Binary content", () => {
     it("should handle request body as Uint8Array", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = "foo";
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.body, expectedBody);
+        assert.sameOrderedMembers([...(request.body as Uint8Array)], [...foo]);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -70,7 +69,12 @@ describe("sendRequest", () => {
       const expectedFormData = { fileName: "foo.txt", file: "foo" };
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.deepEqual(request.formData, expectedFormData);
+        assert.equal(request.formData?.fileName, "foo.txt");
+        assert.instanceOf(request.formData?.file, Blob);
+        assert.sameOrderedMembers(
+          [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
+          [...foo],
+        );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 

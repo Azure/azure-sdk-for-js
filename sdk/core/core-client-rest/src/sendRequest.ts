@@ -17,7 +17,6 @@ import {
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { isReadableStream } from "./helpers/isReadableStream";
 import { HttpResponse, RequestParameters } from "./common";
-import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
  * Helper function to send request used by the client
@@ -33,7 +32,7 @@ export async function sendRequest(
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient
+  customHttpClient?: HttpClient,
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
@@ -68,13 +67,13 @@ export async function sendRequest(
 export async function sendRequestAsStream<
   TResponse extends HttpResponse & {
     body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  }
+  },
 >(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient
+  customHttpClient?: HttpClient,
 ): Promise<TResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
@@ -113,7 +112,7 @@ export interface InternalRequestParameters extends RequestParameters {
 function buildPipelineRequest(
   method: HttpMethods,
   url: string,
-  options: InternalRequestParameters = {}
+  options: InternalRequestParameters = {},
 ): PipelineRequest {
   const { body, formData } = getRequestBody(options.body, options.contentType);
   const hasContent = body !== undefined || formData !== undefined;
@@ -173,13 +172,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    if (body instanceof Uint8Array) {
-      return firstType === "application/octet-stream"
-        ? { body }
-        : { body: binaryArrayToString(body) };
-    } else {
-      return { body: JSON.stringify(body) };
-    }
+    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
   switch (firstType) {
@@ -202,7 +195,7 @@ function isFormData(body: unknown): body is FormDataMap {
 }
 
 /**
- * Checks if binary data is in Uint8Array format, if so decode it to a binary string
+ * Checks if binary data is in Uint8Array format, if so wrap it in a Blob
  * to send over the wire
  */
 function processFormData(formData?: FormDataMap) {
@@ -215,7 +208,9 @@ function processFormData(formData?: FormDataMap) {
   for (const element in formData) {
     const item = formData[element];
     if (item instanceof Uint8Array) {
-      processedFormData[element] = binaryArrayToString(item);
+      // Some RLCs take a Uint8Array for the parameter, whereas FormDataMap expects
+      // a File or a Blob, so we need to wrap it.
+      processedFormData[element] = new Blob([item]);
     } else {
       processedFormData[element] = item;
     }
