@@ -37,7 +37,7 @@ import {
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
 import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
@@ -171,7 +171,7 @@ export class CallAutomationClient {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const { callConnectionId, answeredBy, targets, sourceCallerIdNumber, source, ...result } =
       await this.callAutomationApiClient.createCall(request, optionsInternal);
@@ -243,6 +243,7 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
       mediaStreamingConfiguration: options.mediaStreamingConfiguration,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       customCallingContext: this.createCustomCallingContextInternal(
         targetParticipant.customCallingContext!
       ),
@@ -272,6 +273,7 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
+      transcriptionConfiguration: options.transcriptionConfiguration,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -293,12 +295,14 @@ export class CallAutomationClient {
     const {
       callIntelligenceOptions,
       mediaStreamingConfiguration,
+      transcriptionConfiguration,
       operationContext,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
       mediaStreamingConfiguration: mediaStreamingConfiguration,
+      transcriptionConfiguration: transcriptionConfiguration,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,
@@ -307,7 +311,7 @@ export class CallAutomationClient {
     const optionsInternal = {
       ...operationOptions,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const { callConnectionId, targets, sourceCallerIdNumber, answeredBy, source, ...result } =
       await this.callAutomationApiClient.answerCall(request, optionsInternal);
@@ -380,7 +384,7 @@ export class CallAutomationClient {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
 
     return this.callAutomationApiClient.redirectCall(request, optionsInternal);
@@ -403,7 +407,7 @@ export class CallAutomationClient {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
 
     return this.callAutomationApiClient.rejectCall(request, optionsInternal);

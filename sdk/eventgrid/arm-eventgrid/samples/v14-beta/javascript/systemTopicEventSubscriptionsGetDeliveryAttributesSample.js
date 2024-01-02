@@ -29,7 +29,7 @@ async function systemTopicEventSubscriptionsGetDeliveryAttributes() {
   const result = await client.systemTopicEventSubscriptions.getDeliveryAttributes(
     resourceGroupName,
     systemTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

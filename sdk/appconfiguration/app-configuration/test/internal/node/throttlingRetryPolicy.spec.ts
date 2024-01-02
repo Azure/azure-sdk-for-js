@@ -5,7 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import { AppConfigurationClient } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import chai from "chai";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import nock from "nock";
 
 describe("Should not retry forever", () => {
@@ -40,7 +40,7 @@ describe("Should not retry forever", () => {
 
   it("simulate the service throttling - honors the abort signal passed", async () => {
     mockErrorResponse("123456");
-    const key = generateUuid();
+    const key = randomUUID();
     const numberOfSettings = 200;
     const promises = [];
     let errorWasThrown = false;
@@ -71,7 +71,7 @@ describe("Should not retry forever", () => {
     for (let index = 0; index < responseCount; index++) {
       mockErrorResponse("100", false);
     }
-    const key = generateUuid();
+    const key = randomUUID();
     let errorWasThrown = false;
 
     chai.assert.equal(

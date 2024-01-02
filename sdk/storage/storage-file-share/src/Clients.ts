@@ -163,7 +163,7 @@ import {
   streamToBuffer,
 } from "./utils/utils.node";
 import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SASProtocol } from "./SASQueryParameters";
@@ -5218,7 +5218,7 @@ export class ShareLeaseClient {
     this._url = client.url;
 
     if (!leaseId) {
-      leaseId = generateUuid();
+      leaseId = randomUUID();
     }
     this._leaseId = leaseId;
   }

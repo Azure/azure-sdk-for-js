@@ -4,11 +4,12 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { Context } from "mocha";
-import { AuthMethod, createClient, startRecorder } from "../utils/recordedClient.js";
+import { createClient, startRecorder } from "../utils/recordedClient.js";
 import { OpenAIClient } from "../../../src/index.js";
 import * as fs from "fs/promises";
 import { AudioResultFormat } from "../../../src/models/audio.js";
 import { assertAudioResult } from "../utils/asserts.js";
+import { AuthMethod } from "../types.js";
 
 function getModel(authMethod: AuthMethod): string {
   return authMethod === "OpenAIKey" ? "whisper-1" : "whisper";
@@ -19,15 +20,10 @@ describe("OpenAI", function () {
     describe(`[${authMethod}] Client`, () => {
       let recorder: Recorder;
       let client: OpenAIClient;
-      before(async function (this: Context) {
-        if (process.version.startsWith("v16")) {
-          this.skip();
-        }
-      });
 
       beforeEach(async function (this: Context) {
         recorder = await startRecorder(this.currentTest);
-        client = createClient(authMethod, { recorder });
+        client = createClient(authMethod, "whisper", { recorder });
       });
 
       afterEach(async function () {
@@ -57,7 +53,7 @@ describe("OpenAI", function () {
               assertAudioResult(format, res);
             });
           });
-        }
+        },
       );
     });
   });

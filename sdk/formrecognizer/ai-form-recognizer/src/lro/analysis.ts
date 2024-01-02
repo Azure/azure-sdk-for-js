@@ -194,14 +194,14 @@ export function* iterFrom<T>(items: T[], idx: number): Generator<T> {
 
 export function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
-  page: GeneratedDocumentPage
+  page: GeneratedDocumentPage,
 ): DocumentLine {
   (generated as DocumentLine).words = () =>
     fastGetChildren(
       iterFrom(generated.spans, 0),
       page.words?.map((word) => {
         return { ...word, polygon: toBoundingPolygon(word.polygon) };
-      }) ?? []
+      }) ?? [],
     );
 
   (generated as DocumentLine).polygon = toBoundingPolygon(generated.polygon);
@@ -233,7 +233,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       (formula): DocumentFormula => ({
         ...formula,
         polygon: toBoundingPolygon(formula.polygon),
-      })
+      }),
     ),
   };
 }
@@ -252,7 +252,7 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
  */
 export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: DocumentSpan }>(
   span: DocumentSpan,
-  items: Spanned[]
+  items: Spanned[],
 ): IterableIterator<Spanned> {
   let idx = Math.floor(items.length / 2);
   let prevIdx = idx;
@@ -294,7 +294,7 @@ export function iteratorFromFirstMatchBinarySearch<Spanned extends { span: Docum
  */
 export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
   spans: Iterator<DocumentSpan>,
-  childrenArray: Spanned[]
+  childrenArray: Spanned[],
 ): Generator<Spanned> {
   let curSpan = spans.next();
 
@@ -409,7 +409,7 @@ export function toDocumentAnalysisPollOperationState<Result>(
   definition: AnalysisOperationDefinition<Result>,
   modelId: string,
   operationLocation: string,
-  response: AnalyzeResultOperation
+  response: AnalyzeResultOperation,
 ): DocumentAnalysisPollOperationState<Result> {
   return {
     status: response.status,

@@ -30,7 +30,7 @@ async function eventSubscriptionsListRegionalByResourceGroupForTopicType() {
   for await (let item of client.eventSubscriptions.listRegionalByResourceGroupForTopicType(
     resourceGroupName,
     location,
-    topicTypeName
+    topicTypeName,
   )) {
     resArray.push(item);
   }

@@ -36,7 +36,7 @@ import {
   persistEvents,
 } from "./utils/recordedClient";
 import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -65,7 +65,7 @@ describe("Call Automation Client Unit Tests", () => {
   it("RepeatabilityHeadersGeneration", async () => {
     // mocks
     const repeatabilityFirstSent: string = new Date().toUTCString();
-    const repeatabilityRequestID: string = uuidv4();
+    const repeatabilityRequestID: string = randomUUID();
 
     // asserts
     assert.isNotNull(repeatabilityFirstSent);
@@ -197,7 +197,7 @@ describe("Call Automation Client Unit Tests", () => {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automation Main Client Live Tests", function () {
+describe("Call Automation Main Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -216,13 +216,6 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -233,6 +226,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("Create a call and hangup", async function () {
@@ -267,11 +267,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Automa
         answerCallOptions
       );
     }
+
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
     await callConnection.hangUp(true);
+
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);

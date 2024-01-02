@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a gallery Application Definition.
  *
  * @summary Update a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryApplication_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplication_Update.json
  */
 async function updateASimpleGalleryApplication() {
   const subscriptionId =

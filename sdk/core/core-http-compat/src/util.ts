@@ -27,7 +27,7 @@ export function toPipelineRequest(
   webResource: WebResourceLike,
   options: {
     originalRequest?: PipelineRequest;
-  } = {}
+  } = {},
 ): PipelineRequest {
   const compatWebResource = webResource as CompatWebResourceLike;
   const request = compatWebResource[originalRequestSymbol];
@@ -62,7 +62,7 @@ export function toPipelineRequest(
 
 export function toWebResourceLike(
   request: PipelineRequest,
-  options?: { createProxy?: boolean; originalRequest?: PipelineRequest }
+  options?: { createProxy?: boolean; originalRequest?: PipelineRequest },
 ): WebResourceLike {
   const originalRequest = options?.originalRequest ?? request;
   const webResource: WebResourceLike = {

@@ -70,7 +70,7 @@ export const recorderOptions: RecorderStartOptions = {
           env["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("/")[2] || "",
         value:
           envSetupForPlayback["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"].split(
-            "/"
+            "/",
           )[2],
       },
       // sas tokens
@@ -87,7 +87,7 @@ export const recorderOptions: RecorderStartOptions = {
           env["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"]?.split("?")[1] || "",
         value:
           envSetupForPlayback["FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"].split(
-            "?"
+            "?",
           )[1],
       },
     ],
@@ -115,10 +115,10 @@ export async function createRecordedClient<T>(
     new (
       endpoint: string,
       credential: TokenCredential | KeyCredential,
-      options?: CommonClientOptions
+      options?: CommonClientOptions,
     ): T;
   },
-  useApiKey: boolean = false
+  useApiKey: boolean = false,
 ): Promise<RecordedClient<T>> {
   const recorder = await createRecorder(currentTest);
   return {
@@ -127,7 +127,7 @@ export async function createRecordedClient<T>(
       useApiKey
         ? new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"))
         : createTestCredential(),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     ),
     recorder,
   };

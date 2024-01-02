@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- package "mime" updated
+
 ## 1.0.0-beta.2 (2023-10-05)
 
 ### Features Added
