@@ -11,7 +11,7 @@ Use the Image Analysis client library to:
 [Product documentation][image_analysis_overview] 
 | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/vision/imageAnalysis/samples)
 | [Vision Studio][vision_studio]
-| [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/visual-search)
+| [API reference documentation](https://learn.microsoft.com/javascript/api/overview/azure/visual-search)
 
 ## Getting started
 
@@ -48,8 +48,8 @@ To use this client library in the browser, first, you need to use a bundler. For
 
 Once you've initialized an `ImageAnalysisClient`, you need to select one or more visual features to analyze. The options are specified by the enum class `VisualFeatures`. The following features are supported:
 
-1. `VisualFeatures.Caption`: ([Examples](#analyze-an-image-from-url) | [Samples](samples)) Generate a human-readable sentence that describes the content of an image.
-1. `VisualFeatures.Read`: ([Examples](#extract-text-from-an-image-url) | [Samples](samples)) Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
+1. `VisualFeatures.Caption`: ([Examples](#analyze-an-image-from-url) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/vision/imageAnalysis/samples)) Generate a human-readable sentence that describes the content of an image.
+1. `VisualFeatures.Read`: ([Examples](#extract-text-from-an-image-url) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/vision/imageAnalysis/samples)) Also known as Optical Character Recognition (OCR). Extract printed or handwritten text from images.
 1. `VisualFeatures.DenseCaptions`: Dense Captions provides more details by generating one-sentence captions for up to 10 different regions in the image, including one for the whole image.
 1. `VisualFeatures.Tags`: Extract content tags for thousands of recognizable objects, living beings, scenery, and actions that appear in images.
 1. `VisualFeatures.Objects`: Object detection. This is similar to tagging, but focused on detecting physical objects in the image and returning their location.
