@@ -22,7 +22,7 @@ async function main() {
 
   const poller = await client.beginAnalyzeDocumentFromUrl(
     modelId,
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png",
   );
 
   const { documents } = await poller.pollUntilDone();
@@ -34,7 +34,7 @@ async function main() {
   console.log(
     "Extracted document:",
     document.docType,
-    `(confidence: ${document.confidence || "<undefined>"})`
+    `(confidence: ${document.confidence || "<undefined>"})`,
   );
   console.log("Fields:", document.fields);
 }
