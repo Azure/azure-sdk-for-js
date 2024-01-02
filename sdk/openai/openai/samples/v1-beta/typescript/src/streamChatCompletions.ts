@@ -7,21 +7,22 @@
  * @summary list chat completions.
  */
 
-const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
+import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-async function main() {
+export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const events = client.listChatCompletions(
+  const events = await client.streamChatCompletions(
     deploymentId,
     [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -42,5 +43,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };
