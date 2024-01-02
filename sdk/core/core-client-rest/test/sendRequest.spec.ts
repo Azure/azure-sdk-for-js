@@ -349,4 +349,22 @@ describe("sendRequest", () => {
       body: "test",
     });
   });
+
+  it("should call onResponse", async () => {
+    let called = false;
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async () => {
+      return {
+        headers: createHttpHeaders(),
+      } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, {
+      body: "{}",
+      onResponse: () => {
+        called = true;
+      },
+    });
+    assert.isTrue(called);
+  });
 });

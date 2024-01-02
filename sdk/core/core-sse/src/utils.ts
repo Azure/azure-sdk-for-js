@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type { IncomingMessage } from "http";
+
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
   cancel: () => PromiseLike<void>,
@@ -58,7 +60,7 @@ function iteratorToStream<T>(
   });
 }
 
-export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStream<Uint8Array>): {
+export function ensureAsyncIterable(stream: IncomingMessage | ReadableStream<Uint8Array>): {
   cancel(): Promise<void>;
   iterable: AsyncIterable<Uint8Array>;
 } {
@@ -71,8 +73,7 @@ export function ensureAsyncIterable(stream: NodeJS.ReadableStream | ReadableStre
   } else {
     return {
       cancel: async () => {
-        // drain the stream
-        stream.resume();
+        stream.socket.end();
       },
       iterable: stream as AsyncIterable<Uint8Array>,
     };
