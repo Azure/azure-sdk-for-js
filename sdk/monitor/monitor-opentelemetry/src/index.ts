@@ -99,7 +99,7 @@ function _setStatsbeatFeatures(config: InternalConfig, webSnippet?: BrowserSdkLo
   featureBitMap |= StatsbeatFeature.DISTRO;
 
   if (webSnippet?.isInitialized()) {
-    featureBitMap |= StatsbeatFeature.WEB_SNIPPET;
+    featureBitMap |= StatsbeatFeature.BROWSER_SDK_LOADER;
   }
 
   try {
