@@ -86,7 +86,7 @@ matrix([[true, false]], async function (useAad) {
       console.log(`Released: ${purchasedPhoneNumber}`);
     }).timeout(90000);
 
-    it("will fail to purchase a phone number as no consent provided for DNR countries", async function (this: Context) {
+    it("will fai as no consent provided for DNR countries", async function (this: Context) {
       // search for phone number
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",
