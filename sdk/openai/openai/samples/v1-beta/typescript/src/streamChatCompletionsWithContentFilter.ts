@@ -22,7 +22,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const events = client.listChatCompletions(
+  const events = await client.streamChatCompletions(
     deploymentId,
     [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -30,7 +30,7 @@ export async function main() {
       { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
       { role: "user", content: "What's the best way to train a parrot?" },
     ],
-    { maxTokens: 128 }
+    { maxTokens: 128 },
   );
 
   for await (const event of events) {
@@ -42,19 +42,19 @@ export async function main() {
       }
       if (choice.contentFilterResults.error) {
         console.log(
-          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`
+          `Content filter ran into the error ${choice.contentFilterResults.error.code}: ${choice.contentFilterResults.error.message}`,
         );
       } else {
         const { hate, sexual, selfHarm, violence } = choice.contentFilterResults;
         console.log(`Hate category is filtered: ${hate?.filtered} with ${hate?.severity} severity`);
         console.log(
-          `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`
+          `Sexual category is filtered: ${sexual?.filtered} with ${sexual?.severity} severity`,
         );
         console.log(
-          `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`
+          `Self-harm category is filtered: ${selfHarm?.filtered} with ${selfHarm?.severity} severity`,
         );
         console.log(
-          `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`
+          `Violence category is filtered: ${violence?.filtered} with ${violence?.severity} severity`,
         );
       }
     }
