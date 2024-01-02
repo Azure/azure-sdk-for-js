@@ -11,7 +11,7 @@ const APIM_SUBSCRIPTION_KEY_HEADER = "Ocp-Apim-Subscription-Key";
  * @internal
  */
 export function createFormRecognizerAzureKeyCredentialPolicy(
-  credential: KeyCredential
+  credential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: "cognitiveServicesApimSubscriptionKeyCredentialPolicy",

@@ -4,7 +4,7 @@
 import { isBlob, isWebReadableStream } from "./typeGuards";
 
 export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob,
 ): ReadableStream<Uint8Array> | NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return new Blob([source]).stream();
@@ -14,13 +14,13 @@ export function toStream(
     return source.stream();
   } else {
     throw new Error(
-      "Unsupported type. Only ReadableStream, Uint8Array and Blob are supported in browser"
+      "Unsupported type. Only ReadableStream, Uint8Array and Blob are supported in browser",
     );
   }
 }
 
 export function toWebStream(
-  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream
+  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
 ): ReadableStream<Uint8Array> {
   if (isWebReadableStream(stream)) {
     return stream;
@@ -30,7 +30,7 @@ export function toWebStream(
 }
 
 export function concatenateStreams(
-  streams: ReadableStream<Uint8Array>[]
+  streams: ReadableStream<Uint8Array>[],
 ): ReadableStream<Uint8Array> {
   const remainingStreams = Array.from(streams);
   let reader = remainingStreams.shift()?.getReader();

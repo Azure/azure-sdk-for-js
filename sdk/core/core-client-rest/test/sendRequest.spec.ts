@@ -73,7 +73,7 @@ describe("sendRequest", () => {
         assert.instanceOf(request.formData?.file, Blob);
         assert.sameOrderedMembers(
           [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
-          [...foo]
+          [...foo],
         );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
