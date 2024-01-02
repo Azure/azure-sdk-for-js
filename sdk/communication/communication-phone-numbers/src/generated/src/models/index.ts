@@ -161,8 +161,6 @@ export interface PhoneNumberSearchResult {
   searchExpiresBy: Date;
   /** The error code of the search. */
   errorCode?: number;
-  /** Mapping Error Messages to Codes */
-  error?: Error;
 }
 
 export interface PhoneNumbersBrowseRequest {
@@ -414,30 +412,13 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for Error. */
-export type Error =
-  | "NoError"
-  | "UnknownErrorCode"
-  | "OutOfStock"
-  | "AuthorizationDenied"
-  | "MissingAddress"
-  | "InvalidAddress"
-  | "InvalidOfferModel"
-  | "NotEnoughLicenses"
-  | "NoWallet"
-  | "NotEnoughCredit"
-  | "NumbersPartiallyAcquired"
-  | "AllNumbersNotAcquired"
-  | "ReservationExpired"
-  | "PurchaseFailed"
-  | "BillingUnavailable"
-  | "ProvisioningFailed"
-  | "UnknownSearchError";
 /** Defines values for ReservationStatus. */
 export type ReservationStatus =
   | "active"
   | "submitted"
   | "completed"
+  | "partiallyCompleted"
+  | "cancelled"
   | "expired";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =

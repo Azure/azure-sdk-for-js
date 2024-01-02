@@ -165,7 +165,6 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
-    error?: Error;
     errorCode?: number;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
