@@ -24,12 +24,21 @@ async function certificatesCreateOrUpdate() {
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const certificateName = "default";
+  const body = {
+    properties: {
+      certificateVirtualPath: "/src/cert/somePath.cert",
+      keyVaultSecretId: "https://someKV.vault.azure.com/someSecretID",
+      keyVirtualPath: "/src/cert/somekey.key",
+    },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.certificates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
-    certificateName
+    certificateName,
+    options,
   );
   console.log(result);
 }

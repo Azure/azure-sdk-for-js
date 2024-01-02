@@ -29,7 +29,7 @@ async function configurationsDelete() {
   const result = await client.configurations.beginDeleteAndWait(
     resourceGroupName,
     deploymentName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

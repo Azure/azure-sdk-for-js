@@ -29,7 +29,7 @@ async function configurationsGet() {
   const result = await client.configurations.get(
     resourceGroupName,
     deploymentName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

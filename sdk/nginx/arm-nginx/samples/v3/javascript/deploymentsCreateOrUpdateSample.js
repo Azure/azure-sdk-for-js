@@ -23,11 +23,43 @@ async function deploymentsCreate() {
     process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
+  const body = {
+    name: "myDeployment",
+    location: "West US",
+    properties: {
+      managedResourceGroup: "myManagedResourceGroup",
+      networkProfile: {
+        frontEndIPConfiguration: {
+          privateIPAddresses: [
+            {
+              privateIPAddress: "1.1.1.1",
+              privateIPAllocationMethod: "Static",
+              subnetId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+            },
+          ],
+          publicIPAddresses: [
+            {
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIPAddress",
+            },
+          ],
+        },
+        networkInterfaceConfiguration: {
+          subnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+        },
+      },
+      userProfile: { preferredEmail: "example@example.email" },
+    },
+    tags: { environment: "Dev" },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.deployments.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    deploymentName
+    deploymentName,
+    options,
   );
   console.log(result);
 }

@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NginxManagementClient } from "@azure/arm-nginx";
+import {
+  NginxDeploymentUpdateParameters,
+  DeploymentsUpdateOptionalParams,
+  NginxManagementClient
+} from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,11 +31,16 @@ async function deploymentsUpdate() {
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
+  const body: NginxDeploymentUpdateParameters = {
+    tags: { environment: "Dev" }
+  };
+  const options: DeploymentsUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.deployments.beginUpdateAndWait(
     resourceGroupName,
-    deploymentName
+    deploymentName,
+    options
   );
   console.log(result);
 }

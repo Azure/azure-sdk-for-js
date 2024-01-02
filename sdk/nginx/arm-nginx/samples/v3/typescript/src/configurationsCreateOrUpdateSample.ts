@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NginxManagementClient } from "@azure/arm-nginx";
+import {
+  NginxConfiguration,
+  ConfigurationsCreateOrUpdateOptionalParams,
+  NginxManagementClient
+} from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,12 +32,21 @@ async function configurationsCreateOrUpdate() {
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const configurationName = "default";
+  const body: NginxConfiguration = {
+    properties: {
+      files: [{ content: "ABCDEF==", virtualPath: "/etc/nginx/nginx.conf" }],
+      package: { data: undefined },
+      rootFile: "/etc/nginx/nginx.conf"
+    }
+  };
+  const options: ConfigurationsCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.configurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
-    configurationName
+    configurationName,
+    options
   );
   console.log(result);
 }

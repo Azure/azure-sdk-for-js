@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NginxManagementClient } from "@azure/arm-nginx";
+import {
+  NginxCertificate,
+  CertificatesCreateOrUpdateOptionalParams,
+  NginxManagementClient
+} from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,12 +32,21 @@ async function certificatesCreateOrUpdate() {
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
   const certificateName = "default";
+  const body: NginxCertificate = {
+    properties: {
+      certificateVirtualPath: "/src/cert/somePath.cert",
+      keyVaultSecretId: "https://someKV.vault.azure.com/someSecretID",
+      keyVirtualPath: "/src/cert/somekey.key"
+    }
+  };
+  const options: CertificatesCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.certificates.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
-    certificateName
+    certificateName,
+    options
   );
   console.log(result);
 }

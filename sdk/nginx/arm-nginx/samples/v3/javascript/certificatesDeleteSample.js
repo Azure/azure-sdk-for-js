@@ -29,7 +29,7 @@ async function certificatesDelete() {
   const result = await client.certificates.beginDeleteAndWait(
     resourceGroupName,
     deploymentName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }
