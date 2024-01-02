@@ -58,7 +58,7 @@ export const isFunctionApp = (): boolean => {
 
 export const isAks = (): boolean => {
   return process.env.AKS_ARM_NAMESPACE_ID ? true : false;
-}
+};
 
 /**
  * Get prefix resource provider, vm will considered as "unknown RP"

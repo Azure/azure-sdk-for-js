@@ -169,7 +169,11 @@ export class BrowserSdkLoader {
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(response, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(
+                    response,
+                    a,
+                    encodeType
+                  );
                 }
               }
             } catch (err) {
@@ -201,7 +205,11 @@ export class BrowserSdkLoader {
                     }
                   } else if (headers.length) {
                     let encodeType = headers[0];
-                    arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(response, a, encodeType);
+                    arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(
+                      response,
+                      a,
+                      encodeType
+                    );
                   }
                 }
               } catch (err) {
@@ -292,9 +300,7 @@ export class BrowserSdkLoader {
       let inputStr = input.slice().toString();
       if (inputStr.indexOf("<head>") >= 0 && inputStr.indexOf("</head>") >= 0) {
         // Check if snippet not already present looking for AI Web SDK URL
-        if (
-          inputStr.indexOf(BrowserSdkLoader._aiUrl) < 0
-        ) {
+        if (inputStr.indexOf(BrowserSdkLoader._aiUrl) < 0) {
           return true;
         }
       }
@@ -320,7 +326,11 @@ export class BrowserSdkLoader {
         let index = html.indexOf("</head>");
         if (index < 0) return input;
 
-        let newHtml = snippetInjectionHelper.insertSnippetByIndex(index, html, BrowserSdkLoader._snippet);
+        let newHtml = snippetInjectionHelper.insertSnippetByIndex(
+          index,
+          html,
+          BrowserSdkLoader._snippet
+        );
         if (typeof input === "string") {
           response.removeHeader("Content-Length");
           if (newHtml) {
