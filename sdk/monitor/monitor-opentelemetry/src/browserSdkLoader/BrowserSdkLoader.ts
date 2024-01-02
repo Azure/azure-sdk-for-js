@@ -8,18 +8,14 @@ import { InternalConfig } from "../shared";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
-import {
-  WEB_INSTRUMENTATION_DEFAULT_SOURCE,
-  WEB_INSTRUMENTATION_DEPRECATED_SOURCE,
-} from "../types";
+import { WEB_INSTRUMENTATION_DEFAULT_SOURCE } from "../types";
 import { IWebInstrumentationConfig } from "../shared/types";
 
-export class WebSnippet {
-  private static _instance: WebSnippet | null;
+export class BrowserSdkLoader {
+  private static _instance: BrowserSdkLoader | null;
 
   private static _snippet: string;
   private static _aiUrl: string;
-  private static _aiDeprecatedUrl: string;
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _webInstrumentationIkey?: string;
@@ -27,16 +23,15 @@ export class WebSnippet {
   private _clientWebInstrumentationSrc?: string;
 
   constructor(config: InternalConfig) {
-    if (!!WebSnippet._instance) {
+    if (!!BrowserSdkLoader._instance) {
       throw new Error(
         "Web snippet injection should be configured from the applicationInsights object"
       );
     }
 
-    WebSnippet._instance = this;
+    BrowserSdkLoader._instance = this;
     // AI URL used to validate if snippet already included
-    WebSnippet._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
-    WebSnippet._aiDeprecatedUrl = WEB_INSTRUMENTATION_DEPRECATED_SOURCE;
+    BrowserSdkLoader._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
     let clientWebIkey;
     if (config.applicationInsightsWebInstrumentationOptions?.webInstrumentationConnectionString) {
       clientWebIkey = this._getWebSnippetIkey(
@@ -61,8 +56,8 @@ export class WebSnippet {
     return this._isInitialized;
   }
 
-  public static getInstance(): WebSnippet {
-    return WebSnippet._instance!;
+  public static getInstance(): BrowserSdkLoader {
+    return BrowserSdkLoader._instance!;
   }
 
   private _getWebSnippetIkey(connectionString: string) {
@@ -141,7 +136,7 @@ export class WebSnippet {
 
   private _initialize() {
     this._isInitialized = true;
-    WebSnippet._snippet = this._getWebInstrumentationReplacedStr();
+    BrowserSdkLoader._snippet = this._getWebInstrumentationReplacedStr();
     const originalHttpServer = http.createServer;
     const originalHttpsServer = https.createServer;
 
@@ -164,8 +159,8 @@ export class WebSnippet {
                   writeBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
-                  if (WebSnippet._instance?.ValidateInjection(response, a)) {
-                    arguments[0] = WebSnippet._instance.InjectWebSnippet(
+                  if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
+                    arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
                       response,
                       a,
                       undefined,
@@ -174,7 +169,7 @@ export class WebSnippet {
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = WebSnippet._instance?.InjectWebSnippet(response, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(response, a, encodeType);
                 }
               }
             } catch (err) {
@@ -196,8 +191,8 @@ export class WebSnippet {
                     endBufferType = b;
                   }
                   if (headers === null || headers === undefined) {
-                    if (WebSnippet._instance?.ValidateInjection(response, a)) {
-                      arguments[0] = WebSnippet._instance.InjectWebSnippet(
+                    if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
+                      arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
                         response,
                         a,
                         undefined,
@@ -206,7 +201,7 @@ export class WebSnippet {
                     }
                   } else if (headers.length) {
                     let encodeType = headers[0];
-                    arguments[0] = WebSnippet._instance?.InjectWebSnippet(response, a, encodeType);
+                    arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(response, a, encodeType);
                   }
                 }
               } catch (err) {
@@ -238,12 +233,12 @@ export class WebSnippet {
                   writeBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
-                  if (WebSnippet._instance?.ValidateInjection(res, a)) {
+                  if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
                     arguments[0] = this.InjectWebSnippet(res, a, undefined, writeBufferType);
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = WebSnippet._instance?.InjectWebSnippet(res, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(res, a, encodeType);
                 }
               }
             } catch (err) {
@@ -261,8 +256,8 @@ export class WebSnippet {
                   endBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
-                  if (WebSnippet._instance?.ValidateInjection(res, a)) {
-                    arguments[0] = WebSnippet._instance.InjectWebSnippet(
+                  if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
+                    arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
                       res,
                       a,
                       undefined,
@@ -271,7 +266,7 @@ export class WebSnippet {
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = WebSnippet._instance?.InjectWebSnippet(res, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(res, a, encodeType);
                 }
               }
             } catch (err) {
@@ -298,8 +293,7 @@ export class WebSnippet {
       if (inputStr.indexOf("<head>") >= 0 && inputStr.indexOf("</head>") >= 0) {
         // Check if snippet not already present looking for AI Web SDK URL
         if (
-          inputStr.indexOf(WebSnippet._aiUrl) < 0 &&
-          inputStr.indexOf(WebSnippet._aiDeprecatedUrl) < 0
+          inputStr.indexOf(BrowserSdkLoader._aiUrl) < 0
         ) {
           return true;
         }
@@ -326,7 +320,7 @@ export class WebSnippet {
         let index = html.indexOf("</head>");
         if (index < 0) return input;
 
-        let newHtml = snippetInjectionHelper.insertSnippetByIndex(index, html, WebSnippet._snippet);
+        let newHtml = snippetInjectionHelper.insertSnippetByIndex(index, html, BrowserSdkLoader._snippet);
         if (typeof input === "string") {
           response.removeHeader("Content-Length");
           if (newHtml) {
@@ -406,7 +400,7 @@ export class WebSnippet {
   }
 
   public dispose() {
-    WebSnippet._instance = null;
+    BrowserSdkLoader._instance = null;
     this._isInitialized = false;
   }
 }

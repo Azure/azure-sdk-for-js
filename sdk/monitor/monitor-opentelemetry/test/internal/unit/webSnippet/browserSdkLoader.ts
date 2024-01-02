@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
-import { WebSnippet } from "../../../../src/webSnippet/webSnippet";
-import * as SnippetInjectionHelper from "../../../../src/webSnippet/snippetInjectionHelper";
+import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/BrowserSdkLoader";
+import * as SnippetInjectionHelper from "../../../../src/browserSdkLoader/snippetInjectionHelper";
 import {
   AzureMonitorOpenTelemetryOptions,
   shutdownAzureMonitor,
@@ -37,7 +37,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    assert.strictEqual(WebSnippet.getInstance().isInitialized(), true);
+    assert.strictEqual(BrowserSdkLoader.getInstance().isInitialized(), true);
   });
 
   it("injection should be triggered only in HTML responses", () => {
@@ -52,7 +52,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -92,7 +92,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
 
@@ -129,7 +129,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -163,7 +163,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -206,7 +206,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -250,7 +250,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -287,7 +287,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -329,7 +329,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = WebSnippet.getInstance();
+    let webSnippet = BrowserSdkLoader.getInstance();
 
     assert.equal(webSnippet["_isIkeyValid"], true, "ikey should be set to valid");
     let _headers: any = {};
@@ -367,7 +367,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    const webSnippet = WebSnippet.getInstance();
+    const webSnippet = BrowserSdkLoader.getInstance();
 
     assert.equal(webSnippet["_isIkeyValid"], false, "ikey should be set to invalid");
     assert.ok(infoStub.calledOn, "invalid key warning was raised");

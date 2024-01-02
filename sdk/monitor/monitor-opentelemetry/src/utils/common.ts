@@ -43,13 +43,12 @@ export const getOsPrefix = (): string => {
 };
 
 /**
- * TODO: add vm resource provider
  * Get prefix resource provider, vm will considered as "unknown RP"
  * Web App: "a"
  * Function App: "f"
  * non-Web and non-Function APP: "u" (unknown)
  */
-export const isWebApp = (): boolean => {
+export const isAppService = (): boolean => {
   return process.env.WEBSITE_SITE_NAME ? true : false;
 };
 
@@ -57,15 +56,28 @@ export const isFunctionApp = (): boolean => {
   return process.env.FUNCTIONS_WORKER_RUNTIME ? true : false;
 };
 
+export const isAks = (): boolean => {
+  return process.env.AKS_ARM_NAMESPACE_ID ? true : false;
+}
+
 /**
- * TODO: add vm resource provider
  * Get prefix resource provider, vm will considered as "unknown RP"
  * Web App: "a"
  * Function App: "f"
+ * AKS: "k"
  * non-Web and non-Function APP: "u" (unknown)
  */
 export const getResourceProvider = (): string => {
-  return isWebApp() ? "a" : isFunctionApp() ? "f" : "u";
+  if (isFunctionApp()) {
+    return "a";
+  }
+  if (isAppService()) {
+    return "f";
+  }
+  if (isAks()) {
+    return "k";
+  }
+  return "u";
 };
 
 /**

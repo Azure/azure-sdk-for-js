@@ -16,7 +16,7 @@ import {
   StatsbeatFeature,
   StatsbeatInstrumentation,
 } from "./types";
-import { WebSnippet } from "./webSnippet/webSnippet";
+import { BrowserSdkLoader } from "./browserSdkLoader/BrowserSdkLoader";
 
 export {
   AzureMonitorOpenTelemetryOptions,
@@ -28,7 +28,7 @@ export {
 process.env["AZURE_MONITOR_DISTRO_VERSION"] = AZURE_MONITOR_OPENTELEMETRY_VERSION;
 
 let sdk: NodeSDK;
-let webSnippet: WebSnippet | undefined;
+let webSnippet: BrowserSdkLoader | undefined;
 
 /**
  * Initialize Azure Monitor Distro
@@ -38,7 +38,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
 
   if (config.applicationInsightsWebInstrumentationOptions.enableWebInstrumentation) {
-    webSnippet = new WebSnippet(config);
+    webSnippet = new BrowserSdkLoader(config);
   }
   _setStatsbeatFeatures(config, webSnippet);
   // Remove global providers in OpenTelemetry, these would be overriden if present
@@ -77,7 +77,7 @@ export function shutdownAzureMonitor() {
   webSnippet?.dispose();
 }
 
-function _setStatsbeatFeatures(config: InternalConfig, webSnippet?: WebSnippet) {
+function _setStatsbeatFeatures(config: InternalConfig, webSnippet?: BrowserSdkLoader) {
   let instrumentationBitMap = StatsbeatInstrumentation.NONE;
   if (config.instrumentationOptions?.azureSdk?.enabled) {
     instrumentationBitMap |= StatsbeatInstrumentation.AZURE_CORE_TRACING;

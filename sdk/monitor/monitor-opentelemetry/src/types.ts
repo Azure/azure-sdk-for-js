@@ -11,12 +11,6 @@ export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURE
 export const WEB_INSTRUMENTATION_DEFAULT_SOURCE = "https://js.monitor.azure.com/scripts/b/ai";
 
 /**
- * Deprecated Web Snippet Source
- * @internal
- */
-export const WEB_INSTRUMENTATION_DEPRECATED_SOURCE = "https://az416426.vo.msecnd.net/scripts/b/ai";
-
-/**
  * Default Breeze endpoint.
  * @internal
  */

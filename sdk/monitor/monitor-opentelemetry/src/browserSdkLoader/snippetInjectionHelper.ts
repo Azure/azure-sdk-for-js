@@ -1,4 +1,3 @@
-// import zlib = require("zlib");
 import * as zlib from "zlib";
 import { promisify } from "util";
 import * as http from "http";
