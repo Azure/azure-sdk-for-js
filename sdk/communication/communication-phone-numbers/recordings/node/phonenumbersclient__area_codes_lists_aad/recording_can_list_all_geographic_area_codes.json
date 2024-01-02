@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -729,11 +729,11 @@
             }
           }
         ],
-        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
+        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2023-10-01-preview"
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=geographic\u0026skip=0\u0026maxPageSize=100\u0026locality=Anchorage\u0026administrativeDivision=AK\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=geographic\u0026skip=0\u0026maxPageSize=100\u0026locality=Anchorage\u0026administrativeDivision=AK\u0026api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
