@@ -6,7 +6,7 @@
 
 /// <reference types="node" />
 
-import { IncomingMessage } from 'http';
+import type { IncomingMessage } from 'http';
 
 // @public
 export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;

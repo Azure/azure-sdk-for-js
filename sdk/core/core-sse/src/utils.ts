@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
