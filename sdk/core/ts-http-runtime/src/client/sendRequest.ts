@@ -33,7 +33,7 @@ export async function sendRequest(
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient
+  customHttpClient?: HttpClient,
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
@@ -68,13 +68,13 @@ export async function sendRequest(
 export async function sendRequestAsStream<
   TResponse extends HttpResponse & {
     body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  }
+  },
 >(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient
+  customHttpClient?: HttpClient,
 ): Promise<TResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
@@ -113,7 +113,7 @@ export interface InternalRequestParameters extends RequestParameters {
 function buildPipelineRequest(
   method: HttpMethods,
   url: string,
-  options: InternalRequestParameters = {}
+  options: InternalRequestParameters = {},
 ): PipelineRequest {
   const { body, formData } = getRequestBody(options.body, options.contentType);
   const hasContent = body !== undefined || formData !== undefined;

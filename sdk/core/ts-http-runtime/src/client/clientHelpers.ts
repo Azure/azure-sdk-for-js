@@ -35,7 +35,7 @@ export interface AddCredentialPipelinePolicyOptions {
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
   baseUrl: string,
-  options: AddCredentialPipelinePolicyOptions = {}
+  options: AddCredentialPipelinePolicyOptions = {},
 ): void {
   const { credential, clientOptions } = options;
   if (!credential) {
@@ -54,7 +54,7 @@ export function addCredentialPipelinePolicy(
     }
     const keyPolicy = keyCredentialAuthenticationPolicy(
       credential,
-      clientOptions?.credentials?.apiKeyHeaderName
+      clientOptions?.credentials?.apiKeyHeaderName,
     );
     pipeline.addPolicy(keyPolicy);
   }
@@ -66,7 +66,7 @@ export function addCredentialPipelinePolicy(
 export function createDefaultPipeline(
   baseUrl: string,
   credential?: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 

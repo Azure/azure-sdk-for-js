@@ -16,7 +16,7 @@ import { terminalStates } from "./constants";
  * Deserializes the state
  */
 export function deserializeState<TState>(
-  serializedState: string
+  serializedState: string,
 ): RestorableOperationState<TState> {
   try {
     return JSON.parse(serializedState).state;
@@ -112,7 +112,7 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
         response,
         state,
         processResult,
-      })
+      }),
     );
   }
 }
@@ -170,11 +170,11 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   operationLocation: string;
   getOperationStatus: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   isOperationError: (error: Error) => boolean;
   options?: TOptions;
@@ -197,7 +197,7 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
       state,
       stateProxy,
       isOperationError,
-    })
+    }),
   );
   const status = getOperationStatus(response, state);
   logger.verbose(
@@ -205,14 +205,14 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
       state.config.operationLocation
     }\n\tOperation status: ${status}\n\tPolling status: ${
       terminalStates.includes(status) ? "Stopped" : "Running"
-    }`
+    }`,
   );
   if (status === "succeeded") {
     const resourceLocation = getResourceLocation(response, state);
     if (resourceLocation !== undefined) {
       return {
         response: await poll(resourceLocation).catch(
-          setStateError({ state, stateProxy, isOperationError })
+          setStateError({ state, stateProxy, isOperationError }),
         ),
         status,
       };
@@ -228,18 +228,18 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   state: RestorableOperationState<TState>;
   getOperationStatus: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   isOperationError: (error: Error) => boolean;
   getPollingInterval?: (response: TResponse) => number | undefined;
   setDelay: (intervalInMs: number) => void;
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   processResult?: (result: TResponse, state: TState) => TResult;

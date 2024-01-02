@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract text from documents.
  */
 export const PrebuiltReadModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltReadResult>;
 
 export interface PrebuiltReadResult extends fr.AnalyzeResultCommon {
