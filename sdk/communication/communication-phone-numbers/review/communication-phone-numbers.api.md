@@ -192,7 +192,10 @@ export interface PurchasedPhoneNumber {
     cost: PhoneNumberCost;
     countryCode: string;
     id: string;
+    operatorId?: string;
+    operatorName?: string;
     phoneNumber: string;
+    phoneNumberSource?: PhoneNumberSource;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
 }

@@ -417,8 +417,6 @@ export type ReservationStatus =
   | "active"
   | "submitted"
   | "completed"
-  | "partiallyCompleted"
-  | "cancelled"
   | "expired";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
