@@ -9,7 +9,7 @@ Use the Image Analysis client library to:
 * Get the analysis result
 
 [Product documentation][image_analysis_overview] 
-| [Samples](src/samples)
+| [Samples](https://github.com/Azure/azure-sdk-for-js/tree/rhurey/ia_dev/sdk/vision/imageAnalysis/samples)
 | [Vision Studio][vision_studio]
 | [API reference documentation](https://learn.microsoft.com/en-us/javascript/api/overview/azure/visual-search)
 
