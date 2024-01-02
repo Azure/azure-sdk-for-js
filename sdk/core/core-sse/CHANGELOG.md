@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0 (Unreleased)
+## 2.0.0 (2024-01-02)
 
 ### Features Added
 
@@ -8,11 +8,7 @@
 
 ### Breaking Changes
 
-- `iterateSseStream` is renamed to `createSseStream` and no longer takes arbitrary `AsyncIterable<Uint8Array>` as input and instead only accepts `ReadableStream<Uint8Array>` and `NodeJS.ReadableStream` as input.
-
-### Bugs Fixed
-
-### Other Changes
+- `iterateSseStream` is renamed to `createSseStream` and no longer takes arbitrary `AsyncIterable<Uint8Array>` as input and instead only accepts `ReadableStream<Uint8Array>` and `http.IncomingMessage` as input.
 
 ## 1.0.0 (2023-09-07)
 
