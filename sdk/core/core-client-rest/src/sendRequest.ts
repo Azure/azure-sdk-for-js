@@ -31,7 +31,7 @@ export async function sendRequest(
   url: string,
   pipeline: Pipeline,
   options: InternalRequestParameters = {},
-  customHttpClient?: HttpClient
+  customHttpClient?: HttpClient,
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);

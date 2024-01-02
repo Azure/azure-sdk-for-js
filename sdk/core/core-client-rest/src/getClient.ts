@@ -179,7 +179,7 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient
+        httpClient,
       ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
@@ -188,7 +188,7 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient
+        httpClient,
       ) as Promise<HttpNodeStreamResponse>;
     },
   };
