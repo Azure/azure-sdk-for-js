@@ -10,7 +10,7 @@ import { createRecordedClient, createRecordedClientWithToken } from "./utils/rec
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function () {
+  describe(`PhoneNumbersClient - lro - purchase and release DNR${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
@@ -36,12 +36,12 @@ matrix([[true, false]], async function (useAad) {
     it("can purchase and release a phone number with DNR countries", async function (this: Context) {
       // search for phone number
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
-        countryCode: "IT",
+        countryCode: "US",
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
-          sms: "inbound+outbound",
-          calling: "none",
+          sms: "none",
+          calling: "inbound",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
@@ -89,12 +89,12 @@ matrix([[true, false]], async function (useAad) {
     it("will fail to purchase a phone number as no consent provided for DNR countries", async function (this: Context) {
       // search for phone number
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
-        countryCode: "IT",
+        countryCode: "US",
         phoneNumberType: "tollFree",
         assignmentType: "application",
         capabilities: {
-          sms: "inbound+outbound",
-          calling: "none",
+          sms: "none",
+          calling: "outbound",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);

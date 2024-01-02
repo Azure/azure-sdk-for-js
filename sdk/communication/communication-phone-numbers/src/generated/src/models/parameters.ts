@@ -15,10 +15,10 @@ import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumbersBrowseRequest as PhoneNumbersBrowseRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
-  Paths16Yq815AvailablephonenumbersReservationsReservationidPutRequestbodyContentApplicationJsonSchema as Paths16Yq815AvailablephonenumbersReservationsReservationidPutRequestbodyContentApplicationJsonSchemaMapper,
-  AvailablePhoneNumber as AvailablePhoneNumberMapper,
+  PhoneNumbersReservation as PhoneNumbersReservationMapper,
   PhoneNumbersReservationPurchaseRequest as PhoneNumbersReservationPurchaseRequestMapper,
-  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
+  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
+  OperatorInformationRequest as OperatorInformationRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -192,7 +192,7 @@ export const quantity: OperationParameter = {
 };
 
 export const phoneNumberType3: OperationParameter = {
-  parameterPath: ["options", "phoneNumberType"],
+  parameterPath: "phoneNumberType",
   mapper: PhoneNumbersBrowseRequestMapper
 };
 
@@ -244,8 +244,8 @@ export const top: OperationQueryParameter = {
 };
 
 export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
-  mapper: Paths16Yq815AvailablephonenumbersReservationsReservationidPutRequestbodyContentApplicationJsonSchemaMapper
+  parameterPath: "phoneNumbers",
+  mapper: PhoneNumbersReservationMapper
 };
 
 export const reservationId: OperationURLParameter = {
@@ -259,46 +259,12 @@ export const reservationId: OperationURLParameter = {
   }
 };
 
-export const id: OperationParameter = {
-  parameterPath: "id",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const countryCode1: OperationParameter = {
-  parameterPath: "countryCode",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const availablePhoneNumber1: OperationParameter = {
-  parameterPath: "availablePhoneNumber",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const capabilities2: OperationParameter = {
-  parameterPath: "capabilities",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const phoneNumberType4: OperationParameter = {
-  parameterPath: "phoneNumberType",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const assignmentType3: OperationParameter = {
-  parameterPath: "assignmentType",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const cost: OperationParameter = {
-  parameterPath: "cost",
-  mapper: AvailablePhoneNumberMapper
-};
-
-export const phoneNumber: OperationURLParameter = {
-  parameterPath: "phoneNumber",
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "phoneNumber",
-    required: true,
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
@@ -321,18 +287,6 @@ export const operationId: OperationURLParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const calling: OperationParameter = {
   parameterPath: ["options", "calling"],
   mapper: PhoneNumberCapabilitiesRequestMapper
@@ -341,6 +295,22 @@ export const calling: OperationParameter = {
 export const sms: OperationParameter = {
   parameterPath: ["options", "sms"],
   mapper: PhoneNumberCapabilitiesRequestMapper
+};
+
+export const phoneNumber: OperationURLParameter = {
+  parameterPath: "phoneNumber",
+  mapper: {
+    serializedName: "phoneNumber",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const phoneNumbers1: OperationParameter = {
+  parameterPath: ["options", "phoneNumbers"],
+  mapper: OperatorInformationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {
