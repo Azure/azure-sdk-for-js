@@ -19,9 +19,9 @@
     "@azure-rest/core-client": "^1.1.4",
     "@azure/abort-controller": "^1.1.0",
     "@azure/identity": "^3.3.0",
-    "@azure/openai": "^1.0.0-beta.5",
+    "@azure/openai": "^1.0.0-beta.8",
     "child_process": "^1.0.2",
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.0.0"
   },
   "devDependencies": {
     "@webpack-cli/generators": "^3.0.4",

@@ -36,7 +36,7 @@ async function domainsUpdate() {
   const result = await client.domains.beginUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainUpdateParameters
+    domainUpdateParameters,
   );
   console.log(result);
 }

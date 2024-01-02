@@ -43,7 +43,7 @@ async function namespaceTopicEventSubscriptionsUpdate() {
     namespaceName,
     topicName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

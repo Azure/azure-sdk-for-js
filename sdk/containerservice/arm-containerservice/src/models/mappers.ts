@@ -763,10 +763,23 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           className: "CreationData"
         }
       },
+      capacityReservationGroupID: {
+        serializedName: "capacityReservationGroupID",
+        type: {
+          name: "String"
+        }
+      },
       hostGroupID: {
         serializedName: "hostGroupID",
         type: {
           name: "String"
+        }
+      },
+      networkProfile: {
+        serializedName: "networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
         }
       }
     }
@@ -1111,6 +1124,106 @@ export const CreationData: coreClient.CompositeMapper = {
     modelProperties: {
       sourceResourceId: {
         serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AgentPoolNetworkProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolNetworkProfile",
+    modelProperties: {
+      nodePublicIPTags: {
+        serializedName: "nodePublicIPTags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IPTag"
+            }
+          }
+        }
+      },
+      allowedHostPorts: {
+        serializedName: "allowedHostPorts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PortRange"
+            }
+          }
+        }
+      },
+      applicationSecurityGroups: {
+        serializedName: "applicationSecurityGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const IPTag: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "IPTag",
+    modelProperties: {
+      ipTagType: {
+        serializedName: "ipTagType",
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PortRange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PortRange",
+    modelProperties: {
+      portStart: {
+        constraints: {
+          InclusiveMaximum: 65535,
+          InclusiveMinimum: 1
+        },
+        serializedName: "portStart",
+        type: {
+          name: "Number"
+        }
+      },
+      portEnd: {
+        constraints: {
+          InclusiveMaximum: 65535,
+          InclusiveMinimum: 1
+        },
+        serializedName: "portEnd",
+        type: {
+          name: "Number"
+        }
+      },
+      protocol: {
+        serializedName: "protocol",
         type: {
           name: "String"
         }
@@ -1749,6 +1862,13 @@ export const ManagedClusterLoadBalancerProfile: coreClient.CompositeMapper = {
         serializedName: "enableMultipleStandardLoadBalancers",
         type: {
           name: "Boolean"
+        }
+      },
+      backendPoolType: {
+        defaultValue: "NodeIPConfiguration",
+        serializedName: "backendPoolType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4777,10 +4897,23 @@ export const AgentPool: coreClient.CompositeMapper = {
           className: "CreationData"
         }
       },
+      capacityReservationGroupID: {
+        serializedName: "properties.capacityReservationGroupID",
+        type: {
+          name: "String"
+        }
+      },
       hostGroupID: {
         serializedName: "properties.hostGroupID",
         type: {
           name: "String"
+        }
+      },
+      networkProfile: {
+        serializedName: "properties.networkProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolNetworkProfile"
         }
       }
     }

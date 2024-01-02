@@ -6,24 +6,33 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { setContinuationToken } from "../pagingHelper";
 import { ApplicationTypeVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceFabricManagementClient } from "../serviceFabricManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
+  ApplicationTypeVersionResource,
+  ApplicationTypeVersionsListNextOptionalParams,
+  ApplicationTypeVersionsListOptionalParams,
+  ApplicationTypeVersionsListResponse,
   ApplicationTypeVersionsGetOptionalParams,
   ApplicationTypeVersionsGetResponse,
-  ApplicationTypeVersionResource,
   ApplicationTypeVersionsCreateOrUpdateOptionalParams,
   ApplicationTypeVersionsCreateOrUpdateResponse,
   ApplicationTypeVersionsDeleteOptionalParams,
-  ApplicationTypeVersionsListOptionalParams,
-  ApplicationTypeVersionsListResponse
+  ApplicationTypeVersionsListNextResponse
 } from "../models";
 
+/// <reference lib="esnext.asynciterable" />
 /** Class containing ApplicationTypeVersions operations. */
 export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
   private readonly client: ServiceFabricManagementClient;
@@ -34,6 +43,100 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
    */
   constructor(client: ServiceFabricManagementClient) {
     this.client = client;
+  }
+
+  /**
+   * Gets all application type version resources created or in the process of being created in the
+   * Service Fabric application type name resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationTypeName The name of the application type name resource.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationTypeName: string,
+    options?: ApplicationTypeVersionsListOptionalParams
+  ): PagedAsyncIterableIterator<ApplicationTypeVersionResource> {
+    const iter = this.listPagingAll(
+      resourceGroupName,
+      clusterName,
+      applicationTypeName,
+      options
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(
+          resourceGroupName,
+          clusterName,
+          applicationTypeName,
+          options,
+          settings
+        );
+      }
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationTypeName: string,
+    options?: ApplicationTypeVersionsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<ApplicationTypeVersionResource[]> {
+    let result: ApplicationTypeVersionsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        options
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationTypeName: string,
+    options?: ApplicationTypeVersionsListOptionalParams
+  ): AsyncIterableIterator<ApplicationTypeVersionResource> {
+    for await (const page of this.listPagingPage(
+      resourceGroupName,
+      clusterName,
+      applicationTypeName,
+      options
+    )) {
+      yield* page;
+    }
   }
 
   /**
@@ -75,8 +178,8 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
     parameters: ApplicationTypeVersionResource,
     options?: ApplicationTypeVersionsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ApplicationTypeVersionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>,
       ApplicationTypeVersionsCreateOrUpdateResponse
     >
   > {
@@ -86,7 +189,7 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
     ): Promise<ApplicationTypeVersionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -119,9 +222,9 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         clusterName,
         applicationTypeName,
@@ -129,10 +232,13 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
         parameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ApplicationTypeVersionsCreateOrUpdateResponse,
+      OperationState<ApplicationTypeVersionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -181,14 +287,14 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
     applicationTypeName: string,
     version: string,
     options?: ApplicationTypeVersionsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -221,13 +327,19 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, clusterName, applicationTypeName, version, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        version,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -267,7 +379,7 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
    * @param applicationTypeName The name of the application type name resource.
    * @param options The options parameters.
    */
-  list(
+  private _list(
     resourceGroupName: string,
     clusterName: string,
     applicationTypeName: string,
@@ -276,6 +388,33 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, applicationTypeName, options },
       listOperationSpec
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationTypeName The name of the application type name resource.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationTypeName: string,
+    nextLink: string,
+    options?: ApplicationTypeVersionsListNextOptionalParams
+  ): Promise<ApplicationTypeVersionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        clusterName,
+        applicationTypeName,
+        nextLink,
+        options
+      },
+      listNextOperationSpec
     );
   }
 }
@@ -384,6 +523,28 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.subscriptionId,
+    Parameters.applicationTypeName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApplicationTypeVersionResourceList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.subscriptionId,
+    Parameters.nextLink,
     Parameters.applicationTypeName
   ],
   headerParameters: [Parameters.accept],

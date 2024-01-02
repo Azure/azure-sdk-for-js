@@ -16,7 +16,7 @@ export function parseCAEChallenge(challenges: string): any[] {
   return bearerChallenges.map((challenge) => {
     const challengeParts = `${challenge.trim()}, `.split('", ').filter((x) => x);
     const keyValuePairs = challengeParts.map((keyValue) =>
-      (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="'))
+      (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')),
     );
     // Key-value pairs to plain object:
     return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {});
@@ -58,7 +58,7 @@ export interface CAEChallenge {
  * ```
  */
 export async function authorizeRequestOnClaimChallenge(
-  onChallengeOptions: AuthorizeRequestOnChallengeOptions
+  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes, response } = onChallengeOptions;
   const logger = onChallengeOptions.logger || coreClientLogger;
@@ -66,7 +66,7 @@ export async function authorizeRequestOnClaimChallenge(
   const challenge = response.headers.get("WWW-Authenticate");
   if (!challenge) {
     logger.info(
-      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`,
     );
     return false;
   }
@@ -75,7 +75,7 @@ export async function authorizeRequestOnClaimChallenge(
   const parsedChallenge = challenges.find((x) => x.claims);
   if (!parsedChallenge) {
     logger.info(
-      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`,
     );
     return false;
   }
@@ -84,7 +84,7 @@ export async function authorizeRequestOnClaimChallenge(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
       claims: decodeStringToString(parsedChallenge.claims),
-    }
+    },
   );
 
   if (!accessToken) {

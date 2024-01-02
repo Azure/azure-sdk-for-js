@@ -1,14 +1,14 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 2.0.0 (2024-01-02)
 
 ### Features Added
 
+- `createSseStream` returns a `ReadableStream` that is iterable and can also be disposed.
+
 ### Breaking Changes
 
-### Bugs Fixed
-
-### Other Changes
+- `iterateSseStream` is renamed to `createSseStream` and no longer takes arbitrary `AsyncIterable<Uint8Array>` as input and instead only accepts `ReadableStream<Uint8Array>` and `http.IncomingMessage` as input.
 
 ## 1.0.0 (2023-09-07)
 

@@ -38,7 +38,6 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:samples": "echo Obsolete.",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:browser": "tsc -p . && dev-tool run bundle",

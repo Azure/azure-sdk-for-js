@@ -1,16 +1,11 @@
 # Release History
 
-## 1.2.0 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.1.7 (2024-01-02)
 
 ### Bugs Fixed
 
-### Other Changes
-
-- Upgrade dependency `@azure/abort-controller` to `^2.0.0`.
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fix the issue where onResponse is not called when `asNodeStream` or `asBrowserStream` are called.
 
 ## 1.1.6 (2023-11-30)
 

@@ -39,7 +39,7 @@ export interface ServiceClientTestSpec {
 
 export async function assertServiceClientResponse(
   testSpec: ServiceClientTestSpec,
-  expectedResponse: unknown
+  expectedResponse: unknown,
 ): Promise<void> {
   let request: OperationRequest;
   const httpClient: HttpClient = {
@@ -77,7 +77,7 @@ export async function assertServiceClientResponse(
       responses: {
         200: testSpec.responseMapper,
       },
-    }
+    },
   );
 
   assert.strictEqual(rawResponse?.status, 200);

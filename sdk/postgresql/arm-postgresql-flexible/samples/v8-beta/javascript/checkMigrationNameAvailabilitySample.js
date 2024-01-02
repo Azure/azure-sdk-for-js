@@ -32,7 +32,7 @@ async function checkMigrationNameAvailability() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

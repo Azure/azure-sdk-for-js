@@ -11,7 +11,7 @@ describe("ConnectionConfig", function () {
   describe("Base", function () {
     it("populates config properties from an Event Hubs connection string", function (done) {
       const config = ConnectionConfig.create(
-        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep",
       );
       config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
       config.should.have.property("sharedAccessKeyName").that.equals("sakName");
@@ -23,7 +23,7 @@ describe("ConnectionConfig", function () {
     it("populates path from the path argument if connection string does not have EntityPath", function (done) {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
-        "abc"
+        "abc",
       );
       config.should.have.property("entityPath").that.equals("abc");
       done();
