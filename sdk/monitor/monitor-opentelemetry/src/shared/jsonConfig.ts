@@ -82,8 +82,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
-      this.browserSdkLoaderOptions =
-        jsonConfig.browserSdkLoaderOptions;
+      this.browserSdkLoaderOptions = jsonConfig.browserSdkLoaderOptions;
       this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
       this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
     } catch (err) {

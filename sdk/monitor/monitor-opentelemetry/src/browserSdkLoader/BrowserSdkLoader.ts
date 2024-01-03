@@ -1,6 +1,6 @@
 import http from "http";
 import https from "https";
-import { webSnippet as sdkLoader }  from "@microsoft/applicationinsights-web-snippet";
+import { webSnippet as sdkLoader } from "@microsoft/applicationinsights-web-snippet";
 import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper";
 import * as prefixHelper from "../utils/common";
 import * as zlib from "zlib";
@@ -42,10 +42,8 @@ export class BrowserSdkLoader {
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientBrowserSdkLoaderConfig =
-      config.browserSdkLoaderOptions?.browserSdkLoaderConfig;
-    this._clientBrowserSdkLoaderSrc =
-      config.browserSdkLoaderOptions?.browserSdkLoaderSrc;
+    this._clientBrowserSdkLoaderConfig = config.browserSdkLoaderOptions?.browserSdkLoaderConfig;
+    this._clientBrowserSdkLoaderSrc = config.browserSdkLoaderOptions?.browserSdkLoaderSrc;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -85,9 +83,7 @@ export class BrowserSdkLoader {
    * @returns The string to inject into the web page
    */
   private _getBrowserSdkLoaderReplacedStr() {
-    let configStr = this._getClientBrowserSdkLoaderConfigStr(
-      this._clientBrowserSdkLoaderConfig
-    );
+    let configStr = this._getClientBrowserSdkLoaderConfigStr(this._clientBrowserSdkLoaderConfig);
     let osStr = prefixHelper.getOsPrefix();
     let rpStr = prefixHelper.getResourceProvider();
     let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
