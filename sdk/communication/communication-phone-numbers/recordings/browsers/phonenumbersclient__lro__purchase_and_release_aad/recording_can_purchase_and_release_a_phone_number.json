@@ -266,7 +266,8 @@
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
-        "searchId": "sanitized"
+        "searchId": "sanitized",
+        "consentToNotResellNumbers": true
       },
       "StatusCode": 202,
       "ResponseHeaders": {
