@@ -36,7 +36,7 @@ matrix([[true, false]], async function (useAad) {
     });
 
     it("can purchase and release a phone number with DNR countries", async function (this: Context) {
-      // search for phone number
+      // search for phone number, replace countryCode by DNR countries eg IT
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",
         phoneNumberType: "tollFree",
@@ -89,7 +89,7 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(90000);
 
     it("will fail as no consent provided DNR", async function (this: Context) {
-      // search for phone number
+      // search for phone number, replace countryCode by DNR countries eg IT
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",
         phoneNumberType: "tollFree",
