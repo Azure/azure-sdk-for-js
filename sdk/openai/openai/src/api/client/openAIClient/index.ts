@@ -618,7 +618,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
       body: {
         ...snakeCaseKeys(rest),
         file: createFile(fileContent, "placeholder.wav"),
-        response_format,
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -684,7 +684,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
       body: {
         ...snakeCaseKeys(rest),
         file: createFile(fileContent, "placeholder.wav"),
-        response_format,
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
