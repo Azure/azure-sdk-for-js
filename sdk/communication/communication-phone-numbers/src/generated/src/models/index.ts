@@ -159,8 +159,6 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
-  /** The error code of the search. */
-  errorCode?: number;
 }
 
 export interface PhoneNumbersBrowseRequest {
@@ -291,8 +289,6 @@ export interface PurchasedPhoneNumber {
   operatorId?: string;
   /** Name of the operator that provided the number */
   operatorName?: string;
-  /** Source of the number, e.g. Cloud or OperatorConnect */
-  phoneNumberSource?: PhoneNumberSource;
 }
 
 /** The list of purchased phone numbers. */
@@ -431,8 +427,6 @@ export type PhoneNumberOperationStatus =
   | "running"
   | "succeeded"
   | "failed";
-/** Defines values for PhoneNumberSource. */
-export type PhoneNumberSource = "cloud" | "operatorConnect";
 /** Defines values for OperatorNumberType. */
 export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 

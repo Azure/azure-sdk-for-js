@@ -54,8 +54,7 @@
           "billingFrequency": "monthly"
         },
         "operatorId": "sanitized",
-        "operatorName": "Microsoft PPE (Dogfood)",
-        "phoneNumberSource": "cloud"
+        "operatorName": "Microsoft PPE (Dogfood)"
       }
     }
   ],
