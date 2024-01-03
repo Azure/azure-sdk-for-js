@@ -1,0 +1,4 @@
+directory: specification/batch/Azure.Batch
+commit: 8bb67e215819c3ca2c77db86dcd2e50065912b54
+repo: wanghoppe/azure-rest-api-specs
+additionalDirectories:
