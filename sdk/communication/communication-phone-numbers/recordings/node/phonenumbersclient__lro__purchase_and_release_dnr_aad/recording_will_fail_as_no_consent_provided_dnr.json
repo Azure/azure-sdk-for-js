@@ -20,7 +20,7 @@
         "phoneNumberType": "tollFree",
         "assignmentType": "application",
         "capabilities": {
-          "calling": "outbound",
+          "calling": "inbound",
           "sms": "none"
         },
         "quantity": 1
@@ -202,7 +202,7 @@
         "phoneNumberType": "tollFree",
         "assignmentType": "application",
         "capabilities": {
-          "calling": "outbound",
+          "calling": "inbound",
           "sms": "none"
         },
         "cost": {
