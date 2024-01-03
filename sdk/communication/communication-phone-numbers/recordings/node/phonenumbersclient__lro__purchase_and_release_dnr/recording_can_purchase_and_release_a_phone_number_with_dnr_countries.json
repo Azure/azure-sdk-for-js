@@ -13,6 +13,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "NkYtepYxd322JNgmhKquNO3yr57wUEvhSy2UUZhRvcI=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
@@ -54,6 +55,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -92,6 +94,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -130,6 +133,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -168,6 +172,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -216,6 +221,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "YBLSYcXOHe/oOY3rBsTSva2LTs07IzQCLgn40bGazbs=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
@@ -251,6 +257,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -287,6 +294,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -323,6 +331,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -359,6 +368,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -394,6 +404,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -440,6 +451,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -471,6 +483,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -506,6 +519,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -541,6 +555,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
@@ -576,6 +591,7 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22631)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Tue, 02 Jan 2024 19:18:58 GMT",
         "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": null,
