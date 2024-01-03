@@ -79,10 +79,10 @@ const options: AzureMonitorOpenTelemetryOptions = {
         redis: { enabled: true },
         redis4: { enabled: true },
     },
-    applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: false,
-        webInstrumentationConnectionString: "",
-        webInstrumentationConfig: undefined
+    browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: false,
+        browserSdkLoaderConnectionString: "",
+        browserSdkLoaderConfig: undefined
     },
     resource: resource
 };
@@ -100,7 +100,7 @@ useAzureMonitor(options);
 | otlpLogExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-logs-otlp-http)                                         | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                       | 1|
 | instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false }}|
-| applicationInsightsWebInstrumentationOptions| Allow configuration of Web Instrumentations. | { enableWebInstrumentation: false, webInstrumentationConnectionString: "", webInstrumentationConfig: undefined }
+| browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enableBrowserSdkLoader: false, browserSdkLoaderConnectionString: "", browserSdkLoaderConfig: undefined }
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources)         ||
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 

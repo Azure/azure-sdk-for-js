@@ -51,7 +51,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     return this._resource;
   }
 
-  public applicationInsightsWebInstrumentationOptions: BrowserSdkLoaderOptions;
+  public browserSdkLoaderOptions: BrowserSdkLoaderOptions;
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
@@ -72,11 +72,11 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
-    this.applicationInsightsWebInstrumentationOptions = {
-      enableWebInstrumentation: false,
-      webInstrumentationConnectionString: "",
-      webInstrumentationSrc: "",
-      webInstrumentationConfig: undefined,
+    this.browserSdkLoaderOptions = {
+      enableBrowserSdkLoader: false,
+      browserSdkLoaderConnectionString: "",
+      browserSdkLoaderSrc: "",
+      browserSdkLoaderConfig: undefined,
     };
 
     if (options) {
@@ -91,9 +91,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
-      this.applicationInsightsWebInstrumentationOptions = Object.assign(
-        this.applicationInsightsWebInstrumentationOptions,
-        options.applicationInsightsWebInstrumentationOptions
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        options.browserSdkLoaderOptions
       );
       this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
       this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
@@ -107,9 +107,9 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
-      this.applicationInsightsWebInstrumentationOptions = Object.assign(
-        this.applicationInsightsWebInstrumentationOptions,
-        jsonConfig.applicationInsightsWebInstrumentationOptions
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        jsonConfig.browserSdkLoaderOptions
       );
       this.enableLiveMetrics =
         jsonConfig.enableLiveMetrics !== undefined

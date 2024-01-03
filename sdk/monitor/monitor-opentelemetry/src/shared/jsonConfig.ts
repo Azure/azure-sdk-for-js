@@ -32,7 +32,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable Standard Metrics feature */
   public enableStandardMetrics?: boolean;
 
-  public applicationInsightsWebInstrumentationOptions?: BrowserSdkLoaderOptions;
+  public browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 
   private static _instance: JsonConfig;
 
@@ -82,8 +82,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
       this.azureMonitorExporterOptions = jsonConfig.azureMonitorExporterOptions;
       this.samplingRatio = jsonConfig.samplingRatio;
       this.instrumentationOptions = jsonConfig.instrumentationOptions;
-      this.applicationInsightsWebInstrumentationOptions =
-        jsonConfig.applicationInsightsWebInstrumentationOptions;
+      this.browserSdkLoaderOptions =
+        jsonConfig.browserSdkLoaderOptions;
       this.enableLiveMetrics = jsonConfig.enableLiveMetrics;
       this.enableStandardMetrics = jsonConfig.enableStandardMetrics;
     } catch (err) {

@@ -30,9 +30,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
@@ -45,9 +45,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=00000000-0000-0000-0000-000000000000",
       },
     };
@@ -85,9 +85,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
     };
@@ -122,9 +122,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
     };
@@ -155,11 +155,11 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        webInstrumentationSrc: "WebInstrumentationTestSourceURL",
+        browserSdkLoaderSrc: "WebInstrumentationTestSourceURL",
       },
     };
     useAzureMonitor(config);
@@ -192,12 +192,12 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        webInstrumentationSrc: "WebInstrumentationTestSourceURL",
-        webInstrumentationConfig: {
+        browserSdkLoaderSrc: "WebInstrumentationTestSourceURL",
+        browserSdkLoaderConfig: {
           src: "WebInstrumentationTestSourceURL",
           name: "WebInstrumentationTestName",
           ld: 1000,
@@ -243,9 +243,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
     };
@@ -280,9 +280,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
     };
@@ -322,9 +322,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
     };
@@ -360,9 +360,9 @@ describe("#WebSnippet", () => {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
       },
-      applicationInsightsWebInstrumentationOptions: {
-        enableWebInstrumentation: true,
-        webInstrumentationConnectionString:
+      browserSdkLoaderOptions: {
+        enableBrowserSdkLoader: true,
+        browserSdkLoaderConnectionString:
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3330ffafffw;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       },
     };

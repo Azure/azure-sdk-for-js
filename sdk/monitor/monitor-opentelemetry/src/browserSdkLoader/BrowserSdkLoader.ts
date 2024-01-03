@@ -18,9 +18,9 @@ export class BrowserSdkLoader {
   private static _aiUrl: string;
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
-  private _webInstrumentationIkey?: string;
-  private _clientWebInstrumentationConfig?: IBrowserSdkLoaderConfig;
-  private _clientWebInstrumentationSrc?: string;
+  private _browserSdkLoaderIkey?: string;
+  private _clientBrowserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
+  private _clientBrowserSdkLoaderSrc?: string;
 
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
@@ -33,19 +33,19 @@ export class BrowserSdkLoader {
     // AI URL used to validate if snippet already included
     BrowserSdkLoader._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
     let clientWebIkey;
-    if (config.applicationInsightsWebInstrumentationOptions?.webInstrumentationConnectionString) {
+    if (config.browserSdkLoaderOptions?.browserSdkLoaderConnectionString) {
       clientWebIkey = this._getWebSnippetIkey(
-        config?.applicationInsightsWebInstrumentationOptions?.webInstrumentationConnectionString
+        config?.browserSdkLoaderOptions?.browserSdkLoaderConnectionString
       );
     }
-    this._webInstrumentationIkey =
+    this._browserSdkLoaderIkey =
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientWebInstrumentationConfig =
-      config.applicationInsightsWebInstrumentationOptions?.webInstrumentationConfig;
-    this._clientWebInstrumentationSrc =
-      config.applicationInsightsWebInstrumentationOptions?.webInstrumentationSrc;
+    this._clientBrowserSdkLoaderConfig =
+      config.browserSdkLoaderOptions?.browserSdkLoaderConfig;
+    this._clientBrowserSdkLoaderSrc =
+      config.browserSdkLoaderOptions?.browserSdkLoaderSrc;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -84,18 +84,18 @@ export class BrowserSdkLoader {
    * Gets string to inject into the web page
    * @returns The string to inject into the web page
    */
-  private _getWebInstrumentationReplacedStr() {
-    let configStr = this._getClientWebInstrumentationConfigStr(
-      this._clientWebInstrumentationConfig
+  private _getBrowserSdkLoaderReplacedStr() {
+    let configStr = this._getClientBrowserSdkLoaderConfigStr(
+      this._clientBrowserSdkLoaderConfig
     );
     let osStr = prefixHelper.getOsPrefix();
     let rpStr = prefixHelper.getResourceProvider();
-    let snippetReplacedStr = `${this._webInstrumentationIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
+    let snippetReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
     let replacedSnippet = webSnippet.replace("INSTRUMENTATION_KEY", snippetReplacedStr);
-    if (this._clientWebInstrumentationSrc) {
+    if (this._clientBrowserSdkLoaderSrc) {
       return replacedSnippet.replace(
         `${WEB_INSTRUMENTATION_DEFAULT_SOURCE}.2.min.js`,
-        this._clientWebInstrumentationSrc
+        this._clientBrowserSdkLoaderSrc
       );
     }
     return replacedSnippet;
@@ -109,7 +109,7 @@ export class BrowserSdkLoader {
   //      config3: 1,
   //      ...
   //}});
-  private _getClientWebInstrumentationConfigStr(config?: IBrowserSdkLoaderConfig) {
+  private _getClientBrowserSdkLoaderConfigStr(config?: IBrowserSdkLoaderConfig) {
     let configStr = "";
     try {
       if (!!config && Object.keys(config).length > 0) {
@@ -136,7 +136,7 @@ export class BrowserSdkLoader {
 
   private _initialize() {
     this._isInitialized = true;
-    BrowserSdkLoader._snippet = this._getWebInstrumentationReplacedStr();
+    BrowserSdkLoader._snippet = this._getBrowserSdkLoaderReplacedStr();
     const originalHttpServer = http.createServer;
     const originalHttpsServer = https.createServer;
 

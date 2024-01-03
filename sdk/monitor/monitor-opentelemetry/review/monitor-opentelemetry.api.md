@@ -10,8 +10,8 @@ import { Resource } from '@opentelemetry/resources';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
-    applicationInsightsWebInstrumentationOptions?: BrowserSdkLoaderOptions;
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
@@ -21,10 +21,10 @@ export interface AzureMonitorOpenTelemetryOptions {
 
 // @public
 export interface BrowserSdkLoaderOptions {
-    enableWebInstrumentation?: boolean;
-    webInstrumentationConfig?: IBrowserSdkLoaderConfig;
-    webInstrumentationConnectionString?: string;
-    webInstrumentationSrc?: string;
+    browserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
+    browserSdkLoaderConnectionString?: string;
+    browserSdkLoaderSrc?: string;
+    enableBrowserSdkLoader?: boolean;
 }
 
 // @public
