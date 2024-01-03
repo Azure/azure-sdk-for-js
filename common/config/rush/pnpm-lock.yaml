@@ -4991,7 +4991,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240101
+      typescript: 5.4.0-dev.20240102
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9746,8 +9746,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240101:
-    resolution: {integrity: sha512-fIfemSahB5H/1Lc+kv3AEaI1UZc2SDtl0Qjk+SkfKRxyS2EdujUWJp62PzPeVflfCxyhpAuAF2M+WIR1Fo/ByA==}
+  /typescript@5.4.0-dev.20240102:
+    resolution: {integrity: sha512-2S5NVWoqMlgWUJJCAKS0RG5/XggxCWLPysu/McRM0XS1M3eeekddKMMw0h/xFZV+Afnrc4XgN4KCWV/l6DTxVQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17918,6 +17918,7 @@ packages:
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -20015,7 +20016,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-zDR/6++KwGDqsAFrx7IDL8TQfluQe+AJhef1BZ338bcmO2DcRPt+/d9avbpLGy5wlNjYpFtV7axa3gCHgJEjZA==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-Xle4dj8ViRCUrKxruYU5LuNvWv/oP6pT95vHrQSO7mkc/tT5ev0Xms2g5XQvvPGlT6kvAN0WaXJVKhgzCkml9w==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:

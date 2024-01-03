@@ -1,23 +1,17 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
-
-### Features Added
+## 1.0.0-beta.9 (2024-01-02)
 
 ### Breaking Changes
 
 - `listChatCompletions` and `listCompletions` are renamed to `streamChatCompletions` and `streamCompletions` respectively and their return types are updated to be a `ReadableStream`. For example, `streamChatCompletions` can be used as follows:
 
 ```js
-  await using events = await client.streamChatCompletions(deploymentId, messages);
+  const events = await client.streamChatCompletions(deploymentId, messages);
   for await (const event of events) {
     // use event ...
   }
 ```
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.8 (2023-12-07)
 

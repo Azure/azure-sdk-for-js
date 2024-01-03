@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list chat completions for a chat context.
+ * Demonstrates how to list completions for the provided prompt.
  *
- * @summary list chat completions.
+ * @summary list completions.
  */
 
 import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
@@ -17,25 +17,18 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
+const prompt = ["What is Azure OpenAI?"];
+
 export async function main() {
-  console.log("== Streaming Chat Completions Sample ==");
+  console.log("== Stream Completions Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentId = "gpt-35-turbo";
-  const events = client.listChatCompletions(
-    deploymentId,
-    [
-      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
-      { role: "user", content: "Can you help me?" },
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
-      { role: "user", content: "What's the best way to train a parrot?" },
-    ],
-    { maxTokens: 128 }
-  );
+  const deploymentId = "text-davinci-003";
+  const events = await client.streamCompletions(deploymentId, prompt, { maxTokens: 128 });
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      console.log(choice.text);
     }
   }
 }
