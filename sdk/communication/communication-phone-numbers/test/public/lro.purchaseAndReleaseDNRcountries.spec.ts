@@ -94,7 +94,7 @@ matrix([[true, false]], async function (useAad) {
         assignmentType: "application",
         capabilities: {
           sms: "none",
-          calling: "outbound",
+          calling: "inbound",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
