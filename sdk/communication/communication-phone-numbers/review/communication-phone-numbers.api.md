@@ -165,7 +165,6 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
-    errorCode?: number;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
@@ -195,7 +194,6 @@ export interface PurchasedPhoneNumber {
     operatorId?: string;
     operatorName?: string;
     phoneNumber: string;
-    phoneNumberSource?: PhoneNumberSource;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
 }
