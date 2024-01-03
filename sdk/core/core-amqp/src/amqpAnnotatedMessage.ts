@@ -4,6 +4,7 @@
 import { AmqpMessageHeader } from "./messageHeader";
 import { AmqpMessageProperties } from "./messageProperties";
 import { Message as RheaMessage } from "rhea-promise";
+import { Constants } from "./util/constants";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
@@ -53,7 +54,7 @@ export const AmqpAnnotatedMessage = {
    * Takes RheaMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.
    */
   fromRheaMessage(msg: RheaMessage): AmqpAnnotatedMessage {
-    return {
+    const amqpMsg = {
       header: AmqpMessageHeader.fromRheaMessageHeader(msg),
       footer: (msg as any).footer,
       messageAnnotations: msg.message_annotations,
@@ -62,12 +63,27 @@ export const AmqpAnnotatedMessage = {
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body,
     };
+    if (msg.absolute_expiry_time) {
+      if (msg.absolute_expiry_time.getTime() > Constants.maxAbsoluteExpiryTime) {
+        msg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
+      }
+      // The TTL from the header can be at most approximately 49 days (uint32
+      // max value milliseconds) due to the AMQP spec. In order to allow for
+      // larger TTLs set by the user, we take the difference of the
+      // absolute_expiry_time and the creation_time (if both are set). If either of
+      // those properties is not set, we fall back to the TTL from the header.
+      if (msg.creation_time) {
+        amqpMsg.header.timeToLive = msg.absolute_expiry_time.getTime() - msg.creation_time.getTime();
+      }
+    }
+
+    return amqpMsg;
   },
   /**
    * Takes AmqpAnnotatedMessage and returns it in the RheaMessage(`Message` type from "rhea") format.
    */
   toRheaMessage(msg: AmqpAnnotatedMessage): RheaMessage {
-    const message = {
+    const rhMsg = {
       ...AmqpMessageProperties.toRheaMessageProperties(msg.properties || {}),
       ...AmqpMessageHeader.toRheaMessageHeader(msg.header || {}),
       body: msg.body,
@@ -76,6 +92,21 @@ export const AmqpAnnotatedMessage = {
       application_properties: msg.applicationProperties,
       footer: msg.footer,
     };
-    return message;
+
+    // There is a loss of fidelity in the TTL header if larger than uint32 max value. As a workaround
+    // we set the absolute_expiry_time and creation_time on the message based on the TTL. These
+    // values are then used to reconstruct the accurate TTL for received messages.
+    if (msg.header?.timeToLive) {
+      const ttl = msg.header.timeToLive;
+      rhMsg.ttl = ttl > Constants.maxUint32Value ? Constants.maxUint32Value : ttl
+      rhMsg.creation_time = rhMsg.creation_time ?? new Date();
+      if (Constants.maxAbsoluteExpiryTime - rhMsg.creation_time.getTime() > ttl) {
+        rhMsg.absolute_expiry_time = new Date(rhMsg.creation_time.getTime() + ttl)
+      } else {
+        rhMsg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
+      }
+    }
+
+    return rhMsg;
   },
 };
