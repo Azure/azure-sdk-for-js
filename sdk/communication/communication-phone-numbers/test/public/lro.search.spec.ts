@@ -18,8 +18,8 @@ matrix([[true, false]], async function (useAad) {
       phoneNumberType: "tollFree",
       assignmentType: "application",
       capabilities: {
-        sms: "inbound+outbound",
-        calling: "none",
+        sms: "none",
+        calling: "outbound",
       },
     };
 
