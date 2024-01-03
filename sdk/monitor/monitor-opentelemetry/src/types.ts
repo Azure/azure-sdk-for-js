@@ -5,7 +5,7 @@ export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.1.1";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 
 /**
- * Default Web Snippet Source
+ * Default Browser SDK Loader Source
  * @internal
  */
 export const WEB_INSTRUMENTATION_DEFAULT_SOURCE = "https://js.monitor.azure.com/scripts/b/ai";

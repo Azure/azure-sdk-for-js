@@ -1,7 +1,7 @@
 import http from "http";
 import https from "https";
-import { webSnippet } from "@microsoft/applicationinsights-web-snippet";
-import * as snippetInjectionHelper from "./browserSdkLoaderHelper";
+import { webSnippet as sdkLoader }  from "@microsoft/applicationinsights-web-snippet";
+import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper";
 import * as prefixHelper from "../utils/common";
 import * as zlib from "zlib";
 import { InternalConfig } from "../shared";
@@ -14,7 +14,7 @@ import { IBrowserSdkLoaderConfig } from "../shared/types";
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
 
-  private static _snippet: string;
+  private static _sdkLoader: string;
   private static _aiUrl: string;
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
@@ -25,16 +25,16 @@ export class BrowserSdkLoader {
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
       throw new Error(
-        "Web snippet injection should be configured from the applicationInsights object"
+        "Browser SDK Loader should be configured from the applicationInsights object"
       );
     }
 
     BrowserSdkLoader._instance = this;
-    // AI URL used to validate if snippet already included
+    // AI URL used to validate if sdk loader already included
     BrowserSdkLoader._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
     let clientWebIkey;
     if (config.browserSdkLoaderOptions?.browserSdkLoaderConnectionString) {
-      clientWebIkey = this._getWebSnippetIkey(
+      clientWebIkey = this._getBrowserSdkLoaderIkey(
         config?.browserSdkLoaderOptions?.browserSdkLoaderConnectionString
       );
     }
@@ -60,7 +60,7 @@ export class BrowserSdkLoader {
     return BrowserSdkLoader._instance!;
   }
 
-  private _getWebSnippetIkey(connectionString: string) {
+  private _getBrowserSdkLoaderIkey(connectionString: string) {
     let iKey = null;
     try {
       const csCode = ConnectionStringParser.parse(connectionString);
@@ -68,14 +68,14 @@ export class BrowserSdkLoader {
       if (!ConnectionStringParser.validateInstrumentationKey(iKeyCode)) {
         this._isIkeyValid = false;
         Logger.getInstance().info(
-          "Invalid web Instrumentation connection string, web Instrumentation is not enabled."
+          "Invalid browser SDK loader connection string, browser SDK loader is not enabled."
         );
       } else {
         this._isIkeyValid = true;
         iKey = iKeyCode;
       }
     } catch (err) {
-      Logger.getInstance().info("get web snippet ikey error: " + err);
+      Logger.getInstance().info("get browser SDK loader ikey error: " + err);
     }
     return iKey;
   }
@@ -90,19 +90,19 @@ export class BrowserSdkLoader {
     );
     let osStr = prefixHelper.getOsPrefix();
     let rpStr = prefixHelper.getResourceProvider();
-    let snippetReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
-    let replacedSnippet = webSnippet.replace("INSTRUMENTATION_KEY", snippetReplacedStr);
+    let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
+    let replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
     if (this._clientBrowserSdkLoaderSrc) {
-      return replacedSnippet.replace(
+      return replacedSdkLoader.replace(
         `${WEB_INSTRUMENTATION_DEFAULT_SOURCE}.2.min.js`,
         this._clientBrowserSdkLoaderSrc
       );
     }
-    return replacedSnippet;
+    return replacedSdkLoader;
   }
 
   // Do not use string replace here, because double quote should be kept.
-  // we want to transfer all values of config to the web snippet in the following way:
+  // we want to transfer all values of config to the sdk loader in the following way:
   // cfg: {
   //      config1: "config1 string value",
   //      config2: true,
@@ -128,7 +128,7 @@ export class BrowserSdkLoader {
       // if has any errors here, web Instrumentation will be disabled.
       this.dispose();
       Logger.getInstance().info(
-        "Parse client web instrumentation error. Web Instrumentation is disabled"
+        "Parse client web instrumentation error. Browser SDK Loader is disabled"
       );
     }
     return configStr;
@@ -136,7 +136,7 @@ export class BrowserSdkLoader {
 
   private _initialize() {
     this._isInitialized = true;
-    BrowserSdkLoader._snippet = this._getBrowserSdkLoaderReplacedStr();
+    BrowserSdkLoader._sdkLoader = this._getBrowserSdkLoaderReplacedStr();
     const originalHttpServer = http.createServer;
     const originalHttpsServer = https.createServer;
 
@@ -153,14 +153,14 @@ export class BrowserSdkLoader {
             //only patch GET request
             try {
               if (isGetRequest) {
-                let headers = snippetInjectionHelper.getContentEncodingFromHeaders(response);
+                let headers = browserSdkLoaderHelper.getContentEncodingFromHeaders(response);
                 let writeBufferType = undefined;
                 if (typeof b === "string") {
                   writeBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
-                    arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
+                    arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                       response,
                       a,
                       undefined,
@@ -169,7 +169,7 @@ export class BrowserSdkLoader {
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(
+                  arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                     response,
                     a,
                     encodeType
@@ -177,7 +177,7 @@ export class BrowserSdkLoader {
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject snippet error: " + err);
+              Logger.getInstance().warn("Inject browser sdk loader error: " + err);
             }
             return originalResponseWrite.apply(response, arguments as any);
           };
@@ -189,14 +189,14 @@ export class BrowserSdkLoader {
             if (isGetRequest) {
               try {
                 if (isGetRequest) {
-                  let headers = snippetInjectionHelper.getContentEncodingFromHeaders(response);
+                  let headers = browserSdkLoaderHelper.getContentEncodingFromHeaders(response);
                   let endBufferType = undefined;
                   if (typeof b === "string") {
                     endBufferType = b;
                   }
                   if (headers === null || headers === undefined) {
                     if (BrowserSdkLoader._instance?.ValidateInjection(response, a)) {
-                      arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
+                      arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                         response,
                         a,
                         undefined,
@@ -205,7 +205,7 @@ export class BrowserSdkLoader {
                     }
                   } else if (headers.length) {
                     let encodeType = headers[0];
-                    arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(
+                    arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                       response,
                       a,
                       encodeType
@@ -213,7 +213,7 @@ export class BrowserSdkLoader {
                   }
                 }
               } catch (err) {
-                Logger.getInstance().warn("Inject snippet error: " + err);
+                Logger.getInstance().warn("Inject browser sdk loader error: " + err);
               }
             }
             return originalResponseEnd.apply(response, arguments as any);
@@ -235,22 +235,22 @@ export class BrowserSdkLoader {
           res.write = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
-                let headers = snippetInjectionHelper.getContentEncodingFromHeaders(res);
+                let headers = browserSdkLoaderHelper.getContentEncodingFromHeaders(res);
                 let writeBufferType = undefined;
                 if (typeof b === "string") {
                   writeBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
-                    arguments[0] = this.InjectWebSnippet(res, a, undefined, writeBufferType);
+                    arguments[0] = this.InjectSdkLoader(res, a, undefined, writeBufferType);
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(res, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(res, a, encodeType);
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject snippet error: " + err);
+              Logger.getInstance().warn("Inject SDK loader error: " + err);
             }
             return originalHttpsResponseWrite.apply(res, arguments);
           };
@@ -258,14 +258,14 @@ export class BrowserSdkLoader {
           res.end = function wrap(a: Buffer | string | any, b?: Function | string) {
             try {
               if (isGetHttpsRequest) {
-                let headers = snippetInjectionHelper.getContentEncodingFromHeaders(res);
+                let headers = browserSdkLoaderHelper.getContentEncodingFromHeaders(res);
                 let endBufferType = undefined;
                 if (typeof b === "string") {
                   endBufferType = b;
                 }
                 if (headers === null || headers === undefined) {
                   if (BrowserSdkLoader._instance?.ValidateInjection(res, a)) {
-                    arguments[0] = BrowserSdkLoader._instance.InjectWebSnippet(
+                    arguments[0] = BrowserSdkLoader._instance.InjectSdkLoader(
                       res,
                       a,
                       undefined,
@@ -274,11 +274,11 @@ export class BrowserSdkLoader {
                   }
                 } else if (headers.length) {
                   let encodeType = headers[0];
-                  arguments[0] = BrowserSdkLoader._instance?.InjectWebSnippet(res, a, encodeType);
+                  arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(res, a, encodeType);
                 }
               }
             } catch (err) {
-              Logger.getInstance().warn("Inject snippet error: " + err);
+              Logger.getInstance().warn("Inject SDK loader error: " + err);
             }
             return originalHttpsResponseEnd.apply(res, arguments);
           };
@@ -290,16 +290,16 @@ export class BrowserSdkLoader {
   }
 
   /**
-   * Validate response and try to inject Web snippet
+   * Validate response and try to inject Browser SDK Loader
    */
   public ValidateInjection(response: any, input: string | Buffer): boolean {
     try {
       if (!response || !input || response.statusCode != 200) return false;
-      let isContentHtml = snippetInjectionHelper.isContentTypeHeaderHtml(response);
+      let isContentHtml = browserSdkLoaderHelper.isContentTypeHeaderHtml(response);
       if (!isContentHtml) return false;
       let inputStr = input.slice().toString();
       if (inputStr.indexOf("<head>") >= 0 && inputStr.indexOf("</head>") >= 0) {
-        // Check if snippet not already present looking for AI Web SDK URL
+        // Check if sdk loader not already present looking for AI Web SDK URL
         if (inputStr.indexOf(BrowserSdkLoader._aiUrl) < 0) {
           return true;
         }
@@ -311,12 +311,12 @@ export class BrowserSdkLoader {
   }
 
   /**
-   * Inject Web snippet
+   * Inject Browser SDK Loader
    */
-  public InjectWebSnippet(
+  public InjectSdkLoader(
     response: any,
     input: string | Buffer,
-    encodeType?: snippetInjectionHelper.contentEncodingMethod,
+    encodeType?: browserSdkLoaderHelper.contentEncodingMethod,
     bufferEncodeType?: string
   ): string | Buffer {
     try {
@@ -326,10 +326,10 @@ export class BrowserSdkLoader {
         let index = html.indexOf("</head>");
         if (index < 0) return input;
 
-        let newHtml = snippetInjectionHelper.insertSnippetByIndex(
+        let newHtml = browserSdkLoaderHelper.insertBrowserSdkLoaderByIndex(
           index,
           html,
-          BrowserSdkLoader._snippet
+          BrowserSdkLoader._sdkLoader
         );
         if (typeof input === "string") {
           response.removeHeader("Content-Length");
@@ -339,7 +339,7 @@ export class BrowserSdkLoader {
           response.setHeader("Content-Length", Buffer.byteLength(input));
         } else if (Buffer.isBuffer(input)) {
           let bufferType = bufferEncodeType ? bufferEncodeType : "utf8";
-          let isValidBufferType = snippetInjectionHelper.isBufferType(input, bufferType);
+          let isValidBufferType = browserSdkLoaderHelper.isBufferType(input, bufferType);
           if (isValidBufferType && newHtml) {
             response.removeHeader("Content-Length");
             let encodedString = Buffer.from(newHtml).toString(bufferType as BufferEncoding);
@@ -352,13 +352,13 @@ export class BrowserSdkLoader {
         input = this._getInjectedCompressBuffer(
           response,
           input as Buffer,
-          encodeType as snippetInjectionHelper.contentEncodingMethod
+          encodeType as browserSdkLoaderHelper.contentEncodingMethod
         );
         response.setHeader("Content-Length", input.length);
       }
     } catch (ex) {
       Logger.getInstance().warn(
-        "Failed to inject web snippet and change content-length headers. Exception:" + ex
+        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex
       );
     }
     return input;
@@ -372,38 +372,38 @@ export class BrowserSdkLoader {
   private _getInjectedCompressBuffer(
     response: any,
     input: Buffer,
-    encodeType: snippetInjectionHelper.contentEncodingMethod
+    encodeType: browserSdkLoaderHelper.contentEncodingMethod
   ): Buffer {
     try {
       switch (encodeType) {
-        case snippetInjectionHelper.contentEncodingMethod.GZIP:
+        case browserSdkLoaderHelper.contentEncodingMethod.GZIP:
           let gunzipBuffer = zlib.gunzipSync(input);
           if (this.ValidateInjection(response, gunzipBuffer)) {
-            let injectedGunzipBuffer = this.InjectWebSnippet(response, gunzipBuffer);
+            let injectedGunzipBuffer = this.InjectSdkLoader(response, gunzipBuffer);
             input = zlib.gzipSync(injectedGunzipBuffer);
           }
           break;
-        case snippetInjectionHelper.contentEncodingMethod.DEFLATE:
+        case browserSdkLoaderHelper.contentEncodingMethod.DEFLATE:
           let inflateBuffer = zlib.inflateSync(input);
           if (this.ValidateInjection(response, inflateBuffer)) {
-            let injectedInflateBuffer = this.InjectWebSnippet(response, inflateBuffer);
+            let injectedInflateBuffer = this.InjectSdkLoader(response, inflateBuffer);
             input = zlib.deflateSync(injectedInflateBuffer);
           }
           break;
-        case snippetInjectionHelper.contentEncodingMethod.BR:
-          let BrotliDecompressSync = snippetInjectionHelper.getBrotliDecompressSync(zlib);
-          let BrotliCompressSync = snippetInjectionHelper.getBrotliCompressSync(zlib);
+        case browserSdkLoaderHelper.contentEncodingMethod.BR:
+          let BrotliDecompressSync = browserSdkLoaderHelper.getBrotliDecompressSync(zlib);
+          let BrotliCompressSync = browserSdkLoaderHelper.getBrotliCompressSync(zlib);
           if (BrotliDecompressSync && BrotliCompressSync) {
             let decompressBuffer = BrotliDecompressSync(input);
             if (this.ValidateInjection(response, decompressBuffer)) {
-              let injectedDecompressBuffer = this.InjectWebSnippet(response, decompressBuffer);
+              let injectedDecompressBuffer = this.InjectSdkLoader(response, decompressBuffer);
               input = BrotliCompressSync(injectedDecompressBuffer);
             }
             break;
           }
       }
     } catch (err) {
-      Logger.getInstance().info("get web injection compress buffer error: " + err);
+      Logger.getInstance().info("get browser SDK loader compress buffer error: " + err);
     }
 
     return input;

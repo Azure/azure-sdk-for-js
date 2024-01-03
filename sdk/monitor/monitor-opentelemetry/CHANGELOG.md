@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Implement web snippet injection.
+- Implement browser SDK loader.
 - Use OpenTelemetry resource detectors for App Service, Functions, and VM.
 
 ### Breaking Changes

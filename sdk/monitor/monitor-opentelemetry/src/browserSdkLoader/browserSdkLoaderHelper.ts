@@ -123,7 +123,7 @@ export const getContentEncodingFromHeaders = (
   return headers;
 };
 
-export const insertSnippetByIndex = (
+export const insertBrowserSdkLoaderByIndex = (
   index: number,
   html: string,
   snippet: string

@@ -2,7 +2,7 @@ import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
 import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader";
-import * as SnippetInjectionHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
+import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
 import {
   AzureMonitorOpenTelemetryOptions,
   shutdownAzureMonitor,
@@ -10,7 +10,7 @@ import {
 } from "../../../../src/index";
 import { isLinux, isWindows } from "../../../../src/utils/common";
 
-describe("#WebSnippet", () => {
+describe("#BrowserSdkLoader", () => {
   let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
@@ -25,7 +25,7 @@ describe("#WebSnippet", () => {
     sandbox = sinon.createSandbox();
   });
 
-  it("should initialize the web snippet", () => {
+  it("should initialize the browser sdk loader", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -52,7 +52,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -65,22 +65,22 @@ describe("#WebSnippet", () => {
     };
     response.statusCode = 300;
     let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), false); // status code is not 200
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), false); // status code is not 200
     response.statusCode = 200;
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), false); // No html header
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), false); // No html header
     response.setHeader("Content-Type", "text/html");
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), true); // Valid
-    assert.equal(webSnippet.ValidateInjection(response, "test"), false); // No html text
-    assert.equal(webSnippet.ValidateInjection(response, "<html><body></body></html>"), false); // No head element
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true); // Valid
+    assert.equal(browserSdkLoader.ValidateInjection(response, "test"), false); // No html text
+    assert.equal(browserSdkLoader.ValidateInjection(response, "<html><body></body></html>"), false); // No head element
     response.setHeader("Content-Type", "text/plain");
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), false); // No HTML content type
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), false); // No HTML content type
     response.setHeader("Content-Type", "text/html");
     let validBuffer = Buffer.from(validHtml);
-    assert.equal(webSnippet.ValidateInjection(response, validBuffer), true); // Valid Buffer
-    assert.equal(webSnippet.ValidateInjection(response, Buffer.from("test")), false); // not valid Buffer
+    assert.equal(browserSdkLoader.ValidateInjection(response, validBuffer), true); // Valid Buffer
+    assert.equal(browserSdkLoader.ValidateInjection(response, Buffer.from("test")), false); // not valid Buffer
   });
 
-  it("should inject the web snippet", () => {
+  it("should load the browser SDK loader", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -92,7 +92,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
 
@@ -110,14 +110,14 @@ describe("#WebSnippet", () => {
     response.setHeader("Content-Type", "text/html");
     response.statusCode = 200;
     let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
-    let newHtml = webSnippet.InjectWebSnippet(response, validHtml).toString();
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
     assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
   });
 
-  it("injection web snippet should overwrite content length ", () => {
+  it("injection of browser SDK should overwrite content length ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -129,7 +129,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -145,12 +145,12 @@ describe("#WebSnippet", () => {
     response.setHeader("Content-Type", "text/html");
     response.setHeader("Content-Length", 39);
     let validHtml = "<html><head></head><body></body></html>";
-    let newHtml = webSnippet.InjectWebSnippet(response, validHtml).toString();
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
     assert.ok(newHtml.length > 4000);
     assert.ok(Number(response.getHeader("Content-Length")) > 4000); // Content length updated
   });
 
-  it("snippet should use provided snippet src url ", () => {
+  it("browser SDK loader should use provided snippet src url ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -163,7 +163,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -179,15 +179,15 @@ describe("#WebSnippet", () => {
     response.setHeader("Content-Type", "text/html");
     response.statusCode = 200;
     let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
-    let newHtml = webSnippet.InjectWebSnippet(response, validHtml).toString();
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
     assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
     assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
   });
 
-  it("snippet should use provided config ", () => {
+  it("browser SDK loader should use provided config ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -206,7 +206,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -223,8 +223,8 @@ describe("#WebSnippet", () => {
     response.setHeader("Content-Type", "text/html");
     response.statusCode = 200;
     let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
-    let newHtml = webSnippet.InjectWebSnippet(response, validHtml);
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml);
     let osType: string = "u";
     if (isWindows()) {
       osType = "w";
@@ -238,7 +238,7 @@ describe("#WebSnippet", () => {
     assert.ok(newHtml.indexOf(expectedStr) >= 0, expectedStr);
   });
 
-  it("web snippet injection to buffer", () => {
+  it("browser SDK loader injection to buffer", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -250,7 +250,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -268,14 +268,14 @@ describe("#WebSnippet", () => {
     response.statusCode = 200;
     let validHtml = "<html><head></head><body></body></html>";
     let validBuffer = Buffer.from(validHtml);
-    assert.equal(webSnippet.ValidateInjection(response, validBuffer), true);
-    let newHtml = webSnippet.InjectWebSnippet(response, validBuffer).toString();
+    assert.equal(browserSdkLoader.ValidateInjection(response, validBuffer), true);
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validBuffer).toString();
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
     assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
   });
 
-  it("injection web snippet should overwrite content length using buffer ", () => {
+  it("injection of browser SDK should overwrite content length using buffer ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -287,7 +287,7 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
@@ -309,8 +309,8 @@ describe("#WebSnippet", () => {
     let originalBufferSize = validBuffer.length;
     response.setHeader("Content-Type", "text/html");
     response.setHeader("Content-Length", originalBufferSize);
-    let newHtml = webSnippet.InjectWebSnippet(response, validBuffer);
-    let isValidBufferEncode = SnippetInjectionHelper.isBufferType(validBuffer, "utf8");
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validBuffer);
+    let isValidBufferEncode = BrowserSdkLoaderHelper.isBufferType(validBuffer, "utf8");
     assert.ok(isValidBufferEncode);
 
     assert.ok(newHtml.length > originalBufferSize);
@@ -329,9 +329,9 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    let webSnippet = BrowserSdkLoader.getInstance();
+    let browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    assert.equal(webSnippet["_isIkeyValid"], true, "ikey should be set to valid");
+    assert.equal(browserSdkLoader["_isIkeyValid"], true, "ikey should be set to valid");
     let _headers: any = {};
     let response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -347,8 +347,8 @@ describe("#WebSnippet", () => {
     response.setHeader("Content-Type", "text/html");
     response.statusCode = 200;
     let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(webSnippet.ValidateInjection(response, validHtml), true);
-    let newHtml = webSnippet.InjectWebSnippet(response, validHtml).toString();
+    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
+    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
     assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0, newHtml);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
     assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
@@ -367,9 +367,9 @@ describe("#WebSnippet", () => {
       },
     };
     useAzureMonitor(config);
-    const webSnippet = BrowserSdkLoader.getInstance();
+    const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    assert.equal(webSnippet["_isIkeyValid"], false, "ikey should be set to invalid");
+    assert.equal(browserSdkLoader["_isIkeyValid"], false, "ikey should be set to invalid");
     assert.ok(infoStub.calledOn, "invalid key warning was raised");
   });
 });

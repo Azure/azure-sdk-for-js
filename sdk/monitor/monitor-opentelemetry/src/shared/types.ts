@@ -53,18 +53,18 @@ export interface InstrumentationOptions {
  * Application Insights Web Instrumentation Configuration interface
  */
 export interface BrowserSdkLoaderOptions {
-  /** Web Snippet Enable */
+  /** Browser SDK Loader Enable */
   enableBrowserSdkLoader?: boolean;
-  /** Web Snippet Connection String */
+  /** Browser SDK Loader Connection String */
   browserSdkLoaderConnectionString?: string;
-  /** Web Snippet Instrumentation Key */
+  /** Browser SDK Loader Instrumentation Key */
   browserSdkLoaderSrc?: string;
-  /** Web Snippet Config */
+  /** Browser SDK Loader Config */
   browserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
 }
 
 /**
- * Web Snippet Configuration interface
+ * Browser SDK Loader Configuration interface
  */
 export interface IBrowserSdkLoaderConfig {
   /** The full URL for where to load the SDK from */
