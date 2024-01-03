@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.10 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.10 (2024-01-03)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix `responseFormat` behavior in `getAudioTranscription` and `getAudioTranslation` methods where request wasn't properly formed if it wasn't specified.
 
 ## 1.0.0-beta.9 (2024-01-02)
 
