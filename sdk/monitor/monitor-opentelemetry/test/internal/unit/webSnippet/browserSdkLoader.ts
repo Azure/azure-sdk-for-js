@@ -1,8 +1,8 @@
 import * as assert from "assert";
 import * as http from "http";
 import * as sinon from "sinon";
-import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/BrowserSdkLoader";
-import * as SnippetInjectionHelper from "../../../../src/browserSdkLoader/snippetInjectionHelper";
+import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader";
+import * as SnippetInjectionHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
 import {
   AzureMonitorOpenTelemetryOptions,
   shutdownAzureMonitor,

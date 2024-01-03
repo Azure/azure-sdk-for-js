@@ -1,7 +1,7 @@
 import http from "http";
 import https from "https";
 import { webSnippet } from "@microsoft/applicationinsights-web-snippet";
-import * as snippetInjectionHelper from "./snippetInjectionHelper";
+import * as snippetInjectionHelper from "./browserSdkLoaderHelper";
 import * as prefixHelper from "../utils/common";
 import * as zlib from "zlib";
 import { InternalConfig } from "../shared";
@@ -9,7 +9,7 @@ import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { WEB_INSTRUMENTATION_DEFAULT_SOURCE } from "../types";
-import { IWebInstrumentationConfig } from "../shared/types";
+import { IBrowserSdkLoaderConfig } from "../shared/types";
 
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
@@ -19,7 +19,7 @@ export class BrowserSdkLoader {
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _webInstrumentationIkey?: string;
-  private _clientWebInstrumentationConfig?: IWebInstrumentationConfig;
+  private _clientWebInstrumentationConfig?: IBrowserSdkLoaderConfig;
   private _clientWebInstrumentationSrc?: string;
 
   constructor(config: InternalConfig) {
@@ -65,7 +65,7 @@ export class BrowserSdkLoader {
     try {
       const csCode = ConnectionStringParser.parse(connectionString);
       const iKeyCode = csCode.instrumentationkey || "";
-      if (!ConnectionStringParser.isIkeyValid(iKeyCode)) {
+      if (!ConnectionStringParser.validateInstrumentationKey(iKeyCode)) {
         this._isIkeyValid = false;
         Logger.getInstance().info(
           "Invalid web Instrumentation connection string, web Instrumentation is not enabled."
@@ -109,12 +109,12 @@ export class BrowserSdkLoader {
   //      config3: 1,
   //      ...
   //}});
-  private _getClientWebInstrumentationConfigStr(config?: IWebInstrumentationConfig) {
+  private _getClientWebInstrumentationConfigStr(config?: IBrowserSdkLoaderConfig) {
     let configStr = "";
     try {
       if (!!config && Object.keys(config).length > 0) {
         for (let key in config) {
-          const value = config[key as keyof IWebInstrumentationConfig];
+          const value = config[key as keyof IBrowserSdkLoaderConfig];
           let entry = "";
           // NOTE: users should convert object/function to string themselves
           // Type "function" and "object" will be skipped!

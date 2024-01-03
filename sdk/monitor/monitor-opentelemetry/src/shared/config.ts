@@ -8,7 +8,7 @@ import {
   envDetectorSync,
 } from "@opentelemetry/resources";
 import {
-  ApplicationInsightsWebInstrumentationOptions,
+  BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "./types";
@@ -51,7 +51,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     return this._resource;
   }
 
-  public applicationInsightsWebInstrumentationOptions: ApplicationInsightsWebInstrumentationOptions;
+  public applicationInsightsWebInstrumentationOptions: BrowserSdkLoaderOptions;
 
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.

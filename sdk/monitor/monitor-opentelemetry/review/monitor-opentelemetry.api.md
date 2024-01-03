@@ -9,22 +9,33 @@ import { InstrumentationConfig } from '@opentelemetry/instrumentation';
 import { Resource } from '@opentelemetry/resources';
 
 // @public
-export interface ApplicationInsightsWebInstrumentationOptions {
-    enableWebInstrumentation?: boolean;
-    webInstrumentationConfig?: IWebInstrumentationConfig;
-    webInstrumentationConnectionString?: string;
-    webInstrumentationSrc?: string;
-}
-
-// @public
 export interface AzureMonitorOpenTelemetryOptions {
-    applicationInsightsWebInstrumentationOptions?: ApplicationInsightsWebInstrumentationOptions;
+    applicationInsightsWebInstrumentationOptions?: BrowserSdkLoaderOptions;
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
+}
+
+// @public
+export interface BrowserSdkLoaderOptions {
+    enableWebInstrumentation?: boolean;
+    webInstrumentationConfig?: IBrowserSdkLoaderConfig;
+    webInstrumentationConnectionString?: string;
+    webInstrumentationSrc?: string;
+}
+
+// @public
+export interface IBrowserSdkLoaderConfig {
+    cfg: string;
+    crossOrigin?: string;
+    ld?: number;
+    name?: string;
+    onInit?: string;
+    src: string;
+    useXhr?: boolean;
 }
 
 // @public
@@ -36,17 +47,6 @@ export interface InstrumentationOptions {
     postgreSql?: InstrumentationConfig;
     redis?: InstrumentationConfig;
     redis4?: InstrumentationConfig;
-}
-
-// @public
-export interface IWebInstrumentationConfig {
-    cfg: string;
-    crossOrigin?: string;
-    ld?: number;
-    name?: string;
-    onInit?: string;
-    src: string;
-    useXhr?: boolean;
 }
 
 // @public

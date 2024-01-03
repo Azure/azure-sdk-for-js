@@ -26,7 +26,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   /**
    * Application Insights Web Instrumentation options (enableWebInstrumentation, webInstrumentationConnectionString, webInstrumentationSrc, webInstrumentationConfig)
    */
-  applicationInsightsWebInstrumentationOptions?: ApplicationInsightsWebInstrumentationOptions;
+  applicationInsightsWebInstrumentationOptions?: BrowserSdkLoaderOptions;
 }
 
 /**
@@ -52,7 +52,7 @@ export interface InstrumentationOptions {
 /**
  * Application Insights Web Instrumentation Configuration interface
  */
-export interface ApplicationInsightsWebInstrumentationOptions {
+export interface BrowserSdkLoaderOptions {
   /** Web Snippet Enable */
   enableWebInstrumentation?: boolean;
   /** Web Snippet Connection String */
@@ -60,13 +60,13 @@ export interface ApplicationInsightsWebInstrumentationOptions {
   /** Web Snippet Instrumentation Key */
   webInstrumentationSrc?: string;
   /** Web Snippet Config */
-  webInstrumentationConfig?: IWebInstrumentationConfig;
+  webInstrumentationConfig?: IBrowserSdkLoaderConfig;
 }
 
 /**
  * Web Snippet Configuration interface
  */
-export interface IWebInstrumentationConfig {
+export interface IBrowserSdkLoaderConfig {
   /** The full URL for where to load the SDK from */
   src: string;
   /** The global name for the initialized SDK */

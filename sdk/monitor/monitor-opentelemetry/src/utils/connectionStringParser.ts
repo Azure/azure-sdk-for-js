@@ -1,72 +1,97 @@
-export interface ConnectionString {
-  instrumentationkey?: string;
-  ingestionendpoint?: string;
-  liveendpoint?: string;
-  location?: string;
-  endpointsuffix?: string;
-  aadaudience?: string;
-  authorization?: string;
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-  // Note: this is a node types backcompat equivalent to
-  // type ConnectionString = { [key in ConnectionStringKey]?: string }
-}
+import { diag } from "@opentelemetry/api";
+import { ConnectionString, ConnectionStringKey } from "./types";
+import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../types";
 
-export type ConnectionStringKey =
-  | "instrumentationkey"
-  | "ingestionendpoint"
-  | "liveendpoint"
-  | "location"
-  | "endpointsuffix"
-  | "aadaudience"
-  | "authorization";
-export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
-export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
-
+/**
+ * ConnectionString parser.
+ * @internal
+ */
 export class ConnectionStringParser {
-  private static _FIELDS_SEPARATOR = ";";
-  private static _FIELD_KEY_VALUE_SEPARATOR = "=";
+  private static readonly FIELDS_SEPARATOR = ";";
+
+  private static readonly FIELD_KEY_VALUE_SEPARATOR = "=";
 
   public static parse(connectionString?: string): ConnectionString {
     if (!connectionString) {
       return {};
     }
 
-    const kvPairs = connectionString.split(ConnectionStringParser._FIELDS_SEPARATOR);
+    const kvPairs = connectionString.split(ConnectionStringParser.FIELDS_SEPARATOR);
+    let isValid = true;
 
     const result: ConnectionString = kvPairs.reduce((fields: ConnectionString, kv: string) => {
-      const kvParts = kv.split(ConnectionStringParser._FIELD_KEY_VALUE_SEPARATOR);
+      const kvParts = kv.split(ConnectionStringParser.FIELD_KEY_VALUE_SEPARATOR);
 
       if (kvParts.length === 2) {
         // only save fields with valid formats
         const key = kvParts[0].toLowerCase() as ConnectionStringKey;
         const value = kvParts[1];
-        fields[key] = value as string;
+        return { ...fields, [key]: value };
       }
+      diag.error(
+        `Connection string key-value pair is invalid: ${kv}`,
+        `Entire connection string will be discarded`,
+        connectionString
+      );
+      isValid = false;
       return fields;
     }, {});
 
-    if (Object.keys(result).length > 0) {
+    if (isValid && Object.keys(result).length > 0) {
       // this is a valid connection string, so parse the results
 
       if (result.endpointsuffix) {
         // use endpoint suffix where overrides are not provided
-        const locationPrefix = result.location ? result.location + "." : "";
+        const locationPrefix = result.location ? `${result.location}.` : "";
         result.ingestionendpoint =
-          result.ingestionendpoint || "https://" + locationPrefix + "dc." + result.endpointsuffix;
+          result.ingestionendpoint || `https://${locationPrefix}dc.${result.endpointsuffix}`;
         result.liveendpoint =
-          result.liveendpoint || "https://" + locationPrefix + "live." + result.endpointsuffix;
+          result.liveendpoint || `https://${locationPrefix}live.${result.endpointsuffix}`;
       }
 
-      // apply the default endpoints
-      result.ingestionendpoint = result.ingestionendpoint || DEFAULT_BREEZE_ENDPOINT;
-      result.liveendpoint = result.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT;
+      result.ingestionendpoint = result.ingestionendpoint
+        ? ConnectionStringParser.sanitizeUrl(result.ingestionendpoint)
+        : DEFAULT_BREEZE_ENDPOINT;
+      result.liveendpoint = result.liveendpoint
+        ? ConnectionStringParser.sanitizeUrl(result.liveendpoint)
+        : DEFAULT_LIVEMETRICS_ENDPOINT;
+      if (result.authorization && result.authorization.toLowerCase() !== "ikey") {
+        diag.warn(
+          `Connection String contains an unsupported 'Authorization' value: ${result.authorization!}. Defaulting to 'Authorization=ikey'. Instrumentation Key ${result.instrumentationkey!}`
+        );
+      }
+    } else {
+      diag.error(
+        "An invalid connection string was passed in. There may be telemetry loss",
+        connectionString
+      );
     }
 
     return result;
   }
 
-  public static isIkeyValid(iKey: string): boolean {
-    if (!iKey || iKey == "") return false;
+  public static sanitizeUrl(url: string) {
+    let newUrl = url.trim();
+    if (newUrl.indexOf("https://") < 0) {
+      // Try to update http to https
+      newUrl = newUrl.replace("http://", "https://");
+    }
+    // Remove final slash if present
+    if (newUrl[newUrl.length - 1] === "/") {
+      newUrl = newUrl.slice(0, -1);
+    }
+    return newUrl;
+  }
+
+  public static validateInstrumentationKey(iKey: string): boolean {
+    if (iKey.startsWith("InstrumentationKey=")) {
+      const startIndex = iKey.indexOf("InstrumentationKey=") + "InstrumentationKey=".length;
+      const endIndex = iKey.indexOf(";", startIndex);
+      iKey = iKey.substring(startIndex, endIndex);
+    }
     const UUID_Regex = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$";
     const regexp = new RegExp(UUID_Regex);
     return regexp.test(iKey);

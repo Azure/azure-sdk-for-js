@@ -4,7 +4,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import {
-  ApplicationInsightsWebInstrumentationOptions,
+  BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
 } from "./types";
@@ -32,7 +32,7 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable Standard Metrics feature */
   public enableStandardMetrics?: boolean;
 
-  public applicationInsightsWebInstrumentationOptions?: ApplicationInsightsWebInstrumentationOptions;
+  public applicationInsightsWebInstrumentationOptions?: BrowserSdkLoaderOptions;
 
   private static _instance: JsonConfig;
 
