@@ -40,7 +40,7 @@ matrix([[true, false]], async function (useAad) {
         assignmentType: "application",
         capabilities: {
           sms: "none",
-          calling: "outbound",
+          calling: "inbound",
         },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
@@ -57,7 +57,10 @@ matrix([[true, false]], async function (useAad) {
       assert.isNotEmpty(purchasedPhoneNumber);
 
       // purchase phone number
-      const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId, consentToNotResellNumbers);
+      const purchasePoller = await client.beginPurchasePhoneNumbers(
+        searchResults.searchId,
+        consentToNotResellNumbers
+      );
 
       await purchasePoller.pollUntilDone();
       assert.ok(purchasePoller.getOperationState().isCompleted);

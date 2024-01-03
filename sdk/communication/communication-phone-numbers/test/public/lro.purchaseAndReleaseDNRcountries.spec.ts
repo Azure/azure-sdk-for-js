@@ -10,7 +10,9 @@ import { createRecordedClient, createRecordedClientWithToken } from "./utils/rec
 import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 
 matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lro - purchase and release DNR${useAad ? " [AAD]" : ""}`, function () {
+  describe(`PhoneNumbersClient - lro - purchase and release DNR${
+    useAad ? " [AAD]" : ""
+  }`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
