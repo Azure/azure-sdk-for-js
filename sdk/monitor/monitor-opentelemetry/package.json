@@ -102,7 +102,7 @@
     "@opentelemetry/instrumentation-pg": "^0.37.1",
     "@opentelemetry/instrumentation-redis": "^0.35.4",
     "@opentelemetry/instrumentation-redis-4": "^0.35.5",
-    "@opentelemetry/resources": "^1.18.0",
+    "@opentelemetry/resources": "^1.19.0",
     "@opentelemetry/sdk-logs": "^0.46.0",
     "@opentelemetry/sdk-metrics": "^1.19.0",
     "@opentelemetry/sdk-node": "^0.46.0",
