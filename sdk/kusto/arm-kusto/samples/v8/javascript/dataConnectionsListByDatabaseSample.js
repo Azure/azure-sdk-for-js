@@ -30,7 +30,7 @@ async function kustoDatabasesListByCluster() {
   for await (let item of client.dataConnections.listByDatabase(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }
