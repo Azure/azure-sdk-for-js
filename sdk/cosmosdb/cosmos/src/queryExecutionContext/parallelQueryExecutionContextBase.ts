@@ -4,7 +4,7 @@ import PriorityQueue from "priorityqueuejs";
 import { ClientContext } from "../ClientContext";
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { FeedOptions, OperationOptions, Response } from "../request";
+import { FeedOptions, QueryOperationOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
@@ -233,7 +233,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     diagnosticNode: DiagnosticNodeInternal,
     ifCallback: any,
     elseCallback: any,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<void> {
     const documentProducer = this.orderByPQ.peek();
@@ -262,7 +262,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     if (this.err) {
@@ -469,7 +469,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   private async _createDocumentProducersAndFillUpPriorityQueue(
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<void> {
     // ensure the lock is released after finishing up
@@ -549,7 +549,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
   private async _processAndEnqueueDocumentProducer(
     documentProducer: DocumentProducer,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<void> {
     try {

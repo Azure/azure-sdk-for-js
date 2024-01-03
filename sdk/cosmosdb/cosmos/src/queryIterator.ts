@@ -26,7 +26,7 @@ import {
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
-import { OperationOptions } from "./request/OperationOptions";
+import { QueryOperationOptions } from "./request/OperationOptions";
 import { RUCapPerOperationExceededErrorCode } from "./request/RUCapPerOperationExceededError";
 
 /**
@@ -83,7 +83,7 @@ export class QueryIterator<T> {
    * ```
    */
   public async *getAsyncIterator(
-    operationOptions?: OperationOptions
+    operationOptions?: QueryOperationOptions
   ): AsyncIterable<FeedResponse<T>> {
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
@@ -151,7 +151,7 @@ export class QueryIterator<T> {
    * Fetch all pages for the query and return a single FeedResponse.
    */
 
-  public async fetchAll(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
+  public async fetchAll(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.fetchAllInternal(diagnosticNode, operationOptions);
     }, this.clientContext);
@@ -162,7 +162,7 @@ export class QueryIterator<T> {
    */
   public async fetchAllInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions
+    operationOptions?: QueryOperationOptions
   ): Promise<FeedResponse<T>> {
     this.reset();
     let response: FeedResponse<T>;
@@ -181,7 +181,7 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
-  public async fetchNext(operationOptions?: OperationOptions): Promise<FeedResponse<T>> {
+  public async fetchNext(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       let ruConsumed: RUConsumed | undefined;
       if (operationOptions && operationOptions.ruCapPerOperation) {
@@ -245,7 +245,7 @@ export class QueryIterator<T> {
 
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions
+    operationOptions?: QueryOperationOptions
   ): Promise<FeedResponse<T>> {
     let ruConsumed: RUConsumed | undefined;
     if (operationOptions && operationOptions.ruCapPerOperation) {

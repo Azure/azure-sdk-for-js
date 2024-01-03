@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { RUConsumed } from "../../common";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { OperationOptions, Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 import { ExecutionContext } from "../ExecutionContext";
 
@@ -21,7 +21,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
    */
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {

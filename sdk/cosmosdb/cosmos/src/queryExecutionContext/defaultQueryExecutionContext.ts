@@ -3,7 +3,7 @@
 import { AzureLogger, createClientLogger } from "@azure/logger";
 import { Constants, RUConsumed } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, OperationOptions, Response } from "../request";
+import { FeedOptions, QueryOperationOptions, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
 import { ExecutionContext } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
@@ -68,7 +68,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     ++this.currentIndex;
@@ -81,7 +81,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
@@ -135,7 +135,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     return addDignosticChild(

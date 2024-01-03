@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions, OperationOptions } from "../request";
+import { Response, FeedOptions, QueryOperationOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -104,7 +104,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumed);
@@ -117,7 +117,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
@@ -133,7 +133,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {

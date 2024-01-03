@@ -19,5 +19,5 @@ export { StatusCode, SubStatusCode } from "./StatusCodes";
 export { FeedResponse } from "./FeedResponse";
 export { RequestContext } from "./RequestContext";
 export { TimeoutError } from "./TimeoutError";
-export { OperationOptions } from "./OperationOptions";
+export { QueryOperationOptions } from "./OperationOptions";
 export { RUCapPerOperationExceededError } from "./RUCapPerOperationExceededError";

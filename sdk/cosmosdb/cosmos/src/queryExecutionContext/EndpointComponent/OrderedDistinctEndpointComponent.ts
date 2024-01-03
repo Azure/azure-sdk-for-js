@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { OperationOptions, Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
@@ -14,7 +14,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
 
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     try {

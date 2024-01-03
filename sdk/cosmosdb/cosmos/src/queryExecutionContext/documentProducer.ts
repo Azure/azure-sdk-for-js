@@ -12,7 +12,7 @@ import {
   SubStatusCodes,
 } from "../common";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions, OperationOptions } from "../request";
+import { FeedOptions, QueryOperationOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
@@ -159,7 +159,7 @@ export class DocumentProducer {
    */
   public async bufferMore(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     if (this.err) {
@@ -224,7 +224,7 @@ export class DocumentProducer {
    */
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     if (this.err) {
@@ -260,7 +260,7 @@ export class DocumentProducer {
    */
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: OperationOptions,
+    operationOptions?: QueryOperationOptions,
     ruConsumed?: RUConsumed
   ): Promise<Response<any>> {
     // If something is buffered just give that

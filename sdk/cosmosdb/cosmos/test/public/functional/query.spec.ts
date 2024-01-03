@@ -110,7 +110,7 @@ describe("Queries", function (this: Suite) {
       assert(counter === 2, "iterator should have run 3 times");
     });
 
-    describe("asyncIterator with operationOptions", function (this: Suite) {
+    describe("asyncIterator with Query OperationOptions", function (this: Suite) {
       it("RU cap not breached", async function () {
         const queryIterator = resources.container.items.readAll({ maxItemCount: 2 });
         let counter = 0;
