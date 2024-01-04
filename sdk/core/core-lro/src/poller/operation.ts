@@ -66,16 +66,16 @@ function simplifyError(err: LroError): {
   };
 }
 
-function processOperationStatus<TState, TResult, TResponse>(result: {
+async function processOperationStatus<TState, TResult, TResponse>(result: {
   status: OperationStatus;
   response: TResponse;
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
-}): void {
+}): Promise<void> {
   const { state, stateProxy, status, isDone, processResult, getError, response, setErrorAsResult } =
     result;
   switch (status) {
@@ -106,24 +106,27 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
     (isDone === undefined &&
       ["succeeded", "canceled"].concat(setErrorAsResult ? [] : ["failed"]).includes(status))
   ) {
+    const ret = await buildResult({
+      response,
+      state,
+      processResult,
+    });
     stateProxy.setResult(
       state,
-      buildResult({
-        response,
-        state,
-        processResult,
-      })
+      ret
     );
   }
 }
 
-function buildResult<TResponse, TResult, TState>(inputs: {
+async function buildResult<TResponse, TResult, TState>(inputs: {
   response: TResponse;
   state: TState;
-  processResult?: (result: TResponse, state: TState) => TResult;
-}): TResult {
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+}): Promise<TResult> {
   const { processResult, response, state } = inputs;
-  return processResult ? processResult(response, state) : (response as unknown as TResult);
+  if (!processResult) return (response as unknown as TResult);
+  return processResult(response, state);
+  // return processResult ? await processResult(response, state) : (response as unknown as TResult);
 }
 
 /**
@@ -161,7 +164,7 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
   const status = getOperationStatus({ response, state, operationLocation });
-  processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
+  await processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
   return state;
 }
 
@@ -242,7 +245,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     state: RestorableOperationState<TState>
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;

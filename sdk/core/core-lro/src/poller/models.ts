@@ -62,7 +62,7 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */
