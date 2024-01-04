@@ -5,12 +5,18 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createBatchClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { BatchServiceClient, JobGet200Response, isUnexpected, JobAddParameters, paginate, PoolAddParameters, PoolListParameters, JobPatchParameters, JobUpdateParameters, JobScheduleAddBodyParam, JobScheduleAddParameters, BatchJobSchedule } from "../../src";
+import {
+  isUnexpected,
+  BatchJobSchedule,
+  CreateJobScheduleParameters,
+  BatchClient,
+  CreatePoolParameters,
+} from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
-import { getResourceName } from "./utils/helpers"
-import { duration } from "moment";
-import moment from "moment";
+import { getResourceName } from "./utils/helpers";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import moment, { duration } from "moment";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const JOB_SCHEDULE = getResourceName("JobSchedule-Basic");
@@ -18,16 +24,16 @@ const JOB_SCHEDULE_DISPLAY = "JobSchedule-1";
 
 describe("Job Schedule Operations Test", () => {
   let recorder: Recorder;
-  let batchClient: BatchServiceClient;
+  let batchClient: BatchClient;
 
   /**
    * Provision helper resources needed for testing jobs
    */
   before(async function () {
     if (!isPlaybackMode()) {
-      const batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient("AAD");
 
-      const poolParams: PoolAddParameters = {
+      const poolParams: CreatePoolParameters = {
         body: {
           id: BASIC_POOL,
           vmSize: "Standard_D1_v2",
@@ -39,30 +45,29 @@ describe("Job Schedule Operations Test", () => {
           userAccounts: [
             {
               name: "nonAdminUser",
-              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",    //Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
-              elevationLevel: "nonadmin"
-            }
-          ]
+              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
+              elevationLevel: "nonadmin",
+            },
+          ],
         },
-        contentType: "application/json; odata=minimalmetadata"
-
-      }
+        contentType: "application/json; odata=minimalmetadata",
+      };
 
       const poolPostResult = await batchClient.path("/pools").post(poolParams);
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for job schedule Testing.
-              Response Body: ${poolPostResult.body.message}`)
+              Response Body: ${poolPostResult.body.message}`);
       }
     }
-  })
+  });
 
   /**
    * Unprovision helper resources after all tests ran
    */
   after(async function () {
     if (!isPlaybackMode()) {
-      const batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient("AAD");
 
       const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", poolId).delete();
@@ -71,7 +76,7 @@ describe("Job Schedule Operations Test", () => {
             Respose Body: ${poolDeleteResponse.body.message}`);
       }
     }
-  })
+  });
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -83,113 +88,141 @@ describe("Job Schedule Operations Test", () => {
   });
 
   it("should create a job schedule successfully", async () => {
-      const options: JobScheduleAddParameters = {
-        body: {id: recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE),
+    const options: CreateJobScheduleParameters = {
+      body: {
+        id: recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE),
         jobSpecification: {
           poolInfo: { poolId: recorder.variable("BASIC_POOL", BASIC_POOL) },
-          displayName: JOB_SCHEDULE_DISPLAY
+          displayName: JOB_SCHEDULE_DISPLAY,
         },
         schedule: {
-          doNotRunAfter: new Date(recorder.variable("JOB_SCHEDULE_RUN_DATE", moment().add(1, "days").toISOString())),
-          recurrenceInterval: duration({ minutes: 2 }).toISOString()
-        }},
-        contentType: "application/json; odata=minimalmetadata"
-      };
+          doNotRunAfter: new Date(
+            recorder.variable("JOB_SCHEDULE_RUN_DATE", moment().add(1, "days").toISOString())
+          ),
+          recurrenceInterval: duration({ minutes: 2 }).toISOString(),
+        },
+      },
+      contentType: "application/json; odata=minimalmetadata",
+    };
 
-      const postScheduleResult = await batchClient.path("/jobschedules").post(options);
+    const postScheduleResult = await batchClient.path("/jobschedules").post(options);
 
-      if (isUnexpected(postScheduleResult)) {
-        fail(`Received unexpected status code from creating job schedule: ${postScheduleResult.status}
-            Response Body: ${postScheduleResult.body.message}`)
-      }
-    });
-
-    it("should list job schedules successfully", async () => {
-      const jobScheduleListResult = await batchClient.path("/jobschedules").get();
-      if (isUnexpected(jobScheduleListResult)) {
-        fail(`Received unexpected status code from listing job schedules: ${jobScheduleListResult.status}
-            Response Body: ${jobScheduleListResult.body.message}`)
-      }
-      
-      assert.isAtLeast(jobScheduleListResult.body.value?.length!, 1);
-    });
-
-    it("should list jobs from job schedule successfully", async () => {
-      let jobListResult = await batchClient.path("/jobschedules/{jobScheduleId}/jobs", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).get();
-      if (isUnexpected(jobListResult)) {
-        fail(`Received unexpected status code from listing jobs under job schedule: ${jobListResult.status}
-            Response Body: ${jobListResult.body.message}`)
-      }
-
-      assert.equal(jobListResult.body.value?.length!, 1);
-    });
-
-    it("should check if a job schedule exists successfully", async () => {
-      const getJobScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).get();
-      assert.equal(getJobScheduleResult.status, "200");
-    });
-
-    it("should get a job schedule reference successfully", async () => {
-      const jobScheduleId = recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE);
-      const getJobScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}", jobScheduleId).get();
-
-      if (isUnexpected(getJobScheduleResult)) {
-        fail(`Received unexpected status code from getting job schedule reference: ${getJobScheduleResult.status}
-            Response Body: ${getJobScheduleResult.body.message}`)
-      }
-
-      assert.equal(getJobScheduleResult.body.id, jobScheduleId);
-      assert.equal(getJobScheduleResult.body.state, "active");
-      assert.equal(getJobScheduleResult.body.jobSpecification?.displayName, JOB_SCHEDULE_DISPLAY);
-    });
-
-    it("should update a job schedule successfully", async () => {
-      const updateScheduleOptions: BatchJobSchedule = {
-        schedule: { recurrenceInterval: duration({ hours: 6 }).toISOString() },
-        jobSpecification: { poolInfo: { poolId: recorder.variable("BASIC_POOL", BASIC_POOL) } }
-      };
-
-      const updateScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).put({
-        body: updateScheduleOptions,
-        contentType: "application/json; odata=minimalmetadata"
-      });
-
-      assert.equal(updateScheduleResult.status, "200");
-    });
-
-    it("should patch a job schedule successfully", async () => {
-      const patchScheduleOptions = {
-        schedule: {
-          recurrenceInterval: duration({ hours: 3 }).toISOString(),
-          startWindow: duration({ hours: 1 }).toISOString()
-        }
-      };
-
-      const patchScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).patch({
-        body: patchScheduleOptions,
-        contentType: "application/json; odata=minimalmetadata"
-      });
-
-      assert.equal(patchScheduleResult.status, "200");
-    });
-
-    it("should disable a job schedule successfully", async () => {
-      const disableScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}/disable", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).post({contentType: "application/json; odata=minimalmetadata"});
-      assert.equal(disableScheduleResult.status, "204");
-    });
-
-    it("should enable a job schedule successfully", async () => {
-      const enableScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}/enable", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).post({contentType: "application/json; odata=minimalmetadata"});
-      assert.equal(enableScheduleResult.status, "204");
-    });
-
-    it("should terminate a job schedule successfully", async () => {
-      const terminateScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}/terminate", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).post({contentType: "application/json; odata=minimalmetadata"});
-      assert.equal(terminateScheduleResult.status, "202");
-    });
-
-    it("should delete a job schedule successfully", async () => {
-      const deleteJobScheduleResult = await batchClient.path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)).delete();
-      assert.equal(deleteJobScheduleResult.status, "202");
-    });
+    if (isUnexpected(postScheduleResult)) {
+      fail(`Received unexpected status code from creating job schedule: ${postScheduleResult.status}
+            Response Body: ${postScheduleResult.body.message}`);
+    }
   });
+
+  it("should list job schedules successfully", async () => {
+    const jobScheduleListResult = await batchClient.path("/jobschedules").get();
+    if (isUnexpected(jobScheduleListResult)) {
+      fail(`Received unexpected status code from listing job schedules: ${jobScheduleListResult.status}
+            Response Body: ${jobScheduleListResult.body.message}`);
+    }
+
+    assert.isAtLeast(jobScheduleListResult.body.value?.length || 0, 1);
+  });
+
+  it("should list jobs from job schedule successfully", async () => {
+    const jobListResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}/jobs", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .get();
+    if (isUnexpected(jobListResult)) {
+      fail(`Received unexpected status code from listing jobs under job schedule: ${jobListResult.status}
+            Response Body: ${jobListResult.body.message}`);
+    }
+
+    assert.equal(jobListResult.body.value?.length || 0, 1);
+  });
+
+  it("should check if a job schedule exists successfully", async () => {
+    const getJobScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .get();
+    assert.equal(getJobScheduleResult.status, "200");
+  });
+
+  it("should get a job schedule reference successfully", async () => {
+    const jobScheduleId = recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE);
+    const getJobScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}", jobScheduleId)
+      .get();
+
+    if (isUnexpected(getJobScheduleResult)) {
+      fail(`Received unexpected status code from getting job schedule reference: ${getJobScheduleResult.status}
+            Response Body: ${getJobScheduleResult.body.message}`);
+    }
+
+    assert.equal(getJobScheduleResult.body.id, jobScheduleId);
+    assert.equal(getJobScheduleResult.body.state, "active");
+    assert.equal(getJobScheduleResult.body.jobSpecification?.displayName, JOB_SCHEDULE_DISPLAY);
+  });
+
+  it("should update a job schedule successfully", async () => {
+    const updateScheduleOptions: BatchJobSchedule = {
+      schedule: { recurrenceInterval: duration({ hours: 6 }).toISOString() },
+      jobSpecification: { poolInfo: { poolId: recorder.variable("BASIC_POOL", BASIC_POOL) } },
+    };
+
+    const updateScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .put({
+        body: updateScheduleOptions,
+        contentType: "application/json; odata=minimalmetadata",
+      });
+
+    assert.equal(updateScheduleResult.status, "200");
+  });
+
+  it("should patch a job schedule successfully", async () => {
+    const patchScheduleOptions = {
+      schedule: {
+        recurrenceInterval: duration({ hours: 3 }).toISOString(),
+        startWindow: duration({ hours: 1 }).toISOString(),
+      },
+    };
+
+    const patchScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .patch({
+        body: patchScheduleOptions,
+        contentType: "application/json; odata=minimalmetadata",
+      });
+
+    assert.equal(patchScheduleResult.status, "200");
+  });
+
+  it("should disable a job schedule successfully", async () => {
+    const disableScheduleResult = await batchClient
+      .path(
+        "/jobschedules/{jobScheduleId}/disable",
+        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)
+      )
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(disableScheduleResult.status, "204");
+  });
+
+  it("should enable a job schedule successfully", async () => {
+    const enableScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}/enable", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(enableScheduleResult.status, "204");
+  });
+
+  it("should terminate a job schedule successfully", async () => {
+    const terminateScheduleResult = await batchClient
+      .path(
+        "/jobschedules/{jobScheduleId}/terminate",
+        recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE)
+      )
+      .post({ contentType: "application/json; odata=minimalmetadata" });
+    assert.equal(terminateScheduleResult.status, "202");
+  });
+
+  it("should delete a job schedule successfully", async () => {
+    const deleteJobScheduleResult = await batchClient
+      .path("/jobschedules/{jobScheduleId}", recorder.variable("JOB_SCHEDULE", JOB_SCHEDULE))
+      .delete();
+    assert.equal(deleteJobScheduleResult.status, "202");
+  });
+});

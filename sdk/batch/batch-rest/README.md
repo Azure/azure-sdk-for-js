@@ -19,7 +19,7 @@ Key links:
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) which contains a [Batch account](https://learn.microsoft.com/en-us/azure/batch/batch-account-create-portal) to use this package. 
+- You must have an [Azure subscriptioffn](https://azure.microsoft.com/free/) which contains a [Batch account](https://learn.microsoft.com/en-us/azure/batch/batch-account-create-portal) to use this package. 
 
 ### Building and Testing
 For a comprehensive description of how the project structure manages the Azure SDK libraries within the repo and how to setup your environment, please see the [Contributing Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).

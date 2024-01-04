@@ -247,9 +247,7 @@ export interface ListApplications {
    */
   get(
     options?: ListApplicationsParameters
-  ): StreamableMethod<
-    ListApplications200Response | ListApplicationsDefaultResponse
-  >;
+  ): StreamableMethod<ListApplications200Response | ListApplicationsDefaultResponse>;
 }
 
 export interface GetApplication {
@@ -262,9 +260,7 @@ export interface GetApplication {
    */
   get(
     options?: GetApplicationParameters
-  ): StreamableMethod<
-    GetApplication200Response | GetApplicationDefaultResponse
-  >;
+  ): StreamableMethod<GetApplication200Response | GetApplicationDefaultResponse>;
 }
 
 export interface ListPoolUsageMetrics {
@@ -278,9 +274,7 @@ export interface ListPoolUsageMetrics {
    */
   get(
     options?: ListPoolUsageMetricsParameters
-  ): StreamableMethod<
-    ListPoolUsageMetrics200Response | ListPoolUsageMetricsDefaultResponse
-  >;
+  ): StreamableMethod<ListPoolUsageMetrics200Response | ListPoolUsageMetricsDefaultResponse>;
 }
 
 export interface CreatePool {
@@ -319,13 +313,9 @@ export interface DeletePool {
   /** Gets basic properties of a Pool. */
   head(
     options?: PoolExistsParameters
-  ): StreamableMethod<
-    PoolExists200Response | PoolExists404Response | PoolExistsDefaultResponse
-  >;
+  ): StreamableMethod<PoolExists200Response | PoolExists404Response | PoolExistsDefaultResponse>;
   /** Gets information about the specified Pool. */
-  get(
-    options?: GetPoolParameters
-  ): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
+  get(options?: GetPoolParameters): StreamableMethod<GetPool200Response | GetPoolDefaultResponse>;
   /**
    * This only replaces the Pool properties specified in the request. For example,
    * if the Pool has a StartTask associated with it, and a request does not specify
@@ -340,9 +330,7 @@ export interface DisablePoolAutoScale {
   /** Disables automatic scaling for a Pool. */
   post(
     options?: DisablePoolAutoScaleParameters
-  ): StreamableMethod<
-    DisablePoolAutoScale200Response | DisablePoolAutoScaleDefaultResponse
-  >;
+  ): StreamableMethod<DisablePoolAutoScale200Response | DisablePoolAutoScaleDefaultResponse>;
 }
 
 export interface EnablePoolAutoScale {
@@ -356,9 +344,7 @@ export interface EnablePoolAutoScale {
    */
   post(
     options: EnablePoolAutoScaleParameters
-  ): StreamableMethod<
-    EnablePoolAutoScale200Response | EnablePoolAutoScaleDefaultResponse
-  >;
+  ): StreamableMethod<EnablePoolAutoScale200Response | EnablePoolAutoScaleDefaultResponse>;
 }
 
 export interface EvaluatePoolAutoScale {
@@ -369,9 +355,7 @@ export interface EvaluatePoolAutoScale {
    */
   post(
     options: EvaluatePoolAutoScaleParameters
-  ): StreamableMethod<
-    EvaluatePoolAutoScale200Response | EvaluatePoolAutoScaleDefaultResponse
-  >;
+  ): StreamableMethod<EvaluatePoolAutoScale200Response | EvaluatePoolAutoScaleDefaultResponse>;
 }
 
 export interface ResizePool {
@@ -401,9 +385,7 @@ export interface StopPoolResize {
    */
   post(
     options?: StopPoolResizeParameters
-  ): StreamableMethod<
-    StopPoolResize202Response | StopPoolResizeDefaultResponse
-  >;
+  ): StreamableMethod<StopPoolResize202Response | StopPoolResizeDefaultResponse>;
 }
 
 export interface ReplacePoolProperties {
@@ -414,9 +396,7 @@ export interface ReplacePoolProperties {
    */
   post(
     options: ReplacePoolPropertiesParameters
-  ): StreamableMethod<
-    ReplacePoolProperties204Response | ReplacePoolPropertiesDefaultResponse
-  >;
+  ): StreamableMethod<ReplacePoolProperties204Response | ReplacePoolPropertiesDefaultResponse>;
 }
 
 export interface RemoveNodes {
@@ -434,9 +414,7 @@ export interface ListSupportedImages {
   /** Lists all Virtual Machine Images supported by the Azure Batch service. */
   get(
     options?: ListSupportedImagesParameters
-  ): StreamableMethod<
-    ListSupportedImages200Response | ListSupportedImagesDefaultResponse
-  >;
+  ): StreamableMethod<ListSupportedImages200Response | ListSupportedImagesDefaultResponse>;
 }
 
 export interface ListPoolNodeCounts {
@@ -447,9 +425,7 @@ export interface ListPoolNodeCounts {
    */
   get(
     options?: ListPoolNodeCountsParameters
-  ): StreamableMethod<
-    ListPoolNodeCounts200Response | ListPoolNodeCountsDefaultResponse
-  >;
+  ): StreamableMethod<ListPoolNodeCounts200Response | ListPoolNodeCountsDefaultResponse>;
 }
 
 export interface DeleteJob {
@@ -467,9 +443,7 @@ export interface DeleteJob {
     options?: DeleteJobParameters
   ): StreamableMethod<DeleteJob202Response | DeleteJobDefaultResponse>;
   /** Gets information about the specified Job. */
-  get(
-    options?: GetJobParameters
-  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /**
    * This replaces only the Job properties specified in the request. For example, if
    * the Job has constraints, and a request does not specify the constraints
@@ -557,9 +531,7 @@ export interface ListJobsFromSchedule {
   /** Lists the Jobs that have been created under the specified Job Schedule. */
   get(
     options?: ListJobsFromScheduleParameters
-  ): StreamableMethod<
-    ListJobsFromSchedule200Response | ListJobsFromScheduleDefaultResponse
-  >;
+  ): StreamableMethod<ListJobsFromSchedule200Response | ListJobsFromScheduleDefaultResponse>;
 }
 
 export interface ListJobPreparationAndReleaseTaskStatus {
@@ -588,24 +560,18 @@ export interface GetJobTaskCounts {
    */
   get(
     options?: GetJobTaskCountsParameters
-  ): StreamableMethod<
-    GetJobTaskCounts200Response | GetJobTaskCountsDefaultResponse
-  >;
+  ): StreamableMethod<GetJobTaskCounts200Response | GetJobTaskCountsDefaultResponse>;
 }
 
 export interface CreateCertificate {
   /** Creates a Certificate to the specified Account. */
   post(
     options: CreateCertificateParameters
-  ): StreamableMethod<
-    CreateCertificate201Response | CreateCertificateDefaultResponse
-  >;
+  ): StreamableMethod<CreateCertificate201Response | CreateCertificateDefaultResponse>;
   /** Lists all of the Certificates that have been added to the specified Account. */
   get(
     options?: ListCertificatesParameters
-  ): StreamableMethod<
-    ListCertificates200Response | ListCertificatesDefaultResponse
-  >;
+  ): StreamableMethod<ListCertificates200Response | ListCertificatesDefaultResponse>;
 }
 
 export interface CancelCertificateDeletion {
@@ -621,8 +587,7 @@ export interface CancelCertificateDeletion {
   post(
     options?: CancelCertificateDeletionParameters
   ): StreamableMethod<
-    | CancelCertificateDeletion204Response
-    | CancelCertificateDeletionDefaultResponse
+    CancelCertificateDeletion204Response | CancelCertificateDeletionDefaultResponse
   >;
 }
 
@@ -640,15 +605,11 @@ export interface DeleteCertificate {
    */
   delete(
     options?: DeleteCertificateParameters
-  ): StreamableMethod<
-    DeleteCertificate202Response | DeleteCertificateDefaultResponse
-  >;
+  ): StreamableMethod<DeleteCertificate202Response | DeleteCertificateDefaultResponse>;
   /** Gets information about the specified Certificate. */
   get(
     options?: GetCertificateParameters
-  ): StreamableMethod<
-    GetCertificate200Response | GetCertificateDefaultResponse
-  >;
+  ): StreamableMethod<GetCertificate200Response | GetCertificateDefaultResponse>;
 }
 
 export interface JobScheduleExists {
@@ -656,9 +617,7 @@ export interface JobScheduleExists {
   head(
     options?: JobScheduleExistsParameters
   ): StreamableMethod<
-    | JobScheduleExists200Response
-    | JobScheduleExists404Response
-    | JobScheduleExistsDefaultResponse
+    JobScheduleExists200Response | JobScheduleExists404Response | JobScheduleExistsDefaultResponse
   >;
   /**
    * When you delete a Job Schedule, this also deletes all Jobs and Tasks under that
@@ -669,15 +628,11 @@ export interface JobScheduleExists {
    */
   delete(
     options?: DeleteJobScheduleParameters
-  ): StreamableMethod<
-    DeleteJobSchedule202Response | DeleteJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<DeleteJobSchedule202Response | DeleteJobScheduleDefaultResponse>;
   /** Gets information about the specified Job Schedule. */
   get(
     options?: GetJobScheduleParameters
-  ): StreamableMethod<
-    GetJobSchedule200Response | GetJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<GetJobSchedule200Response | GetJobScheduleDefaultResponse>;
   /**
    * This replaces only the Job Schedule properties specified in the request. For
    * example, if the schedule property is not specified with this request, then the
@@ -687,9 +642,7 @@ export interface JobScheduleExists {
    */
   patch(
     options: UpdateJobScheduleParameters
-  ): StreamableMethod<
-    UpdateJobSchedule200Response | UpdateJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<UpdateJobSchedule200Response | UpdateJobScheduleDefaultResponse>;
   /**
    * This fully replaces all the updatable properties of the Job Schedule. For
    * example, if the schedule property is not specified with this request, then the
@@ -699,51 +652,39 @@ export interface JobScheduleExists {
    */
   put(
     options: ReplaceJobScheduleParameters
-  ): StreamableMethod<
-    ReplaceJobSchedule200Response | ReplaceJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<ReplaceJobSchedule200Response | ReplaceJobScheduleDefaultResponse>;
 }
 
 export interface DisableJobSchedule {
   /** No new Jobs will be created until the Job Schedule is enabled again. */
   post(
     options?: DisableJobScheduleParameters
-  ): StreamableMethod<
-    DisableJobSchedule204Response | DisableJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<DisableJobSchedule204Response | DisableJobScheduleDefaultResponse>;
 }
 
 export interface EnableJobSchedule {
   /** Enables a Job Schedule. */
   post(
     options?: EnableJobScheduleParameters
-  ): StreamableMethod<
-    EnableJobSchedule204Response | EnableJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<EnableJobSchedule204Response | EnableJobScheduleDefaultResponse>;
 }
 
 export interface TerminateJobSchedule {
   /** Terminates a Job Schedule. */
   post(
     options?: TerminateJobScheduleParameters
-  ): StreamableMethod<
-    TerminateJobSchedule202Response | TerminateJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<TerminateJobSchedule202Response | TerminateJobScheduleDefaultResponse>;
 }
 
 export interface CreateJobSchedule {
   /** Creates a Job Schedule to the specified Account. */
   post(
     options: CreateJobScheduleParameters
-  ): StreamableMethod<
-    CreateJobSchedule201Response | CreateJobScheduleDefaultResponse
-  >;
+  ): StreamableMethod<CreateJobSchedule201Response | CreateJobScheduleDefaultResponse>;
   /** Lists all of the Job Schedules in the specified Account. */
   get(
     options?: ListJobSchedulesParameters
-  ): StreamableMethod<
-    ListJobSchedules200Response | ListJobSchedulesDefaultResponse
-  >;
+  ): StreamableMethod<ListJobSchedules200Response | ListJobSchedulesDefaultResponse>;
 }
 
 export interface CreateTask {
@@ -784,9 +725,7 @@ export interface CreateTaskCollection {
    */
   post(
     options: CreateTaskCollectionParameters
-  ): StreamableMethod<
-    CreateTaskCollection200Response | CreateTaskCollectionDefaultResponse
-  >;
+  ): StreamableMethod<CreateTaskCollection200Response | CreateTaskCollectionDefaultResponse>;
 }
 
 export interface DeleteTask {
@@ -805,9 +744,7 @@ export interface DeleteTask {
    * nodeInfo refer to the primary Task. Use the list subtasks API to retrieve
    * information about subtasks.
    */
-  get(
-    options?: GetTaskParameters
-  ): StreamableMethod<GetTask200Response | GetTaskDefaultResponse>;
+  get(options?: GetTaskParameters): StreamableMethod<GetTask200Response | GetTaskDefaultResponse>;
   /** Updates the properties of the specified Task. */
   put(
     options: ReplaceTaskParameters
@@ -844,18 +781,14 @@ export interface ReactivateTask {
    */
   post(
     options?: ReactivateTaskParameters
-  ): StreamableMethod<
-    ReactivateTask204Response | ReactivateTaskDefaultResponse
-  >;
+  ): StreamableMethod<ReactivateTask204Response | ReactivateTaskDefaultResponse>;
 }
 
 export interface DeleteTaskFile {
   /** Deletes the specified Task file from the Compute Node where the Task ran. */
   delete(
     options?: DeleteTaskFileParameters
-  ): StreamableMethod<
-    DeleteTaskFile200Response | DeleteTaskFileDefaultResponse
-  >;
+  ): StreamableMethod<DeleteTaskFile200Response | DeleteTaskFileDefaultResponse>;
   /** Returns the content of the specified Task file. */
   get(
     options?: GetTaskFileParameters
@@ -863,9 +796,7 @@ export interface DeleteTaskFile {
   /** Gets the properties of the specified Task file. */
   head(
     options?: GetTaskFilePropertiesParameters
-  ): StreamableMethod<
-    GetTaskFileProperties200Response | GetTaskFilePropertiesDefaultResponse
-  >;
+  ): StreamableMethod<GetTaskFileProperties200Response | GetTaskFilePropertiesDefaultResponse>;
 }
 
 export interface ListTaskFiles {
@@ -882,9 +813,7 @@ export interface CreateNodeUser {
    */
   post(
     options: CreateNodeUserParameters
-  ): StreamableMethod<
-    CreateNodeUser201Response | CreateNodeUserDefaultResponse
-  >;
+  ): StreamableMethod<CreateNodeUser201Response | CreateNodeUserDefaultResponse>;
 }
 
 export interface DeleteNodeUser {
@@ -894,9 +823,7 @@ export interface DeleteNodeUser {
    */
   delete(
     options?: DeleteNodeUserParameters
-  ): StreamableMethod<
-    DeleteNodeUser200Response | DeleteNodeUserDefaultResponse
-  >;
+  ): StreamableMethod<DeleteNodeUser200Response | DeleteNodeUserDefaultResponse>;
   /**
    * This operation replaces of all the updatable properties of the Account. For
    * example, if the expiryTime element is not specified, the current value is
@@ -905,16 +832,12 @@ export interface DeleteNodeUser {
    */
   put(
     options: ReplaceNodeUserParameters
-  ): StreamableMethod<
-    ReplaceNodeUser200Response | ReplaceNodeUserDefaultResponse
-  >;
+  ): StreamableMethod<ReplaceNodeUser200Response | ReplaceNodeUserDefaultResponse>;
 }
 
 export interface GetNode {
   /** Gets information about the specified Compute Node. */
-  get(
-    options?: GetNodeParameters
-  ): StreamableMethod<GetNode200Response | GetNodeDefaultResponse>;
+  get(options?: GetNodeParameters): StreamableMethod<GetNode200Response | GetNodeDefaultResponse>;
 }
 
 export interface RebootNode {
@@ -942,9 +865,7 @@ export interface DisableNodeScheduling {
    */
   post(
     options: DisableNodeSchedulingParameters
-  ): StreamableMethod<
-    DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse
-  >;
+  ): StreamableMethod<DisableNodeScheduling200Response | DisableNodeSchedulingDefaultResponse>;
 }
 
 export interface EnableNodeScheduling {
@@ -954,9 +875,7 @@ export interface EnableNodeScheduling {
    */
   post(
     options?: EnableNodeSchedulingParameters
-  ): StreamableMethod<
-    EnableNodeScheduling200Response | EnableNodeSchedulingDefaultResponse
-  >;
+  ): StreamableMethod<EnableNodeScheduling200Response | EnableNodeSchedulingDefaultResponse>;
 }
 
 export interface GetNodeRemoteLoginSettings {
@@ -970,8 +889,7 @@ export interface GetNodeRemoteLoginSettings {
   get(
     options?: GetNodeRemoteLoginSettingsParameters
   ): StreamableMethod<
-    | GetNodeRemoteLoginSettings200Response
-    | GetNodeRemoteLoginSettingsDefaultResponse
+    GetNodeRemoteLoginSettings200Response | GetNodeRemoteLoginSettingsDefaultResponse
   >;
 }
 
@@ -985,8 +903,7 @@ export interface GetNodeRemoteDesktopFile {
   get(
     options?: GetNodeRemoteDesktopFileParameters
   ): StreamableMethod<
-    | GetNodeRemoteDesktopFile200Response
-    | GetNodeRemoteDesktopFileDefaultResponse
+    GetNodeRemoteDesktopFile200Response | GetNodeRemoteDesktopFileDefaultResponse
   >;
 }
 
@@ -999,9 +916,7 @@ export interface UploadNodeLogs {
    */
   post(
     options: UploadNodeLogsParameters
-  ): StreamableMethod<
-    UploadNodeLogs200Response | UploadNodeLogsDefaultResponse
-  >;
+  ): StreamableMethod<UploadNodeLogs200Response | UploadNodeLogsDefaultResponse>;
 }
 
 export interface ListNodes {
@@ -1015,27 +930,21 @@ export interface GetNodeExtension {
   /** Gets information about the specified Compute Node Extension. */
   get(
     options?: GetNodeExtensionParameters
-  ): StreamableMethod<
-    GetNodeExtension200Response | GetNodeExtensionDefaultResponse
-  >;
+  ): StreamableMethod<GetNodeExtension200Response | GetNodeExtensionDefaultResponse>;
 }
 
 export interface ListNodeExtensions {
   /** Lists the Compute Nodes Extensions in the specified Pool. */
   get(
     options?: ListNodeExtensionsParameters
-  ): StreamableMethod<
-    ListNodeExtensions200Response | ListNodeExtensionsDefaultResponse
-  >;
+  ): StreamableMethod<ListNodeExtensions200Response | ListNodeExtensionsDefaultResponse>;
 }
 
 export interface DeleteNodeFile {
   /** Deletes the specified file from the Compute Node. */
   delete(
     options?: DeleteNodeFileParameters
-  ): StreamableMethod<
-    DeleteNodeFile200Response | DeleteNodeFileDefaultResponse
-  >;
+  ): StreamableMethod<DeleteNodeFile200Response | DeleteNodeFileDefaultResponse>;
   /** Returns the content of the specified Compute Node file. */
   get(
     options?: GetNodeFileParameters
@@ -1043,9 +952,7 @@ export interface DeleteNodeFile {
   /** Gets the properties of the specified Compute Node file. */
   head(
     options?: GetNodeFilePropertiesParameters
-  ): StreamableMethod<
-    GetNodeFileProperties200Response | GetNodeFilePropertiesDefaultResponse
-  >;
+  ): StreamableMethod<GetNodeFileProperties200Response | GetNodeFilePropertiesDefaultResponse>;
 }
 
 export interface ListNodeFiles {
@@ -1059,10 +966,7 @@ export interface Routes {
   /** Resource for '/applications' has methods for the following verbs: get */
   (path: "/applications"): ListApplications;
   /** Resource for '/applications/\{applicationId\}' has methods for the following verbs: get */
-  (
-    path: "/applications/{applicationId}",
-    applicationId: string
-  ): GetApplication;
+  (path: "/applications/{applicationId}", applicationId: string): GetApplication;
   /** Resource for '/poolusagemetrics' has methods for the following verbs: get */
   (path: "/poolusagemetrics"): ListPoolUsageMetrics;
   /** Resource for '/pools' has methods for the following verbs: post, get */
@@ -1070,29 +974,17 @@ export interface Routes {
   /** Resource for '/pools/\{poolId\}' has methods for the following verbs: delete, head, get, patch */
   (path: "/pools/{poolId}", poolId: string): DeletePool;
   /** Resource for '/pools/\{poolId\}/disableautoscale' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/disableautoscale",
-    poolId: string
-  ): DisablePoolAutoScale;
+  (path: "/pools/{poolId}/disableautoscale", poolId: string): DisablePoolAutoScale;
   /** Resource for '/pools/\{poolId\}/enableautoscale' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/enableautoscale",
-    poolId: string
-  ): EnablePoolAutoScale;
+  (path: "/pools/{poolId}/enableautoscale", poolId: string): EnablePoolAutoScale;
   /** Resource for '/pools/\{poolId\}/evaluateautoscale' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/evaluateautoscale",
-    poolId: string
-  ): EvaluatePoolAutoScale;
+  (path: "/pools/{poolId}/evaluateautoscale", poolId: string): EvaluatePoolAutoScale;
   /** Resource for '/pools/\{poolId\}/resize' has methods for the following verbs: post */
   (path: "/pools/{poolId}/resize", poolId: string): ResizePool;
   /** Resource for '/pools/\{poolId\}/stopresize' has methods for the following verbs: post */
   (path: "/pools/{poolId}/stopresize", poolId: string): StopPoolResize;
   /** Resource for '/pools/\{poolId\}/updateproperties' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/updateproperties",
-    poolId: string
-  ): ReplacePoolProperties;
+  (path: "/pools/{poolId}/updateproperties", poolId: string): ReplacePoolProperties;
   /** Resource for '/pools/\{poolId\}/removenodes' has methods for the following verbs: post */
   (path: "/pools/{poolId}/removenodes", poolId: string): RemoveNodes;
   /** Resource for '/supportedimages' has methods for the following verbs: get */
@@ -1110,10 +1002,7 @@ export interface Routes {
   /** Resource for '/jobs' has methods for the following verbs: post, get */
   (path: "/jobs"): CreateJob;
   /** Resource for '/jobschedules/\{jobScheduleId\}/jobs' has methods for the following verbs: get */
-  (
-    path: "/jobschedules/{jobScheduleId}/jobs",
-    jobScheduleId: string
-  ): ListJobsFromSchedule;
+  (path: "/jobschedules/{jobScheduleId}/jobs", jobScheduleId: string): ListJobsFromSchedule;
   /** Resource for '/jobs/\{jobId\}/jobpreparationandreleasetaskstatus' has methods for the following verbs: get */
   (
     path: "/jobs/{jobId}/jobpreparationandreleasetaskstatus",
@@ -1136,58 +1025,27 @@ export interface Routes {
     thumbprint: string
   ): DeleteCertificate;
   /** Resource for '/jobschedules/\{jobScheduleId\}' has methods for the following verbs: head, delete, get, patch, put */
-  (
-    path: "/jobschedules/{jobScheduleId}",
-    jobScheduleId: string
-  ): JobScheduleExists;
+  (path: "/jobschedules/{jobScheduleId}", jobScheduleId: string): JobScheduleExists;
   /** Resource for '/jobschedules/\{jobScheduleId\}/disable' has methods for the following verbs: post */
-  (
-    path: "/jobschedules/{jobScheduleId}/disable",
-    jobScheduleId: string
-  ): DisableJobSchedule;
+  (path: "/jobschedules/{jobScheduleId}/disable", jobScheduleId: string): DisableJobSchedule;
   /** Resource for '/jobschedules/\{jobScheduleId\}/enable' has methods for the following verbs: post */
-  (
-    path: "/jobschedules/{jobScheduleId}/enable",
-    jobScheduleId: string
-  ): EnableJobSchedule;
+  (path: "/jobschedules/{jobScheduleId}/enable", jobScheduleId: string): EnableJobSchedule;
   /** Resource for '/jobschedules/\{jobScheduleId\}/terminate' has methods for the following verbs: post */
-  (
-    path: "/jobschedules/{jobScheduleId}/terminate",
-    jobScheduleId: string
-  ): TerminateJobSchedule;
+  (path: "/jobschedules/{jobScheduleId}/terminate", jobScheduleId: string): TerminateJobSchedule;
   /** Resource for '/jobschedules' has methods for the following verbs: post, get */
   (path: "/jobschedules"): CreateJobSchedule;
   /** Resource for '/jobs/\{jobId\}/tasks' has methods for the following verbs: post, get */
   (path: "/jobs/{jobId}/tasks", jobId: string): CreateTask;
   /** Resource for '/jobs/\{jobId\}/addtaskcollection' has methods for the following verbs: post */
-  (
-    path: "/jobs/{jobId}/addtaskcollection",
-    jobId: string
-  ): CreateTaskCollection;
+  (path: "/jobs/{jobId}/addtaskcollection", jobId: string): CreateTaskCollection;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}' has methods for the following verbs: delete, get, put */
-  (
-    path: "/jobs/{jobId}/tasks/{taskId}",
-    jobId: string,
-    taskId: string
-  ): DeleteTask;
+  (path: "/jobs/{jobId}/tasks/{taskId}", jobId: string, taskId: string): DeleteTask;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/subtasksinfo' has methods for the following verbs: get */
-  (
-    path: "/jobs/{jobId}/tasks/{taskId}/subtasksinfo",
-    jobId: string,
-    taskId: string
-  ): ListSubTasks;
+  (path: "/jobs/{jobId}/tasks/{taskId}/subtasksinfo", jobId: string, taskId: string): ListSubTasks;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/terminate' has methods for the following verbs: post */
-  (
-    path: "/jobs/{jobId}/tasks/{taskId}/terminate",
-    jobId: string,
-    taskId: string
-  ): TerminateTask;
+  (path: "/jobs/{jobId}/tasks/{taskId}/terminate", jobId: string, taskId: string): TerminateTask;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/reactivate' has methods for the following verbs: post */
-  (
-    path: "/jobs/{jobId}/tasks/{taskId}/reactivate",
-    jobId: string,
-    taskId: string
-  ): ReactivateTask;
+  (path: "/jobs/{jobId}/tasks/{taskId}/reactivate", jobId: string, taskId: string): ReactivateTask;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/files/\{filePath\}' has methods for the following verbs: delete, get, head */
   (
     path: "/jobs/{jobId}/tasks/{taskId}/files/{filePath}",
@@ -1196,17 +1054,9 @@ export interface Routes {
     filePath: string
   ): DeleteTaskFile;
   /** Resource for '/jobs/\{jobId\}/tasks/\{taskId\}/files' has methods for the following verbs: get */
-  (
-    path: "/jobs/{jobId}/tasks/{taskId}/files",
-    jobId: string,
-    taskId: string
-  ): ListTaskFiles;
+  (path: "/jobs/{jobId}/tasks/{taskId}/files", jobId: string, taskId: string): ListTaskFiles;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/users' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/users",
-    poolId: string,
-    nodeId: string
-  ): CreateNodeUser;
+  (path: "/pools/{poolId}/nodes/{nodeId}/users", poolId: string, nodeId: string): CreateNodeUser;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/users/\{userName\}' has methods for the following verbs: delete, put */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/users/{userName}",
@@ -1215,23 +1065,11 @@ export interface Routes {
     userName: string
   ): DeleteNodeUser;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}' has methods for the following verbs: get */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}",
-    poolId: string,
-    nodeId: string
-  ): GetNode;
+  (path: "/pools/{poolId}/nodes/{nodeId}", poolId: string, nodeId: string): GetNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reboot' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/reboot",
-    poolId: string,
-    nodeId: string
-  ): RebootNode;
+  (path: "/pools/{poolId}/nodes/{nodeId}/reboot", poolId: string, nodeId: string): RebootNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/reimage' has methods for the following verbs: post */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/reimage",
-    poolId: string,
-    nodeId: string
-  ): ReimageNode;
+  (path: "/pools/{poolId}/nodes/{nodeId}/reimage", poolId: string, nodeId: string): ReimageNode;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/disablescheduling' has methods for the following verbs: post */
   (
     path: "/pools/{poolId}/nodes/{nodeId}/disablescheduling",
@@ -1285,11 +1123,7 @@ export interface Routes {
     filePath: string
   ): DeleteNodeFile;
   /** Resource for '/pools/\{poolId\}/nodes/\{nodeId\}/files' has methods for the following verbs: get */
-  (
-    path: "/pools/{poolId}/nodes/{nodeId}/files",
-    poolId: string,
-    nodeId: string
-  ): ListNodeFiles;
+  (path: "/pools/{poolId}/nodes/{nodeId}/files", poolId: string, nodeId: string): ListNodeFiles;
 }
 
 export type BatchClient = Client & {

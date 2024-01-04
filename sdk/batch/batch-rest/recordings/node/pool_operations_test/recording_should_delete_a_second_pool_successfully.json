@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-8190?api-version=2022-10-01.16.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Endpoint-8190?api-version=2023-11-01.18.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",

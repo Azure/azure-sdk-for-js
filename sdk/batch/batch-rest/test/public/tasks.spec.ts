@@ -1,10 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createBatchClient, createRecorder } from "./utils/recordedClient";
-import { BatchServiceClient, BatchTask, isUnexpected, JobAddParameters, paginate, PoolAddParameters, TaskAddParameters, } from "../../src";
+import {
+  BatchClient,
+  BatchTask,
+  CreateJobParameters,
+  CreatePoolParameters,
+  CreateTaskParameters,
+  isUnexpected,
+  paginate,
+} from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, POLLING_INTERVAL } from "./utils/helpers"
+import { getResourceName, LONG_TEST_TIMEOUT, POLLING_INTERVAL } from "./utils/helpers";
 import { Context } from "mocha";
 import { wait } from "./utils/wait";
 
@@ -13,22 +24,22 @@ const JOB_NAME = getResourceName("Job-Basic");
 const TASK_NAME = `${JOB_NAME}-task1`;
 const TASK2_NAME = `${JOB_NAME}-task2`;
 const TASK_UPDATE_OPTIONS: BatchTask = {
-  constraints: { maxTaskRetryCount: 3 }
+  constraints: { maxTaskRetryCount: 3 },
 };
 const NON_ADMIN_POOL_USER = "nonAdminUser";
 
 describe("Task Operations Test", () => {
   let recorder: Recorder;
-  let batchClient: BatchServiceClient;
+  let batchClient: BatchClient;
 
   /**
    * Provision helper resources needed for testing Batch tasks
    */
   before(async function () {
     if (!isPlaybackMode()) {
-      const batchClient = createBatchClient("AAD");
+      batchClient = createBatchClient("AAD");
 
-      const poolParams: PoolAddParameters = {
+      const poolParams: CreatePoolParameters = {
         body: {
           id: BASIC_POOL,
           vmSize: "Standard_D1_v2",
@@ -40,49 +51,46 @@ describe("Task Operations Test", () => {
           userAccounts: [
             {
               name: NON_ADMIN_POOL_USER,
-              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2",    //Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
-              elevationLevel: "nonadmin"
-            }
-          ]
+              password: isPlaybackMode() ? fakeTestPasswordPlaceholder1 : "user_1account_password2", // Recorder sanitizer options will replace password with fakeTestPasswordPlaceholder1
+              elevationLevel: "nonadmin",
+            },
+          ],
         },
-        contentType: "application/json; odata=minimalmetadata"
-
-      }
+        contentType: "application/json; odata=minimalmetadata",
+      };
 
       const poolPostResult = await batchClient.path("/pools").post(poolParams);
       if (isUnexpected(poolPostResult)) {
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${poolPostResult.body.message}`)
+              Response Body: ${poolPostResult.body.message}`);
       }
 
-      const jobAddParam: JobAddParameters = {
+      const jobAddParam: CreateJobParameters = {
         body: {
           id: JOB_NAME,
-          poolInfo: { poolId: BASIC_POOL }
+          poolInfo: { poolId: BASIC_POOL },
         },
-        contentType: "application/json; odata=minimalmetadata"
-      }
+        contentType: "application/json; odata=minimalmetadata",
+      };
 
       const jobAddResult = await batchClient.path("/jobs").post(jobAddParam);
       if (isUnexpected(jobAddResult)) {
         fail(`Received unexpected status code from creating job: ${jobAddResult.status}
             Unable to provision resources needed for Task Testing.
-            Response Body: ${jobAddResult.body.message}`)
+            Response Body: ${jobAddResult.body.message}`);
       }
-
     }
-
-  })
+  });
 
   /**
    * Unprovision helper resources after all tests ran
    */
   after(async function () {
     if (!isPlaybackMode()) {
-      type resourceDeleteErr = { id: string, error: any };
-      let failedDeletedResources: resourceDeleteErr[] = [];
-      const batchClient = createBatchClient("AAD");
+      type resourceDeleteErr = { id: string; error: any };
+      const failedDeletedResources: resourceDeleteErr[] = [];
+      batchClient = createBatchClient("AAD");
 
       const poolDeleteResponse = await batchClient.path("/pools/{poolId}", BASIC_POOL).delete();
       if (isUnexpected(poolDeleteResponse)) {
@@ -95,13 +103,15 @@ describe("Task Operations Test", () => {
       }
 
       if (failedDeletedResources.length > 0) {
-        console.log("Failed to unprovision helper resources for Task Test. The following resources may be leaked:");
-        failedDeletedResources.forEach((resource) => console.log(`Failed to delete ${resource.id}
-                                                                  Error Response: ${resource.error}`));
+        console.log(
+          "Failed to unprovision helper resources for Task Test. The following resources may be leaked:"
+        );
+        failedDeletedResources.forEach((resource) =>
+          console.log(`Failed to delete ${resource.id} Error Response: ${resource.error}`)
+        );
       }
-
     }
-  })
+  });
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
@@ -118,44 +128,49 @@ describe("Task Operations Test", () => {
     const taskSettings = {
       id: "taskWithContainerSettings",
       commandLine: "cat /etc/centos-release",
-      containerSettings: { imageName: "centos" }
+      containerSettings: { imageName: "centos" },
     };
 
-    const addTaskResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post({ body: taskSettings, contentType: "application/json; odata=minimalmetadata" });
+    const addTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks", jobId)
+      .post({ body: taskSettings, contentType: "application/json; odata=minimalmetadata" });
     assert.equal(addTaskResult.status, "201");
 
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskSettings.id).get();
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskSettings.id)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
-    assert.equal(getTaskResult.body.containerSettings?.imageName, taskSettings.containerSettings.imageName);
+    assert.equal(
+      getTaskResult.body.containerSettings?.imageName,
+      taskSettings.containerSettings.imageName
+    );
     assert.equal(getTaskResult.body.commandLine, taskSettings.commandLine);
 
     await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskSettings.id).delete();
-
   });
 
   it("should create a task with exit conditions successfully", async () => {
-
     const jobId = "JobWithAutoComplete";
     const taskId = "TaskWithAutoComplete";
-    const jobAddParams: JobAddParameters = {
+    const jobAddParams: CreateJobParameters = {
       body: {
         id: jobId,
         poolInfo: {
-          poolId: "dummypool"
+          poolId: "dummypool",
         },
         onAllTasksComplete: "noaction",
         onTaskFailure: "performexitoptionsjobaction",
-        usesTaskDependencies: true
+        usesTaskDependencies: true,
       },
-      contentType: "application/json; odata=minimalmetadata"
+      contentType: "application/json; odata=minimalmetadata",
     };
 
     const jobAddResult = await batchClient.path("/jobs").post(jobAddParams);
-    assert.equal(jobAddResult.status, "201")
+    assert.equal(jobAddResult.status, "201");
 
     const taskSettings = {
       id: taskId,
@@ -163,57 +178,71 @@ describe("Task Operations Test", () => {
       exitConditions: {
         default: {
           jobAction: "terminate",
-          dependencyAction: "satisfy"
+          dependencyAction: "satisfy",
         },
         exitCodes: [
           {
             code: 1,
             exitOptions: {
               jobAction: "none",
-              dependencyAction: "block"
-            }
-          }
-        ]
-      }
+              dependencyAction: "block",
+            },
+          },
+        ],
+      },
     };
 
-    const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post({ body: taskSettings, contentType: "application/json; odata=minimalmetadata" });
+    const taskAddResult = await batchClient
+      .path("/jobs/{jobId}/tasks", jobId)
+      .post({ body: taskSettings, contentType: "application/json; odata=minimalmetadata" });
     assert.equal(taskAddResult.status, "201");
 
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId).get();
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
     assert.equal(getTaskResult.body.exitConditions!.default!.jobAction, "terminate");
     assert.equal(getTaskResult.body.exitConditions!.default!.dependencyAction, "satisfy");
     assert.equal(getTaskResult.body.exitConditions!.exitCodes![0].code, 1);
     assert.equal(getTaskResult.body.exitConditions!.exitCodes![0].exitOptions.jobAction, "none");
-    assert.equal(getTaskResult.body.exitConditions!.exitCodes![0].exitOptions.dependencyAction, "block");
+    assert.equal(
+      getTaskResult.body.exitConditions!.exitCodes![0].exitOptions.dependencyAction,
+      "block"
+    );
 
     const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete();
     if (isUnexpected(deleteJobResult)) {
-      fail(`Failed to delete ${jobId}. Error Response: ${deleteJobResult.body.message}`)
+      fail(`Failed to delete ${jobId}. Error Response: ${deleteJobResult.body.message}`);
     }
-
   });
 
   it("should create a task successfully", async () => {
-    const taskAddParams: TaskAddParameters = {
+    const taskAddParams: CreateTaskParameters = {
       body: {
         id: recorder.variable("TASK_NAME", TASK_NAME),
-        commandLine: "cmd /c echo hello > taskHello.txt"
+        commandLine: "cmd /c echo hello > taskHello.txt",
       },
-      contentType: "application/json; odata=minimalmetadata"
+      contentType: "application/json; odata=minimalmetadata",
     };
 
-    const addTaskResult = await batchClient.path("/jobs/{jobId}/tasks", recorder.variable("JOB_NAME", JOB_NAME)).post(taskAddParams);
+    const addTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks", recorder.variable("JOB_NAME", JOB_NAME))
+      .post(taskAddParams);
     assert.equal(addTaskResult.status, "201");
   });
 
   it("should terminate a task successfully", async () => {
-    const terminateTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}/terminate", recorder.variable("JOB_NAME", JOB_NAME), recorder.variable("TASK_NAME", TASK_NAME)).post({ contentType: "application/json; odata=minimalmetadata" });
+    const terminateTaskResult = await batchClient
+      .path(
+        "/jobs/{jobId}/tasks/{taskId}/terminate",
+        recorder.variable("JOB_NAME", JOB_NAME),
+        recorder.variable("TASK_NAME", TASK_NAME)
+      )
+      .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(terminateTaskResult.status, "204");
   });
 
@@ -221,76 +250,102 @@ describe("Task Operations Test", () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
     const taskId = recorder.variable("TASK2_NAME", TASK2_NAME);
 
-    const container =
-      "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken";
+    const container = "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken";
     const outputs = [
       {
         filePattern: "../stdout.txt",
         destination: {
-          container: { containerUrl: container, path: "taskLogs/output.txt", uploadHeaders: [{ name: "x-ms-blob-content-type", value: "text/plain" }, { name: "x-ms-blob-content-language", value: "en-US" },] }
+          container: {
+            containerUrl: container,
+            path: "taskLogs/output.txt",
+            uploadHeaders: [
+              { name: "x-ms-blob-content-type", value: "text/plain" },
+              { name: "x-ms-blob-content-language", value: "en-US" },
+            ],
+          },
         },
-        uploadOptions: { uploadCondition: "taskCompletion" }
+        uploadOptions: { uploadCondition: "taskCompletion" },
       },
       {
         filePattern: "../stderr.txt",
         destination: {
-          container: { containerUrl: container, path: "taskLogs/error.txt" }
+          container: { containerUrl: container, path: "taskLogs/error.txt" },
         },
-        uploadOptions: { uploadCondition: "taskFailure" }
-      }
+        uploadOptions: { uploadCondition: "taskFailure" },
+      },
     ];
 
-    const taskAddParams: TaskAddParameters = {
+    const taskAddParams: CreateTaskParameters = {
       body: {
         id: taskId,
         commandLine: "cmd /c echo hello world",
-        outputFiles: outputs
+        outputFiles: outputs,
       },
-      contentType: "application/json; odata=minimalmetadata"
+      contentType: "application/json; odata=minimalmetadata",
     };
 
     const addTaskResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(addTaskResult.status, "201");
 
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId).get();
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
     const batchTaskOutput = getTaskResult.body;
     assert.isDefined(batchTaskOutput.outputFiles);
     assert.equal(batchTaskOutput!.outputFiles![0].filePattern, outputs[0].filePattern);
-    assert.equal(batchTaskOutput!.outputFiles![0].destination.container?.containerUrl, outputs[0].destination.container.containerUrl);
+    assert.equal(
+      batchTaskOutput!.outputFiles![0].destination.container?.containerUrl,
+      outputs[0].destination.container.containerUrl
+    );
     assert.equal(batchTaskOutput!.outputFiles![1].filePattern, outputs[1].filePattern);
-    assert.equal(batchTaskOutput!.outputFiles![1].destination.container?.containerUrl, outputs[1].destination.container.containerUrl);
-
-
+    assert.equal(
+      batchTaskOutput!.outputFiles![1].destination.container?.containerUrl,
+      outputs[1].destination.container.containerUrl
+    );
   });
 
   it("should reactivate a task successfully", async () => {
-    const reactivateTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}/reactivate", recorder.variable("JOB_NAME", JOB_NAME), recorder.variable("TASK_NAME", TASK_NAME)).post({ contentType: "application/json; odata=minimalmetadata" });
+    const reactivateTaskResult = await batchClient
+      .path(
+        "/jobs/{jobId}/tasks/{taskId}/reactivate",
+        recorder.variable("JOB_NAME", JOB_NAME),
+        recorder.variable("TASK_NAME", TASK_NAME)
+      )
+      .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(reactivateTaskResult.status, "204");
   });
 
   it("should update a task successfully", async () => {
-    const updateTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), recorder.variable('TASK_NAME', TASK_NAME)).put({
-      body: TASK_UPDATE_OPTIONS,
-      contentType: "application/json; odata=minimalmetadata"
-    });
+    const updateTaskResult = await batchClient
+      .path(
+        "/jobs/{jobId}/tasks/{taskId}",
+        recorder.variable("JOB_NAME", JOB_NAME),
+        recorder.variable("TASK_NAME", TASK_NAME)
+      )
+      .put({
+        body: TASK_UPDATE_OPTIONS,
+        contentType: "application/json; odata=minimalmetadata",
+      });
 
     assert.equal(updateTaskResult.status, "200");
   });
 
   it("should list all tasks successfully", async () => {
-    const listTasksResult = await batchClient.path("/jobs/{jobId}/tasks", recorder.variable("JOB_NAME", JOB_NAME)).get();
+    const listTasksResult = await batchClient
+      .path("/jobs/{jobId}/tasks", recorder.variable("JOB_NAME", JOB_NAME))
+      .get();
     if (isUnexpected(listTasksResult)) {
       fail(`Received unexpected status code from listing tasks: ${listTasksResult.status}
-            Response Body: ${listTasksResult.body.message}`)
+            Response Body: ${listTasksResult.body.message}`);
     }
 
     const paginateResponse = paginate(batchClient, listTasksResult);
-    var taskCounter = 0;
+    let taskCounter = 0;
 
     for await (const item of paginateResponse) {
       ++taskCounter;
@@ -300,67 +355,78 @@ describe("Task Operations Test", () => {
   });
 
   it("should get task reference successfully", async () => {
-    const taskId = recorder.variable("TASK_NAME", TASK_NAME)
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), taskId).get();
+    const taskId = recorder.variable("TASK_NAME", TASK_NAME);
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), taskId)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
     assert.equal(getTaskResult.body.id, taskId);
-    assert.equal(getTaskResult.body.constraints?.maxTaskRetryCount, TASK_UPDATE_OPTIONS!.constraints!.maxTaskRetryCount);
+    assert.equal(
+      getTaskResult.body.constraints?.maxTaskRetryCount,
+      TASK_UPDATE_OPTIONS!.constraints!.maxTaskRetryCount
+    );
   });
 
   it("should add a task with an application package reference successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
-    const taskAddParams: TaskAddParameters = {
+    const taskAddParams: CreateTaskParameters = {
       body: {
         id: "Task-AppPackage",
         commandLine: "cmd /c echo hello world",
         applicationPackageReferences: [
           {
-            applicationId: "my_application_id"
-          }
-        ]
+            applicationId: "my_application_id",
+          },
+        ],
       },
-      contentType: "application/json; odata=minimalmetadata"
+      contentType: "application/json; odata=minimalmetadata",
     };
 
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(taskAddResult.status, "201");
 
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!).get();
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
     assert.isDefined(getTaskResult.body.applicationPackageReferences);
-    assert.equal(getTaskResult.body.applicationPackageReferences![0].applicationId, taskAddParams.body.applicationPackageReferences![0].applicationId);
+    assert.equal(
+      getTaskResult.body.applicationPackageReferences![0].applicationId,
+      taskAddParams.body.applicationPackageReferences![0].applicationId
+    );
   });
 
   it("should create a task with authentication token settings successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
     const taskId = "TaskWithAuthTokenSettings";
-    const taskAddParams: TaskAddParameters = {
+    const taskAddParams: CreateTaskParameters = {
       body: {
         id: taskId,
         commandLine: "cmd /c echo Hello World",
         authenticationTokenSettings: {
-          access: ["job"]
-        }
+          access: ["job"],
+        },
       },
-      contentType: "application/json; odata=minimalmetadata"
-
+      contentType: "application/json; odata=minimalmetadata",
     };
 
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(taskAddResult.status, "201");
 
-    const getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!).get();
+    const getTaskResult = await batchClient
+      .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!)
+      .get();
     if (isUnexpected(getTaskResult)) {
       fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-            Response Body: ${getTaskResult.body.message}`)
+            Response Body: ${getTaskResult.body.message}`);
     }
 
     const taskOutput = getTaskResult.body;
@@ -373,17 +439,16 @@ describe("Task Operations Test", () => {
   it("should create a task with a user identity successfully", async () => {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
     const taskId = "TaskWithUserIdentity";
-    const taskAddParams: TaskAddParameters = {
+    const taskAddParams: CreateTaskParameters = {
       body: {
         id: taskId,
         // This command should return a non-zero exit code for a non-admin user
         commandLine: "cmd /c net session >nul 2>&1",
         userIdentity: {
-          username: NON_ADMIN_POOL_USER
-        }
+          username: NON_ADMIN_POOL_USER,
+        },
       },
-      contentType: "application/json; odata=minimalmetadata"
-
+      contentType: "application/json; odata=minimalmetadata",
     };
 
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
@@ -395,15 +460,18 @@ describe("Task Operations Test", () => {
       if (isUnexpected(getTaskResult)) {
         fail(`Received unexpected status code from getting task: ${getTaskResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${getTaskResult.body.message}`)
+              Response Body: ${getTaskResult.body.message}`);
       }
-      if (getTaskResult.body.executionInfo !== undefined && getTaskResult.body.executionInfo.result != undefined) {
+      if (
+        getTaskResult.body.executionInfo !== undefined &&
+        getTaskResult.body.executionInfo.result !== undefined
+      ) {
         break;
       } else {
         await wait(POLLING_INTERVAL * 2);
       }
-    }
-    while (true)
+      // eslint-disable-next-line no-constant-condition
+    } while (true);
 
     assert.isDefined(getTaskResult.body.userIdentity);
     assert.equal(getTaskResult.body.userIdentity!.username, NON_ADMIN_POOL_USER);
@@ -413,11 +481,13 @@ describe("Task Operations Test", () => {
   }).timeout(LONG_TEST_TIMEOUT);
 
   it("should count tasks sucessfully", async () => {
-    const getTaskCountsResult = await batchClient.path("/jobs/{jobId}/taskcounts", recorder.variable("JOB_NAME", JOB_NAME)).get();
+    const getTaskCountsResult = await batchClient
+      .path("/jobs/{jobId}/taskcounts", recorder.variable("JOB_NAME", JOB_NAME))
+      .get();
     if (isUnexpected(getTaskCountsResult)) {
       fail(`Received unexpected status code from getting task counts: ${getTaskCountsResult.status}
               Unable to provision resource needed for Task Testing.
-              Response Body: ${getTaskCountsResult.body.message}`)
+              Response Body: ${getTaskCountsResult.body.message}`);
     }
 
     assert.isDefined(getTaskCountsResult.body.taskCounts.active);
@@ -425,7 +495,7 @@ describe("Task Operations Test", () => {
     assert.isAtLeast(getTaskCountsResult.body.taskCounts.completed, 1);
   });
 
-  //TODO: Need to test with actual subtasks
+  // TODO: Need to test with actual subtasks
   // it("should list sub tasks successfully", async () => {
   //   const result = await client.task.listSubtasks(JOB_NAME, TASK_NAME);
 
@@ -433,13 +503,24 @@ describe("Task Operations Test", () => {
   // });
 
   it("should delete a task successfully", async () => {
-    const deleteTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), recorder.variable("TASK_NAME", TASK_NAME)).delete();
+    const deleteTaskResult = await batchClient
+      .path(
+        "/jobs/{jobId}/tasks/{taskId}",
+        recorder.variable("JOB_NAME", JOB_NAME),
+        recorder.variable("TASK_NAME", TASK_NAME)
+      )
+      .delete();
     assert.equal(deleteTaskResult.status, "200");
   });
 
   it("should delete second task successfully", async () => {
-    const deleteTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", recorder.variable("JOB_NAME", JOB_NAME), recorder.variable("TASK2_NAME", TASK2_NAME)).delete();
+    const deleteTaskResult = await batchClient
+      .path(
+        "/jobs/{jobId}/tasks/{taskId}",
+        recorder.variable("JOB_NAME", JOB_NAME),
+        recorder.variable("TASK2_NAME", TASK2_NAME)
+      )
+      .delete();
     assert.equal(deleteTaskResult.status, "200");
   });
-
 });

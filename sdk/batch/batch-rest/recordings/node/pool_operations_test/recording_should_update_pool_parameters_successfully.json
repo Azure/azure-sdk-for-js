@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190/updateproperties?api-version=2022-10-01.16.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190/updateproperties?api-version=2023-11-01.18.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -42,7 +42,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2022-10-01.16.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190?api-version=2023-11-01.18.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

@@ -1,10 +1,11 @@
-const _SUFFIX = Math.random()
-  .toString(16)
-  .substr(2, 4);
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-const RESOURCE_PREFIX = "JSSDKTest"
+const _SUFFIX = Math.random().toString(16).slice(2, 4);
 
-export function getResourceName(type: string) {
+const RESOURCE_PREFIX = "JSSDKTest";
+
+export function getResourceName(type: string): string {
   return `${RESOURCE_PREFIX}-${type}-${_SUFFIX}`;
 }
 
