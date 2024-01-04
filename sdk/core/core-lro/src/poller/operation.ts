@@ -149,12 +149,14 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
     withOperationLocation,
     setErrorAsResult,
   } = inputs;
-  const { operationLocation, resourceLocation, metadata, response } = await init();
+  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
     operationLocation,
     resourceLocation,
+    initialUrl,
+    requestMethod,
   };
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
@@ -201,10 +203,8 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   );
   const status = getOperationStatus(response, state);
   logger.verbose(
-    `LRO: Status:\n\tPolling from: ${
-      state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${
-      terminalStates.includes(status) ? "Stopped" : "Running"
+    `LRO: Status:\n\tPolling from: ${state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${terminalStates.includes(status) ? "Stopped" : "Running"
     }`
   );
   if (status === "succeeded") {

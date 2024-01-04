@@ -12,6 +12,10 @@ export interface OperationConfig {
   operationLocation?: string;
   /** The resource location */
   resourceLocation?: string;
+  /** The initial Url  */
+  initialUrl?: string;
+  /** The request method */
+  requestMethod?: string;
   /** metadata about the operation */
   metadata?: Record<string, string>;
 }

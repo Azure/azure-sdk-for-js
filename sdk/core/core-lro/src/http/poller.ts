@@ -93,6 +93,8 @@ function createHttpPollerOrPromisePoller<TResult, TState extends OperationState<
           response,
           operationLocation: config?.operationLocation,
           resourceLocation: config?.resourceLocation,
+          initialUrl: lro.requestPath,
+          requestMethod: lro.requestMethod,
           ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
         };
       },
