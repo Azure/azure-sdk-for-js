@@ -11,7 +11,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureDedicatedHSMResourceProvider } from "../azureDedicatedHSMResourceProvider";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
 import {
   DedicatedHsmOperation,
   OperationsListOptionalParams,
@@ -21,13 +21,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: AzureDedicatedHSMResourceProvider;
+  private readonly client: AzureHSMResourceProvider;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureDedicatedHSMResourceProvider) {
+  constructor(client: AzureHSMResourceProvider) {
     this.client = client;
   }
 
@@ -96,7 +96,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
   serializer
