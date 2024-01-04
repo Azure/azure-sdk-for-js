@@ -2594,8 +2594,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@opentelemetry/resource-detector-azure@0.2.2(@opentelemetry/api@1.7.0):
-    resolution: {integrity: sha512-ZhrqHdtD1FSTkD3+4vkbnqztWNU/xNAQn0Ve8pL2vSmD8/lK+2zpiWeEA70uUx/uBJarmrWB6EQCs+FyVioRvA==}
+  /@opentelemetry/resource-detector-azure@0.2.3(@opentelemetry/api@1.7.0):
+    resolution: {integrity: sha512-alHN0Uin39HE4DBW9wSEWfbll9X48ox/Bzwi763n5yFtg9DrdQPmq7g7ZD4agjxrL0oVy+L8AU6uO3d8mlGKsg==}
     engines: {node: '>=14'}
     dependencies:
       '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
@@ -4897,7 +4897,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240102
+      typescript: 5.4.0-dev.20240104
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9661,8 +9661,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240102:
-    resolution: {integrity: sha512-2S5NVWoqMlgWUJJCAKS0RG5/XggxCWLPysu/McRM0XS1M3eeekddKMMw0h/xFZV+Afnrc4XgN4KCWV/l6DTxVQ==}
+  /typescript@5.4.0-dev.20240104:
+    resolution: {integrity: sha512-LzRhnPKgq/AfRqBiHjP9n5Ntd0nOs/Uxr2TMvF6Lx9NgdHUDi7oUWoMoV7s3M6o628OsC2AqNC3Y1Q9i6GX3lA==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -17827,7 +17827,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-+BK1dCosPOrCnYuJCe0+RAuqXxyeGI+sqpvVtbVMJBGnzJ+mW+UaHD6cuxfCFkZsbNAEM6lBmFMyMP5m7CCwQw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-UVrmqW8UgxC69/mtR1Bp9WO1ncpCpuqEUA2MGLYcpaMY82IRXz0D0neie+J1cziWIE/dd1SGFqpcnnuunvBEyA==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -19752,7 +19752,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-zUQn+bU+PoxoF/9kcgr1/iGfe1BTinBwvHL7olvFnYQvG6CVD5oA29KOenMfRVVHawLQ46o6bURagGGt+I6zOQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-SpmxDyWhsyHhTyYWhzmyOvQ0TQwSLEcVWa2ERCTz48Sjn5vaOstI/KMdoGlGdnvIw3QZY4FnsPx2swFVOn1n5A==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -19791,7 +19791,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-sInrFybFZ4nPw6ZnAlnJ03DdQABec/Hio2969luxVcDlC2YqQp/NSBwhkUpgXptzp1yWhhM2xnQQxhcTSsmBpw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-bSHzmVY0+L5PFML7ZtrB9pHJ1GqHEzVh1FJuZCAlanThkkP22oxW2NtNX/yXm4z+vtXSdjcApIrbbTK8a6VxKQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19807,7 +19807,7 @@ packages:
       '@opentelemetry/instrumentation-pg': 0.37.1(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-redis': 0.35.4(@opentelemetry/api@1.7.0)
       '@opentelemetry/instrumentation-redis-4': 0.35.5(@opentelemetry/api@1.7.0)
-      '@opentelemetry/resource-detector-azure': 0.2.2(@opentelemetry/api@1.7.0)
+      '@opentelemetry/resource-detector-azure': 0.2.3(@opentelemetry/api@1.7.0)
       '@opentelemetry/resources': 1.19.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-logs': 0.46.0(@opentelemetry/api-logs@0.46.0)(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-metrics': 1.19.0(@opentelemetry/api@1.7.0)
@@ -19838,7 +19838,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-tE7h81c+AuBR3et+eR639wvfraw5QV1cw61AXwZPibtCw+fCdPOUD0Fvkxs/mrP547x6XqBEsHwlT1zagBv6dw==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-UFtzYG9hRO5dacc194yYjN4G5f4Tp9H0O3xdzYsbdTTu35BaE/n+qmAyo+yJVw8YSTmpGJcIBZUOkvMnq1NPqQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
