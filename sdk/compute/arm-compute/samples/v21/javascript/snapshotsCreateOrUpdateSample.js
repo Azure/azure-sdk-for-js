@@ -36,7 +36,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscripti
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -63,7 +63,7 @@ async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -81,7 +81,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
   const snapshot = {
     creationData: {
       createOption: "CopyFromSanSnapshot",
-      sourceResourceId:
+      elasticSanResourceId:
         "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.ElasticSan/elasticSans/myElasticSan/volumegroups/myElasticSanVolumeGroup/snapshots/myElasticSanVolumeSnapshot",
     },
     location: "West US",
@@ -91,7 +91,7 @@ async function createASnapshotFromAnElasticSanVolumeSnapshot() {
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -119,7 +119,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -147,7 +147,7 @@ async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscri
   const result = await client.snapshots.beginCreateOrUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function getASasOnASnapshot() {
   const result = await client.snapshots.beginGrantAccessAndWait(
     resourceGroupName,
     snapshotName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }

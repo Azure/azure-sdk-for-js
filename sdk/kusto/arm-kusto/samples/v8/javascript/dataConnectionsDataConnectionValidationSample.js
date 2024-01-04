@@ -51,7 +51,7 @@ async function kustoDataConnectionEventGridValidation() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -89,7 +89,7 @@ async function kustoDataConnectionValidation() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

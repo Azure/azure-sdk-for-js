@@ -195,7 +195,7 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    body?: RequestBodyType
+    body?: RequestBodyType,
   ): Promise<http.IncomingMessage> {
     const url = new URL(request.url);
 
@@ -220,7 +220,7 @@ class NodeHttpClient implements HttpClient {
 
       req.once("error", (err: Error & { code?: string }) => {
         reject(
-          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request })
+          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request }),
         );
       });
 
@@ -311,7 +311,7 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
 
 function getDecodedResponseStream(
   stream: IncomingMessage,
-  headers: HttpHeaders
+  headers: HttpHeaders,
 ): NodeJS.ReadableStream {
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
@@ -348,7 +348,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
         reject(
           new RestError(`Error reading response as text: ${e.message}`, {
             code: RestError.PARSE_ERROR,
-          })
+          }),
         );
       }
     });

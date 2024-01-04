@@ -27,7 +27,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   const resArray = new Array();
   for await (let item of client.diskAccesses.listPrivateEndpointConnections(
     resourceGroupName,
-    diskAccessName
+    diskAccessName,
   )) {
     resArray.push(item);
   }

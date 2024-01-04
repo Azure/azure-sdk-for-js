@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a valid sender username for a domains resource.
  *
  * @summary Get a valid sender username for a domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/senderUsernames/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/senderUsernames/get.json
  */
 async function getSenderUsernamesResource() {
   const subscriptionId =

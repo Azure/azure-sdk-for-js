@@ -22,7 +22,7 @@ async function main() {
   const info = await client.getResourceDetails();
 
   console.log(
-    `Custom document models: ${info.customDocumentModels.count} of ${info.customDocumentModels.limit}`
+    `Custom document models: ${info.customDocumentModels.count} of ${info.customDocumentModels.limit}`,
   );
 }
 

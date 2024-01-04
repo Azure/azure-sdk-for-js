@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Get the specified private endpoint connection proxy associated with the device update account.
  *
  * @summary (INTERNAL - DO NOT USE) Get the specified private endpoint connection proxy associated with the device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Get.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Get.json
  */
 async function privateEndpointConnectionProxyGet() {
   const subscriptionId =

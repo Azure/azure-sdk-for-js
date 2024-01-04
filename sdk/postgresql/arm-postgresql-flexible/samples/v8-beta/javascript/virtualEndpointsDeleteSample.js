@@ -29,7 +29,7 @@ async function deleteAVirtualEndpoint() {
   const result = await client.virtualEndpoints.beginDeleteAndWait(
     resourceGroupName,
     serverName,
-    virtualEndpointName
+    virtualEndpointName,
   );
   console.log(result);
 }
