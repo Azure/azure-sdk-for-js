@@ -413,6 +413,9 @@
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
