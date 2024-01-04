@@ -1,6 +1,6 @@
 {
   "name": "@azure/api-management-custom-widgets-scaffolder",
-  "version": "1.0.0-beta.4",
+  "version": "1.0.0-beta.5",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "sdk-type": "client",
