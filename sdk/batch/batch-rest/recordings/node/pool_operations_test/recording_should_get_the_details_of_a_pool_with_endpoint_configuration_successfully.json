@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "7e3d7d25-5f65-45e6-a15b-ea86c9c6f27a"
+        "client-request-id": "7e3d7d25-5f65-45e6-a15b-ea86c9c6f27a"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -37,7 +37,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "de42f915-6e0c-440a-a7b4-ffaf364fa50d"
+        "client-request-id": "de42f915-6e0c-440a-a7b4-ffaf364fa50d"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -65,7 +65,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "80692853-d1aa-4741-bfd1-83a1524c1494"
+        "client-request-id": "80692853-d1aa-4741-bfd1-83a1524c1494"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -93,7 +93,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "5a1d2468-53f3-46a7-9ae1-a298cf3c4393"
+        "client-request-id": "5a1d2468-53f3-46a7-9ae1-a298cf3c4393"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -121,7 +121,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "c2d82720-eb0f-42aa-a8c5-db12a9cf0b87"
+        "client-request-id": "c2d82720-eb0f-42aa-a8c5-db12a9cf0b87"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -149,7 +149,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "ecb01a09-a5df-4ea0-9bb8-ba157ac6d641"
+        "client-request-id": "ecb01a09-a5df-4ea0-9bb8-ba157ac6d641"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -177,7 +177,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "43f75b8e-239f-44fb-9ce8-0a18bea9afdc"
+        "client-request-id": "43f75b8e-239f-44fb-9ce8-0a18bea9afdc"
       },
       "RequestBody": null,
       "StatusCode": 200,

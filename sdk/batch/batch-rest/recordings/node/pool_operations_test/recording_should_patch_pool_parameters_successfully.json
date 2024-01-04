@@ -11,7 +11,7 @@
         "Content-Length": "45",
         "Content-Type": "application/json; odata=minimalmetadata",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "e478b115-0e0f-42bd-b413-2f1a6a38b640"
+        "client-request-id": "e478b115-0e0f-42bd-b413-2f1a6a38b640"
       },
       "RequestBody": {
         "metadata": [
@@ -45,7 +45,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "4d7e8bfc-feff-43c5-9e92-de1329d70391"
+        "client-request-id": "4d7e8bfc-feff-43c5-9e92-de1329d70391"
       },
       "RequestBody": null,
       "StatusCode": 200,

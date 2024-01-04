@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "5d6b3667-6357-4c97-8142-be961e8c746c"
+        "client-request-id": "5d6b3667-6357-4c97-8142-be961e8c746c"
       },
       "RequestBody": null,
       "StatusCode": 200,

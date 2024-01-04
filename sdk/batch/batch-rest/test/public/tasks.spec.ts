@@ -347,7 +347,7 @@ describe("Task Operations Test", () => {
     const paginateResponse = paginate(batchClient, listTasksResult);
     let taskCounter = 0;
 
-    for await (const item of paginateResponse) {
+    for await (const _item of paginateResponse) {
       ++taskCounter;
     }
 

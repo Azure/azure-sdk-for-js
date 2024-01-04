@@ -49,6 +49,9 @@ const recorderEnvSetup: RecorderStartOptions = {
  */
 export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
+  recorder.setMatcher('CustomDefaultMatcher', {
+    excludedHeaders: ['client-request-id'],
+  })
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

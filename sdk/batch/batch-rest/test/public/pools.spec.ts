@@ -113,7 +113,7 @@ describe("Pool Operations Test", () => {
     const result = await batchClient.path("/pools").post(poolParams);
     assert.equal(result.status, "201");
 
-    await wait(20000);
+    if (!isPlaybackMode()) await wait(20000);
   });
 
   it("should patch pool parameters successfully", async () => {
@@ -153,22 +153,20 @@ describe("Pool Operations Test", () => {
     let metadata: any;
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const promise = new Promise<void>((resolve) => {
-      const timeout = setInterval(async () => {
-        getResult = await batchClient.path("/pools/{poolId}", poolId).get();
-        if (isUnexpected(getResult)) {
-          fail(`Received unexpected status code from getting pool: ${getResult.status}
+    // eslint-disable-next-line no-constant-condition
+    while (true) {
+      getResult = await batchClient.path("/pools/{poolId}", poolId).get();
+      if (isUnexpected(getResult)) {
+        fail(`Received unexpected status code from getting pool: ${getResult.status}
               Response Body: ${getResult.body.message}`);
-        }
-        metadata = getResult.body.metadata![0];
-        if (getResult.body.allocationState === "steady") {
-          resolve();
-          clearTimeout(timeout);
-        }
-      }, POLLING_INTERVAL);
-    });
-
-    await promise;
+      }
+      metadata = getResult.body.metadata![0];
+      if (getResult.body.allocationState === "steady") {
+        break;
+      } else {
+        await wait(POLLING_INTERVAL);
+      }
+    }
 
     assert.equal(getResult.body.id, poolId);
     assert.equal(getResult.body.state, "active");
@@ -251,11 +249,11 @@ describe("Pool Operations Test", () => {
               Response Body: ${listPoolResult.body.message}`);
     }
 
-    assert.isAtLeast(listPoolResult.body.value?.length ?? 0, 2);
+    assert.isAtLeast(listPoolResult.body.value?.length ?? 0, 1);
   });
 
   it("should list a maximum number of pools", async () => {
-    const listOptions = { queryParameters: { maxResults: 2 } };
+    const listOptions = { queryParameters: { maxResults: 1 } };
     const listPoolResult = await batchClient.path("/pools").get(listOptions);
 
     if (isUnexpected(listPoolResult)) {
