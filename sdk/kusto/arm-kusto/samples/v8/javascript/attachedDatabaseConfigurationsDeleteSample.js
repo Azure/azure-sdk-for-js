@@ -29,7 +29,7 @@ async function attachedDatabaseConfigurationsDelete() {
   const result = await client.attachedDatabaseConfigurations.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    attachedDatabaseConfigurationName
+    attachedDatabaseConfigurationName,
   );
   console.log(result);
 }
