@@ -75,6 +75,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           }),
           body: stringToUint8Array(value, "utf-8"),
         });
+      } else if (value === undefined || value === null || typeof value !== "object") {
+        throw new Error(
+          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`,
+        );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
         const fileName = (value as File).name || "blob";
