@@ -12596,7 +12596,7 @@ packages:
     dev: false
 
   file:projects/arm-datadog.tgz:
-    resolution: {integrity: sha512-I30FoJphE9S2msvWHDmI3uPXXOvwuPXgsVRrQi3FiWn8oMwAYwl6wJC1tEbbBU5EgcFtcZY468FOQUMDotqZtg==, tarball: file:projects/arm-datadog.tgz}
+    resolution: {integrity: sha512-ww+1SoQB0kqJumNmOiAGPVgTyWeJUwCHZHqnXfHnlpDhE/aM+xugBKJyr45L629n+d49zZ59J8VbW5KJnSUHyg==, tarball: file:projects/arm-datadog.tgz}
     name: '@rush-temp/arm-datadog'
     version: 0.0.0
     dependencies:
@@ -12604,11 +12604,13 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
@@ -20922,7 +20924,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-9k4LApml/j2nEyblv8gd9mS02fzEjFmskLW7HONO5Ft8L9DdWk1ndUAGpqx1ggbol07QnBWAo24j3eIDCQHnGQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-+tttXZemD1hNB8YHIMRmQ6jEVpurLyX9tiCR93JzJkTgH3esDz3PRZ7S3DY+a6BSsNAiD7NSVimrPiymtAflxQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:

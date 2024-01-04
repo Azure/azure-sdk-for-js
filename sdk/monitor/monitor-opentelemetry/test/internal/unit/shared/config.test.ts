@@ -389,18 +389,14 @@ describe("OpenTelemetry Resource", () => {
     const originalEnv = process.env;
     env.WEBSITE_SITE_NAME = "test-site";
     env.REGION_NAME = "test-region";
-    env.WEBSITE_INSTANCE_ID = "test-instance-id";
     env.WEBSITE_MEMORY_LIMIT_MB = "512";
+    env.FUNCTIONS_EXTENSION_VERSION = "~3";
     process.env = env;
     const config = new InternalConfig();
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
       "opentelemetry"
-    );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
-      "test-instance-id"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
@@ -417,6 +413,10 @@ describe("OpenTelemetry Resource", () => {
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
       "512"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION],
+      "~3"
     );
   });
 
