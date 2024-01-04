@@ -129,6 +129,30 @@ const assert = chai.assert;
       );
     });
 
+    it.only(anyRandomTestClientType + ": timeToLive should be set based on absolute_expiry_time and queue default", async function(): Promise<void> {
+      const ttl = Date.now() + 100 * 24 * 60 * 60 * 1000;
+      const testMessage: AmqpAnnotatedMessage = {
+        body: `test timeToLive`,
+        bodyType: "data",
+        header: {
+          timeToLive: ttl,
+        },
+        ...getSessionProperties(),
+      };
+
+      await sender().sendMessages(testMessage);
+      const msgs = await receiver().receiveMessages(1);
+
+      assert.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
+      assert.equal(msgs.length, 1, "Unexpected number of messages");
+
+      assert.equal(msgs[0]._rawAmqpMessage.header?.timeToLive, ttl);
+      assert.ok(msgs[0]._rawAmqpMessage.properties, "Expecting valid 'msgs[0]._rawAmqpMessage.properties'");
+      const { absoluteExpiryTime, creationTime } = msgs[0]._rawAmqpMessage.properties!;
+      assert.ok(creationTime, "Expecting valid 'creationTime'");
+      assert.equal(creationTime! + ttl, absoluteExpiryTime);
+    });
+
     describe("AMQP body type encoding/decoding", () => {
       // Messaging format (describes the three types of encodable entities - 'data', 'sequence' or 'value')
       // http://docs.oasis-open.org/amqp/core/v1.0/csprd01/amqp-core-messaging-v1.0-csprd01.html#type-data
