@@ -12,6 +12,65 @@ import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export enum KnownMmsContentType {
+    AudioAc3 = "audio/ac3",
+    AudioAmr = "audio/amr",
+    AudioWav = "audio/wav",
+    AudioXWav = "audio/x-wav",
+    ImageBmp = "image/bmp",
+    ImageGif = "image/gif",
+    ImageJpeg = "image/jpeg",
+    ImagePng = "image/png",
+    TextPlain = "text/plain",
+    VideoMp4 = "video/mp4",
+    VideoXMsvideo = "video/x-msvideo"
+}
+
+// @public
+export class MmsClient {
+    constructor(connectionString: string, options?: MmsClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: MmsClientOptions);
+    constructor(endpoint: string, credential: TokenCredential, options?: MmsClientOptions);
+    send(sendRequest: MmsSendRequest, options?: MmsSendOptions): Promise<MmsSendResult[]>;
+}
+
+// @public
+export interface MmsClientOptions extends CommonClientOptions {
+}
+
+// @public
+export type MmsContentType = string;
+
+// @public
+export interface MmsSendOptions extends OperationOptions {
+    enableDeliveryReport?: boolean;
+    tag?: string;
+}
+
+// @public
+export interface MmsSendRequest {
+    attachments: MmsSendRequestAttachment[];
+    from: string;
+    message?: string;
+    to: string[];
+}
+
+// @public
+export interface MmsSendRequestAttachment {
+    contentInBase64: Uint8Array;
+    contentType: MmsContentType;
+}
+
+// @public (undocumented)
+export interface MmsSendResult {
+    errorMessage?: string;
+    httpStatusCode: number;
+    messageId?: string;
+    successful: boolean;
+    to: string;
+}
+
+// @public
 export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
