@@ -26,6 +26,12 @@ export enum KnownMmsContentType {
     VideoXMsvideo = "video/x-msvideo"
 }
 
+// @public (undocumented)
+export interface MmsAttachment {
+    contentInBase64: Uint8Array;
+    contentType: KnownMmsContentType;
+}
+
 // @public
 export class MmsClient {
     constructor(connectionString: string, options?: MmsClientOptions);
@@ -39,9 +45,6 @@ export interface MmsClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type MmsContentType = string;
-
-// @public
 export interface MmsSendOptions extends OperationOptions {
     enableDeliveryReport?: boolean;
     tag?: string;
@@ -49,16 +52,10 @@ export interface MmsSendOptions extends OperationOptions {
 
 // @public
 export interface MmsSendRequest {
-    attachments: MmsSendRequestAttachment[];
+    attachments: MmsAttachment[];
     from: string;
     message?: string;
     to: string[];
-}
-
-// @public
-export interface MmsSendRequestAttachment {
-    contentInBase64: Uint8Array;
-    contentType: MmsContentType;
 }
 
 // @public (undocumented)

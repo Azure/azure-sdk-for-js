@@ -15,7 +15,7 @@ import { extractOperationOptions } from "./extractOperationOptions";
 import { generateMmsSendMessageRequest } from "./utils/mmsUtils";
 import { logger } from "./logger";
 import { tracingClient } from "./generated/src/tracing";
-import { MmsSendRequestAttachment } from "./generated/src/models";
+import { MmsAttachment } from "./models";
 
 /**
  * Client options used to configure MMS Client API requests.
@@ -40,7 +40,7 @@ export interface MmsSendRequest {
    */
   message?: string;
   /** List of attachments. Please note that we limit the total size of an attachments. */
-  attachments: MmsSendRequestAttachment[];
+  attachments: MmsAttachment[];
 }
 
 /**
