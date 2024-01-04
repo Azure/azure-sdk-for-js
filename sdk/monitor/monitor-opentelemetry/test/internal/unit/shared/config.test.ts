@@ -414,10 +414,7 @@ describe("OpenTelemetry Resource", () => {
       config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
       "512"
     );
-    assert.strictEqual(
-      config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION],
-      "~3"
-    );
+    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION], "~3");
   });
 
   it("Azure VM resource attributes", async () => {
