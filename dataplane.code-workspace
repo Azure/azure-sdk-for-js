@@ -68,10 +68,6 @@
       "path": "sdk/agrifood/agrifood-farming-rest"
     },
     {
-      "name": "core-http",
-      "path": "sdk/core/core-http"
-    },
-    {
       "name": "core-rest-pipeline",
       "path": "sdk/core/core-rest-pipeline"
     },
