@@ -15,9 +15,8 @@ import {
 } from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, POLLING_INTERVAL } from "./utils/helpers";
+import { getResourceName, LONG_TEST_TIMEOUT, waitForNotNull } from "./utils/helpers";
 import { Context } from "mocha";
-import { wait } from "./utils/wait";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const JOB_NAME = getResourceName("Job-Basic");
@@ -454,30 +453,30 @@ describe("Task Operations Test", () => {
     const taskAddResult = await batchClient.path("/jobs/{jobId}/tasks", jobId).post(taskAddParams);
     assert.equal(taskAddResult.status, "201");
 
-    let getTaskResult;
-    do {
-      getTaskResult = await batchClient.path("/jobs/{jobId}/tasks/{taskId}", jobId, taskId).get();
+    const getExecutedTask = async () => {
+      const getTaskResult = await batchClient
+        .path("/jobs/{jobId}/tasks/{taskId}", jobId, taskAddParams.body.id!)
+        .get();
       if (isUnexpected(getTaskResult)) {
         fail(`Received unexpected status code from getting task: ${getTaskResult.status}
-              Unable to provision resource needed for Task Testing.
               Response Body: ${getTaskResult.body.message}`);
       }
       if (
         getTaskResult.body.executionInfo !== undefined &&
         getTaskResult.body.executionInfo.result !== undefined
       ) {
-        break;
-      } else {
-        await wait(POLLING_INTERVAL * 2);
+        return getTaskResult;
       }
-      // eslint-disable-next-line no-constant-condition
-    } while (true);
+      return null;
+    };
 
-    assert.isDefined(getTaskResult.body.userIdentity);
-    assert.equal(getTaskResult.body.userIdentity!.username, NON_ADMIN_POOL_USER);
-    assert.isDefined(getTaskResult.body.executionInfo);
-    assert.equal(getTaskResult.body.executionInfo!.result, "failure");
-    assert.notEqual(getTaskResult.body.executionInfo!.exitCode, 0);
+    const taskRes = await waitForNotNull(getExecutedTask);
+
+    assert.isDefined(taskRes.body.userIdentity);
+    assert.equal(taskRes.body.userIdentity!.username, NON_ADMIN_POOL_USER);
+    assert.isDefined(taskRes.body.executionInfo);
+    assert.equal(taskRes.body.executionInfo!.result, "failure");
+    assert.notEqual(taskRes.body.executionInfo!.exitCode, 0);
   }).timeout(LONG_TEST_TIMEOUT);
 
   it("should count tasks sucessfully", async () => {

@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "cf683e0e-e7b3-4e9c-9e53-0351d33ea952",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:10:21 GMT",
+        "request-id": "6edef058-9eaf-4a58-a73e-a7fbdeb17781",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#jobs",
+        "value": [
+          {
+            "id": "JSSDKTest-Job-Basic-aff2",
+            "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-aff2",
+            "eTag": "0x8DC0DBD613E8088",
+            "lastModified": "2024-01-05T07:10:21.1233928Z",
+            "creationTime": "2024-01-05T07:10:20.0862243Z",
+            "state": "active",
+            "stateTransitionTime": "2024-01-05T07:10:20.1055503Z",
+            "priority": 600,
+            "maxParallelTasks": -1,
+            "usesTaskDependencies": false,
+            "allowTaskPreemption": false,
+            "constraints": {
+              "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+              "maxTaskRetryCount": 3
+            },
+            "poolInfo": {
+              "poolId": "JSSDKTest-Pool-Basic-a65a"
+            },
+            "executionInfo": {
+              "startTime": "2024-01-05T07:10:20.1055503Z",
+              "poolId": "JSSDKTest-Pool-Basic-a65a"
+            },
+            "onAllTasksComplete": "noaction",
+            "onTaskFailure": "noaction"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "48e4811a-84ee-47ab-86fd-a93772913e7d",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:22:28 GMT",
+        "request-id": "a42712ca-bf58-4614-a682-750d98a25093",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#supportedimages",
+        "value": [
+          {
+            "imageReference": {
+              "publisher": "almalinux",
+              "offer": "almalinux",
+              "sku": "8-gen1",
+              "version": "latest"
+            },
+            "verificationType": "unverified",
+            "nodeAgentSKUId": "batch.node.el 8",
+            "osType": "linux"
+          },
+          {
+            "imageReference": {
+              "publisher": "almalinux",
+              "offer": "almalinux",
+              "sku": "8-gen2",
+              "version": "latest"
+            },
+            "verificationType": "unverified",
+            "nodeAgentSKUId": "batch.node.el 8",
+            "capabilities": [
+              "Generation2VMImage"
+            ],
+            "osType": "linux"
+          }
+        ],
+        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0\u0026$skiptoken=WATV2:dC2Zw0OCOECJStP4LBh4CA6yxeZKUghorz20jwxzQJUXPP2E5AKF4evXQUqhT5E56ogXB0KQvqEp3h1eDSc59miz6IfUHPLZlKt4eeZwoRBt/pxGSDAQ2UgLaYPjZS6YpOkGIHXw84k/dMNwrBiDEJnHejOETFwy7jMSKWFaogAESzGBWo4dfA8q^Lb5hnW0:1$1"
+      }
+    }
+  ],
+  "Variables": {}
+}

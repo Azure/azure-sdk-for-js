@@ -1,0 +1,93 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "2149ea0e-15f5-4334-8d99-2fd1495f1c3a",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:10:12 GMT",
+        "request-id": "f7e2b385-0e1c-4e82-8373-d4d328115b59",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#nodes/@Element",
+        "id": "tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d",
+        "state": "idle",
+        "schedulingState": "enabled",
+        "stateTransitionTime": "2024-01-05T07:07:58.458365Z",
+        "lastBootTime": "2024-01-05T07:07:57.784506Z",
+        "allocationTime": "2024-01-05T07:06:04.8752002Z",
+        "ipAddress": "10.218.0.5",
+        "affinityId": "TVM:tvmps_32b52f225466ce1ca2199db6467a4628fa8ceb9ca61b0e4c6455758e3f092ef9_d",
+        "vmSize": "standard_d1_v2",
+        "totalTasksRun": 0,
+        "totalTasksSucceeded": 0,
+        "runningTasksCount": 0,
+        "runningTaskSlotsCount": 0,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "startTaskInfo": {
+          "state": "completed",
+          "startTime": "2024-01-05T07:07:58.380239Z",
+          "endTime": "2024-01-05T07:07:58.442739Z",
+          "exitCode": 0,
+          "result": "success",
+          "retryCount": 0
+        },
+        "certificateReferences": [],
+        "isDedicated": true,
+        "endpointConfiguration": {
+          "inboundEndpoints": [
+            {
+              "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+              "protocol": "tcp",
+              "frontendPort": 3389,
+              "backendPort": 20000
+            }
+          ]
+        },
+        "nodeAgentInfo": {
+          "lastUpdateTime": "2024-01-05T07:07:57.784506Z",
+          "version": "1.11.7"
+        },
+        "virtualMachineInfo": {}
+      }
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-d0af"
+  }
+}

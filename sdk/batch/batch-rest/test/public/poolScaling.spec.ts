@@ -14,10 +14,9 @@ import {
 } from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
-import { getResourceName, POLLING_INTERVAL } from "./utils/helpers";
+import { getResourceName, waitForNotNull } from "./utils/helpers";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { duration } from "moment";
-import { wait } from "./utils/wait";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 // const JOB_NAME = getResourceName("Job-Basic");
@@ -60,9 +59,7 @@ describe("Autoscale operations", async () => {
                 Unable to provision resource needed for Job Testing.
                 Response Body: ${poolPostResult.body.message}`);
       }
-
-      const poolResizing = true;
-      while (poolResizing) {
+      const getSteadyPool = async () => {
         const getPoolResult = await batchClient.path("/pools/{poolId}", BASIC_POOL).get();
         if (isUnexpected(getPoolResult)) {
           fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
@@ -70,11 +67,11 @@ describe("Autoscale operations", async () => {
                 Response Body: ${getPoolResult.body.message}`);
         }
         if (getPoolResult.body.allocationState === "steady") {
-          break;
-        } else {
-          await wait(POLLING_INTERVAL * 2);
+          return getPoolResult;
         }
-      }
+        return null;
+      };
+      await waitForNotNull(getSteadyPool);
     }
   });
 

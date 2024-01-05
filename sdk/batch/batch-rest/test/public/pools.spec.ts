@@ -20,7 +20,12 @@ import {
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { wait } from "./utils/wait";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, POLLING_INTERVAL } from "./utils/helpers";
+import {
+  getResourceName,
+  LONG_TEST_TIMEOUT,
+  POLLING_INTERVAL,
+  waitForNotNull,
+} from "./utils/helpers";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
@@ -149,31 +154,29 @@ describe("Pool Operations Test", () => {
   });
 
   it("should get a pool reference successfully", async () => {
-    let getResult: any;
-    let metadata: any;
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      getResult = await batchClient.path("/pools/{poolId}", poolId).get();
-      if (isUnexpected(getResult)) {
-        fail(`Received unexpected status code from getting pool: ${getResult.status}
-              Response Body: ${getResult.body.message}`);
+    const getSteadyPool = async () => {
+      const res = await batchClient.path("/pools/{poolId}", poolId).get();
+      if (isUnexpected(res)) {
+        fail(`Received unexpected status code from getting pool: ${res.status}
+              Response Body: ${res.body.message}`);
       }
-      metadata = getResult.body.metadata![0];
-      if (getResult.body.allocationState === "steady") {
-        break;
-      } else {
-        await wait(POLLING_INTERVAL);
+      if (res.body.allocationState === "steady") {
+        return res;
       }
-    }
+      return null;
+    };
+
+    const getResult = await waitForNotNull(getSteadyPool);
+    const metadata = getResult.body.metadata![0];
 
     assert.equal(getResult.body.id, poolId);
     assert.equal(getResult.body.state, "active");
     assert.equal(getResult.body.allocationState, "steady");
     assert.isDefined(getResult.body.cloudServiceConfiguration);
     assert.equal(getResult.body.cloudServiceConfiguration!.osFamily, "4");
-    assert.equal(getResult.body.vmSize.toLowerCase(), VMSIZE_D1.toLowerCase());
+    assert.equal(getResult.body.vmSize?.toLowerCase(), VMSIZE_D1.toLowerCase());
     assert.equal(getResult.body.targetDedicatedNodes, BASIC_POOL_NUM_VMS);
     assert.isFalse(getResult.body.enableAutoScale);
 
@@ -397,28 +400,26 @@ describe("Pool Operations Test", () => {
   });
 
   it("should get the details of a pool with endpoint configuration successfully", async () => {
-    let nodeList = [];
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
-      nodeList = [];
+    const listNodes = async () => {
       const listResult = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
-
       if (isUnexpected(listResult)) {
         fail(`Received unexpected status code from list compute nodes: ${listResult.status}
               Response Body: ${listResult.body.message}`);
       }
 
       const paginateResponse = paginate(batchClient, listResult);
+      const nodeList = [];
       for await (const node of paginateResponse) {
         nodeList.push(node);
       }
       if (nodeList.length > 0) {
-        break;
-      } else {
-        await wait(POLLING_INTERVAL);
+        return nodeList;
       }
-    }
+      return null;
+    };
+
+    const nodeList = await waitForNotNull(listNodes);
 
     assert.lengthOf(nodeList, 1);
     assert.isDefined(nodeList[0].endpointConfiguration);
@@ -431,12 +432,12 @@ describe("Pool Operations Test", () => {
   }).timeout(LONG_TEST_TIMEOUT);
 
   it("should get pool node counts successfully", async () => {
-    let poolList = [];
-    let endpointPool;
+    // let poolList = [];
     const poolId = recorder.variable("ENDPOINT_POOL", ENDPOINT_POOL);
     // eslint-disable-next-line no-constant-condition
-    while (true) {
-      poolList = [];
+
+    const listNodeCounts = async () => {
+      const poolList = [];
       const listNodeCountResult = await batchClient.path("/nodecounts").get();
       if (isUnexpected(listNodeCountResult)) {
         fail(`Received unexpected status code from list compute nodes: ${listNodeCountResult.status}
@@ -449,19 +450,19 @@ describe("Pool Operations Test", () => {
       }
 
       if (poolList.length > 0) {
-        endpointPool = poolList.filter((pool) => pool.poolId === poolId);
+        const endpointPool = poolList.filter((pool) => pool.poolId === poolId);
         if (endpointPool.length > 0 && endpointPool[0].dedicated!.idle > 0) {
-          break;
+          return endpointPool;
         }
-      } else {
-        await wait(POLLING_INTERVAL);
       }
-    }
+      return null;
+    };
+    const nodeList = await waitForNotNull(listNodeCounts, 60 * 1000);
 
-    const endpointPoolObj = poolList.filter((pool) => pool.poolId === poolId);
+    const endpointPoolObj = nodeList.filter((pool) => pool.poolId === poolId);
     assert.isAbove(endpointPoolObj.length, 0, `Pool with Pool Id ${poolId} not found`);
     assert.equal(endpointPoolObj[0].dedicated!.idle, 1);
-    assert.equal(endpointPool[0].lowPriority!.total, 0);
+    assert.equal(endpointPoolObj[0].lowPriority!.total, 0);
   }).timeout(LONG_TEST_TIMEOUT);
 
   // it("should add a pool with vnet and get expected error", async () => {
@@ -525,20 +526,18 @@ describe("Pool Operations Test", () => {
 
   it("should start pool resizing successfully", async () => {
     const poolId = recorder.variable("TEST_POOL3", TEST_POOL3);
-    const poolResizing = true;
-    let getPoolResult;
-    while (poolResizing) {
-      getPoolResult = await batchClient.path("/pools/{poolId}", poolId).get();
-      if (isUnexpected(getPoolResult)) {
-        fail(`Received unexpected status code from getting pool: ${getPoolResult.status}
-            Response Body: ${getPoolResult.body.message}`);
+    const getSteadyPool = async () => {
+      const res = await batchClient.path("/pools/{poolId}", poolId).get();
+      if (isUnexpected(res)) {
+        fail(`Received unexpected status code from getting pool: ${res.status}
+              Response Body: ${res.body.message}`);
       }
-      if (getPoolResult.body.allocationState === "steady") {
-        break;
-      } else {
-        await wait(POLLING_INTERVAL * 2);
+      if (res.body.allocationState === "steady") {
+        return res;
       }
-    }
+      return null;
+    };
+    await waitForNotNull(getSteadyPool);
 
     const options: BatchPoolResizeParameters = {
       targetDedicatedNodes: 3,
@@ -561,19 +560,6 @@ describe("Pool Operations Test", () => {
       .post({ contentType: "application/json; odata=minimalmetadata" });
     assert.equal(stopPoolResizeResult.status, "202");
   });
-
-  // it("should get pool lifetime statistics", async () => {
-  //   const getPoolLifeTimeStatsResult = await batchClient.path("/lifetimepoolstats").get();
-  //   if (isUnexpected(getPoolLifeTimeStatsResult)) {
-  //     fail(`Received unexpected status code from getting life time pool stats: ${getPoolLifeTimeStatsResult.status}
-  //           Response Body: ${getPoolLifeTimeStatsResult.body.message}`);
-  //   }
-
-  //   assert.equal(getPoolLifeTimeStatsResult.status, "200");
-
-  //   assert.isDefined(getPoolLifeTimeStatsResult.body.usageStats);
-  //   assert.isDefined(getPoolLifeTimeStatsResult.body.resourceStats);
-  // });
 
   it("should list pools usage metrics", async () => {
     const listPoolUsageResult = await batchClient.path("/poolusagemetrics").get();

@@ -1,0 +1,174 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-50e5?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "ce31eb9b-2a49-49d7-b352-b761de50d067",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:04 GMT",
+        "ETag": "0x8DC0DBE2D91510E",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:03 GMT",
+        "request-id": "0b8e7d88-27b5-4adf-ac59-8f3833110c28",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-3-50e5",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-3-50e5",
+        "eTag": "0x8DC0DBE2D91510E",
+        "lastModified": "2024-01-05T07:16:03.9213326Z",
+        "creationTime": "2024-01-05T07:16:03.9213326Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T07:16:03.9213326Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2024-01-05T07:16:03.9213326Z",
+        "vmSize": "small",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 0,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-50e5?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "e6386836-2689-48a3-9aa4-86896d40cdce",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:24 GMT",
+        "ETag": "0x8DC0DBE2D91510E",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:03 GMT",
+        "request-id": "cdaf0e26-9fab-44b0-a45b-5381dcba05cc",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-3-50e5",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-3-50e5",
+        "eTag": "0x8DC0DBE2D91510E",
+        "lastModified": "2024-01-05T07:16:03.9213326Z",
+        "creationTime": "2024-01-05T07:16:03.9213326Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T07:16:03.9213326Z",
+        "allocationState": "steady",
+        "allocationStateTransitionTime": "2024-01-05T07:16:05.6523599Z",
+        "vmSize": "small",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 0,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
+        },
+        "cloudServiceConfiguration": {
+          "osFamily": "4",
+          "osVersion": "*"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-3-50e5/resize?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "47eb6261-a512-4044-9058-25b738ea111d",
+        "Connection": "keep-alive",
+        "Content-Length": "53",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": {
+        "targetDedicatedNodes": 3,
+        "targetLowPriorityNodes": 2
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-50e5/resize",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:24 GMT",
+        "ETag": "0x8DC0DBE3A02CA95",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:24 GMT",
+        "request-id": "1a8e9031-df88-4b19-a1e3-bc868fc618c6",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "TEST_POOL3": "JSSDKTest-Pool-3-50e5"
+  }
+}

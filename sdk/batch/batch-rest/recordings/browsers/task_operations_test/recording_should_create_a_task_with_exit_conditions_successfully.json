@@ -1,0 +1,219 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "991cf8ab-8dad-465e-8a3d-9c298c7748ab",
+        "Connection": "keep-alive",
+        "Content-Length": "168",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": {
+        "id": "JobWithAutoComplete",
+        "poolInfo": {
+          "poolId": "dummypool"
+        },
+        "onAllTasksComplete": "noaction",
+        "onTaskFailure": "performexitoptionsjobaction",
+        "usesTaskDependencies": true
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/job-1",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "ETag": "0x8DC0DBE410E11AB",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "Location": "https://endpoint/jobs/job-1",
+        "request-id": "3533dc5e-7e1f-458a-8ee7-3b3e0c690a33",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "8983e743-9e27-4557-b4c8-cc3a05e58fd0",
+        "Connection": "keep-alive",
+        "Content-Length": "233",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": {
+        "id": "TaskWithAutoComplete",
+        "commandLine": "echo Hello World",
+        "exitConditions": {
+          "default": {
+            "jobAction": "terminate",
+            "dependencyAction": "satisfy"
+          },
+          "exitCodes": [
+            {
+              "code": 1,
+              "exitOptions": {
+                "jobAction": "none",
+                "dependencyAction": "block"
+              }
+            }
+          ]
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "ETag": "0x8DC0DBE41224734",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "Location": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete",
+        "request-id": "7732328f-dd01-4a81-a782-c3c83843f6ec",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "965ce7dc-46f4-430e-8e50-072ca1b132bc",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "ETag": "0x8DC0DBE41224734",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "request-id": "afce8e81-a90a-4eb9-864f-33634d524ea6",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
+        "id": "TaskWithAutoComplete",
+        "url": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete",
+        "eTag": "0x8DC0DBE41224734",
+        "creationTime": "2024-01-05T07:16:36.7480628Z",
+        "lastModified": "2024-01-05T07:16:36.7480628Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T07:16:36.7480628Z",
+        "commandLine": "echo Hello World",
+        "userIdentity": {
+          "autoUser": {
+            "scope": "pool",
+            "elevationLevel": "nonadmin"
+          }
+        },
+        "exitConditions": {
+          "exitCodes": [
+            {
+              "code": 1,
+              "exitOptions": {
+                "jobAction": "none",
+                "dependencyAction": "block"
+              }
+            }
+          ],
+          "default": {
+            "jobAction": "terminate",
+            "dependencyAction": "satisfy"
+          }
+        },
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "retentionTime": "P7D",
+          "maxTaskRetryCount": 0
+        },
+        "requiredSlots": 1,
+        "executionInfo": {
+          "retryCount": 0,
+          "requeueCount": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete?api-version=2023-11-01.18.0",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "f1c9739c-c1b6-44d9-a844-f978e4043d92",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:36 GMT",
+        "request-id": "36ae596c-2697-41dc-9f29-61b23ad14761",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

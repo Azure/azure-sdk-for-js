@@ -49,9 +49,9 @@ const recorderEnvSetup: RecorderStartOptions = {
  */
 export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
-  recorder.setMatcher('CustomDefaultMatcher', {
-    excludedHeaders: ['client-request-id'],
-  })
+  recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["client-request-id", "Accept-Language"],
+  });
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
@@ -77,6 +77,10 @@ export function createBatchClient(
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
+
+  // if (!isPlaybackMode() && env.AZURE_BATCH_ENDPOINT) {
+  //   throw Error("AZURE_BATCH_ENDPOINT env variable should be set in live mode");
+  // }
 
   return BatchServiceClient(
     env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",

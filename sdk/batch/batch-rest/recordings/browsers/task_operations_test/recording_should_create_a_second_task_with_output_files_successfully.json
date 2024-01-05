@@ -1,0 +1,184 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "caf3bbb3-5158-477b-a46b-ddf6bed41ab2",
+        "Connection": "keep-alive",
+        "Content-Length": "680",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Job-Basic-adf2-task2",
+        "commandLine": "cmd /c echo hello world",
+        "outputFiles": [
+          {
+            "filePattern": "../stdout.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/output.txt",
+                "uploadHeaders": [
+                  {
+                    "name": "x-ms-blob-content-type",
+                    "value": "text/plain"
+                  },
+                  {
+                    "name": "x-ms-blob-content-language",
+                    "value": "en-US"
+                  }
+                ]
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "taskCompletion"
+            }
+          },
+          {
+            "filePattern": "../stderr.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/error.txt"
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "taskFailure"
+            }
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task2",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:38 GMT",
+        "ETag": "0x8DC0DBE4228170A",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:38 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task2",
+        "request-id": "a590195c-801d-4200-9970-d420f2b3c523",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task2?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.9",
+        "Authorization": "Sanitized",
+        "client-request-id": "339346ef-1687-4604-98cb-0bec428dac01",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "\u0022Not:A-Brand\u0022;v=\u002299\u0022, \u0022Chromium\u0022;v=\u0022112\u0022",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36",
+        "x-ms-useragent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 OS/Windows"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 07:16:38 GMT",
+        "ETag": "0x8DC0DBE4228170A",
+        "Last-Modified": "Fri, 05 Jan 2024 07:16:38 GMT",
+        "request-id": "d7ae3556-8cde-4e3c-b150-4c04b050365a",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
+        "id": "JSSDKTest-Job-Basic-adf2-task2",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-adf2/tasks/JSSDKTest-Job-Basic-adf2-task2",
+        "eTag": "0x8DC0DBE4228170A",
+        "creationTime": "2024-01-05T07:16:38.463873Z",
+        "lastModified": "2024-01-05T07:16:38.463873Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T07:16:38.463873Z",
+        "commandLine": "cmd /c echo hello world",
+        "outputFiles": [
+          {
+            "filePattern": "../stdout.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/output.txt",
+                "uploadHeaders": [
+                  {
+                    "name": "x-ms-blob-content-type",
+                    "value": "text/plain"
+                  },
+                  {
+                    "name": "x-ms-blob-content-language",
+                    "value": "en-US"
+                  }
+                ]
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "TaskCompletion"
+            }
+          },
+          {
+            "filePattern": "../stderr.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/error.txt"
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "TaskFailure"
+            }
+          }
+        ],
+        "userIdentity": {
+          "autoUser": {
+            "scope": "pool",
+            "elevationLevel": "nonadmin"
+          }
+        },
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "retentionTime": "P7D",
+          "maxTaskRetryCount": 0
+        },
+        "requiredSlots": 1,
+        "executionInfo": {
+          "retryCount": 0,
+          "requeueCount": 0
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "JOB_NAME": "JSSDKTest-Job-Basic-adf2",
+    "TASK2_NAME": "JSSDKTest-Job-Basic-adf2-task2"
+  }
+}
