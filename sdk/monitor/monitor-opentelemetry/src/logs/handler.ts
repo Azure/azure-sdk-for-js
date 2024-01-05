@@ -38,3 +38,4 @@ export class LogHandler {
     return this._logRecordProcessor;
   }
 }
+
