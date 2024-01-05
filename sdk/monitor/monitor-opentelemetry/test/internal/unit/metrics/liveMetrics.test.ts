@@ -94,7 +94,7 @@ describe("#LiveMetrics", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 750));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
