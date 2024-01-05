@@ -49,6 +49,10 @@ export interface FeedOptions extends SharedOptions {
    * Indicates a change feed request. Must be set to "Incremental feed", or omitted otherwise. Default: false
    */
   useIncrementalFeed?: boolean;
+  /**
+   * Indicates a change feed request in allVersionsAndDelete mode. Default false.
+   */
+  useAllVersionsAndDeleteFeed?: boolean;
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */

@@ -68,6 +68,7 @@ export class ChangeFeedIterator<T> {
 
 // @public
 export interface ChangeFeedIteratorOptions {
+    changeFeedMode?: ChangeFeedMode;
     changeFeedStartFrom?: ChangeFeedStartFrom;
     maxItemCount?: number;
     sessionToken?: string;
@@ -87,6 +88,14 @@ export class ChangeFeedIteratorResponse<T> {
     readonly subStatusCode?: number;
 }
 
+// @public (undocumented)
+export enum ChangeFeedMode {
+    // (undocumented)
+    AllVersionsAndDeletes = "Full-Fidelity Feed",
+    // (undocumented)
+    LatestVersion = "Incremental feed"
+}
+
 // @public
 export interface ChangeFeedOptions {
     continuation?: string;
@@ -94,6 +103,13 @@ export interface ChangeFeedOptions {
     sessionToken?: string;
     startFromBeginning?: boolean;
     startTime?: Date;
+}
+
+// @public
+export class ChangeFeedPolicy {
+    constructor(retentionDuration: ChangeFeedRetentionTimeSpan);
+    // (undocumented)
+    retentionDuration: number;
 }
 
 // @public
@@ -116,6 +132,15 @@ export class ChangeFeedResponse<T> {
     readonly result: T;
     get sessionToken(): string;
     readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ChangeFeedRetentionTimeSpan {
+    constructor(minutes: number);
+    // (undocumented)
+    static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
+    // (undocumented)
+    getRetentionInMinutes(): number;
 }
 
 // @public
@@ -446,6 +471,7 @@ export const Constants: {
         ContinuationToken: string;
         PageSize: string;
         ItemCount: string;
+        ChangeFeedWireFormatVersion: string;
         ActivityId: string;
         PreTriggerInclude: string;
         PreTriggerExclude: string;
@@ -591,6 +617,8 @@ export class Container {
 
 // @public (undocumented)
 export interface ContainerDefinition {
+    // (undocumented)
+    changeFeedPolicy?: ChangeFeedPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -1015,6 +1043,7 @@ export interface FeedOptions extends SharedOptions {
     partitionKey?: PartitionKey;
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
+    useAllVersionsAndDeleteFeed?: boolean;
     useIncrementalFeed?: boolean;
 }
 

@@ -73,6 +73,7 @@ export const Constants = {
     ContinuationToken: "x-ms-continuation-token",
     PageSize: "x-ms-max-item-count",
     ItemCount: "x-ms-item-count",
+    ChangeFeedWireFormatVersion: "x-ms-cosmos-changefeed-wire-format-version",
 
     // Request sender generated. Simply echoed by backend.
     ActivityId: "x-ms-activity-id",

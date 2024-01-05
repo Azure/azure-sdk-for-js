@@ -115,6 +115,12 @@ export async function getHeaders({
     }
   }
 
+  if (options.useAllVersionsAndDeleteFeed) {
+    // headers required for reading feed in allVersionsAndDelete mode
+    headers[Constants.HttpHeaders.A_IM] = "Full-Fidelity Feed";
+    headers[Constants.HttpHeaders.ChangeFeedWireFormatVersion] = "2021-09-15";
+  }
+
   if (options.useIncrementalFeed) {
     headers[Constants.HttpHeaders.A_IM] = "Incremental Feed";
   }

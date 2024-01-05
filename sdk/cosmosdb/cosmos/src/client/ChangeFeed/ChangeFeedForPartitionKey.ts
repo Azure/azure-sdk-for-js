@@ -4,13 +4,14 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 import { Container, Resource } from "../../client";
 import { ClientContext } from "../../ClientContext";
-import { Constants, ResourceType } from "../../common";
+import { Constants, ResourceType, StatusCodes } from "../../common";
 import { FeedOptions, Response, ErrorResponse } from "../../request";
 import { ContinuationTokenForPartitionKey } from "./ContinuationTokenForPartitionKey";
 import { ChangeFeedPullModelIterator } from "./ChangeFeedPullModelIterator";
 import { PartitionKey } from "../../documents";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { ChangeFeedMode } from "./ChangeFeedMode";
 /**
  * @hidden
  * Provides iterator for change feed for one partition key.
@@ -22,6 +23,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private startTime: string;
   private rId: string;
   private isInstantiated: boolean;
+  private startFromNow: string;
   /**
    * @internal
    */
@@ -39,7 +41,13 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     this.isInstantiated = false;
 
     if (changeFeedOptions.startTime) {
-      this.startTime = changeFeedOptions.startTime.toUTCString();
+      if (typeof changeFeedOptions.startTime === "string") {
+        this.startFromNow = "*";
+      } else {
+        this.startTime = changeFeedOptions.startTime.toUTCString();
+      }
+    } else {
+      this.startTime = undefined;
     }
   }
 
@@ -119,8 +127,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private async getFeedResponse(
     diagnosticNode: DiagnosticNodeInternal
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
-    const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
-
+    const feedOptions: FeedOptions = {
+      initialHeaders: {},
+      useIncrementalFeed: true,
+      useAllVersionsAndDeleteFeed: false,
+    };
     if (typeof this.changeFeedOptions.maxItemCount === "number") {
       feedOptions.maxItemCount = this.changeFeedOptions.maxItemCount;
     }
@@ -135,29 +146,53 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         type: Constants.HttpHeaders.IfNoneMatch,
         condition: continuation,
       };
+    } else if (this.startFromNow) {
+      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] = "*";
     }
 
     if (this.startTime) {
       feedOptions.initialHeaders[Constants.HttpHeaders.IfModifiedSince] = this.startTime;
     }
+    if (
+      this.changeFeedOptions.changeFeedMode &&
+      this.changeFeedOptions.changeFeedMode === ChangeFeedMode.AllVersionsAndDeletes
+    ) {
+      feedOptions.useAllVersionsAndDeleteFeed = true;
+      feedOptions.useIncrementalFeed = false;
+    }
+    try {
+      const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
+        path: this.resourceLink,
+        resourceType: ResourceType.item,
+        resourceId: this.resourceId,
+        resultFn: (result) => (result ? result.Documents : []),
+        diagnosticNode,
+        query: undefined,
+        options: feedOptions,
+        partitionKey: this.partitionKey,
+      }) as Promise<any>);
+      return new ChangeFeedIteratorResponse(
+        response.result,
+        response.result ? response.result.length : 0,
+        response.code,
+        response.headers,
+        getEmptyCosmosDiagnostics()
+      );
+    } catch (err) {
+      if (err.code >= 400 && err.code !== StatusCodes.Gone) {
+        const errorResponse = new ErrorResponse(err.message);
+        errorResponse.code = err.code;
+        errorResponse.headers = err.headers;
 
-    const response: Response<Array<T & Resource>> = await (this.clientContext.queryFeed<T>({
-      path: this.resourceLink,
-      resourceType: ResourceType.item,
-      resourceId: this.resourceId,
-      resultFn: (result) => (result ? result.Documents : []),
-      diagnosticNode,
-      query: undefined,
-      options: feedOptions,
-      partitionKey: this.partitionKey,
-    }) as Promise<any>);
-
-    return new ChangeFeedIteratorResponse(
-      response.result,
-      response.result ? response.result.length : 0,
-      response.code,
-      response.headers,
-      getEmptyCosmosDiagnostics()
-    );
+        throw errorResponse;
+      }
+      return new ChangeFeedIteratorResponse(
+        [],
+        0,
+        err.code,
+        err.headers,
+        getEmptyCosmosDiagnostics()
+      );
+    }
   }
 }

@@ -97,13 +97,13 @@ export function isEpkRange(obj: unknown): boolean {
 export function buildInternalChangeFeedOptions(
   options: ChangeFeedIteratorOptions,
   continuationToken?: string,
-  startTime?: Date
+  startTime?: Date | string
 ): InternalChangeFeedIteratorOptions {
   const internalCfOptions = {} as InternalChangeFeedIteratorOptions;
   internalCfOptions.maxItemCount = options?.maxItemCount;
   internalCfOptions.sessionToken = options?.sessionToken;
   internalCfOptions.continuationToken = continuationToken;
-
+  internalCfOptions.changeFeedMode = options?.changeFeedMode;
   // Default option of changefeed is to start from now.
   internalCfOptions.startTime = startTime;
   return internalCfOptions;
@@ -111,11 +111,13 @@ export function buildInternalChangeFeedOptions(
 /**
  * @hidden
  */
-export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date | undefined {
+export function fetchStartTime(
+  changeFeedStartFrom: ChangeFeedStartFrom
+): Date | string | undefined {
   if (changeFeedStartFrom instanceof ChangeFeedStartFromBeginning) {
     return undefined;
   } else if (changeFeedStartFrom instanceof ChangeFeedStartFromNow) {
-    return new Date();
+    return "*";
   } else if (changeFeedStartFrom instanceof ChangeFeedStartFromTime) {
     return changeFeedStartFrom.getStartTime();
   }
