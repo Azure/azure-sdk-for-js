@@ -1,0 +1,41 @@
+[
+  {
+    "to": {
+      "kind": "communicationUser",
+      "rawId": "sanitized",
+      "communicationUser": {
+        "id": "sanitized"
+      }
+    },
+    "from": {
+      "kind": "communicationUser",
+      "rawId": "sanitized",
+      "communicationUser": {
+        "id": "sanitized"
+      }
+    },
+    "serverCallId": "sanitized",
+    "callerDisplayName": "",
+    "incomingCallContext": "sanitized",
+    "correlationId": "sanitized"
+  },
+  [
+    {
+      "id": "sanitized",
+      "source": "calling/callConnections/411f0b00-36b7-49fb-89c3-18cbd14fa9b3",
+      "type": "Microsoft.Communication.CallDisconnected",
+      "data": {
+        "eventSource": "calling/callConnections/411f0b00-36b7-49fb-89c3-18cbd14fa9b3",
+        "operationContext": "operationContextRejectCall",
+        "version": "2023-10-03-preview",
+        "callConnectionId": "411f0b00-36b7-49fb-89c3-18cbd14fa9b3",
+        "correlationId": "sanitized",
+        "publicEventType": "Microsoft.Communication.CallDisconnected"
+      },
+      "time": "2023-12-28T22:50:40.9039532+00:00",
+      "specversion": "1.0",
+      "datacontenttype": "application/json",
+      "subject": "calling/callConnections/411f0b00-36b7-49fb-89c3-18cbd14fa9b3"
+    }
+  ]
+]

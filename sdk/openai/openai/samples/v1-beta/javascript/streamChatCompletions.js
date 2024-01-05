@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to stream chat completions for a chat context.
+ * Demonstrates how to list chat completions for a chat context.
  *
- * @summary stream chat completions.
+ * @summary list chat completions.
  */
 
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
@@ -16,27 +16,12 @@ require("dotenv").config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-function streamChatCompletions(client, deploymentId, messages, options) {
-  const events = client.listChatCompletions(deploymentId, messages, options);
-  const stream = new ReadableStream({
-    async start(controller) {
-      for await (const event of events) {
-        controller.enqueue(event);
-      }
-      controller.close();
-    },
-  });
-
-  return stream;
-}
-
 async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const stream = streamChatCompletions(
-    client,
+  const events = await client.streamChatCompletions(
     deploymentId,
     [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
@@ -46,16 +31,10 @@ async function main() {
     ],
     { maxTokens: 128 },
   );
-  const reader = stream.getReader();
-  while (true) {
-    const { done, value } = await reader.read();
-    if (done) {
-      break;
-    }
-    for (const choice of value.choices) {
-      if (choice.delta?.content !== undefined) {
-        console.log(choice.delta?.content);
-      }
+
+  for await (const event of events) {
+    for (const choice of event.choices) {
+      console.log(choice.delta?.content);
     }
   }
 }

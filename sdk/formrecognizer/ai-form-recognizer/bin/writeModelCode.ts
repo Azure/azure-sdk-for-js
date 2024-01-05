@@ -102,11 +102,11 @@ export async function writeModelCode(model: DocumentModelDetails, test: boolean)
         ? // In the case of multiple variants, a union
           variantNames.map((n) => `${EOL}  | ${n}`).join("")
         : variantNames.length === 1
-        ? // For a single variant, just emit its name.
-          ` ${variantNames[0]}`
-        : // This should probably be unreachable, since there's no case where
-          // `hasDocuments && variantNames.length === 0`, but we'll still emit "never" just in case.
-          " never";
+          ? // For a single variant, just emit its name.
+            ` ${variantNames[0]}`
+          : // This should probably be unreachable, since there's no case where
+            // `hasDocuments && variantNames.length === 0`, but we'll still emit "never" just in case.
+            " never";
 
     // Finally, add the type alias for the type of a Document
     contents += `export type ${documentTypeName} =${documentType};${EOL + EOL}`;
@@ -147,7 +147,7 @@ export async function writeModelCode(model: DocumentModelDetails, test: boolean)
 // Get the doc type variants of a model.
 function extractModelVariants(
   model: DocumentModelDetails,
-  _rootSlug: string[]
+  _rootSlug: string[],
 ): Record<string, DocType> {
   const result: ReturnType<typeof extractModelVariants> = {};
 
@@ -178,7 +178,7 @@ function* writeDocTypeInterface(docType: DocType): Iterable<string> {
       name: "docType",
       type: `"${docType.originalDocType}"`,
       docContents: `Document type: "${docType.originalDocType}".`,
-    })
+    }),
   );
 
   yield* indent(
@@ -186,7 +186,7 @@ function* writeDocTypeInterface(docType: DocType): Iterable<string> {
       name: "fields",
       type: docType.name + "Fields",
       docContents: "Document fields.",
-    })
+    }),
   );
 
   yield* indent(
@@ -210,8 +210,8 @@ function* writeDocTypeInterface(docType: DocType): Iterable<string> {
           type: "number",
         },
       ],
-      writeField
-    )
+      writeField,
+    ),
   );
 
   yield "}";
@@ -243,7 +243,7 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
   // Recursively visit all child interfaces and write them.
   yield* (function* collectNestedInterfaces(
     fields: Record<string, DocumentFieldSchema>,
-    namingContext: string
+    namingContext: string,
   ): Iterable<string> {
     for (const [fieldName, schema] of Object.entries(fields)) {
       if (schema.type === "array" && schema.items?.type === "object") {
@@ -256,7 +256,7 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
         yield* writeInterfaceDeclaration(
           nextNamingContext,
           schema.description,
-          schema.items?.properties ?? {}
+          schema.items?.properties ?? {},
         );
 
         yield* collectNestedInterfaces(schema.items?.properties ?? {}, nextNamingContext);
@@ -268,7 +268,7 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
         yield* writeInterfaceDeclaration(
           namingContext + fieldName,
           schema.description,
-          schema.properties ?? {}
+          schema.properties ?? {},
         );
 
         yield* collectNestedInterfaces(schema.properties ?? {}, namingContext + fieldName);
@@ -286,7 +286,7 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
   function* writeInterfaceDeclaration(
     interfaceName: string,
     description: string | undefined,
-    fields: Record<string, DocumentFieldSchema>
+    fields: Record<string, DocumentFieldSchema>,
   ) {
     yield "/**";
     yield ` * Describes the fields of \`${interfaceName}\`.`;
@@ -313,8 +313,8 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
             docContents: schema.description ?? `\`${docType.name}\` "${fieldName}" field`,
             optional: true as const,
           })),
-          writeField
-        )
+          writeField,
+        ),
       );
       yield suffix;
     }
@@ -365,7 +365,7 @@ function writeType(schema: DocumentFieldSchema, name: string, slug: string[]): s
 function* writeResultInterface(
   name: string,
   documentInterfaceName: string,
-  features: string[]
+  features: string[],
 ): Iterable<string> {
   const hasDocuments = features.some((f) => f === "_documents");
 
@@ -373,8 +373,8 @@ function* writeResultInterface(
   yield* indent(
     flatMap(
       features.filter((f) => f !== "_documents"),
-      (f) => writeField(defaultResultFields[f])
-    )
+      (f) => writeField(defaultResultFields[f]),
+    ),
   );
   if (hasDocuments) {
     yield* indent(
@@ -382,7 +382,7 @@ function* writeResultInterface(
         name: "documents",
         type: documentInterfaceName + "[]",
         docContents: "Extracted documents.",
-      })
+      }),
     );
   }
   yield "}";

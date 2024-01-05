@@ -64,7 +64,7 @@ async function createsSpecificPolicy() {
         }
       ]
     },
-    location: "WestUs",
+    location: "global",
     managedRules: {
       managedRuleSets: [
         {

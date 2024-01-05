@@ -56,7 +56,7 @@ async function main() {
       onProgress(state) {
         console.log(`Training status: ${state.status}`);
       },
-    }
+    },
   );
 
   let classifier;

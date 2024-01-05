@@ -39,7 +39,7 @@ export interface ExponentialRetryPolicyOptions {
  * @param options - Options that configure retry logic.
  */
 export function exponentialRetryPolicy(
-  options: ExponentialRetryPolicyOptions = {}
+  options: ExponentialRetryPolicyOptions = {},
 ): PipelinePolicy {
   return retryPolicy(
     [
@@ -50,6 +50,6 @@ export function exponentialRetryPolicy(
     ],
     {
       maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-    }
+    },
   );
 }

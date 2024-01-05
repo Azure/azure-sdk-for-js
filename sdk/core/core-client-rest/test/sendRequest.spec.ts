@@ -73,7 +73,7 @@ describe("sendRequest", () => {
         assert.instanceOf(request.formData?.file, Blob);
         assert.sameOrderedMembers(
           [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
-          [...foo]
+          [...foo],
         );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
@@ -348,5 +348,23 @@ describe("sendRequest", () => {
       headers: { "content-type": "foo" },
       body: "test",
     });
+  });
+
+  it("should call onResponse", async () => {
+    let called = false;
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async () => {
+      return {
+        headers: createHttpHeaders(),
+      } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, {
+      body: "{}",
+      onResponse: () => {
+        called = true;
+      },
+    });
+    assert.isTrue(called);
   });
 });
