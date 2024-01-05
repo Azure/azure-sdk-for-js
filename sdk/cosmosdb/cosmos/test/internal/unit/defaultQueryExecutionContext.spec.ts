@@ -35,7 +35,6 @@ describe("defaultQueryExecutionContext", function () {
     };
 
     const correlatedId = "random-id";
-
     const context = new DefaultQueryExecutionContext(options, fetchFunction, correlatedId);
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");

@@ -82,7 +82,6 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-
   public async *getAsyncIterator(): AsyncIterable<FeedResponse<T>> {
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
@@ -165,7 +164,6 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
-
   public async fetchNext(): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       this.queryPlanPromise = withMetadataDiagnostics(

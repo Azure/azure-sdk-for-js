@@ -211,7 +211,7 @@ export class ClientContext {
     }
 
     if (query !== undefined) {
-      if (resourceType === ResourceType.item) {
+      if (correlatedActivityId !== undefined) {
         request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
       }
       request.headers[HttpHeaders.IsQuery] = "true";
@@ -264,7 +264,7 @@ export class ClientContext {
       request.operationType
     );
     request.headers = await this.buildHeaders(request);
-    if (resourceType === ResourceType.item) {
+    if (correlatedActivityId !== undefined) {
       request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
     }
     request.headers[HttpHeaders.IsQueryPlan] = "True";
