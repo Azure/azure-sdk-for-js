@@ -50,7 +50,7 @@ describe("TracingClient", () => {
       client.startSpan("test", {});
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
       );
     });
 
@@ -69,7 +69,7 @@ describe("TracingClient", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        expectedNamespace
+        expectedNamespace,
       );
     });
 
@@ -80,7 +80,7 @@ describe("TracingClient", () => {
       });
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        "Existing.Namespace"
+        "Existing.Namespace",
       );
     });
 
@@ -118,7 +118,7 @@ describe("TracingClient", () => {
       });
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
       );
     });
 
@@ -158,7 +158,7 @@ describe("TracingClient", () => {
         },
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
-        }
+        },
       );
     });
 

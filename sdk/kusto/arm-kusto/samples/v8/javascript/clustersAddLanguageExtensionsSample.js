@@ -31,7 +31,7 @@ async function kustoClusterAddLanguageExtensions() {
   const result = await client.clusters.beginAddLanguageExtensionsAndWait(
     resourceGroupName,
     clusterName,
-    languageExtensionsToAdd
+    languageExtensionsToAdd,
   );
   console.log(result);
 }

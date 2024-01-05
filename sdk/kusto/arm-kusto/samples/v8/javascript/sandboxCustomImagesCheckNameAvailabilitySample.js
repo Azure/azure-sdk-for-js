@@ -32,7 +32,7 @@ async function kustoSandboxCustomImagesCheckNameAvailability() {
   const result = await client.sandboxCustomImages.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

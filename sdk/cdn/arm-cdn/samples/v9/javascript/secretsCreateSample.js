@@ -39,7 +39,7 @@ async function secretsCreate() {
     resourceGroupName,
     profileName,
     secretName,
-    secret
+    secret,
   );
   console.log(result);
 }

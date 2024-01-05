@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Guard against unrecognized value types in the form data policy.
+
 ### Other Changes
 
 ## 1.13.0 (2023-12-07)

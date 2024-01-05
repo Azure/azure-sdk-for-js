@@ -29,7 +29,7 @@ async function kustoDatabasesDelete() {
   const result = await client.databases.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

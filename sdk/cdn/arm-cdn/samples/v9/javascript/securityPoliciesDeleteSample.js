@@ -28,7 +28,7 @@ async function securityPoliciesDelete() {
   const result = await client.securityPolicies.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    securityPolicyName
+    securityPolicyName,
   );
   console.log(result);
 }
