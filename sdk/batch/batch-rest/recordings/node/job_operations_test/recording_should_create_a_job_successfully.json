@@ -1,0 +1,96 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "42b24efa-d569-485d-b4f9-92afe44e957a",
+        "Connection": "keep-alive",
+        "Content-Length": "83",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Job-Basic-a956",
+        "poolInfo": {
+          "poolId": "JSSDKTest-Pool-Basic-0fc0"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/job-1",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 03:23:15 GMT",
+        "ETag": "0x8DC0D9DA7C62337",
+        "Last-Modified": "Fri, 05 Jan 2024 03:23:15 GMT",
+        "Location": "https://endpoint/jobs/job-1",
+        "request-id": "0cd66dc7-76e7-4a97-b88e-759e9ba35ab3",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-a956?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "8706fd4a-4d56-40c6-a5bc-a39485986b60",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 03:23:15 GMT",
+        "ETag": "0x8DC0D9DA7C62337",
+        "Last-Modified": "Fri, 05 Jan 2024 03:23:15 GMT",
+        "request-id": "3c3ed1a9-36cf-4404-bc27-c9c1eb52d1ed",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#jobs/@Element",
+        "id": "JSSDKTest-Job-Basic-a956",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-a956",
+        "eTag": "0x8DC0D9DA7C62337",
+        "lastModified": "2024-01-05T03:23:15.5574583Z",
+        "creationTime": "2024-01-05T03:23:15.5374574Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T03:23:15.5574583Z",
+        "priority": 0,
+        "maxParallelTasks": -1,
+        "usesTaskDependencies": false,
+        "allowTaskPreemption": false,
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "maxTaskRetryCount": 0
+        },
+        "poolInfo": {
+          "poolId": "JSSDKTest-Pool-Basic-0fc0"
+        },
+        "executionInfo": {
+          "startTime": "2024-01-05T03:23:15.5574583Z",
+          "poolId": "JSSDKTest-Pool-Basic-0fc0"
+        },
+        "onAllTasksComplete": "noaction",
+        "onTaskFailure": "noaction"
+      }
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-0fc0",
+    "JOB_NAME": "JSSDKTest-Job-Basic-a956"
+  }
+}

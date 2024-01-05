@@ -7,14 +7,14 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
+        "client-request-id": "15616aa3-f1e1-4fd4-9824-73d53fd9437d",
         "Connection": "keep-alive",
         "Content-Length": "290",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.10.2 Node/v18.14.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "client-request-id": "0a3f228b-7695-4729-bb17-e4fc3df11e1e"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Basic-8190",
+        "id": "JSSDKTest-Pool-Basic-8197",
         "vmSize": "Standard_D1_v2",
         "cloudServiceConfiguration": {
           "osFamily": "4"
@@ -33,13 +33,13 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 09 May 2023 07:06:55 GMT",
-        "ETag": "0x8DB505BF97B05EC",
-        "Last-Modified": "Tue, 09 May 2023 07:06:56 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-8190",
-        "request-id": "1de894b4-36f7-41e4-9780-2e18040347fd",
+        "Date": "Fri, 05 Jan 2024 06:02:16 GMT",
+        "ETag": "0x8DC0DB3DECC8DC9",
+        "Last-Modified": "Fri, 05 Jan 2024 06:02:16 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
+        "request-id": "54e927f2-92bf-4d56-adb2-e355a74ceddd",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -49,6 +49,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-8190"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-8197"
   }
 }

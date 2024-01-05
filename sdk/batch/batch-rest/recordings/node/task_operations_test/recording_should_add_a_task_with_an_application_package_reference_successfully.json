@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "d513f361-e841-4a0b-b270-2dfb2b9d53a7",
+        "Connection": "keep-alive",
+        "Content-Length": "135",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "Task-AppPackage",
+        "commandLine": "cmd /c echo hello world",
+        "applicationPackageReferences": [
+          {
+            "applicationId": "my_application_id"
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/Task-AppPackage",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:08 GMT",
+        "ETag": "0x8DC0DB13294E3B3",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:08 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/Task-AppPackage",
+        "request-id": "c41cba41-5507-4561-b72b-a9cb1a837528",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/Task-AppPackage?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "4b9a239d-2d66-46eb-a760-52ef1dd10cf5",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:08 GMT",
+        "ETag": "0x8DC0DB13294E3B3",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:08 GMT",
+        "request-id": "d72f60a8-577d-468d-ac88-9a61d666e025",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
+        "id": "Task-AppPackage",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/Task-AppPackage",
+        "eTag": "0x8DC0DB13294E3B3",
+        "creationTime": "2024-01-05T05:43:08.8758707Z",
+        "lastModified": "2024-01-05T05:43:08.8758707Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T05:43:08.8758707Z",
+        "commandLine": "cmd /c echo hello world",
+        "applicationPackageReferences": [
+          {
+            "applicationId": "my_application_id"
+          }
+        ],
+        "userIdentity": {
+          "autoUser": {
+            "scope": "pool",
+            "elevationLevel": "nonadmin"
+          }
+        },
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "retentionTime": "P7D",
+          "maxTaskRetryCount": 0
+        },
+        "requiredSlots": 1,
+        "executionInfo": {
+          "retryCount": 0,
+          "requeueCount": 0
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "JOB_NAME": "JSSDKTest-Job-Basic-4a55"
+  }
+}

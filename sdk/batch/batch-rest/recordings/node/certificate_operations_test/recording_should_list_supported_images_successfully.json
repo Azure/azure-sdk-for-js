@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "80e96cb6-ace2-4abf-a449-c28e3d11bfe8",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:59:03 GMT",
+        "request-id": "0e6eb467-972f-4540-96eb-992471568afe",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#supportedimages",
+        "value": [
+          {
+            "imageReference": {
+              "publisher": "almalinux",
+              "offer": "almalinux",
+              "sku": "8-gen1",
+              "version": "latest"
+            },
+            "verificationType": "unverified",
+            "nodeAgentSKUId": "batch.node.el 8",
+            "osType": "linux"
+          },
+          {
+            "imageReference": {
+              "publisher": "almalinux",
+              "offer": "almalinux",
+              "sku": "8-gen2",
+              "version": "latest"
+            },
+            "verificationType": "unverified",
+            "nodeAgentSKUId": "batch.node.el 8",
+            "capabilities": [
+              "Generation2VMImage"
+            ],
+            "osType": "linux"
+          }
+        ],
+        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0\u0026$skiptoken=WATV2:dC2Zw0OCOECJStP4LBh4CA6yxeZKUghorz20jwxzQJUXPP2E5AKF4evXQUqhT5E56ogXB0KQvqEp3h1eDSc59miz6IfUHPLZlKt4eeZwoRBt/pxGSDAQ2UgLaYPjZS6YpOkGIHXw84k/dMNwrBiDEJnHejOETFwy7jMSKWFaogAESzGBWo4dfA8q^Lb5hnW0:1$1"
+      }
+    }
+  ],
+  "Variables": {}
+}

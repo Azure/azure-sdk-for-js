@@ -54,9 +54,10 @@ describe("Job Operations Test", () => {
 
       const poolPostResult = await batchClient.path("/pools").post(poolParams);
       if (isUnexpected(poolPostResult)) {
+        console.dir(poolPostResult, { depth: null })
         fail(`Received unexpected status code from creating pool: ${poolPostResult.status}
               Unable to provision resource needed for Job Testing.
-              Response Body: ${poolPostResult.body.message}`);
+              Response Body: ${poolPostResult.body}`);
       }
     }
   });

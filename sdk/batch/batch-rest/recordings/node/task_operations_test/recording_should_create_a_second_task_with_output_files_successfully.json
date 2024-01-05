@@ -1,0 +1,166 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "dfb5dedc-b7e0-4ed4-8066-817c69a53282",
+        "Connection": "keep-alive",
+        "Content-Length": "680",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Job-Basic-4a55-task2",
+        "commandLine": "cmd /c echo hello world",
+        "outputFiles": [
+          {
+            "filePattern": "../stdout.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/output.txt",
+                "uploadHeaders": [
+                  {
+                    "name": "x-ms-blob-content-type",
+                    "value": "text/plain"
+                  },
+                  {
+                    "name": "x-ms-blob-content-language",
+                    "value": "en-US"
+                  }
+                ]
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "taskCompletion"
+            }
+          },
+          {
+            "filePattern": "../stderr.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/error.txt"
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "taskFailure"
+            }
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task2",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:05 GMT",
+        "ETag": "0x8DC0DB130EC2827",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:06 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task2",
+        "request-id": "41316433-a933-43f1-93d4-4717b65a4990",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task2?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "2b235e43-2935-4ccf-a43f-c5be70ceb39e",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:05 GMT",
+        "ETag": "0x8DC0DB130EC2827",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:06 GMT",
+        "request-id": "28adfa2f-30af-4c8b-8601-71712e2d88e1",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
+        "id": "JSSDKTest-Job-Basic-4a55-task2",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task2",
+        "eTag": "0x8DC0DB130EC2827",
+        "creationTime": "2024-01-05T05:43:06.0923431Z",
+        "lastModified": "2024-01-05T05:43:06.0923431Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T05:43:06.0923431Z",
+        "commandLine": "cmd /c echo hello world",
+        "outputFiles": [
+          {
+            "filePattern": "../stdout.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/output.txt",
+                "uploadHeaders": [
+                  {
+                    "name": "x-ms-blob-content-type",
+                    "value": "text/plain"
+                  },
+                  {
+                    "name": "x-ms-blob-content-language",
+                    "value": "en-US"
+                  }
+                ]
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "TaskCompletion"
+            }
+          },
+          {
+            "filePattern": "../stderr.txt",
+            "destination": {
+              "container": {
+                "containerUrl": "https://teststorage.blob.core.windows.net/batch-sdk-test?se=fakeToken",
+                "path": "taskLogs/error.txt"
+              }
+            },
+            "uploadOptions": {
+              "uploadCondition": "TaskFailure"
+            }
+          }
+        ],
+        "userIdentity": {
+          "autoUser": {
+            "scope": "pool",
+            "elevationLevel": "nonadmin"
+          }
+        },
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "retentionTime": "P7D",
+          "maxTaskRetryCount": 0
+        },
+        "requiredSlots": 1,
+        "executionInfo": {
+          "retryCount": 0,
+          "requeueCount": 0
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "JOB_NAME": "JSSDKTest-Job-Basic-4a55",
+    "TASK2_NAME": "JSSDKTest-Job-Basic-4a55-task2"
+  }
+}

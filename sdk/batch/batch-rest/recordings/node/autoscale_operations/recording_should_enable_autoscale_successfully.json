@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-bd6c/enableautoscale?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "44b5f56a-e4fe-4fff-939c-4faa17015195",
+        "Connection": "keep-alive",
+        "Content-Length": "83",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "autoScaleFormula": "$TargetDedicatedNodes=2",
+        "autoScaleEvaluationInterval": "PT6M"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-bd6c/enableautoscale",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 06:16:55 GMT",
+        "ETag": "0x8DC0DB5EACC0075",
+        "Last-Modified": "Fri, 05 Jan 2024 06:16:55 GMT",
+        "request-id": "9487d414-7eaf-419c-bcc5-6d43e5907fc3",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-bd6c"
+  }
+}

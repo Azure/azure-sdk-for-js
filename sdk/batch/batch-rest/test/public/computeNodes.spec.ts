@@ -16,8 +16,7 @@ import {
 } from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
 import { fail } from "assert";
-import { getResourceName, LONG_TEST_TIMEOUT, POLLING_INTERVAL } from "./utils/helpers";
-import { wait } from "./utils/wait";
+import { getResourceName, LONG_TEST_TIMEOUT, waitForNotNull } from "./utils/helpers";
 
 const BASIC_POOL = getResourceName("Pool-Basic");
 const BASIC_POOL_NUM_VMS = 4;
@@ -90,36 +89,34 @@ describe("Compute node operations", async () => {
   });
 
   it("should list compute nodes successfully", async () => {
-    let listNodesResult;
     const poolId = recorder.variable("BASIC_POOL", BASIC_POOL);
 
-    const nodesProvisioning = true;
-    do {
-      listNodesResult = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
-      if (isUnexpected(listNodesResult)) {
-        fail(`Received unexpected status code from getting pool: ${listNodesResult.status}
-              Response Body: ${listNodesResult.body.message}`);
+    const getListNodesResult = async () => {
+      const res = await batchClient.path("/pools/{poolId}/nodes", poolId).get();
+      if (isUnexpected(res)) {
+        fail(`Received unexpected status code from getting pool: ${res.status}
+              Response Body: ${res.body.message}`);
       }
-
       if (
-        (listNodesResult.body.value?.length ?? 0) > 0 &&
-        listNodesResult.body.value!.filter(
-          (node) => node.state === "starting" || node.state === "waitingforstarttask"
+        (res.body.value?.length ?? 0) > 0 &&
+        res.body.value!.filter((node) =>
+          ["starting", "waitingforstarttask", "creating"].includes(node.state!)
         ).length === 0
       ) {
-        const nodeList = listNodesResult.body.value!;
-        computeNodes = nodeList.map(function (x) {
-          return x.id!;
-        });
-        assert.equal(nodeList[0].state, "idle");
-        assert.equal(nodeList[0].schedulingState, "enabled");
-        assert.isTrue(nodeList[0].isDedicated);
-        assert.equal(listNodesResult.body.value?.length, BASIC_POOL_NUM_VMS);
-        break;
-      } else {
-        await wait(POLLING_INTERVAL);
+        return res;
       }
-    } while (nodesProvisioning);
+      return null;
+    };
+
+    const listNodesResult = await waitForNotNull(getListNodesResult);
+    const nodeList = listNodesResult.body.value!;
+    computeNodes = nodeList.map(function (x) {
+      return x.id!;
+    });
+    assert.equal(nodeList[0].state, "idle");
+    assert.equal(nodeList[0].schedulingState, "enabled");
+    assert.isTrue(nodeList[0].isDedicated);
+    assert.equal(listNodesResult.body.value?.length, BASIC_POOL_NUM_VMS);
   }).timeout(LONG_TEST_TIMEOUT);
 
   it("should get a compute node reference", async () => {

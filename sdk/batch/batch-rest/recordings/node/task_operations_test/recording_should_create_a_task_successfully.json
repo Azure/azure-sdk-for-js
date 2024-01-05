@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "217bfbac-2b85-4ca1-9a28-a69dd02dc078",
+        "Connection": "keep-alive",
+        "Content-Length": "89",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Job-Basic-4a55-task1",
+        "commandLine": "cmd /c echo hello \u003E taskHello.txt"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task1",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:04 GMT",
+        "ETag": "0x8DC0DB1305FDC6F",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:05 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/JSSDKTest-Job-Basic-4a55-task1",
+        "request-id": "7be8afbd-6997-4044-a2f2-6a6251212c28",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "JOB_NAME": "JSSDKTest-Job-Basic-4a55",
+    "TASK_NAME": "JSSDKTest-Job-Basic-4a55-task1"
+  }
+}

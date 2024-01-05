@@ -1,0 +1,124 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "c0f8d057-c40a-45df-a8eb-9b586ff2e7a8",
+        "Connection": "keep-alive",
+        "Content-Length": "117",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "taskWithContainerSettings",
+        "commandLine": "cat /etc/centos-release",
+        "containerSettings": {
+          "imageName": "centos"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/taskWithContainerSettings",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:02 GMT",
+        "ETag": "0x8DC0DB12F22E499",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:03 GMT",
+        "Location": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/taskWithContainerSettings",
+        "request-id": "fc812a87-b0b3-4103-9bb6-ff78d2fecc0c",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/taskWithContainerSettings?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "b4fca038-7b71-4d3f-a8ed-0aac72b0d050",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:02 GMT",
+        "ETag": "0x8DC0DB12F22E499",
+        "Last-Modified": "Fri, 05 Jan 2024 05:43:03 GMT",
+        "request-id": "b3f63d22-feff-49a4-b871-bee3f8e14699",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#tasks/@Element",
+        "id": "taskWithContainerSettings",
+        "url": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/taskWithContainerSettings",
+        "eTag": "0x8DC0DB12F22E499",
+        "creationTime": "2024-01-05T05:43:03.0956185Z",
+        "lastModified": "2024-01-05T05:43:03.0956185Z",
+        "state": "active",
+        "stateTransitionTime": "2024-01-05T05:43:03.0956185Z",
+        "commandLine": "cat /etc/centos-release",
+        "containerSettings": {
+          "imageName": "centos",
+          "workingDirectory": "taskWorkingDirectory"
+        },
+        "userIdentity": {
+          "autoUser": {
+            "scope": "pool",
+            "elevationLevel": "nonadmin"
+          }
+        },
+        "constraints": {
+          "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+          "retentionTime": "P7D",
+          "maxTaskRetryCount": 0
+        },
+        "requiredSlots": 1,
+        "executionInfo": {
+          "retryCount": 0,
+          "requeueCount": 0
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/jobs/JSSDKTest-Job-Basic-4a55/tasks/taskWithContainerSettings?api-version=2023-11-01.18.0",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "b1dfd95b-b371-4355-b5aa-101435078747",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:43:02 GMT",
+        "request-id": "08157d98-41cb-4cfc-b3f4-fa28726a2dbe",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "JOB_NAME": "JSSDKTest-Job-Basic-4a55"
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "f8fb78fb-ebf3-4396-8f85-785bac4e2379",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 04:21:38 GMT",
+        "request-id": "a81cdf09-d862-4721-bf82-e0628804662a",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#nodes/@Element",
+        "id": "tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+        "state": "idle",
+        "schedulingState": "enabled",
+        "stateTransitionTime": "2024-01-05T04:21:09.883747Z",
+        "lastBootTime": "2024-01-05T04:21:09.008803Z",
+        "allocationTime": "2024-01-05T04:19:29.1379318Z",
+        "ipAddress": "10.218.0.7",
+        "affinityId": "TVM:tvmps_2ccd924749ef05fdfc35ecfef53b07149e99222b7cc2de82a5f8fe312ea51edf_d",
+        "vmSize": "standard_d1_v2",
+        "totalTasksRun": 0,
+        "totalTasksSucceeded": 0,
+        "runningTasksCount": 0,
+        "runningTaskSlotsCount": 0,
+        "startTask": {
+          "commandLine": "cmd /c echo hello \u003E hello.txt",
+          "userIdentity": {
+            "autoUser": {
+              "scope": "pool",
+              "elevationLevel": "nonadmin"
+            }
+          },
+          "maxTaskRetryCount": 0,
+          "waitForSuccess": true
+        },
+        "startTaskInfo": {
+          "state": "completed",
+          "startTime": "2024-01-05T04:21:09.790001Z",
+          "endTime": "2024-01-05T04:21:09.868123Z",
+          "exitCode": 0,
+          "result": "success",
+          "retryCount": 0
+        },
+        "certificateReferences": [],
+        "isDedicated": true,
+        "endpointConfiguration": {
+          "inboundEndpoints": [
+            {
+              "name": "Microsoft.WindowsAzure.Plugins.RemoteForwarder.RdpInput",
+              "protocol": "tcp",
+              "frontendPort": 3389,
+              "backendPort": 20000
+            }
+          ]
+        },
+        "nodeAgentInfo": {
+          "lastUpdateTime": "2024-01-05T04:21:09.008803Z",
+          "version": "1.11.7"
+        },
+        "virtualMachineInfo": {}
+      }
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+  }
+}

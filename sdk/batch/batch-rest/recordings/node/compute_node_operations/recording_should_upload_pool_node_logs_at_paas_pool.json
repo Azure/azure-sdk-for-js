@@ -1,0 +1,41 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-82a4/nodes/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d/uploadbatchservicelogs?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "a26186f0-aa23-40e3-a7bd-ba7d18220f78",
+        "Connection": "keep-alive",
+        "Content-Length": "113",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "containerUrl": "https://teststorage.blob.core.windows.net/fakecontainer",
+        "startTime": "2018-02-24T16:00:00.000Z"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 04:21:42 GMT",
+        "request-id": "c17ca9e1-b4f7-4d36-bff0-a6852d00eb0d",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.UploadBatchServiceLogsResult",
+        "virtualDirectoryName": "batch_account-22EE1B6FCE49EEEE/jssdktest-pool-basic-82a4/tvmps_b427c080194de9e6457f32ba8ebb9f275bdc98525a5f9f956bfd13404146d8c7_d/c17ca9e1-b4f7-4d36-bff0-a6852d00eb0d",
+        "numberOfFilesUploaded": 4
+      }
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-82a4"
+  }
+}

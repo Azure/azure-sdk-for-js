@@ -42,7 +42,7 @@ module.exports = function (config) {
     // list of files / patterns to exclude
     exclude: [],
 
-    // preprocess matching files before serving them to the browser
+    // preprocess matching files before serving them to the browserCC
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],

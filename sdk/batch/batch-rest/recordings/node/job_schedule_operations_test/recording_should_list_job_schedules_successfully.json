@@ -1,0 +1,70 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobschedules?api-version=2023-11-01.18.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "a0509707-5f49-4375-9d84-c4672653bbfc",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:59:59 GMT",
+        "request-id": "f8af353c-8231-40c2-b3a9-ddf09cf4537c",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#jobschedules",
+        "value": [
+          {
+            "id": "JSSDKTest-JobSchedule-Basic-9c25",
+            "url": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25",
+            "eTag": "0x8DC0DB38D2B3F13",
+            "lastModified": "2024-01-05T05:59:59.8496531Z",
+            "creationTime": "2024-01-05T05:59:59.8496531Z",
+            "state": "active",
+            "stateTransitionTime": "2024-01-05T05:59:59.8496531Z",
+            "schedule": {
+              "doNotRunAfter": "2024-01-06T05:59:58.142Z",
+              "recurrenceInterval": "PT2M"
+            },
+            "jobSpecification": {
+              "displayName": "JobSchedule-1",
+              "priority": 0,
+              "maxParallelTasks": -1,
+              "allowTaskPreemption": false,
+              "usesTaskDependencies": false,
+              "onAllTasksComplete": "noaction",
+              "onTaskFailure": "noaction",
+              "constraints": {
+                "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+                "maxTaskRetryCount": 0
+              },
+              "poolInfo": {
+                "poolId": "JSSDKTest-Pool-Basic-9d92"
+              }
+            },
+            "executionInfo": {
+              "nextRunTime": "2024-01-05T06:01:59.8496531Z",
+              "recentJob": {
+                "url": "https://endpoint/jobs/JSSDKTest-JobSchedule-Basic-9c25:job-1",
+                "id": "JSSDKTest-JobSchedule-Basic-9c25:job-1"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

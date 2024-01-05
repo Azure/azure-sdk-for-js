@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/jobschedules?api-version=2023-11-01.18.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "cdde3e7b-a1e0-4afd-9525-eaabf4f30a97",
+        "Connection": "keep-alive",
+        "Content-Length": "226",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-JobSchedule-Basic-9c25",
+        "jobSpecification": {
+          "poolInfo": {
+            "poolId": "JSSDKTest-Pool-Basic-9d92"
+          },
+          "displayName": "JobSchedule-1"
+        },
+        "schedule": {
+          "doNotRunAfter": "2024-01-06T05:59:58.142Z",
+          "recurrenceInterval": "PT2M"
+        }
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "DataServiceId": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25",
+        "DataServiceVersion": "3.0",
+        "Date": "Fri, 05 Jan 2024 05:59:59 GMT",
+        "ETag": "0x8DC0DB38D2B3F13",
+        "Last-Modified": "Fri, 05 Jan 2024 05:59:59 GMT",
+        "Location": "https://endpoint/jobschedules/JSSDKTest-JobSchedule-Basic-9c25",
+        "request-id": "d82f689b-7dc5-4767-b98d-47480967a990",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-9d92",
+    "JOB_SCHEDULE": "JSSDKTest-JobSchedule-Basic-9c25",
+    "JOB_SCHEDULE_RUN_DATE": "2024-01-06T05:59:58.142Z"
+  }
+}
