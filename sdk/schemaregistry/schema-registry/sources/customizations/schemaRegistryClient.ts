@@ -11,10 +11,10 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { TokenCredential } from "@azure/core-auth";
 import createClient from "../generated/src/schemaRegistryClient";
-import { SchemaRegistryClient as GeneratedSchemaRegistryClient } from "../generated/src";
+import { SchemaRegistryClient as GeneratedSchemaRegistryClient, } from "../generated/src";
+import { getSchemaById, getSchemaByVersion, getSchemaProperties, registerSchema } from "./client";
 /**
  * Client for Azure Schema Registry service.
  */
@@ -56,15 +56,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.registerSchema",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
-          .then(convertSchemaIdResponse(format))
-    );
+    return registerSchema(this._client, schema, options);
   }
 
   /**
@@ -78,21 +70,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
-    const { groupName, name: schemaName, definition: schemaContent, format } = schema;
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchemaProperties",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .queryIdByContent(
-            groupName,
-            schemaName,
-            buildContentType(format),
-            schemaContent,
-            updatedOptions
-          )
-          .then(convertSchemaIdResponse(format))
-    );
+    return getSchemaProperties(this._client, schema, options);
   }
 
   /**
@@ -145,25 +123,8 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: GetSchemaOptions = {}
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
-      return this._tracing.withSpan(
-        "SchemaRegistryClient.getSchema",
-        groupNameOrOptions ?? {},
-        (updatedOptions) =>
-          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
-      );
+      return getSchemaById(this._client, nameOrId, options)
     }
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchemaByVersion",
-      options,
-      (updatedOptions) =>
-        this._client.schema
-          .getSchemaVersion(
-            groupNameOrOptions as string,
-            nameOrId,
-            version as number,
-            updatedOptions
-          )
-          .then(convertSchemaResponse)
-    );
+    return getSchemaByVersion(this._client, groupNameOrOptions as string, nameOrId, version as number, options)
   }
 }
