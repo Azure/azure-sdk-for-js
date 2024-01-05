@@ -1,16 +1,10 @@
 # Release History
 
-## 2.0.0 (Unreleased)
-
-### Features Added
+## 2.0.0 (2024-01-05)
 
 ### Breaking Changes
 
 - Removed our polyfill implementation for `AbortSignal` and `AbortController` as these are now supported across our minimum required runtime environments.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.1.0 (2022-05-05)
 
