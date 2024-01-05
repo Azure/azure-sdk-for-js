@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "2.5.5",
+  "version": "2.8.0",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "tags": [
     "isomorphic",
@@ -26,9 +26,11 @@
   ],
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/core-lro.d.ts",
+  "type": "module",
+  "types": "core-lro.d.ts",
   "files": [
     "types/core-lro.d.ts",
+    "types/src",
     "dist-esm/src",
     "dist/",
     "README.md",
@@ -101,7 +103,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^2.0.0",
+    "@azure/abort-controller": "^1.1.0",
     "@azure/core-util": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
