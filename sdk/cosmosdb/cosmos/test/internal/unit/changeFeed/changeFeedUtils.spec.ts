@@ -158,7 +158,7 @@ describe("test fetchStartTime", function () {
   });
   it("startTime is now", function () {
     const startTime = fetchStartTime(ChangeFeedStartFrom.Now());
-    assert.equal(startTime instanceof Date, true);
+    assert.equal(typeof startTime, "string");
   });
   it("startTime is time", function () {
     const time = new Date();

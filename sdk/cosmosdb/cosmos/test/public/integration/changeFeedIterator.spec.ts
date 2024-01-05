@@ -2,7 +2,14 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Suite } from "mocha";
-import { ChangeFeedIteratorOptions, ChangeFeedStartFrom, RequestOptions } from "../../../src";
+import {
+  ChangeFeedIteratorOptions,
+  ChangeFeedStartFrom,
+  RequestOptions,
+  ChangeFeedRetentionTimeSpan,
+  ChangeFeedPolicy,
+  ChangeFeedMode,
+} from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import { getTestContainer, removeAllDatabases, testForDiagnostics } from "../common/TestHelpers";
@@ -433,5 +440,463 @@ describe("test changefeed for feed range", function () {
       }
     }
     assert.equal(counter, 40, "40 items should be fetched");
+  });
+});
+
+describe("test changefeed allVersionsAndDeletes mode for entire container", function () {
+  let container: Container;
+  before(async function () {
+    const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+    const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+    const containerDef: ContainerDefinition = {
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      changeFeedPolicy: changeFeedPolicy,
+    };
+    const throughput: RequestOptions = { offerThroughput: 21000 };
+    container = await getTestContainer(
+      "Changefeed allVersionsAndDeletes-EntireContainer",
+      undefined,
+      containerDef,
+      throughput
+    );
+    for (let i = 1; i < 6; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+  });
+  it("startFromBeginning is not supported", async function () {
+    try {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        await iterator.readNext();
+      }
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400);
+      return;
+    }
+  });
+
+  it("validate changefeed results", async function () {
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    let continuationToken = undefined;
+
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+    }
+    // add new documents to the container
+    for (let i = 6; i < 11; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+
+    let counter = 0;
+    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+    while (iterator2.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "create");
+      }
+    }
+    assert.strictEqual(counter, 20, "20 results should be fetched");
+
+    // update documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
+    }
+
+    const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator3 = container.items.getChangeFeedIterator(changeFeedIteratorOptions3);
+
+    counter = 0;
+    while (iterator3.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "replace");
+      }
+    }
+    assert.strictEqual(counter, 20, "20 results should be fetched");
+
+    // delete documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.item(`sample1+${i}`, "sample1").delete();
+      await container.item(`sample1+${i}`, "sample2").delete();
+      await container.item(`sample1+${i}`, "sample3").delete();
+      await container.item(`sample1+${i}`, "sample4").delete();
+    }
+
+    const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator4 = container.items.getChangeFeedIterator(changeFeedIteratorOptions4);
+
+    counter = 0;
+    while (iterator4.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "delete");
+      }
+    }
+    assert.strictEqual(counter, 20, "20 results should be fetched");
+  });
+});
+
+describe("test changefeed allVersionsAndDeletes mode for a feed range", function () {
+  let container: Container;
+  before(async function () {
+    const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+    const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+    const containerDef: ContainerDefinition = {
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      changeFeedPolicy: changeFeedPolicy,
+    };
+    const throughput: RequestOptions = { offerThroughput: 21000 };
+    container = await getTestContainer(
+      "Changefeed allVersionsAndDeletes-FeedRange",
+      undefined,
+      containerDef,
+      throughput
+    );
+    for (let i = 1; i < 6; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+  });
+  it("startFromBeginning is not supported", async function () {
+    try {
+      const feedRanges = await container.getFeedRanges();
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning(feedRanges[0]),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        await iterator.readNext();
+      }
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400);
+      return;
+    }
+  });
+
+  it("validate changefeed results", async function () {
+    const feedRanges = await container.getFeedRanges();
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now(feedRanges[0]),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    let continuationToken = undefined;
+
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+    }
+    // add new documents to the container
+    for (let i = 6; i < 11; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+
+    let counter = 0;
+    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+    while (iterator2.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "create");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
+
+    // update documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
+    }
+
+    const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator3 = container.items.getChangeFeedIterator(changeFeedIteratorOptions3);
+
+    counter = 0;
+    while (iterator3.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "replace");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
+
+    // delete documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.item(`sample1+${i}`, "sample1").delete();
+      await container.item(`sample1+${i}`, "sample2").delete();
+      await container.item(`sample1+${i}`, "sample3").delete();
+      await container.item(`sample1+${i}`, "sample4").delete();
+    }
+
+    const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator4 = container.items.getChangeFeedIterator(changeFeedIteratorOptions4);
+
+    counter = 0;
+    while (iterator4.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "delete");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
+  });
+});
+
+describe("test changefeed allVersionsAndDeletes mode for a partition key", function () {
+  let container: Container;
+  before(async function () {
+    const newTimeStamp = ChangeFeedRetentionTimeSpan.fromMinutes(5);
+    const changeFeedPolicy = new ChangeFeedPolicy(newTimeStamp);
+    const containerDef: ContainerDefinition = {
+      partitionKey: {
+        paths: ["/name"],
+        version: PartitionKeyDefinitionVersion.V1,
+      },
+      changeFeedPolicy: changeFeedPolicy,
+    };
+    const throughput: RequestOptions = { offerThroughput: 21000 };
+    container = await getTestContainer(
+      "Changefeed allVersionsAndDeletes-PartitionKey",
+      undefined,
+      containerDef,
+      throughput
+    );
+    for (let i = 1; i < 6; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+  });
+  it("startFromBeginning is not supported", async function () {
+    try {
+      const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+        changeFeedStartFrom: ChangeFeedStartFrom.Beginning("sample1"),
+        changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+      };
+      const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+
+      while (iterator.hasMoreResults) {
+        await iterator.readNext();
+      }
+    } catch (err: any) {
+      assert.strictEqual(err.code, 400);
+      return;
+    }
+  });
+
+  it("validate changefeed results", async function () {
+    const changeFeedIteratorOptions: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Now("sample1"),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator = container.items.getChangeFeedIterator(changeFeedIteratorOptions);
+    let continuationToken = undefined;
+
+    while (iterator.hasMoreResults) {
+      const res = await iterator.readNext();
+      // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+    }
+    // add new documents to the container
+    for (let i = 6; i < 11; i++) {
+      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
+      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
+    }
+
+    let counter = 0;
+    const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator2 = container.items.getChangeFeedIterator(changeFeedIteratorOptions2);
+
+    while (iterator2.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "create");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
+
+    // update documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
+      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
+    }
+
+    const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator3 = container.items.getChangeFeedIterator(changeFeedIteratorOptions3);
+
+    counter = 0;
+    while (iterator3.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "replace");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
+
+    // delete documents in the container
+    for (let i = 1; i < 6; i++) {
+      await container.item(`sample1+${i}`, "sample1").delete();
+      await container.item(`sample1+${i}`, "sample2").delete();
+      await container.item(`sample1+${i}`, "sample3").delete();
+      await container.item(`sample1+${i}`, "sample4").delete();
+    }
+
+    const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
+      maxItemCount: 5,
+      changeFeedStartFrom: ChangeFeedStartFrom.Continuation(continuationToken),
+      changeFeedMode: ChangeFeedMode.AllVersionsAndDeletes,
+    };
+    const iterator4 = container.items.getChangeFeedIterator(changeFeedIteratorOptions4);
+
+    counter = 0;
+    while (iterator4.hasMoreResults) {
+      const res = await iterator.readNext();
+      if (res.statusCode === 304) {
+        continuationToken = res.continuationToken;
+        break;
+      }
+      const resItems: any[] = res.result;
+      counter += resItems.length;
+      for (const item of resItems) {
+        assert.strictEqual(item.metadata.operationType, "delete");
+      }
+    }
+    assert.strictEqual(counter, 5, "5 results should be fetched");
   });
 });
