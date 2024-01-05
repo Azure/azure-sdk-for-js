@@ -39,7 +39,6 @@ export class SchemaRegistryClient implements SchemaRegistry {
     // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
     this._client = createClient(fullyQualifiedNamespace, credential, { ...options })
-  
   }
 
   /**
