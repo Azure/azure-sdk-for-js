@@ -29,6 +29,9 @@ const assert = chai.assert;
       {
         receiveMode: "receiveAndDelete",
         sessionId,
+        testEntityOptions: {
+          defaultMessageTimeToLive: "P101D",
+        }
       }
     );
 
@@ -129,8 +132,8 @@ const assert = chai.assert;
       );
     });
 
-    it.only(anyRandomTestClientType + ": timeToLive should be set based on absolute_expiry_time and queue default", async function(): Promise<void> {
-      const ttl = Date.now() + 100 * 24 * 60 * 60 * 1000;
+    it(anyRandomTestClientType + ": timeToLive should be set based on absolute_expiry_time and queue default", async function (): Promise<void> {
+      const ttl = 100 * 24 * 60 * 60 * 1000; // 100 days
       const testMessage: AmqpAnnotatedMessage = {
         body: `test timeToLive`,
         bodyType: "data",
