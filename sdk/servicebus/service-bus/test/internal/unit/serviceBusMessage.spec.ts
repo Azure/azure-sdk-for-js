@@ -120,7 +120,10 @@ describe("ServiceBusMessageImpl unit tests", () => {
 
     it("headers match", () => {
       assert.equal(sbMessage._rawAmqpMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
-      assert.equal(sbMessage._rawAmqpMessage.header?.timeToLive, amqpMessage.absolute_expiry_time!.getTime() - amqpMessage.creation_time!.getTime());
+      assert.equal(
+        sbMessage._rawAmqpMessage.header?.timeToLive,
+        amqpMessage.absolute_expiry_time!.getTime() - amqpMessage.creation_time!.getTime()
+      );
       assert.equal(sbMessage._rawAmqpMessage.header?.durable, amqpMessage.durable);
       assert.equal(sbMessage._rawAmqpMessage.header?.priority, amqpMessage.priority);
       assert.equal(sbMessage._rawAmqpMessage.header?.deliveryCount, amqpMessage.delivery_count);

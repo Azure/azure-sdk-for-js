@@ -321,15 +321,16 @@ export function toRheaMessage(
       message_annotations: {},
     };
 
-
-    if (msg.timeToLive){
-      amqpMsg.ttl = msg.timeToLive > Constants.maxUint32Value ? Constants.maxUint32Value : msg.timeToLive;
-    amqpMsg.creation_time = new Date();
-    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time.getTime() > amqpMsg.ttl) {
-      amqpMsg.absolute_expiry_time = new Date(amqpMsg.creation_time.getTime() + amqpMsg.ttl);
-    } else {
-      amqpMsg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
-    }}
+    if (msg.timeToLive) {
+      amqpMsg.ttl =
+        msg.timeToLive > Constants.maxUint32Value ? Constants.maxUint32Value : msg.timeToLive;
+      amqpMsg.creation_time = new Date();
+      if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time.getTime() > amqpMsg.ttl) {
+        amqpMsg.absolute_expiry_time = new Date(amqpMsg.creation_time.getTime() + amqpMsg.ttl);
+      } else {
+        amqpMsg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
+      }
+    }
   }
 
   if (isAmqpAnnotatedMessage(msg)) {
@@ -635,7 +636,9 @@ export function fromRheaMessage(
 
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
   rawMessage.bodyType = bodyType;
-  if (rheaMessage.ttl == null) rheaMessage.ttl = rawMessage.header?.timeToLive ?? Constants.maxDurationValue;
+  if (rheaMessage.ttl == null) {
+    rheaMessage.ttl = rawMessage.header?.timeToLive ?? Constants.maxDurationValue;
+  }
   if (props.enqueuedTimeUtc) {
     props.expiresAtUtc = new Date(
       Math.min(props.enqueuedTimeUtc.getTime() + rheaMessage.ttl, Constants.maxDurationValue)

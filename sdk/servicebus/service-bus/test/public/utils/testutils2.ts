@@ -583,7 +583,7 @@ export function addServiceBusClientForLiveTesting(
      * The session ID to use if TestClientType is a session entity.
      */
     sessionId?: string;
-    testEntityOptions?: TestEntityOptions
+    testEntityOptions?: TestEntityOptions;
   }
 ): {
   client(): ServiceBusClientForTests;
