@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions, QueryOperationOptions } from "../request";
+import { Response, FeedOptions, QueryOperationOptions, RUConsumedManager } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -16,7 +16,6 @@ import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { RUConsumed } from "../common";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
 
 /** @hidden */
@@ -105,9 +104,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumed);
+    return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumedManager);
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...
@@ -118,29 +117,29 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
     if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumed);
+      return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumedManager);
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
-      return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumed);
+      return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
     }
   }
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(
         diagnosticNode,
         operationOptions,
-        ruConsumed
+        ruConsumedManager
       );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
@@ -167,7 +166,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumed);
+          return this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
         }
       }
     } catch (err: any) {

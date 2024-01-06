@@ -7,12 +7,11 @@ import {
   getIdFromLink,
   getPathFromLink,
   ResourceType,
-  RUConsumed,
   StatusCodes,
   SubStatusCodes,
 } from "../common";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions, QueryOperationOptions } from "../request";
+import { FeedOptions, QueryOperationOptions, RUConsumedManager } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
@@ -160,7 +159,7 @@ export class DocumentProducer {
   public async bufferMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
@@ -168,7 +167,11 @@ export class DocumentProducer {
 
     try {
       const { result: resources, headers: headerResponse } =
-        await this.internalExecutionContext.fetchMore(diagnosticNode, operationOptions, ruConsumed);
+        await this.internalExecutionContext.fetchMore(
+          diagnosticNode,
+          operationOptions,
+          ruConsumedManager
+        );
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -225,7 +228,7 @@ export class DocumentProducer {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
@@ -233,7 +236,11 @@ export class DocumentProducer {
     }
 
     try {
-      const { result, headers } = await this.current(diagnosticNode, operationOptions, ruConsumed);
+      const { result, headers } = await this.current(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager
+      );
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -261,7 +268,7 @@ export class DocumentProducer {
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
@@ -293,11 +300,15 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore(diagnosticNode, operationOptions, ruConsumed);
+    const { result, headers } = await this.bufferMore(
+      diagnosticNode,
+      operationOptions,
+      ruConsumedManager
+    );
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
       return { result: undefined, headers: this.respHeaders };
     }
-    return this.current(diagnosticNode, operationOptions, ruConsumed);
+    return this.current(diagnosticNode, operationOptions, ruConsumedManager);
   }
 }

@@ -242,7 +242,7 @@ describe("Test Index metrics", function (this: Suite) {
 });
 
 describe("Test RU Capping query", function (this: Suite) {
-  beforeEach(async function () {
+  afterEach(async function () {
     await removeAllDatabases();
   });
 
@@ -250,23 +250,24 @@ describe("Test RU Capping query", function (this: Suite) {
     const collectionId = "testCollection4";
     const containerDefinition = { id: collectionId };
     const containerOptions1 = { offerThroughput: 4000 };
-    const createdContainerSinglePartition = await await getTestContainer(
+    const createdContainerSinglePartition = await getTestContainer(
       "RU Capping test db for single partition",
       undefined,
       containerDefinition,
       containerOptions1
     );
 
-    createdContainerSinglePartition.items.create({ id: "myId1", pk: "pk1", name: "test1" });
-    createdContainerSinglePartition.items.create({ id: "myId2", pk: "pk2", name: "test2" });
-    createdContainerSinglePartition.items.create({ id: "myId3", pk: "pk2", name: "test2" });
+    await createdContainerSinglePartition.items.create({ id: "myId1", pk: "pk1", name: "test1" });
+    await createdContainerSinglePartition.items.create({ id: "myId2", pk: "pk2", name: "test2" });
+    await createdContainerSinglePartition.items.create({ id: "myId3", pk: "pk2", name: "test2" });
 
     const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
     const queryOptions: FeedOptions = { maxItemCount: 1 };
     const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
     // Case 1: RU Cap breached
     try {
-      await queryIterator1.fetchNext({ ruCapPerOperation: 2 });
+      const { resources: result } = await queryIterator1.fetchNext({ ruCapPerOperation: 1.5 });
+      console.log("result: ", result);
       assert.fail("Must throw exception");
     } catch (err) {
       assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
@@ -286,14 +287,13 @@ describe("Test RU Capping query", function (this: Suite) {
     const queryiterator2 = createdContainerSinglePartition.items.query(query2, queryOptions);
     // Case 3: RU Cap breached for fetchAll operation
     try {
-      await queryiterator2.fetchAll({ ruCapPerOperation: 10 });
-      // assert.fail("Must throw exception");
+      await queryiterator2.fetchAll({ ruCapPerOperation: 9 });
+      assert.fail("Must throw exception");
     } catch (err) {
-      console.log("This is error: ", err);
       // TODO: Investigate why this is failing
-      // assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-      // assert.ok(err.body);
-      // assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.body);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
     }
 
     // Case 4: RU Cap not breached for fetchAll operation
@@ -303,8 +303,11 @@ describe("Test RU Capping query", function (this: Suite) {
 
   describe("For Multi partition query", async function () {
     let queryIterator: any;
-    beforeEach(async function () {
+    afterEach(async function () {
       await removeAllDatabases();
+    });
+
+    beforeEach(async function () {
       const collectionId = "testCollection5";
       const containerDefinition = { id: collectionId };
       const containerOptions1 = { offerThroughput: 30000 };
@@ -364,6 +367,7 @@ describe("Test RU Capping query", function (this: Suite) {
 
     it("FetchNext RU Cap not breached", async function () {
       const { resources: results } = await queryIterator.fetchNext({ ruCapPerOperation: 100 });
+      console.log("FetchNext RU Cap not breached results: ", results);
       assert.equal(results.length, 7);
     });
 
@@ -380,8 +384,8 @@ describe("Test RU Capping query", function (this: Suite) {
 
     it("FetchAll RU Cap not breached", async function () {
       const { resources: results } = await queryIterator.fetchAll({ ruCapPerOperation: 100 });
-      // TODO: Investigate why this is failing
-      // assert.equal(results.length, 7);
+      // TODO: Investigate why this is failing, sometime it turns 3 sometimes 7
+      assert.equal(results.length, 7);
       console.log("FetchAll RU Cap not breached results: ", results);
     });
   });

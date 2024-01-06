@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { RUConsumed } from "../../common";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, Response } from "../../request";
+import { QueryOperationOptions, RUConsumedManager, Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 import { ExecutionContext } from "../ExecutionContext";
 
@@ -22,13 +21,13 @@ export class OrderByEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.executionContext.nextItem(
         diagnosticNode,
         operationOptions,
-        ruConsumed
+        ruConsumedManager
       );
       return {
         result: item !== undefined ? item.payload : undefined,

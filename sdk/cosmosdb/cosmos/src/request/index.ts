@@ -21,3 +21,4 @@ export { RequestContext } from "./RequestContext";
 export { TimeoutError } from "./TimeoutError";
 export { QueryOperationOptions } from "./OperationOptions";
 export { RUCapPerOperationExceededError } from "./RUCapPerOperationExceededError";
+export { RUConsumedManager } from "./RUConsumedManager";

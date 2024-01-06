@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { RUConsumed } from "../../common";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, Response } from "../../request";
+import { QueryOperationOptions, RUConsumedManager, Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
@@ -18,7 +17,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
     try {
@@ -27,7 +26,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
         const { headers } = await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         );
         this.offset--;
         mergeHeaders(aggregateHeaders, headers);
@@ -36,7 +35,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
         const { result, headers } = await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         );
         this.limit--;
         mergeHeaders(aggregateHeaders, headers);

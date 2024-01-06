@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants, RUConsumed } from "../common";
+import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, QueryOperationOptions, Response } from "../request";
+import { FeedOptions, QueryOperationOptions, RUConsumedManager, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
 import { ExecutionContext } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
@@ -69,10 +69,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     ++this.currentIndex;
-    const response = await this.current(diagnosticNode, operationOptions, ruConsumed);
+    const response = await this.current(diagnosticNode, operationOptions, ruConsumedManager);
     return response;
   }
 
@@ -82,7 +82,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
@@ -94,7 +94,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       const { result: resources, headers } = await this.fetchMore(
         diagnosticNode,
         operationOptions,
-        ruConsumed
+        ruConsumedManager
       );
       this.resources = resources;
       if (this.resources.length === 0) {
@@ -102,7 +102,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           this.state = DefaultQueryExecutionContext.STATES.ended;
           return { result: undefined, headers };
         } else {
-          return this.current(diagnosticNode, operationOptions, ruConsumed);
+          return this.current(diagnosticNode, operationOptions, ruConsumedManager);
         }
       }
       return { result: this.resources[this.currentIndex], headers };
@@ -136,7 +136,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
@@ -232,15 +232,12 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
         }
 
-        if (
-          operationOptions &&
-          operationOptions.ruCapPerOperation &&
-          ruConsumed &&
-          ruConsumed.value !== undefined
-        ) {
-          ruConsumed.value += getRequestChargeIfAny(responseHeaders);
-          if (ruConsumed.value > operationOptions.ruCapPerOperation) {
-            // For RUCapPerOperationExceededError error, we will be marking state as inProgress as we want to support continue
+        if (operationOptions && operationOptions.ruCapPerOperation && ruConsumedManager) {
+          ruConsumedManager.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
+          console.log("ruConsumedManager.getRUConsumed() ", ruConsumedManager.getRUConsumed());
+          if (ruConsumedManager.getRUConsumed() > operationOptions.ruCapPerOperation) {
+            // For RUCapPerOperationExceededError error, we won't be updating the state from
+            // inProgress as we want to support continue
             throw new RUCapPerOperationExceededError(
               "Request Unit limit per Operation call exceeded",
               resources

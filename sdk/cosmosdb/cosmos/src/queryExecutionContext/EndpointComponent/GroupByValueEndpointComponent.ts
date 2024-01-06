@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { QueryOperationOptions, Response } from "../../request";
+import { QueryOperationOptions, RUConsumedManager, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
@@ -9,7 +9,6 @@ import { Aggregator, createAggregator } from "../Aggregators";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { RUConsumed } from "../../common";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 
 interface GroupByResponse {
@@ -37,7 +36,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumed
+    ruConsumedManager?: RUConsumedManager
   ): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
@@ -61,7 +60,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         const { result, headers } = (await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         )) as GroupByResponse;
         mergeHeaders(aggregateHeaders, headers);
 

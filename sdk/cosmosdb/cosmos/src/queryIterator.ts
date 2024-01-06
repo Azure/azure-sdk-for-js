@@ -5,7 +5,7 @@
 
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, RUConsumed, StatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -16,7 +16,7 @@ import {
   PipelinedQueryExecutionContext,
   SqlQuerySpec,
 } from "./queryExecutionContext";
-import { Response } from "./request";
+import { RUConsumedManager, Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
@@ -92,9 +92,9 @@ export class QueryIterator<T> {
       null
     );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
-    let ruConsumed: RUConsumed | undefined;
+    let ruConsumedManager: RUConsumedManager | undefined;
     if (operationOptions && operationOptions.ruCapPerOperation) {
-      ruConsumed = { value: 0 };
+      ruConsumedManager = new RUConsumedManager();
     }
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
@@ -102,7 +102,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
@@ -111,7 +111,7 @@ export class QueryIterator<T> {
             response = await this.queryExecutionContext.fetchMore(
               diagnosticNode,
               operationOptions,
-              ruConsumed
+              ruConsumedManager
             );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
@@ -183,9 +183,9 @@ export class QueryIterator<T> {
    */
   public async fetchNext(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let ruConsumed: RUConsumed | undefined;
+      let ruConsumedManager: RUConsumedManager | undefined;
       if (operationOptions && operationOptions.ruCapPerOperation) {
-        ruConsumed = { value: 0 };
+        ruConsumedManager = new RUConsumedManager();
       }
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -203,7 +203,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
@@ -212,7 +212,7 @@ export class QueryIterator<T> {
             response = await this.queryExecutionContext.fetchMore(
               diagnosticNode,
               operationOptions,
-              ruConsumed
+              ruConsumedManager
             );
           } catch (queryError: any) {
             this.handleSplitError(queryError);
@@ -247,9 +247,9 @@ export class QueryIterator<T> {
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions
   ): Promise<FeedResponse<T>> {
-    let ruConsumed: RUConsumed | undefined;
+    let ruConsumedManager: RUConsumedManager | undefined;
     if (operationOptions && operationOptions.ruCapPerOperation) {
-      ruConsumed = { value: 0 };
+      ruConsumedManager = new RUConsumedManager();
     }
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
@@ -269,7 +269,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumed
+          ruConsumedManager
         );
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
@@ -277,7 +277,7 @@ export class QueryIterator<T> {
           response = await this.queryExecutionContext.nextItem(
             diagnosticNode,
             operationOptions,
-            ruConsumed
+            ruConsumedManager
           );
         } else if (error.code === RUCapPerOperationExceededErrorCode) {
           error.body.fetchedSoFarResults.forEach((item: any) => {
@@ -296,7 +296,9 @@ export class QueryIterator<T> {
       if (result !== undefined) {
         this.fetchAllTempResources.push(result);
       }
+      console.log("result inside array implementation:", result);
     }
+    console.log("fetchAllTempResources:", this.fetchAllTempResources);
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
