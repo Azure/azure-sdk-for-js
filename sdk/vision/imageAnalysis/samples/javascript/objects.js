@@ -20,11 +20,14 @@ const feature = [
 
 const imageUrl = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: feature},
-  contentType: 'application/json'
-}).then(result => {
+async function analyzeImage() {
+
+  const result = await client.path('/imageanalysis:analyze').post({
+    body: { url: imageUrl },
+    queryParameters: { features: feature},
+    contentType: 'application/json'
+  });
+
   const iaResult = result.body;
 
   // Process the response
@@ -35,4 +38,6 @@ client.path('/imageanalysis:analyze').post({
   } else {
     console.log('No objects detected.');
   }
-});
+}
+
+analyzeImage();

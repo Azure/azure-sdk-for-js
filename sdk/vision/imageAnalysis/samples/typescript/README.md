@@ -9,7 +9,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [analyzeImageFromUrl.ts][analyzeImageFromUrl]             | Analyze an image from a URL using Azure AI Vision Image Analysis service.                      |
 | [caption.ts][caption]                                     | Generate a human-readable phrase that describes the contents of an image.                      |
 | [denseCaptions.ts][denseCaptions]                         | Generate detailed descriptions of up to 10 regions of the image.                               |
-| [keyBasedAuthentication.ts][keyBasedAuthentication]       | Authenticate to Azure AI Vision Image Analysis service using a key.                            |
 | [objects.ts][objects]                                     | Detect objects in an image and return their bounding box coordinates.                          |
 | [read.ts][read]                                           | Extract printed or handwritten text from images.                                               |
 | [tags.ts][tags]                                           | Return content tags for recognizable objects, living beings, scenery, and actions in an image. |
@@ -64,7 +63,6 @@ Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for mor
 [analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/analyzeImageFromUrl.ts
 [caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/caption.ts
 [denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/denseCaptions.ts
-[keyBasedAuthentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/keyBasedAuthentication.ts
 [objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/objects.ts
 [read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/read.ts
 [tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/typescript/tags.ts

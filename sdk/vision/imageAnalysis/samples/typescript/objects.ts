@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import createImageAnalysisClient, { ImageAnalysisClient, ImageAnalysisResultOutput } from '@azure/imageAnalysis';
+import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure/imageAnalysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -13,25 +13,32 @@ const credential = new AzureKeyCredential(key);
 
 const client: ImageAnalysisClient = createImageAnalysisClient(endpoint, credential);
 
-const feature: string[] = [
+const features: string[] = [
   'Objects'
 ];
 
 const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: feature },
-  contentType: 'application/json'
-}).then(result => {
-  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+async function analyzeImage(): Promise<void> {
+
+  const result = await client.path('/imageanalysis:analyze').post({
+    body: { url: imageUrl },
+    queryParameters: { features: features },
+    contentType: 'application/json'
+  })
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
 
   // Process the response
-  if (iaResult.objectsResult && iaResult.objectsResult.values.length > 0) {
-    iaResult.objectsResult.values.forEach(object => {
+  if (result.body.objectsResult && result.body.objectsResult.values.length > 0) {
+    result.body.objectsResult.values.forEach(object => {
       console.log(`Detected object: ${object.tags[0].name} with confidence of ${object.tags[0].confidence}`);
     });
   } else {
     console.log('No objects detected.');
   }
-});
+}
+
+analyzeImage();

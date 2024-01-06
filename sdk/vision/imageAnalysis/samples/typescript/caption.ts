@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import createImageAnalysisClient, { ImageAnalysisClient, ImageAnalysisResultOutput } from '@azure/imageAnalysis';
+import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure/imageAnalysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -19,17 +19,24 @@ const features: string[] = [
 
 const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: features },
-  contentType: 'application/json'
-}).then(result => {
-  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+async function analyzeImage(): Promise<void> {
+
+  const result = await client.path('/imageanalysis:analyze').post({
+    body: { url: imageUrl },
+    queryParameters: { features: features },
+    contentType: 'application/json'
+  })
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
 
   // Process the response
-  if (iaResult.captionResult && iaResult.captionResult.text.length > 0) {
-    console.log(`This may be ${iaResult.captionResult.text}`);
+  if (result.body.captionResult && result.body.captionResult.text.length > 0) {
+    console.log(`This may be ${result.body.captionResult.text}`);
   } else {
     console.log('No caption detected.');
   }
-});
+}
+
+analyzeImage();

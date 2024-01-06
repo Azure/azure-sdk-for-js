@@ -8,7 +8,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [analyzeImageFromUrl.js][analyzeImageFromUrl]             | Analyze an image from a URL using Azure AI Vision Image Analysis service.                      |
 | [caption.js][caption]                                     | Generate a human-readable phrase that describes the contents of an image.                      |
 | [denseCaptions.js][denseCaptions]                         | Generate detailed descriptions of up to 10 regions of the image.                               |
-| [keyBasedAuthentication.js][keyBasedAuthentication]       | Authenticate to Azure AI Vision Image Analysis service using a key.                            |
 | [objects.js][objects]                                     | Detect objects in an image and return their bounding box coordinates.                          |
 | [read.js][read]                                           | Extract printed or handwritten text from images.                                               |
 | [tags.js][tags]                                           | Return content tags for recognizable objects, living beings, scenery, and actions in an image. |
@@ -57,7 +56,6 @@ Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for mor
 [analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/analyzeImageFromUrl.js
 [caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/caption.js
 [denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/denseCaptions.js
-[keyBasedAuthentication]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/keyBasedAuthentication.js
 [objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/objects.js
 [read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/read.js
 [tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/tags.js

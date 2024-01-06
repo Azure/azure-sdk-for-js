@@ -12,7 +12,7 @@ const endpoint = process.env['VISION_ENDPOINT'] || '<your_endpoint>';
 const key = process.env['VISION_KEY'] || '<your_key>';
 const credential = new AzureKeyCredential(key);
 
-const client = createClient (endpoint, credential);
+const client = createClient(endpoint, credential);
 
 const feature = [
   'Caption'
@@ -20,11 +20,14 @@ const feature = [
 
 const imageUrl = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: feature},
-  contentType: 'application/json'
-}).then(result => {
+async function analyzeImage() {
+
+  const result = await client.path('/imageanalysis:analyze').post({
+    body: { url: imageUrl },
+    queryParameters: { features: feature},
+    contentType: 'application/json'
+  });
+
   const iaResult = result.body;
 
   // Process the response
@@ -33,4 +36,6 @@ client.path('/imageanalysis:analyze').post({
   } else {
     console.log('No caption detected.');
   }
-});
+}
+
+analyzeImage();

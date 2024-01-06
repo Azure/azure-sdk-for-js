@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import createImageAnalysisClient, { ImageAnalysisClient, ImageAnalysisResultOutput } from '@azure/imageAnalysis';
+import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure/imageAnalysis';
 import { AzureKeyCredential } from '@azure/core-auth';
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -20,19 +19,26 @@ const features: string[] = [
 
 const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
 
-client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: features },
-  contentType: 'application/json'
-}).then(result => {
-  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+async function analyzeImage(): Promise<void> {
+
+  const result = await client.path('/imageanalysis:analyze').post({
+    body: { url: imageUrl },
+    queryParameters: { features: features },
+    contentType: 'application/json'
+  })
+
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
 
   // Process the response
-  if (iaResult.tagsResult && iaResult.tagsResult.values.length > 0) {
-    iaResult.tagsResult.values.forEach(tag => {
+  if (result.body.tagsResult && result.body.tagsResult.values.length > 0) {
+    result.body.tagsResult.values.forEach(tag => {
       console.log(`Tag: ${tag.name} with confidence of ${tag.confidence}`);
     });
   } else {
     console.log('No tags detected.');
   }
-});
+}
+
+analyzeImage();

@@ -2,7 +2,16 @@
 // Licensed under the MIT license.
 
 import * as fs from 'fs';
-import createImageAnalysisClient, { ImageAnalysisClient, ImageAnalysisResultOutput } from '@azure/imageAnalysis';
+import createImageAnalysisClient, {
+  DenseCaptionOutput,
+  ImageAnalysisClient,
+  DetectedPersonOutput,
+  DetectedTextBlockOutput,
+  DetectedObjectOutput,
+  CropRegionOutput,
+  DetectedTagOutput,
+  isUnexpected
+} from '@azure/imageAnalysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -37,18 +46,34 @@ async function analyzeImageFromFile(): Promise<void> {
     contentType: 'application/octet-stream'
   });
 
-  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+  if (isUnexpected(result)) {
+    throw result.body.error;
+  }
 
-  console.log(`Model Version: ${iaResult.modelVersion}`);
-  console.log(`Image Metadata: ${JSON.stringify(iaResult.metadata)}`);
+  console.log(`Model Version: ${result.body.modelVersion}`);
+  console.log(`Image Metadata: ${JSON.stringify(result.body.metadata)}`);
 
-  if (iaResult.captionResult) console.log(`Caption: ${iaResult.captionResult.text} (confidence: ${iaResult.captionResult.confidence})`);
-  if (iaResult.denseCaptionsResult) iaResult.denseCaptionsResult.values.forEach(denseCaption => console.log(`Dense Caption: ${JSON.stringify(denseCaption)}`));
-  if (iaResult.objectsResult) iaResult.objectsResult.values.forEach(object => console.log(`Object: ${JSON.stringify(object)}`));
-  if (iaResult.peopleResult) iaResult.peopleResult.values.forEach(person => console.log(`Person: ${JSON.stringify(person)}`));
-  if (iaResult.readResult) iaResult.readResult.blocks.forEach(block => console.log(`Text Block: ${JSON.stringify(block)}`));
-  if (iaResult.smartCropsResult) iaResult.smartCropsResult.values.forEach(smartCrop => console.log(`Smart Crop: ${JSON.stringify(smartCrop)}`));
-  if (iaResult.tagsResult) iaResult.tagsResult.values.forEach(tag => console.log(`Tag: ${JSON.stringify(tag)}`));
+  if (result.body.captionResult) {
+    console.log(`Caption: ${result.body.captionResult.text} (confidence: ${result.body.captionResult.confidence})`);
+  }
+  if (result.body.denseCaptionsResult) {
+    result.body.denseCaptionsResult.values.forEach((denseCaption: DenseCaptionOutput) => console.log(`Dense Caption: ${JSON.stringify(denseCaption)}`));
+  }
+  if (result.body.objectsResult) {
+    result.body.objectsResult.values.forEach((object: DetectedObjectOutput) => console.log(`Object: ${JSON.stringify(object)}`));
+  }
+  if (result.body.peopleResult) {
+    result.body.peopleResult.values.forEach((person: DetectedPersonOutput) => console.log(`Person: ${JSON.stringify(person)}`));
+  }
+  if (result.body.readResult) {
+    result.body.readResult.blocks.forEach((block: DetectedTextBlockOutput) => console.log(`Text Block: ${JSON.stringify(block)}`));
+  }
+  if (result.body.smartCropsResult) {
+    result.body.smartCropsResult.values.forEach((smartCrop: CropRegionOutput) => console.log(`Smart Crop: ${JSON.stringify(smartCrop)}`));
+  }
+  if (result.body.tagsResult) {
+    result.body.tagsResult.values.forEach((tag: DetectedTagOutput) => console.log(`Tag: ${JSON.stringify(tag)}`));
+  }
 }
 
 analyzeImageFromFile();
