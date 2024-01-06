@@ -72,7 +72,7 @@ interface BazType {
     // Type 'string | typeof Unknown' is not assignable to type 'string'.
     //  Type 'typeof Unknown' is not assignable to type 'string'.
     const foo: string = result;
-    // Even if it's the last variant, `result` isn't a "bar" until it goes through a type guard.
+    // This continues to cause a build failure.
     // @ts-expect-error
     // Type '"baz" | "bar" | unique symbol' is not assignable to type '"bar"'.
     //  Type '"baz"' is not assignable to type '"bar"'.
@@ -102,7 +102,8 @@ interface BazType {
     // Property 'bar' does not exist on type 'BarType | BazType | UnknownObject<{ kind: string; }>'.
     //  Property 'bar' does not exist on type 'BazType'.
     const bar2: number = result.bar;
-    // If the user expects a shape that's unknown at generation time, they can use a type cast
+    const asdf: FooUnion = { kind: "sfjn" };
+    // This typecast continues to have the correct behavior
     if ((result.kind as string) === "baz") {
       const baz: boolean = (result as unknown as BazType).baz;
     }

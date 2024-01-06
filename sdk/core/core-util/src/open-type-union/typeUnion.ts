@@ -55,7 +55,7 @@ interface BazType {
   const foo: Foo = "Adding a variant doesn't break this assignment" as "foo" | "bar";
   // @ts-expect-error
   // Type 'Foo' is not assignable to type '"foo" | "bar"'.
-  //  Type '"baz"' is not assignable to type '"foo" | "bar"'.
+  //  Type 'unique symbol' is not assignable to type '"foo" | "bar"'.
   const bar: "foo" | "bar" =
     "This assignment never works, even if there are no variants in the enum" as Foo;
 };
@@ -74,8 +74,8 @@ interface BazType {
     const foo: string = result;
     // Even if it's the last variant, `result` isn't a "bar" until it goes through a type guard.
     // @ts-expect-error
-    // Type '"baz" | "bar" | unique symbol' is not assignable to type '"bar"'.
-    //  Type '"baz"' is not assignable to type '"bar"'.
+    // Type '"bar" | unique symbol' is not assignable to type '"bar"'.
+    //  Type 'unique symbol' is not assignable to type '"bar"'.
     const foo2: "bar" = result;
     // If the user expects a shape that's unknown at generation time, they can use a type cast
     if ((result as string) === "baz") {
@@ -99,8 +99,8 @@ interface BazType {
     const kind: string = result.kind;
     // Even if it's the last variant, `result` isn't a "bar" until it goes through a type guard.
     // @ts-expect-error
-    // Property 'bar' does not exist on type 'BarType | BazType | UnknownObject<{ kind: string; }>'.
-    //  Property 'bar' does not exist on type 'BazType'.
+    // Property 'bar' does not exist on type 'BarType | UnknownObject<{ kind: string; }>'.
+    //  Property 'bar' does not exist on type 'UnknownObject<{ kind: string; }>'.
     const bar2: number = result.bar;
     // If the user expects a shape that's unknown at generation time, they can use a type cast
     if ((result.kind as string) === "baz") {
@@ -157,8 +157,8 @@ function niceTry(foo: Foo): "bar" | typeof DeterminedUser | undefined {
     return;
   }
   // @ts-expect-error
-  // Type '"bar" | "baz" | unique symbol' is not assignable to type '"bar" | unique symbol | undefined'.
-  //  Type '"baz"' is not assignable to type '"bar" | unique symbol | undefined'.
+  // Type '"bar" | unique symbol' is not assignable to type '"bar" | unique symbol | undefined'.
+  //  Type 'unique symbol' is not assignable to type '"bar" | unique symbol | undefined'.
   return foo;
 }
 
