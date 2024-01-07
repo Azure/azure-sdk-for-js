@@ -234,7 +234,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
         if (operationOptions && operationOptions.ruCapPerOperation && ruConsumedManager) {
           ruConsumedManager.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
-          console.log("ruConsumedManager.getRUConsumed() ", ruConsumedManager.getRUConsumed());
           if (ruConsumedManager.getRUConsumed() > operationOptions.ruCapPerOperation) {
             // For RUCapPerOperationExceededError error, we won't be updating the state from
             // inProgress as we want to support continue

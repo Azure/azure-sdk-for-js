@@ -296,9 +296,7 @@ export class QueryIterator<T> {
       if (result !== undefined) {
         this.fetchAllTempResources.push(result);
       }
-      console.log("result inside array implementation:", result);
     }
-    console.log("fetchAllTempResources:", this.fetchAllTempResources);
     return new FeedResponse(
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
