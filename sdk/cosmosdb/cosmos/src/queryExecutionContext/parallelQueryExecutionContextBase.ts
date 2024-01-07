@@ -49,9 +49,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   };
   private initializedPriorityQueue: boolean = false;
   private ruCapExceededError: RUCapPerOperationExceededError = undefined;
-  private sem;
   private nextItemfetchSemaphore;
-  private waitingForInternalExecutionContexts: number;
   /**
    * Provides the ParallelQueryExecutionContextBase.
    * This is the base class that ParallelQueryExecutionContext and OrderByQueryExecutionContext will derive from.
@@ -100,7 +98,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     this.orderByPQ = new PriorityQueue<DocumentProducer>(
       (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
     );
-    this.sem = semaphore(1);
     this.nextItemfetchSemaphore = semaphore(1);
   }
 
@@ -274,27 +271,25 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       // if there is a prior error return error
       throw this.err;
     }
-    // document producer queue initilization
-    await new Promise<void>((resolve, reject) => {
-      this.sem.take(async () => {
-        try {
-          if (!this.initializedPriorityQueue) {
-            this.initializedPriorityQueue = true;
+    return new Promise<Response<any>>((resolve, reject) => {
+      this.nextItemfetchSemaphore.take(async () => {
+        // document producer queue initilization
+        if (!this.initializedPriorityQueue) {
+          try {
             await this._createDocumentProducersAndFillUpPriorityQueue(
               operationOptions,
               ruConsumedManager
             );
+            this.initializedPriorityQueue = true;
+          } catch (err: any) {
+            this.err = err;
+            // release the lock before invoking callback
+            this.nextItemfetchSemaphore.leave();
+            reject(this.err);
+            return;
           }
-          resolve();
-        } catch (err) {
-          reject(err);
-        } finally {
-          this.sem.leave();
         }
-      });
-    });
-    return new Promise<Response<any>>((resolve, reject) => {
-      this.nextItemfetchSemaphore.take(() => {
+
         if (!this.diagnosticNodeWrapper.consumed) {
           diagnosticNode.addChildNode(
             this.diagnosticNodeWrapper.diagnosticNode,
@@ -509,7 +504,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   ): Promise<void> {
     try {
       const targetPartitionRanges = await this._onTargetPartitionRanges();
-      this.waitingForInternalExecutionContexts = targetPartitionRanges.length;
       const maxDegreeOfParallelism =
         this.options.maxDegreeOfParallelism === undefined || this.options.maxDegreeOfParallelism < 1
           ? targetPartitionRanges.length
@@ -558,13 +552,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         // Limit concurrent executions
         if (inProgressPromises.length === maxDegreeOfParallelism) {
           await Promise.all(inProgressPromises);
-          this._decrementInitiationLock(inProgressPromises.length);
           inProgressPromises = [];
         }
       }
       // Wait for all promises to complete
       await Promise.all(inProgressPromises);
-      this._decrementInitiationLock(inProgressPromises.length);
       if (this.err) {
         if (this.ruCapExceededError) {
           // merge the buffered items
@@ -579,19 +571,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     } catch (err: any) {
       this.err = err;
       throw err;
-    }
-  }
-
-  private _decrementInitiationLock(contextCount: number): void {
-    // decrements waitingForInternalExecutionContexts
-    // if waitingForInternalExecutionContexts reaches 0 releases the semaphore and changes the state
-    this.waitingForInternalExecutionContexts =
-      this.waitingForInternalExecutionContexts - contextCount;
-    if (this.waitingForInternalExecutionContexts === 0) {
-      this.sem.leave();
-      if (this.orderByPQ.size() === 0) {
-        this.state = ParallelQueryExecutionContextBase.STATES.inProgress;
-      }
     }
   }
 
