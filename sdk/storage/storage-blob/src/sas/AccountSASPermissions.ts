@@ -129,7 +129,7 @@ export class AccountSASPermissions {
   public write: boolean = false;
 
   /**
-   * Permission to create blobs and files granted.
+   * Permission to delete blobs and files granted.
    */
   public delete: boolean = false;
 
