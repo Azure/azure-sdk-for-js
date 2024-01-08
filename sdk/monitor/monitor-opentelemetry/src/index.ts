@@ -37,7 +37,7 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const config = new InternalConfig(options);
 
-  if (config.browserSdkLoaderOptions.enableBrowserSdkLoader) {
+  if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
   }
   _setStatsbeatFeatures(config, browserSdkLoader);

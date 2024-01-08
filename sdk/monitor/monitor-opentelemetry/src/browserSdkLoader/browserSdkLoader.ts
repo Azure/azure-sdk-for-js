@@ -33,17 +33,17 @@ export class BrowserSdkLoader {
     // AI URL used to validate if sdk loader already included
     BrowserSdkLoader._aiUrl = BROWSER_SDK_LOADER_DEFAULT_SOURCE;
     let clientWebIkey;
-    if (config.browserSdkLoaderOptions?.browserSdkLoaderConnectionString) {
+    if (config.browserSdkLoaderOptions?.connectionString) {
       clientWebIkey = this._getBrowserSdkLoaderIkey(
-        config?.browserSdkLoaderOptions?.browserSdkLoaderConnectionString
+        config?.browserSdkLoaderOptions?.connectionString
       );
     }
     this._browserSdkLoaderIkey =
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientBrowserSdkLoaderConfig = config.browserSdkLoaderOptions?.browserSdkLoaderConfig;
-    this._clientBrowserSdkLoaderSrc = config.browserSdkLoaderOptions?.browserSdkLoaderSrc;
+    this._clientBrowserSdkLoaderConfig = config.browserSdkLoaderOptions?.config;
+    this._clientBrowserSdkLoaderSrc = config.browserSdkLoaderOptions?.src;
 
     if (this._isIkeyValid) {
       this._initialize();

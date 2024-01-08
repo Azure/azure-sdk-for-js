@@ -73,10 +73,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     };
     this._resource = this._getDefaultResource();
     this.browserSdkLoaderOptions = {
-      enableBrowserSdkLoader: false,
-      browserSdkLoaderConnectionString: "",
-      browserSdkLoaderSrc: "",
-      browserSdkLoaderConfig: undefined,
+      enabled: false,
+      connectionString: "",
+      src: "",
+      config: undefined,
     };
 
     if (options) {

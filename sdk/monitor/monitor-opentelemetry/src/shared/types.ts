@@ -24,7 +24,7 @@ export interface AzureMonitorOpenTelemetryOptions {
    */
   instrumentationOptions?: InstrumentationOptions;
   /**
-   * Application Insights Web Instrumentation options (enableBrowserSdkLoader, browserSdkLoaderConnectionString, browserSdkLoaderSrc, browserSdkLoaderConfig)
+   * Application Insights Web Instrumentation options (enabled, connectionString, src, config)
    */
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 }
@@ -54,13 +54,13 @@ export interface InstrumentationOptions {
  */
 export interface BrowserSdkLoaderOptions {
   /** Browser SDK Loader Enable */
-  enableBrowserSdkLoader?: boolean;
+  enabled?: boolean;
   /** Browser SDK Loader Connection String */
-  browserSdkLoaderConnectionString?: string;
-  /** Browser SDK Loader Instrumentation Key */
-  browserSdkLoaderSrc?: string;
+  connectionString?: string;
+  /** The full URL for where to load the SDK from */
+  src?: string;
   /** Browser SDK Loader Config */
-  browserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
+  config?: IBrowserSdkLoaderConfig;
 }
 
 /**

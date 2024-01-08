@@ -21,10 +21,10 @@ export interface AzureMonitorOpenTelemetryOptions {
 
 // @public
 export interface BrowserSdkLoaderOptions {
-    browserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
-    browserSdkLoaderConnectionString?: string;
-    browserSdkLoaderSrc?: string;
-    enableBrowserSdkLoader?: boolean;
+    config?: IBrowserSdkLoaderConfig;
+    connectionString?: string;
+    enabled?: boolean;
+    src?: string;
 }
 
 // @public
