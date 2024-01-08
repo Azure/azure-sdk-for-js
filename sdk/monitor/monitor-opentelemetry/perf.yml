@@ -14,7 +14,7 @@ parameters:
 - name: Tests
   displayName: Tests (regex of tests to run)
   type: string
-  default: '^(process-events-batch|send-events-batch)$'
+  default: '^(span-export|log-export|metric-export)$'
 - name: Arguments
   displayName: Arguments (regex of arguments to run)
   type: string

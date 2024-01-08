@@ -5,23 +5,21 @@ Project: sdk/monitor/perf-tests/monitor-opentelemetry
 PrimaryPackage: '@azure/monitor-opentelemetry'
 
 PackageVersions:
-- '@azure/event-hubs': 5.8.0
-  '@azure/core-amqp': 3.2.0
-  '@azure/core-auth': 1.4.0
-  '@azure/core-http': 2.3.1
-  '@azure/core-rest-pipeline': 1.10.0
-  '@azure/core-tracing': 1.0.1
-  '@azure/core-util': 1.1.1
-  '@azure/abort-controller': 1.1.0
-  '@azure/logger': 1.0.3
-- '@azure/event-hubs': source
-  '@azure/core-amqp': source
-  '@azure/core-auth': source
-  '@azure/core-rest-pipeline': source
-  '@azure/core-tracing': source
-  '@azure/core-util': source
-  '@azure/abort-controller': source
-  '@azure/logger': source
+- '@azure/test-utils-perf': 1.0.0
+  'dotenv': 16.0.0
+  'uuid': 8.3.0
+  '@opentelemetry/api': 1.7.0
+  '@azure/monitor-opentelemetry': 1.0.0-beta.4
+  '@opentelemetry/api-logs': 0.46.0
+  '@opentelemetry/sdk-logs': 0.46.0
+- '@azure/test-utils-perf': source
+  'dotenv': source
+  'uuid': source
+  '@opentelemetry/api': source
+  '@azure/monitor-opentelemetry': source
+  '@opentelemetry/api-logs': source
+  '@opentelemetry/sdk-logs': source
+
 
 Tests:
 - Test: span-export
