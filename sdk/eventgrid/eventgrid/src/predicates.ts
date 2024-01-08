@@ -191,7 +191,7 @@ import {
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
   StorageTaskAssignmentQueuedEventData,
-  StorageTaskAssignmentCompletedEventData
+  StorageTaskAssignmentCompletedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";

@@ -308,5 +308,5 @@ export {
   ResourceNotificationsResourceDeletedDetails,
   StorageTaskAssignmentQueuedEventData,
   StorageTaskAssignmentCompletedEventData,
-  StorageTaskAssignmentCompletedStatus
+  StorageTaskAssignmentCompletedStatus,
 } from "./generated/models";
