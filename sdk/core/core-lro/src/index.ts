@@ -33,3 +33,6 @@ export * from "./legacy/lroEngine";
 export * from "./legacy/poller";
 export * from "./legacy/pollOperation";
 export { PollerLike } from "./legacy/models";
+
+import * as CoreNext from "./next";
+export { CoreNext };
