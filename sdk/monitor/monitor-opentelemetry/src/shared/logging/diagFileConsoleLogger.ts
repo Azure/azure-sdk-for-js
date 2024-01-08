@@ -4,6 +4,7 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { DiagLogger } from "@opentelemetry/api";
 import {
   accessAsync,
   appendFileAsync,
@@ -15,8 +16,8 @@ import {
   unlinkAsync,
 } from "../../utils";
 
-export class InternalAzureLogger {
-  private _TAG = "InternalLogger:";
+export class DiagFileConsoleLogger implements DiagLogger {
+  private _TAG = "DiagFileConsoleLogger:";
   private _cleanupTimeOut = 60 * 30 * 1000; // 30 minutes;
   private _fileCleanupTimer: NodeJS.Timeout | null = null;
   private _tempDir: string;
@@ -64,6 +65,26 @@ export class InternalAzureLogger {
         this._fileCleanupTimer.unref();
       }
     }
+  }
+
+  public error(message?: any, ...args: any[]) {
+    this.logMessage(message, args);
+  }
+
+  public warn(message?: any, ...args: any[]) {
+    this.logMessage(message, args);
+  }
+
+  public info(message?: any, ...args: any[]) {
+    this.logMessage(message, args);
+  }
+
+  public debug(message?: any, ...args: any[]) {
+    this.logMessage(message, args);
+  }
+
+  public verbose(message?: any, ...args: any[]) {
+    this.logMessage(message, args);
   }
 
   public async logMessage(message?: any, ...optionalParams: any[]) {
