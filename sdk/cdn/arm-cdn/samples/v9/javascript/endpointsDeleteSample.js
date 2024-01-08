@@ -28,7 +28,7 @@ async function endpointsDelete() {
   const result = await client.endpoints.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

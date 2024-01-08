@@ -29,7 +29,7 @@ async function kustoClusterPrincipalAssignmentsGet() {
   const result = await client.clusterPrincipalAssignments.get(
     resourceGroupName,
     clusterName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }

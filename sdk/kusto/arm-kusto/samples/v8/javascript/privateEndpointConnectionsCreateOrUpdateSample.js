@@ -36,7 +36,7 @@ async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
     resourceGroupName,
     clusterName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

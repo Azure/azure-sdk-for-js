@@ -414,7 +414,6 @@ describe("logUtils.ts", () => {
     };
 
     const envelope = logToEnvelope(testLogRecord as ReadableLogRecord, "ikey");
-    console.log("TEST ENVELOPE!!!", envelope);
     assertEnvelope(
       envelope,
       "Microsoft.ApplicationInsights.Message",
