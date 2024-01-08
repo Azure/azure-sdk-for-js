@@ -11,25 +11,10 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public
-export enum KnownMmsContentType {
-    AudioAc3 = "audio/ac3",
-    AudioAmr = "audio/amr",
-    AudioWav = "audio/wav",
-    AudioXWav = "audio/x-wav",
-    ImageBmp = "image/bmp",
-    ImageGif = "image/gif",
-    ImageJpeg = "image/jpeg",
-    ImagePng = "image/png",
-    TextPlain = "text/plain",
-    VideoMp4 = "video/mp4",
-    VideoXMsvideo = "video/x-msvideo"
-}
-
 // @public (undocumented)
 export interface MmsAttachment {
-    contentInBase64: Uint8Array;
-    contentType: KnownMmsContentType;
+    content: Uint8Array;
+    contentType: MmsContentType;
 }
 
 // @public
@@ -42,6 +27,21 @@ export class MmsClient {
 
 // @public
 export interface MmsClientOptions extends CommonClientOptions {
+}
+
+// @public
+export enum MmsContentType {
+    AudioAc3 = "audio/ac3",
+    AudioAmr = "audio/amr",
+    AudioWav = "audio/wav",
+    AudioXWav = "audio/x-wav",
+    ImageBmp = "image/bmp",
+    ImageGif = "image/gif",
+    ImageJpeg = "image/jpeg",
+    ImagePng = "image/png",
+    TextPlain = "text/plain",
+    VideoMp4 = "video/mp4",
+    VideoXMsvideo = "video/x-msvideo"
 }
 
 // @public

@@ -26,7 +26,12 @@ export function generateMmsSendMessageRequest(
         repeatabilityRequestId: Uuid.generateUuid(),
       };
     }),
-    attachments: mmsRequest.attachments,
+    attachments: mmsRequest.attachments.map((attachment) => {
+      return {
+        contentType: attachment.contentType,
+        contentInBase64: attachment.content,
+      };
+    }),
     message: mmsRequest.message,
     sendOptions: {
       enableDeliveryReport: options.enableDeliveryReport ?? false,

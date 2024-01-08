@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KnownMmsContentType } from "./generated/src/models";
+import { KnownMmsContentType as MmsContentType } from "./generated/src/models";
 
 export interface MmsAttachment {
   /** MIME type of attachment. */
-  contentType: KnownMmsContentType;
+  contentType: MmsContentType;
   /** Content of the attachment encoded in base 64. */
-  contentInBase64: Uint8Array;
+  content: Uint8Array;
 }
 
 export {
-  KnownMmsContentType,
+  KnownMmsContentType as MmsContentType
 } from "./generated/src/models";
