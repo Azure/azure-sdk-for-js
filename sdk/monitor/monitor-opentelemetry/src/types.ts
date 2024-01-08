@@ -8,7 +8,7 @@ export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURE
  * Default Browser SDK Loader Source
  * @internal
  */
-export const WEB_INSTRUMENTATION_DEFAULT_SOURCE = "https://js.monitor.azure.com/scripts/b/ai";
+export const BROWSER_SDK_LOADER_DEFAULT_SOURCE = "https://js.monitor.azure.com/scripts/b/ai";
 
 /**
  * Default Breeze endpoint.
