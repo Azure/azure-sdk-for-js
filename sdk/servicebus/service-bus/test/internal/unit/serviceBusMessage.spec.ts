@@ -129,7 +129,10 @@ describe("ServiceBusMessageImpl unit tests", () => {
       assert.equal(sbMessage._rawAmqpMessage.header?.deliveryCount, amqpMessage.delivery_count);
 
       assert.equal(sbMessage.deliveryCount, amqpMessage.delivery_count);
-      assert.equal(sbMessage.timeToLive, amqpMessage.ttl);
+      assert.equal(
+        sbMessage.timeToLive,
+        amqpMessage.absolute_expiry_time!.getTime() - amqpMessage.creation_time!.getTime()
+      );
     });
 
     it("message annotations match", () => {
