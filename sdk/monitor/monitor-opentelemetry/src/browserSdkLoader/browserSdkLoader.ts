@@ -8,7 +8,7 @@ import { InternalConfig } from "../shared";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
-import { WEB_INSTRUMENTATION_DEFAULT_SOURCE } from "../types";
+import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
 import { IBrowserSdkLoaderConfig } from "../shared/types";
 
 export class BrowserSdkLoader {
@@ -31,7 +31,7 @@ export class BrowserSdkLoader {
 
     BrowserSdkLoader._instance = this;
     // AI URL used to validate if sdk loader already included
-    BrowserSdkLoader._aiUrl = WEB_INSTRUMENTATION_DEFAULT_SOURCE;
+    BrowserSdkLoader._aiUrl = BROWSER_SDK_LOADER_DEFAULT_SOURCE;
     let clientWebIkey;
     if (config.browserSdkLoaderOptions?.browserSdkLoaderConnectionString) {
       clientWebIkey = this._getBrowserSdkLoaderIkey(
@@ -90,7 +90,7 @@ export class BrowserSdkLoader {
     let replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
     if (this._clientBrowserSdkLoaderSrc) {
       return replacedSdkLoader.replace(
-        `${WEB_INSTRUMENTATION_DEFAULT_SOURCE}.2.min.js`,
+        `${BROWSER_SDK_LOADER_DEFAULT_SOURCE}.2.min.js`,
         this._clientBrowserSdkLoaderSrc
       );
     }
