@@ -16,7 +16,7 @@ import {
   AssistantThreadCreationOptions,
   CreateAndRunThreadOptions,
   ToolDefinition,
-  ToolOutputSubmission,
+  ToolOutput,
   TypeSpecRecord,
 } from "./models.js";
 
@@ -164,7 +164,7 @@ export interface ModifyRunBodyParam {
 }
 
 export interface SubmitRunToolOutputsBodyParam {
-  body?: { tool_outputs: Array<ToolOutputSubmission> };
+  body?: { tool_outputs: Array<ToolOutput> };
 }
 
 export interface CreateThreadAndRunBodyParam {

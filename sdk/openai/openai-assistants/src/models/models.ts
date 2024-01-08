@@ -323,12 +323,12 @@ export interface ToolCall {
   type: string;
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
-  /** The key/value pairs produced by the retrieval tool. */
+/** The key/value pairs produced by the retrieval tool. */
   retrieval?: Record<string, string>;
   /** The detailed information about the function called by the model. */
-  function?: FunctionCallDetails;
+  function?: FunctionToolCallDetails;
   /** The details of the tool call to the code interpreter tool. */
-  codeInterpreter?: CodeInterpreterCallDetails;
+  codeInterpreter?: CodeInterpreterToolCallDetails;
 }
 
 /**
@@ -339,29 +339,29 @@ export interface CodeInterpreterToolCall extends ToolCall {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
-  codeInterpreter: CodeInterpreterCallDetails;
+  codeInterpreter: CodeInterpreterToolCallDetails;
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
-export interface CodeInterpreterCallDetails {
+export interface CodeInterpreterToolCallDetails {
   /** The input provided by the model to the code interpreter tool. */
   input: string;
   /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
-  outputs: CodeInterpreterCallOutput[];
+  outputs: CodeInterpreterToolCallOutput[];
 }
 
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterCallOutput {
+export interface CodeInterpreterToolCallOutput {
   /** the discriminator possible values logs, image */
   type: string;
-  /** The serialized log output emitted by the code interpreter. */
+/** The serialized log output emitted by the code interpreter. */
   logs?: string;
   /** Referential information for the image associated with this output. */
   image?: CodeInterpreterImageReference;
 }
 
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutput extends CodeInterpreterCallOutput {
+export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutput {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -369,7 +369,7 @@ export interface CodeInterpreterLogOutput extends CodeInterpreterCallOutput {
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutput extends CodeInterpreterCallOutput {
+export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutput {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -401,11 +401,11 @@ export interface FunctionToolCall extends ToolCall {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The detailed information about the function called by the model. */
-  function: FunctionCallDetails;
+  function: FunctionToolCallDetails;
 }
 
 /** The detailed information about the function called by the model. */
-export interface FunctionCallDetails {
+export interface FunctionToolCallDetails {
   /** The name of the function. */
   name: string;
   /** The arguments that the model requires are provided to the named function. */
@@ -431,7 +431,7 @@ export interface RunError {
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
-export interface ToolOutputSubmission {
+export interface ToolOutput {
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
   toolCallId?: string;
   /** The output from the tool to be submitted. */
@@ -490,7 +490,7 @@ export interface RunStep {
 export interface RunStepDetails {
   /** the discriminator possible values: message_creation, tool_calls */
   type: RunStepType;
-  /** A list tool call details for this run step. */
+/** A list tool call details for this run step. */
   toolCalls?: ToolCall[];
   /** Information about the message creation associated with this run step. */
   messageCreation?: RunStepMessageCreationReference;
@@ -540,6 +540,20 @@ export interface FileListResponse {
   data: InputFile[];
 }
 
+/** Represents an assistant that can call the model and use tools. */
+export interface InputFile {
+  /** The identifier, which can be referenced in API endpoints. */
+  id: string;
+  /** The size of the file, in bytes. */
+  bytes: number;
+  /** The name of the file. */
+  filename: string;
+  /** The Unix timestamp, in seconds, representing when this object was created. */
+  createdAt: Date;
+  /** The intended purpose of a file. */
+  purpose: FilePurpose;
+}
+
 /** A status response from a file deletion operation. */
 export interface FileDeletionStatus extends DeletionStatus {
   /** The ID of the deleted file. */
@@ -578,20 +592,6 @@ export interface ListResponseOf<T> {
   lastId: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
-}
-
-/** Represents a file */
-export interface InputFile {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The size of the file, in bytes. */
-  bytes: number;
-  /** The name of the file. */
-  filename: string;
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
-  /** The intended purpose of a file. */
-  purpose: FilePurpose;
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */

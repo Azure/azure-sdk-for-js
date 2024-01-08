@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to use the AOAI assistants API with local function calls.
- * 
+ *
  *
  * @summary assistants code.
  * @azsdk-weight 100

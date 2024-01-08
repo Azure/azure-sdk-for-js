@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to use the AOAI assistants API with additional knowledge from uploaded files.
- * 
+ *
  *
  * @summary assistants code.
  * @azsdk-weight 100
@@ -17,15 +17,19 @@ export async function main() {
   const assistantsClient = new AssistantsClient(new OpenAIKeyCredential(nonAzureKey));
   // File upload sample code
   const filename = "sample_file_for_upload.txt";
-  const uint8array = new TextEncoder().encode("The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
-  const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename });
+  const uint8array = new TextEncoder().encode(
+    "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457."
+  );
+  const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", {
+    filename,
+  });
   console.log(uploadAssistantFile);
   const fileAssistantResponse = await assistantsClient.assistants.createAssistant({
     model: "gpt-4-1106-preview",
     name: "JS SDK Test Assistant - Retrieval",
     instructions: "Please address the user as Jane Doe. The user has a premium account.",
     tools: [{ type: "retrieval" }],
-    fileIds: [ uploadAssistantFile.id ]
+    fileIds: [uploadAssistantFile.id],
   });
   console.log(fileAssistantResponse);
 
@@ -44,9 +48,10 @@ export async function main() {
     fileAssistantResponse.id,
     {
       requestOptions: { timeout: 10000 },
-      instructions: "You are a helpful assistant that can help fetch data from files you know about.",
+      instructions:
+        "You are a helpful assistant that can help fetch data from files you know about.",
       tools: [{ type: "retrieval" }],
-    },
+    }
   );
   console.log(runResponse);
 

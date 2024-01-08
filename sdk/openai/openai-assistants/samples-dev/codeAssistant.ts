@@ -3,7 +3,7 @@
 
 /**
  * Demonstrates how to use the AOAI assistants API.
- * 
+ *
  *
  * @summary assistants code.
  * @azsdk-weight 100
@@ -27,21 +27,33 @@ export async function main() {
   console.log(assistantThread);
 
   const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-  const threadResponse = await assistantsClient.threadMessages.createMessage(assistantThread.id, "user", question);
+  const threadResponse = await assistantsClient.threadMessages.createMessage(
+    assistantThread.id,
+    "user",
+    question
+  );
   console.log(threadResponse);
-  let runResponse = await assistantsClient.threadRuns.createRun(assistantThread.id, assistantResponse.id, {
-    requestOptions: { timeout: 10000 },
-    instructions: "Please address the user as Jane Doe. The user has a premium account.",
-  });
+  let runResponse = await assistantsClient.threadRuns.createRun(
+    assistantThread.id,
+    assistantResponse.id,
+    {
+      requestOptions: { timeout: 10000 },
+      instructions: "Please address the user as Jane Doe. The user has a premium account.",
+    }
+  );
   console.log(runResponse);
 
   do {
     await new Promise((r) => setTimeout(r, 500));
     runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
-    const runSteps = await assistantsClient.runSteps.listRunSteps(assistantThread.id, runResponse.id, {
-      requestOptions: {},
-      limit: 1,
-    });
+    const runSteps = await assistantsClient.runSteps.listRunSteps(
+      assistantThread.id,
+      runResponse.id,
+      {
+        requestOptions: {},
+        limit: 1,
+      }
+    );
     console.log(runSteps);
   } while (runResponse.status === "queued" || runResponse.status === "in_progress");
 

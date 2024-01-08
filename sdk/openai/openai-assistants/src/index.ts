@@ -10,7 +10,7 @@
  */
 
 export { AzureKeyCredential } from "@azure/core-auth";
-export { AssistantsClient, AssistantsClientOptions } from "./assistantsClient.js";
+export { AssistantsClient, AssistantsClientOptions } from "./AssistantsClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
 export {
   AssistantThreadsOperations,
@@ -42,12 +42,12 @@ export {
   AssistantsModifyAssistantOptions,
   AssistantsRetrieveAssistantFileOptions,
   AssistantsRetrieveAssistantOptions,
-  CodeInterpreterCallDetails,
-  CodeInterpreterCallOutput,
   CodeInterpreterImageOutput,
   CodeInterpreterImageReference,
   CodeInterpreterLogOutput,
   CodeInterpreterToolCall,
+  CodeInterpreterToolCallDetails,
+  CodeInterpreterToolCallOutput,
   CodeInterpreterToolDefinition,
   CreateAndRunThreadOptions,
   DeletionStatus,
@@ -59,10 +59,11 @@ export {
   FilesRetrieveFileContentOptions,
   FilesRetrieveFileOptions,
   FilesUploadFileOptions,
-  FunctionCallDetails,
   FunctionDefinition,
   FunctionToolCall,
+  FunctionToolCallDetails,
   FunctionToolDefinition,
+  InputFile,
   ListSortOrder,
   MessageContent,
   MessageContentParent,
@@ -114,5 +115,5 @@ export {
   ToolCall,
   ToolDefinition,
   ToolDefinitionParent,
-  ToolOutputSubmission,
+  ToolOutput,
 } from "./models/index.js";

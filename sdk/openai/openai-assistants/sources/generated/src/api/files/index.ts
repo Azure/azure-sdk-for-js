@@ -4,7 +4,7 @@
 import {
   FilePurpose,
   FileListResponse,
-  File,
+  InputFile,
   FileDeletionStatus,
 } from "../../models/models.js";
 import {
@@ -89,7 +89,7 @@ export function _uploadFileSend(
 
 export async function _uploadFileDeserialize(
   result: UploadFile200Response
-): Promise<File> {
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -109,7 +109,7 @@ export async function uploadFile(
   file: Uint8Array,
   purpose: FilePurpose,
   options: FilesUploadFileOptions = { requestOptions: {} }
-): Promise<File> {
+): Promise<InputFile> {
   const result = await _uploadFileSend(context, file, purpose, options);
   return _uploadFileDeserialize(result);
 }
@@ -159,7 +159,7 @@ export function _retrieveFileSend(
 
 export async function _retrieveFileDeserialize(
   result: RetrieveFile200Response
-): Promise<File> {
+): Promise<InputFile> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -178,7 +178,7 @@ export async function retrieveFile(
   context: Client,
   fileId: string,
   options: FilesRetrieveFileOptions = { requestOptions: {} }
-): Promise<File> {
+): Promise<InputFile> {
   const result = await _retrieveFileSend(context, fileId, options);
   return _retrieveFileDeserialize(result);
 }

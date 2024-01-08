@@ -195,20 +195,7 @@ export interface AssistantThreadsRetrieveThreadOptions extends OperationOptions 
 export { AzureKeyCredential }
 
 // @public
-export interface CodeInterpreterCallDetails {
-    input: string;
-    outputs: CodeInterpreterCallOutput[];
-}
-
-// @public
-export interface CodeInterpreterCallOutput {
-    image?: CodeInterpreterImageReference;
-    logs?: string;
-    type: string;
-}
-
-// @public
-export interface CodeInterpreterImageOutput extends CodeInterpreterCallOutput {
+export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutput {
     image: CodeInterpreterImageReference;
     type: "image";
 }
@@ -219,15 +206,28 @@ export interface CodeInterpreterImageReference {
 }
 
 // @public
-export interface CodeInterpreterLogOutput extends CodeInterpreterCallOutput {
+export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutput {
     logs: string;
     type: "logs";
 }
 
 // @public
 export interface CodeInterpreterToolCall extends ToolCall {
-    codeInterpreter: CodeInterpreterCallDetails;
+    codeInterpreter: CodeInterpreterToolCallDetails;
     type: "code_interpreter";
+}
+
+// @public
+export interface CodeInterpreterToolCallDetails {
+    input: string;
+    outputs: CodeInterpreterToolCallOutput[];
+}
+
+// @public
+export interface CodeInterpreterToolCallOutput {
+    image?: CodeInterpreterImageReference;
+    logs?: string;
+    type: string;
 }
 
 // @public
@@ -257,7 +257,6 @@ export interface FileDeletionStatus extends DeletionStatus {
 
 // @public
 export interface FileListResponse {
-    // Warning: (ae-forgotten-export) The symbol "InputFile" needs to be exported by the entry point index.d.ts
     data: InputFile[];
 }
 
@@ -302,13 +301,6 @@ export interface FilesUploadFileOptions extends OperationOptions {
 }
 
 // @public
-export interface FunctionCallDetails {
-    arguments: string;
-    name: string;
-    output?: string | null;
-}
-
-// @public
 export interface FunctionDefinition {
     description: string;
     name: string;
@@ -317,14 +309,30 @@ export interface FunctionDefinition {
 
 // @public
 export interface FunctionToolCall extends ToolCall {
-    function: FunctionCallDetails;
+    function: FunctionToolCallDetails;
     type: "function";
+}
+
+// @public
+export interface FunctionToolCallDetails {
+    arguments: string;
+    name: string;
+    output?: string | null;
 }
 
 // @public
 export interface FunctionToolDefinition extends ToolDefinitionParent {
     function: FunctionDefinition;
     type: "function";
+}
+
+// @public
+export interface InputFile {
+    bytes: number;
+    createdAt: Date;
+    filename: string;
+    id: string;
+    purpose: FilePurpose;
 }
 
 // @public
@@ -676,7 +684,7 @@ export interface ThreadRunsOperations {
     // (undocumented)
     retrieveRun: (threadId: string, runId: string, options?: ThreadRunsRetrieveRunOptions) => Promise<ThreadRun>;
     // (undocumented)
-    submitRunToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutputSubmission[], options?: ThreadRunsSubmitRunToolOutputsOptions) => Promise<ThreadRun>;
+    submitRunToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: ThreadRunsSubmitRunToolOutputsOptions) => Promise<ThreadRun>;
 }
 
 // @public (undocumented)
@@ -689,8 +697,8 @@ export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions 
 
 // @public
 export interface ToolCall {
-    codeInterpreter?: CodeInterpreterCallDetails;
-    function?: FunctionCallDetails;
+    codeInterpreter?: CodeInterpreterToolCallDetails;
+    function?: FunctionToolCallDetails;
     id: string;
     retrieval?: Record<string, string>;
     type: string;
@@ -709,7 +717,7 @@ export interface ToolDefinitionParent {
 }
 
 // @public
-export interface ToolOutputSubmission {
+export interface ToolOutput {
     output?: string;
     toolCallId?: string;
 }

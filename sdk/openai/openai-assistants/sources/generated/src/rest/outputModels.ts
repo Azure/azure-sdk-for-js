@@ -232,7 +232,7 @@ export interface MessageImageFileDetailsOutput {
 
 /** An encapsulation of an image file ID, as used by message image content. */
 export interface MessageImageFileIdDetailsOutput {
-  /** The ID of the specific file that the citation is from. */
+  /** The ID of the specific image file. */
   file_id: string;
 }
 
@@ -360,25 +360,25 @@ export interface CodeInterpreterToolCallOutput extends ToolCallOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
-  code_interpreter: CodeInterpreterCallDetailsOutput;
+  code_interpreter: CodeInterpreterToolCallDetailsOutput;
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
-export interface CodeInterpreterCallDetailsOutput {
+export interface CodeInterpreterToolCallDetailsOutput {
   /** The input provided by the model to the code interpreter tool. */
   input: string;
   /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
-  outputs: Array<CodeInterpreterCallOutputOutput>;
+  outputs: Array<CodeInterpreterToolCallOutputOutput>;
 }
 
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterToolCallOutputOutputParent {
   type: string;
 }
 
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
 export interface CodeInterpreterLogOutputOutput
-  extends CodeInterpreterCallOutputOutputParent {
+  extends CodeInterpreterToolCallOutputOutputParent {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -387,7 +387,7 @@ export interface CodeInterpreterLogOutputOutput
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
 export interface CodeInterpreterImageOutputOutput
-  extends CodeInterpreterCallOutputOutputParent {
+  extends CodeInterpreterToolCallOutputOutputParent {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -419,11 +419,11 @@ export interface FunctionToolCallOutput extends ToolCallOutputParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The detailed information about the function called by the model. */
-  function: FunctionCallDetailsOutput;
+  function: FunctionToolCallDetailsOutput;
 }
 
 /** The detailed information about the function called by the model. */
-export interface FunctionCallDetailsOutput {
+export interface FunctionToolCallDetailsOutput {
   /** The name of the function. */
   name: string;
   /** The arguments that the model requires are provided to the named function. */
@@ -599,8 +599,8 @@ export type ToolCallOutput =
   | RetrievalToolCallOutput
   | FunctionToolCallOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export type CodeInterpreterCallOutputOutput =
-  | CodeInterpreterCallOutputOutputParent
+export type CodeInterpreterToolCallOutputOutput =
+  | CodeInterpreterToolCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of the details for a run step. */

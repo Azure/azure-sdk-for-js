@@ -4,7 +4,7 @@
 import { ListResponseOf } from "../../models/models.js";
 import {
   ThreadRun,
-  ToolOutputSubmission,
+  ToolOutput,
   CreateAndRunThreadOptions,
 } from "../../../generated/src/models/models.js";
 import {
@@ -40,7 +40,7 @@ export interface ThreadRunsOperations {
   submitRunToolOutputs: (
     threadId: string,
     runId: string,
-    toolOutputs: ToolOutputSubmission[],
+    toolOutputs: ToolOutput[],
     options?: ThreadRunsSubmitRunToolOutputsOptions
   ) => Promise<ThreadRun>;
   cancelRun: (

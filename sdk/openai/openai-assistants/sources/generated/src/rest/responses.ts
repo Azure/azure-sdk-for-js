@@ -18,7 +18,6 @@ import {
   FileOutput,
   FileDeletionStatusOutput,
 } from "./outputModels.js";
-import { ListResponseOfOutput } from "../../../customizations/rest/outputModels.js";
 
 /** The new assistant instance. */
 export interface CreateAssistant200Response extends HttpResponse {
@@ -185,7 +184,7 @@ export interface RetrieveRunStep200Response extends HttpResponse {
 /** The requested list of run steps. */
 export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<RunStepOutput>;
+  body: OpenAIPageableListOfOutput;
 }
 
 /** The requested list of files. */

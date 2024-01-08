@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ToolDefinition } from "../../generated/src/models.js";
+import { ToolDefinition } from "../../generated/src/rest/models.js";
 
 export interface UploadFileBodyParam {
   body?: { file: File; purpose: string; filename?: string };

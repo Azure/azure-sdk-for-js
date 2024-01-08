@@ -5,7 +5,7 @@ import { AssistantsContext } from "../../api/AssistantsContext.js";
 import {
   OpenAIPageableListOf,
   ThreadRun,
-  ToolOutputSubmission,
+  ToolOutput,
   CreateAndRunThreadOptions,
 } from "../../models/models.js";
 import {
@@ -50,7 +50,7 @@ export interface ThreadRunsOperations {
   submitRunToolOutputs: (
     threadId: string,
     runId: string,
-    toolOutputs: ToolOutputSubmission[],
+    toolOutputs: ToolOutput[],
     options?: ThreadRunsSubmitRunToolOutputsOptions
   ) => Promise<ThreadRun>;
   cancelRun: (
@@ -86,7 +86,7 @@ export function getThreadRuns(context: AssistantsContext) {
     submitRunToolOutputs: (
       threadId: string,
       runId: string,
-      toolOutputs: ToolOutputSubmission[],
+      toolOutputs: ToolOutput[],
       options?: ThreadRunsSubmitRunToolOutputsOptions
     ) => submitRunToolOutputs(context, threadId, runId, toolOutputs, options),
     cancelRun: (

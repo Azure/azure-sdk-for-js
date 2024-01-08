@@ -8,21 +8,25 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+/** An abstract representation of an input tool definition that an assistant can use. */
+export interface ToolDefinitionOutputParent {
+  type: string;
+}
 
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutput {
+export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutput {
+export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinitionOutput extends ToolDefinitionOutput {
+export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -61,6 +65,18 @@ export interface AssistantOutput {
   file_ids: string[];
   /** A set of up to 16 key/value pairs that can be attached to an object, used for storing additional information about that object in a structured format. Keys may be up to 64 characters in length and values may be up to 512 characters in length. */
   metadata?: TypeSpecRecordOutput;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<AssistantOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** The status of an assistant deletion operation. */
@@ -126,7 +142,7 @@ export interface ThreadMessageOutput {
 /** An abstract representation of a single item of thread message content. */
 export interface MessageContentOutput {
   type: string;
-  /** The text and associated annotations for this thread message content item. */
+/** The text and associated annotations for this thread message content item. */
   text?: MessageTextDetailsOutput;
   /** The image file for this thread message content item. */
   image_file?: MessageImageFileDetailsOutput;
@@ -208,7 +224,7 @@ export interface MessageImageFileDetailsOutput {
 
 /** An encapsulation of an image file ID, as used by message image content. */
 export interface MessageImageFileIdDetailsOutput {
-  /** The ID of the specific file that the citation is from. */
+  /** The ID of the specific image file. */
   file_id: string;
 }
 
@@ -277,7 +293,7 @@ export interface ThreadRunOutput {
 /** An abstract representation of a required action for an assistant thread run to continue. */
 export interface RequiredActionOutput {
   type: string;
-  submit_tool_outputs?: SubmitToolOutputsDetailsOutput;
+submit_tool_outputs?: SubmitToolOutputsDetailsOutput;
 }
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
@@ -302,12 +318,12 @@ export interface ToolCallOutput {
   /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
   id: string;
   type: string;
-  /** The details of the tool call to the code interpreter tool. */
-  code_interpreter?: CodeInterpreterCallDetailsOutput;
+/** The details of the tool call to the code interpreter tool. */
+  code_interpreter?: CodeInterpreterToolCallDetailsOutput;
   /** The key/value pairs produced by the retrieval tool. */
   retrieval?: TypeSpecRecordOutput;
   /** The detailed information about the function called by the model. */
-  function?: FunctionCallDetailsOutput;
+  function?: FunctionToolCallDetailsOutput;
 }
 
 /**
@@ -318,24 +334,24 @@ export interface CodeInterpreterToolCallOutput extends ToolCallOutput {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
   /** The details of the tool call to the code interpreter tool. */
-  code_interpreter: CodeInterpreterCallDetailsOutput;
+  code_interpreter: CodeInterpreterToolCallDetailsOutput;
 }
 
 /** The detailed information about a code interpreter invocation by the model. */
-export interface CodeInterpreterCallDetailsOutput {
+export interface CodeInterpreterToolCallDetailsOutput {
   /** The input provided by the model to the code interpreter tool. */
   input: string;
   /** The outputs produced by the code interpreter tool back to the model in response to the tool call. */
-  outputs: Array<CodeInterpreterCallOutputOutput>;
+  outputs: Array<CodeInterpreterToolCallOutputOutput>;
 }
 
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterToolCallOutputOutputParent {
   type: string;
 }
 
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutputOutput extends CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterLogOutputOutput extends CodeInterpreterToolCallOutputOutputParent {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -343,7 +359,8 @@ export interface CodeInterpreterLogOutputOutput extends CodeInterpreterCallOutpu
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutputOutput extends CodeInterpreterCallOutputOutputParent {
+export interface CodeInterpreterImageOutputOutput
+  extends CodeInterpreterToolCallOutputOutputParent {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -375,11 +392,11 @@ export interface FunctionToolCallOutput extends ToolCallOutput {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The detailed information about the function called by the model. */
-  function: FunctionCallDetailsOutput;
+  function: FunctionToolCallDetailsOutput;
 }
 
 /** The detailed information about the function called by the model. */
-export interface FunctionCallDetailsOutput {
+export interface FunctionToolCallDetailsOutput {
   /** The name of the function. */
   name: string;
   /** The arguments that the model requires are provided to the named function. */
@@ -523,8 +540,8 @@ export type MessageTextAnnotationOutput =
   | MessageFileCitationTextAnnotationOutput
   | MessageFilePathTextAnnotationOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
-export type CodeInterpreterCallOutputOutput =
-  | CodeInterpreterCallOutputOutputParent
+export type CodeInterpreterToolCallOutputOutput =
+  | CodeInterpreterToolCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of the details for a run step. */

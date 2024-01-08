@@ -4,7 +4,7 @@
 import {
   OpenAIPageableListOf,
   ThreadRun,
-  ToolOutputSubmission,
+  ToolOutput,
   CreateAndRunThreadOptions,
 } from "../../models/models.js";
 import {
@@ -347,7 +347,7 @@ export function _submitRunToolOutputsSend(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutputSubmission[],
+  toolOutputs: ToolOutput[],
   options: ThreadRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): StreamableMethod<SubmitRunToolOutputs200Response> {
   return context
@@ -426,7 +426,7 @@ export async function submitRunToolOutputs(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutputSubmission[],
+  toolOutputs: ToolOutput[],
   options: ThreadRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): Promise<ThreadRun> {
   const result = await _submitRunToolOutputsSend(

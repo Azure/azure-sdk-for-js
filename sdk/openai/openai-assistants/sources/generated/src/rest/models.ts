@@ -199,7 +199,7 @@ export interface MessageImageFileIdDetails {
 }
 
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
-export interface ToolOutputSubmission {
+export interface ToolOutput {
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
   tool_call_id?: string;
   /** The output from the tool to be submitted. */

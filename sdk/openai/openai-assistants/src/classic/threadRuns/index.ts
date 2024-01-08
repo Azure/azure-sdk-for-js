@@ -23,7 +23,7 @@ import {
   CreateAndRunThreadOptions,
   ListResponseOf,
   ThreadRun,
-  ToolOutputSubmission,
+  ToolOutput,
 } from "../../models/models.js";
 import {
   ThreadRunsCancelRunOptions,
@@ -58,7 +58,7 @@ export interface ThreadRunsOperations {
   submitRunToolOutputs: (
     threadId: string,
     runId: string,
-    toolOutputs: ToolOutputSubmission[],
+    toolOutputs: ToolOutput[],
     options?: ThreadRunsSubmitRunToolOutputsOptions
   ) => Promise<ThreadRun>;
   cancelRun: (
@@ -85,7 +85,7 @@ export function getThreadRuns(context: AssistantsContext) {
     submitRunToolOutputs: (
       threadId: string,
       runId: string,
-      toolOutputs: ToolOutputSubmission[],
+      toolOutputs: ToolOutput[],
       options?: ThreadRunsSubmitRunToolOutputsOptions
     ) => submitRunToolOutputs(context, threadId, runId, toolOutputs, options),
     cancelRun: (threadId: string, runId: string, options?: ThreadRunsCancelRunOptions) =>

@@ -18,7 +18,7 @@ import {
   CreateAndRunThreadOptions,
   ListResponseOf,
   ThreadRun,
-  ToolOutputSubmission,
+  ToolOutput,
 } from "../../models/models.js";
 import {
   ThreadRunsCancelRunOptions,
@@ -130,8 +130,8 @@ export async function _modifyRunDeserialize(result: ModifyRun200Response): Promi
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
     requiredAction: !result.body["required_action"]
-      ? undefined
-      : {
+        ? undefined
+        : {
           type: result.body.required_action?.["type"],
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
@@ -140,11 +140,11 @@ export async function _modifyRunDeserialize(result: ModifyRun200Response): Promi
               },
         },
     lastError: !result.body.last_error
-      ? undefined
-      : {
-          code: result.body.last_error["code"],
-          message: result.body.last_error["message"],
-        },
+        ? undefined
+        : {
+            code: result.body.last_error["code"],
+            message: result.body.last_error["message"],
+          },
     model: result.body["model"],
     instructions: result.body["instructions"],
     tools: result.body["tools"],
@@ -176,7 +176,7 @@ export function _submitRunToolOutputsSend(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutputSubmission[],
+  toolOutputs: ToolOutput[],
   options: ThreadRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): StreamableMethod<SubmitRunToolOutputs200Response> {
   return context
@@ -197,7 +197,7 @@ export async function submitRunToolOutputs(
   context: Client,
   threadId: string,
   runId: string,
-  toolOutputs: ToolOutputSubmission[],
+  toolOutputs: ToolOutput[],
   options: ThreadRunsSubmitRunToolOutputsOptions = { requestOptions: {} }
 ): Promise<ThreadRun> {
   const result = await _submitRunToolOutputsSend(context, threadId, runId, toolOutputs, options);
@@ -224,34 +224,6 @@ export async function cancelRun(
 ): Promise<ThreadRun> {
   const result = await _cancelRunSend(context, threadId, runId, options);
   return _cancelRunDeserialize(result);
-}
-
-export function _createThreadAndRunSend(
-  context: Client,
-  body: CreateAndRunThreadOptions,
-  options: ThreadRunsCreateThreadAndRunOptions = { requestOptions: {} }
-): StreamableMethod<CreateThreadAndRun200Response> {
-  return context.path("/threads/runs").post({
-    ...operationOptionsToRequestParameters(options),
-    body: {
-      assistant_id: body["assistantId"],
-      thread: !body.thread
-        ? undefined
-        : {
-            messages: !body.thread?.["messages"]
-              ? body.thread?.["messages"]
-              : body.thread?.["messages"].map((p) => ({
-                  role: p["role"],
-                  content: p["content"],
-                })),
-            metadata: body.thread?.["metadata"],
-          },
-      model: body["model"],
-      instructions: body["instructions"],
-      tools: body["tools"],
-      metadata: body["metadata"],
-    },
-  });
 }
 
 /** Creates a new assistant thread and immediately starts a run using that new thread. */
@@ -309,6 +281,34 @@ export async function _listRunsDeserialize(
     lastId: result.body["last_id"],
     hasMore: result.body["has_more"],
   };
+}
+
+export function _createThreadAndRunSend(
+  context: Client,
+  body: CreateAndRunThreadOptions,
+  options: ThreadRunsCreateThreadAndRunOptions = { requestOptions: {} }
+): StreamableMethod<CreateThreadAndRun200Response> {
+  return context.path("/threads/runs").post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      assistant_id: body["assistantId"],
+      thread: !body.thread
+        ? undefined
+        : {
+            messages: !body.thread?.["messages"]
+              ? body.thread?.["messages"]
+              : body.thread?.["messages"].map((p) => ({
+                  role: p["role"],
+                  content: p["content"],
+                })),
+            metadata: body.thread?.["metadata"],
+          },
+      model: body["model"],
+      instructions: body["instructions"],
+      tools: body["tools"],
+      metadata: body["metadata"],
+    },
+  });
 }
 
 /** Returns a list of runs associated with an assistant thread. */
@@ -461,7 +461,7 @@ export async function _createThreadAndRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction: !result.body["required_action"]
+    requiredAction: !result.body.required_action
       ? undefined
       : {
           type: result.body.required_action?.["type"],
@@ -503,7 +503,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction: !result.body["required_action"]
+    requiredAction: !result.body.required_action
       ? undefined
       : {
           type: result.body.required_action?.["type"],

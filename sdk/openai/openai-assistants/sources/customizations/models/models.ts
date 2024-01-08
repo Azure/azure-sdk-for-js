@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  FilePurpose,
   FunctionDefinition,
   MessageTextDetails,
   RequiredAction,
@@ -121,26 +120,6 @@ export interface ListResponseOf<T> {
   lastId: string;
   /** A value indicating whether there are additional values available not captured in this list. */
   hasMore: boolean;
-}
-
-/** The response data from a file list operation. */
-export interface FileListResponse {
-  /** The files returned for the request. */
-  data: InputFile[];
-}
-
-/** Represents an assistant that can call the model and use tools. */
-export interface InputFile {
-  /** The identifier, which can be referenced in API endpoints. */
-  id: string;
-  /** The size of the file, in bytes. */
-  bytes: number;
-  /** The name of the file. */
-  filename: string;
-  /** The Unix timestamp, in seconds, representing when this object was created. */
-  createdAt: Date;
-  /** The intended purpose of a file. */
-  purpose: FilePurpose;
 }
 
 /** An abstract representation of an input tool definition that an assistant can use. */
