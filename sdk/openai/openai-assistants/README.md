@@ -16,16 +16,13 @@ Key links:
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
-### Prerequisites
-
-If you'd like to use an Azure OpenAI resource, you must have an [Azure subscription](https://azure.microsoft.com/free/dotnet/)
+If you'd like to use an Azure OpenAI resource, you must have an [Azure subscription][azure_portal]
 and [Azure OpenAI access](https://learn.microsoft.com/azure/cognitive-services/openai/overview#how-do-i-get-access-to-azure-openai).
 This will allow you to create an Azure OpenAI resource and get both a connection URL as well as API keys. For more
 information, see [Quickstart: Get started generating text using Azure OpenAI Service](https://learn.microsoft.com/azure/cognitive-services/openai/quickstart).
 
-If you'd like to use the Azure OpenAI JS client library to connect to non-Azure OpenAI, you'll need an API key
-from a developer account at https://platform.openai.com/.
+If you'd like to use the Azure OpenAI Assistants JS client library to connect to non-Azure OpenAI, you'll need an API key from a developer account at https://platform.openai.com/.
+
 ### Install the `@azure/openai-assistants` package
 
 Install the Azure OpenAI Assistants client library for JavaScript with `npm`:
@@ -58,7 +55,7 @@ creating, running, and using assistants and threads.
 
 To get started, create an `AssistantsClient`:
 ```javascript Snippet:OverviewCreateClient
-const assistantsClient = new AssistantsClient(new Uri(azureResourceUrl), new AzureKeyCredential(azureApiKey));
+const assistantsClient = new AssistantsClient(azureResourceUrl, new AzureKeyCredential(azureApiKey));
 ```
 
 With a client, an assistant can then be created. An assistant is a purpose-built interface to OpenAI models that can call Tools while allowing high-level instructions throughout the lifetime of the assistant.

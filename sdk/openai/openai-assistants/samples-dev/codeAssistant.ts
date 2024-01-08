@@ -46,14 +46,9 @@ export async function main() {
   do {
     await new Promise((r) => setTimeout(r, 500));
     runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
-    const runSteps = await assistantsClient.runSteps.listRunSteps(
-      assistantThread.id,
-      runResponse.id,
-      {
-        requestOptions: {},
-        limit: 1,
-      }
-    );
+    const runSteps = await assistantsClient.runSteps.listRunSteps(assistantThread.id, runResponse.id, {
+      limit: 1,
+    });
     console.log(runSteps);
   } while (runResponse.status === "queued" || runResponse.status === "in_progress");
 
