@@ -32,7 +32,7 @@ async function kustoClusterPrincipalAssignmentsCheckNameAvailability() {
   const result = await client.clusterPrincipalAssignments.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }

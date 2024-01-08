@@ -43,7 +43,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "sdk";
+  private attach: string = "Manual";
 
   // Observable Gauges
   private successCountGauge: ObservableGauge;

@@ -16,9 +16,7 @@
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "@types/node-fetch": "^2.5.0",
     "eslint": "^8.0.0",
-    "node-fetch": "^2.6.6",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "tslib": "^2.2.0",

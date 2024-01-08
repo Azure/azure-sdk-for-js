@@ -1,5 +1,17 @@
 # Release History
 
+## 1.2.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` to `^2.0.0`.
+
 ## 1.1.7 (2024-01-02)
 
 ### Bugs Fixed

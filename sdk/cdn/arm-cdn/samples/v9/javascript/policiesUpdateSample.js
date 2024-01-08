@@ -30,7 +30,7 @@ async function createsSpecificPolicy() {
   const result = await client.policies.beginUpdateAndWait(
     resourceGroupName,
     policyName,
-    cdnWebApplicationFirewallPolicyPatchParameters
+    cdnWebApplicationFirewallPolicyPatchParameters,
   );
   console.log(result);
 }
