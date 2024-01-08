@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -10,7 +10,6 @@ trigger:
     include:
       - sdk/commerce/ci.mgmt.yml
       - sdk/commerce/arm-commerce-profile-2020-09-01-hybrid
-      - sdk/commerce/arm-commerce
 pr:
   branches:
     include:
@@ -24,13 +23,10 @@ pr:
     include:
       - sdk/commerce/ci.mgmt.yml
       - sdk/commerce/arm-commerce-profile-2020-09-01-hybrid
-      - sdk/commerce/arm-commerce
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: commerce
     Artifacts:
-      - name: azure-arm-commerce
-        safeName: azurearmcommerce
       - name: azure-arm-commerce-profile-2020-09-01-hybrid
         safeName: azurearmcommerceprofile20200901hybrid

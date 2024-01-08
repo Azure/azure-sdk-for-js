@@ -276,9 +276,6 @@
 /sdk/cognitiveservices/arm-cognitiveservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/commerce/arm-commerce/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/commerce/arm-commerce-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -358,9 +355,6 @@
 
 # PRLabel: %Mgmt
 /sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao
@@ -479,19 +473,10 @@
 /sdk/logic/arm-logic/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/machinelearning/arm-commitmentplans/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/machinelearning/arm-webservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/machinelearning/arm-workspaces/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/machinelearningcompute/arm-machinelearningcompute/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/machinelearningexperimentation/arm-machinelearningexperimentation/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/managedapplications/arm-managedapplications/ @qiaozha @MaryGao
@@ -564,9 +549,6 @@
 
 # PRLabel: %Mgmt
 /sdk/operationalinsights/arm-operationalinsights/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/operationsmanagement/arm-operations/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/peering/arm-peering/ @qiaozha @MaryGao
@@ -656,9 +638,6 @@
 /sdk/serialconsole/arm-serialconsole/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/service-map/arm-servicemap/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
 /sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -669,9 +648,6 @@
 
 # PRLabel: %Mgmt
 /sdk/servicefabric/arm-servicefabric-rest/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao
@@ -729,9 +705,6 @@
 
 # PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
-
-# PRLabel: %Mgmt
-/sdk/visualstudio/arm-visualstudio/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/vmwarecloudsimple/arm-vmwarecloudsimple/ @qiaozha @MaryGao
