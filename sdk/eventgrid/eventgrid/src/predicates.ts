@@ -190,6 +190,8 @@ import {
   AcsRouterWorkerOfferRevokedEventData,
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
+  StorageTaskAssignmentQueuedEventData,
+  StorageTaskAssignmentCompletedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -580,6 +582,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.Deleted" event. */
   "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentQueued" event. */
+  "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentCompleted" event. */
+  "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
 }
 
 /**
