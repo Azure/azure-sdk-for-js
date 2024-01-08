@@ -136,7 +136,7 @@ export interface CompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results: Array<ContentFilterResultsForPromptOutput>;
+  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -537,6 +537,53 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   y: number;
 }
 
+/** Represents the request data used to generate images. */
+export interface ImageGenerationOptionsOutput {
+  /**
+   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
+   * inferred as a default.
+   */
+  model?: string;
+  /** A description of the desired images. */
+  prompt: string;
+  /**
+   * The number of images to generate.
+   * Dall-e-2 models support values between 1 and 10.
+   * Dall-e-3 models only support a value of 1.
+   */
+  n?: number;
+  /**
+   * The desired dimensions for generated images.
+   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
+   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
+   *
+   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
+   */
+  size?: string;
+  /**
+   * The format in which image generation response items should be presented.
+   *
+   * Possible values: url, b64_json
+   */
+  response_format?: string;
+  /**
+   * The desired image generation quality level to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: standard, hd
+   */
+  quality?: string;
+  /**
+   * The desired image generation style to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: natural, vivid
+   */
+  style?: string;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
+}
+
 /** The result of a successful image generation operation. */
 export interface ImageGenerationsOutput {
   /**
@@ -615,60 +662,15 @@ export interface BatchImageGenerationOperationResponseOutput {
   error?: ErrorModel;
 }
 
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   *
-   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
-   */
-  size?: string;
-  /**
-   * The format in which image generation response items should be presented.
-   *
-   * Possible values: url, b64_json
-   */
-  response_format?: string;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: standard, hd
-   */
-  quality?: string;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: natural, vivid
-   */
-  style?: string;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
 export type ChatCompletionsToolCallOutput =
-  ChatCompletionsFunctionToolCallOutput;
+  | ChatCompletionsToolCallOutputParent
+  | ChatCompletionsFunctionToolCallOutput;
 /** An abstract representation of structured information about why a chat completions response terminated. */
 export type ChatFinishDetailsOutput =
+  | ChatFinishDetailsOutputParent
   | StopFinishDetailsOutput
   | MaxTokensFinishDetailsOutput;

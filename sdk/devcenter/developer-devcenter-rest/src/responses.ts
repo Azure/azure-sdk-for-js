@@ -628,14 +628,16 @@ export interface ListEnvironmentDefinitionsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ListEnvironmentDefinitionsByCatalog200Response extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalog200Response
+  extends HttpResponse {
   status: "200";
   body: PagedEnvironmentDefinitionOutput;
 }
@@ -645,7 +647,8 @@ export interface ListEnvironmentDefinitionsByCatalogDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface ListEnvironmentDefinitionsByCatalogDefaultResponse extends HttpResponse {
+export interface ListEnvironmentDefinitionsByCatalogDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListEnvironmentDefinitionsByCatalogDefaultHeaders;

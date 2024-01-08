@@ -956,6 +956,7 @@ export interface EmbeddingsOptions {
 
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
+  | ChatRequestMessageParent
   | ChatRequestSystemMessage
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
@@ -963,19 +964,23 @@ export type ChatRequestMessage =
   | ChatRequestFunctionMessage;
 /** An abstract representation of a structured content item within a chat message. */
 export type ChatMessageContentItem =
+  | ChatMessageContentItemParent
   | ChatMessageTextContentItem
   | ChatMessageImageContentItem;
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
-export type ChatCompletionsToolCall = ChatCompletionsFunctionToolCall;
+export type ChatCompletionsToolCall =
+  | ChatCompletionsToolCallParent
+  | ChatCompletionsFunctionToolCall;
 /**
  *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
  *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
  *   The use of this configuration is compatible only with Azure OpenAI.
  */
 export type AzureChatExtensionConfiguration =
+  | AzureChatExtensionConfigurationParent
   | AzureCognitiveSearchChatExtensionConfiguration
   | AzureMachineLearningIndexChatExtensionConfiguration
   | AzureCosmosDBChatExtensionConfiguration
@@ -983,6 +988,7 @@ export type AzureChatExtensionConfiguration =
   | PineconeChatExtensionConfiguration;
 /** The authentication options for Azure OpenAI On Your Data. */
 export type OnYourDataAuthenticationOptions =
+  | OnYourDataAuthenticationOptionsParent
   | OnYourDataApiKeyAuthenticationOptions
   | OnYourDataConnectionStringAuthenticationOptions
   | OnYourDataKeyAndKeyIdAuthenticationOptions
@@ -990,12 +996,15 @@ export type OnYourDataAuthenticationOptions =
   | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
 /** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
 export type OnYourDataVectorizationSource =
+  | OnYourDataVectorizationSourceParent
   | OnYourDataEndpointVectorizationSource
   | OnYourDataDeploymentNameVectorizationSource
   | OnYourDataModelIdVectorizationSource;
 /** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
 export type ChatCompletionsToolDefinition =
-  ChatCompletionsFunctionToolDefinition;
+  | ChatCompletionsToolDefinitionParent
+  | ChatCompletionsFunctionToolDefinition;
 /** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
 export type ChatCompletionsNamedToolSelection =
-  ChatCompletionsNamedFunctionToolSelection;
+  | ChatCompletionsNamedToolSelectionParent
+  | ChatCompletionsNamedFunctionToolSelection;

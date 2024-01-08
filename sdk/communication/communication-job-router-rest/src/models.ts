@@ -21,7 +21,8 @@ export interface QueueSelectorAttachmentParent {
 }
 
 /** Describes a set of queue selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface ConditionalQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The condition that must be true for the queue selectors to be attached. */
   condition: RouterRule;
   /** The queue selectors to attach. */
@@ -125,7 +126,8 @@ export interface RouterQueueSelector {
 }
 
 /** Attaches a queue selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface PassThroughQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -139,7 +141,8 @@ export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachm
 }
 
 /** Attaches queue selectors to a job when the RouterRule is resolved. */
-export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface RuleEngineQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** A RouterRule that resolves a collection of queue selectors to attach. */
   rule: RouterRule;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -147,7 +150,8 @@ export interface RuleEngineQueueSelectorAttachment extends QueueSelectorAttachme
 }
 
 /** Describes a queue selector that will be attached to a job. */
-export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface StaticQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** The queue selector to attach. */
   queueSelector: RouterQueueSelector;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -155,7 +159,8 @@ export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentPa
 }
 
 /** Describes multiple sets of queue selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationQueueSelectorAttachment extends QueueSelectorAttachmentParent {
+export interface WeightedAllocationQueueSelectorAttachment
+  extends QueueSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<QueueWeightedAllocation>;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -176,7 +181,8 @@ export interface WorkerSelectorAttachmentParent {
 }
 
 /** Describes a set of worker selectors that will be attached if the given condition resolves to true. */
-export interface ConditionalWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface ConditionalWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The condition that must be true for the worker selectors to be attached. */
   condition: RouterRule;
   /** The worker selectors to attach. */
@@ -204,7 +210,8 @@ export interface RouterWorkerSelector {
 }
 
 /** Attaches a worker selector where the value is passed through from a job's label with the same key. */
-export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface PassThroughWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The label key to query against. */
   key: string;
   /**
@@ -220,7 +227,8 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
 }
 
 /** Attaches worker selectors to a job when a RouterRule is resolved. */
-export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface RuleEngineWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** A RouterRule that resolves a collection of worker selectors to attach. */
   rule: RouterRule;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -228,7 +236,8 @@ export interface RuleEngineWorkerSelectorAttachment extends WorkerSelectorAttach
 }
 
 /** Describes a worker selector that will be attached to a job. */
-export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface StaticWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** The worker selector to attach. */
   workerSelector: RouterWorkerSelector;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -236,7 +245,8 @@ export interface StaticWorkerSelectorAttachment extends WorkerSelectorAttachment
 }
 
 /** Describes multiple sets of worker selectors, of which one will be selected and attached according to a weighting. */
-export interface WeightedAllocationWorkerSelectorAttachment extends WorkerSelectorAttachmentParent {
+export interface WeightedAllocationWorkerSelectorAttachment
+  extends WorkerSelectorAttachmentParent {
   /** A collection of percentage based weighted allocations. */
   allocations: Array<WorkerWeightedAllocation>;
   /** The type discriminator describing the type of worker selector attachment. */
@@ -563,6 +573,7 @@ export interface RouterWorkerAssignment {
 
 /** An attachment of queue selectors to resolve a queue to a job from a classification policy. */
 export type QueueSelectorAttachment =
+  | QueueSelectorAttachmentParent
   | ConditionalQueueSelectorAttachment
   | PassThroughQueueSelectorAttachment
   | RuleEngineQueueSelectorAttachment
@@ -577,6 +588,7 @@ export type QueueSelectorAttachment =
  * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
  */
 export type RouterRule =
+  | RouterRuleParent
   | DirectMapRouterRule
   | ExpressionRouterRule
   | FunctionRouterRule
@@ -584,17 +596,26 @@ export type RouterRule =
   | WebhookRouterRule;
 /** An attachment which attaches worker selectors to a job. */
 export type WorkerSelectorAttachment =
+  | WorkerSelectorAttachmentParent
   | ConditionalWorkerSelectorAttachment
   | PassThroughWorkerSelectorAttachment
   | RuleEngineWorkerSelectorAttachment
   | StaticWorkerSelectorAttachment
   | WeightedAllocationWorkerSelectorAttachment;
 /** Abstract base class for defining a distribution mode. */
-export type DistributionMode = BestWorkerMode | LongestIdleMode | RoundRobinMode;
+export type DistributionMode =
+  | DistributionModeParent
+  | BestWorkerMode
+  | LongestIdleMode
+  | RoundRobinMode;
 /** Abstract base class for defining a trigger for exception rules. */
-export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
+export type ExceptionTrigger =
+  | ExceptionTriggerParent
+  | QueueLengthExceptionTrigger
+  | WaitTimeExceptionTrigger;
 /** The action to take when the exception is triggered. */
 export type ExceptionAction =
+  | ExceptionActionParent
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
   | ReclassifyExceptionAction;
@@ -604,4 +625,8 @@ export type ExceptionAction =
  * ScheduleAndSuspendMode: Used for scheduling jobs to be queued at a future time. At specified time, matching of a worker to the job will not start automatically.
  * SuspendMode: Used when matching workers to a job needs to be suspended.
  */
-export type JobMatchingMode = ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
+export type JobMatchingMode =
+  | JobMatchingModeParent
+  | ScheduleAndSuspendMode
+  | QueueAndMatchMode
+  | SuspendMode;
