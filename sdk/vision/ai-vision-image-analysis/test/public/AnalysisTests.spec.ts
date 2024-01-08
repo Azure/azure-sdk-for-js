@@ -97,7 +97,7 @@ describe("Analyze Tests", () => {
     const url: string = "https://aka.ms/azai/vision/image-analysis-sample.jpg";
 
     const data: Uint8Array = await downloadUrlToUint8Array(url);
-    
+
     for (const testFeatures of [allFeatures, someFeatures]) {
       const result = await client.path("/imageanalysis:analyze").post(
         {
@@ -124,12 +124,16 @@ describe("Analyze Tests", () => {
     iaResult: ImageAnalysisResultOutput,
     testFeatures: string[],
     genderNeutral: boolean
-  ) {
+  ): void {
     validateMetadata(iaResult);
 
     const captionResult = iaResult.captionResult;
     if (testFeatures.includes("Caption")) {
-      captionResult ? validateCaption(captionResult, genderNeutral) : assert.fail("captionResult is null");
+      if (captionResult) {
+        validateCaption(captionResult, genderNeutral);
+      } else {
+        assert.fail("captionResult is null");
+      }
     } else {
       assert.isUndefined(captionResult);
     }
@@ -142,13 +146,21 @@ describe("Analyze Tests", () => {
 
     const objectsResult = iaResult.objectsResult;
     if (testFeatures.includes("Objects")) {
-      objectsResult ? validateObjectsResult(objectsResult) : assert.fail("objectsResult is null");
+      if (objectsResult) {
+        validateObjectsResult(objectsResult);
+      } else {
+        assert.fail("objectsResult is null");
+      }
     } else {
       assert.isUndefined(objectsResult);
     }
 
     if (testFeatures.includes("Tags")) {
-      iaResult.tagsResult ? validateTags(iaResult.tagsResult) : assert.fail("tagsResult is null");
+      if (iaResult.tagsResult) {
+        validateTags(iaResult.tagsResult);
+      } else {
+        assert.fail("tagsResult is null");
+      }
     } else {
       assert.isUndefined(iaResult.tagsResult);
     }
@@ -169,27 +181,31 @@ describe("Analyze Tests", () => {
     if (!testFeatures.includes("Read")) {
       assert.isUndefined(readResult);
     } else {
-      readResult ? validateReadResult(iaResult) : assert.fail("readResult is null");
+      if (readResult) {
+        validateReadResult(iaResult);
+      } else {
+        assert.fail("readResult is null");
+      }
     }
   }
 
   function validateReadResult(result: ImageAnalysisResultOutput): void {
-    let readResult = result.readResult;
+    const readResult = result.readResult;
     if (!readResult) throw new Error('Read result is null');
 
-    let allText: string[] = [];
+    const allText: string[] = [];
     let words = 0;
     let lines = 0;
 
-    let pagePolygon: ImagePointOutput[] = [
+    const pagePolygon: ImagePointOutput[] = [
       { x: 0, y: 0 },
       { x: 0, y: result.metadata.height },
       { x: result.metadata.width, y: result.metadata.height },
       { x: result.metadata.width, y: 0 },
     ];
 
-    for (let block of readResult.blocks) {
-      for (let oneLine of block.lines) {
+    for (const block of readResult.blocks) {
+      for (const oneLine of block.lines) {
         if (!oneLine.boundingPolygon.every((p) => isInPolygon(p, pagePolygon))) {
           throw new Error('Bounding polygon is not in the page polygon');
         }
@@ -197,7 +213,7 @@ describe("Analyze Tests", () => {
         words += oneLine.words.length;
         lines++;
         allText.push(oneLine.text);
-        for (let word of oneLine.words) {
+        for (const word of oneLine.words) {
           if (word.confidence <= 0 || word.confidence >= 1) {
             throw new Error('Invalid word confidence value');
           }
@@ -217,11 +233,11 @@ describe("Analyze Tests", () => {
 
   function isInPolygon(suspectPoint: ImagePointOutput, polygon: ImagePointOutput[]): boolean {
     let intersectCount = 0;
-    let points = [...polygon, polygon[0]];
+    const points = [...polygon, polygon[0]];
 
     for (let i = 0; i < points.length - 1; i++) {
-      let p1 = points[i];
-      let p2 = points[i + 1];
+      const p1 = points[i];
+      const p2 = points[i + 1];
 
       if (
         (p1.y > suspectPoint.y) !== (p2.y > suspectPoint.y) &&
@@ -231,7 +247,7 @@ describe("Analyze Tests", () => {
       }
     }
 
-    let result = intersectCount % 2 !== 0;
+    const result = intersectCount % 2 !== 0;
 
     if (!result) {
       console.log(`Point ${suspectPoint} is not in polygon ${polygon}`);
@@ -240,7 +256,7 @@ describe("Analyze Tests", () => {
     return result;
   }
 
-  function validateMetadata(iaResult: ImageAnalysisResultOutput) {
+  function validateMetadata(iaResult: ImageAnalysisResultOutput): void {
     assert.isAbove(iaResult.metadata.height, 0);
     assert.isAbove(iaResult.metadata.width, 0);
     assert.isFalse(iaResult.modelVersion.trim() === "");
@@ -249,7 +265,7 @@ describe("Analyze Tests", () => {
   function validateCaption(
     captionResult: CaptionResultOutput,
     genderNeutral: boolean
-  ) {
+  ): void {
     assert.isNotNull(captionResult);
     assert.isAbove(captionResult.confidence, 0);
     assert.isBelow(captionResult.confidence, 1);
@@ -262,7 +278,7 @@ describe("Analyze Tests", () => {
     assert.isTrue(captionResult.text.toLowerCase().includes("laptop"));
   }
 
-  function validateDenseCaptions(iaResult: ImageAnalysisResultOutput) {
+  function validateDenseCaptions(iaResult: ImageAnalysisResultOutput): void {
     const denseCaptionsResult = iaResult.denseCaptionsResult;
 
     assert.isNotNull(denseCaptionsResult);
@@ -292,7 +308,7 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateObjectsResult(objectsResult: ObjectsResultOutput) {
+  function validateObjectsResult(objectsResult: ObjectsResultOutput): void {
     assert.isNotNull(objectsResult);
     assert.isAtLeast(objectsResult.values.length, 0);
 
@@ -310,7 +326,7 @@ describe("Analyze Tests", () => {
     assert.isAtLeast(objectsResult.values.filter(v => v.tags.filter(t => t.name.toLowerCase() === "person")).length, 0);
   }
 
-  function validateTags(tagsResult: TagsResultOutput) {
+  function validateTags(tagsResult: TagsResultOutput): void {
     assert.isNotNull(tagsResult);
     assert.isNotNull(tagsResult.values);
     assert.isAtLeast(tagsResult.values.length, 0);
@@ -334,7 +350,7 @@ describe("Analyze Tests", () => {
     assert.isAtLeast(found, 2);
   }
 
-  function validatePeopleResult(iaResult: ImageAnalysisResultOutput) {
+  function validatePeopleResult(iaResult: ImageAnalysisResultOutput): void {
     const peopleResult = iaResult.peopleResult;
 
     assert.isNotNull(peopleResult);
@@ -352,7 +368,7 @@ describe("Analyze Tests", () => {
     }
   }
 
-  function validateSmartCrops(iaResult: ImageAnalysisResultOutput) {
+  function validateSmartCrops(iaResult: ImageAnalysisResultOutput): void {
     const smartCropsResult = iaResult.smartCropsResult;
     assert.isNotNull(smartCropsResult);
 

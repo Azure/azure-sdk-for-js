@@ -2149,8 +2149,8 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/imageAnalysis",
-      "projectFolder": "sdk/vision/imageAnalysis",
+      "packageName": "@azure/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis",
       "versionPolicyName": "client"
     },
     {
