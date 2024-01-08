@@ -1121,6 +1121,9 @@ dependencies:
   '@rush-temp/web-pubsub-express':
     specifier: file:./projects/web-pubsub-express.tgz
     version: file:projects/web-pubsub-express.tgz
+  chai:
+    specifier: 4.3.10
+    version: 4.3.10
 
 packages:
 
@@ -3702,7 +3705,7 @@ packages:
     dependencies:
       '@vitest/spy': 1.1.3
       '@vitest/utils': 1.1.3
-      chai: 4.4.0
+      chai: 4.3.10
     dev: false
 
   /@vitest/runner@1.1.3:
@@ -4242,47 +4245,34 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /chai-as-promised@7.1.1(chai@4.4.0):
+  /chai-as-promised@7.1.1(chai@4.3.10):
     resolution: {integrity: sha512-azL6xMoi+uxu6z4rhWQ1jbdUhOMhis2PvscD/xjLqNMkv3BPPp2JyyuTHOrf9BOosGpNQ11v6BKv/g57RXbiaA==}
     peerDependencies:
       chai: '>= 2.1.2 < 5'
     dependencies:
-      chai: 4.4.0
+      chai: 4.3.10
       check-error: 1.0.3
     dev: false
 
-  /chai-exclude@2.1.0(chai@4.4.0):
+  /chai-exclude@2.1.0(chai@4.3.10):
     resolution: {integrity: sha512-IBnm50Mvl3O1YhPpTgbU8MK0Gw7NHcb18WT2TxGdPKOMtdtZVKLHmQwdvOF7mTlHVQStbXuZKFwkevFtbHjpVg==}
     peerDependencies:
       chai: '>= 4.0.0 < 5'
     dependencies:
-      chai: 4.4.0
+      chai: 4.3.10
       fclone: 1.0.11
     dev: false
 
-  /chai-string@1.5.0(chai@4.4.0):
+  /chai-string@1.5.0(chai@4.3.10):
     resolution: {integrity: sha512-sydDC3S3pNAQMYwJrs6dQX0oBQ6KfIPuOZ78n7rocW0eJJlsHPh2t3kwW7xfwYA/1Bf6/arGtSUo16rxR2JFlw==}
     peerDependencies:
       chai: ^4.1.2
     dependencies:
-      chai: 4.4.0
+      chai: 4.3.10
     dev: false
 
   /chai@4.3.10:
     resolution: {integrity: sha512-0UXG04VuVbruMUYbJ6JctvH0YnC/4q3/AkT18q4NaITo91CUm0liMS9VqzT9vZhVQ/1eqPanMWjBM+Juhfb/9g==}
-    engines: {node: '>=4'}
-    dependencies:
-      assertion-error: 1.1.0
-      check-error: 1.0.3
-      deep-eql: 4.1.3
-      get-func-name: 2.0.2
-      loupe: 2.3.7
-      pathval: 1.1.1
-      type-detect: 4.0.8
-    dev: false
-
-  /chai@4.4.0:
-    resolution: {integrity: sha512-x9cHNq1uvkCdU+5xTkNh5WtgD4e4yDFCsp9jVc7N7qVeKeftv3gO/ZrviX5d+3ZfxdYnZXZYujjRInu1RogU6A==}
     engines: {node: '>=4'}
     dependencies:
       assertion-error: 1.1.0
@@ -9930,7 +9920,7 @@ packages:
       '@vitest/utils': 1.1.3
       acorn-walk: 8.3.1
       cac: 6.7.14
-      chai: 4.4.0
+      chai: 4.3.10
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
       local-pkg: 0.5.0
@@ -10313,7 +10303,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       karma: 6.4.2(debug@4.3.4)
@@ -10350,7 +10340,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10396,7 +10386,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       csv-parse: 5.5.3
       dotenv: 16.3.1
@@ -10441,7 +10431,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10486,7 +10476,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10529,7 +10519,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10576,8 +10566,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10623,8 +10613,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10672,8 +10662,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       decompress: 4.2.1
       dotenv: 16.3.1
@@ -10743,8 +10733,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10786,7 +10776,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10832,8 +10822,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10877,7 +10867,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -10925,7 +10915,7 @@ packages:
       '@types/yargs': 17.0.32
       '@types/yargs-parser': 21.0.3
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       chalk: 4.1.2
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -10968,7 +10958,7 @@ packages:
       '@types/yargs': 17.0.32
       '@types/yargs-parser': 21.0.3
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -11016,7 +11006,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -11057,7 +11047,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11083,7 +11073,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11108,7 +11098,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11132,7 +11122,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11155,7 +11145,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11181,7 +11171,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11206,7 +11196,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11232,7 +11222,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11257,7 +11247,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11282,7 +11272,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11309,7 +11299,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -11336,7 +11326,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11363,7 +11353,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -11404,7 +11394,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11428,7 +11418,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11454,7 +11444,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11479,7 +11469,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11505,7 +11495,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11531,7 +11521,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11557,7 +11547,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11581,7 +11571,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11606,7 +11596,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11633,7 +11623,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -11661,7 +11651,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -11688,7 +11678,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11713,7 +11703,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11738,7 +11728,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11764,7 +11754,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11789,7 +11779,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11813,7 +11803,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11840,7 +11830,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -11867,7 +11857,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -11892,7 +11882,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -11917,7 +11907,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11941,7 +11931,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -11967,7 +11957,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -11996,7 +11986,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12023,7 +12013,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -12051,7 +12041,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -12093,7 +12083,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12120,7 +12110,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12147,7 +12137,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -12172,7 +12162,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -12198,7 +12188,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12225,7 +12215,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12253,7 +12243,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12281,7 +12271,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -12324,7 +12314,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12352,7 +12342,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12379,7 +12369,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12406,7 +12396,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12432,7 +12422,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12458,7 +12448,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12485,7 +12475,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12511,7 +12501,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -12537,7 +12527,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12563,7 +12553,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12590,7 +12580,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12616,7 +12606,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12644,7 +12634,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12671,7 +12661,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12696,7 +12686,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12722,7 +12712,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12749,7 +12739,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12775,7 +12765,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12799,7 +12789,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12825,7 +12815,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12850,7 +12840,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12876,7 +12866,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -12903,7 +12893,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -12930,7 +12920,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12955,7 +12945,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -12980,7 +12970,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13006,7 +12996,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13032,7 +13022,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13057,7 +13047,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13083,7 +13073,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13108,7 +13098,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13133,7 +13123,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13159,7 +13149,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13185,7 +13175,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13212,7 +13202,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13239,7 +13229,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13266,7 +13256,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13292,7 +13282,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13317,7 +13307,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13341,7 +13331,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13367,7 +13357,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13393,7 +13383,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13419,7 +13409,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13444,7 +13434,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13469,7 +13459,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13495,7 +13485,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13521,7 +13511,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13547,7 +13537,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13575,7 +13565,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13601,7 +13591,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13628,7 +13618,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13655,7 +13645,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13681,7 +13671,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13709,7 +13699,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13736,7 +13726,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13760,7 +13750,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13786,7 +13776,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13812,7 +13802,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13838,7 +13828,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13865,7 +13855,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -13892,7 +13882,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13918,7 +13908,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -13944,7 +13934,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -13969,7 +13959,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -13994,7 +13984,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14019,7 +14009,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14044,7 +14034,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14069,7 +14059,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14095,7 +14085,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14120,7 +14110,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14144,7 +14134,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14169,7 +14159,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14192,7 +14182,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14218,7 +14208,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14244,7 +14234,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14268,7 +14258,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14293,7 +14283,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14319,7 +14309,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14343,7 +14333,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14369,7 +14359,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14394,7 +14384,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14419,7 +14409,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14445,7 +14435,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 16.18.70
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -14471,7 +14461,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14497,7 +14487,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14522,7 +14512,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14548,7 +14538,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14574,7 +14564,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14600,7 +14590,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -14628,7 +14618,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -14655,7 +14645,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14682,7 +14672,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -14725,7 +14715,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -14752,7 +14742,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14778,7 +14768,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14803,7 +14793,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14830,7 +14820,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -14857,7 +14847,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14882,7 +14872,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14907,7 +14897,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -14933,7 +14923,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -14958,7 +14948,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -14985,7 +14975,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -15011,7 +15001,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15036,7 +15026,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15061,7 +15051,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15086,7 +15076,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15112,7 +15102,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15137,7 +15127,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15164,7 +15154,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -15191,7 +15181,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15216,7 +15206,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15242,7 +15232,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15267,7 +15257,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15293,7 +15283,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15318,7 +15308,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15344,7 +15334,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15371,7 +15361,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -15398,7 +15388,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15424,7 +15414,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15451,7 +15441,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -15478,7 +15468,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15505,7 +15495,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15531,7 +15521,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15557,7 +15547,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15583,7 +15573,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15609,7 +15599,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15634,7 +15624,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15658,7 +15648,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15684,7 +15674,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15710,7 +15700,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15735,7 +15725,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15761,7 +15751,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15787,7 +15777,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15813,7 +15803,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15839,7 +15829,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15865,7 +15855,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -15891,7 +15881,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15917,7 +15907,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -15944,7 +15934,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -15970,7 +15960,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -15995,7 +15985,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16022,7 +16012,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -16050,7 +16040,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -16091,7 +16081,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16117,7 +16107,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16142,7 +16132,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16169,7 +16159,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -16196,7 +16186,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16222,7 +16212,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16249,7 +16239,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       esm: 3.2.25
@@ -16276,7 +16266,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16302,7 +16292,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16328,7 +16318,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16354,7 +16344,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16379,7 +16369,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16405,7 +16395,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16431,7 +16421,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16456,7 +16446,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16481,7 +16471,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16506,7 +16496,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16530,7 +16520,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16556,7 +16546,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16581,7 +16571,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16607,7 +16597,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16632,7 +16622,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16657,7 +16647,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16682,7 +16672,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16708,7 +16698,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16733,7 +16723,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 1.0.4
@@ -16759,7 +16749,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16785,7 +16775,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16811,7 +16801,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16836,7 +16826,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
@@ -16861,7 +16851,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.5)
       '@types/chai': 4.3.11
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
@@ -16889,8 +16879,8 @@ packages:
       '@types/node': 18.19.5
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -16940,7 +16930,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -16983,7 +16973,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17031,7 +17021,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17081,8 +17071,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
@@ -17126,7 +17116,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17171,7 +17161,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17217,7 +17207,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17264,7 +17254,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       autorest: 3.7.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17308,7 +17298,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17355,7 +17345,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17401,7 +17391,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17445,7 +17435,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17483,7 +17473,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17529,7 +17519,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17576,7 +17566,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17622,7 +17612,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17664,7 +17654,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17695,8 +17685,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -17741,7 +17731,7 @@ packages:
       '@types/ws': 7.4.7
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
       eslint: 8.56.0
@@ -17779,7 +17769,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       inherits: 2.0.4
@@ -17805,7 +17795,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
@@ -17845,7 +17835,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       inherits: 2.0.4
@@ -17935,7 +17925,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       karma: 6.4.2(debug@4.3.4)
@@ -17973,8 +17963,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
@@ -18060,7 +18050,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       inherits: 2.0.4
@@ -18132,7 +18122,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/trusted-types': 2.0.7
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       fast-xml-parser: 4.3.2
@@ -18222,7 +18212,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18265,7 +18255,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18323,8 +18313,8 @@ packages:
       autorest: 3.7.1
       builtin-modules: 3.3.0
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       chalk: 4.1.2
       concurrently: 8.2.2
       cross-env: 7.0.3
@@ -18371,7 +18361,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18416,7 +18406,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18483,7 +18473,7 @@ packages:
       '@typescript-eslint/experimental-utils': 5.57.1(eslint@8.56.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 5.57.1(eslint@8.56.0)(typescript@5.2.2)
       '@typescript-eslint/typescript-estree': 5.57.1(typescript@5.2.2)
-      chai: 4.4.0
+      chai: 4.3.10
       eslint: 8.56.0
       eslint-config-prettier: 9.1.0(eslint@8.56.0)
       eslint-plugin-import: 2.29.1(eslint@8.56.0)
@@ -18525,10 +18515,10 @@ packages:
       '@types/ws': 7.4.7
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
-      chai-exclude: 2.1.0(chai@4.4.0)
-      chai-string: 1.5.0(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-exclude: 2.1.0(chai@4.3.10)
+      chai-string: 1.5.0(chai@4.3.10)
       copyfiles: 2.4.1
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
@@ -18581,8 +18571,8 @@ packages:
       '@types/sinon': 17.0.2
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18629,9 +18619,9 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
-      chai-string: 1.5.0(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-string: 1.5.0(chai@4.3.10)
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.3.1
@@ -18679,9 +18669,9 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
-      chai-string: 1.5.0(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-string: 1.5.0(chai@4.3.10)
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.3.1
@@ -18725,7 +18715,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18771,7 +18761,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18816,7 +18806,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -18970,7 +18960,7 @@ packages:
       '@types/stoppable': 1.1.3
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19020,7 +19010,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/uuid': 8.3.4
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19066,7 +19056,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
@@ -19315,7 +19305,7 @@ packages:
       '@types/uuid': 8.3.4
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19359,7 +19349,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19421,7 +19411,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19466,7 +19456,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19511,7 +19501,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19556,7 +19546,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19599,8 +19589,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19645,8 +19635,8 @@ packages:
       '@types/node': 18.19.5
       '@types/uuid': 8.3.4
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19714,7 +19704,7 @@ packages:
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19851,8 +19841,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -19893,7 +19883,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       dotenv: 16.3.1
       eslint: 8.56.0
       esm: 3.2.25
@@ -19987,7 +19977,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20528,7 +20518,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20571,7 +20561,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20614,7 +20604,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20659,7 +20649,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20703,7 +20693,7 @@ packages:
       '@types/node': 18.19.5
       autorest: 3.7.1
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20748,7 +20738,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20797,8 +20787,8 @@ packages:
       avsc: 5.7.7
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20926,7 +20916,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -20980,9 +20970,9 @@ packages:
       '@types/ws': 7.4.7
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
-      chai-exclude: 2.1.0(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-exclude: 2.1.0(chai@4.3.10)
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
       dotenv: 16.3.1
@@ -21037,7 +21027,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21088,7 +21078,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21137,7 +21127,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21189,7 +21179,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21237,7 +21227,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21284,7 +21274,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       es6-promise: 4.2.8
@@ -21331,8 +21321,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21377,8 +21367,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21425,8 +21415,8 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21471,8 +21461,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21549,8 +21539,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21590,7 +21580,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21633,7 +21623,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21697,7 +21687,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       concurrently: 8.2.2
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21768,9 +21758,9 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
-      chai-exclude: 2.1.0(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-exclude: 2.1.0(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 8.56.0
       karma: 6.4.2(debug@4.3.4)
@@ -21805,8 +21795,8 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
-      chai: 4.4.0
-      chai-as-promised: 7.1.1(chai@4.4.0)
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
@@ -21872,7 +21862,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/ws': 7.4.7
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       copyfiles: 2.4.1
       cross-env: 7.0.3
       dotenv: 16.3.1
@@ -21935,7 +21925,7 @@ packages:
       '@types/ws': 7.4.7
       buffer: 6.0.3
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -21988,7 +21978,7 @@ packages:
       '@types/node': 18.19.5
       '@types/sinon': 17.0.2
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
@@ -22025,7 +22015,7 @@ packages:
       '@types/sinon': 17.0.2
       '@types/ws': 8.5.10
       c8: 8.0.1
-      chai: 4.4.0
+      chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
       eslint: 8.56.0
