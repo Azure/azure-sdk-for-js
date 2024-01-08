@@ -52,14 +52,14 @@ npx cross-env VISION_ENDPOINT="<Computer Vision endpoint>" node analyzeImageFrom
 
 Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for more information about the APIs that are available in the clients.
 
-[analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/analyzeImageFromLocalFile.js
-[analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/analyzeImageFromUrl.js
-[caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/caption.js
-[denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/denseCaptions.js
-[objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/objects.js
-[read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/read.js
-[tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/imageAnalysis/samples/javascript/tags.js
+[analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/analyzeImageFromLocalFile.js
+[analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/analyzeImageFromUrl.js
+[caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/caption.js
+[denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/denseCaptions.js
+[objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/objects.js
+[read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/read.js
+[tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/javascript/tags.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-vision
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureaivision]: https://portal.azure.com/#view/Microsoft_Azure_Marketplace/GalleryItemDetailsBladeNopdl/id/Microsoft.CognitiveServicesComputerVision
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/imageAnalysis/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis/README.md
