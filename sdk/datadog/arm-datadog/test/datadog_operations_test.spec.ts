@@ -48,7 +48,7 @@ describe("Datadog test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MicrosoftDatadogClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "West US 2";
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
 
@@ -64,6 +64,64 @@ describe("Datadog test", () => {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
+  });
+
+  it.only("monitors create test", async function () {
+    const res = await client.monitors.beginCreateAndWait(
+      resourceGroup,
+      resourcename,
+      {
+        body: {
+          location,
+          sku: {
+            name: "drawdown_testing_20200904_Monthly@TIDgmz7xq9ge3py"
+          },
+          identity: {
+            type: "SystemAssigned"
+          },
+          tags: {},
+          properties: {
+            datadogOrganizationProperties: {
+              name: resourcename,
+              cspm: false,
+              enterpriseAppId: "",
+            },
+            userInfo: {
+              name: "ZiWei Chen",
+              emailAddress: "v-ziweichen@microsoft.com",
+              phoneNumber: ""
+            },
+            monitoringStatus: "Enabled",
+            marketplaceSubscriptionStatus: "Active",
+          }
+        }
+      });
+    assert.equal(res.name, resourcename);
+  }).timeout(360000);
+
+  it("monitors get test", async function () {
+    const res = await client.monitors.get(
+      resourceGroup,
+      resourcename);
+    assert.equal(res.name, resourcename);
+  });
+
+  it("monitors list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 1);
+  });
+
+  it("monitors delete test", async function () {
+    const resArray = new Array();
+    const res = await client.monitors.beginDeleteAndWait(resourceGroup, resourcename
+    )
+    for await (let item of client.monitors.listByResourceGroup(resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
   });
 
 })
