@@ -9,6 +9,8 @@ import {
   useAzureMonitor,
 } from "../../../../src/index";
 import { isLinux, isWindows } from "../../../../src/utils/common";
+import { metrics, trace } from "@opentelemetry/api";
+import { logs } from "@opentelemetry/api-logs";
 
 describe("#BrowserSdkLoader", () => {
   let sandbox: sinon.SinonSandbox;
@@ -23,6 +25,12 @@ describe("#BrowserSdkLoader", () => {
   beforeEach(() => {
     originalEnv = process.env;
     sandbox = sinon.createSandbox();
+  });
+
+  after(() => {
+    metrics.disable();
+    trace.disable();
+    logs.disable();
   });
 
   it("should initialize the browser sdk loader", () => {
