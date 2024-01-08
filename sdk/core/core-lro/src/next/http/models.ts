@@ -100,7 +100,7 @@ export interface CreateHttpPollerOptions<TResult, TState> {
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: unknown, state: TState) => TResult;
+  processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */

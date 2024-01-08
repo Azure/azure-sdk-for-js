@@ -12,6 +12,10 @@ export interface OperationConfig {
   operationLocation?: string;
   /** The resource location */
   resourceLocation?: string;
+  /** The initial Url  */
+  initialUrl?: string;
+  /** The request method */
+  requestMethod?: string;
   /** metadata about the operation */
   metadata?: Record<string, string>;
 }
@@ -58,7 +62,7 @@ export interface CreatePollerOptions<TResponse, TResult, TState> {
   /**
    * A function to process the result of the LRO.
    */
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   /**
    * A function to process the state of the LRO.
    */

@@ -58,6 +58,8 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
           response,
           operationLocation: config?.operationLocation,
           resourceLocation: config?.resourceLocation,
+          initialUrl: lro.requestPath,
+          requestMethod: lro.requestMethod,
           ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
         };
       },

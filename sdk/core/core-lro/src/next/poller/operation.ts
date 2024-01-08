@@ -66,16 +66,16 @@ function simplifyError(err: LroError): {
   };
 }
 
-function processOperationStatus<TState, TResult, TResponse>(result: {
+async function processOperationStatus<TState, TResult, TResponse>(result: {
   status: OperationStatus;
   response: TResponse;
   state: RestorableOperationState<TState>;
   stateProxy: StateProxy<TState, TResult>;
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
   setErrorAsResult: boolean;
-}): void {
+}): Promise<void> {
   const { state, stateProxy, status, isDone, processResult, getError, response, setErrorAsResult } =
     result;
   switch (status) {
@@ -108,7 +108,7 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
   ) {
     stateProxy.setResult(
       state,
-      buildResult({
+      await buildResult({
         response,
         state,
         processResult,
@@ -117,11 +117,11 @@ function processOperationStatus<TState, TResult, TResponse>(result: {
   }
 }
 
-function buildResult<TResponse, TResult, TState>(inputs: {
+async function buildResult<TResponse, TResult, TState>(inputs: {
   response: TResponse;
   state: TState;
-  processResult?: (result: TResponse, state: TState) => TResult;
-}): TResult {
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
+}): Promise<TResult> {
   const { processResult, response, state } = inputs;
   return processResult ? processResult(response, state) : (response as unknown as TResult);
 }
@@ -137,7 +137,7 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
     state: RestorableOperationState<TState>;
     operationLocation?: string;
   }) => OperationStatus;
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   setErrorAsResult: boolean;
 }): Promise<RestorableOperationState<TState>> {
@@ -149,17 +149,19 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
     withOperationLocation,
     setErrorAsResult,
   } = inputs;
-  const { operationLocation, resourceLocation, metadata, response } = await init();
+  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
     operationLocation,
     resourceLocation,
+    initialUrl,
+    requestMethod,
   };
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
   const status = getOperationStatus({ response, state, operationLocation });
-  processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
+  await processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
   return state;
 }
 
@@ -201,10 +203,8 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   );
   const status = getOperationStatus(response, state);
   logger.verbose(
-    `LRO: Status:\n\tPolling from: ${
-      state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${
-      terminalStates.includes(status) ? "Stopped" : "Running"
+    `LRO: Status:\n\tPolling from: ${state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${terminalStates.includes(status) ? "Stopped" : "Running"
     }`
   );
   if (status === "succeeded") {
@@ -242,7 +242,7 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
     state: RestorableOperationState<TState>
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
-  processResult?: (result: TResponse, state: TState) => TResult;
+  processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
   getError?: (response: TResponse) => LroError | undefined;
   updateState?: (state: TState, lastResponse: TResponse) => void;
   isDone?: (lastResponse: TResponse, state: TState) => boolean;
