@@ -2,7 +2,11 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import "./env";
 import importedCreateClient, { ImageAnalysisClient } from "../../../src/index";
 import { AzureKeyCredential } from "@azure/core-auth";

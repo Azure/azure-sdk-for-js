@@ -22,7 +22,7 @@ describe("Analyze Tests", () => {
     recorder = await createRecorder(this);
     recorder.addSanitizers({
       headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
-      uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }]
+      uriSanitizers: [{ target: "https://[a-zA-Z0-9-]*/", value: "https://endpoint/" }],
     });
     client = await createClient(recorder);
   });
@@ -51,28 +51,21 @@ describe("Analyze Tests", () => {
       "Tags",
     ];
 
-    const someFeatures: string[] = [
-      "Caption",
-      "Read",
-    ];
+    const someFeatures: string[] = ["Caption", "Read"];
 
     const testFeaturesList: string[][] = [allFeatures, someFeatures];
 
     for (const testFeatures of testFeaturesList) {
-      const result = await client.path("/imageanalysis:analyze").post(
-        {
-          body:
-          {
-            url: "https://aka.ms/azai/vision/image-analysis-sample.jpg"
-          },
-          queryParameters:
-          {
-            features: testFeatures,
-            "smartCrops-aspect-ratios": [0.9, 1.33]
-          },
-          contentType: "application/json"
-        }
-      );
+      const result = await client.path("/imageanalysis:analyze").post({
+        body: {
+          url: "https://aka.ms/azai/vision/image-analysis-sample.jpg",
+        },
+        queryParameters: {
+          features: testFeatures,
+          "smartCrops-aspect-ratios": [0.9, 1.33],
+        },
+        contentType: "application/json",
+      });
 
       assert.isNotNull(result);
       assert.equal(result.status, "200");
@@ -99,16 +92,14 @@ describe("Analyze Tests", () => {
     const data: Uint8Array = await downloadUrlToUint8Array(url);
 
     for (const testFeatures of [allFeatures, someFeatures]) {
-      const result = await client.path("/imageanalysis:analyze").post(
-        {
-          body: data,
-          queryParameters: {
-            features: testFeatures,
-            "smartCrops-aspect-ratios": [0.9, 1.33],
-          },
-          contentType: "application/octet-stream"
-        }
-      );
+      const result = await client.path("/imageanalysis:analyze").post({
+        body: data,
+        queryParameters: {
+          features: testFeatures,
+          "smartCrops-aspect-ratios": [0.9, 1.33],
+        },
+        contentType: "application/octet-stream",
+      });
 
       assert.isNotNull(result);
 
@@ -191,7 +182,7 @@ describe("Analyze Tests", () => {
 
   function validateReadResult(result: ImageAnalysisResultOutput): void {
     const readResult = result.readResult;
-    if (!readResult) throw new Error('Read result is null');
+    if (!readResult) throw new Error("Read result is null");
 
     const allText: string[] = [];
     let words = 0;
@@ -207,7 +198,7 @@ describe("Analyze Tests", () => {
     for (const block of readResult.blocks) {
       for (const oneLine of block.lines) {
         if (!oneLine.boundingPolygon.every((p) => isInPolygon(p, pagePolygon))) {
-          throw new Error('Bounding polygon is not in the page polygon');
+          throw new Error("Bounding polygon is not in the page polygon");
         }
 
         words += oneLine.words.length;
@@ -215,19 +206,19 @@ describe("Analyze Tests", () => {
         allText.push(oneLine.text);
         for (const word of oneLine.words) {
           if (word.confidence <= 0 || word.confidence >= 1) {
-            throw new Error('Invalid word confidence value');
+            throw new Error("Invalid word confidence value");
           }
           if (!oneLine.text.includes(word.text)) {
-            throw new Error('One line text does not contain word text');
+            throw new Error("One line text does not contain word text");
           }
         }
       }
     }
 
-    if (words !== 6) throw new Error('Words count is not equal to 6');
-    if (lines !== 3) throw new Error('Lines count is not equal to 3');
-    if (allText.join('\n') !== 'Sample text\nHand writing\n123 456') {
-      throw new Error('All text content is not equal to the expected value');
+    if (words !== 6) throw new Error("Words count is not equal to 6");
+    if (lines !== 3) throw new Error("Lines count is not equal to 3");
+    if (allText.join("\n") !== "Sample text\nHand writing\n123 456") {
+      throw new Error("All text content is not equal to the expected value");
     }
   }
 
@@ -240,7 +231,7 @@ describe("Analyze Tests", () => {
       const p2 = points[i + 1];
 
       if (
-        (p1.y > suspectPoint.y) !== (p2.y > suspectPoint.y) &&
+        p1.y > suspectPoint.y !== p2.y > suspectPoint.y &&
         suspectPoint.x < ((p2.x - p1.x) * (suspectPoint.y - p1.y)) / (p2.y - p1.y) + p1.x
       ) {
         intersectCount++;
@@ -262,18 +253,11 @@ describe("Analyze Tests", () => {
     assert.isFalse(iaResult.modelVersion.trim() === "");
   }
 
-  function validateCaption(
-    captionResult: CaptionResultOutput,
-    genderNeutral: boolean
-  ): void {
+  function validateCaption(captionResult: CaptionResultOutput, genderNeutral: boolean): void {
     assert.isNotNull(captionResult);
     assert.isAbove(captionResult.confidence, 0);
     assert.isBelow(captionResult.confidence, 1);
-    assert.isTrue(
-      captionResult.text
-        .toLowerCase()
-        .includes(genderNeutral ? "person" : "woman")
-    );
+    assert.isTrue(captionResult.text.toLowerCase().includes(genderNeutral ? "person" : "woman"));
     assert.isTrue(captionResult.text.toLowerCase().includes("table"));
     assert.isTrue(captionResult.text.toLowerCase().includes("laptop"));
   }
@@ -314,7 +298,12 @@ describe("Analyze Tests", () => {
 
     for (const oneObject of objectsResult.values) {
       assert.isNotNull(oneObject.boundingBox);
-      assert.isTrue(oneObject.boundingBox.x > 0 || oneObject.boundingBox.y > 0 || oneObject.boundingBox.h > 0 || oneObject.boundingBox.w > 0);
+      assert.isTrue(
+        oneObject.boundingBox.x > 0 ||
+          oneObject.boundingBox.y > 0 ||
+          oneObject.boundingBox.h > 0 ||
+          oneObject.boundingBox.w > 0
+      );
       assert.isNotNull(oneObject.tags);
       for (const oneTag of oneObject.tags) {
         assert.isFalse(oneTag.name.trim() === "");
@@ -323,7 +312,11 @@ describe("Analyze Tests", () => {
       }
     }
 
-    assert.isAtLeast(objectsResult.values.filter(v => v.tags.filter(t => t.name.toLowerCase() === "person")).length, 0);
+    assert.isAtLeast(
+      objectsResult.values.filter((v) => v.tags.filter((t) => t.name.toLowerCase() === "person"))
+        .length,
+      0
+    );
   }
 
   function validateTags(tagsResult: TagsResultOutput): void {
@@ -382,5 +375,4 @@ describe("Analyze Tests", () => {
       boundingBoxes.add(JSON.stringify(oneCrop.boundingBox));
     }
   }
-
 });
