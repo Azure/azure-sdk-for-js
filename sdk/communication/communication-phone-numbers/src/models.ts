@@ -102,7 +102,7 @@ export {
   PhoneNumberSource,
   PhoneNumberType,
   PurchasedPhoneNumber,
-  PurchasedPhoneNumberCapabilities
+  PurchasedPhoneNumberCapabilities,
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
