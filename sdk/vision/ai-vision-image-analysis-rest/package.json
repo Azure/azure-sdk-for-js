@@ -27,6 +27,7 @@
     "types/ai-vision-image-analysis.d.ts",
     "README.md",
     "LICENSE",
+    "CHANGELOG.md",
     "review/*"
   ],
   "engines": {
