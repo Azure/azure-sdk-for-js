@@ -21,6 +21,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isVariableSetInNpmrcFile": () => (/* binding */ isVariableSetInNpmrcFile),
 /* harmony export */   "syncNpmrc": () => (/* binding */ syncNpmrc)
 /* harmony export */ });
 /* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! fs */ 657147);
@@ -33,22 +34,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * As a workaround, copyAndTrimNpmrcFile() copies the .npmrc file to the target folder, and also trims
+ * This function reads the content for given .npmrc file path, and also trims
  * unusable lines from the .npmrc file.
- *
- * Why are we trimming the .npmrc lines?  NPM allows environment variables to be specified in
- * the .npmrc file to provide different authentication tokens for different registry.
- * However, if the environment variable is undefined, it expands to an empty string, which
- * produces a valid-looking mapping with an invalid URL that causes an error.  Instead,
- * we'd prefer to skip that line and continue looking in other places such as the user's
- * home directory.
  *
  * @returns
  * The text of the the .npmrc.
  */
-function _copyAndTrimNpmrcFile(logger, sourceNpmrcPath, targetNpmrcPath) {
-    logger.info(`Transforming ${sourceNpmrcPath}`); // Verbose
-    logger.info(`  --> "${targetNpmrcPath}"`);
+// create a global _combinedNpmrc for cache purpose
+const _combinedNpmrcMap = new Map();
+function _trimNpmrcFile(sourceNpmrcPath) {
+    const combinedNpmrcFromCache = _combinedNpmrcMap.get(sourceNpmrcPath);
+    if (combinedNpmrcFromCache !== undefined) {
+        return combinedNpmrcFromCache;
+    }
     let npmrcFileLines = fs__WEBPACK_IMPORTED_MODULE_0__.readFileSync(sourceNpmrcPath).toString().split('\n');
     npmrcFileLines = npmrcFileLines.map((line) => (line || '').trim());
     const resultLines = [];
@@ -57,8 +55,13 @@ function _copyAndTrimNpmrcFile(logger, sourceNpmrcPath, targetNpmrcPath) {
     // Comment lines start with "#" or ";"
     const commentRegExp = /^\s*[#;]/;
     // Trim out lines that reference environment variables that aren't defined
-    for (const line of npmrcFileLines) {
+    for (let line of npmrcFileLines) {
         let lineShouldBeTrimmed = false;
+        //remove spaces before or after key and value
+        line = line
+            .split('=')
+            .map((lineToTrim) => lineToTrim.trim())
+            .join('=');
         // Ignore comment lines
         if (!commentRegExp.test(line)) {
             const environmentVariables = line.match(expansionRegExp);
@@ -85,6 +88,28 @@ function _copyAndTrimNpmrcFile(logger, sourceNpmrcPath, targetNpmrcPath) {
         }
     }
     const combinedNpmrc = resultLines.join('\n');
+    //save the cache
+    _combinedNpmrcMap.set(sourceNpmrcPath, combinedNpmrc);
+    return combinedNpmrc;
+}
+/**
+ * As a workaround, copyAndTrimNpmrcFile() copies the .npmrc file to the target folder, and also trims
+ * unusable lines from the .npmrc file.
+ *
+ * Why are we trimming the .npmrc lines?  NPM allows environment variables to be specified in
+ * the .npmrc file to provide different authentication tokens for different registry.
+ * However, if the environment variable is undefined, it expands to an empty string, which
+ * produces a valid-looking mapping with an invalid URL that causes an error.  Instead,
+ * we'd prefer to skip that line and continue looking in other places such as the user's
+ * home directory.
+ *
+ * @returns
+ * The text of the the .npmrc with lines containing undefined variables commented out.
+ */
+function _copyAndTrimNpmrcFile(logger, sourceNpmrcPath, targetNpmrcPath) {
+    logger.info(`Transforming ${sourceNpmrcPath}`); // Verbose
+    logger.info(`  --> "${targetNpmrcPath}"`);
+    const combinedNpmrc = _trimNpmrcFile(sourceNpmrcPath);
     fs__WEBPACK_IMPORTED_MODULE_0__.writeFileSync(targetNpmrcPath, combinedNpmrc);
     return combinedNpmrc;
 }
@@ -98,7 +123,9 @@ function _copyAndTrimNpmrcFile(logger, sourceNpmrcPath, targetNpmrcPath) {
  * The text of the the synced .npmrc, if one exists. If one does not exist, then undefined is returned.
  */
 function syncNpmrc(sourceNpmrcFolder, targetNpmrcFolder, useNpmrcPublish, logger = {
+    // eslint-disable-next-line no-console
     info: console.log,
+    // eslint-disable-next-line no-console
     error: console.error
 }) {
     const sourceNpmrcPath = path__WEBPACK_IMPORTED_MODULE_1__.join(sourceNpmrcFolder, !useNpmrcPublish ? '.npmrc' : '.npmrc-publish');
@@ -116,6 +143,16 @@ function syncNpmrc(sourceNpmrcFolder, targetNpmrcFolder, useNpmrcPublish, logger
     catch (e) {
         throw new Error(`Error syncing .npmrc file: ${e}`);
     }
+}
+function isVariableSetInNpmrcFile(sourceNpmrcFolder, variableKey) {
+    const sourceNpmrcPath = `${sourceNpmrcFolder}/.npmrc`;
+    //if .npmrc file does not exist, return false directly
+    if (!fs__WEBPACK_IMPORTED_MODULE_0__.existsSync(sourceNpmrcPath)) {
+        return false;
+    }
+    const trimmedNpmrcFile = _trimNpmrcFile(sourceNpmrcPath);
+    const variableKeyRegExp = new RegExp(`^${variableKey}=`, 'm');
+    return trimmedNpmrcFile.match(variableKeyRegExp) !== null;
 }
 //# sourceMappingURL=npmrcUtilities.js.map
 
@@ -253,7 +290,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var path__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(path__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _utilities_npmrcUtilities__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utilities/npmrcUtilities */ 679877);
 // Copyright (c) Microsoft Corporation. All rights reserved. Licensed under the MIT license.
-// See the @microsoft/rush package's LICENSE file for license information.
+// See LICENSE in the project root for license information.
+/* eslint-disable no-console */
 
 
 
@@ -426,9 +464,9 @@ function _resolvePackageVersion(logger, rushCommonFolder, { name, version }) {
                 : [parsedVersionOutput];
             let latestVersion = versions[0];
             for (let i = 1; i < versions.length; i++) {
-                const version = versions[i];
-                if (_compareVersionStrings(version, latestVersion) > 0) {
-                    latestVersion = version;
+                const latestVersionCandidate = versions[i];
+                if (_compareVersionStrings(latestVersionCandidate, latestVersion) > 0) {
+                    latestVersion = latestVersionCandidate;
                 }
             }
             if (!latestVersion) {

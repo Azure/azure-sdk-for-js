@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Azure Communication Services - SMS client library samples for TypeScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -31,12 +31,13 @@
   "dependencies": {
     "@azure/communication-sms": "latest",
     "dotenv": "latest",
-    "@azure/communication-common": "^2.1.0",
-    "@azure/core-rest-pipeline": "^1.8.0",
-    "@azure/identity": "^2.0.1"
+    "@azure/communication-common": "^2.2.0",
+    "@azure/core-util": "^1.0.0",
+    "@azure/identity": "^3.3.0"
   },
   "devDependencies": {
-    "typescript": "~5.0.0",
+    "@types/node": "^18.0.0",
+    "typescript": "~5.2.0",
     "rimraf": "latest"
   }
 }

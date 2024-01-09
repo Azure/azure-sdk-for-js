@@ -9,6 +9,7 @@
 export * from "./operations";
 export * from "./netAppResource";
 export * from "./netAppResourceQuotaLimits";
+export * from "./netAppResourceRegionInfos";
 export * from "./accounts";
 export * from "./pools";
 export * from "./volumes";
@@ -20,3 +21,7 @@ export * from "./backupPolicies";
 export * from "./volumeQuotaRules";
 export * from "./volumeGroups";
 export * from "./subvolumes";
+export * from "./backupVaults";
+export * from "./backupsUnderBackupVault";
+export * from "./backupsUnderVolume";
+export * from "./backupsUnderAccount";

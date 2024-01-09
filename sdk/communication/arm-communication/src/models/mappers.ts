@@ -327,6 +327,68 @@ export const CommunicationServiceResourceList: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -719,6 +781,60 @@ export const SenderUsernameResourceCollection: coreClient.CompositeMapper = {
   }
 };
 
+export const SuppressionListResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddressResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddressResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListAddressResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NameAvailabilityParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -769,6 +885,13 @@ export const CommunicationServiceResourceUpdate: coreClient.CompositeMapper = {
     className: "CommunicationServiceResourceUpdate",
     modelProperties: {
       ...TaggedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       linkedDomains: {
         serializedName: "properties.linkedDomains",
         type: {
@@ -816,6 +939,13 @@ export const CommunicationServiceResource: coreClient.CompositeMapper = {
     className: "CommunicationServiceResource",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         readOnly: true,
@@ -986,6 +1116,91 @@ export const SenderUsernameResource: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      listName: {
+        serializedName: "properties.listName",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdatedTimeStamp: {
+        serializedName: "properties.lastUpdatedTimeStamp",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdTimeStamp: {
+        serializedName: "properties.createdTimeStamp",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataLocation: {
+        serializedName: "properties.dataLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddressResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddressResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      email: {
+        serializedName: "properties.email",
+        type: {
+          name: "String"
+        }
+      },
+      firstName: {
+        serializedName: "properties.firstName",
+        type: {
+          name: "String"
+        }
+      },
+      lastName: {
+        serializedName: "properties.lastName",
+        type: {
+          name: "String"
+        }
+      },
+      notes: {
+        serializedName: "properties.notes",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "properties.lastModified",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      dataLocation: {
+        serializedName: "properties.dataLocation",
         readOnly: true,
         type: {
           name: "String"

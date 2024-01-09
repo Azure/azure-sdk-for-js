@@ -15,7 +15,7 @@ import {
   WorkloadIdentityCredential,
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
-import { AuthenticationResult } from "@azure/msal-common";
+import { AuthenticationResult } from "@azure/msal-node";
 import sinon from "sinon";
 
 describe("WorkloadIdentityCredential", function () {

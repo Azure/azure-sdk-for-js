@@ -14,20 +14,36 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "./lroImpl";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "./lroImpl";
+import {
+  LicensesImpl,
   MachinesImpl,
+  LicenseProfilesImpl,
   MachineExtensionsImpl,
+  ExtensionMetadataImpl,
   OperationsImpl,
+  NetworkProfileOperationsImpl,
+  HybridIdentityMetadataOperationsImpl,
+  AgentVersionOperationsImpl,
   PrivateLinkScopesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl
 } from "./operations";
 import {
+  Licenses,
   Machines,
+  LicenseProfiles,
   MachineExtensions,
+  ExtensionMetadata,
   Operations,
+  NetworkProfileOperations,
+  HybridIdentityMetadataOperations,
+  AgentVersionOperations,
   PrivateLinkScopes,
   PrivateLinkResources,
   PrivateEndpointConnections
@@ -43,7 +59,7 @@ import {
 export class HybridComputeManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HybridComputeManagementClient class.
@@ -55,12 +71,28 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: HybridComputeManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: HybridComputeManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | HybridComputeManagementClientOptionalParams
+      | string,
+    options?: HybridComputeManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -72,7 +104,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -125,10 +157,18 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-06-10-preview";
+    this.apiVersion = options.apiVersion || "2023-06-20-preview";
+    this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
+    this.licenseProfiles = new LicenseProfilesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
+    this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
+    this.networkProfileOperations = new NetworkProfileOperationsImpl(this);
+    this.hybridIdentityMetadataOperations = new HybridIdentityMetadataOperationsImpl(
+      this
+    );
+    this.agentVersionOperations = new AgentVersionOperationsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
@@ -175,14 +215,14 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     machineName: string,
     extensionUpgradeParameters: MachineExtensionUpgrade,
     options?: UpgradeExtensionsOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -215,13 +255,18 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, machineName, extensionUpgradeParameters, options },
-      upgradeExtensionsOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        machineName,
+        extensionUpgradeParameters,
+        options
+      },
+      spec: upgradeExtensionsOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -250,9 +295,15 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
     return poller.pollUntilDone();
   }
 
+  licenses: Licenses;
   machines: Machines;
+  licenseProfiles: LicenseProfiles;
   machineExtensions: MachineExtensions;
+  extensionMetadata: ExtensionMetadata;
   operations: Operations;
+  networkProfileOperations: NetworkProfileOperations;
+  hybridIdentityMetadataOperations: HybridIdentityMetadataOperations;
+  agentVersionOperations: AgentVersionOperations;
   privateLinkScopes: PrivateLinkScopes;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
@@ -281,7 +332,7 @@ const upgradeExtensionsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.machineName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

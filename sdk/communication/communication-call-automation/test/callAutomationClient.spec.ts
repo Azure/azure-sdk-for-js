@@ -14,7 +14,13 @@ import {
 import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import {
+  CallAutomationClient,
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "../src";
 import {
   createRecorder,
   createTestUser,
@@ -29,7 +35,8 @@ import {
   loadPersistedEvents,
   persistEvents,
 } from "./utils/recordedClient";
-import { v4 as uuidv4 } from "uuid";
+import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
+import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -58,7 +65,7 @@ describe("Call Automation Client Unit Tests", () => {
   it("RepeatabilityHeadersGeneration", async () => {
     // mocks
     const repeatabilityFirstSent: string = new Date().toUTCString();
-    const repeatabilityRequestID: string = uuidv4();
+    const repeatabilityRequestID: string = randomUUID();
 
     // asserts
     assert.isNotNull(repeatabilityFirstSent);
@@ -72,6 +79,9 @@ describe("Call Automation Client Unit Tests", () => {
     const createCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as CreateCallEventResult;
+      },
     };
     client.createCall.returns(
       new Promise((resolve) => {
@@ -97,6 +107,9 @@ describe("Call Automation Client Unit Tests", () => {
     const createGroupCallResultMock: CreateCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as CreateCallEventResult;
+      },
     };
     client.createGroupCall.returns(
       new Promise((resolve) => {
@@ -122,6 +135,9 @@ describe("Call Automation Client Unit Tests", () => {
     const answerCallResultMock: AnswerCallResult = {
       callConnectionProperties: {} as CallConnectionProperties,
       callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as AnswerCallEventResult;
+      },
     };
     client.answerCall.returns(
       new Promise((resolve) => {
@@ -200,13 +216,6 @@ describe("Call Automation Main Client Live Tests", function () {
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log("Call is terminated");
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -217,6 +226,13 @@ describe("Call Automation Main Client Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("Create a call and hangup", async function () {
@@ -228,8 +244,13 @@ describe("Call Automation Main Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -237,13 +258,22 @@ describe("Call Automation Main Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+      const answerCallOptions: AnswerCallOptions = {
+        operationContext: "operationContextAnswerCall",
+      };
+      await receiverCallAutomationClient.answerCall(
+        incomingCallContext,
+        callBackUrl,
+        answerCallOptions
+      );
     }
+
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
     await callConnection.hangUp(true);
+
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
@@ -255,8 +285,13 @@ describe("Call Automation Main Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+    const createCallOption: CreateCallOptions = { operationContext: "operationContextRejectCall" };
 
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+    const result = await callerCallAutomationClient.createCall(
+      callInvite,
+      callBackUrl,
+      createCallOption
+    );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId

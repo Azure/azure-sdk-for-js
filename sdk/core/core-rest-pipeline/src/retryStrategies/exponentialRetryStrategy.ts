@@ -40,7 +40,7 @@ export function exponentialRetryStrategy(
      * If true it won't retry if it received a non-fatal HTTP status code.
      */
     ignoreHttpStatusCodes?: boolean;
-  } = {}
+  } = {},
 ): RetryStrategy {
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
@@ -89,7 +89,7 @@ export function isExponentialRetryResponse(response?: PipelineResponse): boolean
       response.status !== undefined &&
       (response.status >= 500 || response.status === 408) &&
       response.status !== 501 &&
-      response.status !== 505
+      response.status !== 505,
   );
 }
 
@@ -105,6 +105,7 @@ export function isSystemError(err?: RestError): boolean {
     err.code === "ESOCKETTIMEDOUT" ||
     err.code === "ECONNREFUSED" ||
     err.code === "ECONNRESET" ||
-    err.code === "ENOENT"
+    err.code === "ENOENT" ||
+    err.code === "ENOTFOUND"
   );
 }

@@ -16,23 +16,22 @@ require("dotenv").config();
  * This sample demonstrates how to Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
  *
  * @summary Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Cancel.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Cancel.json
  */
 async function cancelMigration() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
   const parameters = { cancel: "True" };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.update(
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -41,11 +40,10 @@ async function cancelMigration() {
  * This sample demonstrates how to Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
  *
  * @summary Updates an existing migration. The request body can contain one to many of the mutable properties present in the migration definition. Certain property updates initiate migration state transitions.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/Migrations_Update.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/Migrations_Update.json
  */
 async function migrationsUpdate() {
-  const subscriptionId =
-    process.env["POSTGRESQL_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
   const resourceGroupName = process.env["POSTGRESQL_RESOURCE_GROUP"] || "testrg";
   const targetDbServerName = "testtarget";
   const migrationName = "testmigration";
@@ -53,13 +51,13 @@ async function migrationsUpdate() {
     setupLogicalReplicationOnSourceDbIfNeeded: "True",
   };
   const credential = new DefaultAzureCredential();
-  const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
+  const client = new PostgreSQLManagementFlexibleServerClient(credential);
   const result = await client.migrations.update(
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

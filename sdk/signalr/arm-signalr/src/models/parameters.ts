@@ -18,6 +18,7 @@ import {
   CustomCertificate as CustomCertificateMapper,
   CustomDomain as CustomDomainMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  Replica as ReplicaMapper,
   SharedPrivateLinkResource as SharedPrivateLinkResourceMapper
 } from "../models/mappers";
 
@@ -48,7 +49,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-02-01",
+    defaultValue: "2023-08-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -103,7 +104,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -111,6 +112,10 @@ export const subscriptionId: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -122,6 +127,11 @@ export const resourceGroupName: OperationURLParameter = {
 export const resourceName: OperationURLParameter = {
   parameterPath: "resourceName",
   mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
     serializedName: "resourceName",
     required: true,
     type: {
@@ -138,6 +148,22 @@ export const parameters1: OperationParameter = {
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
   mapper: RegenerateKeyParametersMapper
+};
+
+export const replicaName: OperationURLParameter = {
+  parameterPath: "replicaName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]$"),
+      MaxLength: 63,
+      MinLength: 3
+    },
+    serializedName: "replicaName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const certificateName: OperationURLParameter = {
@@ -188,6 +214,11 @@ export const parameters5: OperationParameter = {
   mapper: PrivateEndpointConnectionMapper
 };
 
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ReplicaMapper
+};
+
 export const sharedPrivateLinkResourceName: OperationURLParameter = {
   parameterPath: "sharedPrivateLinkResourceName",
   mapper: {
@@ -199,7 +230,7 @@ export const sharedPrivateLinkResourceName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
+export const parameters7: OperationParameter = {
   parameterPath: "parameters",
   mapper: SharedPrivateLinkResourceMapper
 };

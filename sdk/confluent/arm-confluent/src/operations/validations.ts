@@ -14,7 +14,9 @@ import { ConfluentManagementClient } from "../confluentManagementClient";
 import {
   OrganizationResource,
   ValidationsValidateOrganizationOptionalParams,
-  ValidationsValidateOrganizationResponse
+  ValidationsValidateOrganizationResponse,
+  ValidationsValidateOrganizationV2OptionalParams,
+  ValidationsValidateOrganizationV2Response
 } from "../models";
 
 /** Class containing Validations operations. */
@@ -31,7 +33,7 @@ export class ValidationsImpl implements Validations {
 
   /**
    * Organization Validate proxy resource
-   * @param resourceGroupName Resource group name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param organizationName Organization resource name
    * @param body Organization resource model
    * @param options The options parameters.
@@ -47,6 +49,25 @@ export class ValidationsImpl implements Validations {
       validateOrganizationOperationSpec
     );
   }
+
+  /**
+   * Organization Validate proxy resource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param organizationName Organization resource name
+   * @param body Organization resource model
+   * @param options The options parameters.
+   */
+  validateOrganizationV2(
+    resourceGroupName: string,
+    organizationName: string,
+    body: OrganizationResource,
+    options?: ValidationsValidateOrganizationV2OptionalParams
+  ): Promise<ValidationsValidateOrganizationV2Response> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, organizationName, body, options },
+      validateOrganizationV2OperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -58,6 +79,30 @@ const validateOrganizationOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.OrganizationResource
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+    }
+  },
+  requestBody: Parameters.body3,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.organizationName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const validateOrganizationV2OperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Confluent/validations/{organizationName}/orgvalidateV2",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ValidationResponse
     },
     default: {
       bodyMapper: Mappers.ResourceProviderDefaultErrorResponse

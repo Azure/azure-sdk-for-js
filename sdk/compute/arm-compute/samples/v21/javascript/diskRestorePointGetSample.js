@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get disk restorePoint resource
  *
  * @summary Get disk restorePoint resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskRestorePointExamples/DiskRestorePoint_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskRestorePointExamples/DiskRestorePoint_Get.json
  */
 async function getAnIncrementalDiskRestorePointResource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function getAnIncrementalDiskRestorePointResource() {
     resourceGroupName,
     restorePointCollectionName,
     vmRestorePointName,
-    diskRestorePointName
+    diskRestorePointName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getAnIncrementalDiskRestorePointResource() {
  * This sample demonstrates how to Get disk restorePoint resource
  *
  * @summary Get disk restorePoint resource
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskRestorePointExamples/DiskRestorePoint_Get_WhenSourceResourceIsFromDifferentRegion.json
  */
 async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -53,7 +53,7 @@ async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferen
     resourceGroupName,
     restorePointCollectionName,
     vmRestorePointName,
-    diskRestorePointName
+    diskRestorePointName,
   );
   console.log(result);
 }

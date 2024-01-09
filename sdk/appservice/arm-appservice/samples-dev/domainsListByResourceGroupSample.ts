@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get all domains in a resource group.
  *
  * @summary Description for Get all domains in a resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-09-01/examples/ListDomainsByResourceGroup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-01-01/examples/ListDomainsByResourceGroup.json
  */
 async function listDomainsByResourceGroup() {
   const subscriptionId =

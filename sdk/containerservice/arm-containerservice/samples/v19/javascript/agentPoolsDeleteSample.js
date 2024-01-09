@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes an agent pool in the specified managed cluster.
  *
  * @summary Deletes an agent pool in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/AgentPoolsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/AgentPoolsDelete.json
  */
 async function deleteAgentPool() {
-  const subscriptionId = process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+  const subscriptionId =
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
   const agentPoolName = "agentpool1";
@@ -28,7 +29,7 @@ async function deleteAgentPool() {
   const result = await client.agentPools.beginDeleteAndWait(
     resourceGroupName,
     resourceName,
-    agentPoolName
+    agentPoolName,
   );
   console.log(result);
 }

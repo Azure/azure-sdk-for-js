@@ -24,6 +24,7 @@ export * from "./kubeEnvironments";
 export * from "./provider";
 export * from "./recommendations";
 export * from "./resourceHealthMetadataOperations";
+export * from "./getUsagesInLocation";
 export * from "./staticSites";
 export * from "./webApps";
 export * from "./workflows";

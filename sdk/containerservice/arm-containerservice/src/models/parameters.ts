@@ -21,7 +21,8 @@ import {
   AgentPool as AgentPoolMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
-  Snapshot as SnapshotMapper
+  Snapshot as SnapshotMapper,
+  TrustedAccessRoleBinding as TrustedAccessRoleBindingMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -51,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-07-01",
+    defaultValue: "2023-10-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,13 +64,10 @@ export const apiVersion: OperationQueryParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
-    constraints: {
-      MinLength: 1
-    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -210,6 +208,24 @@ export const commandId: OperationURLParameter = {
   }
 };
 
+export const mode: OperationURLParameter = {
+  parameterPath: "mode",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+      ),
+      MaxLength: 24,
+      MinLength: 1
+    },
+    serializedName: "mode",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -259,17 +275,6 @@ export const parameters5: OperationParameter = {
   mapper: AgentPoolMapper
 };
 
-export const agentPoolName1: OperationURLParameter = {
-  parameterPath: "agentPoolName",
-  mapper: {
-    serializedName: "agentPoolName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -294,4 +299,25 @@ export const parameters7: OperationParameter = {
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SnapshotMapper
+};
+
+export const trustedAccessRoleBindingName: OperationURLParameter = {
+  parameterPath: "trustedAccessRoleBindingName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^([A-Za-z0-9-])+$"),
+      MaxLength: 24,
+      MinLength: 1
+    },
+    serializedName: "trustedAccessRoleBindingName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const trustedAccessRoleBinding: OperationParameter = {
+  parameterPath: "trustedAccessRoleBinding",
+  mapper: TrustedAccessRoleBindingMapper
 };

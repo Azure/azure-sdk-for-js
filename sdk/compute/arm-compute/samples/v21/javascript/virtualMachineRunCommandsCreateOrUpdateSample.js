@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create or update the run command.
  *
  * @summary The operation to create or update the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/VirtualMachineRunCommand_CreateOrUpdate.json
  */
 async function createOrUpdateARunCommand() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -25,8 +25,7 @@ async function createOrUpdateARunCommand() {
   const runCommandName = "myRunCommand";
   const runCommand = {
     asyncExecution: false,
-    errorBlobUri:
-      "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt?sp=racw&st=2022-10-07T19:40:21Z&se=2022-10-08T03:40:21Z&spr=https&sv=2021-06-08&sr=b&sig=Yh7B%2Fy83olbYBdfsfbUREvd7ol8Dq5EVP3lAO4Kj4xDcN8%3D",
+    errorBlobUri: "https://mystorageaccount.blob.core.windows.net/scriptcontainer/scriptURI",
     location: "West US",
     outputBlobManagedIdentity: {
       clientId: "22d35efb-0c99-4041-8c5b-6d24db33a69a",
@@ -40,8 +39,7 @@ async function createOrUpdateARunCommand() {
     runAsPassword: "<runAsPassword>",
     runAsUser: "user1",
     source: {
-      scriptUri:
-        "https://mystorageaccount.blob.core.windows.net/scriptcontainer/MyScript.ps1?sp=r&st=2022-10-07T19:52:54Z&se=2022-10-08T03:52:54Z&spr=https&sv=2021-06-08&sr=b&sig=zfYFYCgea1PqVERZuwJiewrte5gjTnKGtVJngcw5oc828%3D",
+      scriptUri: "https://mystorageaccount.blob.core.windows.net/scriptcontainer/scriptURI",
     },
     timeoutInSeconds: 3600,
     treatFailureAsDeploymentFailure: false,
@@ -52,7 +50,7 @@ async function createOrUpdateARunCommand() {
     resourceGroupName,
     vmName,
     runCommandName,
-    runCommand
+    runCommand,
   );
   console.log(result);
 }

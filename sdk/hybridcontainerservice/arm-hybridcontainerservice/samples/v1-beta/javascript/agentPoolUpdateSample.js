@@ -13,24 +13,22 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Updates the agent pool in the Hybrid AKS provisioned cluster
+ * This sample demonstrates how to Updates the agent pool in the Hybrid AKS provisioned cluster instance
  *
- * @summary Updates the agent pool in the Hybrid AKS provisioned cluster
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/UpdateAgentPool.json
+ * @summary Updates the agent pool in the Hybrid AKS provisioned cluster instance
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/UpdateAgentPool.json
  */
 async function updateAgentPool() {
-  const subscriptionId =
-    process.env["HYBRIDCONTAINERSERVICE_SUBSCRIPTION_ID"] || "a3e42606-29b1-4d7d-b1d9-9ff6b9d3c71b";
-  const resourceGroupName =
-    process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] || "test-arcappliance-resgrp";
-  const resourceName = "test-hybridakscluster";
+  const connectedClusterResourceUri =
+    "subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/testrg/providers/Microsoft.Kubernetes/connectedClusters/test-hybridakscluster";
   const agentPoolName = "test-hybridaksnodepool";
-  const agentPool = { count: 3, location: "westus" };
+  const agentPool = {
+    tags: { additionalProperties: "sample" },
+  };
   const credential = new DefaultAzureCredential();
-  const client = new HybridContainerServiceClient(credential, subscriptionId);
-  const result = await client.agentPoolOperations.update(
-    resourceGroupName,
-    resourceName,
+  const client = new HybridContainerServiceClient(credential);
+  const result = await client.agentPoolOperations.beginUpdateAndWait(
+    connectedClusterResourceUri,
     agentPoolName,
     agentPool
   );

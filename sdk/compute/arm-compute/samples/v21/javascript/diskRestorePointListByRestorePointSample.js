@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists diskRestorePoints under a vmRestorePoint.
  *
  * @summary Lists diskRestorePoints under a vmRestorePoint.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskRestorePointExamples/DiskRestorePoint_ListByVmRestorePoint.json
  */
 async function getAnIncrementalDiskRestorePointResource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -29,7 +29,7 @@ async function getAnIncrementalDiskRestorePointResource() {
   for await (let item of client.diskRestorePointOperations.listByRestorePoint(
     resourceGroupName,
     restorePointCollectionName,
-    vmRestorePointName
+    vmRestorePointName,
   )) {
     resArray.push(item);
   }

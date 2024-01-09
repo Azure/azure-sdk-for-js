@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 3.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,35 @@
 
 ### Other Changes
 
+## 3.0.0 (2023-12-07)
+    
+**Features**
+
+  - Added Interface CorsConfiguration
+  - Added Interface Encryption
+  - Added Interface EncryptionCustomerManagedKeyEncryption
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface ImplementationGuidesConfiguration
+  - Added Interface ServiceImportConfigurationInfo
+  - Interface DicomService has a new optional parameter corsConfiguration
+  - Interface DicomService has a new optional parameter encryption
+  - Interface DicomService has a new optional parameter eventState
+  - Interface FhirService has a new optional parameter encryption
+  - Interface FhirService has a new optional parameter implementationGuidesConfiguration
+  - Interface FhirService has a new optional parameter importConfiguration
+  - Interface MetricSpecification has a new optional parameter enableRegionalMdmAccount
+  - Interface MetricSpecification has a new optional parameter isInternal
+  - Interface MetricSpecification has a new optional parameter metricFilterPattern
+  - Interface MetricSpecification has a new optional parameter resourceIdDimensionNameOverride
+  - Interface MetricSpecification has a new optional parameter sourceMdmAccount
+  - Interface ServiceCosmosDbConfigurationInfo has a new optional parameter crossTenantCmkApplicationId
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+
+**Breaking Changes**
+
+  - Interface FhirService no longer has parameter accessPolicies
+    
+    
 ## 2.2.0 (2022-11-25)
     
 **Features**
@@ -197,4 +226,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

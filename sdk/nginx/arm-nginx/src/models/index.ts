@@ -16,8 +16,6 @@ export interface NginxCertificate {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
   properties?: NginxCertificateProperties;
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
   location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -82,8 +80,6 @@ export interface NginxConfiguration {
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly type?: string;
   properties?: NginxConfigurationProperties;
-  /** Dictionary of <string> */
-  tags?: { [propertyName: string]: string };
   location?: string;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -108,6 +104,7 @@ export interface NginxConfigurationFile {
 
 export interface NginxConfigurationPackage {
   data?: string;
+  protectedFiles?: string[];
 }
 
 export interface NginxDeployment {
@@ -162,6 +159,8 @@ export interface NginxDeploymentProperties {
   readonly ipAddress?: string;
   enableDiagnosticsSupport?: boolean;
   logging?: NginxLogging;
+  scalingProperties?: NginxDeploymentScalingProperties;
+  userProfile?: NginxDeploymentUserProfile;
 }
 
 export interface NginxNetworkProfile {
@@ -197,6 +196,15 @@ export interface NginxStorageAccount {
   containerName?: string;
 }
 
+export interface NginxDeploymentScalingProperties {
+  capacity?: number;
+}
+
+export interface NginxDeploymentUserProfile {
+  /** The preferred support contact email address of the user used for sending alerts and notification. Can be an empty string or a valid email address. */
+  preferredEmail?: string;
+}
+
 export interface ResourceSku {
   /** Name of the SKU. */
   name: string;
@@ -214,6 +222,8 @@ export interface NginxDeploymentUpdateParameters {
 export interface NginxDeploymentUpdateProperties {
   enableDiagnosticsSupport?: boolean;
   logging?: NginxLogging;
+  scalingProperties?: NginxDeploymentScalingProperties;
+  userProfile?: NginxDeploymentUserProfile;
 }
 
 export interface NginxDeploymentListResponse {
@@ -417,7 +427,7 @@ export type ConfigurationsGetResponse = NginxConfiguration;
 /** Optional parameters. */
 export interface ConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
-  /** The Nginx configuration */
+  /** The NGINX configuration */
   body?: NginxConfiguration;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;

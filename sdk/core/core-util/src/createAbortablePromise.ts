@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { AbortOptions } from "./aborterUtils";
 
 /**
  * Options for the createAbortablePromise function.
  */
-export interface CreateAbortablePromiseOptions {
+export interface CreateAbortablePromiseOptions extends AbortOptions {
   /** A function to be called if the promise was aborted */
   cleanupBeforeAbort?: () => void;
-  /** An abort signal */
-  abortSignal?: AbortSignalLike;
-  /** An abort error message */
-  abortErrorMsg?: string;
 }
 
 /**
@@ -24,9 +21,9 @@ export interface CreateAbortablePromiseOptions {
 export function createAbortablePromise<T>(
   buildPromise: (
     resolve: (value: T | PromiseLike<T>) => void,
-    reject: (reason?: any) => void
+    reject: (reason?: any) => void,
   ) => void,
-  options?: CreateAbortablePromiseOptions
+  options?: CreateAbortablePromiseOptions,
 ): Promise<T> {
   const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
   return new Promise((resolve, reject) => {
@@ -53,7 +50,7 @@ export function createAbortablePromise<T>(
         (x) => {
           removeListeners();
           reject(x);
-        }
+        },
       );
     } catch (err) {
       reject(err);

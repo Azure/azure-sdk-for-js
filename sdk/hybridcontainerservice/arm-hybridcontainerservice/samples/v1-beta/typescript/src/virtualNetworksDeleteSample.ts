@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the Hybrid AKS virtual network
  *
  * @summary Deletes the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/DeleteVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/DeleteVirtualNetwork.json
  */
 async function deleteVirtualNetwork() {
   const subscriptionId =
@@ -27,12 +27,12 @@ async function deleteVirtualNetwork() {
   const resourceGroupName =
     process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] ||
     "test-arcappliance-resgrp";
-  const virtualNetworksName = "test-vnet-static";
+  const virtualNetworkName = "test-vnet-static";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
-  const result = await client.virtualNetworksOperations.delete(
+  const result = await client.virtualNetworks.beginDeleteAndWait(
     resourceGroupName,
-    virtualNetworksName
+    virtualNetworkName
   );
   console.log(result);
 }

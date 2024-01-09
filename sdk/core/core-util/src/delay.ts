@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortOptions } from "./aborterUtils";
 import { createAbortablePromise } from "./createAbortablePromise";
 
 const StandardAbortMessage = "The delay was aborted.";
@@ -9,16 +9,7 @@ const StandardAbortMessage = "The delay was aborted.";
 /**
  * Options for support abort functionality for the delay method
  */
-export interface DelayOptions {
-  /**
-   * The abortSignal associated with containing operation.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * The abort error message associated with containing operation.
-   */
-  abortErrorMsg?: string;
-}
+export interface DelayOptions extends AbortOptions {}
 
 /**
  * A wrapper for setTimeout that resolves a promise after timeInMs milliseconds.
@@ -37,6 +28,6 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
       cleanupBeforeAbort: () => clearTimeout(token),
       abortSignal,
       abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
-    }
+    },
   );
 }

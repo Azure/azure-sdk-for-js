@@ -13,7 +13,6 @@ import {
   createPipelineRequest,
   throttlingRetryPolicy,
 } from "../src";
-import { AbortController } from "@azure/abort-controller";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
@@ -108,7 +107,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header."
+      "It should now be the time from the header.",
     );
     assert.isTrue(next.calledTwice);
 
@@ -188,7 +187,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header."
+      "It should now be the time from the header.",
     );
     assert.isTrue(next.calledTwice);
 
@@ -275,7 +274,7 @@ describe("throttlingRetryPolicy", function () {
   it("throttlingRetryPolicy should honor abort signal", async () => {
     const request = createPipelineRequest({
       url: "https://bing.com",
-      abortSignal: AbortController.timeout(100), // test should end at 100ms
+      abortSignal: AbortSignal.timeout(100), // test should end at 100ms
     });
     const retryResponse: PipelineResponse = {
       headers: createHttpHeaders({
@@ -298,7 +297,7 @@ describe("throttlingRetryPolicy", function () {
     await assert.isRejected(
       policy.sendRequest(request, next),
       "The operation was aborted.",
-      "Unexpected error thrown"
+      "Unexpected error thrown",
     );
 
     assert.isTrue(next.calledOnce);

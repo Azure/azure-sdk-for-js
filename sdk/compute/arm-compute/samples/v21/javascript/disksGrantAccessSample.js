@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Grants access to a disk.
  *
  * @summary Grants access to a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_BeginGetAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskExamples/Disk_BeginGetAccess.json
  */
 async function getASasOnAManagedDisk() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +32,7 @@ async function getASasOnAManagedDisk() {
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function getASasOnAManagedDisk() {
  * This sample demonstrates how to Grants access to a disk.
  *
  * @summary Grants access to a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/diskExamples/Disk_BeginGetAccess_WithVMGuestState.json
  */
 async function getSasOnManagedDiskAndVMGuestState() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -57,7 +57,7 @@ async function getSasOnManagedDiskAndVMGuestState() {
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }

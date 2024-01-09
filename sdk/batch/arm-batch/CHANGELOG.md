@@ -1,6 +1,6 @@
 # Release History
 
-## 9.0.1 (Unreleased)
+## 9.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,23 @@
 
 ### Other Changes
 
+## 9.1.0 (2023-12-08)
+    
+**Features**
+
+  - Added Interface ManagedDisk
+  - Added Interface SecurityProfile
+  - Added Interface ServiceArtifactReference
+  - Added Interface UefiSettings
+  - Interface OSDisk has a new optional parameter caching
+  - Interface OSDisk has a new optional parameter diskSizeGB
+  - Interface OSDisk has a new optional parameter managedDisk
+  - Interface OSDisk has a new optional parameter writeAcceleratorEnabled
+  - Interface Pool has a new optional parameter resourceTags
+  - Interface VirtualMachineConfiguration has a new optional parameter securityProfile
+  - Interface VirtualMachineConfiguration has a new optional parameter serviceArtifactReference
+    
+    
 ## 9.0.0 (2023-06-30)
     
 **Features**
@@ -117,4 +134,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

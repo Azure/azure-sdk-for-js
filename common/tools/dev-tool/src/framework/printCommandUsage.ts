@@ -21,13 +21,13 @@ export const commandStack: string[] = [];
 export async function printCommandUsage(
   info: CommandInfo<CommandOptions>,
   subCommands?: CommandLoader,
-  println: (...values: string[]) => void = console.log
+  println: (...values: string[]) => void = console.log,
 ): Promise<void> {
   println(`${info.name} - ${info.description}\n`);
   println(
     `Usage: ${commandStack.join(" ")} [OPTIONS] ${
       subCommands !== undefined ? "COMMAND [... COMMAND-OPTIONS]" : ""
-    }\n`
+    }\n`,
   );
 
   // OPTIONS info
@@ -51,7 +51,7 @@ export async function printCommandUsage(
     // Compute the number of tabs needed to separate commands from
     // docstrings assuming a default command-line tabstop of 8
     const tabs = Math.ceil(
-      (Math.max(...Object.keys(subCommands).map((key) => key.length + 2)) + 1) / 8
+      (Math.max(...Object.keys(subCommands).map((key) => key.length + 2)) + 1) / 8,
     );
 
     for (const [command, load] of Object.entries(subCommands)) {

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a server.
  *
  * @summary Gets a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerGet.json
  */
 async function getServer() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getServer() {
  * This sample demonstrates how to Gets a server.
  *
  * @summary Gets a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerGetWithExpandEqualsAdministrators.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerGetWithExpandEqualsAdministrators.json
  */
 async function getServerWithExpandAdministratorsOrActivedirectory() {
   const subscriptionId =

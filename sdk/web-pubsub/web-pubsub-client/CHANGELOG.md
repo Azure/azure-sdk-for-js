@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0 (2023-12-01)
+
+### Other Changes
+
+- Use overload for `SendToGroup` and `SendEvent`
 
 ## 1.0.0-beta.3 (2023-04-10)
 

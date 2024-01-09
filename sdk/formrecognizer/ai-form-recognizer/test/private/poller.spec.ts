@@ -75,6 +75,6 @@ function createOperation(abortController?: AbortController) {
       },
     },
     1000,
-    abortController?.signal
+    abortController?.signal,
   );
 }

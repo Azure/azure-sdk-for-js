@@ -2,34 +2,18 @@
 // Licensed under the MIT license.
 
 import { StreamableMethod } from "@azure-rest/core-client";
-import { EventMessage, toSSE } from "./sse.js";
+import { wrapError } from "./util.js";
+import { streamToText } from "./readableStreamUtils.js";
 
-async function* toAsyncIterable<T>(stream: ReadableStream<T>): AsyncIterable<T> {
-  const reader = stream.getReader();
-  try {
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) {
-        return;
-      }
-      yield value;
-    }
-  } finally {
-    reader.releaseLock();
+export async function getStream<TResponse>(
+  response: StreamableMethod<TResponse>,
+): Promise<ReadableStream<Uint8Array>> {
+  const { body, status } = await response.asBrowserStream();
+  if (status !== "200" && body !== undefined) {
+    const text = await streamToText(body);
+    throw wrapError(() => JSON.parse(text).error, "Error parsing response body");
   }
-}
 
-async function getStream<TResponse>(
-  response: StreamableMethod<TResponse>
-): Promise<AsyncIterable<Uint8Array>> {
-  const stream = (await response.asBrowserStream()).body;
-  if (!stream) throw new Error("No stream found in response. Did you enable the stream option?");
-  return toAsyncIterable(stream);
-}
-
-export async function getSSEs(
-  response: StreamableMethod<unknown>
-): Promise<AsyncIterable<EventMessage>> {
-  const iter = await getStream(response);
-  return toSSE(iter);
+  if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
+  return body;
 }

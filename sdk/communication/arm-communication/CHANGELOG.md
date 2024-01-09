@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,42 @@
 
 ### Other Changes
 
+## 4.1.0-beta.2 (2023-11-10)
+    
+**Features**
+
+  - Added operation group SuppressionListAddresses
+  - Added operation group SuppressionLists
+  - Added Interface ManagedServiceIdentity
+  - Added Interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListAddressesDeleteOptionalParams
+  - Added Interface SuppressionListAddressesGetOptionalParams
+  - Added Interface SuppressionListAddressesListNextOptionalParams
+  - Added Interface SuppressionListAddressesListOptionalParams
+  - Added Interface SuppressionListAddressResource
+  - Added Interface SuppressionListAddressResourceCollection
+  - Added Interface SuppressionListResource
+  - Added Interface SuppressionListResourceCollection
+  - Added Interface SuppressionListsCreateOrUpdateOptionalParams
+  - Added Interface SuppressionListsDeleteOptionalParams
+  - Added Interface SuppressionListsGetOptionalParams
+  - Added Interface SuppressionListsListByDomainNextOptionalParams
+  - Added Interface SuppressionListsListByDomainOptionalParams
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias SuppressionListAddressesCreateOrUpdateResponse
+  - Added Type Alias SuppressionListAddressesGetResponse
+  - Added Type Alias SuppressionListAddressesListNextResponse
+  - Added Type Alias SuppressionListAddressesListResponse
+  - Added Type Alias SuppressionListsCreateOrUpdateResponse
+  - Added Type Alias SuppressionListsGetResponse
+  - Added Type Alias SuppressionListsListByDomainNextResponse
+  - Added Type Alias SuppressionListsListByDomainResponse
+  - Interface CommunicationServiceResource has a new optional parameter identity
+  - Interface CommunicationServiceResourceUpdate has a new optional parameter identity
+  - Added Enum KnownManagedServiceIdentityType
+    
+    
 ## 4.0.0 (2023-03-27)
     
 **Features**
@@ -149,4 +185,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

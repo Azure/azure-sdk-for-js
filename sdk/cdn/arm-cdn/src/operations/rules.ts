@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   Rule,
   RulesListByRuleSetNextOptionalParams,
@@ -198,7 +202,7 @@ export class RulesImpl implements Rules {
     rule: Rule,
     options?: RulesCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RulesCreateResponse>, RulesCreateResponse>
+    SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -206,7 +210,7 @@ export class RulesImpl implements Rules {
     ): Promise<RulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -239,15 +243,25 @@ export class RulesImpl implements Rules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, ruleSetName, ruleName, rule, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        profileName,
+        ruleSetName,
+        ruleName,
+        rule,
+        options
+      },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RulesCreateResponse,
+      OperationState<RulesCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -300,7 +314,7 @@ export class RulesImpl implements Rules {
     ruleUpdateProperties: RuleUpdateParameters,
     options?: RulesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RulesUpdateResponse>, RulesUpdateResponse>
+    SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -308,7 +322,7 @@ export class RulesImpl implements Rules {
     ): Promise<RulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -341,9 +355,9 @@ export class RulesImpl implements Rules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         ruleSetName,
@@ -351,12 +365,15 @@ export class RulesImpl implements Rules {
         ruleUpdateProperties,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      RulesUpdateResponse,
+      OperationState<RulesUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -406,14 +423,14 @@ export class RulesImpl implements Rules {
     ruleSetName: string,
     ruleName: string,
     options?: RulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -446,15 +463,15 @@ export class RulesImpl implements Rules {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, ruleSetName, ruleName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, ruleSetName, ruleName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -528,7 +545,7 @@ const listByRuleSetOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName
   ],
   headerParameters: [Parameters.accept],
@@ -551,7 +568,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -585,7 +602,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -620,7 +637,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -646,7 +663,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
@@ -664,12 +681,11 @@ const listByRuleSetNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.ruleSetName
   ],

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the Hybrid AKS virtual networks by resource group
  *
  * @summary Lists the Hybrid AKS virtual networks by resource group
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/ListVirtualNetworkByResourceGroup.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/ListVirtualNetworkByResourceGroup.json
  */
 async function listVirtualNetworkByResourceGroup() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function listVirtualNetworkByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.virtualNetworksOperations.listByResourceGroup(
+  for await (let item of client.virtualNetworks.listByResourceGroup(
     resourceGroupName
   )) {
     resArray.push(item);

@@ -449,7 +449,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -480,8 +480,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters62,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters60,
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -504,7 +504,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -534,7 +534,7 @@ const disableOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion6],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

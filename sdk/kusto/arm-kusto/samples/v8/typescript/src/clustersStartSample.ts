@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Starts a Kusto cluster.
  *
  * @summary Starts a Kusto cluster.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoClustersStart.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoClustersStart.json
  */
 async function kustoClustersStart() {
   const subscriptionId =

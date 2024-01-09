@@ -10,10 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Backup,
-  AccountBackupsListOptionalParams,
+  AccountBackupsListByNetAppAccountOptionalParams,
   AccountBackupsGetOptionalParams,
   AccountBackupsGetResponse,
-  AccountBackupsDeleteOptionalParams
+  AccountBackupsDeleteOptionalParams,
+  AccountBackupsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,10 +26,10 @@ export interface AccountBackups {
    * @param accountName The name of the NetApp account
    * @param options The options parameters.
    */
-  list(
+  listByNetAppAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: AccountBackupsListOptionalParams
+    options?: AccountBackupsListByNetAppAccountOptionalParams
   ): PagedAsyncIterableIterator<Backup>;
   /**
    * Gets the specified backup for a Netapp Account
@@ -55,7 +56,12 @@ export interface AccountBackups {
     accountName: string,
     backupName: string,
     options?: AccountBackupsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountBackupsDeleteResponse>,
+      AccountBackupsDeleteResponse
+    >
+  >;
   /**
    * Delete the specified Backup for a Netapp Account
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -68,5 +74,5 @@ export interface AccountBackups {
     accountName: string,
     backupName: string,
     options?: AccountBackupsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<AccountBackupsDeleteResponse>;
 }

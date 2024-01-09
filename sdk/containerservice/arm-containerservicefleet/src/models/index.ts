@@ -129,20 +129,36 @@ export interface FleetListResult {
   nextLink?: string;
 }
 
-/** The FleetHubProfile configures the fleet hub. */
-export interface FleetHubProfile {
-  /** DNS prefix used to create the FQDN for the Fleet hub. */
-  dnsPrefix?: string;
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
-   * The FQDN of the Fleet hub.
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly fqdn?: string;
+  readonly principalId?: string;
   /**
-   * The Kubernetes version of the Fleet hub.
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly kubernetesVersion?: string;
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -189,6 +205,8 @@ export interface SystemData {
 export interface FleetPatch {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** Managed identity. */
+  identity?: ManagedServiceIdentity;
 }
 
 /** The Credential results response. */
@@ -236,26 +254,25 @@ export interface UpdateRunListResult {
   nextLink?: string;
 }
 
-/** The UpdateRunStrategy configures the sequence of Stages and Groups in which the clusters will be updated. */
+/**
+ * Defines the update sequence of the clusters via stages and groups.
+ *
+ * Stages within a run are executed sequentially one after another.
+ * Groups within a stage are executed in parallel.
+ * Member clusters within a group are updated sequentially one after another.
+ *
+ * A valid strategy contains no duplicate groups within or across stages.
+ */
 export interface UpdateRunStrategy {
-  /** The list of stages that compose this update run. */
+  /** The list of stages that compose this update run. Min size: 1. */
   stages: UpdateStage[];
 }
 
-/**
- * Contains the groups to be updated by an UpdateRun.
- * Update order:
- * - Sequential between stages: Stages run sequentially. The previous stage must complete before the next one starts.
- * - Parallel within a stage: Groups within a stage run in parallel.
- * - Sequential within a group: Clusters within a group are updated sequentially.
- */
+/** Defines a stage which contains the groups to update and the steps to take (e.g., wait for a time period) before starting the next stage. */
 export interface UpdateStage {
   /** The name of the stage. Must be unique within the UpdateRun. */
   name: string;
-  /**
-   * A list of group names that compose the stage.
-   * The groups will be updated in parallel. Each group name can only appear once in the UpdateRun.
-   */
+  /** Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1. */
   groups?: UpdateGroup[];
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
   afterStageWaitInSeconds?: number;
@@ -264,9 +281,8 @@ export interface UpdateStage {
 /** A group to be updated. */
 export interface UpdateGroup {
   /**
-   * The name of the Fleet member group to update.
-   * It should match the name of an existing FleetMember group.
-   * A group can only appear once across all UpdateStages in the UpdateRun.
+   * Name of the group.
+   * It must match a group name of an existing fleet member.
    */
   name: string;
 }
@@ -275,6 +291,8 @@ export interface UpdateGroup {
 export interface ManagedClusterUpdate {
   /** The upgrade to apply to the ManagedClusters. */
   upgrade: ManagedClusterUpgradeSpec;
+  /** The node image upgrade to be applied to the target nodes in update run. */
+  nodeImageSelection?: NodeImageSelection;
 }
 
 /** The upgrade to apply to a ManagedCluster. */
@@ -289,6 +307,12 @@ export interface ManagedClusterUpgradeSpec {
   kubernetesVersion?: string;
 }
 
+/** The node image upgrade to be applied to the target nodes in update run. */
+export interface NodeImageSelection {
+  /** The node image upgrade type. */
+  type: NodeImageSelectionType;
+}
+
 /** The status of a UpdateRun. */
 export interface UpdateRunStatus {
   /**
@@ -301,6 +325,11 @@ export interface UpdateRunStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly stages?: UpdateStageStatus[];
+  /**
+   * The node image upgrade specs for the update run. It is only set in update run when `NodeImageSelection.type` is `Consistent`.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeImageSelection?: NodeImageSelectionStatus;
 }
 
 /** The status for an operation or group of operations. */
@@ -392,6 +421,11 @@ export interface MemberUpdateStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationId?: string;
+  /**
+   * The status message after processing the member update operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
 }
 
 /** The status of the wait duration. */
@@ -406,6 +440,32 @@ export interface WaitStatus {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly waitDurationInSeconds?: number;
+}
+
+/** The node image upgrade specs for the update run. */
+export interface NodeImageSelectionStatus {
+  /**
+   * The image versions to upgrade the nodes to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly selectedNodeImageVersions?: NodeImageVersion[];
+}
+
+/** The node upgrade image version. */
+export interface NodeImageVersion {
+  /**
+   * The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13').
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** The response of a FleetUpdateStrategy list operation. */
+export interface FleetUpdateStrategyListResult {
+  /** The FleetUpdateStrategy items on this page */
+  value: FleetUpdateStrategy[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -426,13 +486,13 @@ export interface Fleet extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly eTag?: string;
+  /** Managed identity. */
+  identity?: ManagedServiceIdentity;
   /**
    * The status of the last operation.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: FleetProvisioningState;
-  /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfile;
 }
 
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
@@ -453,7 +513,7 @@ export interface FleetMember extends ProxyResource {
   readonly provisioningState?: FleetMemberProvisioningState;
 }
 
-/** An UpdateRun is a multi-stage process to perform update operations across members of a Fleet. */
+/** A multi-stage process to perform update operations across members of a Fleet. */
 export interface UpdateRun extends ProxyResource {
   /**
    * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
@@ -465,6 +525,21 @@ export interface UpdateRun extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: UpdateRunProvisioningState;
+  /**
+   * The resource id of the FleetUpdateStrategy resource to reference.
+   *
+   * When creating a new run, there are three ways to define a strategy for the run:
+   * 1. Define a new strategy in place: Set the "strategy" field.
+   * 2. Use an existing strategy: Set the "updateStrategyId" field. (since 2023-08-15-preview)
+   * 3. Use the default strategy to update all the members one by one: Leave both "updateStrategyId" and "strategy" unset. (since 2023-08-15-preview)
+   *
+   * Setting both "updateStrategyId" and "strategy" is invalid.
+   *
+   * UpdateRuns created by "updateStrategyId" snapshot the referenced UpdateStrategy at the time of creation and store it in the "strategy" field.
+   * Subsequent changes to the referenced FleetUpdateStrategy resource do not propagate.
+   * UpdateRunStrategy changes can be made directly on the "strategy" field before launching the UpdateRun.
+   */
+  updateStrategyId?: string;
   /**
    * The strategy defines the order in which the clusters will be updated.
    * If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members.
@@ -480,10 +555,34 @@ export interface UpdateRun extends ProxyResource {
   readonly status?: UpdateRunStatus;
 }
 
+/** Defines a multi-stage process to perform update operations across members of a Fleet. */
+export interface FleetUpdateStrategy extends ProxyResource {
+  /**
+   * If eTag is provided in the response body, it may also be provided as a header per the normal etag convention.  Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
+  /**
+   * The provisioning state of the UpdateStrategy resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+  /** Defines the update sequence of the clusters. */
+  strategy?: UpdateRunStrategy;
+}
+
 /** Defines headers for Fleets_createOrUpdate operation. */
 export interface FleetsCreateOrUpdateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for Fleets_update operation. */
+export interface FleetsUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for Fleets_delete operation. */
@@ -498,6 +597,14 @@ export interface FleetsDeleteHeaders {
 export interface FleetMembersCreateHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
+}
+
+/** Defines headers for FleetMembers_update operation. */
+export interface FleetMembersUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
 }
 
 /** Defines headers for FleetMembers_delete operation. */
@@ -532,6 +639,20 @@ export interface UpdateRunsStartHeaders {
 
 /** Defines headers for UpdateRuns_stop operation. */
 export interface UpdateRunsStopHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for FleetUpdateStrategies_createOrUpdate operation. */
+export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for FleetUpdateStrategies_delete operation. */
+export interface FleetUpdateStrategiesDeleteHeaders {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
@@ -576,17 +697,17 @@ export type ActionType = string;
 
 /** Known values of {@link FleetProvisioningState} that the service accepts. */
 export enum KnownFleetProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Creating */
+  /** The provisioning state of a fleet being created. */
   Creating = "Creating",
-  /** Updating */
+  /** The provisioning state of a fleet being updated. */
   Updating = "Updating",
-  /** Deleting */
+  /** The provisioning state of a fleet being deleted. */
   Deleting = "Deleting"
 }
 
@@ -595,14 +716,38 @@ export enum KnownFleetProvisioningState {
  * {@link KnownFleetProvisioningState} can be used interchangeably with FleetProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Creating** \
- * **Updating** \
- * **Deleting**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Creating**: The provisioning state of a fleet being created. \
+ * **Updating**: The provisioning state of a fleet being updated. \
+ * **Deleting**: The provisioning state of a fleet being deleted.
  */
 export type FleetProvisioningState = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -630,17 +775,17 @@ export type CreatedByType = string;
 
 /** Known values of {@link FleetMemberProvisioningState} that the service accepts. */
 export enum KnownFleetMemberProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
-  /** Joining */
+  /** The provisioning state of a member joining a fleet. */
   Joining = "Joining",
-  /** Leaving */
+  /** The provisioning state of a member leaving a fleet. */
   Leaving = "Leaving",
-  /** Updating */
+  /** The provisioning state of a member being updated. */
   Updating = "Updating"
 }
 
@@ -649,22 +794,22 @@ export enum KnownFleetMemberProvisioningState {
  * {@link KnownFleetMemberProvisioningState} can be used interchangeably with FleetMemberProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled** \
- * **Joining** \
- * **Leaving** \
- * **Updating**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Joining**: The provisioning state of a member joining a fleet. \
+ * **Leaving**: The provisioning state of a member leaving a fleet. \
+ * **Updating**: The provisioning state of a member being updated.
  */
 export type FleetMemberProvisioningState = string;
 
 /** Known values of {@link UpdateRunProvisioningState} that the service accepts. */
 export enum KnownUpdateRunProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled"
 }
 
@@ -673,9 +818,9 @@ export enum KnownUpdateRunProvisioningState {
  * {@link KnownUpdateRunProvisioningState} can be used interchangeably with UpdateRunProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
  */
 export type UpdateRunProvisioningState = string;
 
@@ -697,19 +842,39 @@ export enum KnownManagedClusterUpgradeType {
  */
 export type ManagedClusterUpgradeType = string;
 
+/** Known values of {@link NodeImageSelectionType} that the service accepts. */
+export enum KnownNodeImageSelectionType {
+  /** Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. */
+  Latest = "Latest",
+  /** The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'. */
+  Consistent = "Consistent"
+}
+
+/**
+ * Defines values for NodeImageSelectionType. \
+ * {@link KnownNodeImageSelectionType} can be used interchangeably with NodeImageSelectionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Latest**: Use the latest image version when upgrading nodes. Clusters may use different image versions (e.g., 'AKSUbuntu-1804gen2containerd-2021.10.12' and 'AKSUbuntu-1804gen2containerd-2021.10.19') because, for example, the latest available version is different in different regions. \
+ * **Consistent**: The image versions to upgrade nodes to are selected as described below: for each node pool in managed clusters affected by the update run, the system selects the latest image version such that it is available across all other node pools (in all other clusters) of the same image type. As a result, all node pools of the same image type will be upgraded to the same image version. For example, if the latest image version for image type 'AKSUbuntu-1804gen2containerd' is 'AKSUbuntu-1804gen2containerd-2021.10.12' for a node pool in cluster A in region X, and is 'AKSUbuntu-1804gen2containerd-2021.10.17' for a node pool in cluster B in region Y, the system will upgrade both node pools to image version 'AKSUbuntu-1804gen2containerd-2021.10.12'.
+ */
+export type NodeImageSelectionType = string;
+
 /** Known values of {@link UpdateState} that the service accepts. */
 export enum KnownUpdateState {
-  /** NotStarted */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has not been started. */
   NotStarted = "NotStarted",
-  /** Running */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is running. */
   Running = "Running",
-  /** Stopping */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is being stopped. */
   Stopping = "Stopping",
-  /** Stopped */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has stopped. */
   Stopped = "Stopped",
-  /** Failed */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has been skipped. */
+  Skipped = "Skipped",
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. */
   Failed = "Failed",
-  /** Completed */
+  /** The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed. */
   Completed = "Completed"
 }
 
@@ -718,14 +883,36 @@ export enum KnownUpdateState {
  * {@link KnownUpdateState} can be used interchangeably with UpdateState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotStarted** \
- * **Running** \
- * **Stopping** \
- * **Stopped** \
- * **Failed** \
- * **Completed**
+ * **NotStarted**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has not been started. \
+ * **Running**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is running. \
+ * **Stopping**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that is being stopped. \
+ * **Stopped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has stopped. \
+ * **Skipped**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has been skipped. \
+ * **Failed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has failed. \
+ * **Completed**: The state of an UpdateRun\/UpdateStage\/UpdateGroup\/MemberUpdate that has completed.
  */
 export type UpdateState = string;
+
+/** Known values of {@link FleetUpdateStrategyProvisioningState} that the service accepts. */
+export enum KnownFleetUpdateStrategyProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for FleetUpdateStrategyProvisioningState. \
+ * {@link KnownFleetUpdateStrategyProvisioningState} can be used interchangeably with FleetUpdateStrategyProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type FleetUpdateStrategyProvisioningState = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -782,6 +969,10 @@ export interface FleetsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -854,6 +1045,10 @@ export interface FleetMembersUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** The request should only proceed if an entity matches this string. */
   ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
 }
 
 /** Contains response data for the update operation. */
@@ -952,6 +1147,54 @@ export interface UpdateRunsListByFleetNextOptionalParams
 
 /** Contains response data for the listByFleetNext operation. */
 export type UpdateRunsListByFleetNextResponse = UpdateRunListResult;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesListByFleetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleet operation. */
+export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface FleetUpdateStrategiesListByFleetNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByFleetNext operation. */
+export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceFleetClientOptionalParams

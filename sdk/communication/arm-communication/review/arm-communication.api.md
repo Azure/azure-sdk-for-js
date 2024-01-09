@@ -56,6 +56,10 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
     senderUsernames: SenderUsernames;
     // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    suppressionListAddresses: SuppressionListAddresses;
+    // (undocumented)
+    suppressionLists: SuppressionLists;
 }
 
 // @public
@@ -69,6 +73,7 @@ export interface CommunicationServiceManagementClientOptionalParams extends core
 export interface CommunicationServiceResource extends TrackedResource {
     dataLocation?: string;
     readonly hostName?: string;
+    identity?: ManagedServiceIdentity;
     readonly immutableResourceId?: string;
     linkedDomains?: string[];
     readonly notificationHubId?: string;
@@ -84,6 +89,7 @@ export interface CommunicationServiceResourceList {
 
 // @public
 export interface CommunicationServiceResourceUpdate extends TaggedResource {
+    identity?: ManagedServiceIdentity;
     linkedDomains?: string[];
 }
 
@@ -568,6 +574,14 @@ export enum KnownEmailServicesProvisioningState {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    None = "None",
+    SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     System = "system",
     User = "user",
@@ -622,6 +636,19 @@ export interface LinkNotificationHubParameters {
     connectionString: string;
     resourceId: string;
 }
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity | null;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface NameAvailabilityParameters extends CheckNameAvailabilityRequest {
@@ -747,6 +774,116 @@ export interface SenderUsernamesListByDomainsOptionalParams extends coreClient.O
 export type SenderUsernamesListByDomainsResponse = SenderUsernameResourceCollection;
 
 // @public
+export interface SuppressionListAddresses {
+    createOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, parameters: SuppressionListAddressResource, options?: SuppressionListAddressesCreateOrUpdateOptionalParams): Promise<SuppressionListAddressesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, addressId: string, options?: SuppressionListAddressesGetOptionalParams): Promise<SuppressionListAddressesGetResponse>;
+    list(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListAddressesListOptionalParams): PagedAsyncIterableIterator<SuppressionListAddressResource>;
+}
+
+// @public
+export interface SuppressionListAddressesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListAddressesCreateOrUpdateResponse = SuppressionListAddressResource;
+
+// @public
+export interface SuppressionListAddressesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SuppressionListAddressesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListAddressesGetResponse = SuppressionListAddressResource;
+
+// @public
+export interface SuppressionListAddressesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListAddressesListNextResponse = SuppressionListAddressResourceCollection;
+
+// @public
+export interface SuppressionListAddressesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListAddressesListResponse = SuppressionListAddressResourceCollection;
+
+// @public
+export interface SuppressionListAddressResource extends ProxyResource {
+    readonly dataLocation?: string;
+    email?: string;
+    firstName?: string;
+    readonly lastModified?: Date;
+    lastName?: string;
+    notes?: string;
+}
+
+// @public
+export interface SuppressionListAddressResourceCollection {
+    nextLink?: string;
+    value?: SuppressionListAddressResource[];
+}
+
+// @public
+export interface SuppressionListResource extends ProxyResource {
+    readonly createdTimeStamp?: string;
+    readonly dataLocation?: string;
+    readonly lastUpdatedTimeStamp?: string;
+    listName?: string;
+}
+
+// @public
+export interface SuppressionListResourceCollection {
+    nextLink?: string;
+    value?: SuppressionListResource[];
+}
+
+// @public
+export interface SuppressionLists {
+    createOrUpdate(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, parameters: SuppressionListResource, options?: SuppressionListsCreateOrUpdateOptionalParams): Promise<SuppressionListsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, emailServiceName: string, domainName: string, suppressionListName: string, options?: SuppressionListsGetOptionalParams): Promise<SuppressionListsGetResponse>;
+    listByDomain(resourceGroupName: string, emailServiceName: string, domainName: string, options?: SuppressionListsListByDomainOptionalParams): PagedAsyncIterableIterator<SuppressionListResource>;
+}
+
+// @public
+export interface SuppressionListsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListsCreateOrUpdateResponse = SuppressionListResource;
+
+// @public
+export interface SuppressionListsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SuppressionListsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListsGetResponse = SuppressionListResource;
+
+// @public
+export interface SuppressionListsListByDomainNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListsListByDomainNextResponse = SuppressionListResourceCollection;
+
+// @public
+export interface SuppressionListsListByDomainOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SuppressionListsListByDomainResponse = SuppressionListResourceCollection;
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -774,6 +911,12 @@ export interface TrackedResource extends Resource {
 // @public
 export interface UpdateDomainRequestParameters extends TaggedResource {
     userEngagementTracking?: UserEngagementTracking;
+}
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
 }
 
 // @public

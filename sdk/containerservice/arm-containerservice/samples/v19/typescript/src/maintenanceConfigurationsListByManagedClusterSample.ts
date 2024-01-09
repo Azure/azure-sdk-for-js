@@ -18,11 +18,12 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/MaintenanceConfigurationsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/MaintenanceConfigurationsList.json
  */
 async function listMaintenanceConfigurationsByManagedCluster() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";
@@ -42,11 +43,12 @@ async function listMaintenanceConfigurationsByManagedCluster() {
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-07-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
 async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster() {
   const subscriptionId =
-    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] || "subid1";
+    process.env["CONTAINERSERVICE_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["CONTAINERSERVICE_RESOURCE_GROUP"] || "rg1";
   const resourceName = "clustername1";

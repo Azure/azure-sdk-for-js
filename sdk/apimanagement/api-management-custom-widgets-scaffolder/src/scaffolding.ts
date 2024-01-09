@@ -27,7 +27,7 @@ export interface WidgetConfig {
 }
 
 /** Data needed for deployment. */
-export interface DeploymentConfig {
+export interface ServiceInformation {
   /** Management API endpoint to use (e.g. management.azure.com). */
   managementApiEndpoint: string;
   /** resourceId of your APIM service, must be in this format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name> */
@@ -40,18 +40,23 @@ export interface DeploymentConfig {
 export interface Options {
   /** The URL to open after development server of the widget is started (URL of your Developer Portal). If you don't want to use this feature, set it to `false`. If you want to open just the widget page, set it to `true`. */
   openUrl?: string;
+  /** advance configuration option for the deploy function - tenant ID for InteractiveBrowserCredentialNodeOptions */
+  configAdvancedTenantId?: string;
+  /** advance configuration option for the deploy function - redirect URI for InteractiveBrowserCredentialNodeOptions */
+  configAdvancedRedirectUri?: string;
 }
 
-export type Configs = WidgetConfig | DeploymentConfig | Options;
+export type Configs = WidgetConfig | ServiceInformation | Options;
 
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
+ * Prefix "cw-" to avoid conflicts with existing widgets.
  *
  * @param displayName - User defined name of the custom widget.
  */
 export const displayNameToName = (displayName: string): string =>
   encodeURIComponent(
-    displayName
+    ("cw-" + displayName)
       .normalize("NFD")
       .toLowerCase()
       .replace(/[\u0300-\u036f]/g, "")

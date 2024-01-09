@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the Hybrid AKS virtual network
  *
  * @summary Gets the Hybrid AKS virtual network
- * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2022-09-01-preview/examples/GetVirtualNetwork.json
+ * x-ms-original-file: specification/hybridaks/resource-manager/Microsoft.HybridContainerService/preview/2023-11-15-preview/examples/GetVirtualNetwork.json
  */
 async function getVirtualNetwork() {
   const subscriptionId =
@@ -27,12 +27,12 @@ async function getVirtualNetwork() {
   const resourceGroupName =
     process.env["HYBRIDCONTAINERSERVICE_RESOURCE_GROUP"] ||
     "test-arcappliance-resgrp";
-  const virtualNetworksName = "test-vnet-static";
+  const virtualNetworkName = "test-vnet-static";
   const credential = new DefaultAzureCredential();
   const client = new HybridContainerServiceClient(credential, subscriptionId);
-  const result = await client.virtualNetworksOperations.retrieve(
+  const result = await client.virtualNetworks.retrieve(
     resourceGroupName,
-    virtualNetworksName
+    virtualNetworkName
   );
   console.log(result);
 }

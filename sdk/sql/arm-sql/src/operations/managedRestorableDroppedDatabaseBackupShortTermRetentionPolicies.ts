@@ -483,13 +483,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.accept],
@@ -514,14 +514,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters30,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters28,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -547,14 +547,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters30,
-  queryParameters: [Parameters.apiVersion2],
+  requestBody: Parameters.parameters28,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.managedInstanceName,
-    Parameters.policyName1,
+    Parameters.policyName,
     Parameters.restorableDroppedDatabaseId
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -571,7 +571,7 @@ const listByRestorableDroppedDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

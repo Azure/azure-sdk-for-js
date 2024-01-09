@@ -21,6 +21,7 @@ import {
   FirewallPacketCaptureParameters as FirewallPacketCaptureParametersMapper,
   BastionHost as BastionHostMapper,
   BastionShareableLinkListRequest as BastionShareableLinkListRequestMapper,
+  BastionShareableLinkTokenListRequest as BastionShareableLinkTokenListRequestMapper,
   SessionIds as SessionIdsMapper,
   ActiveConfigurationParameter as ActiveConfigurationParameterMapper,
   QueryRequestOptions as QueryRequestOptionsMapper,
@@ -204,7 +205,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-01",
+    defaultValue: "2023-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -409,6 +410,11 @@ export const parameters6: OperationParameter = {
 export const bslRequest: OperationParameter = {
   parameterPath: "bslRequest",
   mapper: BastionShareableLinkListRequestMapper
+};
+
+export const bslTokenRequest: OperationParameter = {
+  parameterPath: "bslTokenRequest",
+  mapper: BastionShareableLinkTokenListRequestMapper
 };
 
 export const sessionIds: OperationParameter = {

@@ -19,21 +19,41 @@ import {
   ServicesImpl,
   ProblemClassificationsImpl,
   SupportTicketsImpl,
-  CommunicationsImpl
+  SupportTicketsNoSubscriptionImpl,
+  CommunicationsImpl,
+  CommunicationsNoSubscriptionImpl,
+  SupportTicketCommunicationsNoSubscriptionImpl,
+  ChatTranscriptsImpl,
+  SupportTicketChatTranscriptsNoSubscriptionImpl,
+  ChatTranscriptsNoSubscriptionImpl,
+  FileWorkspacesImpl,
+  FileWorkspacesNoSubscriptionImpl,
+  FilesImpl,
+  FilesNoSubscriptionImpl
 } from "./operations";
 import {
   Operations,
   Services,
   ProblemClassifications,
   SupportTickets,
-  Communications
+  SupportTicketsNoSubscription,
+  Communications,
+  CommunicationsNoSubscription,
+  SupportTicketCommunicationsNoSubscription,
+  ChatTranscripts,
+  SupportTicketChatTranscriptsNoSubscription,
+  ChatTranscriptsNoSubscription,
+  FileWorkspaces,
+  FileWorkspacesNoSubscription,
+  Files,
+  FilesNoSubscription
 } from "./operationsInterfaces";
 import { MicrosoftSupportOptionalParams } from "./models";
 
 export class MicrosoftSupport extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MicrosoftSupport class.
@@ -45,12 +65,26 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: MicrosoftSupportOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MicrosoftSupportOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: MicrosoftSupportOptionalParams | string,
+    options?: MicrosoftSupportOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -62,7 +96,7 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-support/2.1.1`;
+    const packageDetails = `azsdk-js-arm-support/2.2.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -115,12 +149,34 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-04-01";
+    this.apiVersion = options.apiVersion || "2022-09-01-preview";
     this.operations = new OperationsImpl(this);
     this.services = new ServicesImpl(this);
     this.problemClassifications = new ProblemClassificationsImpl(this);
     this.supportTickets = new SupportTicketsImpl(this);
+    this.supportTicketsNoSubscription = new SupportTicketsNoSubscriptionImpl(
+      this
+    );
     this.communications = new CommunicationsImpl(this);
+    this.communicationsNoSubscription = new CommunicationsNoSubscriptionImpl(
+      this
+    );
+    this.supportTicketCommunicationsNoSubscription = new SupportTicketCommunicationsNoSubscriptionImpl(
+      this
+    );
+    this.chatTranscripts = new ChatTranscriptsImpl(this);
+    this.supportTicketChatTranscriptsNoSubscription = new SupportTicketChatTranscriptsNoSubscriptionImpl(
+      this
+    );
+    this.chatTranscriptsNoSubscription = new ChatTranscriptsNoSubscriptionImpl(
+      this
+    );
+    this.fileWorkspaces = new FileWorkspacesImpl(this);
+    this.fileWorkspacesNoSubscription = new FileWorkspacesNoSubscriptionImpl(
+      this
+    );
+    this.files = new FilesImpl(this);
+    this.filesNoSubscription = new FilesNoSubscriptionImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -156,5 +212,15 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
   services: Services;
   problemClassifications: ProblemClassifications;
   supportTickets: SupportTickets;
+  supportTicketsNoSubscription: SupportTicketsNoSubscription;
   communications: Communications;
+  communicationsNoSubscription: CommunicationsNoSubscription;
+  supportTicketCommunicationsNoSubscription: SupportTicketCommunicationsNoSubscription;
+  chatTranscripts: ChatTranscripts;
+  supportTicketChatTranscriptsNoSubscription: SupportTicketChatTranscriptsNoSubscription;
+  chatTranscriptsNoSubscription: ChatTranscriptsNoSubscription;
+  fileWorkspaces: FileWorkspaces;
+  fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
+  files: Files;
+  filesNoSubscription: FilesNoSubscription;
 }

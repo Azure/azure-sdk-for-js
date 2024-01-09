@@ -16,8 +16,8 @@ import {
   OnServerDataMessageArgs,
   OnStoppedArgs,
   WebPubSubRetryOptions,
-  SendEventOptions,
   SendToGroupOptions,
+  SendEventOptions,
   WebPubSubClientOptions,
   OnRejoinGroupFailedArgs,
   StartOptions,
@@ -91,10 +91,10 @@ export class WebPubSubClient {
 
   /**
    * Create an instance of WebPubSubClient
-   * @param clientAccessUri - The uri to connect
+   * @param clientAccessUrl - The uri to connect
    * @param options - The client options
    */
-  constructor(clientAccessUri: string, options?: WebPubSubClientOptions);
+  constructor(clientAccessUrl: string, options?: WebPubSubClientOptions);
   /**
    * Create an instance of WebPubSubClient
    * @param credential - The credential to use when connecting
@@ -332,11 +332,10 @@ export class WebPubSubClient {
   }
 
   /**
-   * Send custom event to server
+   * Send custom event to server.
    * @param eventName - The event name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -383,7 +382,7 @@ export class WebPubSubClient {
     } as SendEventMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
+    return { isDuplicated: false };
   }
 
   /**
@@ -466,7 +465,6 @@ export class WebPubSubClient {
    * @param groupName - The group name
    * @param content - The data content
    * @param dataType - The data type
-   * @param ackId - The optional ackId. If not specified, client will generate one.
    * @param options - The options
    * @param abortSignal - The abort signal
    */
@@ -475,7 +473,7 @@ export class WebPubSubClient {
     content: JSONTypes | ArrayBuffer,
     dataType: WebPubSubDataType,
     options?: SendToGroupOptions
-  ): Promise<void | WebPubSubResult> {
+  ): Promise<WebPubSubResult> {
     return await this._operationExecuteWithRetry(
       () => this._sendToGroupAttempt(groupName, content, dataType, options),
       options?.abortSignal
@@ -516,7 +514,7 @@ export class WebPubSubClient {
     } as SendToGroupMessage;
 
     await this._sendMessage(message, options?.abortSignal);
-    return {} as WebPubSubResult;
+    return { isDuplicated: false };
   }
 
   private _getWebSocketClientFactory(): WebSocketClientFactoryLike {
@@ -568,7 +566,7 @@ export class WebPubSubClient {
         if (this._sequenceAckTask != null) {
           this._sequenceAckTask.abort();
         }
-        reject(new Error(e));
+        reject(e);
       });
 
       client.onclose((code: number, reason: string) => {
@@ -667,7 +665,7 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
-        let message: WebPubSubMessage | null;
+        let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
           if (Array.isArray(data)) {
@@ -676,8 +674,8 @@ export class WebPubSubClient {
             convertedData = data;
           }
 
-          message = this._protocol.parseMessages(convertedData);
-          if (message === null) {
+          messages = this._protocol.parseMessages(convertedData);
+          if (messages === null) {
             // null means the message is not recognized.
             return;
           }
@@ -686,35 +684,41 @@ export class WebPubSubClient {
           throw err;
         }
 
-        try {
-          switch (message.kind) {
-            case "ack": {
-              handleAckMessage(message as AckMessage);
-              break;
-            }
-            case "connected": {
-              handleConnectedMessage(message as ConnectedMessage);
-              break;
-            }
-            case "disconnected": {
-              handleDisconnectedMessage(message as DisconnectedMessage);
-              break;
-            }
-            case "groupData": {
-              handleGroupDataMessage(message as GroupDataMessage);
-              break;
-            }
-            case "serverData": {
-              handleServerDataMessage(message as ServerDataMessage);
-              break;
-            }
-          }
-        } catch (err) {
-          logger.warning(
-            `An error occurred while handling the message with kind: ${message.kind} from service`,
-            err
-          );
+        if (!Array.isArray(messages)) {
+          messages = [messages];
         }
+
+        messages.forEach((message) => {
+          try {
+            switch (message.kind) {
+              case "ack": {
+                handleAckMessage(message as AckMessage);
+                break;
+              }
+              case "connected": {
+                handleConnectedMessage(message as ConnectedMessage);
+                break;
+              }
+              case "disconnected": {
+                handleDisconnectedMessage(message as DisconnectedMessage);
+                break;
+              }
+              case "groupData": {
+                handleGroupDataMessage(message as GroupDataMessage);
+                break;
+              }
+              case "serverData": {
+                handleServerDataMessage(message as ServerDataMessage);
+                break;
+              }
+            }
+          } catch (err) {
+            logger.warning(
+              `An error occurred while handling the message with kind: ${message.kind} from service`,
+              err
+            );
+          }
+        });
       });
     });
   }

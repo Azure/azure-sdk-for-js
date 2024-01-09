@@ -93,7 +93,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.OperationsListResult
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

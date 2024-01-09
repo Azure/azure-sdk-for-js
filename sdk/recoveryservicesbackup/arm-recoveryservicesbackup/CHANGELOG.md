@@ -1,4 +1,70 @@
 # Release History
+
+## 12.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 12.0.0 (2023-11-09)
+    
+**Features**
+
+  - Added operation group FetchTieringCost
+  - Added operation group GetTieringCostOperationResult
+  - Added operation group TieringCostOperationStatus
+  - Added operation ProtectionContainers.beginRegister
+  - Added operation ProtectionContainers.beginRegisterAndWait
+  - Added Interface FetchTieringCostInfoForRehydrationRequest
+  - Added Interface FetchTieringCostInfoRequest
+  - Added Interface FetchTieringCostPostHeaders
+  - Added Interface FetchTieringCostPostOptionalParams
+  - Added Interface FetchTieringCostSavingsInfoForPolicyRequest
+  - Added Interface FetchTieringCostSavingsInfoForProtectedItemRequest
+  - Added Interface FetchTieringCostSavingsInfoForVaultRequest
+  - Added Interface GetTieringCostOperationResultGetOptionalParams
+  - Added Interface SnapshotBackupAdditionalDetails
+  - Added Interface SnapshotRestoreParameters
+  - Added Interface TieringCostInfo
+  - Added Interface TieringCostOperationStatusGetOptionalParams
+  - Added Interface TieringCostRehydrationInfo
+  - Added Interface TieringCostSavingInfo
+  - Added Interface UserAssignedIdentity
+  - Added Interface UserAssignedManagedIdentityDetails
+  - Added Interface ValidateOperationRequestResource
+  - Added Interface VaultRetentionPolicy
+  - Added Type Alias FetchTieringCostInfoRequestUnion
+  - Added Type Alias FetchTieringCostPostResponse
+  - Added Type Alias GetTieringCostOperationResultGetResponse
+  - Added Type Alias TieringCostInfoUnion
+  - Added Type Alias TieringCostOperationStatusGetResponse
+  - Interface AzureFileShareProtectionPolicy has a new optional parameter vaultRetentionPolicy
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter snapshotRestoreParameters
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter targetResourceGroupName
+  - Interface AzureWorkloadRestoreRequest has a new optional parameter userAssignedManagedIdentityDetails
+  - Interface BackupStatusResponse has a new optional parameter acquireStorageAccountLock
+  - Interface BackupStatusResponse has a new optional parameter protectedItemsCount
+  - Interface IaasVMRecoveryPoint has a new optional parameter extendedLocation
+  - Interface ProtectedItem has a new optional parameter vaultId
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter resumeFrom
+  - Interface ProtectionContainersRegisterOptionalParams has a new optional parameter updateIntervalInMs
+  - Interface SubProtectionPolicy has a new optional parameter snapshotBackupAdditionalDetails
+  - Enum KnownRecoveryMode has a new value RecoveryUsingSnapshot
+  - Enum KnownRecoveryMode has a new value SnapshotAttach
+  - Enum KnownRecoveryMode has a new value SnapshotAttachAndRecover
+
+**Breaking Changes**
+
+  - Removed operation ProtectionContainers.register
+  - Operation Operation.validate has a new signature
+  - Operation ValidateOperation.beginTrigger has a new signature
+  - Operation ValidateOperation.beginTriggerAndWait has a new signature
+  - Parameter resourceGuardResourceId of interface ResourceGuardProxyBase is now required
+    
     
 ## 11.0.0 (2023-09-01)
     
@@ -313,4 +379,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

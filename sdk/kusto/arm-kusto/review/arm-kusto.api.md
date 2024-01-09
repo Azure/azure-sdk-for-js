@@ -74,6 +74,7 @@ export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatab
 // @public
 export interface AttachedDatabaseConfigurationsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -253,6 +254,7 @@ export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipal
 // @public
 export interface ClusterPrincipalAssignmentsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -314,6 +316,7 @@ export interface Clusters {
 // @public
 export interface ClustersAddLanguageExtensionsHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -343,6 +346,7 @@ export type ClustersCreateOrUpdateResponse = Cluster;
 // @public
 export interface ClustersDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -354,6 +358,7 @@ export interface ClustersDeleteOptionalParams extends coreClient.OperationOption
 // @public
 export interface ClustersDetachFollowerDatabasesHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -365,6 +370,7 @@ export interface ClustersDetachFollowerDatabasesOptionalParams extends coreClien
 // @public
 export interface ClustersDiagnoseVirtualNetworkHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -442,6 +448,7 @@ export type ClustersListSkusResponse = SkuDescriptionList;
 // @public
 export interface ClustersMigrateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -453,6 +460,7 @@ export interface ClustersMigrateOptionalParams extends coreClient.OperationOptio
 // @public
 export interface ClustersRemoveLanguageExtensionsHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -464,6 +472,7 @@ export interface ClustersRemoveLanguageExtensionsOptionalParams extends coreClie
 // @public
 export interface ClustersStartHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -475,6 +484,7 @@ export interface ClustersStartOptionalParams extends coreClient.OperationOptions
 // @public
 export interface ClustersStopHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -486,6 +496,7 @@ export interface ClustersStopOptionalParams extends coreClient.OperationOptions 
 // @public
 export interface ClustersUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -531,6 +542,7 @@ export interface ClusterUpdate extends Resource {
     readonly uri?: string;
     virtualClusterGraduationProperties?: string;
     virtualNetworkConfiguration?: VirtualNetworkConfiguration;
+    zones?: string[];
 }
 
 // @public (undocumented)
@@ -658,6 +670,7 @@ export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincip
 // @public
 export interface DatabasePrincipalAssignmentsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -747,6 +760,7 @@ export type DatabasesCreateOrUpdateResponse = DatabaseUnion;
 // @public
 export interface DatabasesDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -803,6 +817,7 @@ export interface DatabaseStatistics {
 // @public
 export interface DatabasesUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -877,6 +892,7 @@ export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion;
 // @public
 export interface DataConnectionsDataConnectionValidationHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -891,6 +907,7 @@ export type DataConnectionsDataConnectionValidationResponse = DataConnectionVali
 // @public
 export interface DataConnectionsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -916,6 +933,7 @@ export type DataConnectionsListByDatabaseResponse = DataConnectionListResult;
 // @public
 export interface DataConnectionsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -962,6 +980,7 @@ export interface EndpointDependency {
 
 // @public
 export interface EndpointDetail {
+    ipAddress?: string;
     port?: number;
 }
 
@@ -1333,9 +1352,16 @@ export enum KnownKind {
 }
 
 // @public
+export enum KnownLanguage {
+    Python = "Python"
+}
+
+// @public
 export enum KnownLanguageExtensionImageName {
     Python3108 = "Python3_10_8",
+    Python3108DL = "Python3_10_8_DL",
     Python365 = "Python3_6_5",
+    PythonCustomImage = "PythonCustomImage",
     // (undocumented)
     R = "R"
 }
@@ -1418,6 +1444,12 @@ export enum KnownStatus {
     Succeeded = "Succeeded"
 }
 
+// @public
+export enum KnownVnetState {
+    Disabled = "Disabled",
+    Enabled = "Enabled"
+}
+
 // @public (undocumented)
 export class KustoManagementClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -1452,6 +1484,8 @@ export class KustoManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     privateLinkResources: PrivateLinkResources;
     // (undocumented)
+    sandboxCustomImages: SandboxCustomImages;
+    // (undocumented)
     scripts: Scripts;
     // (undocumented)
     skus: Skus;
@@ -1467,7 +1501,11 @@ export interface KustoManagementClientOptionalParams extends coreClient.ServiceC
 }
 
 // @public
+export type Language = string;
+
+// @public
 export interface LanguageExtension {
+    languageExtensionCustomImageName?: string;
     languageExtensionImageName?: LanguageExtensionImageName;
     languageExtensionName?: LanguageExtensionName;
 }
@@ -1546,6 +1584,7 @@ export type ManagedPrivateEndpointsCreateOrUpdateResponse = ManagedPrivateEndpoi
 // @public
 export interface ManagedPrivateEndpointsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1571,6 +1610,7 @@ export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResu
 // @public
 export interface ManagedPrivateEndpointsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1742,6 +1782,7 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointCo
 // @public
 export interface PrivateEndpointConnectionsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1873,6 +1914,96 @@ export interface ResourceSkuZoneDetails {
 }
 
 // @public
+export interface SandboxCustomImage extends ProxyResource {
+    language?: Language;
+    languageVersion?: string;
+    readonly provisioningState?: ProvisioningState;
+    requirementsFileContent?: string;
+}
+
+// @public
+export interface SandboxCustomImages {
+    beginCreateOrUpdate(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SandboxCustomImagesCreateOrUpdateResponse>, SandboxCustomImagesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesCreateOrUpdateOptionalParams): Promise<SandboxCustomImagesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<SandboxCustomImagesUpdateResponse>, SandboxCustomImagesUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, parameters: SandboxCustomImage, options?: SandboxCustomImagesUpdateOptionalParams): Promise<SandboxCustomImagesUpdateResponse>;
+    checkNameAvailability(resourceGroupName: string, clusterName: string, resourceName: SandboxCustomImagesCheckNameRequest, options?: SandboxCustomImagesCheckNameAvailabilityOptionalParams): Promise<SandboxCustomImagesCheckNameAvailabilityResponse>;
+    get(resourceGroupName: string, clusterName: string, sandboxCustomImageName: string, options?: SandboxCustomImagesGetOptionalParams): Promise<SandboxCustomImagesGetResponse>;
+    listByCluster(resourceGroupName: string, clusterName: string, options?: SandboxCustomImagesListByClusterOptionalParams): PagedAsyncIterableIterator<SandboxCustomImage>;
+}
+
+// @public
+export interface SandboxCustomImagesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesCheckNameAvailabilityResponse = CheckNameResult;
+
+// @public
+export interface SandboxCustomImagesCheckNameRequest {
+    name: string;
+    type: "Microsoft.Kusto/clusters/sandboxCustomImages";
+}
+
+// @public
+export interface SandboxCustomImagesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SandboxCustomImagesCreateOrUpdateResponse = SandboxCustomImage;
+
+// @public
+export interface SandboxCustomImagesDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface SandboxCustomImagesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SandboxCustomImagesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesGetResponse = SandboxCustomImage;
+
+// @public
+export interface SandboxCustomImagesListByClusterOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SandboxCustomImagesListByClusterResponse = SandboxCustomImagesListResult;
+
+// @public
+export interface SandboxCustomImagesListResult {
+    nextLink?: string;
+    value?: SandboxCustomImage[];
+}
+
+// @public
+export interface SandboxCustomImagesUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface SandboxCustomImagesUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SandboxCustomImagesUpdateResponse = SandboxCustomImage;
+
+// @public
 export interface Script extends ProxyResource {
     continueOnErrors?: boolean;
     forceUpdateTag?: string;
@@ -1931,6 +2062,7 @@ export type ScriptsCreateOrUpdateResponse = Script;
 // @public
 export interface ScriptsDeleteHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -1956,6 +2088,7 @@ export type ScriptsListByDatabaseResponse = ScriptListResult;
 // @public
 export interface ScriptsUpdateHeaders {
     azureAsyncOperation?: string;
+    location?: string;
 }
 
 // @public
@@ -2054,8 +2187,12 @@ export type Type = "Microsoft.Kusto/clusters/databases" | "Microsoft.Kusto/clust
 export interface VirtualNetworkConfiguration {
     dataManagementPublicIpId: string;
     enginePublicIpId: string;
+    state?: VnetState;
     subnetId: string;
 }
+
+// @public
+export type VnetState = string;
 
 // (No @packageDocumentation comment for this package)
 

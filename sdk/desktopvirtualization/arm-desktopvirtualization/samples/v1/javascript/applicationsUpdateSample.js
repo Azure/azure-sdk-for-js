@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an application.
  *
  * @summary Update an application.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/Application_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_Update.json
  */
 async function applicationUpdate() {
   const subscriptionId =

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
   Constants,
@@ -25,12 +25,12 @@ import { isError } from "@azure/core-util";
 
 const assertItemsLengthInResponsesMap = (
   _responsesMap: Map<string, DeferredPromiseWithCallback>,
-  expectedNumberOfItems: number
+  expectedNumberOfItems: number,
 ): void => {
   assert.equal(
     _responsesMap.size,
     expectedNumberOfItems,
-    "Unexpected number of items in the _responsesMap"
+    "Unexpected number of items in the _responsesMap",
   );
 };
 
@@ -237,7 +237,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         request1.message_id === undefined,
         false,
-        "`message_id` on the request is undefined."
+        "`message_id` on the request is undefined.",
       );
       errorWasThrown = true;
     }
@@ -467,7 +467,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         error.message,
         StandardAbortMessage,
-        `Incorrect error received "${error.message}"`
+        `Incorrect error received "${error.message}"`,
       );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -529,7 +529,7 @@ describe("RequestResponseLink", function () {
         assertItemsLengthInResponsesMap(link["_responsesMap"], 1);
       }, 700);
       await link.sendRequest(request, {
-        abortSignal: AbortController.timeout(1000),
+        abortSignal: AbortSignal.timeout(1000),
         requestName: "foo",
       });
       throw new Error(`Test failure`);
@@ -540,7 +540,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         error.message,
         StandardAbortMessage,
-        `Incorrect error received "${error.message}"`
+        `Incorrect error received "${error.message}"`,
       );
     }
     // Final state of the map
@@ -604,7 +604,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         error.message,
         StandardAbortMessage,
-        `Incorrect error received "${error.message}"`
+        `Incorrect error received "${error.message}"`,
       );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -768,22 +768,22 @@ describe("RequestResponseLink", function () {
       const link = new RequestResponseLink(
         sessionStub as any,
         senderStub as any,
-        receiverStub as any
+        receiverStub as any,
       );
 
       await link.close();
 
       assert(
         (senderStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
-        "Sender.close() should have been called once."
+        "Sender.close() should have been called once.",
       );
       assert(
         (receiverStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
-        "Receiver.close() should have been called once."
+        "Receiver.close() should have been called once.",
       );
       assert(
         (sessionStub.close as SinonSpy).calledOnceWithExactly(),
-        "Session.close() should have been called once."
+        "Session.close() should have been called once.",
       );
     });
   });
@@ -806,7 +806,7 @@ describe("RequestResponseLink", function () {
         assert.equal(info.statusCode, testCase[Constants.statusCode]);
         assert.equal(info.statusDescription, testCase[Constants.statusDescription]);
         assert.equal(info.errorCondition, testCase[Constants.errorCondition]);
-      })
+      }),
     );
 
     // ServiceBus
@@ -826,7 +826,7 @@ describe("RequestResponseLink", function () {
         assert.equal(info.statusCode, testCase.statusCode);
         assert.equal(info.statusDescription, testCase.statusDescription);
         assert.equal(info.errorCondition, testCase.errorCondition);
-      })
+      }),
     );
   });
 
@@ -873,7 +873,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         false,
-        "Unexpected - cleanupBeforeResolveOrReject is called"
+        "Unexpected - cleanupBeforeResolveOrReject is called",
       );
       assert.equal(isRejected, false, "Unexpected - promise is rejected");
       assert.equal(isResolved, false, "Unexpected - promise is resolved");
@@ -886,7 +886,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         false,
-        "Unexpected - cleanupBeforeResolveOrReject is called"
+        "Unexpected - cleanupBeforeResolveOrReject is called",
       );
       assert.equal(isRejected, false, "Unexpected - promise is rejected");
       assert.equal(isResolved, false, "Unexpected - promise is resolved");
@@ -899,7 +899,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         false,
-        "Unexpected - cleanupBeforeResolveOrReject is called"
+        "Unexpected - cleanupBeforeResolveOrReject is called",
       );
       assert.equal(isRejected, false, "Unexpected - promise is rejected");
       assert.equal(isResolved, false, "Unexpected - promise is resolved");
@@ -912,7 +912,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
-        "Unexpected - cleanupBeforeResolveOrReject is not called"
+        "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
       assert.equal(isResolved, true, "Unexpected - promise is not resolved");
       assert.equal(isRejected, false, "Unexpected - promise is rejected");
@@ -938,7 +938,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
-        "Unexpected - cleanupBeforeResolveOrReject is not called"
+        "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
       assert.equal(isResolved, true, "Unexpected - promise is not resolved");
       assert.equal(isRejected, false, "Unexpected - promise is rejected");
@@ -952,7 +952,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
-        "Unexpected - cleanupBeforeResolveOrReject is not called"
+        "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
       assert.equal(isResolved, false, "Unexpected - promise is resolved");
       assert.equal(isRejected, true, "Unexpected - promise is not rejected");
@@ -966,7 +966,7 @@ describe("RequestResponseLink", function () {
       assert.equal(
         cleanupBeforeResolveOrRejectIsCalled,
         true,
-        "Unexpected - cleanupBeforeResolveOrReject is not called"
+        "Unexpected - cleanupBeforeResolveOrReject is not called",
       );
       assert.equal(isResolved, false, "Unexpected - promise is resolved");
       assert.equal(isRejected, true, "Unexpected - promise is not rejected");

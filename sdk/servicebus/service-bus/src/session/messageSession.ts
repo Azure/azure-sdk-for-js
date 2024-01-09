@@ -37,7 +37,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
-import { isDefined } from "@azure/core-util";
+import { delay, isDefined } from "@azure/core-util";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -178,7 +178,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    * The session lock renewal timer that keeps
    * track of when the MessageSession is due for session lock renewal.
    */
-  private _sessionLockRenewalTimer?: NodeJS.Timer;
+  private _sessionLockRenewalTimer?: NodeJS.Timeout;
 
   private _totalAutoLockRenewDuration: number;
 
@@ -257,11 +257,50 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  protected createRheaLink(
+  protected async createRheaLink(
     options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
-    return this._context.connection.createReceiver(options);
+    this._lastSBError = undefined;
+    let errorMessage: string = "";
+
+    const link = await this._context.connection.createReceiver(options);
+
+    const receivedSessionId = link.source?.filter?.[Constants.sessionFilterName];
+    if (!this._providedSessionId && !receivedSessionId) {
+      // When we ask for any sessions (passing option of session-filter: undefined),
+      // but don't receive one back, check whether service has sent any error.
+      if (
+        options.source &&
+        typeof options.source !== "string" &&
+        options.source.filter &&
+        Constants.sessionFilterName in options.source.filter &&
+        options.source.filter![Constants.sessionFilterName] === undefined
+      ) {
+        await delay(1); // yield to eventloop
+        if (this._lastSBError) {
+          throw this._lastSBError;
+        }
+      }
+      // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
+      // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
+      errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
+    } else if (this._providedSessionId && receivedSessionId !== this._providedSessionId) {
+      // This code path is reached if the session is already locked by another receiver.
+      // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+      errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
+    }
+
+    if (errorMessage) {
+      const error = translateServiceBusError({
+        description: errorMessage,
+        condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
+      });
+      logger.logError(error, this.logPrefix);
+      throw error;
+    }
+
+    return link;
   }
 
   /**
@@ -274,36 +313,13 @@ export class MessageSession extends LinkEntity<Receiver> {
       const sessionOptions = this._createMessageSessionOptions(this.identifier, opts.timeoutInMs);
       await this.initLink(sessionOptions, opts.abortSignal);
 
-      if (this.link == null) {
+      if (!this.link) {
         throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
       }
 
-      const receivedSessionId =
-        this.link.source &&
-        this.link.source.filter &&
-        this.link.source.filter[Constants.sessionFilterName];
+      const receivedSessionId = this.link.source?.filter?.[Constants.sessionFilterName];
 
-      let errorMessage: string = "";
-
-      if (this._providedSessionId == null && receivedSessionId == null) {
-        // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
-        // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-        errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
-      } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
-        // This code path is reached if the session is already locked by another receiver.
-        // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-        errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
-      }
-
-      if (errorMessage) {
-        const error = translateServiceBusError({
-          description: errorMessage,
-          condition: ErrorNameConditionMapper.SessionCannotBeLockedError,
-        });
-        logger.logError(error, this.logPrefix);
-        throw error;
-      }
-      if (this._providedSessionId == null) this.sessionId = receivedSessionId;
+      if (!this._providedSessionId) this.sessionId = receivedSessionId;
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"]
       );
@@ -371,6 +387,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   }
 
   private _retryOptions: RetryOptions | undefined;
+  private _lastSBError: Error | ServiceBusError | undefined;
 
   /**
    * Constructs a MessageSession instance which lets you receive messages as batches
@@ -427,7 +444,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       onMessageSettled(this.logPrefix, delivery, this._deliveryDispositionMap);
     };
 
-    this._notifyError = (args: ProcessErrorArgs) => {
+    this._notifyError = async (args: ProcessErrorArgs) => {
       if (this._onError) {
         this._onError(args);
         logger.verbose(
@@ -444,6 +461,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         if (sbError.code === "SessionLockLostError") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
+        this._lastSBError = sbError;
         logger.logError(sbError, "%s An error occurred for Receiver", this.logPrefix);
         this._notifyError({
           error: sbError,
@@ -665,6 +683,37 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         try {
           await this._onMessage(bMessage);
+
+          if (
+            this.autoComplete &&
+            this.receiveMode === "peekLock" &&
+            !bMessage.delivery.remote_settled
+          ) {
+            try {
+              logger.verbose(
+                "%s Auto completing the message with id '%s' on the receiver.",
+                this.logPrefix,
+                bMessage.messageId
+              );
+              await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
+            } catch (completeError: any) {
+              const translatedError = translateServiceBusError(completeError);
+              logger.logError(
+                translatedError,
+                "%s An error occurred while completing the message with id '%s' on the " +
+                  "receiver",
+                this.logPrefix,
+                bMessage.messageId
+              );
+              await this._notifyError({
+                error: translatedError,
+                errorSource: "complete",
+                entityPath: this.entityPath,
+                fullyQualifiedNamespace: this._context.config.host,
+                identifier: this.identifier,
+              });
+            }
+          }
         } catch (err: any) {
           logger.logError(
             err,
@@ -673,7 +722,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.logPrefix,
             bMessage.messageId
           );
-          this._onError!({
+          await this._onError!({
             error: err,
             errorSource: "processMessageCallback",
             entityPath: this.entityPath,
@@ -712,7 +761,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 bMessage.messageId,
                 translatedError
               );
-              this._notifyError({
+              await this._notifyError({
                 error: translatedError,
                 errorSource: "abandon",
                 entityPath: this.entityPath,
@@ -729,38 +778,6 @@ export class MessageSession extends LinkEntity<Receiver> {
             // this isn't something we expect in normal operation - we'd only get here
             // because of a bug in our code.
             this.processCreditError(err);
-          }
-        }
-
-        // If we've made it this far, then user's message handler completed fine. Let us try
-        // completing the message.
-        if (
-          this.autoComplete &&
-          this.receiveMode === "peekLock" &&
-          !bMessage.delivery.remote_settled
-        ) {
-          try {
-            logger.verbose(
-              "%s Auto completing the message with id '%s' on the receiver.",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
-          } catch (completeError: any) {
-            const translatedError = translateServiceBusError(completeError);
-            logger.logError(
-              translatedError,
-              "%s An error occurred while completing the message with id '%s' on the " + "receiver",
-              this.logPrefix,
-              bMessage.messageId
-            );
-            this._notifyError({
-              error: translatedError,
-              errorSource: "complete",
-              entityPath: this.entityPath,
-              fullyQualifiedNamespace: this._context.config.host,
-              identifier: this.identifier,
-            });
           }
         }
       };
@@ -798,7 +815,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  private processCreditError(err: any): void {
+  private async processCreditError(err: any): Promise<void> {
     if (err.name === "AbortError") {
       // if we fail to add credits because the user has asked us to stop
       // then this isn't an error - it's normal.
@@ -812,7 +829,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
     // from the user's perspective this is a fatal link error and they should retry
     // opening the link.
-    this._onError!({
+    await this._onError!({
       error,
       errorSource: "processMessageCallback",
       entityPath: this.entityPath,
@@ -860,7 +877,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     );
     try {
       // Notifying so that the streaming receiver knows about the error
-      this._notifyError({
+      await this._notifyError({
         entityPath: this.entityPath,
         fullyQualifiedNamespace: this._context.config.host,
         error: translateServiceBusError(connectionError),

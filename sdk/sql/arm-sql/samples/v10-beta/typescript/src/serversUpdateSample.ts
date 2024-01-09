@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a server.
  *
  * @summary Updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-08-01-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerUpdate.json
  */
 async function updateAServer() {
   const subscriptionId =
@@ -30,6 +30,7 @@ async function updateAServer() {
   const parameters: ServerUpdate = {
     administratorLogin: "dummylogin",
     administratorLoginPassword: "placeholder",
+    isIPv6Enabled: "Enabled",
     publicNetworkAccess: "Disabled",
     restrictOutboundNetworkAccess: "Enabled"
   };

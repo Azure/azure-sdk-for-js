@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import {
   BuildCreatePollerOptions,
   CreatePollerOptions,
@@ -24,7 +24,7 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
    * It will be updated later to be of type TState when the
    * customer-provided callback, `updateState`, is called during polling.
    */
-  initState: (config) => ({ status: "running", config } as any),
+  initState: (config) => ({ status: "running", config }) as any,
   setCanceled: (state) => (state.status = "canceled"),
   setError: (state, error) => (state.error = error),
   setResult: (state, result) => (state.result = result),
@@ -44,10 +44,10 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
-  inputs: BuildCreatePollerOptions<TResponse, TState>
+  inputs: BuildCreatePollerOptions<TResponse, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-  options?: CreatePollerOptions<TResponse, TResult, TState>
+  options?: CreatePollerOptions<TResponse, TResult, TState>,
 ) => Promise<SimplePollerLike<TState, TResult>> {
   const {
     getOperationLocation,
@@ -61,7 +61,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
   } = inputs;
   return async (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-    options?: CreatePollerOptions<TResponse, TResult, TState>
+    options?: CreatePollerOptions<TResponse, TResult, TState>,
   ) => {
     const {
       processResult,
@@ -120,15 +120,27 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       pollUntilDone: (pollOptions?: { abortSignal?: AbortSignalLike }) =>
         (resultPromise ??= (async () => {
           const { abortSignal: inputAbortSignal } = pollOptions || {};
-          const { signal: abortSignal } = inputAbortSignal
-            ? new AbortController([inputAbortSignal, abortController.signal])
-            : abortController;
-          if (!poller.isDone()) {
-            await poller.poll({ abortSignal });
-            while (!poller.isDone()) {
-              await delay(currentPollIntervalInMs, { abortSignal });
+          // In the future we can use AbortSignal.any() instead
+          function abortListener(): void {
+            abortController.abort();
+          }
+          const abortSignal = abortController.signal;
+          if (inputAbortSignal?.aborted) {
+            abortController.abort();
+          } else if (!abortSignal.aborted) {
+            inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+          }
+
+          try {
+            if (!poller.isDone()) {
               await poller.poll({ abortSignal });
+              while (!poller.isDone()) {
+                await delay(currentPollIntervalInMs, { abortSignal });
+                await poller.poll({ abortSignal });
+              }
             }
+          } finally {
+            inputAbortSignal?.removeEventListener("abort", abortListener);
           }
           if (resolveOnUnsuccessful) {
             return poller.getResult() as TResult;

@@ -970,6 +970,16 @@ export interface AzureWebCategoryListResult {
   nextLink?: string;
 }
 
+export interface BastionHostPropertiesFormatNetworkAcls {
+  /** Sets the IP ACL rules for Developer Bastion Host. */
+  ipRules?: IPRule[];
+}
+
+export interface IPRule {
+  /** Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed. */
+  addressPrefix?: string;
+}
+
 /** The sku of this Bastion Host. */
 export interface Sku {
   /** The name of this Bastion Host. */
@@ -984,7 +994,7 @@ export interface BastionHostListResult {
   nextLink?: string;
 }
 
-/** Post request for all the Bastion Shareable Link endpoints. */
+/** Post request for Create/Delete/Get Bastion Shareable Link endpoints. */
 export interface BastionShareableLinkListRequest {
   /** List of VM references. */
   vms?: BastionShareableLink[];
@@ -1017,6 +1027,12 @@ export interface BastionShareableLinkListResult {
   value?: BastionShareableLink[];
   /** The URL to get the next set of results. */
   nextLink?: string;
+}
+
+/** Post request for Delete Bastion Shareable Link By Token endpoint. */
+export interface BastionShareableLinkTokenListRequest {
+  /** List of Bastion Shareable Link Token. */
+  tokens?: string[];
 }
 
 /** Response for GetActiveSessions. */
@@ -1707,8 +1723,10 @@ export interface ExplicitProxy {
 
 /** Configuration for intrusion detection mode and rules. */
 export interface FirewallPolicyIntrusionDetection {
-  /** Intrusion detection general state. */
+  /** Intrusion detection general state. When attached to a parent policy, the firewall's effective IDPS mode is the stricter mode of the two. */
   mode?: FirewallPolicyIntrusionDetectionStateType;
+  /** IDPS profile name. When attached to a parent policy, the firewall's effective profile is the profile name of the parent policy. */
+  profile?: FirewallPolicyIntrusionDetectionProfileType;
   /** Intrusion detection configuration properties. */
   configuration?: FirewallPolicyIntrusionDetectionConfiguration;
 }
@@ -1842,9 +1860,9 @@ export interface SingleQueryResult {
   signatureId?: number;
   /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
   mode?: FirewallPolicyIdpsSignatureMode;
-  /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
+  /** Describes the severity of signature: 1 - High, 2 - Medium, 3 - Low */
   severity?: FirewallPolicyIdpsSignatureSeverity;
-  /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
+  /** Describes in which direction signature is being enforced: 0 - OutBound, 1 - InBound, 2 - Any, 3 - Internal, 4 - InternalOutbound */
   direction?: FirewallPolicyIdpsSignatureDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
@@ -2640,6 +2658,12 @@ export interface VirtualApplianceAdditionalNicProperties {
   name?: string;
   /** Flag (true or false) for Intent for Public Ip on additional nic */
   hasPublicIp?: boolean;
+}
+
+/** Resource Uri of Public Ip for Standard Load Balancer Frontend End. */
+export interface InternetIngressPublicIpsProperties {
+  /** Resource Uri of Public Ip */
+  id?: string;
 }
 
 /** Properties of the delegation. */
@@ -4492,6 +4516,19 @@ export interface VirtualNetworkDdosProtectionStatusResult {
   nextLink?: string;
 }
 
+/** Virtual Network Gateway Autoscale Configuration details */
+export interface VirtualNetworkGatewayAutoScaleConfiguration {
+  /** The bounds of the autoscale configuration */
+  bounds?: VirtualNetworkGatewayAutoScaleBounds;
+}
+
+export interface VirtualNetworkGatewayAutoScaleBounds {
+  /** Minimum scale Units for Autoscale configuration */
+  min?: number;
+  /** Maximum Scale Units for Autoscale configuration */
+  max?: number;
+}
+
 /** VirtualNetworkGatewaySku details. */
 export interface VirtualNetworkGatewaySku {
   /** Gateway SKU name. */
@@ -5466,32 +5503,6 @@ export interface VirtualHubId {
 export interface ExpressRouteConnectionList {
   /** The list of ExpressRoute connections. */
   value?: ExpressRouteConnection[];
-}
-
-/** NFV version of Routing Configuration indicating the associated and propagated route tables for this connection. */
-export interface RoutingConfigurationNfv {
-  /** The resource id RouteTable associated with this RoutingConfiguration. */
-  associatedRouteTable?: RoutingConfigurationNfvSubResource;
-  /** The list of RouteTables to advertise the routes to. */
-  propagatedRouteTables?: PropagatedRouteTableNfv;
-  /** The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes. */
-  inboundRouteMap?: RoutingConfigurationNfvSubResource;
-  /** The resource id of the RouteMap associated with this RoutingConfiguration for outbound advertised routes. */
-  outboundRouteMap?: RoutingConfigurationNfvSubResource;
-}
-
-/** Reference to RouteTableV3 associated with the connection. */
-export interface RoutingConfigurationNfvSubResource {
-  /** Resource ID. */
-  resourceUri?: string;
-}
-
-/** Nfv version of the list of RouteTables to advertise the routes to. */
-export interface PropagatedRouteTableNfv {
-  /** The list of labels. */
-  labels?: string[];
-  /** The list of resource ids of all the RouteTables. */
-  ids?: RoutingConfigurationNfvSubResource[];
 }
 
 /** NetworkVirtualApplianceConnection list. */
@@ -6563,6 +6574,8 @@ export interface Subnet extends SubResource {
   privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /** Application gateway IP configurations of virtual network resource. */
   applicationGatewayIPConfigurations?: ApplicationGatewayIPConfiguration[];
+  /** Set this property to false to disable default outbound connectivity for all VMs in the subnet. This property can only be set at the time of subnet creation and cannot be updated for an existing subnet. */
+  defaultOutboundAccess?: boolean;
 }
 
 /** Frontend IP address of the load balancer. */
@@ -6953,6 +6966,8 @@ export interface ApplicationGatewayListener extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  /** List of Server Name Indications(SNI) for TLS Multi-site Listener that allows special wildcard characters as well. */
+  hostNames?: string[];
 }
 
 /** SSL profile of an application gateway. */
@@ -7814,6 +7829,11 @@ export interface FirewallPolicyRuleCollectionGroup extends SubResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * A read-only string that represents the size of the FirewallPolicyRuleCollectionGroupProperties in MB. (ex 1.2MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
   /** Priority of the Firewall Policy Rule Collection Group resource. */
   priority?: number;
   /** Group of Firewall Policy rule collections. */
@@ -8731,7 +8751,7 @@ export interface NetworkVirtualApplianceConnection extends SubResource {
   /** Enable internet security. */
   enableInternetSecurity?: boolean;
   /** The Routing Configuration indicating the associated and propagated route tables on this connection. */
-  routingConfiguration?: RoutingConfigurationNfv;
+  routingConfiguration?: RoutingConfiguration;
 }
 
 /** Virtual Appliance Site resource. */
@@ -9559,6 +9579,9 @@ export interface BastionHost extends Resource {
   ipConfigurations?: BastionHostIPConfiguration[];
   /** FQDN for the endpoint on which bastion host is accessible. */
   dnsName?: string;
+  /** Reference to an existing virtual network required for Developer Bastion Host only. */
+  virtualNetwork?: SubResource;
+  networkAcls?: BastionHostPropertiesFormatNetworkAcls;
   /**
    * The provisioning state of the bastion host resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -9936,6 +9959,11 @@ export interface FirewallPolicy extends Resource {
   /** The identity of the firewall policy. */
   identity?: ManagedServiceIdentity;
   /**
+   * A read-only string that represents the size of the FirewallPolicyPropertiesFormat in MB. (ex 0.5MB)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: string;
+  /**
    * List of references to FirewallPolicyRuleCollectionGroups.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -10164,6 +10192,8 @@ export interface NetworkVirtualAppliance extends Resource {
   readonly virtualApplianceNics?: VirtualApplianceNicProperties[];
   /** Details required for Additional Network Interface. */
   additionalNics?: VirtualApplianceAdditionalNicProperties[];
+  /** List of Resource Uri of Public IPs for Internet Ingress Scenario. */
+  internetIngressPublicIps?: InternetIngressPublicIpsProperties[];
   /**
    * List of references to VirtualApplianceSite.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -10403,6 +10433,8 @@ export interface VirtualNetworkGateway extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** Autoscale configuration for virutal network gateway */
+  autoScaleConfiguration?: VirtualNetworkGatewayAutoScaleConfiguration;
   /** IP configurations for virtual network gateway. */
   ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
   /** The type of this virtual network gateway. */
@@ -11594,6 +11626,11 @@ export interface AzureFirewallsPacketCaptureHeaders {
   location?: string;
 }
 
+/** Defines headers for NetworkManagementClient_deleteBastionShareableLinkByToken operation. */
+export interface NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders {
+  location?: string;
+}
+
 /** Defines headers for PublicIPAddresses_delete operation. */
 export interface PublicIPAddressesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -11602,6 +11639,12 @@ export interface PublicIPAddressesDeleteHeaders {
 
 /** Defines headers for PublicIPAddresses_ddosProtectionStatus operation. */
 export interface PublicIPAddressesDdosProtectionStatusHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+}
+
+/** Defines headers for DdosCustomPolicies_delete operation. */
+export interface DdosCustomPoliciesDeleteHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
   location?: string;
 }
@@ -11977,13 +12020,13 @@ export type IPAllocationMethod = string;
 
 /** Known values of {@link ApplicationGatewayProtocol} that the service accepts. */
 export enum KnownApplicationGatewayProtocol {
-  /** Http */
+  /** Supported for httpListeners and  backendHttpSettingsCollection properties. */
   Http = "Http",
-  /** Https */
+  /** Supported for httpListeners and  backendHttpSettingsCollection properties. */
   Https = "Https",
-  /** Tcp */
+  /** Supported for listeners and backendSettingsCollection properties. */
   Tcp = "Tcp",
-  /** Tls */
+  /** Supported for listeners and backendSettingsCollection properties. */
   Tls = "Tls"
 }
 
@@ -11992,10 +12035,10 @@ export enum KnownApplicationGatewayProtocol {
  * {@link KnownApplicationGatewayProtocol} can be used interchangeably with ApplicationGatewayProtocol,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Http** \
- * **Https** \
- * **Tcp** \
- * **Tls**
+ * **Http**: Supported for httpListeners and  backendHttpSettingsCollection properties. \
+ * **Https**: Supported for httpListeners and  backendHttpSettingsCollection properties. \
+ * **Tcp**: Supported for listeners and backendSettingsCollection properties. \
+ * **Tls**: Supported for listeners and backendSettingsCollection properties.
  */
 export type ApplicationGatewayProtocol = string;
 
@@ -12943,7 +12986,9 @@ export enum KnownBastionHostSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
+  /** Developer */
+  Developer = "Developer"
 }
 
 /**
@@ -12952,7 +12997,8 @@ export enum KnownBastionHostSkuName {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Basic** \
- * **Standard**
+ * **Standard** \
+ * **Developer**
  */
 export type BastionHostSkuName = string;
 
@@ -13465,6 +13511,30 @@ export enum KnownFirewallPolicyIntrusionDetectionStateType {
  * **Deny**
  */
 export type FirewallPolicyIntrusionDetectionStateType = string;
+
+/** Known values of {@link FirewallPolicyIntrusionDetectionProfileType} that the service accepts. */
+export enum KnownFirewallPolicyIntrusionDetectionProfileType {
+  /** Basic */
+  Basic = "Basic",
+  /** Standard */
+  Standard = "Standard",
+  /** Advanced */
+  Advanced = "Advanced",
+  /** Extended */
+  Extended = "Extended"
+}
+
+/**
+ * Defines values for FirewallPolicyIntrusionDetectionProfileType. \
+ * {@link KnownFirewallPolicyIntrusionDetectionProfileType} can be used interchangeably with FirewallPolicyIntrusionDetectionProfileType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Basic** \
+ * **Standard** \
+ * **Advanced** \
+ * **Extended**
+ */
+export type FirewallPolicyIntrusionDetectionProfileType = string;
 
 /** Known values of {@link FirewallPolicyIntrusionDetectionProtocol} that the service accepts. */
 export enum KnownFirewallPolicyIntrusionDetectionProtocol {
@@ -14893,7 +14963,9 @@ export enum KnownVirtualNetworkGatewaySkuName {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale"
 }
 
 /**
@@ -14917,7 +14989,8 @@ export enum KnownVirtualNetworkGatewaySkuName {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuName = string;
 
@@ -14956,7 +15029,9 @@ export enum KnownVirtualNetworkGatewaySkuTier {
   /** ErGw2AZ */
   ErGw2AZ = "ErGw2AZ",
   /** ErGw3AZ */
-  ErGw3AZ = "ErGw3AZ"
+  ErGw3AZ = "ErGw3AZ",
+  /** ErGwScale */
+  ErGwScale = "ErGwScale"
 }
 
 /**
@@ -14980,7 +15055,8 @@ export enum KnownVirtualNetworkGatewaySkuTier {
  * **VpnGw5AZ** \
  * **ErGw1AZ** \
  * **ErGw2AZ** \
- * **ErGw3AZ**
+ * **ErGw3AZ** \
+ * **ErGwScale**
  */
 export type VirtualNetworkGatewaySkuTier = string;
 
@@ -16068,7 +16144,9 @@ export enum KnownWebApplicationFirewallAction {
   /** Block */
   Block = "Block",
   /** Log */
-  Log = "Log"
+  Log = "Log",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge"
 }
 
 /**
@@ -16078,7 +16156,8 @@ export enum KnownWebApplicationFirewallAction {
  * ### Known values supported by the service
  * **Allow** \
  * **Block** \
- * **Log**
+ * **Log** \
+ * **JSChallenge**
  */
 export type WebApplicationFirewallAction = string;
 
@@ -16205,7 +16284,9 @@ export enum KnownActionType {
   /** Block */
   Block = "Block",
   /** Log */
-  Log = "Log"
+  Log = "Log",
+  /** JSChallenge */
+  JSChallenge = "JSChallenge"
 }
 
 /**
@@ -16216,7 +16297,8 @@ export enum KnownActionType {
  * **AnomalyScoring** \
  * **Allow** \
  * **Block** \
- * **Log**
+ * **Log** \
+ * **JSChallenge**
  */
 export type ActionType = string;
 
@@ -16490,7 +16572,7 @@ export type FirewallPolicyIdpsSignatureMode = 0 | 1 | 2;
 /** Defines values for FirewallPolicyIdpsSignatureSeverity. */
 export type FirewallPolicyIdpsSignatureSeverity = 1 | 2 | 3;
 /** Defines values for FirewallPolicyIdpsSignatureDirection. */
-export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2;
+export type FirewallPolicyIdpsSignatureDirection = 0 | 1 | 2 | 3 | 4;
 /** Defines values for PacketCaptureTargetType. */
 export type PacketCaptureTargetType = "AzureVM" | "AzureVMSS";
 
@@ -17082,6 +17164,18 @@ export interface DeleteBastionShareableLinkOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface DeleteBastionShareableLinkByTokenOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteBastionShareableLinkByToken operation. */
+export type DeleteBastionShareableLinkByTokenResponse = NetworkManagementClientDeleteBastionShareableLinkByTokenHeaders;
 
 /** Optional parameters. */
 export interface GetBastionShareableLinkOptionalParams

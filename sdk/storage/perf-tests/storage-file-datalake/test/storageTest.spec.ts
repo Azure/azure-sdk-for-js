@@ -11,16 +11,17 @@ import {
 } from "@azure/storage-file-datalake";
 
 // Expects the .env file at the same level as the "test" folder
-import * as dotenv from "dotenv";
-import { v4 as generateUuid } from "uuid";
+import dotenv from "dotenv";
+import { randomUUID } from "@azure/core-util";
+
 dotenv.config();
 
 export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
   datalakeServiceClient: DataLakeServiceClient;
   fileSystemClient: DataLakeFileSystemClient;
   directoryClient: DataLakeDirectoryClient;
-  static fileSystemName = generateUuid();
-  static directoryName = generateUuid();
+  static fileSystemName = randomUUID();
+  static directoryName = randomUUID();
 
   constructor() {
     super();

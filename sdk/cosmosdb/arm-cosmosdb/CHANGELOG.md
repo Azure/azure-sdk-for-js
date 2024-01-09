@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.0-beta.7 (Unreleased)
+## 15.6.0-beta.2 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 16.0.0-beta.6 (2023-06-13)
+## 15.6.0-beta.1 (2023-11-21)
     
 **Features**
 
@@ -58,7 +58,8 @@
   - Added operation SqlResources.beginSqlDatabaseRetrieveThroughputDistributionAndWait
   - Added Interface AzureBlobDataTransferDataSourceSink
   - Added Interface BackupResource
-  - Added Interface BackupResourceProperties
+  - Added Interface BackupSchedule
+  - Added Interface BaseCosmosDataTransferDataSourceSink
   - Added Interface CassandraClustersGetBackupOptionalParams
   - Added Interface CassandraClustersListBackupsOptionalParams
   - Added Interface CassandraResourcesCreateUpdateCassandraViewHeaders
@@ -184,6 +185,7 @@
   - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionHeaders
   - Added Interface SqlResourcesSqlDatabaseRetrieveThroughputDistributionOptionalParams
   - Added Interface TrackedResource
+  - Added Type Alias BackupState
   - Added Type Alias CassandraClustersGetBackupResponse
   - Added Type Alias CassandraClustersListBackupsResponse
   - Added Type Alias CassandraResourcesCreateUpdateCassandraViewResponse
@@ -194,6 +196,8 @@
   - Added Type Alias CassandraResourcesMigrateCassandraViewToManualThroughputResponse
   - Added Type Alias CassandraResourcesUpdateCassandraViewThroughputResponse
   - Added Type Alias CheckNameAvailabilityReason
+  - Added Type Alias ClusterType
+  - Added Type Alias CustomerManagedKeyStatus
   - Added Type Alias DataTransferComponent
   - Added Type Alias DataTransferDataSourceSinkUnion
   - Added Type Alias DataTransferJobsCancelResponse
@@ -203,6 +207,7 @@
   - Added Type Alias DataTransferJobsListByDatabaseAccountResponse
   - Added Type Alias DataTransferJobsPauseResponse
   - Added Type Alias DataTransferJobsResumeResponse
+  - Added Type Alias DefaultPriorityLevel
   - Added Type Alias EnableFullTextQuery
   - Added Type Alias GraphResourcesCreateUpdateGraphResponse
   - Added Type Alias GraphResourcesGetGraphResponse
@@ -239,15 +244,29 @@
   - Added Type Alias SqlResourcesSqlDatabaseRetrieveThroughputDistributionResponse
   - Added Type Alias ThroughputPolicyType
   - Interface ARMResourceProperties has a new optional parameter identity
+  - Interface CassandraClustersDeallocateOptionalParams has a new optional parameter xMsForceDeallocate
+  - Interface ClusterResourceProperties has a new optional parameter backupSchedules
+  - Interface ClusterResourceProperties has a new optional parameter clusterType
+  - Interface ClusterResourceProperties has a new optional parameter extensions
+  - Interface ComponentsM9L909SchemasCassandraclusterpublicstatusPropertiesDatacentersItemsPropertiesNodesItems has a new optional parameter isLatestModel
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountGetResults has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountGetResults has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountGetResults has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountGetResults has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountGetResults has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountGetResults has a new optional parameter enablePriorityBasedExecution
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter defaultPriorityLevel
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enablePriorityBasedExecution
   - Interface GremlinDatabaseResource has a new optional parameter createMode
   - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
   - Interface GremlinGraphResource has a new optional parameter createMode
@@ -264,20 +283,18 @@
   - Interface SqlDatabaseResource has a new optional parameter restoreParameters
   - Interface TableResource has a new optional parameter createMode
   - Interface TableResource has a new optional parameter restoreParameters
+  - Added Enum KnownBackupState
   - Added Enum KnownCheckNameAvailabilityReason
+  - Added Enum KnownClusterType
+  - Added Enum KnownCustomerManagedKeyStatus
   - Added Enum KnownDataTransferComponent
+  - Added Enum KnownDefaultPriorityLevel
   - Added Enum KnownMongoClusterStatus
   - Added Enum KnownNodeKind
   - Added Enum KnownProvisioningState
   - Added Enum KnownThroughputPolicyType
   - Enum KnownCreateMode has a new value PointInTimeRestore
   - Enum KnownOperationType has a new value Recreate
-
-**Breaking Changes**
-
-  - Interface ThroughputSettingsResource no longer has parameter instantMaximumThroughput
-  - Interface ThroughputSettingsResource no longer has parameter softAllowedMaximumThroughput
-  - Enum KnownPublicNetworkAccess no longer has value SecuredByPerimeter
     
     
 ## 15.5.0 (2023-05-11)
@@ -634,4 +651,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

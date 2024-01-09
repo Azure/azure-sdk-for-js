@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update the run command.
  *
  * @summary The operation to update the run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-03-01/examples/runCommandExamples/VirtualMachineRunCommand_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/runCommandExamples/VirtualMachineRunCommand_Update.json
  */
 async function updateARunCommand() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -30,7 +30,7 @@ async function updateARunCommand() {
     },
     errorBlobUri: "https://mystorageaccount.blob.core.windows.net/mycontainer/MyScriptError.txt",
     outputBlobUri:
-      "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/MyScriptoutput.txt?sp=racw&st=2022-10-07T19:40:21Z&se=2022-10-08T03:40:21Z&spr=https&sv=2021-06-08&sr=b&sig=Yh7B%2Fy83olbYBdfsfbUREvd7ol8Dq5EVP3lAO4Kj4xDcN8%3D",
+      "https://mystorageaccount.blob.core.windows.net/myscriptoutputcontainer/outputUri",
     parameters: [
       { name: "param1", value: "value1" },
       { name: "param2", value: "value2" },
@@ -48,7 +48,7 @@ async function updateARunCommand() {
     resourceGroupName,
     vmName,
     runCommandName,
-    runCommand
+    runCommand,
   );
   console.log(result);
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 21.1.1 (Unreleased)
+## 21.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,125 @@
 
 ### Other Changes
 
+## 21.3.0 (2023-12-08)
+    
+**Features**
+
+  - Added operation DedicatedHosts.beginRedeploy
+  - Added operation DedicatedHosts.beginRedeployAndWait
+  - Added operation VirtualMachines.beginAttachDetachDataDisks
+  - Added operation VirtualMachines.beginAttachDetachDataDisksAndWait
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSets.beginApproveRollingUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgrade
+  - Added operation VirtualMachineScaleSetVMs.beginApproveRollingUpgradeAndWait
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisks
+  - Added operation VirtualMachineScaleSetVMs.beginAttachDetachDataDisksAndWait
+  - Added Interface AttachDetachDataDisksRequest
+  - Added Interface CommunityGalleryMetadata
+  - Added Interface DataDisksToAttach
+  - Added Interface DataDisksToDetach
+  - Added Interface DedicatedHostsRedeployHeaders
+  - Added Interface DedicatedHostsRedeployOptionalParams
+  - Added Interface EncryptionIdentity
+  - Added Interface GalleryImageVersionUefiSettings
+  - Added Interface ImageVersionSecurityProfile
+  - Added Interface ProxyAgentSettings
+  - Added Interface ResiliencyPolicy
+  - Added Interface ResilientVMCreationPolicy
+  - Added Interface ResilientVMDeletionPolicy
+  - Added Interface ResourceSharingProfile
+  - Added Interface SshGenerateKeyPairInputParameters
+  - Added Interface UefiKey
+  - Added Interface UefiKeySignatures
+  - Added Interface VirtualMachinesAttachDetachDataDisksHeaders
+  - Added Interface VirtualMachinesAttachDetachDataDisksOptionalParams
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+  - Added Interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders
+  - Added Interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  - Added Type Alias DedicatedHostsRedeployResponse
+  - Added Type Alias Mode
+  - Added Type Alias SshEncryptionTypes
+  - Added Type Alias UefiKeyType
+  - Added Type Alias UefiSignatureTemplateName
+  - Added Type Alias VirtualMachinesAttachDetachDataDisksResponse
+  - Added Type Alias VirtualMachineScaleSetsApproveRollingUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+  - Added Type Alias VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter osRollingUpgradeDeferral
+  - Interface CapacityReservationGroup has a new optional parameter sharingProfile
+  - Interface CapacityReservationGroupInstanceView has a new optional parameter sharedSubscriptionIds
+  - Interface CapacityReservationGroupUpdate has a new optional parameter sharingProfile
+  - Interface CommunityGallery has a new optional parameter artifactTags
+  - Interface CommunityGallery has a new optional parameter communityMetadata
+  - Interface CommunityGallery has a new optional parameter disclaimer
+  - Interface CommunityGalleryImage has a new optional parameter artifactTags
+  - Interface CommunityGalleryImage has a new optional parameter disclaimer
+  - Interface CommunityGalleryImageVersion has a new optional parameter artifactTags
+  - Interface CommunityGalleryImageVersion has a new optional parameter disclaimer
+  - Interface GalleryImageVersion has a new optional parameter securityProfile
+  - Interface GalleryImageVersionUpdate has a new optional parameter securityProfile
+  - Interface RestorePointSourceVMStorageProfile has a new optional parameter diskControllerType
+  - Interface SecurityProfile has a new optional parameter encryptionIdentity
+  - Interface SecurityProfile has a new optional parameter proxyAgentSettings
+  - Interface SharedGallery has a new optional parameter artifactTags
+  - Interface SharedGalleryImage has a new optional parameter artifactTags
+  - Interface SharedGalleryImageVersion has a new optional parameter artifactTags
+  - Interface SshPublicKeysGenerateKeyPairOptionalParams has a new optional parameter parameters
+  - Interface VirtualMachine has a new optional parameter etag
+  - Interface VirtualMachine has a new optional parameter managedBy
+  - Interface VirtualMachineInstanceView has a new optional parameter isVMInStandbyPool
+  - Interface VirtualMachineScaleSet has a new optional parameter etag
+  - Interface VirtualMachineScaleSet has a new optional parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachineScaleSetUpdate has a new optional parameter resiliencyPolicy
+  - Interface VirtualMachineScaleSetVM has a new optional parameter etag
+  - Interface VirtualMachineScaleSetVMProfile has a new optional parameter timeCreated
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachineScaleSetVMsUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesCreateOrUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifMatch
+  - Interface VirtualMachinesUpdateOptionalParams has a new optional parameter ifNoneMatch
+  - Added Enum KnownMode
+  - Added Enum KnownSshEncryptionTypes
+  - Added Enum KnownUefiKeyType
+  - Added Enum KnownUefiSignatureTemplateName
+  - Enum KnownConfidentialVMEncryptionType has a new value NonPersistedTPM
+  - Enum KnownReplicationStatusTypes has a new value UefiSettings
+  - Enum KnownSecurityEncryptionTypes has a new value NonPersistedTPM
+    
+    
+## 21.2.0 (2023-08-14)
+    
+**Features**
+
+  - Added Type Alias DomainNameLabelScopeTypes
+  - Added Type Alias NetworkInterfaceAuxiliaryMode
+  - Added Type Alias NetworkInterfaceAuxiliarySku
+  - Interface CreationData has a new optional parameter elasticSanResourceId
+  - Interface Disk has a new optional parameter lastOwnershipUpdateTime
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineNetworkInterfaceConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachinePublicIPAddressDnsSettingsConfiguration has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings has a new optional parameter domainNameLabelScope
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliaryMode
+  - Interface VirtualMachineScaleSetUpdateNetworkConfiguration has a new optional parameter auxiliarySku
+  - Interface VirtualMachineScaleSetVM has a new optional parameter timeCreated
+  - Added Enum KnownDomainNameLabelScopeTypes
+  - Added Enum KnownNetworkInterfaceAuxiliaryMode
+  - Added Enum KnownNetworkInterfaceAuxiliarySku
+  - Enum KnownDiskCreateOption has a new value CopyFromSanSnapshot
+    
+    
 ## 21.1.0 (2023-07-07)
     
 **Features**
@@ -501,4 +620,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).

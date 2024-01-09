@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { concurrently } from "concurrently";
+import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { isModuleProject } from "../../util/resolveProject";
@@ -15,23 +15,27 @@ export const commandInfo = makeCommandInfo(
       shortName: "ntp",
       kind: "boolean",
       default: false,
-      description: "whether to run with test-proxy"
+      description: "whether to run with test-proxy",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const reporterArgs =
+    "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
   const defaultMochaArgs = `${
-    (await isModuleProject()) ? "" : "-r esm "
-  } --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace`;
+    (await isModuleProject())
+      ? "-r source-map-support/register.js"
+      : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
+  } ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
-    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
   const mochaArgs = updatedArgs?.length
-    ? updatedArgs?.join(" ")
+    ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `nyc mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 

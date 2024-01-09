@@ -5,7 +5,7 @@ import { ServiceClient } from "@azure/core-client";
 import { env, isPlaybackMode, Recorder } from "../src";
 import { TestMode } from "../src/utils/utils";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -23,9 +23,39 @@ import { v4 as generateUuid } from "uuid";
     });
 
     beforeEach(async function () {
+      env.TEST_VARIABLE_1 = "the answer!";
+      env.TEST_VARIABLE_2 = "answer!";
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
+    });
+
+    describe("envSetupForPlayback", () => {
+      afterEach(async () => {
+        await recorder.stop();
+      });
+
+      it("Handles overlapping environment variables", async () => {
+        const envSetupForPlayback = {
+          TEST_VARIABLE_2: "Variable2",
+          TEST_VARIABLE_1: "Variable1",
+        };
+
+        await recorder.start({ envSetupForPlayback });
+
+        await makeRequestAndVerifyResponse(
+          client,
+          {
+            path: `/sample_response/aaa`,
+            body: "aaaaa",
+            method: "POST",
+            headers: [{ headerName: "Content-Type", value: "text/plain" }],
+          },
+          {
+            val: isPlaybackMode() ? "I am Variable1" : "I am the answer!",
+          }
+        );
+      });
     });
 
     describe("Sanitizers - functionalities", () => {
@@ -351,7 +381,7 @@ import { v4 as generateUuid } from "uuid";
           envSetupForPlayback: {},
         });
         // currentValue is dynamic
-        currentValue = generateUuid() + `-${env.TEST_MODE}`;
+        currentValue = randomUUID() + `-${env.TEST_MODE}`;
 
         // In record mode, the proxy tool santizes the value 'generateUuid() + `-${env.TEST_MODE}`' as fakeSecretValue
         // In playback mode, the proxy tool santizes the value before matching the request to fakeSecretValue and hence the request matches with what's in the recording

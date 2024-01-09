@@ -6,7 +6,7 @@ Chaos Management Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/chaos/arm-chaos) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-chaos) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-chaos?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-chaos) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

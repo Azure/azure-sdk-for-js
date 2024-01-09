@@ -55,30 +55,30 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
-        Mac Node14 (AzureCloud):
+        Mac Node18 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "macos-11"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "14.x"
-        Windows Node16 (AzureCloud):
+          NodeTestVersion: "18.x"
+        Windows Node20 (AzureCloud):
           Pool: "azsdk-pool-mms-win-2022-general"
           OSVmImage: "MMS2022"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "16.x"
-        Linux Node14 (AzureCloud):
+          NodeTestVersion: "20.x"
+        Linux Node18 (AzureCloud):
           Pool: "azsdk-pool-mms-ubuntu-2004-general"
           OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "14.x"
-        Linux Node16 (AzureCloud):
+          NodeTestVersion: "18.x"
+        Linux Node20 (AzureCloud):
           Pool: "azsdk-pool-mms-ubuntu-2004-general"
           OSVmImage: "MMSUbuntu20.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-          NodeTestVersion: "16.x"
+          NodeTestVersion: "20.x"
 #        Linux Node12 (AzureUSGovernment):
 #          Pool: Azure Pipelines
 #          OSVmImage: "ubuntu-18.04"

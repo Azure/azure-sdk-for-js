@@ -17,8 +17,6 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
-
 const getCurrentWeather = {
   name: "get_current_weather",
   description: "Get the current weather in a given location",
@@ -43,9 +41,13 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-4";
-  const result = await client.getChatCompletions(deploymentId, messages, {
-    functions: [getCurrentWeather],
-  });
+  const result = await client.getChatCompletions(
+    deploymentId,
+    [{ role: "user", content: "What's the weather like in Boston?" }],
+    {
+      functions: [getCurrentWeather],
+    },
+  );
 
   for (const choice of result.choices) {
     console.log(choice.message?.functionCall);

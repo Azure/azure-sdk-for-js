@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
 async function updateASnapshotWithAcceleratedNetworking() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -32,7 +32,7 @@ async function updateASnapshotWithAcceleratedNetworking() {
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
@@ -41,7 +41,7 @@ async function updateASnapshotWithAcceleratedNetworking() {
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-01-02/examples/snapshotExamples/Snapshot_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-04-02/examples/snapshotExamples/Snapshot_Update.json
  */
 async function updateASnapshot() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -56,7 +56,7 @@ async function updateASnapshot() {
   const result = await client.snapshots.beginUpdateAndWait(
     resourceGroupName,
     snapshotName,
-    snapshot
+    snapshot,
   );
   console.log(result);
 }
