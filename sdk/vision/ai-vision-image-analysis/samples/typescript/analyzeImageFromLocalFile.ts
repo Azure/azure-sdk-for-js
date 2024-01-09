@@ -11,7 +11,7 @@ import createImageAnalysisClient, {
   CropRegionOutput,
   DetectedTagOutput,
   isUnexpected
-} from '@azure/imageAnalysis';
+} from '@azure-rest/ai-vision-image-analysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

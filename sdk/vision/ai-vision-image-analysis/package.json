@@ -1,5 +1,5 @@
 {
-  "name": "@azure/ai-vision-image-analysis",
+  "name": "@azure-rest/ai-vision-image-analysis",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",

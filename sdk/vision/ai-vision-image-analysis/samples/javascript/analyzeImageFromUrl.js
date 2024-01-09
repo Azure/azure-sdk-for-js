@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { ImageAnalysisClient } = require('@azure/imageanalysis');
-const createClient = require('@azure/imageanalysis').default;
+const { ImageAnalysisClient } = require('@azure-rest/ai-vision-image-analysis');
+const createClient = require('@azure-rest/ai-vision-image-analysis').default;
 const { AzureKeyCredential } = require('@azure/core-auth');
 
 // Load the .env file if it exists

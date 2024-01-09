@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure/imageAnalysis';
+import createImageAnalysisClient, { ImageAnalysisClient, isUnexpected } from '@azure-rest/ai-vision-image-analysis';
 import { AzureKeyCredential } from '@azure/core-auth';
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
