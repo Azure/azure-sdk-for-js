@@ -189,7 +189,8 @@ describe("formDataPolicy", function () {
         assert.deepEqual(
           parts[0].headers,
           createHttpHeaders({
-            // Content-Type should not be inferred
+            // Content-Type should default to 'application/octet-stream' for binary content (lack of content type is reserved for text content)
+            "Content-Type": "application/octet-stream",
             "Content-Disposition": `form-data; name="file"; filename="blob"`,
           }),
         );

@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Guard against unrecognized value types in the form data policy.
+- Form file uploads now have content type `application/octet-stream` if no other content type was specified.
 
 ### Other Changes
 
