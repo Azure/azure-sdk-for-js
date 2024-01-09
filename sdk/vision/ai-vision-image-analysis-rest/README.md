@@ -30,12 +30,12 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
   * You can use the free pricing tier (`F0`) to try the service, and upgrade later to a paid tier for production.
   * Note that in order to run Image Analysis with the `Caption` or `Dense Captions` features, the Azure resource needs to be from one of the following GPU-supported regions: `East US`, `France Central`, `Korea Central`, `North Europe`, `Southeast Asia`, `West Europe`, or `West US`.
 
-### Install the `@azure/ai-vision-image-analysis` package
+### Install the `@azure-rest/ai-vision-image-analysis` package
 
 Install the Image Analysis client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/ai-vision-image-analysis
+npm install @azure-rest/ai-vision-image-analysis
 ```
 
 ### Browser support
@@ -78,7 +78,7 @@ Here's an example of how to create an `ImageAnalysisClient` instance using a key
 
 
 ```javascript Snippet:ImageAnalysisAuthKey
-const { ImageAnalysisClient, KeyCredential } = require("@azure/ai-image-analysis");
+const { ImageAnalysisClient, KeyCredential } = require("@azure-rest/ai-image-analysis");
 
 const endpoint = "<your_endpoint>";
 const key = "<your_key>";

@@ -28,5 +28,5 @@ extends:
   parameters:
     ServiceDirectory: vision
     Artifacts:
-      - name: azure-ai-vision-image-analysis
+      - name: @azure-rest/azure-ai-vision-image-analysis
         safeName: azureaivisionimageanalysis
