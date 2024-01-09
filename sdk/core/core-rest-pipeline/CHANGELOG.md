@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
 - Guard against unrecognized value types in the form data policy.
 - Form file uploads now have content type `application/octet-stream` if no other content type was specified.
 

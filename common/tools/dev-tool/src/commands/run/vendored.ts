@@ -26,7 +26,10 @@ const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", "
  * @returns a function that executes the command and returns a boolean status
  */
 function makeCommandExecutor(commandName: string): (...args: string[]) => Promise<boolean> {
-  const commandPath = path.join(DOT_BIN_PATH, commandName);
+  const commandPath =
+    process.platform !== "win32"
+      ? path.join(DOT_BIN_PATH, commandName)
+      : path.join(DOT_BIN_PATH, `${commandName}.CMD`);
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
