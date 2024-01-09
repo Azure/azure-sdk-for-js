@@ -19,7 +19,7 @@ export default function createClient(
 ): AzureDeveloperDevCenterClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "2023-04-01";
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.4`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -33,11 +33,17 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://devcenter.azure.com/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://devcenter.azure.com/.default",
+      ],
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as AzureDeveloperDevCenterClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as AzureDeveloperDevCenterClient;
 
   return client;
 }
