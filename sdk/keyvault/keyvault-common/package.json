@@ -73,7 +73,7 @@
     "esm": "^3.2.18",
     "mocha": "^10.0.0",
     "c8": "^8.0.0",
-    "puppeteer": "^19.2.2",
+    "puppeteer": "^21.0.0",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.2.0",
