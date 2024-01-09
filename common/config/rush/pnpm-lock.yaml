@@ -1124,6 +1124,9 @@ dependencies:
   '@rush-temp/web-pubsub-express':
     specifier: file:./projects/web-pubsub-express.tgz
     version: file:projects/web-pubsub-express.tgz
+  chai:
+    specifier: 4.3.10
+    version: 4.3.10
 
 packages:
 
@@ -1364,30 +1367,6 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@azure/identity@2.1.0:
-    resolution: {integrity: sha512-BPDz1sK7Ul9t0l9YKLEa8PHqWU4iCfhGJ+ELJl6c8CP3TpJt2urNCbm0ZHsthmxRsYoMPbz2Dvzj30zXZVmAFw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.5.0
-      '@azure/core-client': 1.7.3
-      '@azure/core-rest-pipeline': 1.13.0
-      '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.6.1
-      '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.3
-      '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.18.4
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.2
-      stoppable: 1.1.0
-      tslib: 2.6.2
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/identity@3.4.1:
     resolution: {integrity: sha512-oQ/r5MBdfZTMIUcY5Ch8G7Vv9aIXDkEYyU4Dfqjim4MQN+LY2uiQ57P1JDopMLeHCsZxM4yy8lEdne3tM9Xhzg==}
     engines: {node: '>=14.0.0'}
@@ -1502,14 +1481,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@2.38.3:
-    resolution: {integrity: sha512-2WuLFnWWPR1IdvhhysT18cBbkXx1z0YIchVss5AwVA95g7CU5CpT3d+5BcgVGNXDXbUU7/5p0xYHV99V5z8C/A==}
-    engines: {node: '>=0.8.0'}
-    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
-    dependencies:
-      '@azure/msal-common': 13.3.1
-    dev: false
-
   /@azure/msal-browser@3.6.0:
     resolution: {integrity: sha512-FrFBJXRJMyWXjAjg4cUNZwEKktzfzD/YD9+S1kj2ors67hKoveam4aL0bZuCZU/jTiHTn0xDQGQh2ksCMXTXtA==}
     engines: {node: '>=0.8.0'}
@@ -1524,11 +1495,6 @@ packages:
 
   /@azure/msal-common@14.5.0:
     resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
-  /@azure/msal-common@7.6.0:
-    resolution: {integrity: sha512-XqfbglUTVLdkHQ8F9UQJtKseRr3sSnr9ysboxtoswvaMVaEfvyLtMoHv9XdKUfOc0qKGzNgRFd9yRjIWVepl6Q==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -4966,7 +4932,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240108
+      typescript: 5.4.0-dev.20240109
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9786,8 +9752,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240108:
-    resolution: {integrity: sha512-flXeU+FYwW3mL6zcOz1lNX0juSolUIeIRs4nO8j77jB+N/3lrqWNOSz05dzRC4eYJcjFIIOvv5y9u8MQ5nTtzg==}
+  /typescript@5.4.0-dev.20240109:
+    resolution: {integrity: sha512-pKDkvh+RizbUm4BEmfvmG74qycZsHw4oFB6jY9D+oKoxPzoZr/edCTks/t50kvU2RdiDn0UKSzZB4YVzrC9WTQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15191,12 +15157,12 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-2paCi/N54KxV2p+KXhXk+5VBFXcQtznfg4mLLktyVijLUCBAmUnSPe3ZKgQdF6UPxrsCnmt+yaxqxB5QH0p5lQ==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-C3qgJvs567F8k01piLvHg3NMGH3rKPNqkvOC1u5BWvMtH/fiAAnOCHOkjsJsdfYyEwsm8AFkHLqGhBGj/EZmkw==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/identity': 2.1.0
+      '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/node': 18.19.3
@@ -17418,11 +17384,11 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-vcYCU3AHmqp5NBy6PQEM2OdiEaW7kBgSG1A42C80TUPqSi7rHK5lbU6tz3Sd7Kq/kFpTBnLTb+bhkbJHqTGEZw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-jdrygketXKla6Nh9HuVEzLynchYz8guc7hcrpLXzX1q+VR3tM4SdTFEnA6x5Ld9+LE+m4EtoNqtj2EaD3IW9xA==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.1.0
+      '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
