@@ -13,6 +13,11 @@ export interface KeyCredential {
   readonly key: string;
 }
 
+/**
+ * Tests an object to determine whether it implements KeyCredential.
+ *
+ * @param credential - The assumed KeyCredential to be tested.
+ */
 export function isKeyCredential(credential: unknown): credential is KeyCredential {
   return (
     isObjectWithProperties(credential, ["key"]) &&
