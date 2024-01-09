@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- upgrade run-time dependency `@azure/msal-node` version to `^2.5.1`
+
 ## 1.3.0 (2023-11-30)
 
 ### Features Added
