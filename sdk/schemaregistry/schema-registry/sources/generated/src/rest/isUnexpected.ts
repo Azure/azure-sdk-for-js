@@ -14,7 +14,7 @@ import {
   GetSchemaIdByContentDefaultResponse,
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /$schemaGroups": ["200"],

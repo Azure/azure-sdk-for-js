@@ -8,7 +8,7 @@ import {
   GetSchemaByVersionParameters,
   GetSchemaIdByContentParameters,
   RegisterSchemaParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
@@ -22,7 +22,7 @@ import {
   GetSchemaIdByContentDefaultResponse,
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListSchemaGroups {
@@ -109,6 +109,6 @@ export interface Routes {
   ): RegisterSchema;
 }
 
-export type SchemaRegistryClient = Client & {
+export type SchemaRegistryContext = Client & {
   path: Routes;
 };

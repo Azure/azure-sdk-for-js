@@ -1,5 +1,5 @@
-import { RegisterSchema204Response, GetSchemaIdByContent204Response, GetSchemaByVersion200Response, GetSchemaById200Response } from "../generated/src";
-import { Schema, SchemaProperties } from "./models";
+import { RegisterSchema204Response, GetSchemaIdByContent204Response, GetSchemaByVersion200Response, GetSchemaById200Response } from "../../../generated/src/rest";
+import { Schema, SchemaProperties } from "../../models/models";
 
 /**
  * Union of generated client's response that return schema ID

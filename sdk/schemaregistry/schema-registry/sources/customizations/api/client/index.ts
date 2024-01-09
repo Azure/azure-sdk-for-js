@@ -1,7 +1,7 @@
 import { Client } from "@azure-rest/core-client";
-import { GetSchemaOptions, GetSchemaPropertiesOptions, RegisterSchemaOptions, Schema, SchemaDescription, SchemaProperties } from "../models";
-import { isUnexpected } from "../../generated/src";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "../conversions";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { SchemaDescription, RegisterSchemaOptions, SchemaProperties, GetSchemaPropertiesOptions, GetSchemaOptions, Schema } from "../../models/models";
+import { isUnexpected } from "../../../generated/src/rest/isUnexpected";
 
 
 export async function registerSchema(

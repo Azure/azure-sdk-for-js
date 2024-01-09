@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
+import { SchemaContentTypeValuesOutput } from "./responses";
 
 export type ListSchemaGroupsParameters = RequestParameters;
 export type GetSchemaByIdParameters = RequestParameters;
@@ -52,10 +53,3 @@ export interface RegisterSchemaMediaTypesParam {
 export type RegisterSchemaParameters = RegisterSchemaMediaTypesParam &
   RegisterSchemaBodyParam &
   RequestParameters;
-
-export enum SchemaContentTypeValuesOutput {
-  avro = "application/json; serialization=Avro",
-  json = "application/json; serialization=json",
-  custom = "text/plain; charset=utf-8",
-  protobuf = "text/vnd.ms.protobuf",
-}

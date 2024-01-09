@@ -3,8 +3,7 @@
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import { PagedSchemaGroupOutput, PagedVersionOutput } from "./outputModels";
-import { SchemaContentTypeValuesOutput } from "./parameters";
+import { PagedSchemaGroupOutput, PagedVersionOutput } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface ListSchemaGroups200Response extends HttpResponse {
@@ -174,4 +173,11 @@ export interface RegisterSchemaDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & RegisterSchemaDefaultHeaders;
+}
+
+export enum SchemaContentTypeValuesOutput {
+  avro = "application/json; serialization=Avro",
+  json = "application/json; serialization=json",
+  custom = "text/plain; charset=utf-8",
+  protobuf = "text/vnd.ms.protobuf",
 }

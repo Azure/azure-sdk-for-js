@@ -10,18 +10,19 @@ import {
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
-} from "./models";
-import { TokenCredential } from "@azure/core-auth";
-import createClient from "../generated/src/schemaRegistryClient";
-import { SchemaRegistryClient as GeneratedSchemaRegistryClient, } from "../generated/src";
-import { getSchemaById, getSchemaByVersion, getSchemaProperties, registerSchema } from "./client";
+} from "./models/models";
+import { TokenCredential } from "@azure/core-auth"
+import { SchemaRegistryContext } from "../generated/src/rest";
+import { registerSchema, getSchemaProperties, getSchemaById, getSchemaByVersion } from "./api/client";
+import createClient from "../generated/src/rest/schemaRegistryClient";
+
 /**
  * Client for Azure Schema Registry service.
  */
 export class SchemaRegistryClient implements SchemaRegistry {
 
   /** Underlying autorest generated client. */
-  private readonly _client: GeneratedSchemaRegistryClient;
+  private readonly _client: SchemaRegistryContext;
 
   /**
    * Creates a new client for Azure Schema Registry service.
