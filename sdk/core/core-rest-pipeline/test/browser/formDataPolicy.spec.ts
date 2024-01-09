@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
 import { PipelineResponse, SendRequest } from "../../src/interfaces";
@@ -5,8 +8,8 @@ import { createPipelineRequest } from "../../src/pipelineRequest";
 import { formDataPolicy } from "../../src/policies/formDataPolicy";
 import { assert } from "chai";
 
-describe("formDataPolicy (browser-only)", function() {
-  it("prepares multipart/form-data form data correctly", async function() {
+describe("formDataPolicy (browser-only)", function () {
+  it("prepares multipart/form-data form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -14,7 +17,7 @@ describe("formDataPolicy (browser-only)", function() {
       }),
     });
 
-    const file = new File([new Uint8Array([1, 2, 3])], 'test.txt', { type: 'text/plain' });
+    const file = new File([new Uint8Array([1, 2, 3])], "test.txt", { type: "text/plain" });
     request.formData = { a: "va", b: "v:b", c: file };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
@@ -46,4 +49,4 @@ describe("formDataPolicy (browser-only)", function() {
     }
     assert.strictEqual(length, 3, "expecting three entries in form data");
   });
-})
+});

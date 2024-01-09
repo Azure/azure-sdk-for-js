@@ -10,8 +10,8 @@ import { performRequest } from "../formDataPolicy.spec";
 import { createFile, createFileFromStream } from "../../src/util/file";
 import { ReadableStream } from "stream/web";
 
-describe("formDataPolicy (node-only)", function() {
-  it("can upload a Node ReadableStream", async function() {
+describe("formDataPolicy (node-only)", function () {
+  it("can upload a Node ReadableStream", async function () {
     const result = await performRequest({
       file: createFileFromStream(() => Readable.from(Buffer.from("aaa")), "file.bin", {
         type: "text/plain",
@@ -38,7 +38,7 @@ describe("formDataPolicy (node-only)", function() {
     assert.deepEqual([...content], [...Buffer.from("aaa")]);
   });
 
-  it("prepares a form with multiple fields correctly", async function() {
+  it("prepares a form with multiple fields correctly", async function () {
     // add field with spooky unicode characters to ensure encoding is working
     const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
     assert.isUndefined(result.request.formData);
@@ -67,8 +67,8 @@ describe("formDataPolicy (node-only)", function() {
     });
   });
 
-  describe("file uploads", function() {
-    it("can upload a File object", async function() {
+  describe("file uploads", function () {
+    it("can upload a File object", async function () {
       if (typeof File === "undefined") {
         this.skip();
       }
@@ -88,13 +88,11 @@ describe("formDataPolicy (node-only)", function() {
           "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
         }),
       );
-      const buf = new Uint8Array(
-        await new Response((parts[0].body as any).stream()).arrayBuffer(),
-      );
+      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
       assert.deepEqual([...buf], [1, 2, 3]);
     });
 
-    it("can upload a Blob object", async function() {
+    it("can upload a Blob object", async function () {
       if (typeof Blob === "undefined") {
         this.skip();
       }
@@ -112,13 +110,11 @@ describe("formDataPolicy (node-only)", function() {
           "Content-Disposition": `form-data; name="file"; filename="blob"`,
         }),
       );
-      const buf = new Uint8Array(
-        await new Response((parts[0].body as any).stream()).arrayBuffer(),
-      );
+      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
       assert.deepEqual([...buf], [1, 2, 3]);
     });
 
-    it("can upload a Uint8Array using createFile", async function() {
+    it("can upload a Uint8Array using createFile", async function () {
       const result = await performRequest({
         file: createFile(new Uint8Array([0x01, 0x02, 0x03]), "file.bin", {
           type: "text/plain",

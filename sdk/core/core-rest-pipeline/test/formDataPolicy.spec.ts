@@ -33,12 +33,12 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
   return policy.sendRequest(request, next);
 }
 
-describe("formDataPolicy", function() {
-  afterEach(function() {
+describe("formDataPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("prepares x-www-form-urlencoded form data correctly", async function() {
+  it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -68,7 +68,7 @@ describe("formDataPolicy", function() {
     );
   });
 
-  it("prepares x-www-form-urlencoded form data correctly for array value", async function() {
+  it("prepares x-www-form-urlencoded form data correctly for array value", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
@@ -92,8 +92,8 @@ describe("formDataPolicy", function() {
     assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
   });
 
-  describe("multipart/form-data", function() {
-    it("throws if request.body is already present", async function() {
+  describe("multipart/form-data", function () {
+    it("throws if request.body is already present", async function () {
       const request = createPipelineRequest({
         url: "https://bing.com",
         headers: createHttpHeaders({
