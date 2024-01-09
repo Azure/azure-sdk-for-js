@@ -7,7 +7,11 @@ import {
   detectResourcesSync,
   envDetectorSync,
 } from "@opentelemetry/resources";
-import { AzureMonitorOpenTelemetryOptions, InstrumentationOptions } from "./types";
+import {
+  BrowserSdkLoaderOptions,
+  AzureMonitorOpenTelemetryOptions,
+  InstrumentationOptions,
+} from "./types";
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { JsonConfig } from "./jsonConfig";
 import { Logger } from "./logging";
@@ -47,6 +51,8 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     return this._resource;
   }
 
+  public browserSdkLoaderOptions: BrowserSdkLoaderOptions;
+
   /**
    * Initializes a new instance of the AzureMonitorOpenTelemetryOptions class.
    */
@@ -66,6 +72,12 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis4: { enabled: false },
     };
     this._resource = this._getDefaultResource();
+    this.browserSdkLoaderOptions = {
+      enabled: false,
+      connectionString: "",
+      src: "",
+      config: undefined,
+    };
 
     if (options) {
       // Merge default with provided options
@@ -79,6 +91,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        options.browserSdkLoaderOptions
+      );
       this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
       this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
     }
@@ -91,6 +107,10 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       const jsonConfig = JsonConfig.getInstance();
       this.samplingRatio =
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
+      this.browserSdkLoaderOptions = Object.assign(
+        this.browserSdkLoaderOptions,
+        jsonConfig.browserSdkLoaderOptions
+      );
       this.enableLiveMetrics =
         jsonConfig.enableLiveMetrics !== undefined
           ? jsonConfig.enableLiveMetrics
