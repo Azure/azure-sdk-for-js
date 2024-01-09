@@ -13,9 +13,9 @@ describe("XML serializer", function () {
         assert.fail("Expected error");
       } catch (error: any) {
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("This page contains the following errors") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("undefined") !== -1), // Firefox
+            error.message.includes("undefined")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
         );
       }
@@ -28,9 +28,9 @@ describe("XML serializer", function () {
         assert.fail("Expected error");
       } catch (error: any) {
         assert.ok(
-          error.message.indexOf("Document is empty") !== -1 || // Chrome
+          error.message.indexOf("This page contains the following errors") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("null") !== -1), // Firefox
+            error.message.includes("null")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "null"`,
         );
       }
