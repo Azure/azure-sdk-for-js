@@ -6,7 +6,10 @@ import {
   InteractiveBrowserCredentialNodeOptions,
   useIdentityPlugin,
 } from "@azure/identity";
-import { MsalTestCleanup, msalNodeTestSetup } from "@azure/identity/test/node/msalNodeTestSetup";
+import {
+  MsalTestCleanup,
+  msalNodeTestSetup,
+} from "../../../../identity/test/node/msalNodeTestSetup";
 import { PublicClientApplication } from "@azure/msal-node";
 import Sinon from "sinon";
 import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
