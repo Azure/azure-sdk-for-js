@@ -29,7 +29,7 @@ async function monitorsGetMonitoredSubscriptions() {
   const result = await client.monitoredSubscriptions.get(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

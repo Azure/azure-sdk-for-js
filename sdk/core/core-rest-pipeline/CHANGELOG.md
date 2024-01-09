@@ -8,7 +8,8 @@
 
 ### Bugs Fixed
 
-- Fix issue where `formDataPolicy` did not work in browser without HTTP/2
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
+- Guard against unrecognized value types in the form data policy.
 
 ### Other Changes
 

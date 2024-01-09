@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.11",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
@@ -134,7 +134,7 @@
     "typescript": "~5.3.3"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^1.1.4",
+    "@azure-rest/core-client": "^1.1.7",
     "@azure/core-util": "^1.4.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-sse": "^2.0.0",

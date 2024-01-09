@@ -59,7 +59,7 @@ async function createsSpecificPolicy() {
         },
       ],
     },
-    location: "WestUs",
+    location: "global",
     managedRules: {
       managedRuleSets: [
         {
@@ -116,7 +116,7 @@ async function createsSpecificPolicy() {
   const result = await client.policies.beginCreateOrUpdateAndWait(
     resourceGroupName,
     policyName,
-    cdnWebApplicationFirewallPolicy
+    cdnWebApplicationFirewallPolicy,
   );
   console.log(result);
 }
