@@ -78,7 +78,7 @@ directive:
   remove-property: errorCode
 ```
 
-### Removed Property error from PurchasedPhoneNumber
+### Removed Property phoneNumberSource from PurchasedPhoneNumber
 ``` yaml
 directive:
   where-model: PurchasedPhoneNumber

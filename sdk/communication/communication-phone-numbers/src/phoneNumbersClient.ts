@@ -283,7 +283,7 @@ export class PhoneNumbersClient {
    * ```
    *
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
-   * @param consentToNotResellNumbers - The consent to nor resell Phone Numbers.
+   * @param consentToNotResellNumbers - The consent to not resell Phone Numbers.
    * @param options - Additional request options.
    */
   public beginPurchasePhoneNumbers(
