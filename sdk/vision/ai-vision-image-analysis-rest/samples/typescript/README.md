@@ -59,14 +59,14 @@ npx cross-env VISION_ENDPOINT="<Computer Vision endpoint>" VISION_KEY="<your vis
 
 Take a look at our [API Documentation]<!--TODO: publish refs [apiref]--> for more information about the APIs that are available in the clients.
 
-[analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/analyzeImageFromLocalFile.ts
-[analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/analyzeImageFromUrl.ts
-[caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/caption.ts
-[denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/denseCaptions.ts
-[objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/objects.ts
-[read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/read.ts
-[tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis/samples/typescript/tags.ts
+[analyzeImageFromLocalFile]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/analyzeImageFromLocalFile.ts
+[analyzeImageFromUrl]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/analyzeImageFromUrl.ts
+[caption]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/caption.ts
+[denseCaptions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/denseCaptions.ts
+[objects]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/objects.ts
+[read]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/read.ts
+[tags]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/vision/ai-vision-image-analysis-rest/samples/typescript/tags.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-vision
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureaivision]: https://portal.azure.com/#view/Microsoft_Azure_Marketplace/GalleryItemDetailsBladeNopdl/id/Microsoft.CognitiveServicesComputerVision
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis-rest/README.md
