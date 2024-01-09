@@ -1364,30 +1364,6 @@ packages:
       uuid: 8.3.2
     dev: false
 
-  /@azure/identity@2.1.0:
-    resolution: {integrity: sha512-BPDz1sK7Ul9t0l9YKLEa8PHqWU4iCfhGJ+ELJl6c8CP3TpJt2urNCbm0ZHsthmxRsYoMPbz2Dvzj30zXZVmAFw==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.5.0
-      '@azure/core-client': 1.7.3
-      '@azure/core-rest-pipeline': 1.13.0
-      '@azure/core-tracing': 1.0.1
-      '@azure/core-util': 1.6.1
-      '@azure/logger': 1.0.4
-      '@azure/msal-browser': 2.38.3
-      '@azure/msal-common': 7.6.0
-      '@azure/msal-node': 1.18.4
-      events: 3.3.0
-      jws: 4.0.0
-      open: 8.4.2
-      stoppable: 1.1.0
-      tslib: 2.6.2
-      uuid: 8.3.2
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
   /@azure/identity@3.4.1:
     resolution: {integrity: sha512-oQ/r5MBdfZTMIUcY5Ch8G7Vv9aIXDkEYyU4Dfqjim4MQN+LY2uiQ57P1JDopMLeHCsZxM4yy8lEdne3tM9Xhzg==}
     engines: {node: '>=14.0.0'}
@@ -1502,14 +1478,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-browser@2.38.3:
-    resolution: {integrity: sha512-2WuLFnWWPR1IdvhhysT18cBbkXx1z0YIchVss5AwVA95g7CU5CpT3d+5BcgVGNXDXbUU7/5p0xYHV99V5z8C/A==}
-    engines: {node: '>=0.8.0'}
-    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
-    dependencies:
-      '@azure/msal-common': 13.3.1
-    dev: false
-
   /@azure/msal-browser@3.6.0:
     resolution: {integrity: sha512-FrFBJXRJMyWXjAjg4cUNZwEKktzfzD/YD9+S1kj2ors67hKoveam4aL0bZuCZU/jTiHTn0xDQGQh2ksCMXTXtA==}
     engines: {node: '>=0.8.0'}
@@ -1524,11 +1492,6 @@ packages:
 
   /@azure/msal-common@14.5.0:
     resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
-  /@azure/msal-common@7.6.0:
-    resolution: {integrity: sha512-XqfbglUTVLdkHQ8F9UQJtKseRr3sSnr9ysboxtoswvaMVaEfvyLtMoHv9XdKUfOc0qKGzNgRFd9yRjIWVepl6Q==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -15018,12 +14981,12 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-oRNGZ+YV8D47kU3d7lxhMT1LnmCaT5tZ0Ysu5UJkNe9kf9t5n8xHXpUvXLUPq0RSW8H/qYQ+VhsApGTPxUEw2g==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-zhH4VeqKh/KKiHAEH7Tbqp66lJHiEGR6EIYVdzwSpTvwlmNRApLD+Fhycpl7uMgNbt8Nla89EV5yZd1OSot5kw==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/identity': 2.1.0
+      '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.4)
       '@types/chai': 4.3.11
       '@types/node': 18.19.4
@@ -17245,11 +17208,11 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-hLPXuC6m2x8p5s9fSLGyOoLpi7JIQ6fLoEaM8HGTckN3BY43IH1ols201WK07lktJIksSHPM8xhBFYssjROgrQ==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-6OdENb7ryQ+JzxlIWV2FTYIuK1okInDzYgLieIu9R92/Zr7pxskxie5KIhxIgujEHvC/1N8eCRonPI2g3L79+w==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
-      '@azure/identity': 2.1.0
+      '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.4)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
