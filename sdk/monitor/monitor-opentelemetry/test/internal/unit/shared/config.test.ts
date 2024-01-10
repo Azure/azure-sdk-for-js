@@ -426,7 +426,6 @@ describe("OpenTelemetry Resource", () => {
 
     // Wait for the async VM resource detector to finish
     await setTimeout(() => {
-      console.log("THIS IS A TEST: ", config.resource.attributes);
       for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
         const key = Object.keys(config.resource.attributes)[i];
         assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
