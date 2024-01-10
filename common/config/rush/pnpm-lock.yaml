@@ -1488,11 +1488,6 @@ packages:
       '@azure/msal-common': 14.5.0
     dev: false
 
-  /@azure/msal-common@13.3.1:
-    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /@azure/msal-common@14.5.0:
     resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
     engines: {node: '>=0.8.0'}
@@ -1510,16 +1505,6 @@ packages:
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
-    dev: false
-
-  /@azure/msal-node@1.18.4:
-    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
-    dependencies:
-      '@azure/msal-common': 13.3.1
-      jsonwebtoken: 9.0.2
-      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node@2.6.0:
@@ -17288,13 +17273,13 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-JU7nkzEHExnVorjruoXTTE6t0SzFDzH/ZBzK0r9PYLKFjooJe/xmYeDd+fkLv1i6chEJ8KboMEwQFSwcUuqRAg==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-MorAJuqHk9ffFFHpV5lfsHxLfNgqUOlFyRJvrx7xa6gecvGGLFweSD0NjaaLe3TAbxQrlAIRFHMeVTrAt8YDnw==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
-      '@azure/msal-node': 1.18.4
+      '@azure/msal-node': 2.6.0
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
