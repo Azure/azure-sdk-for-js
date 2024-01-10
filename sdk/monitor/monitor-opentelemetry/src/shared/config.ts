@@ -38,7 +38,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
   /** Enable Standard Metrics feature */
   enableStandardMetrics?: boolean;
 
-  private _resource: Resource;
+  private _resource: Resource = Resource.empty();
 
   public set resource(resource: Resource) {
     this._resource = this._resource.merge(resource);
@@ -71,7 +71,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       redis: { enabled: false },
       redis4: { enabled: false },
     };
-    this._resource = this._getDefaultResource();
+    this._setDefaultResource();
     this.browserSdkLoaderOptions = {
       enabled: false,
       connectionString: "",
@@ -132,7 +132,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
     }
   }
 
-  private _getDefaultResource(): Resource {
+  private _setDefaultResource(): void {
     let resource = Resource.default();
     // Load resource attributes from env
     const detectResourceConfig: ResourceDetectionConfig = {
@@ -143,11 +143,17 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
 
     // Load resource attributes from Azure
     const azureResource: Resource = detectResourcesSync({
-      detectors: [azureAppServiceDetector, azureFunctionsDetector, azureVmDetector],
+      detectors: [azureAppServiceDetector, azureFunctionsDetector],
     });
+    this._resource = resource.merge(azureResource);
 
-    // Merge resources, azureResource will take precedence
-    resource = resource.merge(azureResource);
-    return resource;
+    const vmResource = detectResourcesSync({
+      detectors: [azureVmDetector],
+    });
+    if (vmResource.asyncAttributesPending) {
+      vmResource.waitForAsyncAttributes?.().then(() => {
+        this._resource = this._resource.merge(vmResource);
+      });
+    }
   }
 }
