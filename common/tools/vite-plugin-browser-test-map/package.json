@@ -30,7 +30,7 @@
     "clean": "rimraf dist/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "lint": "eslint src --ext .ts",
+    "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "integration-test:browser": "echo skipped",

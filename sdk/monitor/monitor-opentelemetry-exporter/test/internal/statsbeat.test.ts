@@ -98,7 +98,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
         // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["attach"], "sdk");
+        assert.strictEqual(statsbeat["attach"], "Manual");
         assert.strictEqual(
           statsbeat["cikey"],
           "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
