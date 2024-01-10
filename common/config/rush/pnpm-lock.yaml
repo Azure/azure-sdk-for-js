@@ -9800,9 +9800,9 @@ packages:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
     dev: false
 
-  /undici@5.28.2:
-    resolution: {integrity: sha512-wh1pHJHnUeQV5Xa8/kyQhO7WFa8M34l026L5P/+2TYiakvGy5Rdc8jWZVyG7ieht/0WgJLEd3kcU5gKx+6GC8w==}
-    engines: {node: '>=14.0'}
+  /undici@6.3.0:
+    resolution: {integrity: sha512-zkSMOXs2topAR1LF0PxAaNNvhdX4LYEcmRMJLMh3mjgfZpBtc/souXOp4aYiR5Q46HrBPA2/8DkEZhD3eNFE1Q==}
+    engines: {node: '>=18.0'}
     dependencies:
       '@fastify/busboy': 2.1.0
     dev: false
@@ -20283,7 +20283,7 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-27NHqMsvDSrOcx1q2H4On8NfonWmZhEk44hiO2V7KQhUNd3iJacG54P2/+WoOp5dxZks5wZywgdjZ8mPrVsTmg==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-yfiIBultszhnXaPEUL/v0WNBozDoxD9G7Uf5WZ3D1BBhjQBdl0zut+VODqw2Oa22/KDom2O4SfgwKTKD7Vl/CQ==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -20299,7 +20299,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
-      undici: 5.28.2
+      undici: 6.3.0
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
