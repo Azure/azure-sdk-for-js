@@ -82,7 +82,7 @@ describe("Main functions", () => {
     const instrumentations = Number(output["instrumentation"]);
     assert.ok(!(features & StatsbeatFeature.AAD_HANDLING), "AAD_HANDLING is set");
     assert.ok(!(features & StatsbeatFeature.DISK_RETRY), "DISK_RETRY is set");
-    assert.ok(!(features & StatsbeatFeature.WEB_SNIPPET), "WEB_SNIPPET is set");
+    assert.ok(!(features & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
@@ -112,6 +112,6 @@ describe("Main functions", () => {
     assert.ok(numberOutput & StatsbeatFeature.AAD_HANDLING, "AAD_HANDLING not set");
     assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
-    assert.ok(!(numberOutput & StatsbeatFeature.WEB_SNIPPET), "WEB_SNIPPET is set");
+    assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
   });
 });
