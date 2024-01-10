@@ -193,233 +193,233 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse
+  response: DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse,
 ): response is DeviceUpdateListUpdatesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateImportUpdate200Response
     | DeviceUpdateImportUpdate202Response
-    | DeviceUpdateImportUpdatedefaultResponse
+    | DeviceUpdateImportUpdatedefaultResponse,
 ): response is DeviceUpdateImportUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetUpdate200Response
     | DeviceUpdateGetUpdate304Response
-    | DeviceUpdateGetUpdatedefaultResponse
+    | DeviceUpdateGetUpdatedefaultResponse,
 ): response is DeviceUpdateGetUpdatedefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse
+  response: DeviceUpdateDeleteUpdate202Response | DeviceUpdateDeleteUpdatedefaultResponse,
 ): response is DeviceUpdateDeleteUpdatedefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse
+  response: DeviceUpdateListProviders200Response | DeviceUpdateListProvidersdefaultResponse,
 ): response is DeviceUpdateListProvidersdefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse
+  response: DeviceUpdateListNames200Response | DeviceUpdateListNamesdefaultResponse,
 ): response is DeviceUpdateListNamesdefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse
+  response: DeviceUpdateListVersions200Response | DeviceUpdateListVersionsdefaultResponse,
 ): response is DeviceUpdateListVersionsdefaultResponse;
 export function isUnexpected(
-  response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse
+  response: DeviceUpdateListFiles200Response | DeviceUpdateListFilesdefaultResponse,
 ): response is DeviceUpdateListFilesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetFile200Response
     | DeviceUpdateGetFile304Response
-    | DeviceUpdateGetFiledefaultResponse
+    | DeviceUpdateGetFiledefaultResponse,
 ): response is DeviceUpdateGetFiledefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateListOperationStatuses200Response
-    | DeviceUpdateListOperationStatusesdefaultResponse
+    | DeviceUpdateListOperationStatusesdefaultResponse,
 ): response is DeviceUpdateListOperationStatusesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceUpdateGetOperationStatus200Response
     | DeviceUpdateGetOperationStatus304Response
-    | DeviceUpdateGetOperationStatusdefaultResponse
+    | DeviceUpdateGetOperationStatusdefaultResponse,
 ): response is DeviceUpdateGetOperationStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceClasses200Response
-    | DeviceManagementListDeviceClassesdefaultResponse
+    | DeviceManagementListDeviceClassesdefaultResponse,
 ): response is DeviceManagementListDeviceClassesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClass200Response
-    | DeviceManagementGetDeviceClassdefaultResponse
+    | DeviceManagementGetDeviceClassdefaultResponse,
 ): response is DeviceManagementGetDeviceClassdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementUpdateDeviceClass200Response
-    | DeviceManagementUpdateDeviceClassdefaultResponse
+    | DeviceManagementUpdateDeviceClassdefaultResponse,
 ): response is DeviceManagementUpdateDeviceClassdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeviceClass204Response
-    | DeviceManagementDeleteDeviceClassdefaultResponse
+    | DeviceManagementDeleteDeviceClassdefaultResponse,
 ): response is DeviceManagementDeleteDeviceClassdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListInstallableUpdatesForDeviceClass200Response
-    | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse
+    | DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse,
 ): response is DeviceManagementListInstallableUpdatesForDeviceClassdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse
+  response: DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse,
 ): response is DeviceManagementListDevicesdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse
+  response: DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse,
 ): response is DeviceManagementImportDevicesdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse
+  response: DeviceManagementGetDevice200Response | DeviceManagementGetDevicedefaultResponse,
 ): response is DeviceManagementGetDevicedefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceModule200Response
-    | DeviceManagementGetDeviceModuledefaultResponse
+    | DeviceManagementGetDeviceModuledefaultResponse,
 ): response is DeviceManagementGetDeviceModuledefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetUpdateCompliance200Response
-    | DeviceManagementGetUpdateCompliancedefaultResponse
+    | DeviceManagementGetUpdateCompliancedefaultResponse,
 ): response is DeviceManagementGetUpdateCompliancedefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse
+  response: DeviceManagementListGroups200Response | DeviceManagementListGroupsdefaultResponse,
 ): response is DeviceManagementListGroupsdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse
+  response: DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse,
 ): response is DeviceManagementGetGroupdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse
+  response: DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse,
 ): response is DeviceManagementDeleteGroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetUpdateComplianceForGroup200Response
-    | DeviceManagementGetUpdateComplianceForGroupdefaultResponse
+    | DeviceManagementGetUpdateComplianceForGroupdefaultResponse,
 ): response is DeviceManagementGetUpdateComplianceForGroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListBestUpdatesForGroup200Response
-    | DeviceManagementListBestUpdatesForGroupdefaultResponse
+    | DeviceManagementListBestUpdatesForGroupdefaultResponse,
 ): response is DeviceManagementListBestUpdatesForGroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeploymentsForGroup200Response
-    | DeviceManagementListDeploymentsForGroupdefaultResponse
+    | DeviceManagementListDeploymentsForGroupdefaultResponse,
 ): response is DeviceManagementListDeploymentsForGroupdefaultResponse;
 export function isUnexpected(
-  response: DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse
+  response: DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse,
 ): response is DeviceManagementGetDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementCreateOrUpdateDeployment200Response
-    | DeviceManagementCreateOrUpdateDeploymentdefaultResponse
+    | DeviceManagementCreateOrUpdateDeploymentdefaultResponse,
 ): response is DeviceManagementCreateOrUpdateDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeployment204Response
-    | DeviceManagementDeleteDeploymentdefaultResponse
+    | DeviceManagementDeleteDeploymentdefaultResponse,
 ): response is DeviceManagementDeleteDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeploymentStatus200Response
-    | DeviceManagementGetDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeploymentStatusdefaultResponse,
 ): response is DeviceManagementGetDeploymentStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceClassSubgroupsForGroup200Response
-    | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse
+    | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse,
 ): response is DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroup200Response
-    | DeviceManagementGetDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementGetDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementDeleteDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response
-    | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse,
 ): response is DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetBestUpdatesForDeviceClassSubgroup200Response
-    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementGetBestUpdatesForDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeploymentsForDeviceClassSubgroup200Response
-    | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeploymentForDeviceClassSubgroup200Response
-    | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementDeleteDeploymentForDeviceClassSubgroup204Response
-    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse
+    | DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse,
 ): response is DeviceManagementDeleteDeploymentForDeviceClassSubgroupdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementStopDeployment200Response
-    | DeviceManagementStopDeploymentdefaultResponse
+    | DeviceManagementStopDeploymentdefaultResponse,
 ): response is DeviceManagementStopDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementRetryDeployment200Response
-    | DeviceManagementRetryDeploymentdefaultResponse
+    | DeviceManagementRetryDeploymentdefaultResponse,
 ): response is DeviceManagementRetryDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response
-    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse
+    | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse,
 ): response is DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeployment200Response
-    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse
+    | DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse,
 ): response is DeviceManagementListDeviceStatesForDeviceClassSubgroupDeploymentdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetOperationStatus200Response
     | DeviceManagementGetOperationStatus304Response
-    | DeviceManagementGetOperationStatusdefaultResponse
+    | DeviceManagementGetOperationStatusdefaultResponse,
 ): response is DeviceManagementGetOperationStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListOperationStatuses200Response
-    | DeviceManagementListOperationStatusesdefaultResponse
+    | DeviceManagementListOperationStatusesdefaultResponse,
 ): response is DeviceManagementListOperationStatusesdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementStartLogCollection201Response
-    | DeviceManagementStartLogCollectiondefaultResponse
+    | DeviceManagementStartLogCollectiondefaultResponse,
 ): response is DeviceManagementStartLogCollectiondefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetLogCollection200Response
-    | DeviceManagementGetLogCollectiondefaultResponse
+    | DeviceManagementGetLogCollectiondefaultResponse,
 ): response is DeviceManagementGetLogCollectiondefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListLogCollections200Response
-    | DeviceManagementListLogCollectionsdefaultResponse
+    | DeviceManagementListLogCollectionsdefaultResponse,
 ): response is DeviceManagementListLogCollectionsdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementGetLogCollectionDetailedStatus200Response
-    | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
+    | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse,
 ): response is DeviceManagementGetLogCollectionDetailedStatusdefaultResponse;
 export function isUnexpected(
   response:
     | DeviceManagementListHealthOfDevices200Response
-    | DeviceManagementListHealthOfDevicesdefaultResponse
+    | DeviceManagementListHealthOfDevicesdefaultResponse,
 ): response is DeviceManagementListHealthOfDevicesdefaultResponse;
 export function isUnexpected(
   response:
@@ -527,7 +527,7 @@ export function isUnexpected(
     | DeviceManagementGetLogCollectionDetailedStatus200Response
     | DeviceManagementGetLogCollectionDetailedStatusdefaultResponse
     | DeviceManagementListHealthOfDevices200Response
-    | DeviceManagementListHealthOfDevicesdefaultResponse
+    | DeviceManagementListHealthOfDevicesdefaultResponse,
 ): response is
   | DeviceUpdateListUpdatesdefaultResponse
   | DeviceUpdateImportUpdatedefaultResponse

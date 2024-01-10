@@ -14,7 +14,7 @@ async function assertRejects(p: Promise<unknown>, regexp: RegExp): Promise<void>
   } catch (e: any) {
     if (!regexp.test(e.message)) {
       throw new AssertionError(
-        `The input did not match the regular expression ${regexp}. Input:\n\n'${e.message}'`
+        `The input did not match the regular expression ${regexp}. Input:\n\n'${e.message}'`,
       );
     }
     return;
@@ -36,7 +36,7 @@ describe("Plugin API", function (this: Mocha.Suite) {
   it("Calling getToken on VisualStudioCodeCredential throws if not initialized", async function () {
     await assertRejects(
       new VisualStudioCodeCredential().getToken("https://graph.microsoft.com/.default"),
-      /No implementation of `VisualStudioCodeCredential`.*@azure\/identity-vscode/
+      /No implementation of `VisualStudioCodeCredential`.*@azure\/identity-vscode/,
     );
   });
 });

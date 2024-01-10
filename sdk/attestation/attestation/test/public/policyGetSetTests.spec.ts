@@ -63,27 +63,27 @@ describe("PolicyGetSetTests ", function () {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, { privateKey: rsaKey })
+      adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, { privateKey: rsaKey }),
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         certificate: rsaCertificate,
-      })
+      }),
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         privateKey: rsaKey2,
         certificate: rsaCertificate,
-      })
+      }),
     ).to.be.rejectedWith("Key does not match Certificate");
 
     await expect(
       adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy, {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
-      })
+      }),
     ).to.be.rejectedWith("not supported argument");
 
     await adminClient.setPolicy(KnownAttestationType.SgxEnclave, minimalPolicy);
@@ -99,25 +99,25 @@ describe("PolicyGetSetTests ", function () {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { privateKey: rsaKey })
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { privateKey: rsaKey }),
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
-      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { certificate: rsaCertificate })
+      adminClient.resetPolicy(KnownAttestationType.SgxEnclave, { certificate: rsaCertificate }),
     ).to.be.rejectedWith("privateKey is specified");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
         privateKey: "BogusKey",
         certificate: rsaCertificate,
-      })
+      }),
     ).to.be.rejectedWith("not supported argument");
 
     await expect(
       adminClient.resetPolicy(KnownAttestationType.SgxEnclave, {
         privateKey: rsaKey2,
         certificate: rsaCertificate,
-      })
+      }),
     ).to.be.rejectedWith("Key does not match Certificate");
 
     await adminClient.resetPolicy(KnownAttestationType.SgxEnclave);
@@ -158,7 +158,7 @@ describe("PolicyGetSetTests ", function () {
 
   async function testGetPolicy(
     attestationType: AttestationType,
-    clientLocation: EndpointType
+    clientLocation: EndpointType,
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(recorder, clientLocation);
     const policyResult = await adminClient.getPolicy(attestationType);
@@ -168,7 +168,7 @@ describe("PolicyGetSetTests ", function () {
   async function testSetPolicy(
     attestationType: AttestationType,
     clientLocation: EndpointType,
-    signer?: { privateKey: string; certificate: string }
+    signer?: { privateKey: string; certificate: string },
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(recorder, clientLocation);
 
@@ -184,7 +184,7 @@ describe("PolicyGetSetTests ", function () {
     const expectedPolicy = createAttestationPolicyToken(
       minimalPolicy,
       signer?.privateKey,
-      signer?.certificate
+      signer?.certificate,
     );
 
     const expectedHash = generateSha256Hash(expectedPolicy.serialize());
@@ -221,7 +221,7 @@ describe("PolicyGetSetTests ", function () {
   async function testResetPolicy(
     attestationType: AttestationType,
     clientLocation: EndpointType,
-    signer?: { privateKey: string; certificate: string }
+    signer?: { privateKey: string; certificate: string },
   ): Promise<void> {
     const adminClient = createRecordedAdminClient(recorder, clientLocation);
 

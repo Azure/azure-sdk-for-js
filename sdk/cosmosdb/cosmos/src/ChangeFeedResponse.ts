@@ -25,7 +25,7 @@ export class ChangeFeedResponse<T> {
      */
     public readonly statusCode: number,
     headers: CosmosHeaders,
-    public readonly diagnostics: CosmosDiagnostics
+    public readonly diagnostics: CosmosDiagnostics,
   ) {
     this.headers = Object.freeze(headers);
   }

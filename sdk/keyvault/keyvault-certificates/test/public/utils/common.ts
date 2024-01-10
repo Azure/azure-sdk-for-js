@@ -58,7 +58,7 @@ export function getServiceVersion(): NonNullable<CertificateClientOptions["servi
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: CertificateClientOptions["serviceVersion"]
+  serviceVersion?: CertificateClientOptions["serviceVersion"],
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

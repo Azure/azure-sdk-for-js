@@ -37,7 +37,7 @@ async function main() {
       "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}",
       instanceId,
       groupId,
-      deploymentId
+      deploymentId,
     )
     .put({
       body: {
@@ -68,7 +68,7 @@ async function main() {
       "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status",
       instanceId,
       groupId,
-      deploymentId
+      deploymentId,
     )
     .get();
 

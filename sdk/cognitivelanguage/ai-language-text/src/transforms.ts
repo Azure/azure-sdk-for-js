@@ -107,7 +107,7 @@ function makeTextAnalysisErrorResult(id: string, error: ErrorModel): TextAnalysi
 function transformDocumentResults<
   DocumentSuccess extends TextAnalysisSuccessResult,
   PublicDocumentSuccess extends TextAnalysisSuccessResult = DocumentSuccess,
-  TError extends TextAnalysisErrorResult = TextAnalysisErrorResult
+  TError extends TextAnalysisErrorResult = TextAnalysisErrorResult,
 >(
   ids: string[],
   response: {
@@ -117,7 +117,7 @@ function transformDocumentResults<
   options?: {
     processSuccess?: (successResult: DocumentSuccess) => PublicDocumentSuccess;
     processError?: (id: string, error: ErrorModel) => TError;
-  }
+  },
 ): (PublicDocumentSuccess | TextAnalysisErrorResult)[] {
   const { processError = makeTextAnalysisErrorResult, processSuccess } = options || {};
   const successResults = processSuccess
@@ -132,7 +132,7 @@ function transformDocumentResults<
 
 function toLanguageDetectionResult(
   docIds: string[],
-  results: GeneratedLanguageDetectionResult
+  results: GeneratedLanguageDetectionResult,
 ): LanguageDetectionResult[] {
   return transformDocumentResults(docIds, results, {
     processSuccess: ({ detectedLanguage, ...rest }) => ({
@@ -144,20 +144,20 @@ function toLanguageDetectionResult(
 
 function toPiiEntityRecognitionResult(
   docIds: string[],
-  results: GeneratedPiiEntityRecognitionResult
+  results: GeneratedPiiEntityRecognitionResult,
 ): PiiEntityRecognitionResult[] {
   return transformDocumentResults(docIds, results);
 }
 
 function toSentimentAnalysisResult(
   docIds: string[],
-  results: GeneratedSentimentAnalysisResult
+  results: GeneratedSentimentAnalysisResult,
 ): SentimentAnalysisResult[] {
   return transformDocumentResults(docIds, results, {
     processSuccess: ({ sentences, ...rest }) => ({
       ...rest,
       sentences: sentences.map((sentence) =>
-        convertGeneratedSentenceSentiment(sentence, sentences)
+        convertGeneratedSentenceSentiment(sentence, sentences),
       ),
     }),
   });
@@ -174,7 +174,7 @@ function toSentimentAnalysisResult(
  */
 function convertGeneratedSentenceSentiment(
   { targets, assessments: _, ...rest }: GeneratedSentenceSentiment,
-  sentences: GeneratedSentenceSentiment[]
+  sentences: GeneratedSentenceSentiment[],
 ): SentenceSentiment {
   return {
     ...rest,
@@ -186,7 +186,7 @@ function convertGeneratedSentenceSentiment(
           assessments: relations
             .filter((relation) => relation.relationType === "assessment")
             .map((relation) => convertTargetRelationToAssessmentSentiment(relation, sentences)),
-        })
+        }),
       ) ?? [],
   };
 }
@@ -203,7 +203,7 @@ function convertGeneratedSentenceSentiment(
  */
 function convertTargetRelationToAssessmentSentiment(
   targetRelation: TargetRelation,
-  sentences: GeneratedSentenceSentiment[]
+  sentences: GeneratedSentenceSentiment[],
 ): AssessmentSentiment {
   const assessmentPtr = targetRelation.ref;
   const assessmentIndex: AssessmentIndex = parseAssessmentIndex(assessmentPtr);
@@ -218,21 +218,21 @@ function convertTargetRelationToAssessmentSentiment(
 
 function toEntityLinkingResult(
   docIds: string[],
-  results: GeneratedEntityLinkingResult
+  results: GeneratedEntityLinkingResult,
 ): EntityLinkingResult[] {
   return transformDocumentResults(docIds, results);
 }
 
 function toKeyPhraseExtractionResult(
   docIds: string[],
-  results: GeneratedKeyPhraseExtractionResult
+  results: GeneratedKeyPhraseExtractionResult,
 ): KeyPhraseExtractionResult[] {
   return transformDocumentResults(docIds, results);
 }
 
 function toEntityRecognitionResult(
   docIds: string[],
-  results: GeneratedEntityRecognitionResult
+  results: GeneratedEntityRecognitionResult,
 ): EntityRecognitionResult[] {
   return transformDocumentResults(docIds, results);
 }
@@ -243,7 +243,7 @@ function toEntityRecognitionResult(
 export function transformActionResult<ActionName extends AnalyzeActionName>(
   actionName: ActionName,
   docIds: string[],
-  response: AnalyzeResponse
+  response: AnalyzeResponse,
 ): AnalyzeResult<AnalyzeActionName> {
   switch (response.kind) {
     case "EntityLinkingResults": {
@@ -328,7 +328,7 @@ export async function throwError<T>(p: Promise<T>): Promise<T> {
 
 function toHealthcareResult(
   docIds: string[],
-  results: GeneratedHealthcareResult
+  results: GeneratedHealthcareResult,
 ): HealthcareResult[] {
   function makeHealthcareEntity(entity: GeneratedHealthcareEntity): HealthcareEntity {
     const { dataSources, ...rest } = entity;
@@ -338,7 +338,7 @@ function toHealthcareResult(
     };
   }
   function makeHealthcareRelation(
-    entities: HealthcareEntity[]
+    entities: HealthcareEntity[],
   ): (relation: HealthcareRelation) => HealthcareEntityRelation {
     return ({
       entities: generatedEntities,
@@ -351,7 +351,7 @@ function toHealthcareResult(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           name: role.role,
-        })
+        }),
       ),
     });
   }
@@ -367,7 +367,7 @@ function toHealthcareResult(
           ...rest,
         };
       },
-    }
+    },
   );
 }
 
@@ -377,7 +377,7 @@ function toHealthcareResult(
 export function transformAnalyzeBatchResults(
   docIds: string[],
   response: AnalyzeTextLROResultUnion[] = [],
-  errors: ErrorModel[] = []
+  errors: ErrorModel[] = [],
 ): AnalyzeBatchResult[] {
   const errorMap = toIndexErrorMap(errors);
   return response.map((actionData, idx): AnalyzeBatchResult => {
@@ -508,7 +508,7 @@ export function transformAnalyzeBatchResults(
           kind,
           results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
             docIds,
-            results
+            results,
           ),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -528,7 +528,7 @@ export function transformAnalyzeBatchResults(
           kind,
           results: transformDocumentResults<CustomLabelClassificationResultDocumentsItem>(
             docIds,
-            results
+            results,
           ),
           completedOn,
           ...(actionName ? { actionName } : {}),
@@ -600,7 +600,7 @@ function toIndexErrorMap(errors: ErrorModel[]): Map<number, TextAnalysisError> {
 function returnErrorTask(
   kind: AnalyzeBatchActionName,
   error: TextAnalysisError | undefined,
-  failedOn: Date
+  failedOn: Date,
 ): AnalyzeBatchResult {
   if (!error) {
     throw new Error("Unexpected response from service - no errors for missing action results.");
@@ -623,7 +623,7 @@ function returnErrorTask(
 function returnErrorCustomTask(
   kind: AnalyzeBatchActionName,
   error: TextAnalysisError | undefined,
-  failedOn: Date
+  failedOn: Date,
 ): AnalyzeBatchResult {
   if (!error) {
     throw new Error("Unexpected response from service - no errors for missing action results.");

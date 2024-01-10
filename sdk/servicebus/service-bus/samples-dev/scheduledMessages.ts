@@ -61,14 +61,14 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
     (scientist): ServiceBusMessage => ({
       body: `${scientist.firstName} ${scientist.lastName}`,
       subject: "Scientist",
-    })
+    }),
   );
 
   const timeNowUtc = new Date(Date.now());
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`,
   );
 
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);

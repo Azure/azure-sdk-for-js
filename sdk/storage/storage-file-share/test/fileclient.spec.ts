@@ -62,7 +62,7 @@ describe("FileClient", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
@@ -99,7 +99,7 @@ describe("FileClient", () => {
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
-      "\u0000".repeat(content.length)
+      "\u0000".repeat(content.length),
     );
   });
 
@@ -283,7 +283,7 @@ describe("FileClient", () => {
 
   it("setProperties with all parameters configured setting filePermission", async function () {
     const getPermissionResp = await shareClient.getPermission(
-      defaultDirCreateResp.filePermissionKey!
+      defaultDirCreateResp.filePermissionKey!,
     );
 
     const now = new Date(recorder.variable("now", new Date().toISOString()));
@@ -410,7 +410,7 @@ describe("FileClient", () => {
 
   it("deleteIfExists when parent not exists", async function () {
     const newDirectoryClient = shareClient.getDirectoryClient(
-      recorder.variable("newdir", getUniqueName("newdir"))
+      recorder.variable("newdir", getUniqueName("newdir")),
     );
     const newFileClient = newDirectoryClient.getFileClient(fileName);
     const res = await newFileClient.deleteIfExists();
@@ -430,7 +430,7 @@ describe("FileClient", () => {
     }
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
@@ -455,7 +455,7 @@ describe("FileClient", () => {
       assert.strictEqual(
         sanitizedActualUrl.toString(),
         sanitizedExpectedUrl.toString(),
-        "copySource does not match original source"
+        "copySource does not match original source",
       );
     }
   });
@@ -463,7 +463,7 @@ describe("FileClient", () => {
   it("startCopyFromURL ignore readonly", async function () {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     await newFileClient.create(2048, {
       fileAttributes: FileSystemAttributes.parse("ReadOnly"),
@@ -491,7 +491,7 @@ describe("FileClient", () => {
   it("startCopyFromURL with smb options", async function () {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
 
     const fileAttributesInstance = new FileSystemAttributes();
@@ -523,7 +523,7 @@ describe("FileClient", () => {
 
     assert.deepStrictEqual(
       FileSystemAttributes.parse(targetProperties.fileAttributes!),
-      fileAttributesInstance
+      fileAttributesInstance,
     );
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
@@ -533,7 +533,7 @@ describe("FileClient", () => {
   it("startCopyFromURL with smb options: filePermissionKey", async function () {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
 
     const createPermResp = await shareClient.createPermission(filePermissionInSDDL);
@@ -564,7 +564,7 @@ describe("FileClient", () => {
     fileAttributesInstance.archive = true;
     assert.deepStrictEqual(
       FileSystemAttributes.parse(targetProperties.fileAttributes!),
-      fileAttributesInstance
+      fileAttributesInstance,
     );
     assert.deepStrictEqual(targetProperties.fileLastWriteOn, sourceProperties.fileLastWriteOn);
     assert.deepStrictEqual(targetProperties.fileCreatedOn, fileCreationDate);
@@ -573,7 +573,7 @@ describe("FileClient", () => {
   it("abortCopyFromURL should failed for a completed copy operation", async function () {
     await fileClient.create(content.length);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
@@ -582,7 +582,7 @@ describe("FileClient", () => {
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);
       assert.fail(
-        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
       assert.ok(true);
@@ -629,15 +629,15 @@ describe("FileClient", () => {
     assert.ok(respFileAttributes.temporary);
     assert.equal(
       truncatedISO8061Date(updatedProperties.fileCreatedOn!),
-      truncatedISO8061Date(creationDate)
+      truncatedISO8061Date(creationDate),
     );
     assert.equal(
       truncatedISO8061Date(updatedProperties.fileLastWriteOn!),
-      truncatedISO8061Date(lastwriteTime)
+      truncatedISO8061Date(lastwriteTime),
     );
     assert.equal(
       truncatedISO8061Date(updatedProperties.fileChangeOn!),
-      truncatedISO8061Date(changedTime)
+      truncatedISO8061Date(changedTime),
     );
   });
 
@@ -671,8 +671,8 @@ describe("FileClient", () => {
     assert.ok(
       compareBodyWithUint8Array(
         res2,
-        new Uint8Array(arrayBuf, uint16Array.byteOffset, uint16Array.byteLength)
-      )
+        new Uint8Array(arrayBuf, uint16Array.byteOffset, uint16Array.byteLength),
+      ),
     );
   });
 
@@ -725,7 +725,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(
       uploadRangeResult.fileLastWriteTime,
       createResult.fileLastWriteOn,
-      "Last write time should be expected"
+      "Last write time should be expected",
     );
 
     await fileClient.uploadRange("World", 5, 5, {
@@ -755,7 +755,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(
       uploadRangeResult.fileLastWriteTime,
       clearRangeResult.fileLastWriteTime,
-      "File last write time should be expected"
+      "File last write time should be expected",
     );
     const result = await fileClient.download();
     assert.deepStrictEqual(await bodyToString(result, 10), "H" + "\u0000".repeat(4) + "World");
@@ -960,7 +960,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
       { closedHandlesCount: 0, closeFailureCount: 0 },
-      "Error in forceCloseAllHandles"
+      "Error in forceCloseAllHandles",
     );
   });
 
@@ -1010,7 +1010,7 @@ describe("FileClient", () => {
     assert.equal(
       closeAllResp.closeFailureCount,
       0,
-      "The closeFailureCount is not set to 0 as default."
+      "The closeFailureCount is not set to 0 as default.",
     );
   });
 
@@ -1019,7 +1019,7 @@ describe("FileClient", () => {
       async (options) => {
         await fileClient.create(content.length, options);
       },
-      ["ShareFileClient-create"]
+      ["ShareFileClient-create"],
     );
   });
 
@@ -1030,7 +1030,7 @@ describe("FileClient", () => {
     const result = await fileClient.rename(destFileName);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     // Validate destination existence.
@@ -1056,7 +1056,7 @@ describe("FileClient", () => {
     });
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     // Validate destination existence.
@@ -1089,7 +1089,7 @@ describe("FileClient", () => {
     const result = await sourceFile.rename(destFilePath);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     // Validate destination existence.
@@ -1117,7 +1117,7 @@ describe("FileClient", () => {
 
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     // Validate destination existence.
@@ -1146,7 +1146,7 @@ describe("FileClient", () => {
     } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
-        "Should got conflict error when trying to overwrite an exiting file"
+        "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
@@ -1202,7 +1202,7 @@ describe("FileClient", () => {
     } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
-        "Should got conflict error when trying to overwrite an exiting file"
+        "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
@@ -1264,7 +1264,7 @@ describe("FileClient", () => {
     } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
-        "Should got conflict error when trying to overwrite an exiting file"
+        "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
@@ -1280,7 +1280,7 @@ describe("FileClient", () => {
           headersForRemoval: ["x-ms-source-lease-id", "x-ms-proposed-lease-id"],
         },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
@@ -1302,7 +1302,7 @@ describe("FileClient", () => {
     assert.equal(
       destFileName,
       result.destinationFileClient.name,
-      "Destination client instance should be expected"
+      "Destination client instance should be expected",
     );
 
     try {
@@ -1320,7 +1320,7 @@ describe("FileClient", () => {
           headersForRemoval: ["x-ms-source-lease-id", "x-ms-proposed-lease-id"],
         },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const sourceFileName = recorder.variable("sourcefile", getUniqueName("sourcefile"));
     const sourceFileClient = shareClient.getDirectoryClient("").getFileClient(sourceFileName);
@@ -1337,7 +1337,7 @@ describe("FileClient", () => {
     } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
-        "Should got conflict error when trying to overwrite an exiting file"
+        "Should got conflict error when trying to overwrite an exiting file",
       );
     }
 
@@ -1356,7 +1356,7 @@ describe("FileClient", () => {
     const result = await sourceFileClient.rename(destFileName);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     await result.destinationFileClient.getProperties();
@@ -1384,7 +1384,7 @@ describe("FileClient", () => {
 
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
@@ -1430,27 +1430,27 @@ describe("FileClient", () => {
 
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
     assert.ok(properties.filePermissionKey, "File permission should have been set to destination");
     assert.ok(
       truncatedISO8061Date(properties.fileCreatedOn!) === truncatedISO8061Date(creationDate),
-      "Creation time should be expected"
+      "Creation time should be expected",
     );
     assert.ok(
       truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
-      "Last write time should be expected"
+      "Last write time should be expected",
     );
     assert.ok(
       truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changeTime),
-      "File changed time should be expected"
+      "File changed time should be expected",
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
     assert.ok(
       fileSystemAttributes.readonly && fileSystemAttributes.hidden,
-      "File attributes should be expected"
+      "File attributes should be expected",
     );
 
     try {
@@ -1475,7 +1475,7 @@ describe("FileClient", () => {
 
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     const properties = await result.destinationFileClient.getProperties();
@@ -1502,35 +1502,35 @@ describe("ShareFileClient - Verify Name Properties", () => {
     assert.equal(
       newClient.path,
       dirName + "/" + fileName,
-      "FilePath is not the same as the one provided."
+      "FilePath is not the same as the one provided.",
     );
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
     assert.equal(
       newClient.name,
       fileName,
-      "FileClient name is not the same as the baseName of the provided file URI"
+      "FileClient name is not the same as the baseName of the provided file URI",
     );
   }
 
   it("verify endpoint from the portal", async function () {
     verifyNameProperties(
-      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`
+      `https://${accountName}.file.core.windows.net/${shareName}/${dirName}/${fileName}`,
     );
   });
 
   it("verify IPv4 host address as Endpoint", async function () {
     verifyNameProperties(
-      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`
+      `https://192.0.0.10:1900/${accountName}/${shareName}/${dirName}/${fileName}`,
     );
   });
 
   it("verify IPv6 host address as Endpoint", async function () {
     verifyNameProperties(
-      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}/${dirName}/${fileName}`,
     );
   });
 
@@ -1540,7 +1540,7 @@ describe("ShareFileClient - Verify Name Properties", () => {
 
   it("verify custom endpoint without valid accountName", async function () {
     const newClient = new ShareFileClient(
-      `https://customdomain.com/${shareName}/${dirName}/${fileName}`
+      `https://customdomain.com/${shareName}/${dirName}/${fileName}`,
     );
 
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
@@ -1548,12 +1548,12 @@ describe("ShareFileClient - Verify Name Properties", () => {
     assert.equal(
       newClient.path,
       dirName + "/" + fileName,
-      "FilePath is not the same as the one provided."
+      "FilePath is not the same as the one provided.",
     );
     assert.equal(
       newClient.name,
       fileName,
-      "FileClient name is not the same as the baseName of the provided file URI"
+      "FileClient name is not the same as the baseName of the provided file URI",
     );
   });
 });
@@ -1589,7 +1589,7 @@ describe("FileClient - OAuth", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     let serviceClient: ShareServiceClient;
     try {
@@ -1632,7 +1632,7 @@ describe("FileClient - OAuth", () => {
     const result = await fileClient.download(0);
     assert.deepStrictEqual(
       await bodyToString(result, content.length),
-      "\u0000".repeat(content.length)
+      "\u0000".repeat(content.length),
     );
   });
 
@@ -1698,7 +1698,7 @@ describe("FileClient - OAuth", () => {
   it("startCopyFromURL", async () => {
     await fileClient.create(1024);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
@@ -1722,7 +1722,7 @@ describe("FileClient - OAuth", () => {
       assert.strictEqual(
         sanitizedActualUrl.toString(),
         sanitizedExpectedUrl.toString(),
-        "copySource does not match original source"
+        "copySource does not match original source",
       );
     }
   });
@@ -1730,7 +1730,7 @@ describe("FileClient - OAuth", () => {
   it("abortCopyFromURL should failed for a completed copy operation", async () => {
     await fileClient.create(content.length);
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     const result = await newFileClient.startCopyFromURL(fileClient.url);
     assert.ok(result.copyId);
@@ -1739,7 +1739,7 @@ describe("FileClient - OAuth", () => {
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);
       assert.fail(
-        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
       assert.ok(true);
@@ -1849,7 +1849,7 @@ describe("FileClient - OAuth", () => {
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
       { closedHandlesCount: 0, closeFailureCount: 0 },
-      "Error in forceCloseAllHandles"
+      "Error in forceCloseAllHandles",
     );
   });
 
@@ -1871,7 +1871,7 @@ describe("FileClient - OAuth", () => {
     const result = await fileClient.rename(destFileName);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     // Validate destination existence.
@@ -1902,7 +1902,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getBSU(recorder, {
       allowSourceTrailingDot: true,
@@ -2051,12 +2051,12 @@ describe("FileClient - AllowTrailingDots - True", () => {
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);
       assert.fail(
-        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
       assert.ok(
         err.statusCode === 409 && err.code === "NoPendingCopyOperation",
-        "Should got expected error"
+        "Should got expected error",
       );
     }
   });
@@ -2200,7 +2200,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
       { closedHandlesCount: 0, closeFailureCount: 0 },
-      "Error in forceCloseAllHandles"
+      "Error in forceCloseAllHandles",
     );
   });
 
@@ -2220,7 +2220,7 @@ describe("FileClient - AllowTrailingDots - True", () => {
     const result = await fileClient.rename(destFileName);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     let foundFile = false;
@@ -2278,7 +2278,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getBSU(recorder, {
       allowSourceTrailingDot: false,
@@ -2427,12 +2427,12 @@ describe("FileClient - AllowTrailingDots - False", () => {
     try {
       await newFileClient.abortCopyFromURL(result.copyId!);
       assert.fail(
-        "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
+        "AbortCopyFromURL should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
       assert.ok(
         err.statusCode === 409 && err.code === "NoPendingCopyOperation",
-        "Should got expected error"
+        "Should got expected error",
       );
     }
   });
@@ -2576,7 +2576,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     assert.deepStrictEqual(
       await fileClient.forceCloseAllHandles(),
       { closedHandlesCount: 0, closeFailureCount: 0 },
-      "Error in forceCloseAllHandles"
+      "Error in forceCloseAllHandles",
     );
   });
 
@@ -2597,7 +2597,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const result = await fileClient.rename(destFileName);
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     let foundFile = false;
@@ -2619,7 +2619,7 @@ describe("FileClient - AllowTrailingDots - False", () => {
     const anotherResult = await firstDestClient.rename(anotherDestFileName);
     assert.ok(
       anotherResult.destinationFileClient.name === anotherDestFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     foundFile = false;
@@ -2658,7 +2658,7 @@ describe("FileClient - AllowTrailingDots - Default", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));

@@ -2191,7 +2191,7 @@ import { Client } from "@azure-rest/core-client";
 export interface AppServiceCertificateOrdersList {
   /** List all certificate orders in a subscription. */
   get(
-    options?: AppServiceCertificateOrdersListParameters
+    options?: AppServiceCertificateOrdersListParameters,
   ): Promise<
     AppServiceCertificateOrdersList200Response | AppServiceCertificateOrdersListdefaultResponse
   >;
@@ -2200,7 +2200,7 @@ export interface AppServiceCertificateOrdersList {
 export interface AppServiceCertificateOrdersValidatePurchaseInformation {
   /** Validate information for a certificate order. */
   post(
-    options: AppServiceCertificateOrdersValidatePurchaseInformationParameters
+    options: AppServiceCertificateOrdersValidatePurchaseInformationParameters,
   ): Promise<
     | AppServiceCertificateOrdersValidatePurchaseInformation204Response
     | AppServiceCertificateOrdersValidatePurchaseInformationdefaultResponse
@@ -2210,7 +2210,7 @@ export interface AppServiceCertificateOrdersValidatePurchaseInformation {
 export interface AppServiceCertificateOrdersListByResourceGroup {
   /** Get certificate orders in a resource group. */
   get(
-    options?: AppServiceCertificateOrdersListByResourceGroupParameters
+    options?: AppServiceCertificateOrdersListByResourceGroupParameters,
   ): Promise<
     | AppServiceCertificateOrdersListByResourceGroup200Response
     | AppServiceCertificateOrdersListByResourceGroupdefaultResponse
@@ -2220,13 +2220,13 @@ export interface AppServiceCertificateOrdersListByResourceGroup {
 export interface AppServiceCertificateOrdersGet {
   /** Get a certificate order. */
   get(
-    options?: AppServiceCertificateOrdersGetParameters
+    options?: AppServiceCertificateOrdersGetParameters,
   ): Promise<
     AppServiceCertificateOrdersGet200Response | AppServiceCertificateOrdersGetdefaultResponse
   >;
   /** Create or update a certificate purchase order. */
   put(
-    options: AppServiceCertificateOrdersCreateOrUpdateParameters
+    options: AppServiceCertificateOrdersCreateOrUpdateParameters,
   ): Promise<
     | AppServiceCertificateOrdersCreateOrUpdate200Response
     | AppServiceCertificateOrdersCreateOrUpdate201Response
@@ -2234,7 +2234,7 @@ export interface AppServiceCertificateOrdersGet {
   >;
   /** Delete an existing certificate order. */
   delete(
-    options?: AppServiceCertificateOrdersDeleteParameters
+    options?: AppServiceCertificateOrdersDeleteParameters,
   ): Promise<
     | AppServiceCertificateOrdersDelete200Response
     | AppServiceCertificateOrdersDelete204Response
@@ -2242,7 +2242,7 @@ export interface AppServiceCertificateOrdersGet {
   >;
   /** Create or update a certificate purchase order. */
   patch(
-    options: AppServiceCertificateOrdersUpdateParameters
+    options: AppServiceCertificateOrdersUpdateParameters,
   ): Promise<
     AppServiceCertificateOrdersUpdate200Response | AppServiceCertificateOrdersUpdatedefaultResponse
   >;
@@ -2251,7 +2251,7 @@ export interface AppServiceCertificateOrdersGet {
 export interface AppServiceCertificateOrdersListCertificates {
   /** List all certificates associated with a certificate order. */
   get(
-    options?: AppServiceCertificateOrdersListCertificatesParameters
+    options?: AppServiceCertificateOrdersListCertificatesParameters,
   ): Promise<
     | AppServiceCertificateOrdersListCertificates200Response
     | AppServiceCertificateOrdersListCertificatesdefaultResponse
@@ -2261,14 +2261,14 @@ export interface AppServiceCertificateOrdersListCertificates {
 export interface AppServiceCertificateOrdersGetCertificate {
   /** Get the certificate associated with a certificate order. */
   get(
-    options?: AppServiceCertificateOrdersGetCertificateParameters
+    options?: AppServiceCertificateOrdersGetCertificateParameters,
   ): Promise<
     | AppServiceCertificateOrdersGetCertificate200Response
     | AppServiceCertificateOrdersGetCertificatedefaultResponse
   >;
   /** Creates or updates a certificate and associates with key vault secret. */
   put(
-    options: AppServiceCertificateOrdersCreateOrUpdateCertificateParameters
+    options: AppServiceCertificateOrdersCreateOrUpdateCertificateParameters,
   ): Promise<
     | AppServiceCertificateOrdersCreateOrUpdateCertificate200Response
     | AppServiceCertificateOrdersCreateOrUpdateCertificate201Response
@@ -2276,7 +2276,7 @@ export interface AppServiceCertificateOrdersGetCertificate {
   >;
   /** Delete the certificate associated with a certificate order. */
   delete(
-    options?: AppServiceCertificateOrdersDeleteCertificateParameters
+    options?: AppServiceCertificateOrdersDeleteCertificateParameters,
   ): Promise<
     | AppServiceCertificateOrdersDeleteCertificate200Response
     | AppServiceCertificateOrdersDeleteCertificate204Response
@@ -2284,7 +2284,7 @@ export interface AppServiceCertificateOrdersGetCertificate {
   >;
   /** Creates or updates a certificate and associates with key vault secret. */
   patch(
-    options: AppServiceCertificateOrdersUpdateCertificateParameters
+    options: AppServiceCertificateOrdersUpdateCertificateParameters,
   ): Promise<
     | AppServiceCertificateOrdersUpdateCertificate200Response
     | AppServiceCertificateOrdersUpdateCertificatedefaultResponse
@@ -2294,7 +2294,7 @@ export interface AppServiceCertificateOrdersGetCertificate {
 export interface AppServiceCertificateOrdersReissue {
   /** Reissue an existing certificate order. */
   post(
-    options: AppServiceCertificateOrdersReissueParameters
+    options: AppServiceCertificateOrdersReissueParameters,
   ): Promise<
     | AppServiceCertificateOrdersReissue204Response
     | AppServiceCertificateOrdersReissuedefaultResponse
@@ -2304,7 +2304,7 @@ export interface AppServiceCertificateOrdersReissue {
 export interface AppServiceCertificateOrdersRenew {
   /** Renew an existing certificate order. */
   post(
-    options: AppServiceCertificateOrdersRenewParameters
+    options: AppServiceCertificateOrdersRenewParameters,
   ): Promise<
     AppServiceCertificateOrdersRenew204Response | AppServiceCertificateOrdersRenewdefaultResponse
   >;
@@ -2313,7 +2313,7 @@ export interface AppServiceCertificateOrdersRenew {
 export interface AppServiceCertificateOrdersResendEmail {
   /** Resend certificate email. */
   post(
-    options?: AppServiceCertificateOrdersResendEmailParameters
+    options?: AppServiceCertificateOrdersResendEmailParameters,
   ): Promise<
     | AppServiceCertificateOrdersResendEmail204Response
     | AppServiceCertificateOrdersResendEmaildefaultResponse
@@ -2323,7 +2323,7 @@ export interface AppServiceCertificateOrdersResendEmail {
 export interface AppServiceCertificateOrdersResendRequestEmails {
   /** Resend domain verification ownership email containing steps on how to verify a domain for a given certificate order */
   post(
-    options: AppServiceCertificateOrdersResendRequestEmailsParameters
+    options: AppServiceCertificateOrdersResendRequestEmailsParameters,
   ): Promise<
     | AppServiceCertificateOrdersResendRequestEmails204Response
     | AppServiceCertificateOrdersResendRequestEmailsdefaultResponse
@@ -2333,7 +2333,7 @@ export interface AppServiceCertificateOrdersResendRequestEmails {
 export interface AppServiceCertificateOrdersRetrieveSiteSeal {
   /** This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times. */
   post(
-    options: AppServiceCertificateOrdersRetrieveSiteSealParameters
+    options: AppServiceCertificateOrdersRetrieveSiteSealParameters,
   ): Promise<
     | AppServiceCertificateOrdersRetrieveSiteSeal200Response
     | AppServiceCertificateOrdersRetrieveSiteSealdefaultResponse
@@ -2343,7 +2343,7 @@ export interface AppServiceCertificateOrdersRetrieveSiteSeal {
 export interface AppServiceCertificateOrdersVerifyDomainOwnership {
   /** Verify domain ownership for this certificate order. */
   post(
-    options?: AppServiceCertificateOrdersVerifyDomainOwnershipParameters
+    options?: AppServiceCertificateOrdersVerifyDomainOwnershipParameters,
   ): Promise<
     | AppServiceCertificateOrdersVerifyDomainOwnership204Response
     | AppServiceCertificateOrdersVerifyDomainOwnershipdefaultResponse
@@ -2353,7 +2353,7 @@ export interface AppServiceCertificateOrdersVerifyDomainOwnership {
 export interface AppServiceCertificateOrdersRetrieveCertificateActions {
   /** Retrieve the list of certificate actions. */
   post(
-    options?: AppServiceCertificateOrdersRetrieveCertificateActionsParameters
+    options?: AppServiceCertificateOrdersRetrieveCertificateActionsParameters,
   ): Promise<
     | AppServiceCertificateOrdersRetrieveCertificateActions200Response
     | AppServiceCertificateOrdersRetrieveCertificateActionsdefaultResponse
@@ -2363,7 +2363,7 @@ export interface AppServiceCertificateOrdersRetrieveCertificateActions {
 export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistory {
   /** Retrieve email history. */
   post(
-    options?: AppServiceCertificateOrdersRetrieveCertificateEmailHistoryParameters
+    options?: AppServiceCertificateOrdersRetrieveCertificateEmailHistoryParameters,
   ): Promise<
     | AppServiceCertificateOrdersRetrieveCertificateEmailHistory200Response
     | AppServiceCertificateOrdersRetrieveCertificateEmailHistorydefaultResponse
@@ -2373,7 +2373,7 @@ export interface AppServiceCertificateOrdersRetrieveCertificateEmailHistory {
 export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse {
   /** Microsoft.CertificateRegistration to get the list of detectors for this RP. */
   get(
-    options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseParameters
+    options?: CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseParameters,
   ): Promise<
     | CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse200Response
     | CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponsedefaultResponse
@@ -2383,7 +2383,7 @@ export interface CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetec
 export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse {
   /** Microsoft.CertificateRegistration call to get a detector response from App Lens. */
   get(
-    options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseParameters
+    options?: CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseParameters,
   ): Promise<
     | CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse200Response
     | CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponsedefaultResponse
@@ -2393,7 +2393,7 @@ export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetect
 export interface CertificateRegistrationProviderListOperations {
   /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
   get(
-    options?: CertificateRegistrationProviderListOperationsParameters
+    options?: CertificateRegistrationProviderListOperationsParameters,
   ): Promise<
     | CertificateRegistrationProviderListOperations200Response
     | CertificateRegistrationProviderListOperationsdefaultResponse
@@ -2403,21 +2403,21 @@ export interface CertificateRegistrationProviderListOperations {
 export interface DomainsCheckAvailability {
   /** Check if a domain is available for registration. */
   post(
-    options: DomainsCheckAvailabilityParameters
+    options: DomainsCheckAvailabilityParameters,
   ): Promise<DomainsCheckAvailability200Response | DomainsCheckAvailabilitydefaultResponse>;
 }
 
 export interface DomainsList {
   /** Get all domains in a subscription. */
   get(
-    options?: DomainsListParameters
+    options?: DomainsListParameters,
   ): Promise<DomainsList200Response | DomainsListdefaultResponse>;
 }
 
 export interface DomainsGetControlCenterSsoRequest {
   /** Generate a single sign-on request for the domain management portal. */
   post(
-    options?: DomainsGetControlCenterSsoRequestParameters
+    options?: DomainsGetControlCenterSsoRequestParameters,
   ): Promise<
     DomainsGetControlCenterSsoRequest200Response | DomainsGetControlCenterSsoRequestdefaultResponse
   >;
@@ -2426,14 +2426,14 @@ export interface DomainsGetControlCenterSsoRequest {
 export interface DomainsListRecommendations {
   /** Get domain name recommendations based on keywords. */
   post(
-    options: DomainsListRecommendationsParameters
+    options: DomainsListRecommendationsParameters,
   ): Promise<DomainsListRecommendations200Response | DomainsListRecommendationsdefaultResponse>;
 }
 
 export interface DomainsListByResourceGroup {
   /** Get all domains in a resource group. */
   get(
-    options?: DomainsListByResourceGroupParameters
+    options?: DomainsListByResourceGroupParameters,
   ): Promise<DomainsListByResourceGroup200Response | DomainsListByResourceGroupdefaultResponse>;
 }
 
@@ -2442,7 +2442,7 @@ export interface DomainsGet {
   get(options?: DomainsGetParameters): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
   /** Creates or updates a domain. */
   put(
-    options: DomainsCreateOrUpdateParameters
+    options: DomainsCreateOrUpdateParameters,
   ): Promise<
     | DomainsCreateOrUpdate200Response
     | DomainsCreateOrUpdate202Response
@@ -2450,18 +2450,18 @@ export interface DomainsGet {
   >;
   /** Delete a domain. */
   delete(
-    options?: DomainsDeleteParameters
+    options?: DomainsDeleteParameters,
   ): Promise<DomainsDelete200Response | DomainsDelete204Response | DomainsDeletedefaultResponse>;
   /** Creates or updates a domain. */
   patch(
-    options: DomainsUpdateParameters
+    options: DomainsUpdateParameters,
   ): Promise<DomainsUpdate200Response | DomainsUpdate202Response | DomainsUpdatedefaultResponse>;
 }
 
 export interface DomainsListOwnershipIdentifiers {
   /** Lists domain ownership identifiers. */
   get(
-    options?: DomainsListOwnershipIdentifiersParameters
+    options?: DomainsListOwnershipIdentifiersParameters,
   ): Promise<
     DomainsListOwnershipIdentifiers200Response | DomainsListOwnershipIdentifiersdefaultResponse
   >;
@@ -2470,20 +2470,20 @@ export interface DomainsListOwnershipIdentifiers {
 export interface DomainsGetOwnershipIdentifier {
   /** Get ownership identifier for domain */
   get(
-    options?: DomainsGetOwnershipIdentifierParameters
+    options?: DomainsGetOwnershipIdentifierParameters,
   ): Promise<
     DomainsGetOwnershipIdentifier200Response | DomainsGetOwnershipIdentifierdefaultResponse
   >;
   /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
   put(
-    options: DomainsCreateOrUpdateOwnershipIdentifierParameters
+    options: DomainsCreateOrUpdateOwnershipIdentifierParameters,
   ): Promise<
     | DomainsCreateOrUpdateOwnershipIdentifier200Response
     | DomainsCreateOrUpdateOwnershipIdentifierdefaultResponse
   >;
   /** Delete ownership identifier for domain */
   delete(
-    options?: DomainsDeleteOwnershipIdentifierParameters
+    options?: DomainsDeleteOwnershipIdentifierParameters,
   ): Promise<
     | DomainsDeleteOwnershipIdentifier200Response
     | DomainsDeleteOwnershipIdentifier204Response
@@ -2491,7 +2491,7 @@ export interface DomainsGetOwnershipIdentifier {
   >;
   /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
   patch(
-    options: DomainsUpdateOwnershipIdentifierParameters
+    options: DomainsUpdateOwnershipIdentifierParameters,
   ): Promise<
     DomainsUpdateOwnershipIdentifier200Response | DomainsUpdateOwnershipIdentifierdefaultResponse
   >;
@@ -2500,7 +2500,7 @@ export interface DomainsGetOwnershipIdentifier {
 export interface DomainsRenew {
   /** Renew a domain. */
   post(
-    options?: DomainsRenewParameters
+    options?: DomainsRenewParameters,
   ): Promise<
     | DomainsRenew200Response
     | DomainsRenew202Response
@@ -2512,7 +2512,7 @@ export interface DomainsRenew {
 export interface DomainsTransferOut {
   /** Transfer out domain to another registrar */
   put(
-    options?: DomainsTransferOutParameters
+    options?: DomainsTransferOutParameters,
   ): Promise<
     | DomainsTransferOut200Response
     | DomainsTransferOut400Response
@@ -2523,21 +2523,21 @@ export interface DomainsTransferOut {
 export interface TopLevelDomainsList {
   /** Get all top-level domains supported for registration. */
   get(
-    options?: TopLevelDomainsListParameters
+    options?: TopLevelDomainsListParameters,
   ): Promise<TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse>;
 }
 
 export interface TopLevelDomainsGet {
   /** Get details of a top-level domain. */
   get(
-    options?: TopLevelDomainsGetParameters
+    options?: TopLevelDomainsGetParameters,
   ): Promise<TopLevelDomainsGet200Response | TopLevelDomainsGetdefaultResponse>;
 }
 
 export interface TopLevelDomainsListAgreements {
   /** Gets all legal agreements that user needs to accept before purchasing a domain. */
   post(
-    options: TopLevelDomainsListAgreementsParameters
+    options: TopLevelDomainsListAgreementsParameters,
   ): Promise<
     TopLevelDomainsListAgreements200Response | TopLevelDomainsListAgreementsdefaultResponse
   >;
@@ -2546,7 +2546,7 @@ export interface TopLevelDomainsListAgreements {
 export interface DomainRegistrationProviderListOperations {
   /** Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider */
   get(
-    options?: DomainRegistrationProviderListOperationsParameters
+    options?: DomainRegistrationProviderListOperationsParameters,
   ): Promise<
     | DomainRegistrationProviderListOperations200Response
     | DomainRegistrationProviderListOperationsdefaultResponse
@@ -2556,14 +2556,14 @@ export interface DomainRegistrationProviderListOperations {
 export interface AppServiceEnvironmentsList {
   /** Get all App Service Environments for a subscription. */
   get(
-    options?: AppServiceEnvironmentsListParameters
+    options?: AppServiceEnvironmentsListParameters,
   ): Promise<AppServiceEnvironmentsList200Response | AppServiceEnvironmentsListdefaultResponse>;
 }
 
 export interface AppServiceEnvironmentsListByResourceGroup {
   /** Get all App Service Environments in a resource group. */
   get(
-    options?: AppServiceEnvironmentsListByResourceGroupParameters
+    options?: AppServiceEnvironmentsListByResourceGroupParameters,
   ): Promise<
     | AppServiceEnvironmentsListByResourceGroup200Response
     | AppServiceEnvironmentsListByResourceGroupdefaultResponse
@@ -2573,11 +2573,11 @@ export interface AppServiceEnvironmentsListByResourceGroup {
 export interface AppServiceEnvironmentsGet {
   /** Get the properties of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsGetParameters
+    options?: AppServiceEnvironmentsGetParameters,
   ): Promise<AppServiceEnvironmentsGet200Response | AppServiceEnvironmentsGetdefaultResponse>;
   /** Create or update an App Service Environment. */
   put(
-    options: AppServiceEnvironmentsCreateOrUpdateParameters
+    options: AppServiceEnvironmentsCreateOrUpdateParameters,
   ): Promise<
     | AppServiceEnvironmentsCreateOrUpdate200Response
     | AppServiceEnvironmentsCreateOrUpdate201Response
@@ -2586,7 +2586,7 @@ export interface AppServiceEnvironmentsGet {
   >;
   /** Delete an App Service Environment. */
   delete(
-    options?: AppServiceEnvironmentsDeleteParameters
+    options?: AppServiceEnvironmentsDeleteParameters,
   ): Promise<
     | AppServiceEnvironmentsDelete202Response
     | AppServiceEnvironmentsDelete204Response
@@ -2594,7 +2594,7 @@ export interface AppServiceEnvironmentsGet {
   >;
   /** Create or update an App Service Environment. */
   patch(
-    options: AppServiceEnvironmentsUpdateParameters
+    options: AppServiceEnvironmentsUpdateParameters,
   ): Promise<
     | AppServiceEnvironmentsUpdate200Response
     | AppServiceEnvironmentsUpdate201Response
@@ -2606,7 +2606,7 @@ export interface AppServiceEnvironmentsGet {
 export interface AppServiceEnvironmentsListCapacities {
   /** Get the used, available, and total worker capacity an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListCapacitiesParameters
+    options?: AppServiceEnvironmentsListCapacitiesParameters,
   ): Promise<
     | AppServiceEnvironmentsListCapacities200Response
     | AppServiceEnvironmentsListCapacitiesdefaultResponse
@@ -2616,7 +2616,7 @@ export interface AppServiceEnvironmentsListCapacities {
 export interface AppServiceEnvironmentsGetVipInfo {
   /** Get IP addresses assigned to an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsGetVipInfoParameters
+    options?: AppServiceEnvironmentsGetVipInfoParameters,
   ): Promise<
     AppServiceEnvironmentsGetVipInfo200Response | AppServiceEnvironmentsGetVipInfodefaultResponse
   >;
@@ -2625,7 +2625,7 @@ export interface AppServiceEnvironmentsGetVipInfo {
 export interface AppServiceEnvironmentsChangeVnet {
   /** Move an App Service Environment to a different VNET. */
   post(
-    options: AppServiceEnvironmentsChangeVnetParameters
+    options: AppServiceEnvironmentsChangeVnetParameters,
   ): Promise<
     | AppServiceEnvironmentsChangeVnet200Response
     | AppServiceEnvironmentsChangeVnet202Response
@@ -2636,14 +2636,14 @@ export interface AppServiceEnvironmentsChangeVnet {
 export interface AppServiceEnvironmentsGetAseV3NetworkingConfiguration {
   /** Get networking configuration of an App Service Environment */
   get(
-    options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationParameters
+    options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationParameters,
   ): Promise<
     | AppServiceEnvironmentsGetAseV3NetworkingConfiguration200Response
     | AppServiceEnvironmentsGetAseV3NetworkingConfigurationdefaultResponse
   >;
   /** Update networking configuration of an App Service Environment */
   put(
-    options: AppServiceEnvironmentsUpdateAseNetworkingConfigurationParameters
+    options: AppServiceEnvironmentsUpdateAseNetworkingConfigurationParameters,
   ): Promise<
     | AppServiceEnvironmentsUpdateAseNetworkingConfiguration200Response
     | AppServiceEnvironmentsUpdateAseNetworkingConfigurationdefaultResponse
@@ -2653,7 +2653,7 @@ export interface AppServiceEnvironmentsGetAseV3NetworkingConfiguration {
 export interface AppServiceEnvironmentsListDiagnostics {
   /** Get diagnostic information for an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListDiagnosticsParameters
+    options?: AppServiceEnvironmentsListDiagnosticsParameters,
   ): Promise<
     | AppServiceEnvironmentsListDiagnostics200Response
     | AppServiceEnvironmentsListDiagnosticsdefaultResponse
@@ -2663,7 +2663,7 @@ export interface AppServiceEnvironmentsListDiagnostics {
 export interface AppServiceEnvironmentsGetDiagnosticsItem {
   /** Get a diagnostics item for an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsGetDiagnosticsItemParameters
+    options?: AppServiceEnvironmentsGetDiagnosticsItemParameters,
   ): Promise<
     | AppServiceEnvironmentsGetDiagnosticsItem200Response
     | AppServiceEnvironmentsGetDiagnosticsItemdefaultResponse
@@ -2673,7 +2673,7 @@ export interface AppServiceEnvironmentsGetDiagnosticsItem {
 export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints {
   /** Get the network endpoints of all inbound dependencies of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsParameters
+    options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsParameters,
   ): Promise<
     | AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints200Response
     | AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsdefaultResponse
@@ -2683,7 +2683,7 @@ export interface AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints {
 export interface AppServiceEnvironmentsListMultiRolePools {
   /** Get all multi-role pools. */
   get(
-    options?: AppServiceEnvironmentsListMultiRolePoolsParameters
+    options?: AppServiceEnvironmentsListMultiRolePoolsParameters,
   ): Promise<
     | AppServiceEnvironmentsListMultiRolePools200Response
     | AppServiceEnvironmentsListMultiRolePoolsdefaultResponse
@@ -2693,14 +2693,14 @@ export interface AppServiceEnvironmentsListMultiRolePools {
 export interface AppServiceEnvironmentsGetMultiRolePool {
   /** Get properties of a multi-role pool. */
   get(
-    options?: AppServiceEnvironmentsGetMultiRolePoolParameters
+    options?: AppServiceEnvironmentsGetMultiRolePoolParameters,
   ): Promise<
     | AppServiceEnvironmentsGetMultiRolePool200Response
     | AppServiceEnvironmentsGetMultiRolePooldefaultResponse
   >;
   /** Create or update a multi-role pool. */
   put(
-    options: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolParameters
+    options: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolParameters,
   ): Promise<
     | AppServiceEnvironmentsCreateOrUpdateMultiRolePool200Response
     | AppServiceEnvironmentsCreateOrUpdateMultiRolePool202Response
@@ -2708,7 +2708,7 @@ export interface AppServiceEnvironmentsGetMultiRolePool {
   >;
   /** Create or update a multi-role pool. */
   patch(
-    options: AppServiceEnvironmentsUpdateMultiRolePoolParameters
+    options: AppServiceEnvironmentsUpdateMultiRolePoolParameters,
   ): Promise<
     | AppServiceEnvironmentsUpdateMultiRolePool200Response
     | AppServiceEnvironmentsUpdateMultiRolePool202Response
@@ -2719,7 +2719,7 @@ export interface AppServiceEnvironmentsGetMultiRolePool {
 export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions {
   /** Get metric definitions for a specific instance of a multi-role pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsParameters
+    options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsParameters,
   ): Promise<
     | AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions200Response
     | AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsdefaultResponse
@@ -2729,7 +2729,7 @@ export interface AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinition
 export interface AppServiceEnvironmentsListMultiRoleMetricDefinitions {
   /** Get metric definitions for a multi-role pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsParameters
+    options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsParameters,
   ): Promise<
     | AppServiceEnvironmentsListMultiRoleMetricDefinitions200Response
     | AppServiceEnvironmentsListMultiRoleMetricDefinitionsdefaultResponse
@@ -2739,7 +2739,7 @@ export interface AppServiceEnvironmentsListMultiRoleMetricDefinitions {
 export interface AppServiceEnvironmentsListMultiRolePoolSkus {
   /** Get available SKUs for scaling a multi-role pool. */
   get(
-    options?: AppServiceEnvironmentsListMultiRolePoolSkusParameters
+    options?: AppServiceEnvironmentsListMultiRolePoolSkusParameters,
   ): Promise<
     | AppServiceEnvironmentsListMultiRolePoolSkus200Response
     | AppServiceEnvironmentsListMultiRolePoolSkusdefaultResponse
@@ -2749,7 +2749,7 @@ export interface AppServiceEnvironmentsListMultiRolePoolSkus {
 export interface AppServiceEnvironmentsListMultiRoleUsages {
   /** Get usage metrics for a multi-role pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListMultiRoleUsagesParameters
+    options?: AppServiceEnvironmentsListMultiRoleUsagesParameters,
   ): Promise<
     | AppServiceEnvironmentsListMultiRoleUsages200Response
     | AppServiceEnvironmentsListMultiRoleUsagesdefaultResponse
@@ -2759,7 +2759,7 @@ export interface AppServiceEnvironmentsListMultiRoleUsages {
 export interface AppServiceEnvironmentsListOperations {
   /** List all currently running operations on the App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListOperationsParameters
+    options?: AppServiceEnvironmentsListOperationsParameters,
   ): Promise<
     | AppServiceEnvironmentsListOperations200Response
     | AppServiceEnvironmentsListOperationsdefaultResponse
@@ -2769,7 +2769,7 @@ export interface AppServiceEnvironmentsListOperations {
 export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints {
   /** Get the network endpoints of all outbound dependencies of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsParameters
+    options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsParameters,
   ): Promise<
     | AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints200Response
     | AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsdefaultResponse
@@ -2779,7 +2779,7 @@ export interface AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints {
 export interface AppServiceEnvironmentsGetPrivateEndpointConnectionList {
   /** Gets the list of private endpoints associated with a hosting environment */
   get(
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListParameters
+    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListParameters,
   ): Promise<
     | AppServiceEnvironmentsGetPrivateEndpointConnectionList200Response
     | AppServiceEnvironmentsGetPrivateEndpointConnectionListdefaultResponse
@@ -2789,14 +2789,14 @@ export interface AppServiceEnvironmentsGetPrivateEndpointConnectionList {
 export interface AppServiceEnvironmentsGetPrivateEndpointConnection {
   /** Gets a private endpoint connection */
   get(
-    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionParameters
+    options?: AppServiceEnvironmentsGetPrivateEndpointConnectionParameters,
   ): Promise<
     | AppServiceEnvironmentsGetPrivateEndpointConnection200Response
     | AppServiceEnvironmentsGetPrivateEndpointConnectiondefaultResponse
   >;
   /** Approves or rejects a private endpoint connection */
   put(
-    options: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionParameters
+    options: AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionParameters,
   ): Promise<
     | AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection200Response
     | AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnection202Response
@@ -2804,7 +2804,7 @@ export interface AppServiceEnvironmentsGetPrivateEndpointConnection {
   >;
   /** Deletes a private endpoint connection */
   delete(
-    options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionParameters
+    options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionParameters,
   ): Promise<
     | AppServiceEnvironmentsDeletePrivateEndpointConnection200Response
     | AppServiceEnvironmentsDeletePrivateEndpointConnection202Response
@@ -2816,7 +2816,7 @@ export interface AppServiceEnvironmentsGetPrivateEndpointConnection {
 export interface AppServiceEnvironmentsGetPrivateLinkResources {
   /** Gets the private link resources */
   get(
-    options?: AppServiceEnvironmentsGetPrivateLinkResourcesParameters
+    options?: AppServiceEnvironmentsGetPrivateLinkResourcesParameters,
   ): Promise<
     | AppServiceEnvironmentsGetPrivateLinkResources200Response
     | AppServiceEnvironmentsGetPrivateLinkResourcesdefaultResponse
@@ -2826,14 +2826,14 @@ export interface AppServiceEnvironmentsGetPrivateLinkResources {
 export interface AppServiceEnvironmentsReboot {
   /** Reboot all machines in an App Service Environment. */
   post(
-    options?: AppServiceEnvironmentsRebootParameters
+    options?: AppServiceEnvironmentsRebootParameters,
   ): Promise<AppServiceEnvironmentsReboot202Response | AppServiceEnvironmentsRebootdefaultResponse>;
 }
 
 export interface AppServiceEnvironmentsResume {
   /** Resume an App Service Environment. */
   post(
-    options?: AppServiceEnvironmentsResumeParameters
+    options?: AppServiceEnvironmentsResumeParameters,
   ): Promise<
     | AppServiceEnvironmentsResume200Response
     | AppServiceEnvironmentsResume202Response
@@ -2844,7 +2844,7 @@ export interface AppServiceEnvironmentsResume {
 export interface AppServiceEnvironmentsListAppServicePlans {
   /** Get all App Service plans in an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListAppServicePlansParameters
+    options?: AppServiceEnvironmentsListAppServicePlansParameters,
   ): Promise<
     | AppServiceEnvironmentsListAppServicePlans200Response
     | AppServiceEnvironmentsListAppServicePlansdefaultResponse
@@ -2854,7 +2854,7 @@ export interface AppServiceEnvironmentsListAppServicePlans {
 export interface AppServiceEnvironmentsListWebApps {
   /** Get all apps in an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListWebAppsParameters
+    options?: AppServiceEnvironmentsListWebAppsParameters,
   ): Promise<
     AppServiceEnvironmentsListWebApps200Response | AppServiceEnvironmentsListWebAppsdefaultResponse
   >;
@@ -2863,7 +2863,7 @@ export interface AppServiceEnvironmentsListWebApps {
 export interface AppServiceEnvironmentsSuspend {
   /** Suspend an App Service Environment. */
   post(
-    options?: AppServiceEnvironmentsSuspendParameters
+    options?: AppServiceEnvironmentsSuspendParameters,
   ): Promise<
     | AppServiceEnvironmentsSuspend200Response
     | AppServiceEnvironmentsSuspend202Response
@@ -2874,7 +2874,7 @@ export interface AppServiceEnvironmentsSuspend {
 export interface AppServiceEnvironmentsListUsages {
   /** Get global usage metrics of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListUsagesParameters
+    options?: AppServiceEnvironmentsListUsagesParameters,
   ): Promise<
     AppServiceEnvironmentsListUsages200Response | AppServiceEnvironmentsListUsagesdefaultResponse
   >;
@@ -2883,7 +2883,7 @@ export interface AppServiceEnvironmentsListUsages {
 export interface AppServiceEnvironmentsListWorkerPools {
   /** Get all worker pools of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListWorkerPoolsParameters
+    options?: AppServiceEnvironmentsListWorkerPoolsParameters,
   ): Promise<
     | AppServiceEnvironmentsListWorkerPools200Response
     | AppServiceEnvironmentsListWorkerPoolsdefaultResponse
@@ -2893,14 +2893,14 @@ export interface AppServiceEnvironmentsListWorkerPools {
 export interface AppServiceEnvironmentsGetWorkerPool {
   /** Get properties of a worker pool. */
   get(
-    options?: AppServiceEnvironmentsGetWorkerPoolParameters
+    options?: AppServiceEnvironmentsGetWorkerPoolParameters,
   ): Promise<
     | AppServiceEnvironmentsGetWorkerPool200Response
     | AppServiceEnvironmentsGetWorkerPooldefaultResponse
   >;
   /** Create or update a worker pool. */
   put(
-    options: AppServiceEnvironmentsCreateOrUpdateWorkerPoolParameters
+    options: AppServiceEnvironmentsCreateOrUpdateWorkerPoolParameters,
   ): Promise<
     | AppServiceEnvironmentsCreateOrUpdateWorkerPool200Response
     | AppServiceEnvironmentsCreateOrUpdateWorkerPool202Response
@@ -2908,7 +2908,7 @@ export interface AppServiceEnvironmentsGetWorkerPool {
   >;
   /** Create or update a worker pool. */
   patch(
-    options: AppServiceEnvironmentsUpdateWorkerPoolParameters
+    options: AppServiceEnvironmentsUpdateWorkerPoolParameters,
   ): Promise<
     | AppServiceEnvironmentsUpdateWorkerPool200Response
     | AppServiceEnvironmentsUpdateWorkerPool202Response
@@ -2919,7 +2919,7 @@ export interface AppServiceEnvironmentsGetWorkerPool {
 export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions {
   /** Get metric definitions for a specific instance of a worker pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsParameters
+    options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsParameters,
   ): Promise<
     | AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions200Response
     | AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsdefaultResponse
@@ -2929,7 +2929,7 @@ export interface AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions {
 export interface AppServiceEnvironmentsListWebWorkerMetricDefinitions {
   /** Get metric definitions for a worker pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsParameters
+    options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsParameters,
   ): Promise<
     | AppServiceEnvironmentsListWebWorkerMetricDefinitions200Response
     | AppServiceEnvironmentsListWebWorkerMetricDefinitionsdefaultResponse
@@ -2939,7 +2939,7 @@ export interface AppServiceEnvironmentsListWebWorkerMetricDefinitions {
 export interface AppServiceEnvironmentsListWorkerPoolSkus {
   /** Get available SKUs for scaling a worker pool. */
   get(
-    options?: AppServiceEnvironmentsListWorkerPoolSkusParameters
+    options?: AppServiceEnvironmentsListWorkerPoolSkusParameters,
   ): Promise<
     | AppServiceEnvironmentsListWorkerPoolSkus200Response
     | AppServiceEnvironmentsListWorkerPoolSkusdefaultResponse
@@ -2949,7 +2949,7 @@ export interface AppServiceEnvironmentsListWorkerPoolSkus {
 export interface AppServiceEnvironmentsListWebWorkerUsages {
   /** Get usage metrics for a worker pool of an App Service Environment. */
   get(
-    options?: AppServiceEnvironmentsListWebWorkerUsagesParameters
+    options?: AppServiceEnvironmentsListWebWorkerUsagesParameters,
   ): Promise<
     | AppServiceEnvironmentsListWebWorkerUsages200Response
     | AppServiceEnvironmentsListWebWorkerUsagesdefaultResponse
@@ -2959,14 +2959,14 @@ export interface AppServiceEnvironmentsListWebWorkerUsages {
 export interface AppServicePlansList {
   /** Get all App Service plans for a subscription. */
   get(
-    options?: AppServicePlansListParameters
+    options?: AppServicePlansListParameters,
   ): Promise<AppServicePlansList200Response | AppServicePlansListdefaultResponse>;
 }
 
 export interface AppServicePlansListByResourceGroup {
   /** Get all App Service plans in a resource group. */
   get(
-    options?: AppServicePlansListByResourceGroupParameters
+    options?: AppServicePlansListByResourceGroupParameters,
   ): Promise<
     | AppServicePlansListByResourceGroup200Response
     | AppServicePlansListByResourceGroupdefaultResponse
@@ -2976,7 +2976,7 @@ export interface AppServicePlansListByResourceGroup {
 export interface AppServicePlansGet {
   /** Get an App Service plan. */
   get(
-    options?: AppServicePlansGetParameters
+    options?: AppServicePlansGetParameters,
   ): Promise<
     | AppServicePlansGet200Response
     | AppServicePlansGet404Response
@@ -2984,7 +2984,7 @@ export interface AppServicePlansGet {
   >;
   /** Creates or updates an App Service Plan. */
   put(
-    options: AppServicePlansCreateOrUpdateParameters
+    options: AppServicePlansCreateOrUpdateParameters,
   ): Promise<
     | AppServicePlansCreateOrUpdate200Response
     | AppServicePlansCreateOrUpdate202Response
@@ -2992,7 +2992,7 @@ export interface AppServicePlansGet {
   >;
   /** Delete an App Service plan. */
   delete(
-    options?: AppServicePlansDeleteParameters
+    options?: AppServicePlansDeleteParameters,
   ): Promise<
     | AppServicePlansDelete200Response
     | AppServicePlansDelete204Response
@@ -3000,7 +3000,7 @@ export interface AppServicePlansGet {
   >;
   /** Creates or updates an App Service Plan. */
   patch(
-    options: AppServicePlansUpdateParameters
+    options: AppServicePlansUpdateParameters,
   ): Promise<
     | AppServicePlansUpdate200Response
     | AppServicePlansUpdate202Response
@@ -3011,7 +3011,7 @@ export interface AppServicePlansGet {
 export interface AppServicePlansListCapabilities {
   /** List all capabilities of an App Service plan. */
   get(
-    options?: AppServicePlansListCapabilitiesParameters
+    options?: AppServicePlansListCapabilitiesParameters,
   ): Promise<
     AppServicePlansListCapabilities200Response | AppServicePlansListCapabilitiesdefaultResponse
   >;
@@ -3020,14 +3020,14 @@ export interface AppServicePlansListCapabilities {
 export interface AppServicePlansGetHybridConnection {
   /** Retrieve a Hybrid Connection in use in an App Service plan. */
   get(
-    options?: AppServicePlansGetHybridConnectionParameters
+    options?: AppServicePlansGetHybridConnectionParameters,
   ): Promise<
     | AppServicePlansGetHybridConnection200Response
     | AppServicePlansGetHybridConnectiondefaultResponse
   >;
   /** Delete a Hybrid Connection in use in an App Service plan. */
   delete(
-    options?: AppServicePlansDeleteHybridConnectionParameters
+    options?: AppServicePlansDeleteHybridConnectionParameters,
   ): Promise<
     | AppServicePlansDeleteHybridConnection200Response
     | AppServicePlansDeleteHybridConnection204Response
@@ -3038,7 +3038,7 @@ export interface AppServicePlansGetHybridConnection {
 export interface AppServicePlansListHybridConnectionKeys {
   /** Get the send key name and value of a Hybrid Connection. */
   post(
-    options?: AppServicePlansListHybridConnectionKeysParameters
+    options?: AppServicePlansListHybridConnectionKeysParameters,
   ): Promise<
     | AppServicePlansListHybridConnectionKeys200Response
     | AppServicePlansListHybridConnectionKeysdefaultResponse
@@ -3048,7 +3048,7 @@ export interface AppServicePlansListHybridConnectionKeys {
 export interface AppServicePlansListWebAppsByHybridConnection {
   /** Get all apps that use a Hybrid Connection in an App Service Plan. */
   get(
-    options?: AppServicePlansListWebAppsByHybridConnectionParameters
+    options?: AppServicePlansListWebAppsByHybridConnectionParameters,
   ): Promise<
     | AppServicePlansListWebAppsByHybridConnection200Response
     | AppServicePlansListWebAppsByHybridConnectiondefaultResponse
@@ -3058,7 +3058,7 @@ export interface AppServicePlansListWebAppsByHybridConnection {
 export interface AppServicePlansGetHybridConnectionPlanLimit {
   /** Get the maximum number of Hybrid Connections allowed in an App Service plan. */
   get(
-    options?: AppServicePlansGetHybridConnectionPlanLimitParameters
+    options?: AppServicePlansGetHybridConnectionPlanLimitParameters,
   ): Promise<
     | AppServicePlansGetHybridConnectionPlanLimit200Response
     | AppServicePlansGetHybridConnectionPlanLimitdefaultResponse
@@ -3068,7 +3068,7 @@ export interface AppServicePlansGetHybridConnectionPlanLimit {
 export interface AppServicePlansListHybridConnections {
   /** Retrieve all Hybrid Connections in use in an App Service plan. */
   get(
-    options?: AppServicePlansListHybridConnectionsParameters
+    options?: AppServicePlansListHybridConnectionsParameters,
   ): Promise<
     | AppServicePlansListHybridConnections200Response
     | AppServicePlansListHybridConnectionsdefaultResponse
@@ -3078,7 +3078,7 @@ export interface AppServicePlansListHybridConnections {
 export interface AppServicePlansRestartWebApps {
   /** Restart all apps in an App Service plan. */
   post(
-    options?: AppServicePlansRestartWebAppsParameters
+    options?: AppServicePlansRestartWebAppsParameters,
   ): Promise<
     AppServicePlansRestartWebApps204Response | AppServicePlansRestartWebAppsdefaultResponse
   >;
@@ -3087,14 +3087,14 @@ export interface AppServicePlansRestartWebApps {
 export interface AppServicePlansListWebApps {
   /** Get all apps associated with an App Service plan. */
   get(
-    options?: AppServicePlansListWebAppsParameters
+    options?: AppServicePlansListWebAppsParameters,
   ): Promise<AppServicePlansListWebApps200Response | AppServicePlansListWebAppsdefaultResponse>;
 }
 
 export interface AppServicePlansGetServerFarmSkus {
   /** Gets all selectable SKUs for a given App Service Plan */
   get(
-    options?: AppServicePlansGetServerFarmSkusParameters
+    options?: AppServicePlansGetServerFarmSkusParameters,
   ): Promise<
     AppServicePlansGetServerFarmSkus200Response | AppServicePlansGetServerFarmSkusdefaultResponse
   >;
@@ -3103,21 +3103,21 @@ export interface AppServicePlansGetServerFarmSkus {
 export interface AppServicePlansListUsages {
   /** Gets server farm usage information */
   get(
-    options?: AppServicePlansListUsagesParameters
+    options?: AppServicePlansListUsagesParameters,
   ): Promise<AppServicePlansListUsages200Response | AppServicePlansListUsagesdefaultResponse>;
 }
 
 export interface AppServicePlansListVnets {
   /** Get all Virtual Networks associated with an App Service plan. */
   get(
-    options?: AppServicePlansListVnetsParameters
+    options?: AppServicePlansListVnetsParameters,
   ): Promise<AppServicePlansListVnets200Response | AppServicePlansListVnetsdefaultResponse>;
 }
 
 export interface AppServicePlansGetVnetFromServerFarm {
   /** Get a Virtual Network associated with an App Service plan. */
   get(
-    options?: AppServicePlansGetVnetFromServerFarmParameters
+    options?: AppServicePlansGetVnetFromServerFarmParameters,
   ): Promise<
     | AppServicePlansGetVnetFromServerFarm200Response
     | AppServicePlansGetVnetFromServerFarm404Response
@@ -3128,13 +3128,13 @@ export interface AppServicePlansGetVnetFromServerFarm {
 export interface AppServicePlansGetVnetGateway {
   /** Get a Virtual Network gateway. */
   get(
-    options?: AppServicePlansGetVnetGatewayParameters
+    options?: AppServicePlansGetVnetGatewayParameters,
   ): Promise<
     AppServicePlansGetVnetGateway200Response | AppServicePlansGetVnetGatewaydefaultResponse
   >;
   /** Update a Virtual Network gateway. */
   put(
-    options: AppServicePlansUpdateVnetGatewayParameters
+    options: AppServicePlansUpdateVnetGatewayParameters,
   ): Promise<
     AppServicePlansUpdateVnetGateway200Response | AppServicePlansUpdateVnetGatewaydefaultResponse
   >;
@@ -3143,7 +3143,7 @@ export interface AppServicePlansGetVnetGateway {
 export interface AppServicePlansListRoutesForVnet {
   /** Get all routes that are associated with a Virtual Network in an App Service plan. */
   get(
-    options?: AppServicePlansListRoutesForVnetParameters
+    options?: AppServicePlansListRoutesForVnetParameters,
   ): Promise<
     AppServicePlansListRoutesForVnet200Response | AppServicePlansListRoutesForVnetdefaultResponse
   >;
@@ -3152,7 +3152,7 @@ export interface AppServicePlansListRoutesForVnet {
 export interface AppServicePlansGetRouteForVnet {
   /** Get a Virtual Network route in an App Service plan. */
   get(
-    options?: AppServicePlansGetRouteForVnetParameters
+    options?: AppServicePlansGetRouteForVnetParameters,
   ): Promise<
     | AppServicePlansGetRouteForVnet200Response
     | AppServicePlansGetRouteForVnet404Response
@@ -3160,7 +3160,7 @@ export interface AppServicePlansGetRouteForVnet {
   >;
   /** Create or update a Virtual Network route in an App Service plan. */
   put(
-    options: AppServicePlansCreateOrUpdateVnetRouteParameters
+    options: AppServicePlansCreateOrUpdateVnetRouteParameters,
   ): Promise<
     | AppServicePlansCreateOrUpdateVnetRoute200Response
     | AppServicePlansCreateOrUpdateVnetRoute400Response
@@ -3169,7 +3169,7 @@ export interface AppServicePlansGetRouteForVnet {
   >;
   /** Delete a Virtual Network route in an App Service plan. */
   delete(
-    options?: AppServicePlansDeleteVnetRouteParameters
+    options?: AppServicePlansDeleteVnetRouteParameters,
   ): Promise<
     | AppServicePlansDeleteVnetRoute200Response
     | AppServicePlansDeleteVnetRoute404Response
@@ -3177,7 +3177,7 @@ export interface AppServicePlansGetRouteForVnet {
   >;
   /** Create or update a Virtual Network route in an App Service plan. */
   patch(
-    options: AppServicePlansUpdateVnetRouteParameters
+    options: AppServicePlansUpdateVnetRouteParameters,
   ): Promise<
     | AppServicePlansUpdateVnetRoute200Response
     | AppServicePlansUpdateVnetRoute400Response
@@ -3189,21 +3189,21 @@ export interface AppServicePlansGetRouteForVnet {
 export interface AppServicePlansRebootWorker {
   /** Reboot a worker machine in an App Service plan. */
   post(
-    options?: AppServicePlansRebootWorkerParameters
+    options?: AppServicePlansRebootWorkerParameters,
   ): Promise<AppServicePlansRebootWorker204Response | AppServicePlansRebootWorkerdefaultResponse>;
 }
 
 export interface CertificatesList {
   /** Get all certificates for a subscription. */
   get(
-    options?: CertificatesListParameters
+    options?: CertificatesListParameters,
   ): Promise<CertificatesList200Response | CertificatesListdefaultResponse>;
 }
 
 export interface CertificatesListByResourceGroup {
   /** Get all certificates in a resource group. */
   get(
-    options?: CertificatesListByResourceGroupParameters
+    options?: CertificatesListByResourceGroupParameters,
   ): Promise<
     CertificatesListByResourceGroup200Response | CertificatesListByResourceGroupdefaultResponse
   >;
@@ -3212,15 +3212,15 @@ export interface CertificatesListByResourceGroup {
 export interface CertificatesGet {
   /** Get a certificate. */
   get(
-    options?: CertificatesGetParameters
+    options?: CertificatesGetParameters,
   ): Promise<CertificatesGet200Response | CertificatesGetdefaultResponse>;
   /** Create or update a certificate. */
   put(
-    options: CertificatesCreateOrUpdateParameters
+    options: CertificatesCreateOrUpdateParameters,
   ): Promise<CertificatesCreateOrUpdate200Response | CertificatesCreateOrUpdatedefaultResponse>;
   /** Delete a certificate. */
   delete(
-    options?: CertificatesDeleteParameters
+    options?: CertificatesDeleteParameters,
   ): Promise<
     | CertificatesDelete200Response
     | CertificatesDelete204Response
@@ -3228,14 +3228,14 @@ export interface CertificatesGet {
   >;
   /** Create or update a certificate. */
   patch(
-    options: CertificatesUpdateParameters
+    options: CertificatesUpdateParameters,
   ): Promise<CertificatesUpdate200Response | CertificatesUpdatedefaultResponse>;
 }
 
 export interface ContainerAppsListBySubscription {
   /** Get the Container Apps in a given subscription. */
   get(
-    options?: ContainerAppsListBySubscriptionParameters
+    options?: ContainerAppsListBySubscriptionParameters,
   ): Promise<
     ContainerAppsListBySubscription200Response | ContainerAppsListBySubscriptiondefaultResponse
   >;
@@ -3244,7 +3244,7 @@ export interface ContainerAppsListBySubscription {
 export interface ContainerAppsListByResourceGroup {
   /** Get the Container Apps in a given resource group. */
   get(
-    options?: ContainerAppsListByResourceGroupParameters
+    options?: ContainerAppsListByResourceGroupParameters,
   ): Promise<
     ContainerAppsListByResourceGroup200Response | ContainerAppsListByResourceGroupdefaultResponse
   >;
@@ -3253,13 +3253,13 @@ export interface ContainerAppsListByResourceGroup {
 export interface ContainerAppsGet {
   /** Get the properties of a Container App. */
   get(
-    options?: ContainerAppsGetParameters
+    options?: ContainerAppsGetParameters,
   ): Promise<
     ContainerAppsGet200Response | ContainerAppsGet404Response | ContainerAppsGetdefaultResponse
   >;
   /** Create or update a Container App. */
   put(
-    options: ContainerAppsCreateOrUpdateParameters
+    options: ContainerAppsCreateOrUpdateParameters,
   ): Promise<
     | ContainerAppsCreateOrUpdate200Response
     | ContainerAppsCreateOrUpdate201Response
@@ -3267,7 +3267,7 @@ export interface ContainerAppsGet {
   >;
   /** Delete a Container App. */
   delete(
-    options?: ContainerAppsDeleteParameters
+    options?: ContainerAppsDeleteParameters,
   ): Promise<
     | ContainerAppsDelete200Response
     | ContainerAppsDelete202Response
@@ -3279,14 +3279,14 @@ export interface ContainerAppsGet {
 export interface ContainerAppsListSecrets {
   /** List secrets for a container app */
   post(
-    options?: ContainerAppsListSecretsParameters
+    options?: ContainerAppsListSecretsParameters,
   ): Promise<ContainerAppsListSecrets200Response | ContainerAppsListSecretsdefaultResponse>;
 }
 
 export interface ContainerAppsRevisionsListRevisions {
   /** Get the Revisions for a given Container App. */
   get(
-    options?: ContainerAppsRevisionsListRevisionsParameters
+    options?: ContainerAppsRevisionsListRevisionsParameters,
   ): Promise<
     | ContainerAppsRevisionsListRevisions200Response
     | ContainerAppsRevisionsListRevisionsdefaultResponse
@@ -3296,7 +3296,7 @@ export interface ContainerAppsRevisionsListRevisions {
 export interface ContainerAppsRevisionsGetRevision {
   /** Get a revision of a Container App. */
   get(
-    options?: ContainerAppsRevisionsGetRevisionParameters
+    options?: ContainerAppsRevisionsGetRevisionParameters,
   ): Promise<
     ContainerAppsRevisionsGetRevision200Response | ContainerAppsRevisionsGetRevisiondefaultResponse
   >;
@@ -3305,7 +3305,7 @@ export interface ContainerAppsRevisionsGetRevision {
 export interface ContainerAppsRevisionsActivateRevision {
   /** Activates a revision for a Container App */
   post(
-    options?: ContainerAppsRevisionsActivateRevisionParameters
+    options?: ContainerAppsRevisionsActivateRevisionParameters,
   ): Promise<
     | ContainerAppsRevisionsActivateRevision200Response
     | ContainerAppsRevisionsActivateRevisiondefaultResponse
@@ -3315,7 +3315,7 @@ export interface ContainerAppsRevisionsActivateRevision {
 export interface ContainerAppsRevisionsDeactivateRevision {
   /** Deactivates a revision for a Container App */
   post(
-    options?: ContainerAppsRevisionsDeactivateRevisionParameters
+    options?: ContainerAppsRevisionsDeactivateRevisionParameters,
   ): Promise<
     | ContainerAppsRevisionsDeactivateRevision200Response
     | ContainerAppsRevisionsDeactivateRevisiondefaultResponse
@@ -3325,7 +3325,7 @@ export interface ContainerAppsRevisionsDeactivateRevision {
 export interface ContainerAppsRevisionsRestartRevision {
   /** Restarts a revision for a Container App */
   post(
-    options?: ContainerAppsRevisionsRestartRevisionParameters
+    options?: ContainerAppsRevisionsRestartRevisionParameters,
   ): Promise<
     | ContainerAppsRevisionsRestartRevision200Response
     | ContainerAppsRevisionsRestartRevisiondefaultResponse
@@ -3335,21 +3335,21 @@ export interface ContainerAppsRevisionsRestartRevision {
 export interface DeletedWebAppsList {
   /** Get all deleted apps for a subscription. */
   get(
-    options?: DeletedWebAppsListParameters
+    options?: DeletedWebAppsListParameters,
   ): Promise<DeletedWebAppsList200Response | DeletedWebAppsListdefaultResponse>;
 }
 
 export interface DeletedWebAppsListByLocation {
   /** Get all deleted apps for a subscription at location */
   get(
-    options?: DeletedWebAppsListByLocationParameters
+    options?: DeletedWebAppsListByLocationParameters,
   ): Promise<DeletedWebAppsListByLocation200Response | DeletedWebAppsListByLocationdefaultResponse>;
 }
 
 export interface DeletedWebAppsGetDeletedWebAppByLocation {
   /** Get deleted app for a subscription at location. */
   get(
-    options?: DeletedWebAppsGetDeletedWebAppByLocationParameters
+    options?: DeletedWebAppsGetDeletedWebAppByLocationParameters,
   ): Promise<
     | DeletedWebAppsGetDeletedWebAppByLocation200Response
     | DeletedWebAppsGetDeletedWebAppByLocationdefaultResponse
@@ -3359,7 +3359,7 @@ export interface DeletedWebAppsGetDeletedWebAppByLocation {
 export interface DiagnosticsListHostingEnvironmentDetectorResponses {
   /** List Hosting Environment Detector Responses */
   get(
-    options?: DiagnosticsListHostingEnvironmentDetectorResponsesParameters
+    options?: DiagnosticsListHostingEnvironmentDetectorResponsesParameters,
   ): Promise<
     | DiagnosticsListHostingEnvironmentDetectorResponses200Response
     | DiagnosticsListHostingEnvironmentDetectorResponsesdefaultResponse
@@ -3369,7 +3369,7 @@ export interface DiagnosticsListHostingEnvironmentDetectorResponses {
 export interface DiagnosticsGetHostingEnvironmentDetectorResponse {
   /** Get Hosting Environment Detector Response */
   get(
-    options?: DiagnosticsGetHostingEnvironmentDetectorResponseParameters
+    options?: DiagnosticsGetHostingEnvironmentDetectorResponseParameters,
   ): Promise<
     | DiagnosticsGetHostingEnvironmentDetectorResponse200Response
     | DiagnosticsGetHostingEnvironmentDetectorResponsedefaultResponse
@@ -3379,7 +3379,7 @@ export interface DiagnosticsGetHostingEnvironmentDetectorResponse {
 export interface DiagnosticsListSiteDetectorResponses {
   /** List Site Detector Responses */
   get(
-    options?: DiagnosticsListSiteDetectorResponsesParameters
+    options?: DiagnosticsListSiteDetectorResponsesParameters,
   ): Promise<
     | DiagnosticsListSiteDetectorResponses200Response
     | DiagnosticsListSiteDetectorResponsesdefaultResponse
@@ -3389,7 +3389,7 @@ export interface DiagnosticsListSiteDetectorResponses {
 export interface DiagnosticsGetSiteDetectorResponse {
   /** Get site detector response */
   get(
-    options?: DiagnosticsGetSiteDetectorResponseParameters
+    options?: DiagnosticsGetSiteDetectorResponseParameters,
   ): Promise<
     | DiagnosticsGetSiteDetectorResponse200Response
     | DiagnosticsGetSiteDetectorResponsedefaultResponse
@@ -3399,7 +3399,7 @@ export interface DiagnosticsGetSiteDetectorResponse {
 export interface DiagnosticsListSiteDiagnosticCategories {
   /** Get Diagnostics Categories */
   get(
-    options?: DiagnosticsListSiteDiagnosticCategoriesParameters
+    options?: DiagnosticsListSiteDiagnosticCategoriesParameters,
   ): Promise<
     | DiagnosticsListSiteDiagnosticCategories200Response
     | DiagnosticsListSiteDiagnosticCategoriesdefaultResponse
@@ -3409,7 +3409,7 @@ export interface DiagnosticsListSiteDiagnosticCategories {
 export interface DiagnosticsGetSiteDiagnosticCategory {
   /** Get Diagnostics Category */
   get(
-    options?: DiagnosticsGetSiteDiagnosticCategoryParameters
+    options?: DiagnosticsGetSiteDiagnosticCategoryParameters,
   ): Promise<
     | DiagnosticsGetSiteDiagnosticCategory200Response
     | DiagnosticsGetSiteDiagnosticCategorydefaultResponse
@@ -3419,21 +3419,21 @@ export interface DiagnosticsGetSiteDiagnosticCategory {
 export interface DiagnosticsListSiteAnalyses {
   /** Get Site Analyses */
   get(
-    options?: DiagnosticsListSiteAnalysesParameters
+    options?: DiagnosticsListSiteAnalysesParameters,
   ): Promise<DiagnosticsListSiteAnalyses200Response | DiagnosticsListSiteAnalysesdefaultResponse>;
 }
 
 export interface DiagnosticsGetSiteAnalysis {
   /** Get Site Analysis */
   get(
-    options?: DiagnosticsGetSiteAnalysisParameters
+    options?: DiagnosticsGetSiteAnalysisParameters,
   ): Promise<DiagnosticsGetSiteAnalysis200Response | DiagnosticsGetSiteAnalysisdefaultResponse>;
 }
 
 export interface DiagnosticsExecuteSiteAnalysis {
   /** Execute Analysis */
   post(
-    options?: DiagnosticsExecuteSiteAnalysisParameters
+    options?: DiagnosticsExecuteSiteAnalysisParameters,
   ): Promise<
     DiagnosticsExecuteSiteAnalysis200Response | DiagnosticsExecuteSiteAnalysisdefaultResponse
   >;
@@ -3442,21 +3442,21 @@ export interface DiagnosticsExecuteSiteAnalysis {
 export interface DiagnosticsListSiteDetectors {
   /** Get Detectors */
   get(
-    options?: DiagnosticsListSiteDetectorsParameters
+    options?: DiagnosticsListSiteDetectorsParameters,
   ): Promise<DiagnosticsListSiteDetectors200Response | DiagnosticsListSiteDetectorsdefaultResponse>;
 }
 
 export interface DiagnosticsGetSiteDetector {
   /** Get Detector */
   get(
-    options?: DiagnosticsGetSiteDetectorParameters
+    options?: DiagnosticsGetSiteDetectorParameters,
   ): Promise<DiagnosticsGetSiteDetector200Response | DiagnosticsGetSiteDetectordefaultResponse>;
 }
 
 export interface DiagnosticsExecuteSiteDetector {
   /** Execute Detector */
   post(
-    options?: DiagnosticsExecuteSiteDetectorParameters
+    options?: DiagnosticsExecuteSiteDetectorParameters,
   ): Promise<
     DiagnosticsExecuteSiteDetector200Response | DiagnosticsExecuteSiteDetectordefaultResponse
   >;
@@ -3465,7 +3465,7 @@ export interface DiagnosticsExecuteSiteDetector {
 export interface DiagnosticsListSiteDetectorResponsesSlot {
   /** List Site Detector Responses */
   get(
-    options?: DiagnosticsListSiteDetectorResponsesSlotParameters
+    options?: DiagnosticsListSiteDetectorResponsesSlotParameters,
   ): Promise<
     | DiagnosticsListSiteDetectorResponsesSlot200Response
     | DiagnosticsListSiteDetectorResponsesSlotdefaultResponse
@@ -3475,7 +3475,7 @@ export interface DiagnosticsListSiteDetectorResponsesSlot {
 export interface DiagnosticsGetSiteDetectorResponseSlot {
   /** Get site detector response */
   get(
-    options?: DiagnosticsGetSiteDetectorResponseSlotParameters
+    options?: DiagnosticsGetSiteDetectorResponseSlotParameters,
   ): Promise<
     | DiagnosticsGetSiteDetectorResponseSlot200Response
     | DiagnosticsGetSiteDetectorResponseSlotdefaultResponse
@@ -3485,7 +3485,7 @@ export interface DiagnosticsGetSiteDetectorResponseSlot {
 export interface DiagnosticsListSiteDiagnosticCategoriesSlot {
   /** Get Diagnostics Categories */
   get(
-    options?: DiagnosticsListSiteDiagnosticCategoriesSlotParameters
+    options?: DiagnosticsListSiteDiagnosticCategoriesSlotParameters,
   ): Promise<
     | DiagnosticsListSiteDiagnosticCategoriesSlot200Response
     | DiagnosticsListSiteDiagnosticCategoriesSlotdefaultResponse
@@ -3495,7 +3495,7 @@ export interface DiagnosticsListSiteDiagnosticCategoriesSlot {
 export interface DiagnosticsGetSiteDiagnosticCategorySlot {
   /** Get Diagnostics Category */
   get(
-    options?: DiagnosticsGetSiteDiagnosticCategorySlotParameters
+    options?: DiagnosticsGetSiteDiagnosticCategorySlotParameters,
   ): Promise<
     | DiagnosticsGetSiteDiagnosticCategorySlot200Response
     | DiagnosticsGetSiteDiagnosticCategorySlotdefaultResponse
@@ -3505,7 +3505,7 @@ export interface DiagnosticsGetSiteDiagnosticCategorySlot {
 export interface DiagnosticsListSiteAnalysesSlot {
   /** Get Site Analyses */
   get(
-    options?: DiagnosticsListSiteAnalysesSlotParameters
+    options?: DiagnosticsListSiteAnalysesSlotParameters,
   ): Promise<
     DiagnosticsListSiteAnalysesSlot200Response | DiagnosticsListSiteAnalysesSlotdefaultResponse
   >;
@@ -3514,7 +3514,7 @@ export interface DiagnosticsListSiteAnalysesSlot {
 export interface DiagnosticsGetSiteAnalysisSlot {
   /** Get Site Analysis */
   get(
-    options?: DiagnosticsGetSiteAnalysisSlotParameters
+    options?: DiagnosticsGetSiteAnalysisSlotParameters,
   ): Promise<
     DiagnosticsGetSiteAnalysisSlot200Response | DiagnosticsGetSiteAnalysisSlotdefaultResponse
   >;
@@ -3523,7 +3523,7 @@ export interface DiagnosticsGetSiteAnalysisSlot {
 export interface DiagnosticsExecuteSiteAnalysisSlot {
   /** Execute Analysis */
   post(
-    options?: DiagnosticsExecuteSiteAnalysisSlotParameters
+    options?: DiagnosticsExecuteSiteAnalysisSlotParameters,
   ): Promise<
     | DiagnosticsExecuteSiteAnalysisSlot200Response
     | DiagnosticsExecuteSiteAnalysisSlotdefaultResponse
@@ -3533,7 +3533,7 @@ export interface DiagnosticsExecuteSiteAnalysisSlot {
 export interface DiagnosticsListSiteDetectorsSlot {
   /** Get Detectors */
   get(
-    options?: DiagnosticsListSiteDetectorsSlotParameters
+    options?: DiagnosticsListSiteDetectorsSlotParameters,
   ): Promise<
     DiagnosticsListSiteDetectorsSlot200Response | DiagnosticsListSiteDetectorsSlotdefaultResponse
   >;
@@ -3542,7 +3542,7 @@ export interface DiagnosticsListSiteDetectorsSlot {
 export interface DiagnosticsGetSiteDetectorSlot {
   /** Get Detector */
   get(
-    options?: DiagnosticsGetSiteDetectorSlotParameters
+    options?: DiagnosticsGetSiteDetectorSlotParameters,
   ): Promise<
     DiagnosticsGetSiteDetectorSlot200Response | DiagnosticsGetSiteDetectorSlotdefaultResponse
   >;
@@ -3551,7 +3551,7 @@ export interface DiagnosticsGetSiteDetectorSlot {
 export interface DiagnosticsExecuteSiteDetectorSlot {
   /** Execute Detector */
   post(
-    options?: DiagnosticsExecuteSiteDetectorSlotParameters
+    options?: DiagnosticsExecuteSiteDetectorSlotParameters,
   ): Promise<
     | DiagnosticsExecuteSiteDetectorSlot200Response
     | DiagnosticsExecuteSiteDetectorSlotdefaultResponse
@@ -3561,14 +3561,14 @@ export interface DiagnosticsExecuteSiteDetectorSlot {
 export interface GlobalGetDeletedWebApp {
   /** Get deleted app for a subscription. */
   get(
-    options?: GlobalGetDeletedWebAppParameters
+    options?: GlobalGetDeletedWebAppParameters,
   ): Promise<GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse>;
 }
 
 export interface GlobalGetDeletedWebAppSnapshots {
   /** Get all deleted apps for a subscription. */
   get(
-    options?: GlobalGetDeletedWebAppSnapshotsParameters
+    options?: GlobalGetDeletedWebAppSnapshotsParameters,
   ): Promise<
     GlobalGetDeletedWebAppSnapshots200Response | GlobalGetDeletedWebAppSnapshotsdefaultResponse
   >;
@@ -3577,7 +3577,7 @@ export interface GlobalGetDeletedWebAppSnapshots {
 export interface GlobalGetSubscriptionOperationWithAsyncResponse {
   /** Gets an operation in a subscription and given region */
   get(
-    options?: GlobalGetSubscriptionOperationWithAsyncResponseParameters
+    options?: GlobalGetSubscriptionOperationWithAsyncResponseParameters,
   ): Promise<
     | GlobalGetSubscriptionOperationWithAsyncResponse204Response
     | GlobalGetSubscriptionOperationWithAsyncResponsedefaultResponse
@@ -3587,7 +3587,7 @@ export interface GlobalGetSubscriptionOperationWithAsyncResponse {
 export interface KubeEnvironmentsListBySubscription {
   /** Get all Kubernetes Environments for a subscription. */
   get(
-    options?: KubeEnvironmentsListBySubscriptionParameters
+    options?: KubeEnvironmentsListBySubscriptionParameters,
   ): Promise<
     | KubeEnvironmentsListBySubscription200Response
     | KubeEnvironmentsListBySubscriptiondefaultResponse
@@ -3597,7 +3597,7 @@ export interface KubeEnvironmentsListBySubscription {
 export interface KubeEnvironmentsListByResourceGroup {
   /** Get all the Kubernetes Environments in a resource group. */
   get(
-    options?: KubeEnvironmentsListByResourceGroupParameters
+    options?: KubeEnvironmentsListByResourceGroupParameters,
   ): Promise<
     | KubeEnvironmentsListByResourceGroup200Response
     | KubeEnvironmentsListByResourceGroupdefaultResponse
@@ -3607,11 +3607,11 @@ export interface KubeEnvironmentsListByResourceGroup {
 export interface KubeEnvironmentsGet {
   /** Get the properties of a Kubernetes Environment. */
   get(
-    options?: KubeEnvironmentsGetParameters
+    options?: KubeEnvironmentsGetParameters,
   ): Promise<KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse>;
   /** Creates or updates a Kubernetes Environment. */
   put(
-    options: KubeEnvironmentsCreateOrUpdateParameters
+    options: KubeEnvironmentsCreateOrUpdateParameters,
   ): Promise<
     | KubeEnvironmentsCreateOrUpdate200Response
     | KubeEnvironmentsCreateOrUpdate201Response
@@ -3619,7 +3619,7 @@ export interface KubeEnvironmentsGet {
   >;
   /** Delete a Kubernetes Environment. */
   delete(
-    options?: KubeEnvironmentsDeleteParameters
+    options?: KubeEnvironmentsDeleteParameters,
   ): Promise<
     | KubeEnvironmentsDelete200Response
     | KubeEnvironmentsDelete202Response
@@ -3628,7 +3628,7 @@ export interface KubeEnvironmentsGet {
   >;
   /** Creates or updates a Kubernetes Environment. */
   patch(
-    options: KubeEnvironmentsUpdateParameters
+    options: KubeEnvironmentsUpdateParameters,
   ): Promise<
     | KubeEnvironmentsUpdate200Response
     | KubeEnvironmentsUpdate201Response
@@ -3639,21 +3639,21 @@ export interface KubeEnvironmentsGet {
 export interface ProviderGetAvailableStacks {
   /** Get available application frameworks and their versions */
   get(
-    options?: ProviderGetAvailableStacksParameters
+    options?: ProviderGetAvailableStacksParameters,
   ): Promise<ProviderGetAvailableStacks200Response | ProviderGetAvailableStacksdefaultResponse>;
 }
 
 export interface ProviderGetFunctionAppStacks {
   /** Get available Function app frameworks and their versions */
   get(
-    options?: ProviderGetFunctionAppStacksParameters
+    options?: ProviderGetFunctionAppStacksParameters,
   ): Promise<ProviderGetFunctionAppStacks200Response | ProviderGetFunctionAppStacksdefaultResponse>;
 }
 
 export interface ProviderGetFunctionAppStacksForLocation {
   /** Get available Function app frameworks and their versions for location */
   get(
-    options?: ProviderGetFunctionAppStacksForLocationParameters
+    options?: ProviderGetFunctionAppStacksForLocationParameters,
   ): Promise<
     | ProviderGetFunctionAppStacksForLocation200Response
     | ProviderGetFunctionAppStacksForLocationdefaultResponse
@@ -3663,7 +3663,7 @@ export interface ProviderGetFunctionAppStacksForLocation {
 export interface ProviderGetWebAppStacksForLocation {
   /** Get available Web app frameworks and their versions for location */
   get(
-    options?: ProviderGetWebAppStacksForLocationParameters
+    options?: ProviderGetWebAppStacksForLocationParameters,
   ): Promise<
     | ProviderGetWebAppStacksForLocation200Response
     | ProviderGetWebAppStacksForLocationdefaultResponse
@@ -3673,21 +3673,21 @@ export interface ProviderGetWebAppStacksForLocation {
 export interface ProviderListOperations {
   /** Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
   get(
-    options?: ProviderListOperationsParameters
+    options?: ProviderListOperationsParameters,
   ): Promise<ProviderListOperations200Response | ProviderListOperationsdefaultResponse>;
 }
 
 export interface ProviderGetWebAppStacks {
   /** Get available Web app frameworks and their versions */
   get(
-    options?: ProviderGetWebAppStacksParameters
+    options?: ProviderGetWebAppStacksParameters,
   ): Promise<ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse>;
 }
 
 export interface ProviderGetAvailableStacksOnPrem {
   /** Get available application frameworks and their versions */
   get(
-    options?: ProviderGetAvailableStacksOnPremParameters
+    options?: ProviderGetAvailableStacksOnPremParameters,
   ): Promise<
     ProviderGetAvailableStacksOnPrem200Response | ProviderGetAvailableStacksOnPremdefaultResponse
   >;
@@ -3696,14 +3696,14 @@ export interface ProviderGetAvailableStacksOnPrem {
 export interface RecommendationsList {
   /** List all recommendations for a subscription. */
   get(
-    options?: RecommendationsListParameters
+    options?: RecommendationsListParameters,
   ): Promise<RecommendationsList200Response | RecommendationsListdefaultResponse>;
 }
 
 export interface RecommendationsResetAllFilters {
   /** Reset all recommendation opt-out settings for a subscription. */
   post(
-    options?: RecommendationsResetAllFiltersParameters
+    options?: RecommendationsResetAllFiltersParameters,
   ): Promise<
     RecommendationsResetAllFilters204Response | RecommendationsResetAllFiltersdefaultResponse
   >;
@@ -3712,7 +3712,7 @@ export interface RecommendationsResetAllFilters {
 export interface RecommendationsDisableRecommendationForSubscription {
   /** Disables the specified rule so it will not apply to a subscription in the future. */
   post(
-    options?: RecommendationsDisableRecommendationForSubscriptionParameters
+    options?: RecommendationsDisableRecommendationForSubscriptionParameters,
   ): Promise<
     | RecommendationsDisableRecommendationForSubscription200Response
     | RecommendationsDisableRecommendationForSubscriptiondefaultResponse
@@ -3722,7 +3722,7 @@ export interface RecommendationsDisableRecommendationForSubscription {
 export interface RecommendationsListHistoryForHostingEnvironment {
   /** Get past recommendations for an app, optionally specified by the time range. */
   get(
-    options?: RecommendationsListHistoryForHostingEnvironmentParameters
+    options?: RecommendationsListHistoryForHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsListHistoryForHostingEnvironment200Response
     | RecommendationsListHistoryForHostingEnvironmentdefaultResponse
@@ -3732,7 +3732,7 @@ export interface RecommendationsListHistoryForHostingEnvironment {
 export interface RecommendationsListRecommendedRulesForHostingEnvironment {
   /** Get all recommendations for a hosting environment. */
   get(
-    options?: RecommendationsListRecommendedRulesForHostingEnvironmentParameters
+    options?: RecommendationsListRecommendedRulesForHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsListRecommendedRulesForHostingEnvironment200Response
     | RecommendationsListRecommendedRulesForHostingEnvironmentdefaultResponse
@@ -3742,7 +3742,7 @@ export interface RecommendationsListRecommendedRulesForHostingEnvironment {
 export interface RecommendationsDisableAllForHostingEnvironment {
   /** Disable all recommendations for an app. */
   post(
-    options: RecommendationsDisableAllForHostingEnvironmentParameters
+    options: RecommendationsDisableAllForHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsDisableAllForHostingEnvironment204Response
     | RecommendationsDisableAllForHostingEnvironmentdefaultResponse
@@ -3752,7 +3752,7 @@ export interface RecommendationsDisableAllForHostingEnvironment {
 export interface RecommendationsResetAllFiltersForHostingEnvironment {
   /** Reset all recommendation opt-out settings for an app. */
   post(
-    options: RecommendationsResetAllFiltersForHostingEnvironmentParameters
+    options: RecommendationsResetAllFiltersForHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsResetAllFiltersForHostingEnvironment204Response
     | RecommendationsResetAllFiltersForHostingEnvironmentdefaultResponse
@@ -3762,7 +3762,7 @@ export interface RecommendationsResetAllFiltersForHostingEnvironment {
 export interface RecommendationsGetRuleDetailsByHostingEnvironment {
   /** Get a recommendation rule for an app. */
   get(
-    options?: RecommendationsGetRuleDetailsByHostingEnvironmentParameters
+    options?: RecommendationsGetRuleDetailsByHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsGetRuleDetailsByHostingEnvironment200Response
     | RecommendationsGetRuleDetailsByHostingEnvironmentdefaultResponse
@@ -3772,7 +3772,7 @@ export interface RecommendationsGetRuleDetailsByHostingEnvironment {
 export interface RecommendationsDisableRecommendationForHostingEnvironment {
   /** Disables the specific rule for a web site permanently. */
   post(
-    options: RecommendationsDisableRecommendationForHostingEnvironmentParameters
+    options: RecommendationsDisableRecommendationForHostingEnvironmentParameters,
   ): Promise<
     | RecommendationsDisableRecommendationForHostingEnvironment200Response
     | RecommendationsDisableRecommendationForHostingEnvironmentdefaultResponse
@@ -3782,7 +3782,7 @@ export interface RecommendationsDisableRecommendationForHostingEnvironment {
 export interface RecommendationsListHistoryForWebApp {
   /** Get past recommendations for an app, optionally specified by the time range. */
   get(
-    options?: RecommendationsListHistoryForWebAppParameters
+    options?: RecommendationsListHistoryForWebAppParameters,
   ): Promise<
     | RecommendationsListHistoryForWebApp200Response
     | RecommendationsListHistoryForWebAppdefaultResponse
@@ -3792,7 +3792,7 @@ export interface RecommendationsListHistoryForWebApp {
 export interface RecommendationsListRecommendedRulesForWebApp {
   /** Get all recommendations for an app. */
   get(
-    options?: RecommendationsListRecommendedRulesForWebAppParameters
+    options?: RecommendationsListRecommendedRulesForWebAppParameters,
   ): Promise<
     | RecommendationsListRecommendedRulesForWebApp200Response
     | RecommendationsListRecommendedRulesForWebAppdefaultResponse
@@ -3802,7 +3802,7 @@ export interface RecommendationsListRecommendedRulesForWebApp {
 export interface RecommendationsDisableAllForWebApp {
   /** Disable all recommendations for an app. */
   post(
-    options?: RecommendationsDisableAllForWebAppParameters
+    options?: RecommendationsDisableAllForWebAppParameters,
   ): Promise<
     | RecommendationsDisableAllForWebApp204Response
     | RecommendationsDisableAllForWebAppdefaultResponse
@@ -3812,7 +3812,7 @@ export interface RecommendationsDisableAllForWebApp {
 export interface RecommendationsResetAllFiltersForWebApp {
   /** Reset all recommendation opt-out settings for an app. */
   post(
-    options?: RecommendationsResetAllFiltersForWebAppParameters
+    options?: RecommendationsResetAllFiltersForWebAppParameters,
   ): Promise<
     | RecommendationsResetAllFiltersForWebApp204Response
     | RecommendationsResetAllFiltersForWebAppdefaultResponse
@@ -3822,7 +3822,7 @@ export interface RecommendationsResetAllFiltersForWebApp {
 export interface RecommendationsGetRuleDetailsByWebApp {
   /** Get a recommendation rule for an app. */
   get(
-    options?: RecommendationsGetRuleDetailsByWebAppParameters
+    options?: RecommendationsGetRuleDetailsByWebAppParameters,
   ): Promise<
     | RecommendationsGetRuleDetailsByWebApp200Response
     | RecommendationsGetRuleDetailsByWebAppdefaultResponse
@@ -3832,7 +3832,7 @@ export interface RecommendationsGetRuleDetailsByWebApp {
 export interface RecommendationsDisableRecommendationForSite {
   /** Disables the specific rule for a web site permanently. */
   post(
-    options?: RecommendationsDisableRecommendationForSiteParameters
+    options?: RecommendationsDisableRecommendationForSiteParameters,
   ): Promise<
     | RecommendationsDisableRecommendationForSite200Response
     | RecommendationsDisableRecommendationForSitedefaultResponse
@@ -3842,14 +3842,14 @@ export interface RecommendationsDisableRecommendationForSite {
 export interface ResourceHealthMetadataList {
   /** List all ResourceHealthMetadata for all sites in the subscription. */
   get(
-    options?: ResourceHealthMetadataListParameters
+    options?: ResourceHealthMetadataListParameters,
   ): Promise<ResourceHealthMetadataList200Response | ResourceHealthMetadataListdefaultResponse>;
 }
 
 export interface ResourceHealthMetadataListByResourceGroup {
   /** List all ResourceHealthMetadata for all sites in the resource group in the subscription. */
   get(
-    options?: ResourceHealthMetadataListByResourceGroupParameters
+    options?: ResourceHealthMetadataListByResourceGroupParameters,
   ): Promise<
     | ResourceHealthMetadataListByResourceGroup200Response
     | ResourceHealthMetadataListByResourceGroupdefaultResponse
@@ -3859,7 +3859,7 @@ export interface ResourceHealthMetadataListByResourceGroup {
 export interface ResourceHealthMetadataListBySite {
   /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
   get(
-    options?: ResourceHealthMetadataListBySiteParameters
+    options?: ResourceHealthMetadataListBySiteParameters,
   ): Promise<
     ResourceHealthMetadataListBySite200Response | ResourceHealthMetadataListBySitedefaultResponse
   >;
@@ -3868,7 +3868,7 @@ export interface ResourceHealthMetadataListBySite {
 export interface ResourceHealthMetadataGetBySite {
   /** Gets the category of ResourceHealthMetadata to use for the given site */
   get(
-    options?: ResourceHealthMetadataGetBySiteParameters
+    options?: ResourceHealthMetadataGetBySiteParameters,
   ): Promise<
     ResourceHealthMetadataGetBySite200Response | ResourceHealthMetadataGetBySitedefaultResponse
   >;
@@ -3877,7 +3877,7 @@ export interface ResourceHealthMetadataGetBySite {
 export interface ResourceHealthMetadataListBySiteSlot {
   /** Gets the category of ResourceHealthMetadata to use for the given site as a collection */
   get(
-    options?: ResourceHealthMetadataListBySiteSlotParameters
+    options?: ResourceHealthMetadataListBySiteSlotParameters,
   ): Promise<
     | ResourceHealthMetadataListBySiteSlot200Response
     | ResourceHealthMetadataListBySiteSlotdefaultResponse
@@ -3887,7 +3887,7 @@ export interface ResourceHealthMetadataListBySiteSlot {
 export interface ResourceHealthMetadataGetBySiteSlot {
   /** Gets the category of ResourceHealthMetadata to use for the given site */
   get(
-    options?: ResourceHealthMetadataGetBySiteSlotParameters
+    options?: ResourceHealthMetadataGetBySiteSlotParameters,
   ): Promise<
     | ResourceHealthMetadataGetBySiteSlot200Response
     | ResourceHealthMetadataGetBySiteSlotdefaultResponse
@@ -3897,57 +3897,57 @@ export interface ResourceHealthMetadataGetBySiteSlot {
 export interface GetPublishingUser {
   /** Gets publishing user */
   get(
-    options?: GetPublishingUserParameters
+    options?: GetPublishingUserParameters,
   ): Promise<GetPublishingUser200Response | GetPublishingUserdefaultResponse>;
   /** Updates publishing user */
   put(
-    options: UpdatePublishingUserParameters
+    options: UpdatePublishingUserParameters,
   ): Promise<UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse>;
 }
 
 export interface ListSourceControls {
   /** Gets the source controls available for Azure websites. */
   get(
-    options?: ListSourceControlsParameters
+    options?: ListSourceControlsParameters,
   ): Promise<ListSourceControls200Response | ListSourceControlsdefaultResponse>;
 }
 
 export interface GetSourceControl {
   /** Gets source control token */
   get(
-    options?: GetSourceControlParameters
+    options?: GetSourceControlParameters,
   ): Promise<GetSourceControl200Response | GetSourceControldefaultResponse>;
   /** Updates source control token */
   put(
-    options: UpdateSourceControlParameters
+    options: UpdateSourceControlParameters,
   ): Promise<UpdateSourceControl200Response | UpdateSourceControldefaultResponse>;
 }
 
 export interface ListBillingMeters {
   /** Gets a list of meters for a given location. */
   get(
-    options?: ListBillingMetersParameters
+    options?: ListBillingMetersParameters,
   ): Promise<ListBillingMeters200Response | ListBillingMetersdefaultResponse>;
 }
 
 export interface CheckNameAvailability {
   /** Check if a resource name is available. */
   post(
-    options: CheckNameAvailabilityParameters
+    options: CheckNameAvailabilityParameters,
   ): Promise<CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse>;
 }
 
 export interface ListCustomHostNameSites {
   /** Get custom hostnames under this subscription */
   get(
-    options?: ListCustomHostNameSitesParameters
+    options?: ListCustomHostNameSitesParameters,
   ): Promise<ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse>;
 }
 
 export interface GetSubscriptionDeploymentLocations {
   /** Gets list of available geo regions plus ministamps */
   get(
-    options?: GetSubscriptionDeploymentLocationsParameters
+    options?: GetSubscriptionDeploymentLocationsParameters,
   ): Promise<
     | GetSubscriptionDeploymentLocations200Response
     | GetSubscriptionDeploymentLocationsdefaultResponse
@@ -3957,14 +3957,14 @@ export interface GetSubscriptionDeploymentLocations {
 export interface ListGeoRegions {
   /** Get a list of available geographical regions. */
   get(
-    options?: ListGeoRegionsParameters
+    options?: ListGeoRegionsParameters,
   ): Promise<ListGeoRegions200Response | ListGeoRegionsdefaultResponse>;
 }
 
 export interface ListSiteIdentifiersAssignedToHostName {
   /** List all apps that are assigned to a hostname. */
   post(
-    options: ListSiteIdentifiersAssignedToHostNameParameters
+    options: ListSiteIdentifiersAssignedToHostNameParameters,
   ): Promise<
     | ListSiteIdentifiersAssignedToHostName200Response
     | ListSiteIdentifiersAssignedToHostNamedefaultResponse
@@ -3974,7 +3974,7 @@ export interface ListSiteIdentifiersAssignedToHostName {
 export interface ListPremierAddOnOffers {
   /** List all premier add-on offers. */
   get(
-    options?: ListPremierAddOnOffersParameters
+    options?: ListPremierAddOnOffersParameters,
   ): Promise<ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse>;
 }
 
@@ -3986,7 +3986,7 @@ export interface ListSkus {
 export interface VerifyHostingEnvironmentVnet {
   /** Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules. */
   post(
-    options: VerifyHostingEnvironmentVnetParameters
+    options: VerifyHostingEnvironmentVnetParameters,
   ): Promise<VerifyHostingEnvironmentVnet200Response | VerifyHostingEnvironmentVnetdefaultResponse>;
 }
 
@@ -4003,28 +4003,28 @@ export interface Validate {
 export interface ValidateMove {
   /** Validate whether a resource can be moved. */
   post(
-    options: ValidateMoveParameters
+    options: ValidateMoveParameters,
   ): Promise<ValidateMove204Response | ValidateMovedefaultResponse>;
 }
 
 export interface StaticSitesPreviewWorkflow {
   /** Generates a preview workflow file for the static site */
   post(
-    options: StaticSitesPreviewWorkflowParameters
+    options: StaticSitesPreviewWorkflowParameters,
   ): Promise<StaticSitesPreviewWorkflow200Response | StaticSitesPreviewWorkflowdefaultResponse>;
 }
 
 export interface StaticSitesList {
   /** Get all Static Sites for a subscription. */
   get(
-    options?: StaticSitesListParameters
+    options?: StaticSitesListParameters,
   ): Promise<StaticSitesList200Response | StaticSitesListdefaultResponse>;
 }
 
 export interface StaticSitesGetStaticSitesByResourceGroup {
   /** Gets all static sites in the specified resource group. */
   get(
-    options?: StaticSitesGetStaticSitesByResourceGroupParameters
+    options?: StaticSitesGetStaticSitesByResourceGroupParameters,
   ): Promise<
     | StaticSitesGetStaticSitesByResourceGroup200Response
     | StaticSitesGetStaticSitesByResourceGroupdefaultResponse
@@ -4034,11 +4034,11 @@ export interface StaticSitesGetStaticSitesByResourceGroup {
 export interface StaticSitesGetStaticSite {
   /** Gets the details of a static site. */
   get(
-    options?: StaticSitesGetStaticSiteParameters
+    options?: StaticSitesGetStaticSiteParameters,
   ): Promise<StaticSitesGetStaticSite200Response | StaticSitesGetStaticSitedefaultResponse>;
   /** Creates a new static site in an existing resource group, or updates an existing static site. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteParameters
+    options: StaticSitesCreateOrUpdateStaticSiteParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSite200Response
     | StaticSitesCreateOrUpdateStaticSite202Response
@@ -4046,7 +4046,7 @@ export interface StaticSitesGetStaticSite {
   >;
   /** Deletes a static site. */
   delete(
-    options?: StaticSitesDeleteStaticSiteParameters
+    options?: StaticSitesDeleteStaticSiteParameters,
   ): Promise<
     | StaticSitesDeleteStaticSite200Response
     | StaticSitesDeleteStaticSite202Response
@@ -4054,7 +4054,7 @@ export interface StaticSitesGetStaticSite {
   >;
   /** Creates a new static site in an existing resource group, or updates an existing static site. */
   patch(
-    options: StaticSitesUpdateStaticSiteParameters
+    options: StaticSitesUpdateStaticSiteParameters,
   ): Promise<
     | StaticSitesUpdateStaticSite200Response
     | StaticSitesUpdateStaticSite202Response
@@ -4065,7 +4065,7 @@ export interface StaticSitesGetStaticSite {
 export interface StaticSitesListStaticSiteUsers {
   /** Gets the list of users of a static site. */
   post(
-    options?: StaticSitesListStaticSiteUsersParameters
+    options?: StaticSitesListStaticSiteUsersParameters,
   ): Promise<
     StaticSitesListStaticSiteUsers200Response | StaticSitesListStaticSiteUsersdefaultResponse
   >;
@@ -4074,13 +4074,13 @@ export interface StaticSitesListStaticSiteUsers {
 export interface StaticSitesDeleteStaticSiteUser {
   /** Deletes the user entry from the static site. */
   delete(
-    options?: StaticSitesDeleteStaticSiteUserParameters
+    options?: StaticSitesDeleteStaticSiteUserParameters,
   ): Promise<
     StaticSitesDeleteStaticSiteUser200Response | StaticSitesDeleteStaticSiteUserdefaultResponse
   >;
   /** Updates a user entry with the listed roles */
   patch(
-    options: StaticSitesUpdateStaticSiteUserParameters
+    options: StaticSitesUpdateStaticSiteUserParameters,
   ): Promise<
     StaticSitesUpdateStaticSiteUser200Response | StaticSitesUpdateStaticSiteUserdefaultResponse
   >;
@@ -4089,7 +4089,7 @@ export interface StaticSitesDeleteStaticSiteUser {
 export interface StaticSitesGetStaticSiteBuilds {
   /** Gets all static site builds for a particular static site. */
   get(
-    options?: StaticSitesGetStaticSiteBuildsParameters
+    options?: StaticSitesGetStaticSiteBuildsParameters,
   ): Promise<
     StaticSitesGetStaticSiteBuilds200Response | StaticSitesGetStaticSiteBuildsdefaultResponse
   >;
@@ -4098,13 +4098,13 @@ export interface StaticSitesGetStaticSiteBuilds {
 export interface StaticSitesGetStaticSiteBuild {
   /** Gets the details of a static site build. */
   get(
-    options?: StaticSitesGetStaticSiteBuildParameters
+    options?: StaticSitesGetStaticSiteBuildParameters,
   ): Promise<
     StaticSitesGetStaticSiteBuild200Response | StaticSitesGetStaticSiteBuilddefaultResponse
   >;
   /** Deletes a static site build. */
   delete(
-    options?: StaticSitesDeleteStaticSiteBuildParameters
+    options?: StaticSitesDeleteStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesDeleteStaticSiteBuild200Response
     | StaticSitesDeleteStaticSiteBuild202Response
@@ -4116,7 +4116,7 @@ export interface StaticSitesGetStaticSiteBuild {
 export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettings {
   /** Creates or updates the app settings of a static site build. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsParameters
+    options: StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSiteBuildAppSettings200Response
     | StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsdefaultResponse
@@ -4126,7 +4126,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildAppSettings {
 export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings {
   /** Creates or updates the function app settings of a static site build. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsParameters
+    options: StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings200Response
     | StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsdefaultResponse
@@ -4136,7 +4136,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings {
 export interface StaticSitesListStaticSiteBuildFunctions {
   /** Gets the functions of a particular static site build. */
   get(
-    options?: StaticSitesListStaticSiteBuildFunctionsParameters
+    options?: StaticSitesListStaticSiteBuildFunctionsParameters,
   ): Promise<
     | StaticSitesListStaticSiteBuildFunctions200Response
     | StaticSitesListStaticSiteBuildFunctionsdefaultResponse
@@ -4146,7 +4146,7 @@ export interface StaticSitesListStaticSiteBuildFunctions {
 export interface StaticSitesListStaticSiteBuildAppSettings {
   /** Gets the application settings of a static site build. */
   post(
-    options?: StaticSitesListStaticSiteBuildAppSettingsParameters
+    options?: StaticSitesListStaticSiteBuildAppSettingsParameters,
   ): Promise<
     | StaticSitesListStaticSiteBuildAppSettings200Response
     | StaticSitesListStaticSiteBuildAppSettingsdefaultResponse
@@ -4156,7 +4156,7 @@ export interface StaticSitesListStaticSiteBuildAppSettings {
 export interface StaticSitesListStaticSiteBuildFunctionAppSettings {
   /** Gets the application settings of a static site build. */
   post(
-    options?: StaticSitesListStaticSiteBuildFunctionAppSettingsParameters
+    options?: StaticSitesListStaticSiteBuildFunctionAppSettingsParameters,
   ): Promise<
     | StaticSitesListStaticSiteBuildFunctionAppSettings200Response
     | StaticSitesListStaticSiteBuildFunctionAppSettingsdefaultResponse
@@ -4166,7 +4166,7 @@ export interface StaticSitesListStaticSiteBuildFunctionAppSettings {
 export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild {
   /** Gets the details of the user provided function apps registered with a static site build */
   get(
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildParameters
+    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild200Response
     | StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuilddefaultResponse
@@ -4176,14 +4176,14 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild {
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild {
   /** Gets the details of the user provided function app registered with a static site build */
   get(
-    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildParameters
+    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild200Response
     | StaticSitesGetUserProvidedFunctionAppForStaticSiteBuilddefaultResponse
   >;
   /** Register a user provided function app with a static site build */
   put(
-    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildParameters
+    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild200Response
     | StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuild202Response
@@ -4191,7 +4191,7 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild {
   >;
   /** Detach the user provided function app from the static site build */
   delete(
-    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildParameters
+    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild200Response
     | StaticSitesDetachUserProvidedFunctionAppFromStaticSiteBuild204Response
@@ -4202,7 +4202,7 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild {
 export interface StaticSitesCreateZipDeploymentForStaticSiteBuild {
   /** Deploys zipped content to a specific environment of a static site. */
   post(
-    options: StaticSitesCreateZipDeploymentForStaticSiteBuildParameters
+    options: StaticSitesCreateZipDeploymentForStaticSiteBuildParameters,
   ): Promise<
     | StaticSitesCreateZipDeploymentForStaticSiteBuild200Response
     | StaticSitesCreateZipDeploymentForStaticSiteBuild202Response
@@ -4213,7 +4213,7 @@ export interface StaticSitesCreateZipDeploymentForStaticSiteBuild {
 export interface StaticSitesCreateOrUpdateStaticSiteAppSettings {
   /** Creates or updates the app settings of a static site. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteAppSettingsParameters
+    options: StaticSitesCreateOrUpdateStaticSiteAppSettingsParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSiteAppSettings200Response
     | StaticSitesCreateOrUpdateStaticSiteAppSettingsdefaultResponse
@@ -4223,7 +4223,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteAppSettings {
 export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings {
   /** Creates or updates the function app settings of a static site. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsParameters
+    options: StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings200Response
     | StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsdefaultResponse
@@ -4233,7 +4233,7 @@ export interface StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings {
 export interface StaticSitesCreateUserRolesInvitationLink {
   /** Creates an invitation link for a user with the role */
   post(
-    options: StaticSitesCreateUserRolesInvitationLinkParameters
+    options: StaticSitesCreateUserRolesInvitationLinkParameters,
   ): Promise<
     | StaticSitesCreateUserRolesInvitationLink200Response
     | StaticSitesCreateUserRolesInvitationLinkdefaultResponse
@@ -4243,7 +4243,7 @@ export interface StaticSitesCreateUserRolesInvitationLink {
 export interface StaticSitesListStaticSiteCustomDomains {
   /** Gets all static site custom domains for a particular static site. */
   get(
-    options?: StaticSitesListStaticSiteCustomDomainsParameters
+    options?: StaticSitesListStaticSiteCustomDomainsParameters,
   ): Promise<
     | StaticSitesListStaticSiteCustomDomains200Response
     | StaticSitesListStaticSiteCustomDomainsdefaultResponse
@@ -4253,14 +4253,14 @@ export interface StaticSitesListStaticSiteCustomDomains {
 export interface StaticSitesGetStaticSiteCustomDomain {
   /** Gets an existing custom domain for a particular static site. */
   get(
-    options?: StaticSitesGetStaticSiteCustomDomainParameters
+    options?: StaticSitesGetStaticSiteCustomDomainParameters,
   ): Promise<
     | StaticSitesGetStaticSiteCustomDomain200Response
     | StaticSitesGetStaticSiteCustomDomaindefaultResponse
   >;
   /** Creates a new static site custom domain in an existing resource group and static site. */
   put(
-    options: StaticSitesCreateOrUpdateStaticSiteCustomDomainParameters
+    options: StaticSitesCreateOrUpdateStaticSiteCustomDomainParameters,
   ): Promise<
     | StaticSitesCreateOrUpdateStaticSiteCustomDomain200Response
     | StaticSitesCreateOrUpdateStaticSiteCustomDomain202Response
@@ -4268,7 +4268,7 @@ export interface StaticSitesGetStaticSiteCustomDomain {
   >;
   /** Deletes a custom domain. */
   delete(
-    options?: StaticSitesDeleteStaticSiteCustomDomainParameters
+    options?: StaticSitesDeleteStaticSiteCustomDomainParameters,
   ): Promise<
     | StaticSitesDeleteStaticSiteCustomDomain200Response
     | StaticSitesDeleteStaticSiteCustomDomain202Response
@@ -4279,7 +4279,7 @@ export interface StaticSitesGetStaticSiteCustomDomain {
 export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite {
   /** Validates a particular custom domain can be added to a static site. */
   post(
-    options: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteParameters
+    options: StaticSitesValidateCustomDomainCanBeAddedToStaticSiteParameters,
   ): Promise<
     | StaticSitesValidateCustomDomainCanBeAddedToStaticSite200Response
     | StaticSitesValidateCustomDomainCanBeAddedToStaticSite202Response
@@ -4290,7 +4290,7 @@ export interface StaticSitesValidateCustomDomainCanBeAddedToStaticSite {
 export interface StaticSitesDetachStaticSite {
   /** Detaches a static site. */
   post(
-    options?: StaticSitesDetachStaticSiteParameters
+    options?: StaticSitesDetachStaticSiteParameters,
   ): Promise<
     | StaticSitesDetachStaticSite200Response
     | StaticSitesDetachStaticSite202Response
@@ -4301,7 +4301,7 @@ export interface StaticSitesDetachStaticSite {
 export interface StaticSitesListStaticSiteFunctions {
   /** Gets the functions of a static site. */
   get(
-    options?: StaticSitesListStaticSiteFunctionsParameters
+    options?: StaticSitesListStaticSiteFunctionsParameters,
   ): Promise<
     | StaticSitesListStaticSiteFunctions200Response
     | StaticSitesListStaticSiteFunctionsdefaultResponse
@@ -4311,7 +4311,7 @@ export interface StaticSitesListStaticSiteFunctions {
 export interface StaticSitesListStaticSiteAppSettings {
   /** Gets the application settings of a static site. */
   post(
-    options?: StaticSitesListStaticSiteAppSettingsParameters
+    options?: StaticSitesListStaticSiteAppSettingsParameters,
   ): Promise<
     | StaticSitesListStaticSiteAppSettings200Response
     | StaticSitesListStaticSiteAppSettingsdefaultResponse
@@ -4321,7 +4321,7 @@ export interface StaticSitesListStaticSiteAppSettings {
 export interface StaticSitesListStaticSiteConfiguredRoles {
   /** Lists the roles configured for the static site. */
   post(
-    options?: StaticSitesListStaticSiteConfiguredRolesParameters
+    options?: StaticSitesListStaticSiteConfiguredRolesParameters,
   ): Promise<
     | StaticSitesListStaticSiteConfiguredRoles200Response
     | StaticSitesListStaticSiteConfiguredRolesdefaultResponse
@@ -4331,7 +4331,7 @@ export interface StaticSitesListStaticSiteConfiguredRoles {
 export interface StaticSitesListStaticSiteFunctionAppSettings {
   /** Gets the application settings of a static site. */
   post(
-    options?: StaticSitesListStaticSiteFunctionAppSettingsParameters
+    options?: StaticSitesListStaticSiteFunctionAppSettingsParameters,
   ): Promise<
     | StaticSitesListStaticSiteFunctionAppSettings200Response
     | StaticSitesListStaticSiteFunctionAppSettingsdefaultResponse
@@ -4341,7 +4341,7 @@ export interface StaticSitesListStaticSiteFunctionAppSettings {
 export interface StaticSitesListStaticSiteSecrets {
   /** Lists the secrets for an existing static site. */
   post(
-    options?: StaticSitesListStaticSiteSecretsParameters
+    options?: StaticSitesListStaticSiteSecretsParameters,
   ): Promise<
     StaticSitesListStaticSiteSecrets200Response | StaticSitesListStaticSiteSecretsdefaultResponse
   >;
@@ -4350,7 +4350,7 @@ export interface StaticSitesListStaticSiteSecrets {
 export interface StaticSitesGetPrivateEndpointConnectionList {
   /** Gets the list of private endpoint connections associated with a static site */
   get(
-    options?: StaticSitesGetPrivateEndpointConnectionListParameters
+    options?: StaticSitesGetPrivateEndpointConnectionListParameters,
   ): Promise<
     | StaticSitesGetPrivateEndpointConnectionList200Response
     | StaticSitesGetPrivateEndpointConnectionListdefaultResponse
@@ -4360,14 +4360,14 @@ export interface StaticSitesGetPrivateEndpointConnectionList {
 export interface StaticSitesGetPrivateEndpointConnection {
   /** Gets a private endpoint connection */
   get(
-    options?: StaticSitesGetPrivateEndpointConnectionParameters
+    options?: StaticSitesGetPrivateEndpointConnectionParameters,
   ): Promise<
     | StaticSitesGetPrivateEndpointConnection200Response
     | StaticSitesGetPrivateEndpointConnectiondefaultResponse
   >;
   /** Approves or rejects a private endpoint connection */
   put(
-    options: StaticSitesApproveOrRejectPrivateEndpointConnectionParameters
+    options: StaticSitesApproveOrRejectPrivateEndpointConnectionParameters,
   ): Promise<
     | StaticSitesApproveOrRejectPrivateEndpointConnection200Response
     | StaticSitesApproveOrRejectPrivateEndpointConnection202Response
@@ -4375,7 +4375,7 @@ export interface StaticSitesGetPrivateEndpointConnection {
   >;
   /** Deletes a private endpoint connection */
   delete(
-    options?: StaticSitesDeletePrivateEndpointConnectionParameters
+    options?: StaticSitesDeletePrivateEndpointConnectionParameters,
   ): Promise<
     | StaticSitesDeletePrivateEndpointConnection200Response
     | StaticSitesDeletePrivateEndpointConnection202Response
@@ -4387,7 +4387,7 @@ export interface StaticSitesGetPrivateEndpointConnection {
 export interface StaticSitesGetPrivateLinkResources {
   /** Gets the private link resources */
   get(
-    options?: StaticSitesGetPrivateLinkResourcesParameters
+    options?: StaticSitesGetPrivateLinkResourcesParameters,
   ): Promise<
     | StaticSitesGetPrivateLinkResources200Response
     | StaticSitesGetPrivateLinkResourcesdefaultResponse
@@ -4397,7 +4397,7 @@ export interface StaticSitesGetPrivateLinkResources {
 export interface StaticSitesResetStaticSiteApiKey {
   /** Resets the api key for an existing static site. */
   post(
-    options: StaticSitesResetStaticSiteApiKeyParameters
+    options: StaticSitesResetStaticSiteApiKeyParameters,
   ): Promise<
     StaticSitesResetStaticSiteApiKey200Response | StaticSitesResetStaticSiteApiKeydefaultResponse
   >;
@@ -4406,7 +4406,7 @@ export interface StaticSitesResetStaticSiteApiKey {
 export interface StaticSitesGetUserProvidedFunctionAppsForStaticSite {
   /** Gets the details of the user provided function apps registered with a static site */
   get(
-    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteParameters
+    options?: StaticSitesGetUserProvidedFunctionAppsForStaticSiteParameters,
   ): Promise<
     | StaticSitesGetUserProvidedFunctionAppsForStaticSite200Response
     | StaticSitesGetUserProvidedFunctionAppsForStaticSitedefaultResponse
@@ -4416,14 +4416,14 @@ export interface StaticSitesGetUserProvidedFunctionAppsForStaticSite {
 export interface StaticSitesGetUserProvidedFunctionAppForStaticSite {
   /** Gets the details of the user provided function app registered with a static site */
   get(
-    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteParameters
+    options?: StaticSitesGetUserProvidedFunctionAppForStaticSiteParameters,
   ): Promise<
     | StaticSitesGetUserProvidedFunctionAppForStaticSite200Response
     | StaticSitesGetUserProvidedFunctionAppForStaticSitedefaultResponse
   >;
   /** Register a user provided function app with a static site */
   put(
-    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteParameters
+    options: StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteParameters,
   ): Promise<
     | StaticSitesRegisterUserProvidedFunctionAppWithStaticSite200Response
     | StaticSitesRegisterUserProvidedFunctionAppWithStaticSite202Response
@@ -4431,7 +4431,7 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSite {
   >;
   /** Detach the user provided function app from the static site */
   delete(
-    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteParameters
+    options?: StaticSitesDetachUserProvidedFunctionAppFromStaticSiteParameters,
   ): Promise<
     | StaticSitesDetachUserProvidedFunctionAppFromStaticSite200Response
     | StaticSitesDetachUserProvidedFunctionAppFromStaticSite204Response
@@ -4442,7 +4442,7 @@ export interface StaticSitesGetUserProvidedFunctionAppForStaticSite {
 export interface StaticSitesCreateZipDeploymentForStaticSite {
   /** Deploys zipped content to a static site. */
   post(
-    options: StaticSitesCreateZipDeploymentForStaticSiteParameters
+    options: StaticSitesCreateZipDeploymentForStaticSiteParameters,
   ): Promise<
     | StaticSitesCreateZipDeploymentForStaticSite200Response
     | StaticSitesCreateZipDeploymentForStaticSite202Response
@@ -4453,25 +4453,25 @@ export interface StaticSitesCreateZipDeploymentForStaticSite {
 export interface WebAppsList {
   /** Get all apps for a subscription. */
   get(
-    options?: WebAppsListParameters
+    options?: WebAppsListParameters,
   ): Promise<WebAppsList200Response | WebAppsListdefaultResponse>;
 }
 
 export interface WebAppsListByResourceGroup {
   /** Gets all web, mobile, and API apps in the specified resource group. */
   get(
-    options?: WebAppsListByResourceGroupParameters
+    options?: WebAppsListByResourceGroupParameters,
   ): Promise<WebAppsListByResourceGroup200Response | WebAppsListByResourceGroupdefaultResponse>;
 }
 
 export interface WebAppsGet {
   /** Gets the details of a web, mobile, or API app. */
   get(
-    options?: WebAppsGetParameters
+    options?: WebAppsGetParameters,
   ): Promise<WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse>;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
-    options: WebAppsCreateOrUpdateParameters
+    options: WebAppsCreateOrUpdateParameters,
   ): Promise<
     | WebAppsCreateOrUpdate200Response
     | WebAppsCreateOrUpdate202Response
@@ -4479,7 +4479,7 @@ export interface WebAppsGet {
   >;
   /** Deletes a web, mobile, or API app, or one of the deployment slots. */
   delete(
-    options?: WebAppsDeleteParameters
+    options?: WebAppsDeleteParameters,
   ): Promise<
     | WebAppsDelete200Response
     | WebAppsDelete204Response
@@ -4488,21 +4488,21 @@ export interface WebAppsGet {
   >;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   patch(
-    options: WebAppsUpdateParameters
+    options: WebAppsUpdateParameters,
   ): Promise<WebAppsUpdate200Response | WebAppsUpdate202Response | WebAppsUpdatedefaultResponse>;
 }
 
 export interface WebAppsAnalyzeCustomHostname {
   /** Analyze a custom hostname. */
   get(
-    options?: WebAppsAnalyzeCustomHostnameParameters
+    options?: WebAppsAnalyzeCustomHostnameParameters,
   ): Promise<WebAppsAnalyzeCustomHostname200Response | WebAppsAnalyzeCustomHostnamedefaultResponse>;
 }
 
 export interface WebAppsApplySlotConfigToProduction {
   /** Applies the configuration settings from the target slot onto the current slot. */
   post(
-    options: WebAppsApplySlotConfigToProductionParameters
+    options: WebAppsApplySlotConfigToProductionParameters,
   ): Promise<
     | WebAppsApplySlotConfigToProduction200Response
     | WebAppsApplySlotConfigToProductiondefaultResponse
@@ -4512,25 +4512,25 @@ export interface WebAppsApplySlotConfigToProduction {
 export interface WebAppsBackup {
   /** Creates a backup of an app. */
   post(
-    options: WebAppsBackupParameters
+    options: WebAppsBackupParameters,
   ): Promise<WebAppsBackup200Response | WebAppsBackupdefaultResponse>;
 }
 
 export interface WebAppsListBackups {
   /** Gets existing backups of an app. */
   get(
-    options?: WebAppsListBackupsParameters
+    options?: WebAppsListBackupsParameters,
   ): Promise<WebAppsListBackups200Response | WebAppsListBackupsdefaultResponse>;
 }
 
 export interface WebAppsGetBackupStatus {
   /** Gets a backup of an app by its ID. */
   get(
-    options?: WebAppsGetBackupStatusParameters
+    options?: WebAppsGetBackupStatusParameters,
   ): Promise<WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse>;
   /** Deletes a backup of an app by its ID. */
   delete(
-    options?: WebAppsDeleteBackupParameters
+    options?: WebAppsDeleteBackupParameters,
   ): Promise<
     | WebAppsDeleteBackup200Response
     | WebAppsDeleteBackup404Response
@@ -4541,7 +4541,7 @@ export interface WebAppsGetBackupStatus {
 export interface WebAppsListBackupStatusSecrets {
   /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
   post(
-    options: WebAppsListBackupStatusSecretsParameters
+    options: WebAppsListBackupStatusSecretsParameters,
   ): Promise<
     WebAppsListBackupStatusSecrets200Response | WebAppsListBackupStatusSecretsdefaultResponse
   >;
@@ -4550,14 +4550,14 @@ export interface WebAppsListBackupStatusSecrets {
 export interface WebAppsRestore {
   /** Restores a specific backup to another app (or deployment slot, if specified). */
   post(
-    options: WebAppsRestoreParameters
+    options: WebAppsRestoreParameters,
   ): Promise<WebAppsRestore200Response | WebAppsRestore202Response | WebAppsRestoredefaultResponse>;
 }
 
 export interface WebAppsListBasicPublishingCredentialsPolicies {
   /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
   get(
-    options?: WebAppsListBasicPublishingCredentialsPoliciesParameters
+    options?: WebAppsListBasicPublishingCredentialsPoliciesParameters,
   ): Promise<
     | WebAppsListBasicPublishingCredentialsPolicies200Response
     | WebAppsListBasicPublishingCredentialsPoliciesdefaultResponse
@@ -4567,36 +4567,36 @@ export interface WebAppsListBasicPublishingCredentialsPolicies {
 export interface WebAppsGetFtpAllowed {
   /** Returns whether FTP is allowed on the site or not. */
   get(
-    options?: WebAppsGetFtpAllowedParameters
+    options?: WebAppsGetFtpAllowedParameters,
   ): Promise<WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse>;
   /** Updates whether FTP is allowed on the site or not. */
   put(
-    options: WebAppsUpdateFtpAllowedParameters
+    options: WebAppsUpdateFtpAllowedParameters,
   ): Promise<WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse>;
 }
 
 export interface WebAppsGetScmAllowed {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
-    options?: WebAppsGetScmAllowedParameters
+    options?: WebAppsGetScmAllowedParameters,
   ): Promise<WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse>;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
-    options: WebAppsUpdateScmAllowedParameters
+    options: WebAppsUpdateScmAllowedParameters,
   ): Promise<WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse>;
 }
 
 export interface WebAppsListConfigurations {
   /** List the configurations of an app */
   get(
-    options?: WebAppsListConfigurationsParameters
+    options?: WebAppsListConfigurationsParameters,
   ): Promise<WebAppsListConfigurations200Response | WebAppsListConfigurationsdefaultResponse>;
 }
 
 export interface WebAppsUpdateApplicationSettings {
   /** Replaces the application settings of an app. */
   put(
-    options: WebAppsUpdateApplicationSettingsParameters
+    options: WebAppsUpdateApplicationSettingsParameters,
   ): Promise<
     WebAppsUpdateApplicationSettings200Response | WebAppsUpdateApplicationSettingsdefaultResponse
   >;
@@ -4605,7 +4605,7 @@ export interface WebAppsUpdateApplicationSettings {
 export interface WebAppsListApplicationSettings {
   /** Gets the application settings of an app. */
   post(
-    options?: WebAppsListApplicationSettingsParameters
+    options?: WebAppsListApplicationSettingsParameters,
   ): Promise<
     WebAppsListApplicationSettings200Response | WebAppsListApplicationSettingsdefaultResponse
   >;
@@ -4614,42 +4614,42 @@ export interface WebAppsListApplicationSettings {
 export interface WebAppsUpdateAuthSettings {
   /** Updates the Authentication / Authorization settings associated with web app. */
   put(
-    options: WebAppsUpdateAuthSettingsParameters
+    options: WebAppsUpdateAuthSettingsParameters,
   ): Promise<WebAppsUpdateAuthSettings200Response | WebAppsUpdateAuthSettingsdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettings {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
-    options?: WebAppsGetAuthSettingsParameters
+    options?: WebAppsGetAuthSettingsParameters,
   ): Promise<WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecrets {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
-    options?: WebAppsGetAuthSettingsV2WithoutSecretsParameters
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsParameters,
   ): Promise<
     | WebAppsGetAuthSettingsV2WithoutSecrets200Response
     | WebAppsGetAuthSettingsV2WithoutSecretsdefaultResponse
   >;
   /** Updates site's Authentication / Authorization settings for apps via the V2 format */
   put(
-    options: WebAppsUpdateAuthSettingsV2Parameters
+    options: WebAppsUpdateAuthSettingsV2Parameters,
   ): Promise<WebAppsUpdateAuthSettingsV2200Response | WebAppsUpdateAuthSettingsV2defaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2 {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
-    options?: WebAppsGetAuthSettingsV2Parameters
+    options?: WebAppsGetAuthSettingsV2Parameters,
   ): Promise<WebAppsGetAuthSettingsV2200Response | WebAppsGetAuthSettingsV2defaultResponse>;
 }
 
 export interface WebAppsUpdateAzureStorageAccounts {
   /** Updates the Azure storage account configurations of an app. */
   put(
-    options: WebAppsUpdateAzureStorageAccountsParameters
+    options: WebAppsUpdateAzureStorageAccountsParameters,
   ): Promise<
     WebAppsUpdateAzureStorageAccounts200Response | WebAppsUpdateAzureStorageAccountsdefaultResponse
   >;
@@ -4658,7 +4658,7 @@ export interface WebAppsUpdateAzureStorageAccounts {
 export interface WebAppsListAzureStorageAccounts {
   /** Gets the Azure storage account configurations of an app. */
   post(
-    options?: WebAppsListAzureStorageAccountsParameters
+    options?: WebAppsListAzureStorageAccountsParameters,
   ): Promise<
     WebAppsListAzureStorageAccounts200Response | WebAppsListAzureStorageAccountsdefaultResponse
   >;
@@ -4667,13 +4667,13 @@ export interface WebAppsListAzureStorageAccounts {
 export interface WebAppsUpdateBackupConfiguration {
   /** Updates the backup configuration of an app. */
   put(
-    options: WebAppsUpdateBackupConfigurationParameters
+    options: WebAppsUpdateBackupConfigurationParameters,
   ): Promise<
     WebAppsUpdateBackupConfiguration200Response | WebAppsUpdateBackupConfigurationdefaultResponse
   >;
   /** Deletes the backup configuration of an app. */
   delete(
-    options?: WebAppsDeleteBackupConfigurationParameters
+    options?: WebAppsDeleteBackupConfigurationParameters,
   ): Promise<
     WebAppsDeleteBackupConfiguration200Response | WebAppsDeleteBackupConfigurationdefaultResponse
   >;
@@ -4682,7 +4682,7 @@ export interface WebAppsUpdateBackupConfiguration {
 export interface WebAppsGetBackupConfiguration {
   /** Gets the backup configuration of an app. */
   post(
-    options?: WebAppsGetBackupConfigurationParameters
+    options?: WebAppsGetBackupConfigurationParameters,
   ): Promise<
     WebAppsGetBackupConfiguration200Response | WebAppsGetBackupConfigurationdefaultResponse
   >;
@@ -4691,7 +4691,7 @@ export interface WebAppsGetBackupConfiguration {
 export interface WebAppsGetAppSettingsKeyVaultReferences {
   /** Gets the config reference app settings and status of an app */
   get(
-    options?: WebAppsGetAppSettingsKeyVaultReferencesParameters
+    options?: WebAppsGetAppSettingsKeyVaultReferencesParameters,
   ): Promise<
     | WebAppsGetAppSettingsKeyVaultReferences200Response
     | WebAppsGetAppSettingsKeyVaultReferencesdefaultResponse
@@ -4701,7 +4701,7 @@ export interface WebAppsGetAppSettingsKeyVaultReferences {
 export interface WebAppsGetAppSettingKeyVaultReference {
   /** Gets the config reference and status of an app */
   get(
-    options?: WebAppsGetAppSettingKeyVaultReferenceParameters
+    options?: WebAppsGetAppSettingKeyVaultReferenceParameters,
   ): Promise<
     | WebAppsGetAppSettingKeyVaultReference200Response
     | WebAppsGetAppSettingKeyVaultReferencedefaultResponse
@@ -4711,7 +4711,7 @@ export interface WebAppsGetAppSettingKeyVaultReference {
 export interface WebAppsGetSiteConnectionStringKeyVaultReferences {
   /** Gets the config reference app settings and status of an app */
   get(
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesParameters
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesParameters,
   ): Promise<
     | WebAppsGetSiteConnectionStringKeyVaultReferences200Response
     | WebAppsGetSiteConnectionStringKeyVaultReferencesdefaultResponse
@@ -4721,7 +4721,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferences {
 export interface WebAppsGetSiteConnectionStringKeyVaultReference {
   /** Gets the config reference and status of an app */
   get(
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceParameters
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceParameters,
   ): Promise<
     | WebAppsGetSiteConnectionStringKeyVaultReference200Response
     | WebAppsGetSiteConnectionStringKeyVaultReferencedefaultResponse
@@ -4731,7 +4731,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReference {
 export interface WebAppsUpdateConnectionStrings {
   /** Replaces the connection strings of an app. */
   put(
-    options: WebAppsUpdateConnectionStringsParameters
+    options: WebAppsUpdateConnectionStringsParameters,
   ): Promise<
     WebAppsUpdateConnectionStrings200Response | WebAppsUpdateConnectionStringsdefaultResponse
   >;
@@ -4740,21 +4740,21 @@ export interface WebAppsUpdateConnectionStrings {
 export interface WebAppsListConnectionStrings {
   /** Gets the connection strings of an app. */
   post(
-    options?: WebAppsListConnectionStringsParameters
+    options?: WebAppsListConnectionStringsParameters,
   ): Promise<WebAppsListConnectionStrings200Response | WebAppsListConnectionStringsdefaultResponse>;
 }
 
 export interface WebAppsGetDiagnosticLogsConfiguration {
   /** Gets the logging configuration of an app. */
   get(
-    options?: WebAppsGetDiagnosticLogsConfigurationParameters
+    options?: WebAppsGetDiagnosticLogsConfigurationParameters,
   ): Promise<
     | WebAppsGetDiagnosticLogsConfiguration200Response
     | WebAppsGetDiagnosticLogsConfigurationdefaultResponse
   >;
   /** Updates the logging configuration of an app. */
   put(
-    options: WebAppsUpdateDiagnosticLogsConfigParameters
+    options: WebAppsUpdateDiagnosticLogsConfigParameters,
   ): Promise<
     WebAppsUpdateDiagnosticLogsConfig200Response | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
   >;
@@ -4763,21 +4763,21 @@ export interface WebAppsGetDiagnosticLogsConfiguration {
 export interface WebAppsUpdateMetadata {
   /** Replaces the metadata of an app. */
   put(
-    options: WebAppsUpdateMetadataParameters
+    options: WebAppsUpdateMetadataParameters,
   ): Promise<WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse>;
 }
 
 export interface WebAppsListMetadata {
   /** Gets the metadata of an app. */
   post(
-    options?: WebAppsListMetadataParameters
+    options?: WebAppsListMetadataParameters,
   ): Promise<WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse>;
 }
 
 export interface WebAppsListPublishingCredentials {
   /** Gets the Git/FTP publishing credentials of an app. */
   post(
-    options?: WebAppsListPublishingCredentialsParameters
+    options?: WebAppsListPublishingCredentialsParameters,
   ): Promise<
     WebAppsListPublishingCredentials200Response | WebAppsListPublishingCredentialsdefaultResponse
   >;
@@ -4786,7 +4786,7 @@ export interface WebAppsListPublishingCredentials {
 export interface WebAppsUpdateSitePushSettings {
   /** Updates the Push settings associated with web app. */
   put(
-    options: WebAppsUpdateSitePushSettingsParameters
+    options: WebAppsUpdateSitePushSettingsParameters,
   ): Promise<
     WebAppsUpdateSitePushSettings200Response | WebAppsUpdateSitePushSettingsdefaultResponse
   >;
@@ -4795,20 +4795,20 @@ export interface WebAppsUpdateSitePushSettings {
 export interface WebAppsListSitePushSettings {
   /** Gets the Push settings associated with web app. */
   post(
-    options?: WebAppsListSitePushSettingsParameters
+    options?: WebAppsListSitePushSettingsParameters,
   ): Promise<WebAppsListSitePushSettings200Response | WebAppsListSitePushSettingsdefaultResponse>;
 }
 
 export interface WebAppsListSlotConfigurationNames {
   /** Gets the names of app settings and connection strings that stick to the slot (not swapped). */
   get(
-    options?: WebAppsListSlotConfigurationNamesParameters
+    options?: WebAppsListSlotConfigurationNamesParameters,
   ): Promise<
     WebAppsListSlotConfigurationNames200Response | WebAppsListSlotConfigurationNamesdefaultResponse
   >;
   /** Updates the names of application settings and connection string that remain with the slot during swap operation. */
   put(
-    options: WebAppsUpdateSlotConfigurationNamesParameters
+    options: WebAppsUpdateSlotConfigurationNamesParameters,
   ): Promise<
     | WebAppsUpdateSlotConfigurationNames200Response
     | WebAppsUpdateSlotConfigurationNamesdefaultResponse
@@ -4818,25 +4818,25 @@ export interface WebAppsListSlotConfigurationNames {
 export interface WebAppsGetConfiguration {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
-    options?: WebAppsGetConfigurationParameters
+    options?: WebAppsGetConfigurationParameters,
   ): Promise<WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse>;
   /** Updates the configuration of an app. */
   put(
-    options: WebAppsCreateOrUpdateConfigurationParameters
+    options: WebAppsCreateOrUpdateConfigurationParameters,
   ): Promise<
     | WebAppsCreateOrUpdateConfiguration200Response
     | WebAppsCreateOrUpdateConfigurationdefaultResponse
   >;
   /** Updates the configuration of an app. */
   patch(
-    options: WebAppsUpdateConfigurationParameters
+    options: WebAppsUpdateConfigurationParameters,
   ): Promise<WebAppsUpdateConfiguration200Response | WebAppsUpdateConfigurationdefaultResponse>;
 }
 
 export interface WebAppsListConfigurationSnapshotInfo {
   /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
   get(
-    options?: WebAppsListConfigurationSnapshotInfoParameters
+    options?: WebAppsListConfigurationSnapshotInfoParameters,
   ): Promise<
     | WebAppsListConfigurationSnapshotInfo200Response
     | WebAppsListConfigurationSnapshotInfodefaultResponse
@@ -4846,7 +4846,7 @@ export interface WebAppsListConfigurationSnapshotInfo {
 export interface WebAppsGetConfigurationSnapshot {
   /** Gets a snapshot of the configuration of an app at a previous point in time. */
   get(
-    options?: WebAppsGetConfigurationSnapshotParameters
+    options?: WebAppsGetConfigurationSnapshotParameters,
   ): Promise<
     WebAppsGetConfigurationSnapshot200Response | WebAppsGetConfigurationSnapshotdefaultResponse
   >;
@@ -4855,7 +4855,7 @@ export interface WebAppsGetConfigurationSnapshot {
 export interface WebAppsRecoverSiteConfigurationSnapshot {
   /** Reverts the configuration of an app to a previous snapshot. */
   post(
-    options?: WebAppsRecoverSiteConfigurationSnapshotParameters
+    options?: WebAppsRecoverSiteConfigurationSnapshotParameters,
   ): Promise<
     | WebAppsRecoverSiteConfigurationSnapshot204Response
     | WebAppsRecoverSiteConfigurationSnapshotdefaultResponse
@@ -4865,7 +4865,7 @@ export interface WebAppsRecoverSiteConfigurationSnapshot {
 export interface WebAppsGetWebSiteContainerLogs {
   /** Gets the last lines of docker logs for the given site */
   post(
-    options?: WebAppsGetWebSiteContainerLogsParameters
+    options?: WebAppsGetWebSiteContainerLogsParameters,
   ): Promise<
     | WebAppsGetWebSiteContainerLogs200Response
     | WebAppsGetWebSiteContainerLogs204Response
@@ -4876,7 +4876,7 @@ export interface WebAppsGetWebSiteContainerLogs {
 export interface WebAppsGetContainerLogsZip {
   /** Gets the ZIP archived docker log files for the given site */
   post(
-    options?: WebAppsGetContainerLogsZipParameters
+    options?: WebAppsGetContainerLogsZipParameters,
   ): Promise<
     | WebAppsGetContainerLogsZip200Response
     | WebAppsGetContainerLogsZip204Response
@@ -4887,14 +4887,14 @@ export interface WebAppsGetContainerLogsZip {
 export interface WebAppsListContinuousWebJobs {
   /** List continuous web jobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListContinuousWebJobsParameters
+    options?: WebAppsListContinuousWebJobsParameters,
   ): Promise<WebAppsListContinuousWebJobs200Response | WebAppsListContinuousWebJobsdefaultResponse>;
 }
 
 export interface WebAppsGetContinuousWebJob {
   /** Gets a continuous web job by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetContinuousWebJobParameters
+    options?: WebAppsGetContinuousWebJobParameters,
   ): Promise<
     | WebAppsGetContinuousWebJob200Response
     | WebAppsGetContinuousWebJob404Response
@@ -4902,7 +4902,7 @@ export interface WebAppsGetContinuousWebJob {
   >;
   /** Delete a continuous web job by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteContinuousWebJobParameters
+    options?: WebAppsDeleteContinuousWebJobParameters,
   ): Promise<
     | WebAppsDeleteContinuousWebJob200Response
     | WebAppsDeleteContinuousWebJob204Response
@@ -4913,7 +4913,7 @@ export interface WebAppsGetContinuousWebJob {
 export interface WebAppsStartContinuousWebJob {
   /** Start a continuous web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsStartContinuousWebJobParameters
+    options?: WebAppsStartContinuousWebJobParameters,
   ): Promise<
     | WebAppsStartContinuousWebJob200Response
     | WebAppsStartContinuousWebJob404Response
@@ -4924,7 +4924,7 @@ export interface WebAppsStartContinuousWebJob {
 export interface WebAppsStopContinuousWebJob {
   /** Stop a continuous web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsStopContinuousWebJobParameters
+    options?: WebAppsStopContinuousWebJobParameters,
   ): Promise<
     | WebAppsStopContinuousWebJob200Response
     | WebAppsStopContinuousWebJob404Response
@@ -4935,22 +4935,22 @@ export interface WebAppsStopContinuousWebJob {
 export interface WebAppsListDeployments {
   /** List deployments for an app, or a deployment slot. */
   get(
-    options?: WebAppsListDeploymentsParameters
+    options?: WebAppsListDeploymentsParameters,
   ): Promise<WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse>;
 }
 
 export interface WebAppsGetDeployment {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetDeploymentParameters
+    options?: WebAppsGetDeploymentParameters,
   ): Promise<WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse>;
   /** Create a deployment for an app, or a deployment slot. */
   put(
-    options: WebAppsCreateDeploymentParameters
+    options: WebAppsCreateDeploymentParameters,
   ): Promise<WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse>;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteDeploymentParameters
+    options?: WebAppsDeleteDeploymentParameters,
   ): Promise<
     | WebAppsDeleteDeployment200Response
     | WebAppsDeleteDeployment204Response
@@ -4961,21 +4961,21 @@ export interface WebAppsGetDeployment {
 export interface WebAppsListDeploymentLog {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
-    options?: WebAppsListDeploymentLogParameters
+    options?: WebAppsListDeploymentLogParameters,
   ): Promise<WebAppsListDeploymentLog200Response | WebAppsListDeploymentLogdefaultResponse>;
 }
 
 export interface WebAppsDiscoverBackup {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
-    options: WebAppsDiscoverBackupParameters
+    options: WebAppsDiscoverBackupParameters,
   ): Promise<WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse>;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiers {
   /** Lists ownership identifiers for domain associated with web app. */
   get(
-    options?: WebAppsListDomainOwnershipIdentifiersParameters
+    options?: WebAppsListDomainOwnershipIdentifiersParameters,
   ): Promise<
     | WebAppsListDomainOwnershipIdentifiers200Response
     | WebAppsListDomainOwnershipIdentifiersdefaultResponse
@@ -4985,21 +4985,21 @@ export interface WebAppsListDomainOwnershipIdentifiers {
 export interface WebAppsGetDomainOwnershipIdentifier {
   /** Get domain ownership identifier for web app. */
   get(
-    options?: WebAppsGetDomainOwnershipIdentifierParameters
+    options?: WebAppsGetDomainOwnershipIdentifierParameters,
   ): Promise<
     | WebAppsGetDomainOwnershipIdentifier200Response
     | WebAppsGetDomainOwnershipIdentifierdefaultResponse
   >;
   /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
   put(
-    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierParameters
+    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierParameters,
   ): Promise<
     | WebAppsCreateOrUpdateDomainOwnershipIdentifier200Response
     | WebAppsCreateOrUpdateDomainOwnershipIdentifierdefaultResponse
   >;
   /** Deletes a domain ownership identifier for a web app. */
   delete(
-    options?: WebAppsDeleteDomainOwnershipIdentifierParameters
+    options?: WebAppsDeleteDomainOwnershipIdentifierParameters,
   ): Promise<
     | WebAppsDeleteDomainOwnershipIdentifier200Response
     | WebAppsDeleteDomainOwnershipIdentifier204Response
@@ -5007,7 +5007,7 @@ export interface WebAppsGetDomainOwnershipIdentifier {
   >;
   /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
   patch(
-    options: WebAppsUpdateDomainOwnershipIdentifierParameters
+    options: WebAppsUpdateDomainOwnershipIdentifierParameters,
   ): Promise<
     | WebAppsUpdateDomainOwnershipIdentifier200Response
     | WebAppsUpdateDomainOwnershipIdentifierdefaultResponse
@@ -5017,11 +5017,11 @@ export interface WebAppsGetDomainOwnershipIdentifier {
 export interface WebAppsGetMSDeployStatus {
   /** Get the status of the last MSDeploy operation. */
   get(
-    options?: WebAppsGetMSDeployStatusParameters
+    options?: WebAppsGetMSDeployStatusParameters,
   ): Promise<WebAppsGetMSDeployStatus200Response | WebAppsGetMSDeployStatusdefaultResponse>;
   /** Invoke the MSDeploy web app extension. */
   put(
-    options: WebAppsCreateMSDeployOperationParameters
+    options: WebAppsCreateMSDeployOperationParameters,
   ): Promise<
     | WebAppsCreateMSDeployOperation201Response
     | WebAppsCreateMSDeployOperation409Response
@@ -5032,7 +5032,7 @@ export interface WebAppsGetMSDeployStatus {
 export interface WebAppsGetMSDeployLog {
   /** Get the MSDeploy Log for the last MSDeploy operation. */
   get(
-    options?: WebAppsGetMSDeployLogParameters
+    options?: WebAppsGetMSDeployLogParameters,
   ): Promise<
     | WebAppsGetMSDeployLog200Response
     | WebAppsGetMSDeployLog404Response
@@ -5043,11 +5043,11 @@ export interface WebAppsGetMSDeployLog {
 export interface WebAppsGetOneDeployStatus {
   /** Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
   get(
-    options?: WebAppsGetOneDeployStatusParameters
+    options?: WebAppsGetOneDeployStatusParameters,
   ): Promise<WebAppsGetOneDeployStatus200Response | WebAppsGetOneDeployStatusdefaultResponse>;
   /** Invoke the OneDeploy publish web app extension. */
   put(
-    options?: WebAppsCreateOneDeployOperationParameters
+    options?: WebAppsCreateOneDeployOperationParameters,
   ): Promise<
     WebAppsCreateOneDeployOperation200Response | WebAppsCreateOneDeployOperationdefaultResponse
   >;
@@ -5056,7 +5056,7 @@ export interface WebAppsGetOneDeployStatus {
 export interface WebAppsListFunctions {
   /** List the functions for a web site, or a deployment slot. */
   get(
-    options?: WebAppsListFunctionsParameters
+    options?: WebAppsListFunctionsParameters,
   ): Promise<
     | WebAppsListFunctions200Response
     | WebAppsListFunctions404Response
@@ -5067,7 +5067,7 @@ export interface WebAppsListFunctions {
 export interface WebAppsGetFunctionsAdminToken {
   /** Fetch a short lived token that can be exchanged for a master key. */
   get(
-    options?: WebAppsGetFunctionsAdminTokenParameters
+    options?: WebAppsGetFunctionsAdminTokenParameters,
   ): Promise<
     WebAppsGetFunctionsAdminToken200Response | WebAppsGetFunctionsAdminTokendefaultResponse
   >;
@@ -5076,7 +5076,7 @@ export interface WebAppsGetFunctionsAdminToken {
 export interface WebAppsGetFunction {
   /** Get function information by its ID for web site, or a deployment slot. */
   get(
-    options?: WebAppsGetFunctionParameters
+    options?: WebAppsGetFunctionParameters,
   ): Promise<
     | WebAppsGetFunction200Response
     | WebAppsGetFunction404Response
@@ -5084,11 +5084,11 @@ export interface WebAppsGetFunction {
   >;
   /** Create function for web site, or a deployment slot. */
   put(
-    options: WebAppsCreateFunctionParameters
+    options: WebAppsCreateFunctionParameters,
   ): Promise<WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse>;
   /** Delete a function for web site, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteFunctionParameters
+    options?: WebAppsDeleteFunctionParameters,
   ): Promise<
     | WebAppsDeleteFunction204Response
     | WebAppsDeleteFunction404Response
@@ -5099,7 +5099,7 @@ export interface WebAppsGetFunction {
 export interface WebAppsCreateOrUpdateFunctionSecret {
   /** Add or update a function secret. */
   put(
-    options: WebAppsCreateOrUpdateFunctionSecretParameters
+    options: WebAppsCreateOrUpdateFunctionSecretParameters,
   ): Promise<
     | WebAppsCreateOrUpdateFunctionSecret200Response
     | WebAppsCreateOrUpdateFunctionSecret201Response
@@ -5107,7 +5107,7 @@ export interface WebAppsCreateOrUpdateFunctionSecret {
   >;
   /** Delete a function secret. */
   delete(
-    options?: WebAppsDeleteFunctionSecretParameters
+    options?: WebAppsDeleteFunctionSecretParameters,
   ): Promise<
     | WebAppsDeleteFunctionSecret204Response
     | WebAppsDeleteFunctionSecret404Response
@@ -5118,42 +5118,42 @@ export interface WebAppsCreateOrUpdateFunctionSecret {
 export interface WebAppsListFunctionKeys {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
-    options?: WebAppsListFunctionKeysParameters
+    options?: WebAppsListFunctionKeysParameters,
   ): Promise<WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse>;
 }
 
 export interface WebAppsListFunctionSecrets {
   /** Get function secrets for a function in a web site, or a deployment slot. */
   post(
-    options?: WebAppsListFunctionSecretsParameters
+    options?: WebAppsListFunctionSecretsParameters,
   ): Promise<WebAppsListFunctionSecrets200Response | WebAppsListFunctionSecretsdefaultResponse>;
 }
 
 export interface WebAppsListHostKeys {
   /** Get host secrets for a function app. */
   post(
-    options?: WebAppsListHostKeysParameters
+    options?: WebAppsListHostKeysParameters,
   ): Promise<WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse>;
 }
 
 export interface WebAppsListSyncStatus {
   /** This is to allow calling via powershell and ARM template. */
   post(
-    options?: WebAppsListSyncStatusParameters
+    options?: WebAppsListSyncStatusParameters,
   ): Promise<WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctions {
   /** Syncs function trigger metadata to the management database */
   post(
-    options?: WebAppsSyncFunctionsParameters
+    options?: WebAppsSyncFunctionsParameters,
   ): Promise<WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse>;
 }
 
 export interface WebAppsCreateOrUpdateHostSecret {
   /** Add or update a host level secret. */
   put(
-    options: WebAppsCreateOrUpdateHostSecretParameters
+    options: WebAppsCreateOrUpdateHostSecretParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHostSecret200Response
     | WebAppsCreateOrUpdateHostSecret201Response
@@ -5161,7 +5161,7 @@ export interface WebAppsCreateOrUpdateHostSecret {
   >;
   /** Delete a host level secret. */
   delete(
-    options?: WebAppsDeleteHostSecretParameters
+    options?: WebAppsDeleteHostSecretParameters,
   ): Promise<
     | WebAppsDeleteHostSecret204Response
     | WebAppsDeleteHostSecret404Response
@@ -5172,25 +5172,25 @@ export interface WebAppsCreateOrUpdateHostSecret {
 export interface WebAppsListHostNameBindings {
   /** Get hostname bindings for an app or a deployment slot. */
   get(
-    options?: WebAppsListHostNameBindingsParameters
+    options?: WebAppsListHostNameBindingsParameters,
   ): Promise<WebAppsListHostNameBindings200Response | WebAppsListHostNameBindingsdefaultResponse>;
 }
 
 export interface WebAppsGetHostNameBinding {
   /** Get the named hostname binding for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetHostNameBindingParameters
+    options?: WebAppsGetHostNameBindingParameters,
   ): Promise<WebAppsGetHostNameBinding200Response | WebAppsGetHostNameBindingdefaultResponse>;
   /** Creates a hostname binding for an app. */
   put(
-    options: WebAppsCreateOrUpdateHostNameBindingParameters
+    options: WebAppsCreateOrUpdateHostNameBindingParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHostNameBinding200Response
     | WebAppsCreateOrUpdateHostNameBindingdefaultResponse
   >;
   /** Deletes a hostname binding for an app. */
   delete(
-    options?: WebAppsDeleteHostNameBindingParameters
+    options?: WebAppsDeleteHostNameBindingParameters,
   ): Promise<
     | WebAppsDeleteHostNameBinding200Response
     | WebAppsDeleteHostNameBinding204Response
@@ -5201,18 +5201,18 @@ export interface WebAppsGetHostNameBinding {
 export interface WebAppsGetHybridConnection {
   /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
   get(
-    options?: WebAppsGetHybridConnectionParameters
+    options?: WebAppsGetHybridConnectionParameters,
   ): Promise<WebAppsGetHybridConnection200Response | WebAppsGetHybridConnectiondefaultResponse>;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
-    options: WebAppsCreateOrUpdateHybridConnectionParameters
+    options: WebAppsCreateOrUpdateHybridConnectionParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHybridConnection200Response
     | WebAppsCreateOrUpdateHybridConnectiondefaultResponse
   >;
   /** Removes a Hybrid Connection from this site. */
   delete(
-    options?: WebAppsDeleteHybridConnectionParameters
+    options?: WebAppsDeleteHybridConnectionParameters,
   ): Promise<
     | WebAppsDeleteHybridConnection200Response
     | WebAppsDeleteHybridConnection404Response
@@ -5220,7 +5220,7 @@ export interface WebAppsGetHybridConnection {
   >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   patch(
-    options: WebAppsUpdateHybridConnectionParameters
+    options: WebAppsUpdateHybridConnectionParameters,
   ): Promise<
     WebAppsUpdateHybridConnection200Response | WebAppsUpdateHybridConnectiondefaultResponse
   >;
@@ -5229,14 +5229,14 @@ export interface WebAppsGetHybridConnection {
 export interface WebAppsListHybridConnections {
   /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
   get(
-    options?: WebAppsListHybridConnectionsParameters
+    options?: WebAppsListHybridConnectionsParameters,
   ): Promise<WebAppsListHybridConnections200Response | WebAppsListHybridConnectionsdefaultResponse>;
 }
 
 export interface WebAppsListRelayServiceConnections {
   /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListRelayServiceConnectionsParameters
+    options?: WebAppsListRelayServiceConnectionsParameters,
   ): Promise<
     | WebAppsListRelayServiceConnections200Response
     | WebAppsListRelayServiceConnectionsdefaultResponse
@@ -5246,20 +5246,20 @@ export interface WebAppsListRelayServiceConnections {
 export interface WebAppsGetRelayServiceConnection {
   /** Gets a hybrid connection configuration by its name. */
   get(
-    options?: WebAppsGetRelayServiceConnectionParameters
+    options?: WebAppsGetRelayServiceConnectionParameters,
   ): Promise<
     WebAppsGetRelayServiceConnection200Response | WebAppsGetRelayServiceConnectiondefaultResponse
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateRelayServiceConnectionParameters
+    options: WebAppsCreateOrUpdateRelayServiceConnectionParameters,
   ): Promise<
     | WebAppsCreateOrUpdateRelayServiceConnection200Response
     | WebAppsCreateOrUpdateRelayServiceConnectiondefaultResponse
   >;
   /** Deletes a relay service connection by its name. */
   delete(
-    options?: WebAppsDeleteRelayServiceConnectionParameters
+    options?: WebAppsDeleteRelayServiceConnectionParameters,
   ): Promise<
     | WebAppsDeleteRelayServiceConnection200Response
     | WebAppsDeleteRelayServiceConnection404Response
@@ -5267,7 +5267,7 @@ export interface WebAppsGetRelayServiceConnection {
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   patch(
-    options: WebAppsUpdateRelayServiceConnectionParameters
+    options: WebAppsUpdateRelayServiceConnectionParameters,
   ): Promise<
     | WebAppsUpdateRelayServiceConnection200Response
     | WebAppsUpdateRelayServiceConnectiondefaultResponse
@@ -5277,7 +5277,7 @@ export interface WebAppsGetRelayServiceConnection {
 export interface WebAppsListInstanceIdentifiers {
   /** Gets all scale-out instances of an app. */
   get(
-    options?: WebAppsListInstanceIdentifiersParameters
+    options?: WebAppsListInstanceIdentifiersParameters,
   ): Promise<
     WebAppsListInstanceIdentifiers200Response | WebAppsListInstanceIdentifiersdefaultResponse
   >;
@@ -5286,20 +5286,20 @@ export interface WebAppsListInstanceIdentifiers {
 export interface WebAppsGetInstanceInfo {
   /** Gets all scale-out instances of an app. */
   get(
-    options?: WebAppsGetInstanceInfoParameters
+    options?: WebAppsGetInstanceInfoParameters,
   ): Promise<WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse>;
 }
 
 export interface WebAppsGetInstanceMsDeployStatus {
   /** Get the status of the last MSDeploy operation. */
   get(
-    options?: WebAppsGetInstanceMsDeployStatusParameters
+    options?: WebAppsGetInstanceMsDeployStatusParameters,
   ): Promise<
     WebAppsGetInstanceMsDeployStatus200Response | WebAppsGetInstanceMsDeployStatusdefaultResponse
   >;
   /** Invoke the MSDeploy web app extension. */
   put(
-    options: WebAppsCreateInstanceMSDeployOperationParameters
+    options: WebAppsCreateInstanceMSDeployOperationParameters,
   ): Promise<
     | WebAppsCreateInstanceMSDeployOperation201Response
     | WebAppsCreateInstanceMSDeployOperation409Response
@@ -5310,7 +5310,7 @@ export interface WebAppsGetInstanceMsDeployStatus {
 export interface WebAppsGetInstanceMSDeployLog {
   /** Get the MSDeploy Log for the last MSDeploy operation. */
   get(
-    options?: WebAppsGetInstanceMSDeployLogParameters
+    options?: WebAppsGetInstanceMSDeployLogParameters,
   ): Promise<
     | WebAppsGetInstanceMSDeployLog200Response
     | WebAppsGetInstanceMSDeployLog404Response
@@ -5321,7 +5321,7 @@ export interface WebAppsGetInstanceMSDeployLog {
 export interface WebAppsListInstanceProcesses {
   /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessesParameters
+    options?: WebAppsListInstanceProcessesParameters,
   ): Promise<
     | WebAppsListInstanceProcesses200Response
     | WebAppsListInstanceProcesses404Response
@@ -5332,7 +5332,7 @@ export interface WebAppsListInstanceProcesses {
 export interface WebAppsGetInstanceProcess {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessParameters
+    options?: WebAppsGetInstanceProcessParameters,
   ): Promise<
     | WebAppsGetInstanceProcess200Response
     | WebAppsGetInstanceProcess404Response
@@ -5340,7 +5340,7 @@ export interface WebAppsGetInstanceProcess {
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
-    options?: WebAppsDeleteInstanceProcessParameters
+    options?: WebAppsDeleteInstanceProcessParameters,
   ): Promise<
     | WebAppsDeleteInstanceProcess204Response
     | WebAppsDeleteInstanceProcess404Response
@@ -5351,7 +5351,7 @@ export interface WebAppsGetInstanceProcess {
 export interface WebAppsGetInstanceProcessDump {
   /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessDumpParameters
+    options?: WebAppsGetInstanceProcessDumpParameters,
   ): Promise<
     | WebAppsGetInstanceProcessDump200Response
     | WebAppsGetInstanceProcessDump404Response
@@ -5362,7 +5362,7 @@ export interface WebAppsGetInstanceProcessDump {
 export interface WebAppsListInstanceProcessModules {
   /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessModulesParameters
+    options?: WebAppsListInstanceProcessModulesParameters,
   ): Promise<
     | WebAppsListInstanceProcessModules200Response
     | WebAppsListInstanceProcessModules404Response
@@ -5373,7 +5373,7 @@ export interface WebAppsListInstanceProcessModules {
 export interface WebAppsGetInstanceProcessModule {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessModuleParameters
+    options?: WebAppsGetInstanceProcessModuleParameters,
   ): Promise<
     | WebAppsGetInstanceProcessModule200Response
     | WebAppsGetInstanceProcessModule404Response
@@ -5384,7 +5384,7 @@ export interface WebAppsGetInstanceProcessModule {
 export interface WebAppsListInstanceProcessThreads {
   /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessThreadsParameters
+    options?: WebAppsListInstanceProcessThreadsParameters,
   ): Promise<
     | WebAppsListInstanceProcessThreads200Response
     | WebAppsListInstanceProcessThreads404Response
@@ -5395,21 +5395,21 @@ export interface WebAppsListInstanceProcessThreads {
 export interface WebAppsIsCloneable {
   /** Shows whether an app can be cloned to another resource group or subscription. */
   post(
-    options?: WebAppsIsCloneableParameters
+    options?: WebAppsIsCloneableParameters,
   ): Promise<WebAppsIsCloneable200Response | WebAppsIsCloneabledefaultResponse>;
 }
 
 export interface WebAppsListSiteBackups {
   /** Gets existing backups of an app. */
   post(
-    options?: WebAppsListSiteBackupsParameters
+    options?: WebAppsListSiteBackupsParameters,
   ): Promise<WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse>;
 }
 
 export interface WebAppsListSyncFunctionTriggers {
   /** This is to allow calling via powershell and ARM template. */
   post(
-    options?: WebAppsListSyncFunctionTriggersParameters
+    options?: WebAppsListSyncFunctionTriggersParameters,
   ): Promise<
     WebAppsListSyncFunctionTriggers200Response | WebAppsListSyncFunctionTriggersdefaultResponse
   >;
@@ -5418,28 +5418,28 @@ export interface WebAppsListSyncFunctionTriggers {
 export interface WebAppsMigrateStorage {
   /** Restores a web app. */
   put(
-    options: WebAppsMigrateStorageParameters
+    options: WebAppsMigrateStorageParameters,
   ): Promise<WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse>;
 }
 
 export interface WebAppsMigrateMySql {
   /** Migrates a local (in-app) MySql database to a remote MySql database. */
   post(
-    options: WebAppsMigrateMySqlParameters
+    options: WebAppsMigrateMySqlParameters,
   ): Promise<WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse>;
 }
 
 export interface WebAppsGetMigrateMySqlStatus {
   /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
   get(
-    options?: WebAppsGetMigrateMySqlStatusParameters
+    options?: WebAppsGetMigrateMySqlStatusParameters,
   ): Promise<WebAppsGetMigrateMySqlStatus200Response | WebAppsGetMigrateMySqlStatusdefaultResponse>;
 }
 
 export interface WebAppsGetSwiftVirtualNetworkConnection {
   /** Gets a Swift Virtual Network connection. */
   get(
-    options?: WebAppsGetSwiftVirtualNetworkConnectionParameters
+    options?: WebAppsGetSwiftVirtualNetworkConnectionParameters,
   ): Promise<
     | WebAppsGetSwiftVirtualNetworkConnection200Response
     | WebAppsGetSwiftVirtualNetworkConnectiondefaultResponse
@@ -5449,14 +5449,14 @@ export interface WebAppsGetSwiftVirtualNetworkConnection {
    * in use by another App Service Plan other than the one this App is in.
    */
   put(
-    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckParameters
+    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckParameters,
   ): Promise<
     | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheck200Response
     | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
   >;
   /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
   delete(
-    options?: WebAppsDeleteSwiftVirtualNetworkParameters
+    options?: WebAppsDeleteSwiftVirtualNetworkParameters,
   ): Promise<
     | WebAppsDeleteSwiftVirtualNetwork200Response
     | WebAppsDeleteSwiftVirtualNetwork404Response
@@ -5467,7 +5467,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnection {
    * in use by another App Service Plan other than the one this App is in.
    */
   patch(
-    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckParameters
+    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckParameters,
   ): Promise<
     | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheck200Response
     | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckdefaultResponse
@@ -5477,7 +5477,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnection {
 export interface WebAppsListNetworkFeatures {
   /** Gets all network features used by the app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListNetworkFeaturesParameters
+    options?: WebAppsListNetworkFeaturesParameters,
   ): Promise<
     | WebAppsListNetworkFeatures200Response
     | WebAppsListNetworkFeatures404Response
@@ -5488,7 +5488,7 @@ export interface WebAppsListNetworkFeatures {
 export interface WebAppsGetNetworkTraceOperation {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTraceOperationParameters
+    options?: WebAppsGetNetworkTraceOperationParameters,
   ): Promise<
     | WebAppsGetNetworkTraceOperation200Response
     | WebAppsGetNetworkTraceOperation202Response
@@ -5499,7 +5499,7 @@ export interface WebAppsGetNetworkTraceOperation {
 export interface WebAppsStartWebSiteNetworkTrace {
   /** Start capturing network packets for the site (To be deprecated). */
   post(
-    options?: WebAppsStartWebSiteNetworkTraceParameters
+    options?: WebAppsStartWebSiteNetworkTraceParameters,
   ): Promise<
     WebAppsStartWebSiteNetworkTrace200Response | WebAppsStartWebSiteNetworkTracedefaultResponse
   >;
@@ -5508,7 +5508,7 @@ export interface WebAppsStartWebSiteNetworkTrace {
 export interface WebAppsStartWebSiteNetworkTraceOperation {
   /** Start capturing network packets for the site. */
   post(
-    options?: WebAppsStartWebSiteNetworkTraceOperationParameters
+    options?: WebAppsStartWebSiteNetworkTraceOperationParameters,
   ): Promise<
     | WebAppsStartWebSiteNetworkTraceOperation200Response
     | WebAppsStartWebSiteNetworkTraceOperation202Response
@@ -5519,7 +5519,7 @@ export interface WebAppsStartWebSiteNetworkTraceOperation {
 export interface WebAppsStopWebSiteNetworkTrace {
   /** Stop ongoing capturing network packets for the site. */
   post(
-    options?: WebAppsStopWebSiteNetworkTraceParameters
+    options?: WebAppsStopWebSiteNetworkTraceParameters,
   ): Promise<
     | WebAppsStopWebSiteNetworkTrace200Response
     | WebAppsStopWebSiteNetworkTrace204Response
@@ -5530,14 +5530,14 @@ export interface WebAppsStopWebSiteNetworkTrace {
 export interface WebAppsGetNetworkTraces {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTracesParameters
+    options?: WebAppsGetNetworkTracesParameters,
   ): Promise<WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse>;
 }
 
 export interface WebAppsGetNetworkTraceOperationV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTraceOperationV2Parameters
+    options?: WebAppsGetNetworkTraceOperationV2Parameters,
   ): Promise<
     | WebAppsGetNetworkTraceOperationV2200Response
     | WebAppsGetNetworkTraceOperationV2202Response
@@ -5548,14 +5548,14 @@ export interface WebAppsGetNetworkTraceOperationV2 {
 export interface WebAppsGetNetworkTracesV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTracesV2Parameters
+    options?: WebAppsGetNetworkTracesV2Parameters,
   ): Promise<WebAppsGetNetworkTracesV2200Response | WebAppsGetNetworkTracesV2defaultResponse>;
 }
 
 export interface WebAppsGenerateNewSitePublishingPassword {
   /** Generates a new publishing password for an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsGenerateNewSitePublishingPasswordParameters
+    options?: WebAppsGenerateNewSitePublishingPasswordParameters,
   ): Promise<
     | WebAppsGenerateNewSitePublishingPassword200Response
     | WebAppsGenerateNewSitePublishingPassword204Response
@@ -5566,14 +5566,14 @@ export interface WebAppsGenerateNewSitePublishingPassword {
 export interface WebAppsListPerfMonCounters {
   /** Gets perfmon counters for web app. */
   get(
-    options?: WebAppsListPerfMonCountersParameters
+    options?: WebAppsListPerfMonCountersParameters,
   ): Promise<WebAppsListPerfMonCounters200Response | WebAppsListPerfMonCountersdefaultResponse>;
 }
 
 export interface WebAppsGetSitePhpErrorLogFlag {
   /** Gets web app's event logs. */
   get(
-    options?: WebAppsGetSitePhpErrorLogFlagParameters
+    options?: WebAppsGetSitePhpErrorLogFlagParameters,
   ): Promise<
     WebAppsGetSitePhpErrorLogFlag200Response | WebAppsGetSitePhpErrorLogFlagdefaultResponse
   >;
@@ -5582,44 +5582,44 @@ export interface WebAppsGetSitePhpErrorLogFlag {
 export interface WebAppsListPremierAddOns {
   /** Gets the premier add-ons of an app. */
   get(
-    options?: WebAppsListPremierAddOnsParameters
+    options?: WebAppsListPremierAddOnsParameters,
   ): Promise<WebAppsListPremierAddOns200Response | WebAppsListPremierAddOnsdefaultResponse>;
 }
 
 export interface WebAppsGetPremierAddOn {
   /** Gets a named add-on of an app. */
   get(
-    options?: WebAppsGetPremierAddOnParameters
+    options?: WebAppsGetPremierAddOnParameters,
   ): Promise<WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse>;
   /** Updates a named add-on of an app. */
   put(
-    options: WebAppsAddPremierAddOnParameters
+    options: WebAppsAddPremierAddOnParameters,
   ): Promise<WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse>;
   /** Delete a premier add-on from an app. */
   delete(
-    options?: WebAppsDeletePremierAddOnParameters
+    options?: WebAppsDeletePremierAddOnParameters,
   ): Promise<WebAppsDeletePremierAddOn200Response | WebAppsDeletePremierAddOndefaultResponse>;
   /** Updates a named add-on of an app. */
   patch(
-    options: WebAppsUpdatePremierAddOnParameters
+    options: WebAppsUpdatePremierAddOnParameters,
   ): Promise<WebAppsUpdatePremierAddOn200Response | WebAppsUpdatePremierAddOndefaultResponse>;
 }
 
 export interface WebAppsGetPrivateAccess {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
-    options?: WebAppsGetPrivateAccessParameters
+    options?: WebAppsGetPrivateAccessParameters,
   ): Promise<WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse>;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
-    options: WebAppsPutPrivateAccessVnetParameters
+    options: WebAppsPutPrivateAccessVnetParameters,
   ): Promise<WebAppsPutPrivateAccessVnet200Response | WebAppsPutPrivateAccessVnetdefaultResponse>;
 }
 
 export interface WebAppsGetPrivateEndpointConnectionList {
   /** Gets the list of private endpoint connections associated with a site */
   get(
-    options?: WebAppsGetPrivateEndpointConnectionListParameters
+    options?: WebAppsGetPrivateEndpointConnectionListParameters,
   ): Promise<
     | WebAppsGetPrivateEndpointConnectionList200Response
     | WebAppsGetPrivateEndpointConnectionListdefaultResponse
@@ -5629,14 +5629,14 @@ export interface WebAppsGetPrivateEndpointConnectionList {
 export interface WebAppsGetPrivateEndpointConnection {
   /** Gets a private endpoint connection */
   get(
-    options?: WebAppsGetPrivateEndpointConnectionParameters
+    options?: WebAppsGetPrivateEndpointConnectionParameters,
   ): Promise<
     | WebAppsGetPrivateEndpointConnection200Response
     | WebAppsGetPrivateEndpointConnectiondefaultResponse
   >;
   /** Approves or rejects a private endpoint connection */
   put(
-    options: WebAppsApproveOrRejectPrivateEndpointConnectionParameters
+    options: WebAppsApproveOrRejectPrivateEndpointConnectionParameters,
   ): Promise<
     | WebAppsApproveOrRejectPrivateEndpointConnection200Response
     | WebAppsApproveOrRejectPrivateEndpointConnection202Response
@@ -5644,7 +5644,7 @@ export interface WebAppsGetPrivateEndpointConnection {
   >;
   /** Deletes a private endpoint connection */
   delete(
-    options?: WebAppsDeletePrivateEndpointConnectionParameters
+    options?: WebAppsDeletePrivateEndpointConnectionParameters,
   ): Promise<
     | WebAppsDeletePrivateEndpointConnection200Response
     | WebAppsDeletePrivateEndpointConnection202Response
@@ -5656,7 +5656,7 @@ export interface WebAppsGetPrivateEndpointConnection {
 export interface WebAppsGetPrivateLinkResources {
   /** Gets the private link resources */
   get(
-    options?: WebAppsGetPrivateLinkResourcesParameters
+    options?: WebAppsGetPrivateLinkResourcesParameters,
   ): Promise<
     WebAppsGetPrivateLinkResources200Response | WebAppsGetPrivateLinkResourcesdefaultResponse
   >;
@@ -5665,7 +5665,7 @@ export interface WebAppsGetPrivateLinkResources {
 export interface WebAppsListProcesses {
   /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessesParameters
+    options?: WebAppsListProcessesParameters,
   ): Promise<
     | WebAppsListProcesses200Response
     | WebAppsListProcesses404Response
@@ -5676,13 +5676,13 @@ export interface WebAppsListProcesses {
 export interface WebAppsGetProcess {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessParameters
+    options?: WebAppsGetProcessParameters,
   ): Promise<
     WebAppsGetProcess200Response | WebAppsGetProcess404Response | WebAppsGetProcessdefaultResponse
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
-    options?: WebAppsDeleteProcessParameters
+    options?: WebAppsDeleteProcessParameters,
   ): Promise<
     | WebAppsDeleteProcess204Response
     | WebAppsDeleteProcess404Response
@@ -5693,7 +5693,7 @@ export interface WebAppsGetProcess {
 export interface WebAppsGetProcessDump {
   /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessDumpParameters
+    options?: WebAppsGetProcessDumpParameters,
   ): Promise<
     | WebAppsGetProcessDump200Response
     | WebAppsGetProcessDump404Response
@@ -5704,7 +5704,7 @@ export interface WebAppsGetProcessDump {
 export interface WebAppsListProcessModules {
   /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessModulesParameters
+    options?: WebAppsListProcessModulesParameters,
   ): Promise<
     | WebAppsListProcessModules200Response
     | WebAppsListProcessModules404Response
@@ -5715,7 +5715,7 @@ export interface WebAppsListProcessModules {
 export interface WebAppsGetProcessModule {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessModuleParameters
+    options?: WebAppsGetProcessModuleParameters,
   ): Promise<
     | WebAppsGetProcessModule200Response
     | WebAppsGetProcessModule404Response
@@ -5726,7 +5726,7 @@ export interface WebAppsGetProcessModule {
 export interface WebAppsListProcessThreads {
   /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessThreadsParameters
+    options?: WebAppsListProcessThreadsParameters,
   ): Promise<
     | WebAppsListProcessThreads200Response
     | WebAppsListProcessThreads404Response
@@ -5737,7 +5737,7 @@ export interface WebAppsListProcessThreads {
 export interface WebAppsListPublicCertificates {
   /** Get public certificates for an app or a deployment slot. */
   get(
-    options?: WebAppsListPublicCertificatesParameters
+    options?: WebAppsListPublicCertificatesParameters,
   ): Promise<
     WebAppsListPublicCertificates200Response | WebAppsListPublicCertificatesdefaultResponse
   >;
@@ -5746,18 +5746,18 @@ export interface WebAppsListPublicCertificates {
 export interface WebAppsGetPublicCertificate {
   /** Get the named public certificate for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetPublicCertificateParameters
+    options?: WebAppsGetPublicCertificateParameters,
   ): Promise<WebAppsGetPublicCertificate200Response | WebAppsGetPublicCertificatedefaultResponse>;
   /** Creates a hostname binding for an app. */
   put(
-    options: WebAppsCreateOrUpdatePublicCertificateParameters
+    options: WebAppsCreateOrUpdatePublicCertificateParameters,
   ): Promise<
     | WebAppsCreateOrUpdatePublicCertificate200Response
     | WebAppsCreateOrUpdatePublicCertificatedefaultResponse
   >;
   /** Deletes a hostname binding for an app. */
   delete(
-    options?: WebAppsDeletePublicCertificateParameters
+    options?: WebAppsDeletePublicCertificateParameters,
   ): Promise<
     | WebAppsDeletePublicCertificate200Response
     | WebAppsDeletePublicCertificate204Response
@@ -5768,7 +5768,7 @@ export interface WebAppsGetPublicCertificate {
 export interface WebAppsListPublishingProfileXmlWithSecrets {
   /** Gets the publishing profile for an app (or deployment slot, if specified). */
   post(
-    options: WebAppsListPublishingProfileXmlWithSecretsParameters
+    options: WebAppsListPublishingProfileXmlWithSecretsParameters,
   ): Promise<
     | WebAppsListPublishingProfileXmlWithSecrets200Response
     | WebAppsListPublishingProfileXmlWithSecretsdefaultResponse
@@ -5778,7 +5778,7 @@ export interface WebAppsListPublishingProfileXmlWithSecrets {
 export interface WebAppsResetProductionSlotConfig {
   /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
   post(
-    options?: WebAppsResetProductionSlotConfigParameters
+    options?: WebAppsResetProductionSlotConfigParameters,
   ): Promise<
     WebAppsResetProductionSlotConfig200Response | WebAppsResetProductionSlotConfigdefaultResponse
   >;
@@ -5787,14 +5787,14 @@ export interface WebAppsResetProductionSlotConfig {
 export interface WebAppsRestart {
   /** Restarts an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsRestartParameters
+    options?: WebAppsRestartParameters,
   ): Promise<WebAppsRestart200Response | WebAppsRestartdefaultResponse>;
 }
 
 export interface WebAppsRestoreFromBackupBlob {
   /** Restores an app from a backup blob in Azure Storage. */
   post(
-    options: WebAppsRestoreFromBackupBlobParameters
+    options: WebAppsRestoreFromBackupBlobParameters,
   ): Promise<
     | WebAppsRestoreFromBackupBlob200Response
     | WebAppsRestoreFromBackupBlob202Response
@@ -5805,7 +5805,7 @@ export interface WebAppsRestoreFromBackupBlob {
 export interface WebAppsRestoreFromDeletedApp {
   /** Restores a deleted web app to this web app. */
   post(
-    options: WebAppsRestoreFromDeletedAppParameters
+    options: WebAppsRestoreFromDeletedAppParameters,
   ): Promise<
     | WebAppsRestoreFromDeletedApp200Response
     | WebAppsRestoreFromDeletedApp202Response
@@ -5816,7 +5816,7 @@ export interface WebAppsRestoreFromDeletedApp {
 export interface WebAppsRestoreSnapshot {
   /** Restores a web app from a snapshot. */
   post(
-    options: WebAppsRestoreSnapshotParameters
+    options: WebAppsRestoreSnapshotParameters,
   ): Promise<
     | WebAppsRestoreSnapshot200Response
     | WebAppsRestoreSnapshot202Response
@@ -5827,7 +5827,7 @@ export interface WebAppsRestoreSnapshot {
 export interface WebAppsListSiteExtensions {
   /** Get list of siteextensions for a web site, or a deployment slot. */
   get(
-    options?: WebAppsListSiteExtensionsParameters
+    options?: WebAppsListSiteExtensionsParameters,
   ): Promise<
     | WebAppsListSiteExtensions200Response
     | WebAppsListSiteExtensions404Response
@@ -5838,7 +5838,7 @@ export interface WebAppsListSiteExtensions {
 export interface WebAppsGetSiteExtension {
   /** Get site extension information by its ID for a web site, or a deployment slot. */
   get(
-    options?: WebAppsGetSiteExtensionParameters
+    options?: WebAppsGetSiteExtensionParameters,
   ): Promise<
     | WebAppsGetSiteExtension200Response
     | WebAppsGetSiteExtension404Response
@@ -5846,7 +5846,7 @@ export interface WebAppsGetSiteExtension {
   >;
   /** Install site extension on a web site, or a deployment slot. */
   put(
-    options?: WebAppsInstallSiteExtensionParameters
+    options?: WebAppsInstallSiteExtensionParameters,
   ): Promise<
     | WebAppsInstallSiteExtension200Response
     | WebAppsInstallSiteExtension201Response
@@ -5855,7 +5855,7 @@ export interface WebAppsGetSiteExtension {
   >;
   /** Remove a site extension from a web site, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteSiteExtensionParameters
+    options?: WebAppsDeleteSiteExtensionParameters,
   ): Promise<
     | WebAppsDeleteSiteExtension204Response
     | WebAppsDeleteSiteExtension404Response
@@ -5866,18 +5866,18 @@ export interface WebAppsGetSiteExtension {
 export interface WebAppsListSlots {
   /** Gets an app's deployment slots. */
   get(
-    options?: WebAppsListSlotsParameters
+    options?: WebAppsListSlotsParameters,
   ): Promise<WebAppsListSlots200Response | WebAppsListSlotsdefaultResponse>;
 }
 
 export interface WebAppsGetSlot {
   /** Gets the details of a web, mobile, or API app. */
   get(
-    options?: WebAppsGetSlotParameters
+    options?: WebAppsGetSlotParameters,
   ): Promise<WebAppsGetSlot200Response | WebAppsGetSlot404Response | WebAppsGetSlotdefaultResponse>;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
-    options: WebAppsCreateOrUpdateSlotParameters
+    options: WebAppsCreateOrUpdateSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateSlot200Response
     | WebAppsCreateOrUpdateSlot202Response
@@ -5885,7 +5885,7 @@ export interface WebAppsGetSlot {
   >;
   /** Deletes a web, mobile, or API app, or one of the deployment slots. */
   delete(
-    options?: WebAppsDeleteSlotParameters
+    options?: WebAppsDeleteSlotParameters,
   ): Promise<
     | WebAppsDeleteSlot200Response
     | WebAppsDeleteSlot204Response
@@ -5894,7 +5894,7 @@ export interface WebAppsGetSlot {
   >;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   patch(
-    options: WebAppsUpdateSlotParameters
+    options: WebAppsUpdateSlotParameters,
   ): Promise<
     WebAppsUpdateSlot200Response | WebAppsUpdateSlot202Response | WebAppsUpdateSlotdefaultResponse
   >;
@@ -5903,7 +5903,7 @@ export interface WebAppsGetSlot {
 export interface WebAppsAnalyzeCustomHostnameSlot {
   /** Analyze a custom hostname. */
   get(
-    options?: WebAppsAnalyzeCustomHostnameSlotParameters
+    options?: WebAppsAnalyzeCustomHostnameSlotParameters,
   ): Promise<
     WebAppsAnalyzeCustomHostnameSlot200Response | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
   >;
@@ -5912,7 +5912,7 @@ export interface WebAppsAnalyzeCustomHostnameSlot {
 export interface WebAppsApplySlotConfigurationSlot {
   /** Applies the configuration settings from the target slot onto the current slot. */
   post(
-    options: WebAppsApplySlotConfigurationSlotParameters
+    options: WebAppsApplySlotConfigurationSlotParameters,
   ): Promise<
     WebAppsApplySlotConfigurationSlot200Response | WebAppsApplySlotConfigurationSlotdefaultResponse
   >;
@@ -5921,25 +5921,25 @@ export interface WebAppsApplySlotConfigurationSlot {
 export interface WebAppsBackupSlot {
   /** Creates a backup of an app. */
   post(
-    options: WebAppsBackupSlotParameters
+    options: WebAppsBackupSlotParameters,
   ): Promise<WebAppsBackupSlot200Response | WebAppsBackupSlotdefaultResponse>;
 }
 
 export interface WebAppsListBackupsSlot {
   /** Gets existing backups of an app. */
   get(
-    options?: WebAppsListBackupsSlotParameters
+    options?: WebAppsListBackupsSlotParameters,
   ): Promise<WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetBackupStatusSlot {
   /** Gets a backup of an app by its ID. */
   get(
-    options?: WebAppsGetBackupStatusSlotParameters
+    options?: WebAppsGetBackupStatusSlotParameters,
   ): Promise<WebAppsGetBackupStatusSlot200Response | WebAppsGetBackupStatusSlotdefaultResponse>;
   /** Deletes a backup of an app by its ID. */
   delete(
-    options?: WebAppsDeleteBackupSlotParameters
+    options?: WebAppsDeleteBackupSlotParameters,
   ): Promise<
     | WebAppsDeleteBackupSlot200Response
     | WebAppsDeleteBackupSlot404Response
@@ -5950,7 +5950,7 @@ export interface WebAppsGetBackupStatusSlot {
 export interface WebAppsListBackupStatusSecretsSlot {
   /** Gets status of a web app backup that may be in progress, including secrets associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if a new URL is passed in the request body. */
   post(
-    options: WebAppsListBackupStatusSecretsSlotParameters
+    options: WebAppsListBackupStatusSecretsSlotParameters,
   ): Promise<
     | WebAppsListBackupStatusSecretsSlot200Response
     | WebAppsListBackupStatusSecretsSlotdefaultResponse
@@ -5960,7 +5960,7 @@ export interface WebAppsListBackupStatusSecretsSlot {
 export interface WebAppsRestoreSlot {
   /** Restores a specific backup to another app (or deployment slot, if specified). */
   post(
-    options: WebAppsRestoreSlotParameters
+    options: WebAppsRestoreSlotParameters,
   ): Promise<
     | WebAppsRestoreSlot200Response
     | WebAppsRestoreSlot202Response
@@ -5971,7 +5971,7 @@ export interface WebAppsRestoreSlot {
 export interface WebAppsListBasicPublishingCredentialsPoliciesSlot {
   /** Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site. */
   get(
-    options?: WebAppsListBasicPublishingCredentialsPoliciesSlotParameters
+    options?: WebAppsListBasicPublishingCredentialsPoliciesSlotParameters,
   ): Promise<
     | WebAppsListBasicPublishingCredentialsPoliciesSlot200Response
     | WebAppsListBasicPublishingCredentialsPoliciesSlotdefaultResponse
@@ -5981,29 +5981,29 @@ export interface WebAppsListBasicPublishingCredentialsPoliciesSlot {
 export interface WebAppsGetFtpAllowedSlot {
   /** Returns whether FTP is allowed on the site or not. */
   get(
-    options?: WebAppsGetFtpAllowedSlotParameters
+    options?: WebAppsGetFtpAllowedSlotParameters,
   ): Promise<WebAppsGetFtpAllowedSlot200Response | WebAppsGetFtpAllowedSlotdefaultResponse>;
   /** Updates whether FTP is allowed on the site or not. */
   put(
-    options: WebAppsUpdateFtpAllowedSlotParameters
+    options: WebAppsUpdateFtpAllowedSlotParameters,
   ): Promise<WebAppsUpdateFtpAllowedSlot200Response | WebAppsUpdateFtpAllowedSlotdefaultResponse>;
 }
 
 export interface WebAppsGetScmAllowedSlot {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
-    options?: WebAppsGetScmAllowedSlotParameters
+    options?: WebAppsGetScmAllowedSlotParameters,
   ): Promise<WebAppsGetScmAllowedSlot200Response | WebAppsGetScmAllowedSlotdefaultResponse>;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
-    options: WebAppsUpdateScmAllowedSlotParameters
+    options: WebAppsUpdateScmAllowedSlotParameters,
   ): Promise<WebAppsUpdateScmAllowedSlot200Response | WebAppsUpdateScmAllowedSlotdefaultResponse>;
 }
 
 export interface WebAppsListConfigurationsSlot {
   /** List the configurations of an app */
   get(
-    options?: WebAppsListConfigurationsSlotParameters
+    options?: WebAppsListConfigurationsSlotParameters,
   ): Promise<
     WebAppsListConfigurationsSlot200Response | WebAppsListConfigurationsSlotdefaultResponse
   >;
@@ -6012,7 +6012,7 @@ export interface WebAppsListConfigurationsSlot {
 export interface WebAppsUpdateApplicationSettingsSlot {
   /** Replaces the application settings of an app. */
   put(
-    options: WebAppsUpdateApplicationSettingsSlotParameters
+    options: WebAppsUpdateApplicationSettingsSlotParameters,
   ): Promise<
     | WebAppsUpdateApplicationSettingsSlot200Response
     | WebAppsUpdateApplicationSettingsSlotdefaultResponse
@@ -6022,7 +6022,7 @@ export interface WebAppsUpdateApplicationSettingsSlot {
 export interface WebAppsListApplicationSettingsSlot {
   /** Gets the application settings of an app. */
   post(
-    options?: WebAppsListApplicationSettingsSlotParameters
+    options?: WebAppsListApplicationSettingsSlotParameters,
   ): Promise<
     | WebAppsListApplicationSettingsSlot200Response
     | WebAppsListApplicationSettingsSlotdefaultResponse
@@ -6032,7 +6032,7 @@ export interface WebAppsListApplicationSettingsSlot {
 export interface WebAppsUpdateAuthSettingsSlot {
   /** Updates the Authentication / Authorization settings associated with web app. */
   put(
-    options: WebAppsUpdateAuthSettingsSlotParameters
+    options: WebAppsUpdateAuthSettingsSlotParameters,
   ): Promise<
     WebAppsUpdateAuthSettingsSlot200Response | WebAppsUpdateAuthSettingsSlotdefaultResponse
   >;
@@ -6041,21 +6041,21 @@ export interface WebAppsUpdateAuthSettingsSlot {
 export interface WebAppsGetAuthSettingsSlot {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
-    options?: WebAppsGetAuthSettingsSlotParameters
+    options?: WebAppsGetAuthSettingsSlotParameters,
   ): Promise<WebAppsGetAuthSettingsSlot200Response | WebAppsGetAuthSettingsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
-    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotParameters
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotParameters,
   ): Promise<
     | WebAppsGetAuthSettingsV2WithoutSecretsSlot200Response
     | WebAppsGetAuthSettingsV2WithoutSecretsSlotdefaultResponse
   >;
   /** Updates site's Authentication / Authorization settings for apps via the V2 format */
   put(
-    options: WebAppsUpdateAuthSettingsV2SlotParameters
+    options: WebAppsUpdateAuthSettingsV2SlotParameters,
   ): Promise<
     WebAppsUpdateAuthSettingsV2Slot200Response | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
   >;
@@ -6064,14 +6064,14 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
 export interface WebAppsGetAuthSettingsV2Slot {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
-    options?: WebAppsGetAuthSettingsV2SlotParameters
+    options?: WebAppsGetAuthSettingsV2SlotParameters,
   ): Promise<WebAppsGetAuthSettingsV2Slot200Response | WebAppsGetAuthSettingsV2SlotdefaultResponse>;
 }
 
 export interface WebAppsUpdateAzureStorageAccountsSlot {
   /** Updates the Azure storage account configurations of an app. */
   put(
-    options: WebAppsUpdateAzureStorageAccountsSlotParameters
+    options: WebAppsUpdateAzureStorageAccountsSlotParameters,
   ): Promise<
     | WebAppsUpdateAzureStorageAccountsSlot200Response
     | WebAppsUpdateAzureStorageAccountsSlotdefaultResponse
@@ -6081,7 +6081,7 @@ export interface WebAppsUpdateAzureStorageAccountsSlot {
 export interface WebAppsListAzureStorageAccountsSlot {
   /** Gets the Azure storage account configurations of an app. */
   post(
-    options?: WebAppsListAzureStorageAccountsSlotParameters
+    options?: WebAppsListAzureStorageAccountsSlotParameters,
   ): Promise<
     | WebAppsListAzureStorageAccountsSlot200Response
     | WebAppsListAzureStorageAccountsSlotdefaultResponse
@@ -6091,14 +6091,14 @@ export interface WebAppsListAzureStorageAccountsSlot {
 export interface WebAppsUpdateBackupConfigurationSlot {
   /** Updates the backup configuration of an app. */
   put(
-    options: WebAppsUpdateBackupConfigurationSlotParameters
+    options: WebAppsUpdateBackupConfigurationSlotParameters,
   ): Promise<
     | WebAppsUpdateBackupConfigurationSlot200Response
     | WebAppsUpdateBackupConfigurationSlotdefaultResponse
   >;
   /** Deletes the backup configuration of an app. */
   delete(
-    options?: WebAppsDeleteBackupConfigurationSlotParameters
+    options?: WebAppsDeleteBackupConfigurationSlotParameters,
   ): Promise<
     | WebAppsDeleteBackupConfigurationSlot200Response
     | WebAppsDeleteBackupConfigurationSlotdefaultResponse
@@ -6108,7 +6108,7 @@ export interface WebAppsUpdateBackupConfigurationSlot {
 export interface WebAppsGetBackupConfigurationSlot {
   /** Gets the backup configuration of an app. */
   post(
-    options?: WebAppsGetBackupConfigurationSlotParameters
+    options?: WebAppsGetBackupConfigurationSlotParameters,
   ): Promise<
     WebAppsGetBackupConfigurationSlot200Response | WebAppsGetBackupConfigurationSlotdefaultResponse
   >;
@@ -6117,7 +6117,7 @@ export interface WebAppsGetBackupConfigurationSlot {
 export interface WebAppsGetAppSettingsKeyVaultReferencesSlot {
   /** Gets the config reference app settings and status of an app */
   get(
-    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotParameters
+    options?: WebAppsGetAppSettingsKeyVaultReferencesSlotParameters,
   ): Promise<
     | WebAppsGetAppSettingsKeyVaultReferencesSlot200Response
     | WebAppsGetAppSettingsKeyVaultReferencesSlotdefaultResponse
@@ -6127,7 +6127,7 @@ export interface WebAppsGetAppSettingsKeyVaultReferencesSlot {
 export interface WebAppsGetAppSettingKeyVaultReferenceSlot {
   /** Gets the config reference and status of an app */
   get(
-    options?: WebAppsGetAppSettingKeyVaultReferenceSlotParameters
+    options?: WebAppsGetAppSettingKeyVaultReferenceSlotParameters,
   ): Promise<
     | WebAppsGetAppSettingKeyVaultReferenceSlot200Response
     | WebAppsGetAppSettingKeyVaultReferenceSlotdefaultResponse
@@ -6137,7 +6137,7 @@ export interface WebAppsGetAppSettingKeyVaultReferenceSlot {
 export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlot {
   /** Gets the config reference app settings and status of an app */
   get(
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotParameters
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferencesSlotParameters,
   ): Promise<
     | WebAppsGetSiteConnectionStringKeyVaultReferencesSlot200Response
     | WebAppsGetSiteConnectionStringKeyVaultReferencesSlotdefaultResponse
@@ -6147,7 +6147,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferencesSlot {
 export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlot {
   /** Gets the config reference and status of an app */
   get(
-    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotParameters
+    options?: WebAppsGetSiteConnectionStringKeyVaultReferenceSlotParameters,
   ): Promise<
     | WebAppsGetSiteConnectionStringKeyVaultReferenceSlot200Response
     | WebAppsGetSiteConnectionStringKeyVaultReferenceSlotdefaultResponse
@@ -6157,7 +6157,7 @@ export interface WebAppsGetSiteConnectionStringKeyVaultReferenceSlot {
 export interface WebAppsUpdateConnectionStringsSlot {
   /** Replaces the connection strings of an app. */
   put(
-    options: WebAppsUpdateConnectionStringsSlotParameters
+    options: WebAppsUpdateConnectionStringsSlotParameters,
   ): Promise<
     | WebAppsUpdateConnectionStringsSlot200Response
     | WebAppsUpdateConnectionStringsSlotdefaultResponse
@@ -6167,7 +6167,7 @@ export interface WebAppsUpdateConnectionStringsSlot {
 export interface WebAppsListConnectionStringsSlot {
   /** Gets the connection strings of an app. */
   post(
-    options?: WebAppsListConnectionStringsSlotParameters
+    options?: WebAppsListConnectionStringsSlotParameters,
   ): Promise<
     WebAppsListConnectionStringsSlot200Response | WebAppsListConnectionStringsSlotdefaultResponse
   >;
@@ -6176,14 +6176,14 @@ export interface WebAppsListConnectionStringsSlot {
 export interface WebAppsGetDiagnosticLogsConfigurationSlot {
   /** Gets the logging configuration of an app. */
   get(
-    options?: WebAppsGetDiagnosticLogsConfigurationSlotParameters
+    options?: WebAppsGetDiagnosticLogsConfigurationSlotParameters,
   ): Promise<
     | WebAppsGetDiagnosticLogsConfigurationSlot200Response
     | WebAppsGetDiagnosticLogsConfigurationSlotdefaultResponse
   >;
   /** Updates the logging configuration of an app. */
   put(
-    options: WebAppsUpdateDiagnosticLogsConfigSlotParameters
+    options: WebAppsUpdateDiagnosticLogsConfigSlotParameters,
   ): Promise<
     | WebAppsUpdateDiagnosticLogsConfigSlot200Response
     | WebAppsUpdateDiagnosticLogsConfigSlotdefaultResponse
@@ -6193,21 +6193,21 @@ export interface WebAppsGetDiagnosticLogsConfigurationSlot {
 export interface WebAppsUpdateMetadataSlot {
   /** Replaces the metadata of an app. */
   put(
-    options: WebAppsUpdateMetadataSlotParameters
+    options: WebAppsUpdateMetadataSlotParameters,
   ): Promise<WebAppsUpdateMetadataSlot200Response | WebAppsUpdateMetadataSlotdefaultResponse>;
 }
 
 export interface WebAppsListMetadataSlot {
   /** Gets the metadata of an app. */
   post(
-    options?: WebAppsListMetadataSlotParameters
+    options?: WebAppsListMetadataSlotParameters,
   ): Promise<WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse>;
 }
 
 export interface WebAppsListPublishingCredentialsSlot {
   /** Gets the Git/FTP publishing credentials of an app. */
   post(
-    options?: WebAppsListPublishingCredentialsSlotParameters
+    options?: WebAppsListPublishingCredentialsSlotParameters,
   ): Promise<
     | WebAppsListPublishingCredentialsSlot200Response
     | WebAppsListPublishingCredentialsSlotdefaultResponse
@@ -6217,7 +6217,7 @@ export interface WebAppsListPublishingCredentialsSlot {
 export interface WebAppsUpdateSitePushSettingsSlot {
   /** Updates the Push settings associated with web app. */
   put(
-    options: WebAppsUpdateSitePushSettingsSlotParameters
+    options: WebAppsUpdateSitePushSettingsSlotParameters,
   ): Promise<
     WebAppsUpdateSitePushSettingsSlot200Response | WebAppsUpdateSitePushSettingsSlotdefaultResponse
   >;
@@ -6226,7 +6226,7 @@ export interface WebAppsUpdateSitePushSettingsSlot {
 export interface WebAppsListSitePushSettingsSlot {
   /** Gets the Push settings associated with web app. */
   post(
-    options?: WebAppsListSitePushSettingsSlotParameters
+    options?: WebAppsListSitePushSettingsSlotParameters,
   ): Promise<
     WebAppsListSitePushSettingsSlot200Response | WebAppsListSitePushSettingsSlotdefaultResponse
   >;
@@ -6235,18 +6235,18 @@ export interface WebAppsListSitePushSettingsSlot {
 export interface WebAppsGetConfigurationSlot {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
-    options?: WebAppsGetConfigurationSlotParameters
+    options?: WebAppsGetConfigurationSlotParameters,
   ): Promise<WebAppsGetConfigurationSlot200Response | WebAppsGetConfigurationSlotdefaultResponse>;
   /** Updates the configuration of an app. */
   put(
-    options: WebAppsCreateOrUpdateConfigurationSlotParameters
+    options: WebAppsCreateOrUpdateConfigurationSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateConfigurationSlot200Response
     | WebAppsCreateOrUpdateConfigurationSlotdefaultResponse
   >;
   /** Updates the configuration of an app. */
   patch(
-    options: WebAppsUpdateConfigurationSlotParameters
+    options: WebAppsUpdateConfigurationSlotParameters,
   ): Promise<
     WebAppsUpdateConfigurationSlot200Response | WebAppsUpdateConfigurationSlotdefaultResponse
   >;
@@ -6255,7 +6255,7 @@ export interface WebAppsGetConfigurationSlot {
 export interface WebAppsListConfigurationSnapshotInfoSlot {
   /** Gets a list of web app configuration snapshots identifiers. Each element of the list contains a timestamp and the ID of the snapshot. */
   get(
-    options?: WebAppsListConfigurationSnapshotInfoSlotParameters
+    options?: WebAppsListConfigurationSnapshotInfoSlotParameters,
   ): Promise<
     | WebAppsListConfigurationSnapshotInfoSlot200Response
     | WebAppsListConfigurationSnapshotInfoSlotdefaultResponse
@@ -6265,7 +6265,7 @@ export interface WebAppsListConfigurationSnapshotInfoSlot {
 export interface WebAppsGetConfigurationSnapshotSlot {
   /** Gets a snapshot of the configuration of an app at a previous point in time. */
   get(
-    options?: WebAppsGetConfigurationSnapshotSlotParameters
+    options?: WebAppsGetConfigurationSnapshotSlotParameters,
   ): Promise<
     | WebAppsGetConfigurationSnapshotSlot200Response
     | WebAppsGetConfigurationSnapshotSlotdefaultResponse
@@ -6275,7 +6275,7 @@ export interface WebAppsGetConfigurationSnapshotSlot {
 export interface WebAppsRecoverSiteConfigurationSnapshotSlot {
   /** Reverts the configuration of an app to a previous snapshot. */
   post(
-    options?: WebAppsRecoverSiteConfigurationSnapshotSlotParameters
+    options?: WebAppsRecoverSiteConfigurationSnapshotSlotParameters,
   ): Promise<
     | WebAppsRecoverSiteConfigurationSnapshotSlot204Response
     | WebAppsRecoverSiteConfigurationSnapshotSlotdefaultResponse
@@ -6285,7 +6285,7 @@ export interface WebAppsRecoverSiteConfigurationSnapshotSlot {
 export interface WebAppsGetWebSiteContainerLogsSlot {
   /** Gets the last lines of docker logs for the given site */
   post(
-    options?: WebAppsGetWebSiteContainerLogsSlotParameters
+    options?: WebAppsGetWebSiteContainerLogsSlotParameters,
   ): Promise<
     | WebAppsGetWebSiteContainerLogsSlot200Response
     | WebAppsGetWebSiteContainerLogsSlot204Response
@@ -6296,7 +6296,7 @@ export interface WebAppsGetWebSiteContainerLogsSlot {
 export interface WebAppsGetContainerLogsZipSlot {
   /** Gets the ZIP archived docker log files for the given site */
   post(
-    options?: WebAppsGetContainerLogsZipSlotParameters
+    options?: WebAppsGetContainerLogsZipSlotParameters,
   ): Promise<
     | WebAppsGetContainerLogsZipSlot200Response
     | WebAppsGetContainerLogsZipSlot204Response
@@ -6307,7 +6307,7 @@ export interface WebAppsGetContainerLogsZipSlot {
 export interface WebAppsListContinuousWebJobsSlot {
   /** List continuous web jobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListContinuousWebJobsSlotParameters
+    options?: WebAppsListContinuousWebJobsSlotParameters,
   ): Promise<
     WebAppsListContinuousWebJobsSlot200Response | WebAppsListContinuousWebJobsSlotdefaultResponse
   >;
@@ -6316,7 +6316,7 @@ export interface WebAppsListContinuousWebJobsSlot {
 export interface WebAppsGetContinuousWebJobSlot {
   /** Gets a continuous web job by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetContinuousWebJobSlotParameters
+    options?: WebAppsGetContinuousWebJobSlotParameters,
   ): Promise<
     | WebAppsGetContinuousWebJobSlot200Response
     | WebAppsGetContinuousWebJobSlot404Response
@@ -6324,7 +6324,7 @@ export interface WebAppsGetContinuousWebJobSlot {
   >;
   /** Delete a continuous web job by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteContinuousWebJobSlotParameters
+    options?: WebAppsDeleteContinuousWebJobSlotParameters,
   ): Promise<
     | WebAppsDeleteContinuousWebJobSlot200Response
     | WebAppsDeleteContinuousWebJobSlot204Response
@@ -6335,7 +6335,7 @@ export interface WebAppsGetContinuousWebJobSlot {
 export interface WebAppsStartContinuousWebJobSlot {
   /** Start a continuous web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsStartContinuousWebJobSlotParameters
+    options?: WebAppsStartContinuousWebJobSlotParameters,
   ): Promise<
     | WebAppsStartContinuousWebJobSlot200Response
     | WebAppsStartContinuousWebJobSlot404Response
@@ -6346,7 +6346,7 @@ export interface WebAppsStartContinuousWebJobSlot {
 export interface WebAppsStopContinuousWebJobSlot {
   /** Stop a continuous web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsStopContinuousWebJobSlotParameters
+    options?: WebAppsStopContinuousWebJobSlotParameters,
   ): Promise<
     | WebAppsStopContinuousWebJobSlot200Response
     | WebAppsStopContinuousWebJobSlot404Response
@@ -6357,22 +6357,22 @@ export interface WebAppsStopContinuousWebJobSlot {
 export interface WebAppsListDeploymentsSlot {
   /** List deployments for an app, or a deployment slot. */
   get(
-    options?: WebAppsListDeploymentsSlotParameters
+    options?: WebAppsListDeploymentsSlotParameters,
   ): Promise<WebAppsListDeploymentsSlot200Response | WebAppsListDeploymentsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetDeploymentSlot {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetDeploymentSlotParameters
+    options?: WebAppsGetDeploymentSlotParameters,
   ): Promise<WebAppsGetDeploymentSlot200Response | WebAppsGetDeploymentSlotdefaultResponse>;
   /** Create a deployment for an app, or a deployment slot. */
   put(
-    options: WebAppsCreateDeploymentSlotParameters
+    options: WebAppsCreateDeploymentSlotParameters,
   ): Promise<WebAppsCreateDeploymentSlot200Response | WebAppsCreateDeploymentSlotdefaultResponse>;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteDeploymentSlotParameters
+    options?: WebAppsDeleteDeploymentSlotParameters,
   ): Promise<
     | WebAppsDeleteDeploymentSlot200Response
     | WebAppsDeleteDeploymentSlot204Response
@@ -6383,21 +6383,21 @@ export interface WebAppsGetDeploymentSlot {
 export interface WebAppsListDeploymentLogSlot {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
-    options?: WebAppsListDeploymentLogSlotParameters
+    options?: WebAppsListDeploymentLogSlotParameters,
   ): Promise<WebAppsListDeploymentLogSlot200Response | WebAppsListDeploymentLogSlotdefaultResponse>;
 }
 
 export interface WebAppsDiscoverBackupSlot {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
-    options: WebAppsDiscoverBackupSlotParameters
+    options: WebAppsDiscoverBackupSlotParameters,
   ): Promise<WebAppsDiscoverBackupSlot200Response | WebAppsDiscoverBackupSlotdefaultResponse>;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiersSlot {
   /** Lists ownership identifiers for domain associated with web app. */
   get(
-    options?: WebAppsListDomainOwnershipIdentifiersSlotParameters
+    options?: WebAppsListDomainOwnershipIdentifiersSlotParameters,
   ): Promise<
     | WebAppsListDomainOwnershipIdentifiersSlot200Response
     | WebAppsListDomainOwnershipIdentifiersSlotdefaultResponse
@@ -6407,21 +6407,21 @@ export interface WebAppsListDomainOwnershipIdentifiersSlot {
 export interface WebAppsGetDomainOwnershipIdentifierSlot {
   /** Get domain ownership identifier for web app. */
   get(
-    options?: WebAppsGetDomainOwnershipIdentifierSlotParameters
+    options?: WebAppsGetDomainOwnershipIdentifierSlotParameters,
   ): Promise<
     | WebAppsGetDomainOwnershipIdentifierSlot200Response
     | WebAppsGetDomainOwnershipIdentifierSlotdefaultResponse
   >;
   /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
   put(
-    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotParameters
+    options: WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateDomainOwnershipIdentifierSlot200Response
     | WebAppsCreateOrUpdateDomainOwnershipIdentifierSlotdefaultResponse
   >;
   /** Deletes a domain ownership identifier for a web app. */
   delete(
-    options?: WebAppsDeleteDomainOwnershipIdentifierSlotParameters
+    options?: WebAppsDeleteDomainOwnershipIdentifierSlotParameters,
   ): Promise<
     | WebAppsDeleteDomainOwnershipIdentifierSlot200Response
     | WebAppsDeleteDomainOwnershipIdentifierSlot204Response
@@ -6429,7 +6429,7 @@ export interface WebAppsGetDomainOwnershipIdentifierSlot {
   >;
   /** Creates a domain ownership identifier for web app, or updates an existing ownership identifier. */
   patch(
-    options: WebAppsUpdateDomainOwnershipIdentifierSlotParameters
+    options: WebAppsUpdateDomainOwnershipIdentifierSlotParameters,
   ): Promise<
     | WebAppsUpdateDomainOwnershipIdentifierSlot200Response
     | WebAppsUpdateDomainOwnershipIdentifierSlotdefaultResponse
@@ -6439,11 +6439,11 @@ export interface WebAppsGetDomainOwnershipIdentifierSlot {
 export interface WebAppsGetMSDeployStatusSlot {
   /** Get the status of the last MSDeploy operation. */
   get(
-    options?: WebAppsGetMSDeployStatusSlotParameters
+    options?: WebAppsGetMSDeployStatusSlotParameters,
   ): Promise<WebAppsGetMSDeployStatusSlot200Response | WebAppsGetMSDeployStatusSlotdefaultResponse>;
   /** Invoke the MSDeploy web app extension. */
   put(
-    options: WebAppsCreateMSDeployOperationSlotParameters
+    options: WebAppsCreateMSDeployOperationSlotParameters,
   ): Promise<
     | WebAppsCreateMSDeployOperationSlot201Response
     | WebAppsCreateMSDeployOperationSlot409Response
@@ -6454,7 +6454,7 @@ export interface WebAppsGetMSDeployStatusSlot {
 export interface WebAppsGetMSDeployLogSlot {
   /** Get the MSDeploy Log for the last MSDeploy operation. */
   get(
-    options?: WebAppsGetMSDeployLogSlotParameters
+    options?: WebAppsGetMSDeployLogSlotParameters,
   ): Promise<
     | WebAppsGetMSDeployLogSlot200Response
     | WebAppsGetMSDeployLogSlot404Response
@@ -6465,7 +6465,7 @@ export interface WebAppsGetMSDeployLogSlot {
 export interface WebAppsListInstanceFunctionsSlot {
   /** List the functions for a web site, or a deployment slot. */
   get(
-    options?: WebAppsListInstanceFunctionsSlotParameters
+    options?: WebAppsListInstanceFunctionsSlotParameters,
   ): Promise<
     | WebAppsListInstanceFunctionsSlot200Response
     | WebAppsListInstanceFunctionsSlot404Response
@@ -6476,7 +6476,7 @@ export interface WebAppsListInstanceFunctionsSlot {
 export interface WebAppsGetFunctionsAdminTokenSlot {
   /** Fetch a short lived token that can be exchanged for a master key. */
   get(
-    options?: WebAppsGetFunctionsAdminTokenSlotParameters
+    options?: WebAppsGetFunctionsAdminTokenSlotParameters,
   ): Promise<
     WebAppsGetFunctionsAdminTokenSlot200Response | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
   >;
@@ -6485,7 +6485,7 @@ export interface WebAppsGetFunctionsAdminTokenSlot {
 export interface WebAppsGetInstanceFunctionSlot {
   /** Get function information by its ID for web site, or a deployment slot. */
   get(
-    options?: WebAppsGetInstanceFunctionSlotParameters
+    options?: WebAppsGetInstanceFunctionSlotParameters,
   ): Promise<
     | WebAppsGetInstanceFunctionSlot200Response
     | WebAppsGetInstanceFunctionSlot404Response
@@ -6493,13 +6493,13 @@ export interface WebAppsGetInstanceFunctionSlot {
   >;
   /** Create function for web site, or a deployment slot. */
   put(
-    options: WebAppsCreateInstanceFunctionSlotParameters
+    options: WebAppsCreateInstanceFunctionSlotParameters,
   ): Promise<
     WebAppsCreateInstanceFunctionSlot201Response | WebAppsCreateInstanceFunctionSlotdefaultResponse
   >;
   /** Delete a function for web site, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteInstanceFunctionSlotParameters
+    options?: WebAppsDeleteInstanceFunctionSlotParameters,
   ): Promise<
     | WebAppsDeleteInstanceFunctionSlot204Response
     | WebAppsDeleteInstanceFunctionSlot404Response
@@ -6510,7 +6510,7 @@ export interface WebAppsGetInstanceFunctionSlot {
 export interface WebAppsCreateOrUpdateFunctionSecretSlot {
   /** Add or update a function secret. */
   put(
-    options: WebAppsCreateOrUpdateFunctionSecretSlotParameters
+    options: WebAppsCreateOrUpdateFunctionSecretSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateFunctionSecretSlot200Response
     | WebAppsCreateOrUpdateFunctionSecretSlot201Response
@@ -6518,7 +6518,7 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlot {
   >;
   /** Delete a function secret. */
   delete(
-    options?: WebAppsDeleteFunctionSecretSlotParameters
+    options?: WebAppsDeleteFunctionSecretSlotParameters,
   ): Promise<
     | WebAppsDeleteFunctionSecretSlot204Response
     | WebAppsDeleteFunctionSecretSlot404Response
@@ -6529,14 +6529,14 @@ export interface WebAppsCreateOrUpdateFunctionSecretSlot {
 export interface WebAppsListFunctionKeysSlot {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
-    options?: WebAppsListFunctionKeysSlotParameters
+    options?: WebAppsListFunctionKeysSlotParameters,
   ): Promise<WebAppsListFunctionKeysSlot200Response | WebAppsListFunctionKeysSlotdefaultResponse>;
 }
 
 export interface WebAppsListFunctionSecretsSlot {
   /** Get function secrets for a function in a web site, or a deployment slot. */
   post(
-    options?: WebAppsListFunctionSecretsSlotParameters
+    options?: WebAppsListFunctionSecretsSlotParameters,
   ): Promise<
     WebAppsListFunctionSecretsSlot200Response | WebAppsListFunctionSecretsSlotdefaultResponse
   >;
@@ -6545,28 +6545,28 @@ export interface WebAppsListFunctionSecretsSlot {
 export interface WebAppsListHostKeysSlot {
   /** Get host secrets for a function app. */
   post(
-    options?: WebAppsListHostKeysSlotParameters
+    options?: WebAppsListHostKeysSlotParameters,
   ): Promise<WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse>;
 }
 
 export interface WebAppsListSyncStatusSlot {
   /** This is to allow calling via powershell and ARM template. */
   post(
-    options?: WebAppsListSyncStatusSlotParameters
+    options?: WebAppsListSyncStatusSlotParameters,
   ): Promise<WebAppsListSyncStatusSlot204Response | WebAppsListSyncStatusSlotdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionsSlot {
   /** Syncs function trigger metadata to the management database */
   post(
-    options?: WebAppsSyncFunctionsSlotParameters
+    options?: WebAppsSyncFunctionsSlotParameters,
   ): Promise<WebAppsSyncFunctionsSlot204Response | WebAppsSyncFunctionsSlotdefaultResponse>;
 }
 
 export interface WebAppsCreateOrUpdateHostSecretSlot {
   /** Add or update a host level secret. */
   put(
-    options: WebAppsCreateOrUpdateHostSecretSlotParameters
+    options: WebAppsCreateOrUpdateHostSecretSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHostSecretSlot200Response
     | WebAppsCreateOrUpdateHostSecretSlot201Response
@@ -6574,7 +6574,7 @@ export interface WebAppsCreateOrUpdateHostSecretSlot {
   >;
   /** Delete a host level secret. */
   delete(
-    options?: WebAppsDeleteHostSecretSlotParameters
+    options?: WebAppsDeleteHostSecretSlotParameters,
   ): Promise<
     | WebAppsDeleteHostSecretSlot204Response
     | WebAppsDeleteHostSecretSlot404Response
@@ -6585,7 +6585,7 @@ export interface WebAppsCreateOrUpdateHostSecretSlot {
 export interface WebAppsListHostNameBindingsSlot {
   /** Get hostname bindings for an app or a deployment slot. */
   get(
-    options?: WebAppsListHostNameBindingsSlotParameters
+    options?: WebAppsListHostNameBindingsSlotParameters,
   ): Promise<
     WebAppsListHostNameBindingsSlot200Response | WebAppsListHostNameBindingsSlotdefaultResponse
   >;
@@ -6594,20 +6594,20 @@ export interface WebAppsListHostNameBindingsSlot {
 export interface WebAppsGetHostNameBindingSlot {
   /** Get the named hostname binding for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetHostNameBindingSlotParameters
+    options?: WebAppsGetHostNameBindingSlotParameters,
   ): Promise<
     WebAppsGetHostNameBindingSlot200Response | WebAppsGetHostNameBindingSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
-    options: WebAppsCreateOrUpdateHostNameBindingSlotParameters
+    options: WebAppsCreateOrUpdateHostNameBindingSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHostNameBindingSlot200Response
     | WebAppsCreateOrUpdateHostNameBindingSlotdefaultResponse
   >;
   /** Deletes a hostname binding for an app. */
   delete(
-    options?: WebAppsDeleteHostNameBindingSlotParameters
+    options?: WebAppsDeleteHostNameBindingSlotParameters,
   ): Promise<
     | WebAppsDeleteHostNameBindingSlot200Response
     | WebAppsDeleteHostNameBindingSlot204Response
@@ -6618,20 +6618,20 @@ export interface WebAppsGetHostNameBindingSlot {
 export interface WebAppsGetHybridConnectionSlot {
   /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
   get(
-    options?: WebAppsGetHybridConnectionSlotParameters
+    options?: WebAppsGetHybridConnectionSlotParameters,
   ): Promise<
     WebAppsGetHybridConnectionSlot200Response | WebAppsGetHybridConnectionSlotdefaultResponse
   >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
-    options: WebAppsCreateOrUpdateHybridConnectionSlotParameters
+    options: WebAppsCreateOrUpdateHybridConnectionSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateHybridConnectionSlot200Response
     | WebAppsCreateOrUpdateHybridConnectionSlotdefaultResponse
   >;
   /** Removes a Hybrid Connection from this site. */
   delete(
-    options?: WebAppsDeleteHybridConnectionSlotParameters
+    options?: WebAppsDeleteHybridConnectionSlotParameters,
   ): Promise<
     | WebAppsDeleteHybridConnectionSlot200Response
     | WebAppsDeleteHybridConnectionSlot404Response
@@ -6639,7 +6639,7 @@ export interface WebAppsGetHybridConnectionSlot {
   >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   patch(
-    options: WebAppsUpdateHybridConnectionSlotParameters
+    options: WebAppsUpdateHybridConnectionSlotParameters,
   ): Promise<
     WebAppsUpdateHybridConnectionSlot200Response | WebAppsUpdateHybridConnectionSlotdefaultResponse
   >;
@@ -6648,7 +6648,7 @@ export interface WebAppsGetHybridConnectionSlot {
 export interface WebAppsListHybridConnectionsSlot {
   /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
   get(
-    options?: WebAppsListHybridConnectionsSlotParameters
+    options?: WebAppsListHybridConnectionsSlotParameters,
   ): Promise<
     WebAppsListHybridConnectionsSlot200Response | WebAppsListHybridConnectionsSlotdefaultResponse
   >;
@@ -6657,7 +6657,7 @@ export interface WebAppsListHybridConnectionsSlot {
 export interface WebAppsListRelayServiceConnectionsSlot {
   /** Gets hybrid connections configured for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListRelayServiceConnectionsSlotParameters
+    options?: WebAppsListRelayServiceConnectionsSlotParameters,
   ): Promise<
     | WebAppsListRelayServiceConnectionsSlot200Response
     | WebAppsListRelayServiceConnectionsSlotdefaultResponse
@@ -6667,21 +6667,21 @@ export interface WebAppsListRelayServiceConnectionsSlot {
 export interface WebAppsGetRelayServiceConnectionSlot {
   /** Gets a hybrid connection configuration by its name. */
   get(
-    options?: WebAppsGetRelayServiceConnectionSlotParameters
+    options?: WebAppsGetRelayServiceConnectionSlotParameters,
   ): Promise<
     | WebAppsGetRelayServiceConnectionSlot200Response
     | WebAppsGetRelayServiceConnectionSlotdefaultResponse
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateRelayServiceConnectionSlotParameters
+    options: WebAppsCreateOrUpdateRelayServiceConnectionSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateRelayServiceConnectionSlot200Response
     | WebAppsCreateOrUpdateRelayServiceConnectionSlotdefaultResponse
   >;
   /** Deletes a relay service connection by its name. */
   delete(
-    options?: WebAppsDeleteRelayServiceConnectionSlotParameters
+    options?: WebAppsDeleteRelayServiceConnectionSlotParameters,
   ): Promise<
     | WebAppsDeleteRelayServiceConnectionSlot200Response
     | WebAppsDeleteRelayServiceConnectionSlot404Response
@@ -6689,7 +6689,7 @@ export interface WebAppsGetRelayServiceConnectionSlot {
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   patch(
-    options: WebAppsUpdateRelayServiceConnectionSlotParameters
+    options: WebAppsUpdateRelayServiceConnectionSlotParameters,
   ): Promise<
     | WebAppsUpdateRelayServiceConnectionSlot200Response
     | WebAppsUpdateRelayServiceConnectionSlotdefaultResponse
@@ -6699,7 +6699,7 @@ export interface WebAppsGetRelayServiceConnectionSlot {
 export interface WebAppsListInstanceIdentifiersSlot {
   /** Gets all scale-out instances of an app. */
   get(
-    options?: WebAppsListInstanceIdentifiersSlotParameters
+    options?: WebAppsListInstanceIdentifiersSlotParameters,
   ): Promise<
     | WebAppsListInstanceIdentifiersSlot200Response
     | WebAppsListInstanceIdentifiersSlotdefaultResponse
@@ -6709,21 +6709,21 @@ export interface WebAppsListInstanceIdentifiersSlot {
 export interface WebAppsGetInstanceInfoSlot {
   /** Gets all scale-out instances of an app. */
   get(
-    options?: WebAppsGetInstanceInfoSlotParameters
+    options?: WebAppsGetInstanceInfoSlotParameters,
   ): Promise<WebAppsGetInstanceInfoSlot200Response | WebAppsGetInstanceInfoSlotdefaultResponse>;
 }
 
 export interface WebAppsGetInstanceMsDeployStatusSlot {
   /** Get the status of the last MSDeploy operation. */
   get(
-    options?: WebAppsGetInstanceMsDeployStatusSlotParameters
+    options?: WebAppsGetInstanceMsDeployStatusSlotParameters,
   ): Promise<
     | WebAppsGetInstanceMsDeployStatusSlot200Response
     | WebAppsGetInstanceMsDeployStatusSlotdefaultResponse
   >;
   /** Invoke the MSDeploy web app extension. */
   put(
-    options: WebAppsCreateInstanceMSDeployOperationSlotParameters
+    options: WebAppsCreateInstanceMSDeployOperationSlotParameters,
   ): Promise<
     | WebAppsCreateInstanceMSDeployOperationSlot201Response
     | WebAppsCreateInstanceMSDeployOperationSlot409Response
@@ -6734,7 +6734,7 @@ export interface WebAppsGetInstanceMsDeployStatusSlot {
 export interface WebAppsGetInstanceMSDeployLogSlot {
   /** Get the MSDeploy Log for the last MSDeploy operation. */
   get(
-    options?: WebAppsGetInstanceMSDeployLogSlotParameters
+    options?: WebAppsGetInstanceMSDeployLogSlotParameters,
   ): Promise<
     | WebAppsGetInstanceMSDeployLogSlot200Response
     | WebAppsGetInstanceMSDeployLogSlot404Response
@@ -6745,7 +6745,7 @@ export interface WebAppsGetInstanceMSDeployLogSlot {
 export interface WebAppsListInstanceProcessesSlot {
   /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessesSlotParameters
+    options?: WebAppsListInstanceProcessesSlotParameters,
   ): Promise<
     | WebAppsListInstanceProcessesSlot200Response
     | WebAppsListInstanceProcessesSlot404Response
@@ -6756,7 +6756,7 @@ export interface WebAppsListInstanceProcessesSlot {
 export interface WebAppsGetInstanceProcessSlot {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessSlotParameters
+    options?: WebAppsGetInstanceProcessSlotParameters,
   ): Promise<
     | WebAppsGetInstanceProcessSlot200Response
     | WebAppsGetInstanceProcessSlot404Response
@@ -6764,7 +6764,7 @@ export interface WebAppsGetInstanceProcessSlot {
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
-    options?: WebAppsDeleteInstanceProcessSlotParameters
+    options?: WebAppsDeleteInstanceProcessSlotParameters,
   ): Promise<
     | WebAppsDeleteInstanceProcessSlot204Response
     | WebAppsDeleteInstanceProcessSlot404Response
@@ -6775,7 +6775,7 @@ export interface WebAppsGetInstanceProcessSlot {
 export interface WebAppsGetInstanceProcessDumpSlot {
   /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessDumpSlotParameters
+    options?: WebAppsGetInstanceProcessDumpSlotParameters,
   ): Promise<
     | WebAppsGetInstanceProcessDumpSlot200Response
     | WebAppsGetInstanceProcessDumpSlot404Response
@@ -6786,7 +6786,7 @@ export interface WebAppsGetInstanceProcessDumpSlot {
 export interface WebAppsListInstanceProcessModulesSlot {
   /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessModulesSlotParameters
+    options?: WebAppsListInstanceProcessModulesSlotParameters,
   ): Promise<
     | WebAppsListInstanceProcessModulesSlot200Response
     | WebAppsListInstanceProcessModulesSlot404Response
@@ -6797,7 +6797,7 @@ export interface WebAppsListInstanceProcessModulesSlot {
 export interface WebAppsGetInstanceProcessModuleSlot {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetInstanceProcessModuleSlotParameters
+    options?: WebAppsGetInstanceProcessModuleSlotParameters,
   ): Promise<
     | WebAppsGetInstanceProcessModuleSlot200Response
     | WebAppsGetInstanceProcessModuleSlot404Response
@@ -6808,7 +6808,7 @@ export interface WebAppsGetInstanceProcessModuleSlot {
 export interface WebAppsListInstanceProcessThreadsSlot {
   /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListInstanceProcessThreadsSlotParameters
+    options?: WebAppsListInstanceProcessThreadsSlotParameters,
   ): Promise<
     | WebAppsListInstanceProcessThreadsSlot200Response
     | WebAppsListInstanceProcessThreadsSlot404Response
@@ -6819,21 +6819,21 @@ export interface WebAppsListInstanceProcessThreadsSlot {
 export interface WebAppsIsCloneableSlot {
   /** Shows whether an app can be cloned to another resource group or subscription. */
   post(
-    options?: WebAppsIsCloneableSlotParameters
+    options?: WebAppsIsCloneableSlotParameters,
   ): Promise<WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse>;
 }
 
 export interface WebAppsListSiteBackupsSlot {
   /** Gets existing backups of an app. */
   post(
-    options?: WebAppsListSiteBackupsSlotParameters
+    options?: WebAppsListSiteBackupsSlotParameters,
   ): Promise<WebAppsListSiteBackupsSlot200Response | WebAppsListSiteBackupsSlotdefaultResponse>;
 }
 
 export interface WebAppsListSyncFunctionTriggersSlot {
   /** This is to allow calling via powershell and ARM template. */
   post(
-    options?: WebAppsListSyncFunctionTriggersSlotParameters
+    options?: WebAppsListSyncFunctionTriggersSlotParameters,
   ): Promise<
     | WebAppsListSyncFunctionTriggersSlot200Response
     | WebAppsListSyncFunctionTriggersSlotdefaultResponse
@@ -6843,7 +6843,7 @@ export interface WebAppsListSyncFunctionTriggersSlot {
 export interface WebAppsGetMigrateMySqlStatusSlot {
   /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
   get(
-    options?: WebAppsGetMigrateMySqlStatusSlotParameters
+    options?: WebAppsGetMigrateMySqlStatusSlotParameters,
   ): Promise<
     WebAppsGetMigrateMySqlStatusSlot200Response | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
   >;
@@ -6852,7 +6852,7 @@ export interface WebAppsGetMigrateMySqlStatusSlot {
 export interface WebAppsGetSwiftVirtualNetworkConnectionSlot {
   /** Gets a Swift Virtual Network connection. */
   get(
-    options?: WebAppsGetSwiftVirtualNetworkConnectionSlotParameters
+    options?: WebAppsGetSwiftVirtualNetworkConnectionSlotParameters,
   ): Promise<
     | WebAppsGetSwiftVirtualNetworkConnectionSlot200Response
     | WebAppsGetSwiftVirtualNetworkConnectionSlotdefaultResponse
@@ -6862,14 +6862,14 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlot {
    * in use by another App Service Plan other than the one this App is in.
    */
   put(
-    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters
+    options: WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
     | WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
   >;
   /** Deletes a Swift Virtual Network connection from an app (or deployment slot). */
   delete(
-    options?: WebAppsDeleteSwiftVirtualNetworkSlotParameters
+    options?: WebAppsDeleteSwiftVirtualNetworkSlotParameters,
   ): Promise<
     | WebAppsDeleteSwiftVirtualNetworkSlot200Response
     | WebAppsDeleteSwiftVirtualNetworkSlot404Response
@@ -6880,7 +6880,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlot {
    * in use by another App Service Plan other than the one this App is in.
    */
   patch(
-    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters
+    options: WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotParameters,
   ): Promise<
     | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlot200Response
     | WebAppsUpdateSwiftVirtualNetworkConnectionWithCheckSlotdefaultResponse
@@ -6890,7 +6890,7 @@ export interface WebAppsGetSwiftVirtualNetworkConnectionSlot {
 export interface WebAppsListNetworkFeaturesSlot {
   /** Gets all network features used by the app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListNetworkFeaturesSlotParameters
+    options?: WebAppsListNetworkFeaturesSlotParameters,
   ): Promise<
     | WebAppsListNetworkFeaturesSlot200Response
     | WebAppsListNetworkFeaturesSlot404Response
@@ -6901,7 +6901,7 @@ export interface WebAppsListNetworkFeaturesSlot {
 export interface WebAppsGetNetworkTraceOperationSlot {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTraceOperationSlotParameters
+    options?: WebAppsGetNetworkTraceOperationSlotParameters,
   ): Promise<
     | WebAppsGetNetworkTraceOperationSlot200Response
     | WebAppsGetNetworkTraceOperationSlot202Response
@@ -6912,7 +6912,7 @@ export interface WebAppsGetNetworkTraceOperationSlot {
 export interface WebAppsStartWebSiteNetworkTraceSlot {
   /** Start capturing network packets for the site (To be deprecated). */
   post(
-    options?: WebAppsStartWebSiteNetworkTraceSlotParameters
+    options?: WebAppsStartWebSiteNetworkTraceSlotParameters,
   ): Promise<
     | WebAppsStartWebSiteNetworkTraceSlot200Response
     | WebAppsStartWebSiteNetworkTraceSlotdefaultResponse
@@ -6922,7 +6922,7 @@ export interface WebAppsStartWebSiteNetworkTraceSlot {
 export interface WebAppsStartWebSiteNetworkTraceOperationSlot {
   /** Start capturing network packets for the site. */
   post(
-    options?: WebAppsStartWebSiteNetworkTraceOperationSlotParameters
+    options?: WebAppsStartWebSiteNetworkTraceOperationSlotParameters,
   ): Promise<
     | WebAppsStartWebSiteNetworkTraceOperationSlot200Response
     | WebAppsStartWebSiteNetworkTraceOperationSlot202Response
@@ -6933,7 +6933,7 @@ export interface WebAppsStartWebSiteNetworkTraceOperationSlot {
 export interface WebAppsStopWebSiteNetworkTraceSlot {
   /** Stop ongoing capturing network packets for the site. */
   post(
-    options?: WebAppsStopWebSiteNetworkTraceSlotParameters
+    options?: WebAppsStopWebSiteNetworkTraceSlotParameters,
   ): Promise<
     | WebAppsStopWebSiteNetworkTraceSlot200Response
     | WebAppsStopWebSiteNetworkTraceSlot204Response
@@ -6944,14 +6944,14 @@ export interface WebAppsStopWebSiteNetworkTraceSlot {
 export interface WebAppsGetNetworkTracesSlot {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTracesSlotParameters
+    options?: WebAppsGetNetworkTracesSlotParameters,
   ): Promise<WebAppsGetNetworkTracesSlot200Response | WebAppsGetNetworkTracesSlotdefaultResponse>;
 }
 
 export interface WebAppsGetNetworkTraceOperationSlotV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTraceOperationSlotV2Parameters
+    options?: WebAppsGetNetworkTraceOperationSlotV2Parameters,
   ): Promise<
     | WebAppsGetNetworkTraceOperationSlotV2200Response
     | WebAppsGetNetworkTraceOperationSlotV2202Response
@@ -6962,7 +6962,7 @@ export interface WebAppsGetNetworkTraceOperationSlotV2 {
 export interface WebAppsGetNetworkTracesSlotV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetNetworkTracesSlotV2Parameters
+    options?: WebAppsGetNetworkTracesSlotV2Parameters,
   ): Promise<
     WebAppsGetNetworkTracesSlotV2200Response | WebAppsGetNetworkTracesSlotV2defaultResponse
   >;
@@ -6971,7 +6971,7 @@ export interface WebAppsGetNetworkTracesSlotV2 {
 export interface WebAppsGenerateNewSitePublishingPasswordSlot {
   /** Generates a new publishing password for an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsGenerateNewSitePublishingPasswordSlotParameters
+    options?: WebAppsGenerateNewSitePublishingPasswordSlotParameters,
   ): Promise<
     | WebAppsGenerateNewSitePublishingPasswordSlot200Response
     | WebAppsGenerateNewSitePublishingPasswordSlot204Response
@@ -6982,7 +6982,7 @@ export interface WebAppsGenerateNewSitePublishingPasswordSlot {
 export interface WebAppsListPerfMonCountersSlot {
   /** Gets perfmon counters for web app. */
   get(
-    options?: WebAppsListPerfMonCountersSlotParameters
+    options?: WebAppsListPerfMonCountersSlotParameters,
   ): Promise<
     WebAppsListPerfMonCountersSlot200Response | WebAppsListPerfMonCountersSlotdefaultResponse
   >;
@@ -6991,7 +6991,7 @@ export interface WebAppsListPerfMonCountersSlot {
 export interface WebAppsGetSitePhpErrorLogFlagSlot {
   /** Gets web app's event logs. */
   get(
-    options?: WebAppsGetSitePhpErrorLogFlagSlotParameters
+    options?: WebAppsGetSitePhpErrorLogFlagSlotParameters,
   ): Promise<
     WebAppsGetSitePhpErrorLogFlagSlot200Response | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
   >;
@@ -7000,28 +7000,28 @@ export interface WebAppsGetSitePhpErrorLogFlagSlot {
 export interface WebAppsListPremierAddOnsSlot {
   /** Gets the premier add-ons of an app. */
   get(
-    options?: WebAppsListPremierAddOnsSlotParameters
+    options?: WebAppsListPremierAddOnsSlotParameters,
   ): Promise<WebAppsListPremierAddOnsSlot200Response | WebAppsListPremierAddOnsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetPremierAddOnSlot {
   /** Gets a named add-on of an app. */
   get(
-    options?: WebAppsGetPremierAddOnSlotParameters
+    options?: WebAppsGetPremierAddOnSlotParameters,
   ): Promise<WebAppsGetPremierAddOnSlot200Response | WebAppsGetPremierAddOnSlotdefaultResponse>;
   /** Updates a named add-on of an app. */
   put(
-    options: WebAppsAddPremierAddOnSlotParameters
+    options: WebAppsAddPremierAddOnSlotParameters,
   ): Promise<WebAppsAddPremierAddOnSlot200Response | WebAppsAddPremierAddOnSlotdefaultResponse>;
   /** Delete a premier add-on from an app. */
   delete(
-    options?: WebAppsDeletePremierAddOnSlotParameters
+    options?: WebAppsDeletePremierAddOnSlotParameters,
   ): Promise<
     WebAppsDeletePremierAddOnSlot200Response | WebAppsDeletePremierAddOnSlotdefaultResponse
   >;
   /** Updates a named add-on of an app. */
   patch(
-    options: WebAppsUpdatePremierAddOnSlotParameters
+    options: WebAppsUpdatePremierAddOnSlotParameters,
   ): Promise<
     WebAppsUpdatePremierAddOnSlot200Response | WebAppsUpdatePremierAddOnSlotdefaultResponse
   >;
@@ -7030,11 +7030,11 @@ export interface WebAppsGetPremierAddOnSlot {
 export interface WebAppsGetPrivateAccessSlot {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
-    options?: WebAppsGetPrivateAccessSlotParameters
+    options?: WebAppsGetPrivateAccessSlotParameters,
   ): Promise<WebAppsGetPrivateAccessSlot200Response | WebAppsGetPrivateAccessSlotdefaultResponse>;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
-    options: WebAppsPutPrivateAccessVnetSlotParameters
+    options: WebAppsPutPrivateAccessVnetSlotParameters,
   ): Promise<
     WebAppsPutPrivateAccessVnetSlot200Response | WebAppsPutPrivateAccessVnetSlotdefaultResponse
   >;
@@ -7043,7 +7043,7 @@ export interface WebAppsGetPrivateAccessSlot {
 export interface WebAppsGetPrivateEndpointConnectionListSlot {
   /** Gets the list of private endpoint connections associated with a site */
   get(
-    options?: WebAppsGetPrivateEndpointConnectionListSlotParameters
+    options?: WebAppsGetPrivateEndpointConnectionListSlotParameters,
   ): Promise<
     | WebAppsGetPrivateEndpointConnectionListSlot200Response
     | WebAppsGetPrivateEndpointConnectionListSlotdefaultResponse
@@ -7053,14 +7053,14 @@ export interface WebAppsGetPrivateEndpointConnectionListSlot {
 export interface WebAppsGetPrivateEndpointConnectionSlot {
   /** Gets a private endpoint connection */
   get(
-    options?: WebAppsGetPrivateEndpointConnectionSlotParameters
+    options?: WebAppsGetPrivateEndpointConnectionSlotParameters,
   ): Promise<
     | WebAppsGetPrivateEndpointConnectionSlot200Response
     | WebAppsGetPrivateEndpointConnectionSlotdefaultResponse
   >;
   /** Approves or rejects a private endpoint connection */
   put(
-    options: WebAppsApproveOrRejectPrivateEndpointConnectionSlotParameters
+    options: WebAppsApproveOrRejectPrivateEndpointConnectionSlotParameters,
   ): Promise<
     | WebAppsApproveOrRejectPrivateEndpointConnectionSlot200Response
     | WebAppsApproveOrRejectPrivateEndpointConnectionSlot202Response
@@ -7068,7 +7068,7 @@ export interface WebAppsGetPrivateEndpointConnectionSlot {
   >;
   /** Deletes a private endpoint connection */
   delete(
-    options?: WebAppsDeletePrivateEndpointConnectionSlotParameters
+    options?: WebAppsDeletePrivateEndpointConnectionSlotParameters,
   ): Promise<
     | WebAppsDeletePrivateEndpointConnectionSlot200Response
     | WebAppsDeletePrivateEndpointConnectionSlot202Response
@@ -7080,7 +7080,7 @@ export interface WebAppsGetPrivateEndpointConnectionSlot {
 export interface WebAppsGetPrivateLinkResourcesSlot {
   /** Gets the private link resources */
   get(
-    options?: WebAppsGetPrivateLinkResourcesSlotParameters
+    options?: WebAppsGetPrivateLinkResourcesSlotParameters,
   ): Promise<
     | WebAppsGetPrivateLinkResourcesSlot200Response
     | WebAppsGetPrivateLinkResourcesSlotdefaultResponse
@@ -7090,7 +7090,7 @@ export interface WebAppsGetPrivateLinkResourcesSlot {
 export interface WebAppsListProcessesSlot {
   /** Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessesSlotParameters
+    options?: WebAppsListProcessesSlotParameters,
   ): Promise<
     | WebAppsListProcessesSlot200Response
     | WebAppsListProcessesSlot404Response
@@ -7101,7 +7101,7 @@ export interface WebAppsListProcessesSlot {
 export interface WebAppsGetProcessSlot {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessSlotParameters
+    options?: WebAppsGetProcessSlotParameters,
   ): Promise<
     | WebAppsGetProcessSlot200Response
     | WebAppsGetProcessSlot404Response
@@ -7109,7 +7109,7 @@ export interface WebAppsGetProcessSlot {
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
-    options?: WebAppsDeleteProcessSlotParameters
+    options?: WebAppsDeleteProcessSlotParameters,
   ): Promise<
     | WebAppsDeleteProcessSlot204Response
     | WebAppsDeleteProcessSlot404Response
@@ -7120,7 +7120,7 @@ export interface WebAppsGetProcessSlot {
 export interface WebAppsGetProcessDumpSlot {
   /** Get a memory dump of a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessDumpSlotParameters
+    options?: WebAppsGetProcessDumpSlotParameters,
   ): Promise<
     | WebAppsGetProcessDumpSlot200Response
     | WebAppsGetProcessDumpSlot404Response
@@ -7131,7 +7131,7 @@ export interface WebAppsGetProcessDumpSlot {
 export interface WebAppsListProcessModulesSlot {
   /** List module information for a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessModulesSlotParameters
+    options?: WebAppsListProcessModulesSlotParameters,
   ): Promise<
     | WebAppsListProcessModulesSlot200Response
     | WebAppsListProcessModulesSlot404Response
@@ -7142,7 +7142,7 @@ export interface WebAppsListProcessModulesSlot {
 export interface WebAppsGetProcessModuleSlot {
   /** Get process information by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsGetProcessModuleSlotParameters
+    options?: WebAppsGetProcessModuleSlotParameters,
   ): Promise<
     | WebAppsGetProcessModuleSlot200Response
     | WebAppsGetProcessModuleSlot404Response
@@ -7153,7 +7153,7 @@ export interface WebAppsGetProcessModuleSlot {
 export interface WebAppsListProcessThreadsSlot {
   /** List the threads in a process by its ID for a specific scaled-out instance in a web site. */
   get(
-    options?: WebAppsListProcessThreadsSlotParameters
+    options?: WebAppsListProcessThreadsSlotParameters,
   ): Promise<
     | WebAppsListProcessThreadsSlot200Response
     | WebAppsListProcessThreadsSlot404Response
@@ -7164,7 +7164,7 @@ export interface WebAppsListProcessThreadsSlot {
 export interface WebAppsListPublicCertificatesSlot {
   /** Get public certificates for an app or a deployment slot. */
   get(
-    options?: WebAppsListPublicCertificatesSlotParameters
+    options?: WebAppsListPublicCertificatesSlotParameters,
   ): Promise<
     WebAppsListPublicCertificatesSlot200Response | WebAppsListPublicCertificatesSlotdefaultResponse
   >;
@@ -7173,20 +7173,20 @@ export interface WebAppsListPublicCertificatesSlot {
 export interface WebAppsGetPublicCertificateSlot {
   /** Get the named public certificate for an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsGetPublicCertificateSlotParameters
+    options?: WebAppsGetPublicCertificateSlotParameters,
   ): Promise<
     WebAppsGetPublicCertificateSlot200Response | WebAppsGetPublicCertificateSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
-    options: WebAppsCreateOrUpdatePublicCertificateSlotParameters
+    options: WebAppsCreateOrUpdatePublicCertificateSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdatePublicCertificateSlot200Response
     | WebAppsCreateOrUpdatePublicCertificateSlotdefaultResponse
   >;
   /** Deletes a hostname binding for an app. */
   delete(
-    options?: WebAppsDeletePublicCertificateSlotParameters
+    options?: WebAppsDeletePublicCertificateSlotParameters,
   ): Promise<
     | WebAppsDeletePublicCertificateSlot200Response
     | WebAppsDeletePublicCertificateSlot204Response
@@ -7197,7 +7197,7 @@ export interface WebAppsGetPublicCertificateSlot {
 export interface WebAppsListPublishingProfileXmlWithSecretsSlot {
   /** Gets the publishing profile for an app (or deployment slot, if specified). */
   post(
-    options: WebAppsListPublishingProfileXmlWithSecretsSlotParameters
+    options: WebAppsListPublishingProfileXmlWithSecretsSlotParameters,
   ): Promise<
     | WebAppsListPublishingProfileXmlWithSecretsSlot200Response
     | WebAppsListPublishingProfileXmlWithSecretsSlotdefaultResponse
@@ -7207,7 +7207,7 @@ export interface WebAppsListPublishingProfileXmlWithSecretsSlot {
 export interface WebAppsResetSlotConfigurationSlot {
   /** Resets the configuration settings of the current slot if they were previously modified by calling the API with POST. */
   post(
-    options?: WebAppsResetSlotConfigurationSlotParameters
+    options?: WebAppsResetSlotConfigurationSlotParameters,
   ): Promise<
     WebAppsResetSlotConfigurationSlot200Response | WebAppsResetSlotConfigurationSlotdefaultResponse
   >;
@@ -7216,14 +7216,14 @@ export interface WebAppsResetSlotConfigurationSlot {
 export interface WebAppsRestartSlot {
   /** Restarts an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsRestartSlotParameters
+    options?: WebAppsRestartSlotParameters,
   ): Promise<WebAppsRestartSlot200Response | WebAppsRestartSlotdefaultResponse>;
 }
 
 export interface WebAppsRestoreFromBackupBlobSlot {
   /** Restores an app from a backup blob in Azure Storage. */
   post(
-    options: WebAppsRestoreFromBackupBlobSlotParameters
+    options: WebAppsRestoreFromBackupBlobSlotParameters,
   ): Promise<
     | WebAppsRestoreFromBackupBlobSlot200Response
     | WebAppsRestoreFromBackupBlobSlot202Response
@@ -7234,7 +7234,7 @@ export interface WebAppsRestoreFromBackupBlobSlot {
 export interface WebAppsRestoreFromDeletedAppSlot {
   /** Restores a deleted web app to this web app. */
   post(
-    options: WebAppsRestoreFromDeletedAppSlotParameters
+    options: WebAppsRestoreFromDeletedAppSlotParameters,
   ): Promise<
     | WebAppsRestoreFromDeletedAppSlot200Response
     | WebAppsRestoreFromDeletedAppSlot202Response
@@ -7245,7 +7245,7 @@ export interface WebAppsRestoreFromDeletedAppSlot {
 export interface WebAppsRestoreSnapshotSlot {
   /** Restores a web app from a snapshot. */
   post(
-    options: WebAppsRestoreSnapshotSlotParameters
+    options: WebAppsRestoreSnapshotSlotParameters,
   ): Promise<
     | WebAppsRestoreSnapshotSlot200Response
     | WebAppsRestoreSnapshotSlot202Response
@@ -7256,7 +7256,7 @@ export interface WebAppsRestoreSnapshotSlot {
 export interface WebAppsListSiteExtensionsSlot {
   /** Get list of siteextensions for a web site, or a deployment slot. */
   get(
-    options?: WebAppsListSiteExtensionsSlotParameters
+    options?: WebAppsListSiteExtensionsSlotParameters,
   ): Promise<
     | WebAppsListSiteExtensionsSlot200Response
     | WebAppsListSiteExtensionsSlot404Response
@@ -7267,7 +7267,7 @@ export interface WebAppsListSiteExtensionsSlot {
 export interface WebAppsGetSiteExtensionSlot {
   /** Get site extension information by its ID for a web site, or a deployment slot. */
   get(
-    options?: WebAppsGetSiteExtensionSlotParameters
+    options?: WebAppsGetSiteExtensionSlotParameters,
   ): Promise<
     | WebAppsGetSiteExtensionSlot200Response
     | WebAppsGetSiteExtensionSlot404Response
@@ -7275,7 +7275,7 @@ export interface WebAppsGetSiteExtensionSlot {
   >;
   /** Install site extension on a web site, or a deployment slot. */
   put(
-    options?: WebAppsInstallSiteExtensionSlotParameters
+    options?: WebAppsInstallSiteExtensionSlotParameters,
   ): Promise<
     | WebAppsInstallSiteExtensionSlot200Response
     | WebAppsInstallSiteExtensionSlot201Response
@@ -7284,7 +7284,7 @@ export interface WebAppsGetSiteExtensionSlot {
   >;
   /** Remove a site extension from a web site, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteSiteExtensionSlotParameters
+    options?: WebAppsDeleteSiteExtensionSlotParameters,
   ): Promise<
     | WebAppsDeleteSiteExtensionSlot204Response
     | WebAppsDeleteSiteExtensionSlot404Response
@@ -7295,7 +7295,7 @@ export interface WebAppsGetSiteExtensionSlot {
 export interface WebAppsListSlotDifferencesSlot {
   /** Get the difference in configuration settings between two web app slots. */
   post(
-    options: WebAppsListSlotDifferencesSlotParameters
+    options: WebAppsListSlotDifferencesSlotParameters,
   ): Promise<
     WebAppsListSlotDifferencesSlot200Response | WebAppsListSlotDifferencesSlotdefaultResponse
   >;
@@ -7304,7 +7304,7 @@ export interface WebAppsListSlotDifferencesSlot {
 export interface WebAppsSwapSlot {
   /** Swaps two deployment slots of an app. */
   post(
-    options: WebAppsSwapSlotParameters
+    options: WebAppsSwapSlotParameters,
   ): Promise<
     WebAppsSwapSlot200Response | WebAppsSwapSlot202Response | WebAppsSwapSlotdefaultResponse
   >;
@@ -7313,14 +7313,14 @@ export interface WebAppsSwapSlot {
 export interface WebAppsListSnapshotsSlot {
   /** Returns all Snapshots to the user. */
   get(
-    options?: WebAppsListSnapshotsSlotParameters
+    options?: WebAppsListSnapshotsSlotParameters,
   ): Promise<WebAppsListSnapshotsSlot200Response | WebAppsListSnapshotsSlotdefaultResponse>;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondarySlot {
   /** Returns all Snapshots to the user from DRSecondary endpoint. */
   get(
-    options?: WebAppsListSnapshotsFromDRSecondarySlotParameters
+    options?: WebAppsListSnapshotsFromDRSecondarySlotParameters,
   ): Promise<
     | WebAppsListSnapshotsFromDRSecondarySlot200Response
     | WebAppsListSnapshotsFromDRSecondarySlotdefaultResponse
@@ -7330,7 +7330,7 @@ export interface WebAppsListSnapshotsFromDRSecondarySlot {
 export interface WebAppsGetSourceControlSlot {
   /** Gets the source control configuration of an app. */
   get(
-    options?: WebAppsGetSourceControlSlotParameters
+    options?: WebAppsGetSourceControlSlotParameters,
   ): Promise<
     | WebAppsGetSourceControlSlot200Response
     | WebAppsGetSourceControlSlot201Response
@@ -7339,7 +7339,7 @@ export interface WebAppsGetSourceControlSlot {
   >;
   /** Updates the source control configuration of an app. */
   put(
-    options: WebAppsCreateOrUpdateSourceControlSlotParameters
+    options: WebAppsCreateOrUpdateSourceControlSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateSourceControlSlot200Response
     | WebAppsCreateOrUpdateSourceControlSlot201Response
@@ -7348,7 +7348,7 @@ export interface WebAppsGetSourceControlSlot {
   >;
   /** Deletes the source control configuration of an app. */
   delete(
-    options?: WebAppsDeleteSourceControlSlotParameters
+    options?: WebAppsDeleteSourceControlSlotParameters,
   ): Promise<
     | WebAppsDeleteSourceControlSlot200Response
     | WebAppsDeleteSourceControlSlot202Response
@@ -7357,7 +7357,7 @@ export interface WebAppsGetSourceControlSlot {
   >;
   /** Updates the source control configuration of an app. */
   patch(
-    options: WebAppsUpdateSourceControlSlotParameters
+    options: WebAppsUpdateSourceControlSlotParameters,
   ): Promise<
     | WebAppsUpdateSourceControlSlot200Response
     | WebAppsUpdateSourceControlSlot201Response
@@ -7369,14 +7369,14 @@ export interface WebAppsGetSourceControlSlot {
 export interface WebAppsStartSlot {
   /** Starts an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsStartSlotParameters
+    options?: WebAppsStartSlotParameters,
   ): Promise<WebAppsStartSlot200Response | WebAppsStartSlotdefaultResponse>;
 }
 
 export interface WebAppsStartNetworkTraceSlot {
   /** Start capturing network packets for the site. */
   post(
-    options?: WebAppsStartNetworkTraceSlotParameters
+    options?: WebAppsStartNetworkTraceSlotParameters,
   ): Promise<
     | WebAppsStartNetworkTraceSlot200Response
     | WebAppsStartNetworkTraceSlot202Response
@@ -7387,14 +7387,14 @@ export interface WebAppsStartNetworkTraceSlot {
 export interface WebAppsStopSlot {
   /** Stops an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsStopSlotParameters
+    options?: WebAppsStopSlotParameters,
   ): Promise<WebAppsStopSlot200Response | WebAppsStopSlotdefaultResponse>;
 }
 
 export interface WebAppsStopNetworkTraceSlot {
   /** Stop ongoing capturing network packets for the site. */
   post(
-    options?: WebAppsStopNetworkTraceSlotParameters
+    options?: WebAppsStopNetworkTraceSlotParameters,
   ): Promise<
     | WebAppsStopNetworkTraceSlot200Response
     | WebAppsStopNetworkTraceSlot204Response
@@ -7405,14 +7405,14 @@ export interface WebAppsStopNetworkTraceSlot {
 export interface WebAppsSyncRepositorySlot {
   /** Sync web app repository. */
   post(
-    options?: WebAppsSyncRepositorySlotParameters
+    options?: WebAppsSyncRepositorySlotParameters,
   ): Promise<WebAppsSyncRepositorySlot200Response | WebAppsSyncRepositorySlotdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionTriggersSlot {
   /** Syncs function trigger metadata to the management database */
   post(
-    options?: WebAppsSyncFunctionTriggersSlotParameters
+    options?: WebAppsSyncFunctionTriggersSlotParameters,
   ): Promise<
     WebAppsSyncFunctionTriggersSlot204Response | WebAppsSyncFunctionTriggersSlotdefaultResponse
   >;
@@ -7421,7 +7421,7 @@ export interface WebAppsSyncFunctionTriggersSlot {
 export interface WebAppsListTriggeredWebJobsSlot {
   /** List triggered web jobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListTriggeredWebJobsSlotParameters
+    options?: WebAppsListTriggeredWebJobsSlotParameters,
   ): Promise<
     WebAppsListTriggeredWebJobsSlot200Response | WebAppsListTriggeredWebJobsSlotdefaultResponse
   >;
@@ -7430,7 +7430,7 @@ export interface WebAppsListTriggeredWebJobsSlot {
 export interface WebAppsGetTriggeredWebJobSlot {
   /** Gets a triggered web job by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetTriggeredWebJobSlotParameters
+    options?: WebAppsGetTriggeredWebJobSlotParameters,
   ): Promise<
     | WebAppsGetTriggeredWebJobSlot200Response
     | WebAppsGetTriggeredWebJobSlot404Response
@@ -7438,7 +7438,7 @@ export interface WebAppsGetTriggeredWebJobSlot {
   >;
   /** Delete a triggered web job by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteTriggeredWebJobSlotParameters
+    options?: WebAppsDeleteTriggeredWebJobSlotParameters,
   ): Promise<
     | WebAppsDeleteTriggeredWebJobSlot200Response
     | WebAppsDeleteTriggeredWebJobSlot204Response
@@ -7449,7 +7449,7 @@ export interface WebAppsGetTriggeredWebJobSlot {
 export interface WebAppsListTriggeredWebJobHistorySlot {
   /** List a triggered web job's history for an app, or a deployment slot. */
   get(
-    options?: WebAppsListTriggeredWebJobHistorySlotParameters
+    options?: WebAppsListTriggeredWebJobHistorySlotParameters,
   ): Promise<
     | WebAppsListTriggeredWebJobHistorySlot200Response
     | WebAppsListTriggeredWebJobHistorySlot404Response
@@ -7460,7 +7460,7 @@ export interface WebAppsListTriggeredWebJobHistorySlot {
 export interface WebAppsGetTriggeredWebJobHistorySlot {
   /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
   get(
-    options?: WebAppsGetTriggeredWebJobHistorySlotParameters
+    options?: WebAppsGetTriggeredWebJobHistorySlotParameters,
   ): Promise<
     | WebAppsGetTriggeredWebJobHistorySlot200Response
     | WebAppsGetTriggeredWebJobHistorySlot404Response
@@ -7471,7 +7471,7 @@ export interface WebAppsGetTriggeredWebJobHistorySlot {
 export interface WebAppsRunTriggeredWebJobSlot {
   /** Run a triggered web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsRunTriggeredWebJobSlotParameters
+    options?: WebAppsRunTriggeredWebJobSlotParameters,
   ): Promise<
     | WebAppsRunTriggeredWebJobSlot200Response
     | WebAppsRunTriggeredWebJobSlot404Response
@@ -7482,14 +7482,14 @@ export interface WebAppsRunTriggeredWebJobSlot {
 export interface WebAppsListUsagesSlot {
   /** Gets the quota usage information of an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListUsagesSlotParameters
+    options?: WebAppsListUsagesSlotParameters,
   ): Promise<WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse>;
 }
 
 export interface WebAppsListVnetConnectionsSlot {
   /** Gets the virtual networks the app (or deployment slot) is connected to. */
   get(
-    options?: WebAppsListVnetConnectionsSlotParameters
+    options?: WebAppsListVnetConnectionsSlotParameters,
   ): Promise<
     WebAppsListVnetConnectionsSlot200Response | WebAppsListVnetConnectionsSlotdefaultResponse
   >;
@@ -7498,18 +7498,18 @@ export interface WebAppsListVnetConnectionsSlot {
 export interface WebAppsGetVnetConnectionSlot {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
-    options?: WebAppsGetVnetConnectionSlotParameters
+    options?: WebAppsGetVnetConnectionSlotParameters,
   ): Promise<WebAppsGetVnetConnectionSlot200Response | WebAppsGetVnetConnectionSlotdefaultResponse>;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateVnetConnectionSlotParameters
+    options: WebAppsCreateOrUpdateVnetConnectionSlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateVnetConnectionSlot200Response
     | WebAppsCreateOrUpdateVnetConnectionSlotdefaultResponse
   >;
   /** Deletes a connection from an app (or deployment slot to a named virtual network. */
   delete(
-    options?: WebAppsDeleteVnetConnectionSlotParameters
+    options?: WebAppsDeleteVnetConnectionSlotParameters,
   ): Promise<
     | WebAppsDeleteVnetConnectionSlot200Response
     | WebAppsDeleteVnetConnectionSlot404Response
@@ -7517,7 +7517,7 @@ export interface WebAppsGetVnetConnectionSlot {
   >;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   patch(
-    options: WebAppsUpdateVnetConnectionSlotParameters
+    options: WebAppsUpdateVnetConnectionSlotParameters,
   ): Promise<
     WebAppsUpdateVnetConnectionSlot200Response | WebAppsUpdateVnetConnectionSlotdefaultResponse
   >;
@@ -7526,7 +7526,7 @@ export interface WebAppsGetVnetConnectionSlot {
 export interface WebAppsGetVnetConnectionGatewaySlot {
   /** Gets an app's Virtual Network gateway. */
   get(
-    options?: WebAppsGetVnetConnectionGatewaySlotParameters
+    options?: WebAppsGetVnetConnectionGatewaySlotParameters,
   ): Promise<
     | WebAppsGetVnetConnectionGatewaySlot200Response
     | WebAppsGetVnetConnectionGatewaySlot404Response
@@ -7534,14 +7534,14 @@ export interface WebAppsGetVnetConnectionGatewaySlot {
   >;
   /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateVnetConnectionGatewaySlotParameters
+    options: WebAppsCreateOrUpdateVnetConnectionGatewaySlotParameters,
   ): Promise<
     | WebAppsCreateOrUpdateVnetConnectionGatewaySlot200Response
     | WebAppsCreateOrUpdateVnetConnectionGatewaySlotdefaultResponse
   >;
   /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
   patch(
-    options: WebAppsUpdateVnetConnectionGatewaySlotParameters
+    options: WebAppsUpdateVnetConnectionGatewaySlotParameters,
   ): Promise<
     | WebAppsUpdateVnetConnectionGatewaySlot200Response
     | WebAppsUpdateVnetConnectionGatewaySlotdefaultResponse
@@ -7551,21 +7551,21 @@ export interface WebAppsGetVnetConnectionGatewaySlot {
 export interface WebAppsListWebJobsSlot {
   /** List webjobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListWebJobsSlotParameters
+    options?: WebAppsListWebJobsSlotParameters,
   ): Promise<WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetWebJobSlot {
   /** Get webjob information for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetWebJobSlotParameters
+    options?: WebAppsGetWebJobSlotParameters,
   ): Promise<WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse>;
 }
 
 export interface WebAppsListSlotDifferencesFromProduction {
   /** Get the difference in configuration settings between two web app slots. */
   post(
-    options: WebAppsListSlotDifferencesFromProductionParameters
+    options: WebAppsListSlotDifferencesFromProductionParameters,
   ): Promise<
     | WebAppsListSlotDifferencesFromProduction200Response
     | WebAppsListSlotDifferencesFromProductiondefaultResponse
@@ -7575,7 +7575,7 @@ export interface WebAppsListSlotDifferencesFromProduction {
 export interface WebAppsSwapSlotWithProduction {
   /** Swaps two deployment slots of an app. */
   post(
-    options: WebAppsSwapSlotWithProductionParameters
+    options: WebAppsSwapSlotWithProductionParameters,
   ): Promise<
     | WebAppsSwapSlotWithProduction200Response
     | WebAppsSwapSlotWithProduction202Response
@@ -7586,14 +7586,14 @@ export interface WebAppsSwapSlotWithProduction {
 export interface WebAppsListSnapshots {
   /** Returns all Snapshots to the user. */
   get(
-    options?: WebAppsListSnapshotsParameters
+    options?: WebAppsListSnapshotsParameters,
   ): Promise<WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse>;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondary {
   /** Returns all Snapshots to the user from DRSecondary endpoint. */
   get(
-    options?: WebAppsListSnapshotsFromDRSecondaryParameters
+    options?: WebAppsListSnapshotsFromDRSecondaryParameters,
   ): Promise<
     | WebAppsListSnapshotsFromDRSecondary200Response
     | WebAppsListSnapshotsFromDRSecondarydefaultResponse
@@ -7603,7 +7603,7 @@ export interface WebAppsListSnapshotsFromDRSecondary {
 export interface WebAppsGetSourceControl {
   /** Gets the source control configuration of an app. */
   get(
-    options?: WebAppsGetSourceControlParameters
+    options?: WebAppsGetSourceControlParameters,
   ): Promise<
     | WebAppsGetSourceControl200Response
     | WebAppsGetSourceControl201Response
@@ -7612,7 +7612,7 @@ export interface WebAppsGetSourceControl {
   >;
   /** Updates the source control configuration of an app. */
   put(
-    options: WebAppsCreateOrUpdateSourceControlParameters
+    options: WebAppsCreateOrUpdateSourceControlParameters,
   ): Promise<
     | WebAppsCreateOrUpdateSourceControl200Response
     | WebAppsCreateOrUpdateSourceControl201Response
@@ -7621,7 +7621,7 @@ export interface WebAppsGetSourceControl {
   >;
   /** Deletes the source control configuration of an app. */
   delete(
-    options?: WebAppsDeleteSourceControlParameters
+    options?: WebAppsDeleteSourceControlParameters,
   ): Promise<
     | WebAppsDeleteSourceControl200Response
     | WebAppsDeleteSourceControl202Response
@@ -7630,7 +7630,7 @@ export interface WebAppsGetSourceControl {
   >;
   /** Updates the source control configuration of an app. */
   patch(
-    options: WebAppsUpdateSourceControlParameters
+    options: WebAppsUpdateSourceControlParameters,
   ): Promise<
     | WebAppsUpdateSourceControl200Response
     | WebAppsUpdateSourceControl201Response
@@ -7642,14 +7642,14 @@ export interface WebAppsGetSourceControl {
 export interface WebAppsStart {
   /** Starts an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsStartParameters
+    options?: WebAppsStartParameters,
   ): Promise<WebAppsStart200Response | WebAppsStartdefaultResponse>;
 }
 
 export interface WebAppsStartNetworkTrace {
   /** Start capturing network packets for the site. */
   post(
-    options?: WebAppsStartNetworkTraceParameters
+    options?: WebAppsStartNetworkTraceParameters,
   ): Promise<
     | WebAppsStartNetworkTrace200Response
     | WebAppsStartNetworkTrace202Response
@@ -7660,14 +7660,14 @@ export interface WebAppsStartNetworkTrace {
 export interface WebAppsStop {
   /** Stops an app (or deployment slot, if specified). */
   post(
-    options?: WebAppsStopParameters
+    options?: WebAppsStopParameters,
   ): Promise<WebAppsStop200Response | WebAppsStopdefaultResponse>;
 }
 
 export interface WebAppsStopNetworkTrace {
   /** Stop ongoing capturing network packets for the site. */
   post(
-    options?: WebAppsStopNetworkTraceParameters
+    options?: WebAppsStopNetworkTraceParameters,
   ): Promise<
     | WebAppsStopNetworkTrace200Response
     | WebAppsStopNetworkTrace204Response
@@ -7678,28 +7678,28 @@ export interface WebAppsStopNetworkTrace {
 export interface WebAppsSyncRepository {
   /** Sync web app repository. */
   post(
-    options?: WebAppsSyncRepositoryParameters
+    options?: WebAppsSyncRepositoryParameters,
   ): Promise<WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionTriggers {
   /** Syncs function trigger metadata to the management database */
   post(
-    options?: WebAppsSyncFunctionTriggersParameters
+    options?: WebAppsSyncFunctionTriggersParameters,
   ): Promise<WebAppsSyncFunctionTriggers204Response | WebAppsSyncFunctionTriggersdefaultResponse>;
 }
 
 export interface WebAppsListTriggeredWebJobs {
   /** List triggered web jobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListTriggeredWebJobsParameters
+    options?: WebAppsListTriggeredWebJobsParameters,
   ): Promise<WebAppsListTriggeredWebJobs200Response | WebAppsListTriggeredWebJobsdefaultResponse>;
 }
 
 export interface WebAppsGetTriggeredWebJob {
   /** Gets a triggered web job by its ID for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetTriggeredWebJobParameters
+    options?: WebAppsGetTriggeredWebJobParameters,
   ): Promise<
     | WebAppsGetTriggeredWebJob200Response
     | WebAppsGetTriggeredWebJob404Response
@@ -7707,7 +7707,7 @@ export interface WebAppsGetTriggeredWebJob {
   >;
   /** Delete a triggered web job by its ID for an app, or a deployment slot. */
   delete(
-    options?: WebAppsDeleteTriggeredWebJobParameters
+    options?: WebAppsDeleteTriggeredWebJobParameters,
   ): Promise<
     | WebAppsDeleteTriggeredWebJob200Response
     | WebAppsDeleteTriggeredWebJob204Response
@@ -7718,7 +7718,7 @@ export interface WebAppsGetTriggeredWebJob {
 export interface WebAppsListTriggeredWebJobHistory {
   /** List a triggered web job's history for an app, or a deployment slot. */
   get(
-    options?: WebAppsListTriggeredWebJobHistoryParameters
+    options?: WebAppsListTriggeredWebJobHistoryParameters,
   ): Promise<
     | WebAppsListTriggeredWebJobHistory200Response
     | WebAppsListTriggeredWebJobHistory404Response
@@ -7729,7 +7729,7 @@ export interface WebAppsListTriggeredWebJobHistory {
 export interface WebAppsGetTriggeredWebJobHistory {
   /** Gets a triggered web job's history by its ID for an app, , or a deployment slot. */
   get(
-    options?: WebAppsGetTriggeredWebJobHistoryParameters
+    options?: WebAppsGetTriggeredWebJobHistoryParameters,
   ): Promise<
     | WebAppsGetTriggeredWebJobHistory200Response
     | WebAppsGetTriggeredWebJobHistory404Response
@@ -7740,7 +7740,7 @@ export interface WebAppsGetTriggeredWebJobHistory {
 export interface WebAppsRunTriggeredWebJob {
   /** Run a triggered web job for an app, or a deployment slot. */
   post(
-    options?: WebAppsRunTriggeredWebJobParameters
+    options?: WebAppsRunTriggeredWebJobParameters,
   ): Promise<
     | WebAppsRunTriggeredWebJob200Response
     | WebAppsRunTriggeredWebJob404Response
@@ -7751,32 +7751,32 @@ export interface WebAppsRunTriggeredWebJob {
 export interface WebAppsListUsages {
   /** Gets the quota usage information of an app (or deployment slot, if specified). */
   get(
-    options?: WebAppsListUsagesParameters
+    options?: WebAppsListUsagesParameters,
   ): Promise<WebAppsListUsages200Response | WebAppsListUsagesdefaultResponse>;
 }
 
 export interface WebAppsListVnetConnections {
   /** Gets the virtual networks the app (or deployment slot) is connected to. */
   get(
-    options?: WebAppsListVnetConnectionsParameters
+    options?: WebAppsListVnetConnectionsParameters,
   ): Promise<WebAppsListVnetConnections200Response | WebAppsListVnetConnectionsdefaultResponse>;
 }
 
 export interface WebAppsGetVnetConnection {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
-    options?: WebAppsGetVnetConnectionParameters
+    options?: WebAppsGetVnetConnectionParameters,
   ): Promise<WebAppsGetVnetConnection200Response | WebAppsGetVnetConnectiondefaultResponse>;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateVnetConnectionParameters
+    options: WebAppsCreateOrUpdateVnetConnectionParameters,
   ): Promise<
     | WebAppsCreateOrUpdateVnetConnection200Response
     | WebAppsCreateOrUpdateVnetConnectiondefaultResponse
   >;
   /** Deletes a connection from an app (or deployment slot to a named virtual network. */
   delete(
-    options?: WebAppsDeleteVnetConnectionParameters
+    options?: WebAppsDeleteVnetConnectionParameters,
   ): Promise<
     | WebAppsDeleteVnetConnection200Response
     | WebAppsDeleteVnetConnection404Response
@@ -7784,14 +7784,14 @@ export interface WebAppsGetVnetConnection {
   >;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   patch(
-    options: WebAppsUpdateVnetConnectionParameters
+    options: WebAppsUpdateVnetConnectionParameters,
   ): Promise<WebAppsUpdateVnetConnection200Response | WebAppsUpdateVnetConnectiondefaultResponse>;
 }
 
 export interface WebAppsGetVnetConnectionGateway {
   /** Gets an app's Virtual Network gateway. */
   get(
-    options?: WebAppsGetVnetConnectionGatewayParameters
+    options?: WebAppsGetVnetConnectionGatewayParameters,
   ): Promise<
     | WebAppsGetVnetConnectionGateway200Response
     | WebAppsGetVnetConnectionGateway404Response
@@ -7799,14 +7799,14 @@ export interface WebAppsGetVnetConnectionGateway {
   >;
   /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
   put(
-    options: WebAppsCreateOrUpdateVnetConnectionGatewayParameters
+    options: WebAppsCreateOrUpdateVnetConnectionGatewayParameters,
   ): Promise<
     | WebAppsCreateOrUpdateVnetConnectionGateway200Response
     | WebAppsCreateOrUpdateVnetConnectionGatewaydefaultResponse
   >;
   /** Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH). */
   patch(
-    options: WebAppsUpdateVnetConnectionGatewayParameters
+    options: WebAppsUpdateVnetConnectionGatewayParameters,
   ): Promise<
     | WebAppsUpdateVnetConnectionGateway200Response
     | WebAppsUpdateVnetConnectionGatewaydefaultResponse
@@ -7816,14 +7816,14 @@ export interface WebAppsGetVnetConnectionGateway {
 export interface WebAppsListWebJobs {
   /** List webjobs for an app, or a deployment slot. */
   get(
-    options?: WebAppsListWebJobsParameters
+    options?: WebAppsListWebJobsParameters,
   ): Promise<WebAppsListWebJobs200Response | WebAppsListWebJobsdefaultResponse>;
 }
 
 export interface WebAppsGetWebJob {
   /** Get webjob information for an app, or a deployment slot. */
   get(
-    options?: WebAppsGetWebJobParameters
+    options?: WebAppsGetWebJobParameters,
   ): Promise<WebAppsGetWebJob200Response | WebAppsGetWebJobdefaultResponse>;
 }
 
@@ -7831,32 +7831,32 @@ export interface Routes {
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.CertificateRegistration/certificateOrders' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/certificateOrders",
-    subscriptionId: string
+    subscriptionId: string,
   ): AppServiceCertificateOrdersList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.CertificateRegistration/validateCertificateRegistrationInformation' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.CertificateRegistration/validateCertificateRegistrationInformation",
-    subscriptionId: string
+    subscriptionId: string,
   ): AppServiceCertificateOrdersValidatePurchaseInformation;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): AppServiceCertificateOrdersListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/certificates' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersListCertificates;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/certificates/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -7864,70 +7864,70 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     certificateOrderName: string,
-    name: string
+    name: string,
   ): AppServiceCertificateOrdersGetCertificate;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/reissue' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersReissue;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/renew' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/renew",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersRenew;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/resendEmail' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendEmail",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersResendEmail;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/resendRequestEmails' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendRequestEmails",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersResendRequestEmails;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/retrieveSiteSeal' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersRetrieveSiteSeal;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/verifyDomainOwnership' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/verifyDomainOwnership",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): AppServiceCertificateOrdersVerifyDomainOwnership;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{name\}/retrieveCertificateActions' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceCertificateOrdersRetrieveCertificateActions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{name\}/retrieveEmailHistory' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceCertificateOrdersRetrieveCertificateEmailHistory;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/detectors' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/detectors",
     subscriptionId: string,
     resourceGroupName: string,
-    certificateOrderName: string
+    certificateOrderName: string,
   ): CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponse;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.CertificateRegistration/certificateOrders/\{certificateOrderName\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -7935,51 +7935,51 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     certificateOrderName: string,
-    detectorName: string
+    detectorName: string,
   ): CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponse;
   /** Resource for '/providers/Microsoft.CertificateRegistration/operations' has methods for the following verbs: get */
   (
-    path: "/providers/Microsoft.CertificateRegistration/operations"
+    path: "/providers/Microsoft.CertificateRegistration/operations",
   ): CertificateRegistrationProviderListOperations;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/checkDomainAvailability' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability",
-    subscriptionId: string
+    subscriptionId: string,
   ): DomainsCheckAvailability;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/domains' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/domains",
-    subscriptionId: string
+    subscriptionId: string,
   ): DomainsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/generateSsoRequest' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/generateSsoRequest",
-    subscriptionId: string
+    subscriptionId: string,
   ): DomainsGetControlCenterSsoRequest;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/listDomainRecommendations' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/listDomainRecommendations",
-    subscriptionId: string
+    subscriptionId: string,
   ): DomainsListRecommendations;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): DomainsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains/\{domainName\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
     subscriptionId: string,
     resourceGroupName: string,
-    domainName: string
+    domainName: string,
   ): DomainsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains/\{domainName\}/domainOwnershipIdentifiers' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers",
     subscriptionId: string,
     resourceGroupName: string,
-    domainName: string
+    domainName: string,
   ): DomainsListOwnershipIdentifiers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains/\{domainName\}/domainOwnershipIdentifiers/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -7987,95 +7987,95 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     domainName: string,
-    name: string
+    name: string,
   ): DomainsGetOwnershipIdentifier;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains/\{domainName\}/renew' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew",
     subscriptionId: string,
     resourceGroupName: string,
-    domainName: string
+    domainName: string,
   ): DomainsRenew;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.DomainRegistration/domains/\{domainName\}/transferOut' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/transferOut",
     subscriptionId: string,
     resourceGroupName: string,
-    domainName: string
+    domainName: string,
   ): DomainsTransferOut;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/topLevelDomains' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains",
-    subscriptionId: string
+    subscriptionId: string,
   ): TopLevelDomainsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/topLevelDomains/\{name\}' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}",
     subscriptionId: string,
-    name: string
+    name: string,
   ): TopLevelDomainsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.DomainRegistration/topLevelDomains/\{name\}/listAgreements' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains/{name}/listAgreements",
     subscriptionId: string,
-    name: string
+    name: string,
   ): TopLevelDomainsListAgreements;
   /** Resource for '/providers/Microsoft.DomainRegistration/operations' has methods for the following verbs: get */
   (
-    path: "/providers/Microsoft.DomainRegistration/operations"
+    path: "/providers/Microsoft.DomainRegistration/operations",
   ): DomainRegistrationProviderListOperations;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/hostingEnvironments' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/hostingEnvironments",
-    subscriptionId: string
+    subscriptionId: string,
   ): AppServiceEnvironmentsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): AppServiceEnvironmentsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/capacities/compute' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/compute",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListCapacities;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/capacities/virtualip' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetVipInfo;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/changeVirtualNetwork' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsChangeVnet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/configurations/networking' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetAseV3NetworkingConfiguration;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/diagnostics' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListDiagnostics;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/diagnostics/\{diagnosticsName\}' has methods for the following verbs: get */
   (
@@ -8083,28 +8083,28 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    diagnosticsName: string
+    diagnosticsName: string,
   ): AppServiceEnvironmentsGetDiagnosticsItem;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/inboundNetworkDependenciesEndpoints' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetInboundNetworkDependenciesEndpoints;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListMultiRolePools;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools/default' has methods for the following verbs: get, put, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetMultiRolePool;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools/default/instances/\{instance\}/metricdefinitions' has methods for the following verbs: get */
   (
@@ -8112,49 +8112,49 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    instance: string
+    instance: string,
   ): AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools/default/metricdefinitions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metricdefinitions",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListMultiRoleMetricDefinitions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools/default/skus' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/skus",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListMultiRolePoolSkus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/multiRolePools/default/usages' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/usages",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListMultiRoleUsages;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/operations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/operations",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListOperations;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/outboundNetworkDependenciesEndpoints' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundNetworkDependenciesEndpoints",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpoints;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/privateEndpointConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetPrivateEndpointConnectionList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -8162,63 +8162,63 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    privateEndpointConnectionName: string
+    privateEndpointConnectionName: string,
   ): AppServiceEnvironmentsGetPrivateEndpointConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/privateLinkResources' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateLinkResources",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsGetPrivateLinkResources;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/reboot' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/reboot",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsReboot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/resume' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/resume",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsResume;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/serverfarms' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListAppServicePlans;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/sites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/sites",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListWebApps;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/suspend' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsSuspend;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/usages' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/usages",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListUsages;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServiceEnvironmentsListWorkerPools;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools/\{workerPoolName\}' has methods for the following verbs: get, put, patch */
   (
@@ -8226,7 +8226,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    workerPoolName: string
+    workerPoolName: string,
   ): AppServiceEnvironmentsGetWorkerPool;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools/\{workerPoolName\}/instances/\{instance\}/metricdefinitions' has methods for the following verbs: get */
   (
@@ -8235,7 +8235,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     workerPoolName: string,
-    instance: string
+    instance: string,
   ): AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools/\{workerPoolName\}/metricdefinitions' has methods for the following verbs: get */
   (
@@ -8243,7 +8243,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    workerPoolName: string
+    workerPoolName: string,
   ): AppServiceEnvironmentsListWebWorkerMetricDefinitions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools/\{workerPoolName\}/skus' has methods for the following verbs: get */
   (
@@ -8251,7 +8251,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    workerPoolName: string
+    workerPoolName: string,
   ): AppServiceEnvironmentsListWorkerPoolSkus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/workerPools/\{workerPoolName\}/usages' has methods for the following verbs: get */
   (
@@ -8259,32 +8259,32 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    workerPoolName: string
+    workerPoolName: string,
   ): AppServiceEnvironmentsListWebWorkerUsages;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/serverfarms' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms",
-    subscriptionId: string
+    subscriptionId: string,
   ): AppServicePlansList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): AppServicePlansListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/capabilities' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/capabilities",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansListCapabilities;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/hybridConnectionNamespaces/\{namespaceName\}/relays/\{relayName\}' has methods for the following verbs: get, delete */
   (
@@ -8293,7 +8293,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     namespaceName: string,
-    relayName: string
+    relayName: string,
   ): AppServicePlansGetHybridConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/hybridConnectionNamespaces/\{namespaceName\}/relays/\{relayName\}/listKeys' has methods for the following verbs: post */
   (
@@ -8302,7 +8302,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     namespaceName: string,
-    relayName: string
+    relayName: string,
   ): AppServicePlansListHybridConnectionKeys;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/hybridConnectionNamespaces/\{namespaceName\}/relays/\{relayName\}/sites' has methods for the following verbs: get */
   (
@@ -8311,56 +8311,56 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     namespaceName: string,
-    relayName: string
+    relayName: string,
   ): AppServicePlansListWebAppsByHybridConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/hybridConnectionPlanLimits/limit' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionPlanLimits/limit",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansGetHybridConnectionPlanLimit;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/hybridConnectionRelays' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionRelays",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansListHybridConnections;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/restartSites' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/restartSites",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansRestartWebApps;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/sites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/sites",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansListWebApps;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/skus' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/skus",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansGetServerFarmSkus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/usages' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/usages",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansListUsages;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/virtualNetworkConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): AppServicePlansListVnets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/virtualNetworkConnections/\{vnetName\}' has methods for the following verbs: get */
   (
@@ -8368,7 +8368,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    vnetName: string
+    vnetName: string,
   ): AppServicePlansGetVnetFromServerFarm;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/virtualNetworkConnections/\{vnetName\}/gateways/\{gatewayName\}' has methods for the following verbs: get, put */
   (
@@ -8377,7 +8377,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    gatewayName: string
+    gatewayName: string,
   ): AppServicePlansGetVnetGateway;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/virtualNetworkConnections/\{vnetName\}/routes' has methods for the following verbs: get */
   (
@@ -8385,7 +8385,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    vnetName: string
+    vnetName: string,
   ): AppServicePlansListRoutesForVnet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/virtualNetworkConnections/\{vnetName\}/routes/\{routeName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -8394,7 +8394,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    routeName: string
+    routeName: string,
   ): AppServicePlansGetRouteForVnet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/serverfarms/\{name\}/workers/\{workerName\}/reboot' has methods for the following verbs: post */
   (
@@ -8402,56 +8402,56 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    workerName: string
+    workerName: string,
   ): AppServicePlansRebootWorker;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/certificates' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/certificates",
-    subscriptionId: string
+    subscriptionId: string,
   ): CertificatesList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/certificates' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): CertificatesListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/certificates/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): CertificatesGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/containerApps' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/containerApps",
-    subscriptionId: string
+    subscriptionId: string,
   ): ContainerAppsListBySubscription;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): ContainerAppsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{name\}' has methods for the following verbs: get, put, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): ContainerAppsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/containerApps/\{name\}/listSecrets' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/containerApps/{name}/listSecrets",
     subscriptionId: string,
-    name: string
+    name: string,
   ): ContainerAppsListSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{containerAppName\}/revisions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions",
     subscriptionId: string,
     resourceGroupName: string,
-    containerAppName: string
+    containerAppName: string,
   ): ContainerAppsRevisionsListRevisions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{containerAppName\}/revisions/\{name\}' has methods for the following verbs: get */
   (
@@ -8459,7 +8459,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     containerAppName: string,
-    name: string
+    name: string,
   ): ContainerAppsRevisionsGetRevision;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{containerAppName\}/revisions/\{name\}/activate' has methods for the following verbs: post */
   (
@@ -8467,7 +8467,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     containerAppName: string,
-    name: string
+    name: string,
   ): ContainerAppsRevisionsActivateRevision;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{containerAppName\}/revisions/\{name\}/deactivate' has methods for the following verbs: post */
   (
@@ -8475,7 +8475,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     containerAppName: string,
-    name: string
+    name: string,
   ): ContainerAppsRevisionsDeactivateRevision;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/containerApps/\{containerAppName\}/revisions/\{name\}/restart' has methods for the following verbs: post */
   (
@@ -8483,32 +8483,32 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     containerAppName: string,
-    name: string
+    name: string,
   ): ContainerAppsRevisionsRestartRevision;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/deletedSites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites",
-    subscriptionId: string
+    subscriptionId: string,
   ): DeletedWebAppsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/locations/\{location\}/deletedSites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites",
     subscriptionId: string,
-    location: string
+    location: string,
   ): DeletedWebAppsListByLocation;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/locations/\{location\}/deletedSites/\{deletedSiteId\}' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites/{deletedSiteId}",
     subscriptionId: string,
     location: string,
-    deletedSiteId: string
+    deletedSiteId: string,
   ): DeletedWebAppsGetDeletedWebAppByLocation;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/detectors' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): DiagnosticsListHostingEnvironmentDetectorResponses;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{name\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -8516,14 +8516,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsGetHostingEnvironmentDetectorResponse;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/detectors' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): DiagnosticsListSiteDetectorResponses;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -8531,14 +8531,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsGetSiteDetectorResponse;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): DiagnosticsListSiteDiagnosticCategories;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}' has methods for the following verbs: get */
   (
@@ -8546,7 +8546,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsGetSiteDiagnosticCategory;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/analyses' has methods for the following verbs: get */
   (
@@ -8554,7 +8554,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsListSiteAnalyses;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/analyses/\{analysisName\}' has methods for the following verbs: get */
   (
@@ -8563,7 +8563,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    analysisName: string
+    analysisName: string,
   ): DiagnosticsGetSiteAnalysis;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/analyses/\{analysisName\}/execute' has methods for the following verbs: post */
   (
@@ -8572,7 +8572,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    analysisName: string
+    analysisName: string,
   ): DiagnosticsExecuteSiteAnalysis;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/detectors' has methods for the following verbs: get */
   (
@@ -8580,7 +8580,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsListSiteDetectors;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -8589,7 +8589,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsGetSiteDetector;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/diagnostics/\{diagnosticCategory\}/detectors/\{detectorName\}/execute' has methods for the following verbs: post */
   (
@@ -8598,7 +8598,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     diagnosticCategory: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsExecuteSiteDetector;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/detectors' has methods for the following verbs: get */
   (
@@ -8606,7 +8606,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    slot: string
+    slot: string,
   ): DiagnosticsListSiteDetectorResponsesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -8615,7 +8615,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsGetSiteDetectorResponseSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics' has methods for the following verbs: get */
   (
@@ -8623,7 +8623,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    slot: string
+    slot: string,
   ): DiagnosticsListSiteDiagnosticCategoriesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}' has methods for the following verbs: get */
   (
@@ -8632,7 +8632,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsGetSiteDiagnosticCategorySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/analyses' has methods for the following verbs: get */
   (
@@ -8641,7 +8641,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsListSiteAnalysesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/analyses/\{analysisName\}' has methods for the following verbs: get */
   (
@@ -8651,7 +8651,7 @@ export interface Routes {
     siteName: string,
     slot: string,
     diagnosticCategory: string,
-    analysisName: string
+    analysisName: string,
   ): DiagnosticsGetSiteAnalysisSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/analyses/\{analysisName\}/execute' has methods for the following verbs: post */
   (
@@ -8661,7 +8661,7 @@ export interface Routes {
     siteName: string,
     slot: string,
     diagnosticCategory: string,
-    analysisName: string
+    analysisName: string,
   ): DiagnosticsExecuteSiteAnalysisSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/detectors' has methods for the following verbs: get */
   (
@@ -8670,7 +8670,7 @@ export interface Routes {
     resourceGroupName: string,
     siteName: string,
     slot: string,
-    diagnosticCategory: string
+    diagnosticCategory: string,
   ): DiagnosticsListSiteDetectorsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/detectors/\{detectorName\}' has methods for the following verbs: get */
   (
@@ -8680,7 +8680,7 @@ export interface Routes {
     siteName: string,
     slot: string,
     diagnosticCategory: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsGetSiteDetectorSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/slots/\{slot\}/diagnostics/\{diagnosticCategory\}/detectors/\{detectorName\}/execute' has methods for the following verbs: post */
   (
@@ -8690,44 +8690,44 @@ export interface Routes {
     siteName: string,
     slot: string,
     diagnosticCategory: string,
-    detectorName: string
+    detectorName: string,
   ): DiagnosticsExecuteSiteDetectorSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/deletedSites/\{deletedSiteId\}' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}",
     subscriptionId: string,
-    deletedSiteId: string
+    deletedSiteId: string,
   ): GlobalGetDeletedWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/deletedSites/\{deletedSiteId\}/snapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deletedSites/{deletedSiteId}/snapshots",
     subscriptionId: string,
-    deletedSiteId: string
+    deletedSiteId: string,
   ): GlobalGetDeletedWebAppSnapshots;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/locations/\{location\}/operations/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/operations/{operationId}",
     subscriptionId: string,
     location: string,
-    operationId: string
+    operationId: string,
   ): GlobalGetSubscriptionOperationWithAsyncResponse;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/kubeEnvironments' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments",
-    subscriptionId: string
+    subscriptionId: string,
   ): KubeEnvironmentsListBySubscription;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/kubeEnvironments' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): KubeEnvironmentsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/kubeEnvironments/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): KubeEnvironmentsGet;
   /** Resource for '/providers/Microsoft.Web/availableStacks' has methods for the following verbs: get */
   (path: "/providers/Microsoft.Web/availableStacks"): ProviderGetAvailableStacks;
@@ -8736,12 +8736,12 @@ export interface Routes {
   /** Resource for '/providers/Microsoft.Web/locations/\{location\}/functionAppStacks' has methods for the following verbs: get */
   (
     path: "/providers/Microsoft.Web/locations/{location}/functionAppStacks",
-    location: string
+    location: string,
   ): ProviderGetFunctionAppStacksForLocation;
   /** Resource for '/providers/Microsoft.Web/locations/\{location\}/webAppStacks' has methods for the following verbs: get */
   (
     path: "/providers/Microsoft.Web/locations/{location}/webAppStacks",
-    location: string
+    location: string,
   ): ProviderGetWebAppStacksForLocation;
   /** Resource for '/providers/Microsoft.Web/operations' has methods for the following verbs: get */
   (path: "/providers/Microsoft.Web/operations"): ProviderListOperations;
@@ -8750,51 +8750,51 @@ export interface Routes {
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/availableStacks' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/availableStacks",
-    subscriptionId: string
+    subscriptionId: string,
   ): ProviderGetAvailableStacksOnPrem;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/recommendations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations",
-    subscriptionId: string
+    subscriptionId: string,
   ): RecommendationsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/recommendations/reset' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/reset",
-    subscriptionId: string
+    subscriptionId: string,
   ): RecommendationsResetAllFilters;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/recommendations/\{name\}/disable' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/recommendations/{name}/disable",
     subscriptionId: string,
-    name: string
+    name: string,
   ): RecommendationsDisableRecommendationForSubscription;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendationHistory' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendationHistory",
     subscriptionId: string,
     resourceGroupName: string,
-    hostingEnvironmentName: string
+    hostingEnvironmentName: string,
   ): RecommendationsListHistoryForHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations",
     subscriptionId: string,
     resourceGroupName: string,
-    hostingEnvironmentName: string
+    hostingEnvironmentName: string,
   ): RecommendationsListRecommendedRulesForHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendations/disable' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/disable",
     subscriptionId: string,
     resourceGroupName: string,
-    hostingEnvironmentName: string
+    hostingEnvironmentName: string,
   ): RecommendationsDisableAllForHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendations/reset' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{hostingEnvironmentName}/recommendations/reset",
     subscriptionId: string,
     resourceGroupName: string,
-    hostingEnvironmentName: string
+    hostingEnvironmentName: string,
   ): RecommendationsResetAllFiltersForHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendations/\{name\}' has methods for the following verbs: get */
   (
@@ -8802,7 +8802,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    name: string
+    name: string,
   ): RecommendationsGetRuleDetailsByHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/hostingEnvironments/\{hostingEnvironmentName\}/recommendations/\{name\}/disable' has methods for the following verbs: post */
   (
@@ -8810,35 +8810,35 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     hostingEnvironmentName: string,
-    name: string
+    name: string,
   ): RecommendationsDisableRecommendationForHostingEnvironment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendationHistory' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendationHistory",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): RecommendationsListHistoryForWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): RecommendationsListRecommendedRulesForWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendations/disable' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/disable",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): RecommendationsDisableAllForWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendations/reset' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/reset",
     subscriptionId: string,
     resourceGroupName: string,
-    siteName: string
+    siteName: string,
   ): RecommendationsResetAllFiltersForWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendations/\{name\}' has methods for the following verbs: get */
   (
@@ -8846,7 +8846,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    name: string
+    name: string,
   ): RecommendationsGetRuleDetailsByWebApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{siteName\}/recommendations/\{name\}/disable' has methods for the following verbs: post */
   (
@@ -8854,32 +8854,32 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     siteName: string,
-    name: string
+    name: string,
   ): RecommendationsDisableRecommendationForSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/resourceHealthMetadata' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/resourceHealthMetadata",
-    subscriptionId: string
+    subscriptionId: string,
   ): ResourceHealthMetadataList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/resourceHealthMetadata' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/resourceHealthMetadata",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): ResourceHealthMetadataListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/resourceHealthMetadata' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): ResourceHealthMetadataListBySite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/resourceHealthMetadata/default' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resourceHealthMetadata/default",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): ResourceHealthMetadataGetBySite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/resourceHealthMetadata' has methods for the following verbs: get */
   (
@@ -8887,7 +8887,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): ResourceHealthMetadataListBySiteSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/resourceHealthMetadata/default' has methods for the following verbs: get */
   (
@@ -8895,7 +8895,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): ResourceHealthMetadataGetBySiteSlot;
   /** Resource for '/providers/Microsoft.Web/publishingUsers/web' has methods for the following verbs: get, put */
   (path: "/providers/Microsoft.Web/publishingUsers/web"): GetPublishingUser;
@@ -8904,94 +8904,94 @@ export interface Routes {
   /** Resource for '/providers/Microsoft.Web/sourcecontrols/\{sourceControlType\}' has methods for the following verbs: get, put */
   (
     path: "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
-    sourceControlType: string
+    sourceControlType: string,
   ): GetSourceControl;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/billingMeters' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/billingMeters",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListBillingMeters;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/checknameavailability' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/checknameavailability",
-    subscriptionId: string
+    subscriptionId: string,
   ): CheckNameAvailability;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/customhostnameSites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/customhostnameSites",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListCustomHostNameSites;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/deploymentLocations' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations",
-    subscriptionId: string
+    subscriptionId: string,
   ): GetSubscriptionDeploymentLocations;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/geoRegions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/geoRegions",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListGeoRegions;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/listSitesAssignedToHostName' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/listSitesAssignedToHostName",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListSiteIdentifiersAssignedToHostName;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/premieraddonoffers' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/premieraddonoffers",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListPremierAddOnOffers;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/skus' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus",
-    subscriptionId: string
+    subscriptionId: string,
   ): ListSkus;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/verifyHostingEnvironmentVnet' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet",
-    subscriptionId: string
+    subscriptionId: string,
   ): VerifyHostingEnvironmentVnet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/moveResources' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/moveResources",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): Move;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/validate' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): Validate;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/validateMoveResources' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): ValidateMove;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/locations/\{location\}/previewStaticSiteWorkflowFile' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/previewStaticSiteWorkflowFile",
     subscriptionId: string,
-    location: string
+    location: string,
   ): StaticSitesPreviewWorkflow;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/staticSites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/staticSites",
-    subscriptionId: string
+    subscriptionId: string,
   ): StaticSitesList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): StaticSitesGetStaticSitesByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesGetStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/authproviders/\{authprovider\}/listUsers' has methods for the following verbs: post */
   (
@@ -8999,7 +8999,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    authprovider: string
+    authprovider: string,
   ): StaticSitesListStaticSiteUsers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/authproviders/\{authprovider\}/users/\{userid\}' has methods for the following verbs: delete, patch */
   (
@@ -9008,14 +9008,14 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     authprovider: string,
-    userid: string
+    userid: string,
   ): StaticSitesDeleteStaticSiteUser;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesGetStaticSiteBuilds;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}' has methods for the following verbs: get, delete */
   (
@@ -9023,7 +9023,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesGetStaticSiteBuild;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/config/appsettings' has methods for the following verbs: put */
   (
@@ -9031,7 +9031,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesCreateOrUpdateStaticSiteBuildAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/config/functionappsettings' has methods for the following verbs: put */
   (
@@ -9039,7 +9039,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/functions' has methods for the following verbs: get */
   (
@@ -9047,7 +9047,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesListStaticSiteBuildFunctions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/listAppSettings' has methods for the following verbs: post */
   (
@@ -9055,7 +9055,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesListStaticSiteBuildAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/listFunctionAppSettings' has methods for the following verbs: post */
   (
@@ -9063,7 +9063,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesListStaticSiteBuildFunctionAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/userProvidedFunctionApps' has methods for the following verbs: get */
   (
@@ -9071,7 +9071,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuild;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/userProvidedFunctionApps/\{functionAppName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9080,7 +9080,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     environmentName: string,
-    functionAppName: string
+    functionAppName: string,
   ): StaticSitesGetUserProvidedFunctionAppForStaticSiteBuild;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/builds/\{environmentName\}/zipdeploy' has methods for the following verbs: post */
   (
@@ -9088,35 +9088,35 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    environmentName: string
+    environmentName: string,
   ): StaticSitesCreateZipDeploymentForStaticSiteBuild;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/config/appsettings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesCreateOrUpdateStaticSiteAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/config/functionappsettings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/functionappsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesCreateOrUpdateStaticSiteFunctionAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/createUserInvitation' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesCreateUserRolesInvitationLink;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/customDomains' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteCustomDomains;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/customDomains/\{domainName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9124,7 +9124,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    domainName: string
+    domainName: string,
   ): StaticSitesGetStaticSiteCustomDomain;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/customDomains/\{domainName\}/validate' has methods for the following verbs: post */
   (
@@ -9132,56 +9132,56 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    domainName: string
+    domainName: string,
   ): StaticSitesValidateCustomDomainCanBeAddedToStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/detach' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesDetachStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/functions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteFunctions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/listAppSettings' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/listConfiguredRoles' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteConfiguredRoles;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/listFunctionAppSettings' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteFunctionAppSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/listSecrets' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesListStaticSiteSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/privateEndpointConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesGetPrivateEndpointConnectionList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9189,28 +9189,28 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    privateEndpointConnectionName: string
+    privateEndpointConnectionName: string,
   ): StaticSitesGetPrivateEndpointConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/privateLinkResources' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesGetPrivateLinkResources;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/resetapikey' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesResetStaticSiteApiKey;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/userProvidedFunctionApps' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesGetUserProvidedFunctionAppsForStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/userProvidedFunctionApps/\{functionAppName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9218,60 +9218,60 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    functionAppName: string
+    functionAppName: string,
   ): StaticSitesGetUserProvidedFunctionAppForStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/staticSites/\{name\}/zipdeploy' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): StaticSitesCreateZipDeploymentForStaticSite;
   /** Resource for '/subscriptions/\{subscriptionId\}/providers/Microsoft.Web/sites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/providers/Microsoft.Web/sites",
-    subscriptionId: string
+    subscriptionId: string,
   ): WebAppsList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites",
     subscriptionId: string,
-    resourceGroupName: string
+    resourceGroupName: string,
   ): WebAppsListByResourceGroup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGet;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/analyzeCustomHostname' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/analyzeCustomHostname",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsAnalyzeCustomHostname;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/applySlotConfig' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/applySlotConfig",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsApplySlotConfigToProduction;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/backup' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/backup",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsBackup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/backups' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/backups",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListBackups;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/backups/\{backupId\}' has methods for the following verbs: get, delete */
   (
@@ -9279,7 +9279,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    backupId: string
+    backupId: string,
   ): WebAppsGetBackupStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/backups/\{backupId\}/list' has methods for the following verbs: post */
   (
@@ -9287,7 +9287,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    backupId: string
+    backupId: string,
   ): WebAppsListBackupStatusSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/backups/\{backupId\}/restore' has methods for the following verbs: post */
   (
@@ -9295,112 +9295,112 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    backupId: string
+    backupId: string,
   ): WebAppsRestore;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/basicPublishingCredentialsPolicies' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListBasicPublishingCredentialsPolicies;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/basicPublishingCredentialsPolicies/ftp' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/ftp",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetFtpAllowed;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/basicPublishingCredentialsPolicies/scm' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/basicPublishingCredentialsPolicies/scm",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetScmAllowed;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListConfigurations;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/appsettings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/appsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateApplicationSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/appsettings/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/appsettings/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListApplicationSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/authsettings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateAuthSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/authsettings/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettings/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetAuthSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/authsettingsV2' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetAuthSettingsV2WithoutSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/authsettingsV2/list' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetAuthSettingsV2;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/azurestorageaccounts' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/azurestorageaccounts",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateAzureStorageAccounts;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/azurestorageaccounts/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/azurestorageaccounts/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListAzureStorageAccounts;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/backup' has methods for the following verbs: put, delete */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateBackupConfiguration;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/backup/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetBackupConfiguration;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/configreferences/appsettings' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetAppSettingsKeyVaultReferences;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/configreferences/appsettings/\{appSettingKey\}' has methods for the following verbs: get */
   (
@@ -9408,14 +9408,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    appSettingKey: string
+    appSettingKey: string,
   ): WebAppsGetAppSettingKeyVaultReference;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/configreferences/connectionstrings' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetSiteConnectionStringKeyVaultReferences;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/configreferences/connectionstrings/\{connectionStringKey\}' has methods for the following verbs: get */
   (
@@ -9423,84 +9423,84 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    connectionStringKey: string
+    connectionStringKey: string,
   ): WebAppsGetSiteConnectionStringKeyVaultReference;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/connectionstrings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/connectionstrings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateConnectionStrings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/connectionstrings/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/connectionstrings/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListConnectionStrings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/logs' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/logs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetDiagnosticLogsConfiguration;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/metadata' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/metadata",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateMetadata;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/metadata/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/metadata/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListMetadata;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/publishingcredentials/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/publishingcredentials/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListPublishingCredentials;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/pushsettings' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/pushsettings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsUpdateSitePushSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/pushsettings/list' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/pushsettings/list",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSitePushSettings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/slotConfigNames' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/slotConfigNames",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSlotConfigurationNames;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/web' has methods for the following verbs: get, put, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetConfiguration;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/web/snapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListConfigurationSnapshotInfo;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/web/snapshots/\{snapshotId\}' has methods for the following verbs: get */
   (
@@ -9508,7 +9508,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    snapshotId: string
+    snapshotId: string,
   ): WebAppsGetConfigurationSnapshot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/config/web/snapshots/\{snapshotId\}/recover' has methods for the following verbs: post */
   (
@@ -9516,28 +9516,28 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    snapshotId: string
+    snapshotId: string,
   ): WebAppsRecoverSiteConfigurationSnapshot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/containerlogs' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetWebSiteContainerLogs;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/containerlogs/zip/download' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs/zip/download",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetContainerLogsZip;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/continuouswebjobs' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListContinuousWebJobs;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/continuouswebjobs/\{webJobName\}' has methods for the following verbs: get, delete */
   (
@@ -9545,7 +9545,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetContinuousWebJob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/continuouswebjobs/\{webJobName\}/start' has methods for the following verbs: post */
   (
@@ -9553,7 +9553,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsStartContinuousWebJob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/continuouswebjobs/\{webJobName\}/stop' has methods for the following verbs: post */
   (
@@ -9561,14 +9561,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsStopContinuousWebJob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/deployments' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListDeployments;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/deployments/\{id\}' has methods for the following verbs: get, put, delete */
   (
@@ -9576,7 +9576,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     id: string,
-    name: string
+    name: string,
   ): WebAppsGetDeployment;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/deployments/\{id\}/log' has methods for the following verbs: get */
   (
@@ -9584,21 +9584,21 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     id: string,
-    name: string
+    name: string,
   ): WebAppsListDeploymentLog;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/discoverbackup' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/discoverbackup",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsDiscoverBackup;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/domainOwnershipIdentifiers' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/domainOwnershipIdentifiers",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListDomainOwnershipIdentifiers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/domainOwnershipIdentifiers/\{domainOwnershipIdentifierName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -9606,42 +9606,42 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    domainOwnershipIdentifierName: string
+    domainOwnershipIdentifierName: string,
   ): WebAppsGetDomainOwnershipIdentifier;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/extensions/MSDeploy' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetMSDeployStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/extensions/MSDeploy/log' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy/log",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetMSDeployLog;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/extensions/onedeploy' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetOneDeployStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListFunctions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions/admin/token' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/token",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetFunctionsAdminToken;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions/\{functionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9649,7 +9649,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    functionName: string
+    functionName: string,
   ): WebAppsGetFunction;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions/\{functionName\}/keys/\{keyName\}' has methods for the following verbs: put, delete */
   (
@@ -9658,7 +9658,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     functionName: string,
-    keyName: string
+    keyName: string,
   ): WebAppsCreateOrUpdateFunctionSecret;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions/\{functionName\}/listkeys' has methods for the following verbs: post */
   (
@@ -9666,7 +9666,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    functionName: string
+    functionName: string,
   ): WebAppsListFunctionKeys;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/functions/\{functionName\}/listsecrets' has methods for the following verbs: post */
   (
@@ -9674,28 +9674,28 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    functionName: string
+    functionName: string,
   ): WebAppsListFunctionSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/host/default/listkeys' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listkeys",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListHostKeys;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/host/default/listsyncstatus' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/listsyncstatus",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSyncStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/host/default/sync' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/sync",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsSyncFunctions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/host/default/\{keyType\}/\{keyName\}' has methods for the following verbs: put, delete */
   (
@@ -9704,14 +9704,14 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     keyType: string,
-    keyName: string
+    keyName: string,
   ): WebAppsCreateOrUpdateHostSecret;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hostNameBindings' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostNameBindings",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListHostNameBindings;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hostNameBindings/\{hostName\}' has methods for the following verbs: get, put, delete */
   (
@@ -9719,7 +9719,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    hostName: string
+    hostName: string,
   ): WebAppsGetHostNameBinding;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hybridConnectionNamespaces/\{namespaceName\}/relays/\{relayName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -9728,21 +9728,21 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     namespaceName: string,
-    relayName: string
+    relayName: string,
   ): WebAppsGetHybridConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hybridConnectionRelays' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridConnectionRelays",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListHybridConnections;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hybridconnection' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListRelayServiceConnections;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/hybridconnection/\{entityName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -9750,14 +9750,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    entityName: string
+    entityName: string,
   ): WebAppsGetRelayServiceConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListInstanceIdentifiers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}' has methods for the following verbs: get */
   (
@@ -9765,7 +9765,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceInfo;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/extensions/MSDeploy' has methods for the following verbs: get, put */
   (
@@ -9773,7 +9773,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceMsDeployStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/extensions/MSDeploy/log' has methods for the following verbs: get */
   (
@@ -9781,7 +9781,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceMSDeployLog;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes' has methods for the following verbs: get */
   (
@@ -9789,7 +9789,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsListInstanceProcesses;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes/\{processId\}' has methods for the following verbs: get, delete */
   (
@@ -9798,7 +9798,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsGetInstanceProcess;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes/\{processId\}/dump' has methods for the following verbs: get */
   (
@@ -9807,7 +9807,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsGetInstanceProcessDump;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes/\{processId\}/modules' has methods for the following verbs: get */
   (
@@ -9816,7 +9816,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsListInstanceProcessModules;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes/\{processId\}/modules/\{baseAddress\}' has methods for the following verbs: get */
   (
@@ -9826,7 +9826,7 @@ export interface Routes {
     name: string,
     instanceId: string,
     processId: string,
-    baseAddress: string
+    baseAddress: string,
   ): WebAppsGetInstanceProcessModule;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/instances/\{instanceId\}/processes/\{processId\}/threads' has methods for the following verbs: get */
   (
@@ -9835,56 +9835,56 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsListInstanceProcessThreads;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/iscloneable' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/iscloneable",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsIsCloneable;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/listbackups' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/listbackups",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSiteBackups;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/listsyncfunctiontriggerstatus' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/listsyncfunctiontriggerstatus",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSyncFunctionTriggers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/migrate' has methods for the following verbs: put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migrate",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsMigrateStorage;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/migratemysql' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migratemysql",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsMigrateMySql;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/migratemysql/status' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migratemysql/status",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetMigrateMySqlStatus;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkConfig/virtualNetwork' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetSwiftVirtualNetworkConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkFeatures/\{view\}' has methods for the following verbs: get */
   (
@@ -9892,7 +9892,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    view: string
+    view: string,
   ): WebAppsListNetworkFeatures;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTrace/operationresults/\{operationId\}' has methods for the following verbs: get */
   (
@@ -9900,28 +9900,28 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTraceOperation;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTrace/start' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/start",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStartWebSiteNetworkTrace;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTrace/startOperation' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/startOperation",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStartWebSiteNetworkTraceOperation;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTrace/stop' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/stop",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStopWebSiteNetworkTrace;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTrace/\{operationId\}' has methods for the following verbs: get */
   (
@@ -9929,7 +9929,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTraces;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTraces/current/operationresults/\{operationId\}' has methods for the following verbs: get */
   (
@@ -9937,7 +9937,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTraceOperationV2;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/networkTraces/\{operationId\}' has methods for the following verbs: get */
   (
@@ -9945,35 +9945,35 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTracesV2;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/newpassword' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/newpassword",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGenerateNewSitePublishingPassword;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/perfcounters' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/perfcounters",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListPerfMonCounters;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/phplogging' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/phplogging",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetSitePhpErrorLogFlag;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/premieraddons' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/premieraddons",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListPremierAddOns;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/premieraddons/\{premierAddOnName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -9981,21 +9981,21 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    premierAddOnName: string
+    premierAddOnName: string,
   ): WebAppsGetPremierAddOn;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/privateAccess/virtualNetworks' has methods for the following verbs: get, put */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetPrivateAccess;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/privateEndpointConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetPrivateEndpointConnectionList;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -10003,21 +10003,21 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    privateEndpointConnectionName: string
+    privateEndpointConnectionName: string,
   ): WebAppsGetPrivateEndpointConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/privateLinkResources' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetPrivateLinkResources;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListProcesses;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes/\{processId\}' has methods for the following verbs: get, delete */
   (
@@ -10025,7 +10025,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    processId: string
+    processId: string,
   ): WebAppsGetProcess;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes/\{processId\}/dump' has methods for the following verbs: get */
   (
@@ -10033,7 +10033,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    processId: string
+    processId: string,
   ): WebAppsGetProcessDump;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes/\{processId\}/modules' has methods for the following verbs: get */
   (
@@ -10041,7 +10041,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    processId: string
+    processId: string,
   ): WebAppsListProcessModules;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes/\{processId\}/modules/\{baseAddress\}' has methods for the following verbs: get */
   (
@@ -10050,7 +10050,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     processId: string,
-    baseAddress: string
+    baseAddress: string,
   ): WebAppsGetProcessModule;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/processes/\{processId\}/threads' has methods for the following verbs: get */
   (
@@ -10058,14 +10058,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    processId: string
+    processId: string,
   ): WebAppsListProcessThreads;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/publicCertificates' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publicCertificates",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListPublicCertificates;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/publicCertificates/\{publicCertificateName\}' has methods for the following verbs: get, put, delete */
   (
@@ -10073,56 +10073,56 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    publicCertificateName: string
+    publicCertificateName: string,
   ): WebAppsGetPublicCertificate;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/publishxml' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publishxml",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListPublishingProfileXmlWithSecrets;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/resetSlotConfig' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resetSlotConfig",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsResetProductionSlotConfig;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/restart' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restart",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsRestart;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/restoreFromBackupBlob' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreFromBackupBlob",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsRestoreFromBackupBlob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/restoreFromDeletedApp' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreFromDeletedApp",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsRestoreFromDeletedApp;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/restoreSnapshot' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreSnapshot",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsRestoreSnapshot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/siteextensions' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/siteextensions",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSiteExtensions;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/siteextensions/\{siteExtensionId\}' has methods for the following verbs: get, put, delete */
   (
@@ -10130,14 +10130,14 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    siteExtensionId: string
+    siteExtensionId: string,
   ): WebAppsGetSiteExtension;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSlots;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10145,7 +10145,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/analyzeCustomHostname' has methods for the following verbs: get */
   (
@@ -10153,7 +10153,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsAnalyzeCustomHostnameSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/applySlotConfig' has methods for the following verbs: post */
   (
@@ -10161,7 +10161,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsApplySlotConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/backup' has methods for the following verbs: post */
   (
@@ -10169,7 +10169,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsBackupSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/backups' has methods for the following verbs: get */
   (
@@ -10177,7 +10177,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListBackupsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/backups/\{backupId\}' has methods for the following verbs: get, delete */
   (
@@ -10186,7 +10186,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    backupId: string
+    backupId: string,
   ): WebAppsGetBackupStatusSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/backups/\{backupId\}/list' has methods for the following verbs: post */
   (
@@ -10195,7 +10195,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    backupId: string
+    backupId: string,
   ): WebAppsListBackupStatusSecretsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/backups/\{backupId\}/restore' has methods for the following verbs: post */
   (
@@ -10204,7 +10204,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    backupId: string
+    backupId: string,
   ): WebAppsRestoreSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/basicPublishingCredentialsPolicies' has methods for the following verbs: get */
   (
@@ -10212,7 +10212,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListBasicPublishingCredentialsPoliciesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/basicPublishingCredentialsPolicies/ftp' has methods for the following verbs: get, put */
   (
@@ -10220,7 +10220,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetFtpAllowedSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/basicPublishingCredentialsPolicies/scm' has methods for the following verbs: get, put */
   (
@@ -10228,7 +10228,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetScmAllowedSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config' has methods for the following verbs: get */
   (
@@ -10236,7 +10236,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListConfigurationsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/appsettings' has methods for the following verbs: put */
   (
@@ -10244,7 +10244,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateApplicationSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/appsettings/list' has methods for the following verbs: post */
   (
@@ -10252,7 +10252,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListApplicationSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/authsettings' has methods for the following verbs: put */
   (
@@ -10260,7 +10260,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateAuthSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/authsettings/list' has methods for the following verbs: post */
   (
@@ -10268,7 +10268,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetAuthSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/authsettingsV2' has methods for the following verbs: get, put */
   (
@@ -10276,7 +10276,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetAuthSettingsV2WithoutSecretsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/authsettingsV2/list' has methods for the following verbs: get */
   (
@@ -10284,7 +10284,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetAuthSettingsV2Slot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/azurestorageaccounts' has methods for the following verbs: put */
   (
@@ -10292,7 +10292,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateAzureStorageAccountsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/azurestorageaccounts/list' has methods for the following verbs: post */
   (
@@ -10300,7 +10300,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListAzureStorageAccountsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/backup' has methods for the following verbs: put, delete */
   (
@@ -10308,7 +10308,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateBackupConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/backup/list' has methods for the following verbs: post */
   (
@@ -10316,7 +10316,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetBackupConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/configreferences/appsettings' has methods for the following verbs: get */
   (
@@ -10324,7 +10324,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetAppSettingsKeyVaultReferencesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/configreferences/appsettings/\{appSettingKey\}' has methods for the following verbs: get */
   (
@@ -10333,7 +10333,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    appSettingKey: string
+    appSettingKey: string,
   ): WebAppsGetAppSettingKeyVaultReferenceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/configreferences/connectionstrings' has methods for the following verbs: get */
   (
@@ -10341,7 +10341,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetSiteConnectionStringKeyVaultReferencesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/configreferences/connectionstrings/\{connectionStringKey\}' has methods for the following verbs: get */
   (
@@ -10350,7 +10350,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    connectionStringKey: string
+    connectionStringKey: string,
   ): WebAppsGetSiteConnectionStringKeyVaultReferenceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/connectionstrings' has methods for the following verbs: put */
   (
@@ -10358,7 +10358,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateConnectionStringsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/connectionstrings/list' has methods for the following verbs: post */
   (
@@ -10366,7 +10366,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListConnectionStringsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/logs' has methods for the following verbs: get, put */
   (
@@ -10374,7 +10374,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetDiagnosticLogsConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/metadata' has methods for the following verbs: put */
   (
@@ -10382,7 +10382,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateMetadataSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/metadata/list' has methods for the following verbs: post */
   (
@@ -10390,7 +10390,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListMetadataSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/publishingcredentials/list' has methods for the following verbs: post */
   (
@@ -10398,7 +10398,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListPublishingCredentialsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/pushsettings' has methods for the following verbs: put */
   (
@@ -10406,7 +10406,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsUpdateSitePushSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/pushsettings/list' has methods for the following verbs: post */
   (
@@ -10414,7 +10414,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSitePushSettingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/web' has methods for the following verbs: get, put, patch */
   (
@@ -10422,7 +10422,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/web/snapshots' has methods for the following verbs: get */
   (
@@ -10430,7 +10430,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListConfigurationSnapshotInfoSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/web/snapshots/\{snapshotId\}' has methods for the following verbs: get */
   (
@@ -10439,7 +10439,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    snapshotId: string
+    snapshotId: string,
   ): WebAppsGetConfigurationSnapshotSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/config/web/snapshots/\{snapshotId\}/recover' has methods for the following verbs: post */
   (
@@ -10448,7 +10448,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    snapshotId: string
+    snapshotId: string,
   ): WebAppsRecoverSiteConfigurationSnapshotSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/containerlogs' has methods for the following verbs: post */
   (
@@ -10456,7 +10456,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetWebSiteContainerLogsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/containerlogs/zip/download' has methods for the following verbs: post */
   (
@@ -10464,7 +10464,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetContainerLogsZipSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/continuouswebjobs' has methods for the following verbs: get */
   (
@@ -10472,7 +10472,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListContinuousWebJobsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/continuouswebjobs/\{webJobName\}' has methods for the following verbs: get, delete */
   (
@@ -10481,7 +10481,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetContinuousWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/continuouswebjobs/\{webJobName\}/start' has methods for the following verbs: post */
   (
@@ -10490,7 +10490,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsStartContinuousWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/continuouswebjobs/\{webJobName\}/stop' has methods for the following verbs: post */
   (
@@ -10499,7 +10499,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsStopContinuousWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/deployments' has methods for the following verbs: get */
   (
@@ -10507,7 +10507,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListDeploymentsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/deployments/\{id\}' has methods for the following verbs: get, put, delete */
   (
@@ -10516,7 +10516,7 @@ export interface Routes {
     resourceGroupName: string,
     id: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetDeploymentSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/deployments/\{id\}/log' has methods for the following verbs: get */
   (
@@ -10525,7 +10525,7 @@ export interface Routes {
     resourceGroupName: string,
     id: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListDeploymentLogSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/discoverbackup' has methods for the following verbs: post */
   (
@@ -10533,7 +10533,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsDiscoverBackupSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/domainOwnershipIdentifiers' has methods for the following verbs: get */
   (
@@ -10541,7 +10541,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListDomainOwnershipIdentifiersSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/domainOwnershipIdentifiers/\{domainOwnershipIdentifierName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10550,7 +10550,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    domainOwnershipIdentifierName: string
+    domainOwnershipIdentifierName: string,
   ): WebAppsGetDomainOwnershipIdentifierSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/extensions/MSDeploy' has methods for the following verbs: get, put */
   (
@@ -10558,7 +10558,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetMSDeployStatusSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/extensions/MSDeploy/log' has methods for the following verbs: get */
   (
@@ -10566,7 +10566,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetMSDeployLogSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions' has methods for the following verbs: get */
   (
@@ -10574,7 +10574,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListInstanceFunctionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions/admin/token' has methods for the following verbs: get */
   (
@@ -10582,7 +10582,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetFunctionsAdminTokenSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions/\{functionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -10591,7 +10591,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    functionName: string
+    functionName: string,
   ): WebAppsGetInstanceFunctionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions/\{functionName\}/keys/\{keyName\}' has methods for the following verbs: put, delete */
   (
@@ -10601,7 +10601,7 @@ export interface Routes {
     name: string,
     slot: string,
     functionName: string,
-    keyName: string
+    keyName: string,
   ): WebAppsCreateOrUpdateFunctionSecretSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions/\{functionName\}/listkeys' has methods for the following verbs: post */
   (
@@ -10610,7 +10610,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    functionName: string
+    functionName: string,
   ): WebAppsListFunctionKeysSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/functions/\{functionName\}/listsecrets' has methods for the following verbs: post */
   (
@@ -10619,7 +10619,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    functionName: string
+    functionName: string,
   ): WebAppsListFunctionSecretsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/host/default/listkeys' has methods for the following verbs: post */
   (
@@ -10627,7 +10627,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListHostKeysSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/host/default/listsyncstatus' has methods for the following verbs: post */
   (
@@ -10635,7 +10635,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSyncStatusSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/host/default/sync' has methods for the following verbs: post */
   (
@@ -10643,7 +10643,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsSyncFunctionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/host/default/\{keyType\}/\{keyName\}' has methods for the following verbs: put, delete */
   (
@@ -10653,7 +10653,7 @@ export interface Routes {
     name: string,
     slot: string,
     keyType: string,
-    keyName: string
+    keyName: string,
   ): WebAppsCreateOrUpdateHostSecretSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hostNameBindings' has methods for the following verbs: get */
   (
@@ -10661,7 +10661,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListHostNameBindingsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hostNameBindings/\{hostName\}' has methods for the following verbs: get, put, delete */
   (
@@ -10670,7 +10670,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    hostName: string
+    hostName: string,
   ): WebAppsGetHostNameBindingSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hybridConnectionNamespaces/\{namespaceName\}/relays/\{relayName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10680,7 +10680,7 @@ export interface Routes {
     name: string,
     slot: string,
     namespaceName: string,
-    relayName: string
+    relayName: string,
   ): WebAppsGetHybridConnectionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hybridConnectionRelays' has methods for the following verbs: get */
   (
@@ -10688,7 +10688,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListHybridConnectionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hybridconnection' has methods for the following verbs: get */
   (
@@ -10696,7 +10696,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListRelayServiceConnectionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/hybridconnection/\{entityName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10705,7 +10705,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    entityName: string
+    entityName: string,
   ): WebAppsGetRelayServiceConnectionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances' has methods for the following verbs: get */
   (
@@ -10713,7 +10713,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListInstanceIdentifiersSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}' has methods for the following verbs: get */
   (
@@ -10722,7 +10722,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceInfoSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/extensions/MSDeploy' has methods for the following verbs: get, put */
   (
@@ -10731,7 +10731,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceMsDeployStatusSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/extensions/MSDeploy/log' has methods for the following verbs: get */
   (
@@ -10740,7 +10740,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsGetInstanceMSDeployLogSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes' has methods for the following verbs: get */
   (
@@ -10749,7 +10749,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    instanceId: string
+    instanceId: string,
   ): WebAppsListInstanceProcessesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes/\{processId\}' has methods for the following verbs: get, delete */
   (
@@ -10759,7 +10759,7 @@ export interface Routes {
     name: string,
     slot: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsGetInstanceProcessSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes/\{processId\}/dump' has methods for the following verbs: get */
   (
@@ -10769,7 +10769,7 @@ export interface Routes {
     name: string,
     slot: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsGetInstanceProcessDumpSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes/\{processId\}/modules' has methods for the following verbs: get */
   (
@@ -10779,7 +10779,7 @@ export interface Routes {
     name: string,
     slot: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsListInstanceProcessModulesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes/\{processId\}/modules/\{baseAddress\}' has methods for the following verbs: get */
   (
@@ -10790,7 +10790,7 @@ export interface Routes {
     slot: string,
     instanceId: string,
     processId: string,
-    baseAddress: string
+    baseAddress: string,
   ): WebAppsGetInstanceProcessModuleSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/instances/\{instanceId\}/processes/\{processId\}/threads' has methods for the following verbs: get */
   (
@@ -10800,7 +10800,7 @@ export interface Routes {
     name: string,
     slot: string,
     instanceId: string,
-    processId: string
+    processId: string,
   ): WebAppsListInstanceProcessThreadsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/iscloneable' has methods for the following verbs: post */
   (
@@ -10808,7 +10808,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsIsCloneableSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/listbackups' has methods for the following verbs: post */
   (
@@ -10816,7 +10816,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSiteBackupsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/listsyncfunctiontriggerstatus' has methods for the following verbs: post */
   (
@@ -10824,7 +10824,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSyncFunctionTriggersSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/migratemysql/status' has methods for the following verbs: get */
   (
@@ -10832,7 +10832,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetMigrateMySqlStatusSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkConfig/virtualNetwork' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10840,7 +10840,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetSwiftVirtualNetworkConnectionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkFeatures/\{view\}' has methods for the following verbs: get */
   (
@@ -10849,7 +10849,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    view: string
+    view: string,
   ): WebAppsListNetworkFeaturesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTrace/operationresults/\{operationId\}' has methods for the following verbs: get */
   (
@@ -10858,7 +10858,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTraceOperationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTrace/start' has methods for the following verbs: post */
   (
@@ -10866,7 +10866,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStartWebSiteNetworkTraceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTrace/startOperation' has methods for the following verbs: post */
   (
@@ -10874,7 +10874,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStartWebSiteNetworkTraceOperationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTrace/stop' has methods for the following verbs: post */
   (
@@ -10882,7 +10882,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStopWebSiteNetworkTraceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTrace/\{operationId\}' has methods for the following verbs: get */
   (
@@ -10891,7 +10891,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTracesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTraces/current/operationresults/\{operationId\}' has methods for the following verbs: get */
   (
@@ -10900,7 +10900,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTraceOperationSlotV2;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/networkTraces/\{operationId\}' has methods for the following verbs: get */
   (
@@ -10909,7 +10909,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    operationId: string
+    operationId: string,
   ): WebAppsGetNetworkTracesSlotV2;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/newpassword' has methods for the following verbs: post */
   (
@@ -10917,7 +10917,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGenerateNewSitePublishingPasswordSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/perfcounters' has methods for the following verbs: get */
   (
@@ -10925,7 +10925,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListPerfMonCountersSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/phplogging' has methods for the following verbs: get */
   (
@@ -10933,7 +10933,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetSitePhpErrorLogFlagSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/premieraddons' has methods for the following verbs: get */
   (
@@ -10941,7 +10941,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListPremierAddOnsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/premieraddons/\{premierAddOnName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -10950,7 +10950,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    premierAddOnName: string
+    premierAddOnName: string,
   ): WebAppsGetPremierAddOnSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/privateAccess/virtualNetworks' has methods for the following verbs: get, put */
   (
@@ -10958,7 +10958,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetPrivateAccessSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/privateEndpointConnections' has methods for the following verbs: get */
   (
@@ -10966,7 +10966,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetPrivateEndpointConnectionListSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/privateEndpointConnections/\{privateEndpointConnectionName\}' has methods for the following verbs: get, put, delete */
   (
@@ -10975,7 +10975,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    privateEndpointConnectionName: string
+    privateEndpointConnectionName: string,
   ): WebAppsGetPrivateEndpointConnectionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/privateLinkResources' has methods for the following verbs: get */
   (
@@ -10983,7 +10983,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetPrivateLinkResourcesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes' has methods for the following verbs: get */
   (
@@ -10991,7 +10991,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListProcessesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes/\{processId\}' has methods for the following verbs: get, delete */
   (
@@ -11000,7 +11000,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    processId: string
+    processId: string,
   ): WebAppsGetProcessSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes/\{processId\}/dump' has methods for the following verbs: get */
   (
@@ -11009,7 +11009,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    processId: string
+    processId: string,
   ): WebAppsGetProcessDumpSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes/\{processId\}/modules' has methods for the following verbs: get */
   (
@@ -11018,7 +11018,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    processId: string
+    processId: string,
   ): WebAppsListProcessModulesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes/\{processId\}/modules/\{baseAddress\}' has methods for the following verbs: get */
   (
@@ -11028,7 +11028,7 @@ export interface Routes {
     name: string,
     slot: string,
     processId: string,
-    baseAddress: string
+    baseAddress: string,
   ): WebAppsGetProcessModuleSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/processes/\{processId\}/threads' has methods for the following verbs: get */
   (
@@ -11037,7 +11037,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    processId: string
+    processId: string,
   ): WebAppsListProcessThreadsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/publicCertificates' has methods for the following verbs: get */
   (
@@ -11045,7 +11045,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListPublicCertificatesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/publicCertificates/\{publicCertificateName\}' has methods for the following verbs: get, put, delete */
   (
@@ -11054,7 +11054,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    publicCertificateName: string
+    publicCertificateName: string,
   ): WebAppsGetPublicCertificateSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/publishxml' has methods for the following verbs: post */
   (
@@ -11062,7 +11062,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListPublishingProfileXmlWithSecretsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/resetSlotConfig' has methods for the following verbs: post */
   (
@@ -11070,7 +11070,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsResetSlotConfigurationSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/restart' has methods for the following verbs: post */
   (
@@ -11078,7 +11078,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsRestartSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/restoreFromBackupBlob' has methods for the following verbs: post */
   (
@@ -11086,7 +11086,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsRestoreFromBackupBlobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/restoreFromDeletedApp' has methods for the following verbs: post */
   (
@@ -11094,7 +11094,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsRestoreFromDeletedAppSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/restoreSnapshot' has methods for the following verbs: post */
   (
@@ -11102,7 +11102,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsRestoreSnapshotSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/siteextensions' has methods for the following verbs: get */
   (
@@ -11110,7 +11110,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSiteExtensionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/siteextensions/\{siteExtensionId\}' has methods for the following verbs: get, put, delete */
   (
@@ -11119,7 +11119,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    siteExtensionId: string
+    siteExtensionId: string,
   ): WebAppsGetSiteExtensionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/slotsdiffs' has methods for the following verbs: post */
   (
@@ -11127,7 +11127,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSlotDifferencesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/slotsswap' has methods for the following verbs: post */
   (
@@ -11135,7 +11135,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsSwapSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/snapshots' has methods for the following verbs: get */
   (
@@ -11143,7 +11143,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSnapshotsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/snapshotsdr' has methods for the following verbs: get */
   (
@@ -11151,7 +11151,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListSnapshotsFromDRSecondarySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/sourcecontrols/web' has methods for the following verbs: get, put, delete, patch */
   (
@@ -11159,7 +11159,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsGetSourceControlSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/start' has methods for the following verbs: post */
   (
@@ -11167,7 +11167,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStartSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/startNetworkTrace' has methods for the following verbs: post */
   (
@@ -11175,7 +11175,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStartNetworkTraceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/stop' has methods for the following verbs: post */
   (
@@ -11183,7 +11183,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStopSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/stopNetworkTrace' has methods for the following verbs: post */
   (
@@ -11191,7 +11191,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsStopNetworkTraceSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/sync' has methods for the following verbs: post */
   (
@@ -11199,7 +11199,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsSyncRepositorySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/syncfunctiontriggers' has methods for the following verbs: post */
   (
@@ -11207,7 +11207,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsSyncFunctionTriggersSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/triggeredwebjobs' has methods for the following verbs: get */
   (
@@ -11215,7 +11215,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListTriggeredWebJobsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/triggeredwebjobs/\{webJobName\}' has methods for the following verbs: get, delete */
   (
@@ -11224,7 +11224,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetTriggeredWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/triggeredwebjobs/\{webJobName\}/history' has methods for the following verbs: get */
   (
@@ -11233,7 +11233,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsListTriggeredWebJobHistorySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/triggeredwebjobs/\{webJobName\}/history/\{id\}' has methods for the following verbs: get */
   (
@@ -11243,7 +11243,7 @@ export interface Routes {
     id: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetTriggeredWebJobHistorySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/triggeredwebjobs/\{webJobName\}/run' has methods for the following verbs: post */
   (
@@ -11252,7 +11252,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsRunTriggeredWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/usages' has methods for the following verbs: get */
   (
@@ -11260,7 +11260,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListUsagesSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/virtualNetworkConnections' has methods for the following verbs: get */
   (
@@ -11268,7 +11268,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListVnetConnectionsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/virtualNetworkConnections/\{vnetName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -11277,7 +11277,7 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    vnetName: string
+    vnetName: string,
   ): WebAppsGetVnetConnectionSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/virtualNetworkConnections/\{vnetName\}/gateways/\{gatewayName\}' has methods for the following verbs: get, put, patch */
   (
@@ -11287,7 +11287,7 @@ export interface Routes {
     name: string,
     slot: string,
     vnetName: string,
-    gatewayName: string
+    gatewayName: string,
   ): WebAppsGetVnetConnectionGatewaySlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/webjobs' has methods for the following verbs: get */
   (
@@ -11295,7 +11295,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    slot: string
+    slot: string,
   ): WebAppsListWebJobsSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slots/\{slot\}/webjobs/\{webJobName\}' has methods for the following verbs: get */
   (
@@ -11304,91 +11304,91 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     slot: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetWebJobSlot;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slotsdiffs' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsdiffs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSlotDifferencesFromProduction;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/slotsswap' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsswap",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsSwapSlotWithProduction;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/snapshots' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/snapshots",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSnapshots;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/snapshotsdr' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/snapshotsdr",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListSnapshotsFromDRSecondary;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/sourcecontrols/web' has methods for the following verbs: get, put, delete, patch */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsGetSourceControl;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/start' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/start",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStart;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/startNetworkTrace' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/startNetworkTrace",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStartNetworkTrace;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/stop' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/stop",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStop;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/stopNetworkTrace' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/stopNetworkTrace",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsStopNetworkTrace;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/sync' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sync",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsSyncRepository;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/syncfunctiontriggers' has methods for the following verbs: post */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/syncfunctiontriggers",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsSyncFunctionTriggers;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/triggeredwebjobs' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListTriggeredWebJobs;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/triggeredwebjobs/\{webJobName\}' has methods for the following verbs: get, delete */
   (
@@ -11396,7 +11396,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetTriggeredWebJob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/triggeredwebjobs/\{webJobName\}/history' has methods for the following verbs: get */
   (
@@ -11404,7 +11404,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsListTriggeredWebJobHistory;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/triggeredwebjobs/\{webJobName\}/history/\{id\}' has methods for the following verbs: get */
   (
@@ -11413,7 +11413,7 @@ export interface Routes {
     resourceGroupName: string,
     id: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetTriggeredWebJobHistory;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/triggeredwebjobs/\{webJobName\}/run' has methods for the following verbs: post */
   (
@@ -11421,21 +11421,21 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsRunTriggeredWebJob;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/usages' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/usages",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListUsages;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/virtualNetworkConnections' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListVnetConnections;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/virtualNetworkConnections/\{vnetName\}' has methods for the following verbs: get, put, delete, patch */
   (
@@ -11443,7 +11443,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    vnetName: string
+    vnetName: string,
   ): WebAppsGetVnetConnection;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/virtualNetworkConnections/\{vnetName\}/gateways/\{gatewayName\}' has methods for the following verbs: get, put, patch */
   (
@@ -11452,14 +11452,14 @@ export interface Routes {
     resourceGroupName: string,
     name: string,
     vnetName: string,
-    gatewayName: string
+    gatewayName: string,
   ): WebAppsGetVnetConnectionGateway;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/webjobs' has methods for the following verbs: get */
   (
     path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/webjobs",
     subscriptionId: string,
     resourceGroupName: string,
-    name: string
+    name: string,
   ): WebAppsListWebJobs;
   /** Resource for '/subscriptions/\{subscriptionId\}/resourceGroups/\{resourceGroupName\}/providers/Microsoft.Web/sites/\{name\}/webjobs/\{webJobName\}' has methods for the following verbs: get */
   (
@@ -11467,7 +11467,7 @@ export interface Routes {
     subscriptionId: string,
     resourceGroupName: string,
     name: string,
-    webJobName: string
+    webJobName: string,
   ): WebAppsGetWebJob;
 }
 

@@ -66,7 +66,7 @@ export function generateMessage(useSessions: boolean, numberOfSessions: number) 
 }
 
 export async function saveDiscrepanciesFromTrackedMessages(
-  trackedMessageIds: TrackedMessageIdsInfo
+  trackedMessageIds: TrackedMessageIdsInfo,
 ) {
   const output = {
     messages_sent_but_never_received: [] as string[],

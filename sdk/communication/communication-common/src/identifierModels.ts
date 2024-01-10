@@ -96,7 +96,7 @@ export interface UnknownIdentifier {
  * @param identifier - The assumed CommunicationUserIdentifier to be tested.
  */
 export const isCommunicationUserIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): identifier is CommunicationUserIdentifier => {
   return typeof (identifier as any).communicationUserId === "string";
 };
@@ -107,7 +107,7 @@ export const isCommunicationUserIdentifier = (
  * @param identifier - The assumed PhoneNumberIdentifier to be tested.
  */
 export const isPhoneNumberIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): identifier is PhoneNumberIdentifier => {
   return typeof (identifier as any).phoneNumber === "string";
 };
@@ -118,7 +118,7 @@ export const isPhoneNumberIdentifier = (
  * @param identifier - The assumed available to be tested.
  */
 export const isMicrosoftTeamsUserIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): identifier is MicrosoftTeamsUserIdentifier => {
   return typeof (identifier as any).microsoftTeamsUserId === "string";
 };
@@ -129,7 +129,7 @@ export const isMicrosoftTeamsUserIdentifier = (
  * @param identifier - The assumed available to be tested.
  */
 export const isMicrosoftTeamsAppIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): identifier is MicrosoftTeamsAppIdentifier => {
   return typeof (identifier as any).teamsAppId === "string";
 };
@@ -140,7 +140,7 @@ export const isMicrosoftTeamsAppIdentifier = (
  * @param identifier - The assumed UnknownIdentifier to be tested.
  */
 export const isUnknownIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): identifier is UnknownIdentifier => {
   return typeof (identifier as any).id === "string";
 };
@@ -211,7 +211,7 @@ export interface UnknownIdentifierKind extends UnknownIdentifier {
  * @param identifier - The identifier whose kind is to be inferred.
  */
 export const getIdentifierKind = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): CommunicationIdentifierKind => {
   if (isCommunicationUserIdentifier(identifier)) {
     return { ...identifier, kind: "communicationUser" };
@@ -276,7 +276,7 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
 
 const buildMicrosoftTeamsAppIdentifier = (
   teamsAppId: string,
-  cloud: "public" | "dod" | "gcch"
+  cloud: "public" | "dod" | "gcch",
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftTeamsApp",
@@ -288,7 +288,7 @@ const buildMicrosoftTeamsAppIdentifier = (
 const buildMicrosoftTeamsUserIdentifier = (
   id: string,
   cloud: "public" | "dod" | "gcch",
-  isAnonymous: boolean
+  isAnonymous: boolean,
 ): CommunicationIdentifierKind => {
   return {
     kind: "microsoftTeamsUser",

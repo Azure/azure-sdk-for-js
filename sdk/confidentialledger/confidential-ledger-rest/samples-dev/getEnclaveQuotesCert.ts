@@ -36,7 +36,7 @@ export async function main() {
         cert,
         key,
       },
-    }
+    },
   );
 
   // Get enclave quotes

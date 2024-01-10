@@ -33,7 +33,7 @@ async function getExpressRouteCrossConnectionBgpPeering() {
       subscriptionId,
       resourceGroupName,
       crossConnectionName,
-      peeringName
+      peeringName,
     )
     .get(options);
   console.log(result);

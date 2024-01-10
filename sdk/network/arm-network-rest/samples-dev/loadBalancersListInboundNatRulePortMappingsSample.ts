@@ -35,7 +35,7 @@ async function queryInboundNatRulePortMapping() {
       subscriptionId,
       groupName,
       loadBalancerName,
-      backendPoolName
+      backendPoolName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

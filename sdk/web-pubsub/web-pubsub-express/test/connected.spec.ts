@@ -11,7 +11,7 @@ function buildRequest(
   req: IncomingMessage,
   hub: string,
   connectionId: string,
-  userId?: string
+  userId?: string,
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["content-type"] = "application/json; charset=utf-8";

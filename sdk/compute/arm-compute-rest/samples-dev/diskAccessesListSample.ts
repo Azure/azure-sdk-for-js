@@ -28,7 +28,7 @@ async function listAllDiskAccessResourcesInASubscription() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/diskAccesses",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

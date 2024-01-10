@@ -39,7 +39,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
-            new Date(Date.UTC(2021, 10, 1))
+            new Date(Date.UTC(2021, 10, 1)),
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.status, "Expecting first status");
@@ -51,7 +51,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             "2020-08-30T00:00:00.000Z",
-            "2021-11-01T00:00:00.000Z"
+            "2021-11-01T00:00:00.000Z",
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.status, "Expecting first status");
@@ -64,7 +64,7 @@ matrix([[true, false]] as const, async (useAad) => {
             .listDataFeedIngestionStatus(
               assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
-              new Date(Date.UTC(2021, 10, 1))
+              new Date(Date.UTC(2021, 10, 1)),
             )
             .byPage({ maxPageSize: 2 });
           let result = await iterator.next();
@@ -75,7 +75,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("gets ingestion progress", async function () {
           const result = await client.getDataFeedIngestionProgress(
-            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID")
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
           );
 
           assert.ok(result.latestSuccessTimestamp, "Expecting valid latest success timestamp");
@@ -86,7 +86,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listDataFeedIngestionStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
             new Date(Date.UTC(2020, 9, 30)),
-            new Date(Date.UTC(2020, 10, 1))
+            new Date(Date.UTC(2020, 10, 1)),
           );
           const result = getYieldedValue(await iterator.next());
 
@@ -94,13 +94,13 @@ matrix([[true, false]] as const, async (useAad) => {
             await client.refreshDataFeedIngestion(
               assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
-              new Date(Date.UTC(2020, 10, 1))
+              new Date(Date.UTC(2020, 10, 1)),
             );
 
             const iterator2 = client.listDataFeedIngestionStatus(
               assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID"),
               new Date(Date.UTC(2020, 9, 30)),
-              new Date(Date.UTC(2020, 10, 1))
+              new Date(Date.UTC(2020, 10, 1)),
             );
             const result2 = getYieldedValue(await iterator2.next());
             assert.notEqual(result2.status, "Succeeded");
@@ -150,15 +150,15 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.metricId, expected.metricId);
           assert.deepStrictEqual(
             actual.wholeSeriesDetectionCondition,
-            expected.wholeSeriesDetectionCondition
+            expected.wholeSeriesDetectionCondition,
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions,
-            expected.seriesGroupDetectionConditions
+            expected.seriesGroupDetectionConditions,
           );
           assert.deepStrictEqual(
             actual.seriesDetectionConditions,
-            expected.seriesDetectionConditions
+            expected.seriesDetectionConditions,
           );
         });
 
@@ -213,29 +213,29 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.strictEqual(actual.description, expected.description);
           assert.deepStrictEqual(
             actual.wholeSeriesDetectionCondition,
-            expected.wholeSeriesDetectionCondition
+            expected.wholeSeriesDetectionCondition,
           );
           assert.ok(
             actual.seriesGroupDetectionConditions,
-            "Expecting valid seriesGroupDetectionConditions"
+            "Expecting valid seriesGroupDetectionConditions",
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions![0].groupKey,
-            expected.seriesGroupDetectionConditions![0].groupKey
+            expected.seriesGroupDetectionConditions![0].groupKey,
           );
           assert.deepStrictEqual(
             actual.seriesGroupDetectionConditions![0].hardThresholdCondition,
-            expected.seriesGroupDetectionConditions![0].hardThresholdCondition
+            expected.seriesGroupDetectionConditions![0].hardThresholdCondition,
           );
           assert.ok(actual.seriesDetectionConditions, "Expecting valid seriesDetectionConditions");
           delete (actual.seriesDetectionConditions![0].seriesKey as any).seriesId; // workaround service issue
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].seriesKey,
-            expected.seriesDetectionConditions![0].seriesKey
+            expected.seriesDetectionConditions![0].seriesKey,
           );
           assert.deepStrictEqual(
             actual.seriesDetectionConditions![0].changeThresholdCondition,
-            expected.seriesDetectionConditions![0].changeThresholdCondition
+            expected.seriesDetectionConditions![0].changeThresholdCondition,
           );
         });
 
@@ -248,7 +248,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         it("lists detection configurations", async function () {
           const iterator = client.listDetectionConfigs(
-            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+            assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.id, "Expecting first detection config");
@@ -259,7 +259,7 @@ matrix([[true, false]] as const, async (useAad) => {
         it("lists detection configurations by page", async function () {
           const iterator = client
             .listDetectionConfigs(
-              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
             )
             .byPage();
           const result = await iterator.next();
@@ -293,12 +293,12 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.crossMetricsOperator, expectedAlertConfig.crossMetricsOperator);
           assert.deepStrictEqual(
             actual.metricAlertConfigurations[0].alertScope,
-            expectedAlertConfig.metricAlertConfigurations[0].alertScope
+            expectedAlertConfig.metricAlertConfigurations[0].alertScope,
           );
           assert.deepStrictEqual(actual.hookIds, expectedAlertConfig.hookIds);
           assert.deepStrictEqual(
             actual.dimensionsToSplitAlert,
-            expectedAlertConfig.dimensionsToSplitAlert
+            expectedAlertConfig.dimensionsToSplitAlert,
           );
         });
 
@@ -336,11 +336,11 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(actual.crossMetricsOperator, "OR");
           assert.deepStrictEqual(
             actual.metricAlertConfigurations![0].alertScope,
-            metricAlertConfig.alertScope
+            metricAlertConfig.alertScope,
           );
           assert.deepStrictEqual(
             actual.metricAlertConfigurations![1].alertScope,
-            metricAlertConfig.alertScope
+            metricAlertConfig.alertScope,
           );
         });
 

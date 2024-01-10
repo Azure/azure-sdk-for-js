@@ -83,17 +83,17 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       // Merge default with provided options
       this.azureMonitorExporterOptions = Object.assign(
         this.azureMonitorExporterOptions,
-        options.azureMonitorExporterOptions
+        options.azureMonitorExporterOptions,
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,
-        options.instrumentationOptions
+        options.instrumentationOptions,
       );
       this.resource = Object.assign(this.resource, options.resource);
       this.samplingRatio = options.samplingRatio || this.samplingRatio;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
-        options.browserSdkLoaderOptions
+        options.browserSdkLoaderOptions,
       );
       this.enableLiveMetrics = options.enableLiveMetrics || this.enableLiveMetrics;
       this.enableStandardMetrics = options.enableStandardMetrics || this.enableStandardMetrics;
@@ -109,7 +109,7 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
         jsonConfig.samplingRatio !== undefined ? jsonConfig.samplingRatio : this.samplingRatio;
       this.browserSdkLoaderOptions = Object.assign(
         this.browserSdkLoaderOptions,
-        jsonConfig.browserSdkLoaderOptions
+        jsonConfig.browserSdkLoaderOptions,
       );
       this.enableLiveMetrics =
         jsonConfig.enableLiveMetrics !== undefined
@@ -121,11 +121,11 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
           : this.enableStandardMetrics;
       this.azureMonitorExporterOptions = Object.assign(
         this.azureMonitorExporterOptions,
-        jsonConfig.azureMonitorExporterOptions
+        jsonConfig.azureMonitorExporterOptions,
       );
       this.instrumentationOptions = Object.assign(
         this.instrumentationOptions,
-        jsonConfig.instrumentationOptions
+        jsonConfig.instrumentationOptions,
       );
     } catch (error) {
       Logger.getInstance().error("Failed to load JSON config file values.", error);

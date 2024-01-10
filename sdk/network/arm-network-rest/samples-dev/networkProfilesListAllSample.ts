@@ -28,7 +28,7 @@ async function listAllNetworkProfiles() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkProfiles",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

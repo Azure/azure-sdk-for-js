@@ -29,7 +29,7 @@ async function routeFilterGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
       subscriptionId,
       resourceGroupName,
-      routeFilterName
+      routeFilterName,
     )
     .get(options);
   console.log(result);

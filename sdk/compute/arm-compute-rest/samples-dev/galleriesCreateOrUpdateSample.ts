@@ -47,7 +47,7 @@ async function createACommunityGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -83,7 +83,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -119,7 +119,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -152,7 +152,7 @@ async function createOrUpdateASimpleGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

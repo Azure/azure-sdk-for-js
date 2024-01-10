@@ -34,7 +34,7 @@ describe("AesCryptographyProvider browser tests", function () {
           plaintext: stringToUint8Array("foo"),
           iv: stringToUint8Array("foo"),
         }),
-      /not supported in the browser/
+      /not supported in the browser/,
     );
   });
 });
@@ -87,7 +87,7 @@ describe("AesCryptographyProvider internal tests", function () {
               plaintext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key type does not match/
+            /Key type does not match/,
           );
 
           await assert.isRejected(
@@ -96,7 +96,7 @@ describe("AesCryptographyProvider internal tests", function () {
               ciphertext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key type does not match/
+            /Key type does not match/,
           );
         });
 
@@ -110,7 +110,7 @@ describe("AesCryptographyProvider internal tests", function () {
               plaintext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key must be at least \d+ bits/
+            /Key must be at least \d+ bits/,
           );
 
           await assert.isRejected(
@@ -119,7 +119,7 @@ describe("AesCryptographyProvider internal tests", function () {
               ciphertext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key must be at least \d+ bits/
+            /Key must be at least \d+ bits/,
           );
         });
       });
@@ -162,7 +162,9 @@ describe("AesCryptographyProvider internal tests", function () {
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
             credential,
-            recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+            recorder.configureClientOptions({
+              disableChallengeResourceVerification: !isLiveMode(),
+            }),
           );
 
           const text = this.test!.title;
@@ -188,7 +190,9 @@ describe("AesCryptographyProvider internal tests", function () {
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
             credential,
-            recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+            recorder.configureClientOptions({
+              disableChallengeResourceVerification: !isLiveMode(),
+            }),
           );
 
           const text = this.test!.title;

@@ -71,7 +71,7 @@ async function createNewCloudServiceWithMultipleRoles() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -135,7 +135,7 @@ async function createNewCloudServiceWithSingleRole() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -214,7 +214,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -294,7 +294,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

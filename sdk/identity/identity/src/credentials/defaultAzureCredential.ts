@@ -230,7 +230,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     options?:
       | DefaultAzureCredentialOptions
       | DefaultAzureCredentialResourceIdOptions
-      | DefaultAzureCredentialClientIdOptions
+      | DefaultAzureCredentialClientIdOptions,
   ) {
     super(...defaultCredentials.map((ctor) => new ctor(options)));
   }

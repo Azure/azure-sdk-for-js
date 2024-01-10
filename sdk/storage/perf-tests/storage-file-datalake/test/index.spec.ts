@@ -11,7 +11,7 @@ const perfProgram = createPerfProgram(
   StorageDFSAppendTest,
   StorageDFSReadTest,
   StorageDFSUploadTest,
-  StorageDFSUploadFromFileTest
+  StorageDFSUploadFromFileTest,
 );
 
 perfProgram.run();

@@ -32,7 +32,7 @@ async function getVirtualNetworkGatewayVpnclientConnectionHealth() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getVpnClientConnectionHealth",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

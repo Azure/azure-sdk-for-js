@@ -31,7 +31,7 @@ async function main() {
   // List containers
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    pipeline
+    pipeline,
   );
 
   let i = 1;

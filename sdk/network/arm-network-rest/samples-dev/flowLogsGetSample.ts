@@ -31,7 +31,7 @@ async function getFlowLog() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      flowLogName
+      flowLogName,
     )
     .get(options);
   console.log(result);

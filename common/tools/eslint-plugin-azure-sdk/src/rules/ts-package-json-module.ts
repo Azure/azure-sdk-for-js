@@ -18,7 +18,7 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-module",
     "force package.json's module value to be the ES6 entrypoint to the application",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -33,7 +33,7 @@ export = {
 
           // check the node corresponding to module to see if its value is dist-esm/src/index.js
           "ExpressionStatement > ObjectExpression > Property[key.value='module']": (
-            node: Property
+            node: Property,
           ): void => {
             if (node.value.type !== "Literal") {
               context.report({

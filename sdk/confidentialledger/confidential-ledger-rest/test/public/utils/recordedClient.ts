@@ -27,7 +27,7 @@ export async function getledgerIdentityCertificate(): Promise<string> {
   }
   const { ledgerIdentityCertificate } = await getLedgerIdentity(
     assertEnvironmentVariable("LEDGER_NAME"),
-    env.IDENTITY_SERVICE_URL
+    env.IDENTITY_SERVICE_URL,
   );
   return ledgerIdentityCertificate;
 }
@@ -41,7 +41,7 @@ export async function createClient(recorder: Recorder): Promise<ConfidentialLedg
     assertEnvironmentVariable("LEDGER_URI"),
     ledgerIdentityCertificate,
     clientCredential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 }
 

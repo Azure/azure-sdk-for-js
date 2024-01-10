@@ -27,7 +27,7 @@ dotenv.config();
 
 async function workflowTasksList(
   client: PurviewWorkflowClient,
-  queryParameters: ListWorkflowTasksParameters
+  queryParameters: ListWorkflowTasksParameters,
 ) {
   const initialResponse = await client.path("/workflowtasks").get(queryParameters);
   if (isUnexpected(initialResponse)) {
@@ -39,7 +39,7 @@ async function workflowTasksList(
     result.push(item);
   }
   console.log(
-    `The total count of workflow tasks is ${result.length}, these workflow tasks are ${result}`
+    `The total count of workflow tasks is ${result.length}, these workflow tasks are ${result}`,
   );
 }
 
@@ -68,7 +68,7 @@ async function workTaskGet(client: PurviewWorkflowClient, taskId: string) {
 async function approveWorkflowTask(
   client: PurviewWorkflowClient,
   taskId: string,
-  approvePayload: ApproveApprovalTaskParameters
+  approvePayload: ApproveApprovalTaskParameters,
 ) {
   const result = await client
     .path("/workflowtasks/{taskId}/approve-approval", taskId)
@@ -89,7 +89,7 @@ async function approveWorkflowTask(
 async function rejectWorkflowTask(
   client: PurviewWorkflowClient,
   taskId: string,
-  rejectPayload: RejectApprovalTaskParameters
+  rejectPayload: RejectApprovalTaskParameters,
 ) {
   const result = await client
     .path("/workflowtasks/{taskId}/reject-approval", taskId)
@@ -110,7 +110,7 @@ async function rejectWorkflowTask(
 async function updateWorkflowTaskStatus(
   client: PurviewWorkflowClient,
   taskId: string,
-  updateStatusPayload: UpdateTaskStatusParameters
+  updateStatusPayload: UpdateTaskStatusParameters,
 ) {
   const result = await client
     .path("/workflowtasks/{taskId}/change-task-status", taskId)
@@ -130,7 +130,7 @@ async function updateWorkflowTaskStatus(
 async function workflowTaskReassign(
   client: PurviewWorkflowClient,
   taskId: string,
-  reassignPayload: ReassignWorkflowTaskParameters
+  reassignPayload: ReassignWorkflowTaskParameters,
 ) {
   const result = await client
     .path("/workflowtasks/{taskId}/reassign", taskId)

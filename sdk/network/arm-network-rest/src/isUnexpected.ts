@@ -2941,2970 +2941,2970 @@ export function isUnexpected(
     | ApplicationGatewaysDelete200Response
     | ApplicationGatewaysDelete202Response
     | ApplicationGatewaysDelete204Response
-    | ApplicationGatewaysDeleteDefaultResponse
+    | ApplicationGatewaysDeleteDefaultResponse,
 ): response is ApplicationGatewaysDeleteDefaultResponse;
 export function isUnexpected(
-  response: ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse
+  response: ApplicationGatewaysGet200Response | ApplicationGatewaysGetDefaultResponse,
 ): response is ApplicationGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysCreateOrUpdate200Response
     | ApplicationGatewaysCreateOrUpdate201Response
-    | ApplicationGatewaysCreateOrUpdateDefaultResponse
+    | ApplicationGatewaysCreateOrUpdateDefaultResponse,
 ): response is ApplicationGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse
+  response: ApplicationGatewaysUpdateTags200Response | ApplicationGatewaysUpdateTagsDefaultResponse,
 ): response is ApplicationGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse
+  response: ApplicationGatewaysList200Response | ApplicationGatewaysListDefaultResponse,
 ): response is ApplicationGatewaysListDefaultResponse;
 export function isUnexpected(
-  response: ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse
+  response: ApplicationGatewaysListAll200Response | ApplicationGatewaysListAllDefaultResponse,
 ): response is ApplicationGatewaysListAllDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysStart200Response
     | ApplicationGatewaysStart202Response
-    | ApplicationGatewaysStartDefaultResponse
+    | ApplicationGatewaysStartDefaultResponse,
 ): response is ApplicationGatewaysStartDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysStop200Response
     | ApplicationGatewaysStop202Response
-    | ApplicationGatewaysStopDefaultResponse
+    | ApplicationGatewaysStopDefaultResponse,
 ): response is ApplicationGatewaysStopDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysBackendHealth200Response
     | ApplicationGatewaysBackendHealth202Response
-    | ApplicationGatewaysBackendHealthDefaultResponse
+    | ApplicationGatewaysBackendHealthDefaultResponse,
 ): response is ApplicationGatewaysBackendHealthDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysBackendHealthOnDemand200Response
     | ApplicationGatewaysBackendHealthOnDemand202Response
-    | ApplicationGatewaysBackendHealthOnDemandDefaultResponse
+    | ApplicationGatewaysBackendHealthOnDemandDefaultResponse,
 ): response is ApplicationGatewaysBackendHealthOnDemandDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableServerVariables200Response
-    | ApplicationGatewaysListAvailableServerVariablesDefaultResponse
+    | ApplicationGatewaysListAvailableServerVariablesDefaultResponse,
 ): response is ApplicationGatewaysListAvailableServerVariablesDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableRequestHeaders200Response
-    | ApplicationGatewaysListAvailableRequestHeadersDefaultResponse
+    | ApplicationGatewaysListAvailableRequestHeadersDefaultResponse,
 ): response is ApplicationGatewaysListAvailableRequestHeadersDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableResponseHeaders200Response
-    | ApplicationGatewaysListAvailableResponseHeadersDefaultResponse
+    | ApplicationGatewaysListAvailableResponseHeadersDefaultResponse,
 ): response is ApplicationGatewaysListAvailableResponseHeadersDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableWafRuleSets200Response
-    | ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse
+    | ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse,
 ): response is ApplicationGatewaysListAvailableWafRuleSetsDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableSslOptions200Response
-    | ApplicationGatewaysListAvailableSslOptionsDefaultResponse
+    | ApplicationGatewaysListAvailableSslOptionsDefaultResponse,
 ): response is ApplicationGatewaysListAvailableSslOptionsDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysListAvailableSslPredefinedPolicies200Response
-    | ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse
+    | ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse,
 ): response is ApplicationGatewaysListAvailableSslPredefinedPoliciesDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewaysGetSslPredefinedPolicy200Response
-    | ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse
+    | ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse,
 ): response is ApplicationGatewaysGetSslPredefinedPolicyDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayPrivateLinkResourcesList200Response
-    | ApplicationGatewayPrivateLinkResourcesListDefaultResponse
+    | ApplicationGatewayPrivateLinkResourcesListDefaultResponse,
 ): response is ApplicationGatewayPrivateLinkResourcesListDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayPrivateEndpointConnectionsDelete200Response
     | ApplicationGatewayPrivateEndpointConnectionsDelete202Response
     | ApplicationGatewayPrivateEndpointConnectionsDelete204Response
-    | ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse,
 ): response is ApplicationGatewayPrivateEndpointConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayPrivateEndpointConnectionsUpdate200Response
     | ApplicationGatewayPrivateEndpointConnectionsUpdate202Response
-    | ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse,
 ): response is ApplicationGatewayPrivateEndpointConnectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayPrivateEndpointConnectionsGet200Response
-    | ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse,
 ): response is ApplicationGatewayPrivateEndpointConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayPrivateEndpointConnectionsList200Response
-    | ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse
+    | ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse,
 ): response is ApplicationGatewayPrivateEndpointConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayWafDynamicManifestsDefaultGet200Response
-    | ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse
+    | ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse,
 ): response is ApplicationGatewayWafDynamicManifestsDefaultGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationGatewayWafDynamicManifestsGet200Response
-    | ApplicationGatewayWafDynamicManifestsGetDefaultResponse
+    | ApplicationGatewayWafDynamicManifestsGetDefaultResponse,
 ): response is ApplicationGatewayWafDynamicManifestsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationSecurityGroupsDelete200Response
     | ApplicationSecurityGroupsDelete202Response
     | ApplicationSecurityGroupsDelete204Response
-    | ApplicationSecurityGroupsDeleteDefaultResponse
+    | ApplicationSecurityGroupsDeleteDefaultResponse,
 ): response is ApplicationSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse
+  response: ApplicationSecurityGroupsGet200Response | ApplicationSecurityGroupsGetDefaultResponse,
 ): response is ApplicationSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationSecurityGroupsCreateOrUpdate200Response
     | ApplicationSecurityGroupsCreateOrUpdate201Response
-    | ApplicationSecurityGroupsCreateOrUpdateDefaultResponse
+    | ApplicationSecurityGroupsCreateOrUpdateDefaultResponse,
 ): response is ApplicationSecurityGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationSecurityGroupsUpdateTags200Response
-    | ApplicationSecurityGroupsUpdateTagsDefaultResponse
+    | ApplicationSecurityGroupsUpdateTagsDefaultResponse,
 ): response is ApplicationSecurityGroupsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationSecurityGroupsListAll200Response
-    | ApplicationSecurityGroupsListAllDefaultResponse
+    | ApplicationSecurityGroupsListAllDefaultResponse,
 ): response is ApplicationSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response: ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse
+  response: ApplicationSecurityGroupsList200Response | ApplicationSecurityGroupsListDefaultResponse,
 ): response is ApplicationSecurityGroupsListDefaultResponse;
 export function isUnexpected(
-  response: AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse
+  response: AvailableDelegationsList200Response | AvailableDelegationsListDefaultResponse,
 ): response is AvailableDelegationsListDefaultResponse;
 export function isUnexpected(
   response:
     | AvailableResourceGroupDelegationsList200Response
-    | AvailableResourceGroupDelegationsListDefaultResponse
+    | AvailableResourceGroupDelegationsListDefaultResponse,
 ): response is AvailableResourceGroupDelegationsListDefaultResponse;
 export function isUnexpected(
-  response: AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse
+  response: AvailableServiceAliasesList200Response | AvailableServiceAliasesListDefaultResponse,
 ): response is AvailableServiceAliasesListDefaultResponse;
 export function isUnexpected(
   response:
     | AvailableServiceAliasesListByResourceGroup200Response
-    | AvailableServiceAliasesListByResourceGroupDefaultResponse
+    | AvailableServiceAliasesListByResourceGroupDefaultResponse,
 ): response is AvailableServiceAliasesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | AzureFirewallsDelete200Response
     | AzureFirewallsDelete202Response
     | AzureFirewallsDelete204Response
-    | AzureFirewallsDeleteDefaultResponse
+    | AzureFirewallsDeleteDefaultResponse,
 ): response is AzureFirewallsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse
+  response: AzureFirewallsGet200Response | AzureFirewallsGetDefaultResponse,
 ): response is AzureFirewallsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AzureFirewallsCreateOrUpdate200Response
     | AzureFirewallsCreateOrUpdate201Response
-    | AzureFirewallsCreateOrUpdateDefaultResponse
+    | AzureFirewallsCreateOrUpdateDefaultResponse,
 ): response is AzureFirewallsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AzureFirewallsUpdateTags200Response
     | AzureFirewallsUpdateTags202Response
-    | AzureFirewallsUpdateTagsDefaultResponse
+    | AzureFirewallsUpdateTagsDefaultResponse,
 ): response is AzureFirewallsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: AzureFirewallsList200Response | AzureFirewallsListDefaultResponse
+  response: AzureFirewallsList200Response | AzureFirewallsListDefaultResponse,
 ): response is AzureFirewallsListDefaultResponse;
 export function isUnexpected(
-  response: AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse
+  response: AzureFirewallsListAll200Response | AzureFirewallsListAllDefaultResponse,
 ): response is AzureFirewallsListAllDefaultResponse;
 export function isUnexpected(
   response:
     | AzureFirewallsListLearnedPrefixes200Response
     | AzureFirewallsListLearnedPrefixes202Response
-    | AzureFirewallsListLearnedPrefixesDefaultResponse
+    | AzureFirewallsListLearnedPrefixesDefaultResponse,
 ): response is AzureFirewallsListLearnedPrefixesDefaultResponse;
 export function isUnexpected(
-  response: AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse
+  response: AzureFirewallFqdnTagsListAll200Response | AzureFirewallFqdnTagsListAllDefaultResponse,
 ): response is AzureFirewallFqdnTagsListAllDefaultResponse;
 export function isUnexpected(
-  response: WebCategoriesGet200Response | WebCategoriesGetDefaultResponse
+  response: WebCategoriesGet200Response | WebCategoriesGetDefaultResponse,
 ): response is WebCategoriesGetDefaultResponse;
 export function isUnexpected(
   response:
     | WebCategoriesListBySubscription200Response
-    | WebCategoriesListBySubscriptionDefaultResponse
+    | WebCategoriesListBySubscriptionDefaultResponse,
 ): response is WebCategoriesListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | BastionHostsDelete200Response
     | BastionHostsDelete202Response
     | BastionHostsDelete204Response
-    | BastionHostsDeleteDefaultResponse
+    | BastionHostsDeleteDefaultResponse,
 ): response is BastionHostsDeleteDefaultResponse;
 export function isUnexpected(
-  response: BastionHostsGet200Response | BastionHostsGetDefaultResponse
+  response: BastionHostsGet200Response | BastionHostsGetDefaultResponse,
 ): response is BastionHostsGetDefaultResponse;
 export function isUnexpected(
   response:
     | BastionHostsCreateOrUpdate200Response
     | BastionHostsCreateOrUpdate201Response
-    | BastionHostsCreateOrUpdateDefaultResponse
+    | BastionHostsCreateOrUpdateDefaultResponse,
 ): response is BastionHostsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | BastionHostsUpdateTags200Response
     | BastionHostsUpdateTags202Response
-    | BastionHostsUpdateTagsDefaultResponse
+    | BastionHostsUpdateTagsDefaultResponse,
 ): response is BastionHostsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: BastionHostsList200Response | BastionHostsListDefaultResponse
+  response: BastionHostsList200Response | BastionHostsListDefaultResponse,
 ): response is BastionHostsListDefaultResponse;
 export function isUnexpected(
   response:
     | BastionHostsListByResourceGroup200Response
-    | BastionHostsListByResourceGroupDefaultResponse
+    | BastionHostsListByResourceGroupDefaultResponse,
 ): response is BastionHostsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | PutBastionShareableLink200Response
     | PutBastionShareableLink202Response
-    | PutBastionShareableLinkDefaultResponse
+    | PutBastionShareableLinkDefaultResponse,
 ): response is PutBastionShareableLinkDefaultResponse;
 export function isUnexpected(
   response:
     | DeleteBastionShareableLink200Response
     | DeleteBastionShareableLink202Response
-    | DeleteBastionShareableLinkDefaultResponse
+    | DeleteBastionShareableLinkDefaultResponse,
 ): response is DeleteBastionShareableLinkDefaultResponse;
 export function isUnexpected(
-  response: GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse
+  response: GetBastionShareableLink200Response | GetBastionShareableLinkDefaultResponse,
 ): response is GetBastionShareableLinkDefaultResponse;
 export function isUnexpected(
   response:
     | GetActiveSessions200Response
     | GetActiveSessions202Response
-    | GetActiveSessionsDefaultResponse
+    | GetActiveSessionsDefaultResponse,
 ): response is GetActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response: DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse
+  response: DisconnectActiveSessions200Response | DisconnectActiveSessionsDefaultResponse,
 ): response is DisconnectActiveSessionsDefaultResponse;
 export function isUnexpected(
-  response: CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse
+  response: CheckDnsNameAvailability200Response | CheckDnsNameAvailabilityDefaultResponse,
 ): response is CheckDnsNameAvailabilityDefaultResponse;
 export function isUnexpected(
   response:
     | ListActiveConnectivityConfigurations200Response
-    | ListActiveConnectivityConfigurationsDefaultResponse
+    | ListActiveConnectivityConfigurationsDefaultResponse,
 ): response is ListActiveConnectivityConfigurationsDefaultResponse;
 export function isUnexpected(
-  response: ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse
+  response: ListActiveSecurityAdminRules200Response | ListActiveSecurityAdminRulesDefaultResponse,
 ): response is ListActiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
   response:
     | ListNetworkManagerEffectiveConnectivityConfigurations200Response
-    | ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse
+    | ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse,
 ): response is ListNetworkManagerEffectiveConnectivityConfigurationsDefaultResponse;
 export function isUnexpected(
   response:
     | ListNetworkManagerEffectiveSecurityAdminRules200Response
-    | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse
+    | ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse,
 ): response is ListNetworkManagerEffectiveSecurityAdminRulesDefaultResponse;
 export function isUnexpected(
-  response: SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse
+  response: SupportedSecurityProviders200Response | SupportedSecurityProvidersDefaultResponse,
 ): response is SupportedSecurityProvidersDefaultResponse;
 export function isUnexpected(
   response:
     | Generatevirtualwanvpnserverconfigurationvpnprofile200Response
     | Generatevirtualwanvpnserverconfigurationvpnprofile202Response
-    | GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse
+    | GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse,
 ): response is GeneratevirtualwanvpnserverconfigurationvpnprofileDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfaces200Response
-    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse
+    | NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse,
 ): response is NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListCloudServiceNetworkInterfaces200Response
-    | NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse
+    | NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse,
 ): response is NetworkInterfacesListCloudServiceNetworkInterfacesDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesGetCloudServiceNetworkInterface200Response
-    | NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse
+    | NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse,
 ): response is NetworkInterfacesGetCloudServiceNetworkInterfaceDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesDelete200Response
     | NetworkInterfacesDelete202Response
     | NetworkInterfacesDelete204Response
-    | NetworkInterfacesDeleteDefaultResponse
+    | NetworkInterfacesDeleteDefaultResponse,
 ): response is NetworkInterfacesDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse
+  response: NetworkInterfacesGet200Response | NetworkInterfacesGetDefaultResponse,
 ): response is NetworkInterfacesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesCreateOrUpdate200Response
     | NetworkInterfacesCreateOrUpdate201Response
-    | NetworkInterfacesCreateOrUpdateDefaultResponse
+    | NetworkInterfacesCreateOrUpdateDefaultResponse,
 ): response is NetworkInterfacesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse
+  response: NetworkInterfacesUpdateTags200Response | NetworkInterfacesUpdateTagsDefaultResponse,
 ): response is NetworkInterfacesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse
+  response: NetworkInterfacesListAll200Response | NetworkInterfacesListAllDefaultResponse,
 ): response is NetworkInterfacesListAllDefaultResponse;
 export function isUnexpected(
-  response: NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse
+  response: NetworkInterfacesList200Response | NetworkInterfacesListDefaultResponse,
 ): response is NetworkInterfacesListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesGetEffectiveRouteTable200Response
     | NetworkInterfacesGetEffectiveRouteTable202Response
-    | NetworkInterfacesGetEffectiveRouteTableDefaultResponse
+    | NetworkInterfacesGetEffectiveRouteTableDefaultResponse,
 ): response is NetworkInterfacesGetEffectiveRouteTableDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListEffectiveNetworkSecurityGroups200Response
     | NetworkInterfacesListEffectiveNetworkSecurityGroups202Response
-    | NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse
+    | NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse,
 ): response is NetworkInterfacesListEffectiveNetworkSecurityGroupsDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfaces200Response
-    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse,
 ): response is NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfaces200Response
-    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse,
 ): response is NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterface200Response
-    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse,
 ): response is NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesListVirtualMachineScaleSetIpConfigurations200Response
-    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse
+    | NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse,
 ): response is NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfacesGetVirtualMachineScaleSetIpConfiguration200Response
-    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse
+    | NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse,
 ): response is NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesListCloudServicePublicIPAddresses200Response
-    | PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse
+    | PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse,
 ): response is PublicIPAddressesListCloudServicePublicIPAddressesDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddresses200Response
-    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse
+    | PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse,
 ): response is PublicIPAddressesListCloudServiceRoleInstancePublicIPAddressesDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesGetCloudServicePublicIPAddress200Response
-    | PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse
+    | PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse,
 ): response is PublicIPAddressesGetCloudServicePublicIPAddressDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesDelete200Response
     | PublicIPAddressesDelete202Response
     | PublicIPAddressesDelete204Response
-    | PublicIPAddressesDeleteDefaultResponse
+    | PublicIPAddressesDeleteDefaultResponse,
 ): response is PublicIPAddressesDeleteDefaultResponse;
 export function isUnexpected(
-  response: PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse
+  response: PublicIPAddressesGet200Response | PublicIPAddressesGetDefaultResponse,
 ): response is PublicIPAddressesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesCreateOrUpdate200Response
     | PublicIPAddressesCreateOrUpdate201Response
-    | PublicIPAddressesCreateOrUpdateDefaultResponse
+    | PublicIPAddressesCreateOrUpdateDefaultResponse,
 ): response is PublicIPAddressesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse
+  response: PublicIPAddressesUpdateTags200Response | PublicIPAddressesUpdateTagsDefaultResponse,
 ): response is PublicIPAddressesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse
+  response: PublicIPAddressesListAll200Response | PublicIPAddressesListAllDefaultResponse,
 ): response is PublicIPAddressesListAllDefaultResponse;
 export function isUnexpected(
-  response: PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse
+  response: PublicIPAddressesList200Response | PublicIPAddressesListDefaultResponse,
 ): response is PublicIPAddressesListDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesDdosProtectionStatus200Response
     | PublicIPAddressesDdosProtectionStatus202Response
-    | PublicIPAddressesDdosProtectionStatusDefaultResponse
+    | PublicIPAddressesDdosProtectionStatusDefaultResponse,
 ): response is PublicIPAddressesDdosProtectionStatusDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddresses200Response
-    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse,
 ): response is PublicIPAddressesListVirtualMachineScaleSetPublicIPAddressesDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddresses200Response
-    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse
+    | PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse,
 ): response is PublicIPAddressesListVirtualMachineScaleSetVMPublicIPAddressesDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddress200Response
-    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse
+    | PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse,
 ): response is PublicIPAddressesGetVirtualMachineScaleSetPublicIPAddressDefaultResponse;
 export function isUnexpected(
   response:
     | CustomIPPrefixesDelete200Response
     | CustomIPPrefixesDelete202Response
     | CustomIPPrefixesDelete204Response
-    | CustomIPPrefixesDeleteDefaultResponse
+    | CustomIPPrefixesDeleteDefaultResponse,
 ): response is CustomIPPrefixesDeleteDefaultResponse;
 export function isUnexpected(
-  response: CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse
+  response: CustomIPPrefixesGet200Response | CustomIPPrefixesGetDefaultResponse,
 ): response is CustomIPPrefixesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CustomIPPrefixesCreateOrUpdate200Response
     | CustomIPPrefixesCreateOrUpdate201Response
-    | CustomIPPrefixesCreateOrUpdateDefaultResponse
+    | CustomIPPrefixesCreateOrUpdateDefaultResponse,
 ): response is CustomIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse
+  response: CustomIPPrefixesUpdateTags200Response | CustomIPPrefixesUpdateTagsDefaultResponse,
 ): response is CustomIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse
+  response: CustomIPPrefixesListAll200Response | CustomIPPrefixesListAllDefaultResponse,
 ): response is CustomIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response: CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse
+  response: CustomIPPrefixesList200Response | CustomIPPrefixesListDefaultResponse,
 ): response is CustomIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
     | DdosCustomPoliciesDelete200Response
     | DdosCustomPoliciesDelete202Response
     | DdosCustomPoliciesDelete204Response
-    | DdosCustomPoliciesDeleteDefaultResponse
+    | DdosCustomPoliciesDeleteDefaultResponse,
 ): response is DdosCustomPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response: DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse
+  response: DdosCustomPoliciesGet200Response | DdosCustomPoliciesGetDefaultResponse,
 ): response is DdosCustomPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
     | DdosCustomPoliciesCreateOrUpdate200Response
     | DdosCustomPoliciesCreateOrUpdate201Response
-    | DdosCustomPoliciesCreateOrUpdateDefaultResponse
+    | DdosCustomPoliciesCreateOrUpdateDefaultResponse,
 ): response is DdosCustomPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse
+  response: DdosCustomPoliciesUpdateTags200Response | DdosCustomPoliciesUpdateTagsDefaultResponse,
 ): response is DdosCustomPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | DdosProtectionPlansDelete200Response
     | DdosProtectionPlansDelete202Response
     | DdosProtectionPlansDelete204Response
-    | DdosProtectionPlansDeleteDefaultResponse
+    | DdosProtectionPlansDeleteDefaultResponse,
 ): response is DdosProtectionPlansDeleteDefaultResponse;
 export function isUnexpected(
-  response: DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse
+  response: DdosProtectionPlansGet200Response | DdosProtectionPlansGetDefaultResponse,
 ): response is DdosProtectionPlansGetDefaultResponse;
 export function isUnexpected(
   response:
     | DdosProtectionPlansCreateOrUpdate200Response
     | DdosProtectionPlansCreateOrUpdate201Response
-    | DdosProtectionPlansCreateOrUpdateDefaultResponse
+    | DdosProtectionPlansCreateOrUpdateDefaultResponse,
 ): response is DdosProtectionPlansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse
+  response: DdosProtectionPlansUpdateTags200Response | DdosProtectionPlansUpdateTagsDefaultResponse,
 ): response is DdosProtectionPlansUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse
+  response: DdosProtectionPlansList200Response | DdosProtectionPlansListDefaultResponse,
 ): response is DdosProtectionPlansListDefaultResponse;
 export function isUnexpected(
   response:
     | DdosProtectionPlansListByResourceGroup200Response
-    | DdosProtectionPlansListByResourceGroupDefaultResponse
+    | DdosProtectionPlansListByResourceGroupDefaultResponse,
 ): response is DdosProtectionPlansListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DscpConfigurationCreateOrUpdate200Response
     | DscpConfigurationCreateOrUpdate201Response
-    | DscpConfigurationCreateOrUpdateDefaultResponse
+    | DscpConfigurationCreateOrUpdateDefaultResponse,
 ): response is DscpConfigurationCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DscpConfigurationDelete200Response
     | DscpConfigurationDelete202Response
     | DscpConfigurationDelete204Response
-    | DscpConfigurationDeleteDefaultResponse
+    | DscpConfigurationDeleteDefaultResponse,
 ): response is DscpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response: DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse
+  response: DscpConfigurationGet200Response | DscpConfigurationGetDefaultResponse,
 ): response is DscpConfigurationGetDefaultResponse;
 export function isUnexpected(
-  response: DscpConfigurationList200Response | DscpConfigurationListDefaultResponse
+  response: DscpConfigurationList200Response | DscpConfigurationListDefaultResponse,
 ): response is DscpConfigurationListDefaultResponse;
 export function isUnexpected(
-  response: DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse
+  response: DscpConfigurationListAll200Response | DscpConfigurationListAllDefaultResponse,
 ): response is DscpConfigurationListAllDefaultResponse;
 export function isUnexpected(
-  response: AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse
+  response: AvailableEndpointServicesList200Response | AvailableEndpointServicesListDefaultResponse,
 ): response is AvailableEndpointServicesListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitAuthorizationsDelete200Response
     | ExpressRouteCircuitAuthorizationsDelete202Response
     | ExpressRouteCircuitAuthorizationsDelete204Response
-    | ExpressRouteCircuitAuthorizationsDeleteDefaultResponse
+    | ExpressRouteCircuitAuthorizationsDeleteDefaultResponse,
 ): response is ExpressRouteCircuitAuthorizationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitAuthorizationsGet200Response
-    | ExpressRouteCircuitAuthorizationsGetDefaultResponse
+    | ExpressRouteCircuitAuthorizationsGetDefaultResponse,
 ): response is ExpressRouteCircuitAuthorizationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitAuthorizationsCreateOrUpdate200Response
     | ExpressRouteCircuitAuthorizationsCreateOrUpdate201Response
-    | ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse
+    | ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCircuitAuthorizationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitAuthorizationsList200Response
-    | ExpressRouteCircuitAuthorizationsListDefaultResponse
+    | ExpressRouteCircuitAuthorizationsListDefaultResponse,
 ): response is ExpressRouteCircuitAuthorizationsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitPeeringsDelete200Response
     | ExpressRouteCircuitPeeringsDelete202Response
     | ExpressRouteCircuitPeeringsDelete204Response
-    | ExpressRouteCircuitPeeringsDeleteDefaultResponse
+    | ExpressRouteCircuitPeeringsDeleteDefaultResponse,
 ): response is ExpressRouteCircuitPeeringsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitPeeringsGet200Response
-    | ExpressRouteCircuitPeeringsGetDefaultResponse
+    | ExpressRouteCircuitPeeringsGetDefaultResponse,
 ): response is ExpressRouteCircuitPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitPeeringsCreateOrUpdate200Response
     | ExpressRouteCircuitPeeringsCreateOrUpdate201Response
-    | ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse
+    | ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCircuitPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitPeeringsList200Response
-    | ExpressRouteCircuitPeeringsListDefaultResponse
+    | ExpressRouteCircuitPeeringsListDefaultResponse,
 ): response is ExpressRouteCircuitPeeringsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitConnectionsDelete200Response
     | ExpressRouteCircuitConnectionsDelete202Response
     | ExpressRouteCircuitConnectionsDelete204Response
-    | ExpressRouteCircuitConnectionsDeleteDefaultResponse
+    | ExpressRouteCircuitConnectionsDeleteDefaultResponse,
 ): response is ExpressRouteCircuitConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitConnectionsGet200Response
-    | ExpressRouteCircuitConnectionsGetDefaultResponse
+    | ExpressRouteCircuitConnectionsGetDefaultResponse,
 ): response is ExpressRouteCircuitConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitConnectionsCreateOrUpdate200Response
     | ExpressRouteCircuitConnectionsCreateOrUpdate201Response
-    | ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse
+    | ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCircuitConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitConnectionsList200Response
-    | ExpressRouteCircuitConnectionsListDefaultResponse
+    | ExpressRouteCircuitConnectionsListDefaultResponse,
 ): response is ExpressRouteCircuitConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | PeerExpressRouteCircuitConnectionsGet200Response
-    | PeerExpressRouteCircuitConnectionsGetDefaultResponse
+    | PeerExpressRouteCircuitConnectionsGetDefaultResponse,
 ): response is PeerExpressRouteCircuitConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PeerExpressRouteCircuitConnectionsList200Response
-    | PeerExpressRouteCircuitConnectionsListDefaultResponse
+    | PeerExpressRouteCircuitConnectionsListDefaultResponse,
 ): response is PeerExpressRouteCircuitConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsDelete200Response
     | ExpressRouteCircuitsDelete202Response
     | ExpressRouteCircuitsDelete204Response
-    | ExpressRouteCircuitsDeleteDefaultResponse
+    | ExpressRouteCircuitsDeleteDefaultResponse,
 ): response is ExpressRouteCircuitsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse
+  response: ExpressRouteCircuitsGet200Response | ExpressRouteCircuitsGetDefaultResponse,
 ): response is ExpressRouteCircuitsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsCreateOrUpdate200Response
     | ExpressRouteCircuitsCreateOrUpdate201Response
-    | ExpressRouteCircuitsCreateOrUpdateDefaultResponse
+    | ExpressRouteCircuitsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCircuitsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsUpdateTags200Response
-    | ExpressRouteCircuitsUpdateTagsDefaultResponse
+    | ExpressRouteCircuitsUpdateTagsDefaultResponse,
 ): response is ExpressRouteCircuitsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsListArpTable200Response
     | ExpressRouteCircuitsListArpTable202Response
-    | ExpressRouteCircuitsListArpTableDefaultResponse
+    | ExpressRouteCircuitsListArpTableDefaultResponse,
 ): response is ExpressRouteCircuitsListArpTableDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsListRoutesTable200Response
     | ExpressRouteCircuitsListRoutesTable202Response
-    | ExpressRouteCircuitsListRoutesTableDefaultResponse
+    | ExpressRouteCircuitsListRoutesTableDefaultResponse,
 ): response is ExpressRouteCircuitsListRoutesTableDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsListRoutesTableSummary200Response
     | ExpressRouteCircuitsListRoutesTableSummary202Response
-    | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse
+    | ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse,
 ): response is ExpressRouteCircuitsListRoutesTableSummaryDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse
+  response: ExpressRouteCircuitsGetStats200Response | ExpressRouteCircuitsGetStatsDefaultResponse,
 ): response is ExpressRouteCircuitsGetStatsDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCircuitsGetPeeringStats200Response
-    | ExpressRouteCircuitsGetPeeringStatsDefaultResponse
+    | ExpressRouteCircuitsGetPeeringStatsDefaultResponse,
 ): response is ExpressRouteCircuitsGetPeeringStatsDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse
+  response: ExpressRouteCircuitsList200Response | ExpressRouteCircuitsListDefaultResponse,
 ): response is ExpressRouteCircuitsListDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse
+  response: ExpressRouteCircuitsListAll200Response | ExpressRouteCircuitsListAllDefaultResponse,
 ): response is ExpressRouteCircuitsListAllDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteServiceProvidersList200Response
-    | ExpressRouteServiceProvidersListDefaultResponse
+    | ExpressRouteServiceProvidersListDefaultResponse,
 ): response is ExpressRouteServiceProvidersListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsList200Response
-    | ExpressRouteCrossConnectionsListDefaultResponse
+    | ExpressRouteCrossConnectionsListDefaultResponse,
 ): response is ExpressRouteCrossConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsListByResourceGroup200Response
-    | ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse
+    | ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse,
 ): response is ExpressRouteCrossConnectionsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsGet200Response
-    | ExpressRouteCrossConnectionsGetDefaultResponse
+    | ExpressRouteCrossConnectionsGetDefaultResponse,
 ): response is ExpressRouteCrossConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsCreateOrUpdate200Response
-    | ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse
+    | ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCrossConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsUpdateTags200Response
-    | ExpressRouteCrossConnectionsUpdateTagsDefaultResponse
+    | ExpressRouteCrossConnectionsUpdateTagsDefaultResponse,
 ): response is ExpressRouteCrossConnectionsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsListArpTable200Response
     | ExpressRouteCrossConnectionsListArpTable202Response
-    | ExpressRouteCrossConnectionsListArpTableDefaultResponse
+    | ExpressRouteCrossConnectionsListArpTableDefaultResponse,
 ): response is ExpressRouteCrossConnectionsListArpTableDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsListRoutesTableSummary200Response
     | ExpressRouteCrossConnectionsListRoutesTableSummary202Response
-    | ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse,
 ): response is ExpressRouteCrossConnectionsListRoutesTableSummaryDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionsListRoutesTable200Response
     | ExpressRouteCrossConnectionsListRoutesTable202Response
-    | ExpressRouteCrossConnectionsListRoutesTableDefaultResponse
+    | ExpressRouteCrossConnectionsListRoutesTableDefaultResponse,
 ): response is ExpressRouteCrossConnectionsListRoutesTableDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionPeeringsList200Response
-    | ExpressRouteCrossConnectionPeeringsListDefaultResponse
+    | ExpressRouteCrossConnectionPeeringsListDefaultResponse,
 ): response is ExpressRouteCrossConnectionPeeringsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionPeeringsDelete200Response
     | ExpressRouteCrossConnectionPeeringsDelete202Response
     | ExpressRouteCrossConnectionPeeringsDelete204Response
-    | ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse
+    | ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse,
 ): response is ExpressRouteCrossConnectionPeeringsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionPeeringsGet200Response
-    | ExpressRouteCrossConnectionPeeringsGetDefaultResponse
+    | ExpressRouteCrossConnectionPeeringsGetDefaultResponse,
 ): response is ExpressRouteCrossConnectionPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteCrossConnectionPeeringsCreateOrUpdate200Response
     | ExpressRouteCrossConnectionPeeringsCreateOrUpdate201Response
-    | ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse
+    | ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteCrossConnectionPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortsLocationsList200Response
-    | ExpressRoutePortsLocationsListDefaultResponse
+    | ExpressRoutePortsLocationsListDefaultResponse,
 ): response is ExpressRoutePortsLocationsListDefaultResponse;
 export function isUnexpected(
-  response: ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse
+  response: ExpressRoutePortsLocationsGet200Response | ExpressRoutePortsLocationsGetDefaultResponse,
 ): response is ExpressRoutePortsLocationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortsDelete200Response
     | ExpressRoutePortsDelete202Response
     | ExpressRoutePortsDelete204Response
-    | ExpressRoutePortsDeleteDefaultResponse
+    | ExpressRoutePortsDeleteDefaultResponse,
 ): response is ExpressRoutePortsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse
+  response: ExpressRoutePortsGet200Response | ExpressRoutePortsGetDefaultResponse,
 ): response is ExpressRoutePortsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortsCreateOrUpdate200Response
     | ExpressRoutePortsCreateOrUpdate201Response
-    | ExpressRoutePortsCreateOrUpdateDefaultResponse
+    | ExpressRoutePortsCreateOrUpdateDefaultResponse,
 ): response is ExpressRoutePortsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse
+  response: ExpressRoutePortsUpdateTags200Response | ExpressRoutePortsUpdateTagsDefaultResponse,
 ): response is ExpressRoutePortsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortsListByResourceGroup200Response
-    | ExpressRoutePortsListByResourceGroupDefaultResponse
+    | ExpressRoutePortsListByResourceGroupDefaultResponse,
 ): response is ExpressRoutePortsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse
+  response: ExpressRoutePortsList200Response | ExpressRoutePortsListDefaultResponse,
 ): response is ExpressRoutePortsListDefaultResponse;
 export function isUnexpected(
-  response: ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse
+  response: ExpressRoutePortsGenerateLOA200Response | ExpressRoutePortsGenerateLOADefaultResponse,
 ): response is ExpressRoutePortsGenerateLOADefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse
+  response: ExpressRouteLinksGet200Response | ExpressRouteLinksGetDefaultResponse,
 ): response is ExpressRouteLinksGetDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse
+  response: ExpressRouteLinksList200Response | ExpressRouteLinksListDefaultResponse,
 ): response is ExpressRouteLinksListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortAuthorizationsDelete200Response
     | ExpressRoutePortAuthorizationsDelete202Response
     | ExpressRoutePortAuthorizationsDelete204Response
-    | ExpressRoutePortAuthorizationsDeleteDefaultResponse
+    | ExpressRoutePortAuthorizationsDeleteDefaultResponse,
 ): response is ExpressRoutePortAuthorizationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortAuthorizationsGet200Response
-    | ExpressRoutePortAuthorizationsGetDefaultResponse
+    | ExpressRoutePortAuthorizationsGetDefaultResponse,
 ): response is ExpressRoutePortAuthorizationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortAuthorizationsCreateOrUpdate200Response
     | ExpressRoutePortAuthorizationsCreateOrUpdate201Response
-    | ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse
+    | ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse,
 ): response is ExpressRoutePortAuthorizationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRoutePortAuthorizationsList200Response
-    | ExpressRoutePortAuthorizationsListDefaultResponse
+    | ExpressRoutePortAuthorizationsListDefaultResponse,
 ): response is ExpressRoutePortAuthorizationsListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteProviderPortsLocationList200Response
-    | ExpressRouteProviderPortsLocationListDefaultResponse
+    | ExpressRouteProviderPortsLocationListDefaultResponse,
 ): response is ExpressRouteProviderPortsLocationListDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse
+  response: ExpressRouteProviderPortsGet200Response | ExpressRouteProviderPortsGetDefaultResponse,
 ): response is ExpressRouteProviderPortsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPoliciesDelete200Response
     | FirewallPoliciesDelete202Response
     | FirewallPoliciesDelete204Response
-    | FirewallPoliciesDeleteDefaultResponse
+    | FirewallPoliciesDeleteDefaultResponse,
 ): response is FirewallPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response: FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse
+  response: FirewallPoliciesGet200Response | FirewallPoliciesGetDefaultResponse,
 ): response is FirewallPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPoliciesCreateOrUpdate200Response
     | FirewallPoliciesCreateOrUpdate201Response
-    | FirewallPoliciesCreateOrUpdateDefaultResponse
+    | FirewallPoliciesCreateOrUpdateDefaultResponse,
 ): response is FirewallPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse
+  response: FirewallPoliciesUpdateTags200Response | FirewallPoliciesUpdateTagsDefaultResponse,
 ): response is FirewallPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse
+  response: FirewallPoliciesList200Response | FirewallPoliciesListDefaultResponse,
 ): response is FirewallPoliciesListDefaultResponse;
 export function isUnexpected(
-  response: FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse
+  response: FirewallPoliciesListAll200Response | FirewallPoliciesListAllDefaultResponse,
 ): response is FirewallPoliciesListAllDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyRuleCollectionGroupsDelete200Response
     | FirewallPolicyRuleCollectionGroupsDelete202Response
     | FirewallPolicyRuleCollectionGroupsDelete204Response
-    | FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse
+    | FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse,
 ): response is FirewallPolicyRuleCollectionGroupsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyRuleCollectionGroupsGet200Response
-    | FirewallPolicyRuleCollectionGroupsGetDefaultResponse
+    | FirewallPolicyRuleCollectionGroupsGetDefaultResponse,
 ): response is FirewallPolicyRuleCollectionGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyRuleCollectionGroupsCreateOrUpdate200Response
     | FirewallPolicyRuleCollectionGroupsCreateOrUpdate201Response
-    | FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse
+    | FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse,
 ): response is FirewallPolicyRuleCollectionGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyRuleCollectionGroupsList200Response
-    | FirewallPolicyRuleCollectionGroupsListDefaultResponse
+    | FirewallPolicyRuleCollectionGroupsListDefaultResponse,
 ): response is FirewallPolicyRuleCollectionGroupsListDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesList200Response
-    | FirewallPolicyIdpsSignaturesListDefaultResponse
+    | FirewallPolicyIdpsSignaturesListDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesListDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesOverridesPatch200Response
-    | FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesOverridesPatchDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesOverridesPut200Response
-    | FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesOverridesPutDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesOverridesGet200Response
-    | FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesOverridesGetDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesOverridesList200Response
-    | FirewallPolicyIdpsSignaturesOverridesListDefaultResponse
+    | FirewallPolicyIdpsSignaturesOverridesListDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesOverridesListDefaultResponse;
 export function isUnexpected(
   response:
     | FirewallPolicyIdpsSignaturesFilterValuesList200Response
-    | FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse
+    | FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse,
 ): response is FirewallPolicyIdpsSignaturesFilterValuesListDefaultResponse;
 export function isUnexpected(
   response:
     | IpAllocationsDelete200Response
     | IpAllocationsDelete202Response
     | IpAllocationsDelete204Response
-    | IpAllocationsDeleteDefaultResponse
+    | IpAllocationsDeleteDefaultResponse,
 ): response is IpAllocationsDeleteDefaultResponse;
 export function isUnexpected(
-  response: IpAllocationsGet200Response | IpAllocationsGetDefaultResponse
+  response: IpAllocationsGet200Response | IpAllocationsGetDefaultResponse,
 ): response is IpAllocationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | IpAllocationsCreateOrUpdate200Response
     | IpAllocationsCreateOrUpdate201Response
-    | IpAllocationsCreateOrUpdateDefaultResponse
+    | IpAllocationsCreateOrUpdateDefaultResponse,
 ): response is IpAllocationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse
+  response: IpAllocationsUpdateTags200Response | IpAllocationsUpdateTagsDefaultResponse,
 ): response is IpAllocationsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: IpAllocationsList200Response | IpAllocationsListDefaultResponse
+  response: IpAllocationsList200Response | IpAllocationsListDefaultResponse,
 ): response is IpAllocationsListDefaultResponse;
 export function isUnexpected(
   response:
     | IpAllocationsListByResourceGroup200Response
-    | IpAllocationsListByResourceGroupDefaultResponse
+    | IpAllocationsListByResourceGroupDefaultResponse,
 ): response is IpAllocationsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: IpGroupsGet200Response | IpGroupsGetDefaultResponse
+  response: IpGroupsGet200Response | IpGroupsGetDefaultResponse,
 ): response is IpGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | IpGroupsCreateOrUpdate200Response
     | IpGroupsCreateOrUpdate201Response
-    | IpGroupsCreateOrUpdateDefaultResponse
+    | IpGroupsCreateOrUpdateDefaultResponse,
 ): response is IpGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse
+  response: IpGroupsUpdateGroups200Response | IpGroupsUpdateGroupsDefaultResponse,
 ): response is IpGroupsUpdateGroupsDefaultResponse;
 export function isUnexpected(
   response:
     | IpGroupsDelete200Response
     | IpGroupsDelete202Response
     | IpGroupsDelete204Response
-    | IpGroupsDeleteDefaultResponse
+    | IpGroupsDeleteDefaultResponse,
 ): response is IpGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse
+  response: IpGroupsListByResourceGroup200Response | IpGroupsListByResourceGroupDefaultResponse,
 ): response is IpGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: IpGroupsList200Response | IpGroupsListDefaultResponse
+  response: IpGroupsList200Response | IpGroupsListDefaultResponse,
 ): response is IpGroupsListDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancersDelete200Response
     | LoadBalancersDelete202Response
     | LoadBalancersDelete204Response
-    | LoadBalancersDeleteDefaultResponse
+    | LoadBalancersDeleteDefaultResponse,
 ): response is LoadBalancersDeleteDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancersGet200Response | LoadBalancersGetDefaultResponse
+  response: LoadBalancersGet200Response | LoadBalancersGetDefaultResponse,
 ): response is LoadBalancersGetDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancersCreateOrUpdate200Response
     | LoadBalancersCreateOrUpdate201Response
-    | LoadBalancersCreateOrUpdateDefaultResponse
+    | LoadBalancersCreateOrUpdateDefaultResponse,
 ): response is LoadBalancersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse
+  response: LoadBalancersUpdateTags200Response | LoadBalancersUpdateTagsDefaultResponse,
 ): response is LoadBalancersUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse
+  response: LoadBalancersListAll200Response | LoadBalancersListAllDefaultResponse,
 ): response is LoadBalancersListAllDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancersList200Response | LoadBalancersListDefaultResponse
+  response: LoadBalancersList200Response | LoadBalancersListDefaultResponse,
 ): response is LoadBalancersListDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancersSwapPublicIpAddresses200Response
     | LoadBalancersSwapPublicIpAddresses202Response
-    | LoadBalancersSwapPublicIpAddressesDefaultResponse
+    | LoadBalancersSwapPublicIpAddressesDefaultResponse,
 ): response is LoadBalancersSwapPublicIpAddressesDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancersListInboundNatRulePortMappings200Response
     | LoadBalancersListInboundNatRulePortMappings202Response
-    | LoadBalancersListInboundNatRulePortMappingsDefaultResponse
+    | LoadBalancersListInboundNatRulePortMappingsDefaultResponse,
 ): response is LoadBalancersListInboundNatRulePortMappingsDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerBackendAddressPoolsList200Response
-    | LoadBalancerBackendAddressPoolsListDefaultResponse
+    | LoadBalancerBackendAddressPoolsListDefaultResponse,
 ): response is LoadBalancerBackendAddressPoolsListDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerBackendAddressPoolsGet200Response
-    | LoadBalancerBackendAddressPoolsGetDefaultResponse
+    | LoadBalancerBackendAddressPoolsGetDefaultResponse,
 ): response is LoadBalancerBackendAddressPoolsGetDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerBackendAddressPoolsCreateOrUpdate200Response
     | LoadBalancerBackendAddressPoolsCreateOrUpdate201Response
-    | LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse
+    | LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse,
 ): response is LoadBalancerBackendAddressPoolsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerBackendAddressPoolsDelete200Response
     | LoadBalancerBackendAddressPoolsDelete202Response
     | LoadBalancerBackendAddressPoolsDelete204Response
-    | LoadBalancerBackendAddressPoolsDeleteDefaultResponse
+    | LoadBalancerBackendAddressPoolsDeleteDefaultResponse,
 ): response is LoadBalancerBackendAddressPoolsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerFrontendIPConfigurationsList200Response
-    | LoadBalancerFrontendIPConfigurationsListDefaultResponse
+    | LoadBalancerFrontendIPConfigurationsListDefaultResponse,
 ): response is LoadBalancerFrontendIPConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerFrontendIPConfigurationsGet200Response
-    | LoadBalancerFrontendIPConfigurationsGetDefaultResponse
+    | LoadBalancerFrontendIPConfigurationsGetDefaultResponse,
 ): response is LoadBalancerFrontendIPConfigurationsGetDefaultResponse;
 export function isUnexpected(
-  response: InboundNatRulesList200Response | InboundNatRulesListDefaultResponse
+  response: InboundNatRulesList200Response | InboundNatRulesListDefaultResponse,
 ): response is InboundNatRulesListDefaultResponse;
 export function isUnexpected(
   response:
     | InboundNatRulesDelete200Response
     | InboundNatRulesDelete202Response
     | InboundNatRulesDelete204Response
-    | InboundNatRulesDeleteDefaultResponse
+    | InboundNatRulesDeleteDefaultResponse,
 ): response is InboundNatRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response: InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse
+  response: InboundNatRulesGet200Response | InboundNatRulesGetDefaultResponse,
 ): response is InboundNatRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | InboundNatRulesCreateOrUpdate200Response
     | InboundNatRulesCreateOrUpdate201Response
-    | InboundNatRulesCreateOrUpdateDefaultResponse
+    | InboundNatRulesCreateOrUpdateDefaultResponse,
 ): response is InboundNatRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerLoadBalancingRulesList200Response
-    | LoadBalancerLoadBalancingRulesListDefaultResponse
+    | LoadBalancerLoadBalancingRulesListDefaultResponse,
 ): response is LoadBalancerLoadBalancingRulesListDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerLoadBalancingRulesGet200Response
-    | LoadBalancerLoadBalancingRulesGetDefaultResponse
+    | LoadBalancerLoadBalancingRulesGetDefaultResponse,
 ): response is LoadBalancerLoadBalancingRulesGetDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse
+  response: LoadBalancerOutboundRulesList200Response | LoadBalancerOutboundRulesListDefaultResponse,
 ): response is LoadBalancerOutboundRulesListDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse
+  response: LoadBalancerOutboundRulesGet200Response | LoadBalancerOutboundRulesGetDefaultResponse,
 ): response is LoadBalancerOutboundRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | LoadBalancerNetworkInterfacesList200Response
-    | LoadBalancerNetworkInterfacesListDefaultResponse
+    | LoadBalancerNetworkInterfacesListDefaultResponse,
 ): response is LoadBalancerNetworkInterfacesListDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse
+  response: LoadBalancerProbesList200Response | LoadBalancerProbesListDefaultResponse,
 ): response is LoadBalancerProbesListDefaultResponse;
 export function isUnexpected(
-  response: LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse
+  response: LoadBalancerProbesGet200Response | LoadBalancerProbesGetDefaultResponse,
 ): response is LoadBalancerProbesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NatGatewaysDelete200Response
     | NatGatewaysDelete202Response
     | NatGatewaysDelete204Response
-    | NatGatewaysDeleteDefaultResponse
+    | NatGatewaysDeleteDefaultResponse,
 ): response is NatGatewaysDeleteDefaultResponse;
 export function isUnexpected(
-  response: NatGatewaysGet200Response | NatGatewaysGetDefaultResponse
+  response: NatGatewaysGet200Response | NatGatewaysGetDefaultResponse,
 ): response is NatGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | NatGatewaysCreateOrUpdate200Response
     | NatGatewaysCreateOrUpdate201Response
     | NatGatewaysCreateOrUpdate202Response
-    | NatGatewaysCreateOrUpdateDefaultResponse
+    | NatGatewaysCreateOrUpdateDefaultResponse,
 ): response is NatGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse
+  response: NatGatewaysUpdateTags200Response | NatGatewaysUpdateTagsDefaultResponse,
 ): response is NatGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse
+  response: NatGatewaysListAll200Response | NatGatewaysListAllDefaultResponse,
 ): response is NatGatewaysListAllDefaultResponse;
 export function isUnexpected(
-  response: NatGatewaysList200Response | NatGatewaysListDefaultResponse
+  response: NatGatewaysList200Response | NatGatewaysListDefaultResponse,
 ): response is NatGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceIPConfigurationsList200Response
-    | NetworkInterfaceIPConfigurationsListDefaultResponse
+    | NetworkInterfaceIPConfigurationsListDefaultResponse,
 ): response is NetworkInterfaceIPConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceIPConfigurationsGet200Response
-    | NetworkInterfaceIPConfigurationsGetDefaultResponse
+    | NetworkInterfaceIPConfigurationsGetDefaultResponse,
 ): response is NetworkInterfaceIPConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceLoadBalancersList200Response
-    | NetworkInterfaceLoadBalancersListDefaultResponse
+    | NetworkInterfaceLoadBalancersListDefaultResponse,
 ): response is NetworkInterfaceLoadBalancersListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceTapConfigurationsDelete200Response
     | NetworkInterfaceTapConfigurationsDelete202Response
     | NetworkInterfaceTapConfigurationsDelete204Response
-    | NetworkInterfaceTapConfigurationsDeleteDefaultResponse
+    | NetworkInterfaceTapConfigurationsDeleteDefaultResponse,
 ): response is NetworkInterfaceTapConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceTapConfigurationsGet200Response
-    | NetworkInterfaceTapConfigurationsGetDefaultResponse
+    | NetworkInterfaceTapConfigurationsGetDefaultResponse,
 ): response is NetworkInterfaceTapConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceTapConfigurationsCreateOrUpdate200Response
     | NetworkInterfaceTapConfigurationsCreateOrUpdate201Response
-    | NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse
+    | NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse,
 ): response is NetworkInterfaceTapConfigurationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkInterfaceTapConfigurationsList200Response
-    | NetworkInterfaceTapConfigurationsListDefaultResponse
+    | NetworkInterfaceTapConfigurationsListDefaultResponse,
 ): response is NetworkInterfaceTapConfigurationsListDefaultResponse;
 export function isUnexpected(
-  response: NetworkManagersGet200Response | NetworkManagersGetDefaultResponse
+  response: NetworkManagersGet200Response | NetworkManagersGetDefaultResponse,
 ): response is NetworkManagersGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkManagersCreateOrUpdate200Response
     | NetworkManagersCreateOrUpdate201Response
-    | NetworkManagersCreateOrUpdateDefaultResponse
+    | NetworkManagersCreateOrUpdateDefaultResponse,
 ): response is NetworkManagersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkManagersDelete200Response
     | NetworkManagersDelete202Response
     | NetworkManagersDelete204Response
-    | NetworkManagersDeleteDefaultResponse
+    | NetworkManagersDeleteDefaultResponse,
 ): response is NetworkManagersDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse
+  response: NetworkManagersPatch200Response | NetworkManagersPatchDefaultResponse,
 ): response is NetworkManagersPatchDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkManagersListBySubscription200Response
-    | NetworkManagersListBySubscriptionDefaultResponse
+    | NetworkManagersListBySubscriptionDefaultResponse,
 ): response is NetworkManagersListBySubscriptionDefaultResponse;
 export function isUnexpected(
-  response: NetworkManagersList200Response | NetworkManagersListDefaultResponse
+  response: NetworkManagersList200Response | NetworkManagersListDefaultResponse,
 ): response is NetworkManagersListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkManagerCommitsPost200Response
     | NetworkManagerCommitsPost202Response
-    | NetworkManagerCommitsPostDefaultResponse
+    | NetworkManagerCommitsPostDefaultResponse,
 ): response is NetworkManagerCommitsPostDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkManagerDeploymentStatusList200Response
-    | NetworkManagerDeploymentStatusListDefaultResponse
+    | NetworkManagerDeploymentStatusListDefaultResponse,
 ): response is NetworkManagerDeploymentStatusListDefaultResponse;
 export function isUnexpected(
   response:
     | SubscriptionNetworkManagerConnectionsCreateOrUpdate200Response
     | SubscriptionNetworkManagerConnectionsCreateOrUpdate201Response
-    | SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse
+    | SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
 ): response is SubscriptionNetworkManagerConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SubscriptionNetworkManagerConnectionsGet200Response
-    | SubscriptionNetworkManagerConnectionsGetDefaultResponse
+    | SubscriptionNetworkManagerConnectionsGetDefaultResponse,
 ): response is SubscriptionNetworkManagerConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SubscriptionNetworkManagerConnectionsDelete200Response
     | SubscriptionNetworkManagerConnectionsDelete204Response
-    | SubscriptionNetworkManagerConnectionsDeleteDefaultResponse
+    | SubscriptionNetworkManagerConnectionsDeleteDefaultResponse,
 ): response is SubscriptionNetworkManagerConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SubscriptionNetworkManagerConnectionsList200Response
-    | SubscriptionNetworkManagerConnectionsListDefaultResponse
+    | SubscriptionNetworkManagerConnectionsListDefaultResponse,
 ): response is SubscriptionNetworkManagerConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementGroupNetworkManagerConnectionsCreateOrUpdate200Response
     | ManagementGroupNetworkManagerConnectionsCreateOrUpdate201Response
-    | ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse
+    | ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse,
 ): response is ManagementGroupNetworkManagerConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementGroupNetworkManagerConnectionsGet200Response
-    | ManagementGroupNetworkManagerConnectionsGetDefaultResponse
+    | ManagementGroupNetworkManagerConnectionsGetDefaultResponse,
 ): response is ManagementGroupNetworkManagerConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementGroupNetworkManagerConnectionsDelete200Response
     | ManagementGroupNetworkManagerConnectionsDelete204Response
-    | ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse
+    | ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse,
 ): response is ManagementGroupNetworkManagerConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementGroupNetworkManagerConnectionsList200Response
-    | ManagementGroupNetworkManagerConnectionsListDefaultResponse
+    | ManagementGroupNetworkManagerConnectionsListDefaultResponse,
 ): response is ManagementGroupNetworkManagerConnectionsListDefaultResponse;
 export function isUnexpected(
-  response: ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse
+  response: ConnectivityConfigurationsGet200Response | ConnectivityConfigurationsGetDefaultResponse,
 ): response is ConnectivityConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectivityConfigurationsCreateOrUpdate200Response
     | ConnectivityConfigurationsCreateOrUpdate201Response
-    | ConnectivityConfigurationsCreateOrUpdateDefaultResponse
+    | ConnectivityConfigurationsCreateOrUpdateDefaultResponse,
 ): response is ConnectivityConfigurationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectivityConfigurationsDelete200Response
     | ConnectivityConfigurationsDelete202Response
     | ConnectivityConfigurationsDelete204Response
-    | ConnectivityConfigurationsDeleteDefaultResponse
+    | ConnectivityConfigurationsDeleteDefaultResponse,
 ): response is ConnectivityConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectivityConfigurationsList200Response
-    | ConnectivityConfigurationsListDefaultResponse
+    | ConnectivityConfigurationsListDefaultResponse,
 ): response is ConnectivityConfigurationsListDefaultResponse;
 export function isUnexpected(
-  response: NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse
+  response: NetworkGroupsGet200Response | NetworkGroupsGetDefaultResponse,
 ): response is NetworkGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkGroupsCreateOrUpdate200Response
     | NetworkGroupsCreateOrUpdate201Response
-    | NetworkGroupsCreateOrUpdateDefaultResponse
+    | NetworkGroupsCreateOrUpdateDefaultResponse,
 ): response is NetworkGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkGroupsDelete200Response
     | NetworkGroupsDelete202Response
     | NetworkGroupsDelete204Response
-    | NetworkGroupsDeleteDefaultResponse
+    | NetworkGroupsDeleteDefaultResponse,
 ): response is NetworkGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkGroupsList200Response | NetworkGroupsListDefaultResponse
+  response: NetworkGroupsList200Response | NetworkGroupsListDefaultResponse,
 ): response is NetworkGroupsListDefaultResponse;
 export function isUnexpected(
-  response: StaticMembersGet200Response | StaticMembersGetDefaultResponse
+  response: StaticMembersGet200Response | StaticMembersGetDefaultResponse,
 ): response is StaticMembersGetDefaultResponse;
 export function isUnexpected(
   response:
     | StaticMembersCreateOrUpdate200Response
     | StaticMembersCreateOrUpdate201Response
-    | StaticMembersCreateOrUpdateDefaultResponse
+    | StaticMembersCreateOrUpdateDefaultResponse,
 ): response is StaticMembersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | StaticMembersDelete200Response
     | StaticMembersDelete204Response
-    | StaticMembersDeleteDefaultResponse
+    | StaticMembersDeleteDefaultResponse,
 ): response is StaticMembersDeleteDefaultResponse;
 export function isUnexpected(
-  response: StaticMembersList200Response | StaticMembersListDefaultResponse
+  response: StaticMembersList200Response | StaticMembersListDefaultResponse,
 ): response is StaticMembersListDefaultResponse;
 export function isUnexpected(
   response:
     | ScopeConnectionsCreateOrUpdate200Response
     | ScopeConnectionsCreateOrUpdate201Response
-    | ScopeConnectionsCreateOrUpdateDefaultResponse
+    | ScopeConnectionsCreateOrUpdateDefaultResponse,
 ): response is ScopeConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse
+  response: ScopeConnectionsGet200Response | ScopeConnectionsGetDefaultResponse,
 ): response is ScopeConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ScopeConnectionsDelete200Response
     | ScopeConnectionsDelete204Response
-    | ScopeConnectionsDeleteDefaultResponse
+    | ScopeConnectionsDeleteDefaultResponse,
 ): response is ScopeConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse
+  response: ScopeConnectionsList200Response | ScopeConnectionsListDefaultResponse,
 ): response is ScopeConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityAdminConfigurationsList200Response
-    | SecurityAdminConfigurationsListDefaultResponse
+    | SecurityAdminConfigurationsListDefaultResponse,
 ): response is SecurityAdminConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityAdminConfigurationsGet200Response
-    | SecurityAdminConfigurationsGetDefaultResponse
+    | SecurityAdminConfigurationsGetDefaultResponse,
 ): response is SecurityAdminConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityAdminConfigurationsCreateOrUpdate200Response
     | SecurityAdminConfigurationsCreateOrUpdate201Response
-    | SecurityAdminConfigurationsCreateOrUpdateDefaultResponse
+    | SecurityAdminConfigurationsCreateOrUpdateDefaultResponse,
 ): response is SecurityAdminConfigurationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityAdminConfigurationsDelete200Response
     | SecurityAdminConfigurationsDelete202Response
     | SecurityAdminConfigurationsDelete204Response
-    | SecurityAdminConfigurationsDeleteDefaultResponse
+    | SecurityAdminConfigurationsDeleteDefaultResponse,
 ): response is SecurityAdminConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse
+  response: AdminRuleCollectionsList200Response | AdminRuleCollectionsListDefaultResponse,
 ): response is AdminRuleCollectionsListDefaultResponse;
 export function isUnexpected(
-  response: AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse
+  response: AdminRuleCollectionsGet200Response | AdminRuleCollectionsGetDefaultResponse,
 ): response is AdminRuleCollectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AdminRuleCollectionsCreateOrUpdate200Response
     | AdminRuleCollectionsCreateOrUpdate201Response
-    | AdminRuleCollectionsCreateOrUpdateDefaultResponse
+    | AdminRuleCollectionsCreateOrUpdateDefaultResponse,
 ): response is AdminRuleCollectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AdminRuleCollectionsDelete200Response
     | AdminRuleCollectionsDelete202Response
     | AdminRuleCollectionsDelete204Response
-    | AdminRuleCollectionsDeleteDefaultResponse
+    | AdminRuleCollectionsDeleteDefaultResponse,
 ): response is AdminRuleCollectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AdminRulesList200Response | AdminRulesListDefaultResponse
+  response: AdminRulesList200Response | AdminRulesListDefaultResponse,
 ): response is AdminRulesListDefaultResponse;
 export function isUnexpected(
-  response: AdminRulesGet200Response | AdminRulesGetDefaultResponse
+  response: AdminRulesGet200Response | AdminRulesGetDefaultResponse,
 ): response is AdminRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | AdminRulesCreateOrUpdate200Response
     | AdminRulesCreateOrUpdate201Response
-    | AdminRulesCreateOrUpdateDefaultResponse
+    | AdminRulesCreateOrUpdateDefaultResponse,
 ): response is AdminRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AdminRulesDelete200Response
     | AdminRulesDelete202Response
     | AdminRulesDelete204Response
-    | AdminRulesDeleteDefaultResponse
+    | AdminRulesDeleteDefaultResponse,
 ): response is AdminRulesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkProfilesDelete200Response
     | NetworkProfilesDelete202Response
     | NetworkProfilesDelete204Response
-    | NetworkProfilesDeleteDefaultResponse
+    | NetworkProfilesDeleteDefaultResponse,
 ): response is NetworkProfilesDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse
+  response: NetworkProfilesGet200Response | NetworkProfilesGetDefaultResponse,
 ): response is NetworkProfilesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkProfilesCreateOrUpdate200Response
     | NetworkProfilesCreateOrUpdate201Response
-    | NetworkProfilesCreateOrUpdateDefaultResponse
+    | NetworkProfilesCreateOrUpdateDefaultResponse,
 ): response is NetworkProfilesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse
+  response: NetworkProfilesUpdateTags200Response | NetworkProfilesUpdateTagsDefaultResponse,
 ): response is NetworkProfilesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse
+  response: NetworkProfilesListAll200Response | NetworkProfilesListAllDefaultResponse,
 ): response is NetworkProfilesListAllDefaultResponse;
 export function isUnexpected(
-  response: NetworkProfilesList200Response | NetworkProfilesListDefaultResponse
+  response: NetworkProfilesList200Response | NetworkProfilesListDefaultResponse,
 ): response is NetworkProfilesListDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkSecurityGroupsDelete200Response
     | NetworkSecurityGroupsDelete202Response
     | NetworkSecurityGroupsDelete204Response
-    | NetworkSecurityGroupsDeleteDefaultResponse
+    | NetworkSecurityGroupsDeleteDefaultResponse,
 ): response is NetworkSecurityGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse
+  response: NetworkSecurityGroupsGet200Response | NetworkSecurityGroupsGetDefaultResponse,
 ): response is NetworkSecurityGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkSecurityGroupsCreateOrUpdate200Response
     | NetworkSecurityGroupsCreateOrUpdate201Response
-    | NetworkSecurityGroupsCreateOrUpdateDefaultResponse
+    | NetworkSecurityGroupsCreateOrUpdateDefaultResponse,
 ): response is NetworkSecurityGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkSecurityGroupsUpdateTags200Response
-    | NetworkSecurityGroupsUpdateTagsDefaultResponse
+    | NetworkSecurityGroupsUpdateTagsDefaultResponse,
 ): response is NetworkSecurityGroupsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse
+  response: NetworkSecurityGroupsListAll200Response | NetworkSecurityGroupsListAllDefaultResponse,
 ): response is NetworkSecurityGroupsListAllDefaultResponse;
 export function isUnexpected(
-  response: NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse
+  response: NetworkSecurityGroupsList200Response | NetworkSecurityGroupsListDefaultResponse,
 ): response is NetworkSecurityGroupsListDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityRulesDelete200Response
     | SecurityRulesDelete202Response
     | SecurityRulesDelete204Response
-    | SecurityRulesDeleteDefaultResponse
+    | SecurityRulesDeleteDefaultResponse,
 ): response is SecurityRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response: SecurityRulesGet200Response | SecurityRulesGetDefaultResponse
+  response: SecurityRulesGet200Response | SecurityRulesGetDefaultResponse,
 ): response is SecurityRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityRulesCreateOrUpdate200Response
     | SecurityRulesCreateOrUpdate201Response
-    | SecurityRulesCreateOrUpdateDefaultResponse
+    | SecurityRulesCreateOrUpdateDefaultResponse,
 ): response is SecurityRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SecurityRulesList200Response | SecurityRulesListDefaultResponse
+  response: SecurityRulesList200Response | SecurityRulesListDefaultResponse,
 ): response is SecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response: DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse
+  response: DefaultSecurityRulesList200Response | DefaultSecurityRulesListDefaultResponse,
 ): response is DefaultSecurityRulesListDefaultResponse;
 export function isUnexpected(
-  response: DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse
+  response: DefaultSecurityRulesGet200Response | DefaultSecurityRulesGetDefaultResponse,
 ): response is DefaultSecurityRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkVirtualAppliancesDelete200Response
     | NetworkVirtualAppliancesDelete202Response
     | NetworkVirtualAppliancesDelete204Response
-    | NetworkVirtualAppliancesDeleteDefaultResponse
+    | NetworkVirtualAppliancesDeleteDefaultResponse,
 ): response is NetworkVirtualAppliancesDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse
+  response: NetworkVirtualAppliancesGet200Response | NetworkVirtualAppliancesGetDefaultResponse,
 ): response is NetworkVirtualAppliancesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkVirtualAppliancesUpdateTags200Response
-    | NetworkVirtualAppliancesUpdateTagsDefaultResponse
+    | NetworkVirtualAppliancesUpdateTagsDefaultResponse,
 ): response is NetworkVirtualAppliancesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkVirtualAppliancesCreateOrUpdate200Response
     | NetworkVirtualAppliancesCreateOrUpdate201Response
-    | NetworkVirtualAppliancesCreateOrUpdateDefaultResponse
+    | NetworkVirtualAppliancesCreateOrUpdateDefaultResponse,
 ): response is NetworkVirtualAppliancesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkVirtualAppliancesListByResourceGroup200Response
-    | NetworkVirtualAppliancesListByResourceGroupDefaultResponse
+    | NetworkVirtualAppliancesListByResourceGroupDefaultResponse,
 ): response is NetworkVirtualAppliancesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse
+  response: NetworkVirtualAppliancesList200Response | NetworkVirtualAppliancesListDefaultResponse,
 ): response is NetworkVirtualAppliancesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualApplianceSitesDelete200Response
     | VirtualApplianceSitesDelete202Response
     | VirtualApplianceSitesDelete204Response
-    | VirtualApplianceSitesDeleteDefaultResponse
+    | VirtualApplianceSitesDeleteDefaultResponse,
 ): response is VirtualApplianceSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse
+  response: VirtualApplianceSitesGet200Response | VirtualApplianceSitesGetDefaultResponse,
 ): response is VirtualApplianceSitesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualApplianceSitesCreateOrUpdate200Response
     | VirtualApplianceSitesCreateOrUpdate201Response
-    | VirtualApplianceSitesCreateOrUpdateDefaultResponse
+    | VirtualApplianceSitesCreateOrUpdateDefaultResponse,
 ): response is VirtualApplianceSitesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse
+  response: VirtualApplianceSitesList200Response | VirtualApplianceSitesListDefaultResponse,
 ): response is VirtualApplianceSitesListDefaultResponse;
 export function isUnexpected(
-  response: VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse
+  response: VirtualApplianceSkusList200Response | VirtualApplianceSkusListDefaultResponse,
 ): response is VirtualApplianceSkusListDefaultResponse;
 export function isUnexpected(
-  response: VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse
+  response: VirtualApplianceSkusGet200Response | VirtualApplianceSkusGetDefaultResponse,
 ): response is VirtualApplianceSkusGetDefaultResponse;
 export function isUnexpected(
   response:
     | InboundSecurityRuleCreateOrUpdate200Response
     | InboundSecurityRuleCreateOrUpdate201Response
-    | InboundSecurityRuleCreateOrUpdateDefaultResponse
+    | InboundSecurityRuleCreateOrUpdateDefaultResponse,
 ): response is InboundSecurityRuleCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersCreateOrUpdate200Response
     | NetworkWatchersCreateOrUpdate201Response
-    | NetworkWatchersCreateOrUpdateDefaultResponse
+    | NetworkWatchersCreateOrUpdateDefaultResponse,
 ): response is NetworkWatchersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse
+  response: NetworkWatchersGet200Response | NetworkWatchersGetDefaultResponse,
 ): response is NetworkWatchersGetDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersDelete202Response
     | NetworkWatchersDelete204Response
-    | NetworkWatchersDeleteDefaultResponse
+    | NetworkWatchersDeleteDefaultResponse,
 ): response is NetworkWatchersDeleteDefaultResponse;
 export function isUnexpected(
-  response: NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse
+  response: NetworkWatchersUpdateTags200Response | NetworkWatchersUpdateTagsDefaultResponse,
 ): response is NetworkWatchersUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: NetworkWatchersList200Response | NetworkWatchersListDefaultResponse
+  response: NetworkWatchersList200Response | NetworkWatchersListDefaultResponse,
 ): response is NetworkWatchersListDefaultResponse;
 export function isUnexpected(
-  response: NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse
+  response: NetworkWatchersListAll200Response | NetworkWatchersListAllDefaultResponse,
 ): response is NetworkWatchersListAllDefaultResponse;
 export function isUnexpected(
-  response: NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse
+  response: NetworkWatchersGetTopology200Response | NetworkWatchersGetTopologyDefaultResponse,
 ): response is NetworkWatchersGetTopologyDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersVerifyIPFlow200Response
     | NetworkWatchersVerifyIPFlow202Response
-    | NetworkWatchersVerifyIPFlowDefaultResponse
+    | NetworkWatchersVerifyIPFlowDefaultResponse,
 ): response is NetworkWatchersVerifyIPFlowDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetNextHop200Response
     | NetworkWatchersGetNextHop202Response
-    | NetworkWatchersGetNextHopDefaultResponse
+    | NetworkWatchersGetNextHopDefaultResponse,
 ): response is NetworkWatchersGetNextHopDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetVMSecurityRules200Response
     | NetworkWatchersGetVMSecurityRules202Response
-    | NetworkWatchersGetVMSecurityRulesDefaultResponse
+    | NetworkWatchersGetVMSecurityRulesDefaultResponse,
 ): response is NetworkWatchersGetVMSecurityRulesDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetTroubleshooting200Response
     | NetworkWatchersGetTroubleshooting202Response
-    | NetworkWatchersGetTroubleshootingDefaultResponse
+    | NetworkWatchersGetTroubleshootingDefaultResponse,
 ): response is NetworkWatchersGetTroubleshootingDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetTroubleshootingResult200Response
     | NetworkWatchersGetTroubleshootingResult202Response
-    | NetworkWatchersGetTroubleshootingResultDefaultResponse
+    | NetworkWatchersGetTroubleshootingResultDefaultResponse,
 ): response is NetworkWatchersGetTroubleshootingResultDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersSetFlowLogConfiguration200Response
     | NetworkWatchersSetFlowLogConfiguration202Response
-    | NetworkWatchersSetFlowLogConfigurationDefaultResponse
+    | NetworkWatchersSetFlowLogConfigurationDefaultResponse,
 ): response is NetworkWatchersSetFlowLogConfigurationDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetFlowLogStatus200Response
     | NetworkWatchersGetFlowLogStatus202Response
-    | NetworkWatchersGetFlowLogStatusDefaultResponse
+    | NetworkWatchersGetFlowLogStatusDefaultResponse,
 ): response is NetworkWatchersGetFlowLogStatusDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersCheckConnectivity200Response
     | NetworkWatchersCheckConnectivity202Response
-    | NetworkWatchersCheckConnectivityDefaultResponse
+    | NetworkWatchersCheckConnectivityDefaultResponse,
 ): response is NetworkWatchersCheckConnectivityDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetAzureReachabilityReport200Response
     | NetworkWatchersGetAzureReachabilityReport202Response
-    | NetworkWatchersGetAzureReachabilityReportDefaultResponse
+    | NetworkWatchersGetAzureReachabilityReportDefaultResponse,
 ): response is NetworkWatchersGetAzureReachabilityReportDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersListAvailableProviders200Response
     | NetworkWatchersListAvailableProviders202Response
-    | NetworkWatchersListAvailableProvidersDefaultResponse
+    | NetworkWatchersListAvailableProvidersDefaultResponse,
 ): response is NetworkWatchersListAvailableProvidersDefaultResponse;
 export function isUnexpected(
   response:
     | NetworkWatchersGetNetworkConfigurationDiagnostic200Response
     | NetworkWatchersGetNetworkConfigurationDiagnostic202Response
-    | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse
+    | NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse,
 ): response is NetworkWatchersGetNetworkConfigurationDiagnosticDefaultResponse;
 export function isUnexpected(
-  response: PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse
+  response: PacketCapturesCreate201Response | PacketCapturesCreateDefaultResponse,
 ): response is PacketCapturesCreateDefaultResponse;
 export function isUnexpected(
-  response: PacketCapturesGet200Response | PacketCapturesGetDefaultResponse
+  response: PacketCapturesGet200Response | PacketCapturesGetDefaultResponse,
 ): response is PacketCapturesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PacketCapturesDelete202Response
     | PacketCapturesDelete204Response
-    | PacketCapturesDeleteDefaultResponse
+    | PacketCapturesDeleteDefaultResponse,
 ): response is PacketCapturesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | PacketCapturesStop200Response
     | PacketCapturesStop202Response
-    | PacketCapturesStopDefaultResponse
+    | PacketCapturesStopDefaultResponse,
 ): response is PacketCapturesStopDefaultResponse;
 export function isUnexpected(
   response:
     | PacketCapturesGetStatus200Response
     | PacketCapturesGetStatus202Response
-    | PacketCapturesGetStatusDefaultResponse
+    | PacketCapturesGetStatusDefaultResponse,
 ): response is PacketCapturesGetStatusDefaultResponse;
 export function isUnexpected(
-  response: PacketCapturesList200Response | PacketCapturesListDefaultResponse
+  response: PacketCapturesList200Response | PacketCapturesListDefaultResponse,
 ): response is PacketCapturesListDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectionMonitorsCreateOrUpdate200Response
     | ConnectionMonitorsCreateOrUpdate201Response
-    | ConnectionMonitorsCreateOrUpdateDefaultResponse
+    | ConnectionMonitorsCreateOrUpdateDefaultResponse,
 ): response is ConnectionMonitorsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse
+  response: ConnectionMonitorsGet200Response | ConnectionMonitorsGetDefaultResponse,
 ): response is ConnectionMonitorsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectionMonitorsDelete202Response
     | ConnectionMonitorsDelete204Response
-    | ConnectionMonitorsDeleteDefaultResponse
+    | ConnectionMonitorsDeleteDefaultResponse,
 ): response is ConnectionMonitorsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse
+  response: ConnectionMonitorsUpdateTags200Response | ConnectionMonitorsUpdateTagsDefaultResponse,
 ): response is ConnectionMonitorsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectionMonitorsStop200Response
     | ConnectionMonitorsStop202Response
-    | ConnectionMonitorsStopDefaultResponse
+    | ConnectionMonitorsStopDefaultResponse,
 ): response is ConnectionMonitorsStopDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectionMonitorsStart200Response
     | ConnectionMonitorsStart202Response
-    | ConnectionMonitorsStartDefaultResponse
+    | ConnectionMonitorsStartDefaultResponse,
 ): response is ConnectionMonitorsStartDefaultResponse;
 export function isUnexpected(
   response:
     | ConnectionMonitorsQuery200Response
     | ConnectionMonitorsQuery202Response
-    | ConnectionMonitorsQueryDefaultResponse
+    | ConnectionMonitorsQueryDefaultResponse,
 ): response is ConnectionMonitorsQueryDefaultResponse;
 export function isUnexpected(
-  response: ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse
+  response: ConnectionMonitorsList200Response | ConnectionMonitorsListDefaultResponse,
 ): response is ConnectionMonitorsListDefaultResponse;
 export function isUnexpected(
   response:
     | FlowLogsCreateOrUpdate200Response
     | FlowLogsCreateOrUpdate201Response
-    | FlowLogsCreateOrUpdateDefaultResponse
+    | FlowLogsCreateOrUpdateDefaultResponse,
 ): response is FlowLogsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse
+  response: FlowLogsUpdateTags200Response | FlowLogsUpdateTagsDefaultResponse,
 ): response is FlowLogsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: FlowLogsGet200Response | FlowLogsGetDefaultResponse
+  response: FlowLogsGet200Response | FlowLogsGetDefaultResponse,
 ): response is FlowLogsGetDefaultResponse;
 export function isUnexpected(
-  response: FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse
+  response: FlowLogsDelete202Response | FlowLogsDelete204Response | FlowLogsDeleteDefaultResponse,
 ): response is FlowLogsDeleteDefaultResponse;
 export function isUnexpected(
-  response: FlowLogsList200Response | FlowLogsListDefaultResponse
+  response: FlowLogsList200Response | FlowLogsListDefaultResponse,
 ): response is FlowLogsListDefaultResponse;
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListDefaultResponse
+  response: OperationsList200Response | OperationsListDefaultResponse,
 ): response is OperationsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointsDelete200Response
     | PrivateEndpointsDelete202Response
     | PrivateEndpointsDelete204Response
-    | PrivateEndpointsDeleteDefaultResponse
+    | PrivateEndpointsDeleteDefaultResponse,
 ): response is PrivateEndpointsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse
+  response: PrivateEndpointsGet200Response | PrivateEndpointsGetDefaultResponse,
 ): response is PrivateEndpointsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointsCreateOrUpdate200Response
     | PrivateEndpointsCreateOrUpdate201Response
-    | PrivateEndpointsCreateOrUpdateDefaultResponse
+    | PrivateEndpointsCreateOrUpdateDefaultResponse,
 ): response is PrivateEndpointsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse
+  response: PrivateEndpointsList200Response | PrivateEndpointsListDefaultResponse,
 ): response is PrivateEndpointsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateEndpointsListBySubscription200Response
-    | PrivateEndpointsListBySubscriptionDefaultResponse
+    | PrivateEndpointsListBySubscriptionDefaultResponse,
 ): response is PrivateEndpointsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | AvailablePrivateEndpointTypesList200Response
-    | AvailablePrivateEndpointTypesListDefaultResponse
+    | AvailablePrivateEndpointTypesListDefaultResponse,
 ): response is AvailablePrivateEndpointTypesListDefaultResponse;
 export function isUnexpected(
   response:
     | AvailablePrivateEndpointTypesListByResourceGroup200Response
-    | AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse
+    | AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse,
 ): response is AvailablePrivateEndpointTypesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateDnsZoneGroupsDelete200Response
     | PrivateDnsZoneGroupsDelete202Response
     | PrivateDnsZoneGroupsDelete204Response
-    | PrivateDnsZoneGroupsDeleteDefaultResponse
+    | PrivateDnsZoneGroupsDeleteDefaultResponse,
 ): response is PrivateDnsZoneGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse
+  response: PrivateDnsZoneGroupsGet200Response | PrivateDnsZoneGroupsGetDefaultResponse,
 ): response is PrivateDnsZoneGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateDnsZoneGroupsCreateOrUpdate200Response
     | PrivateDnsZoneGroupsCreateOrUpdate201Response
-    | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse
+    | PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse,
 ): response is PrivateDnsZoneGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse
+  response: PrivateDnsZoneGroupsList200Response | PrivateDnsZoneGroupsListDefaultResponse,
 ): response is PrivateDnsZoneGroupsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesDelete200Response
     | PrivateLinkServicesDelete202Response
     | PrivateLinkServicesDelete204Response
-    | PrivateLinkServicesDeleteDefaultResponse
+    | PrivateLinkServicesDeleteDefaultResponse,
 ): response is PrivateLinkServicesDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse
+  response: PrivateLinkServicesGet200Response | PrivateLinkServicesGetDefaultResponse,
 ): response is PrivateLinkServicesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesCreateOrUpdate200Response
     | PrivateLinkServicesCreateOrUpdate201Response
-    | PrivateLinkServicesCreateOrUpdateDefaultResponse
+    | PrivateLinkServicesCreateOrUpdateDefaultResponse,
 ): response is PrivateLinkServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse
+  response: PrivateLinkServicesList200Response | PrivateLinkServicesListDefaultResponse,
 ): response is PrivateLinkServicesListDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesListBySubscription200Response
-    | PrivateLinkServicesListBySubscriptionDefaultResponse
+    | PrivateLinkServicesListBySubscriptionDefaultResponse,
 ): response is PrivateLinkServicesListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesGetPrivateEndpointConnection200Response
-    | PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse
+    | PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse,
 ): response is PrivateLinkServicesGetPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesUpdatePrivateEndpointConnection200Response
-    | PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse
+    | PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse,
 ): response is PrivateLinkServicesUpdatePrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesDeletePrivateEndpointConnection200Response
     | PrivateLinkServicesDeletePrivateEndpointConnection202Response
     | PrivateLinkServicesDeletePrivateEndpointConnection204Response
-    | PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse
+    | PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse,
 ): response is PrivateLinkServicesDeletePrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesListPrivateEndpointConnections200Response
-    | PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse
+    | PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse,
 ): response is PrivateLinkServicesListPrivateEndpointConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesCheckPrivateLinkServiceVisibility200Response
     | PrivateLinkServicesCheckPrivateLinkServiceVisibility202Response
-    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse,
 ): response is PrivateLinkServicesCheckPrivateLinkServiceVisibilityDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup200Response
     | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroup202Response
-    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse
+    | PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse,
 ): response is PrivateLinkServicesCheckPrivateLinkServiceVisibilityByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesListAutoApprovedPrivateLinkServices200Response
-    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse,
 ): response is PrivateLinkServicesListAutoApprovedPrivateLinkServicesDefaultResponse;
 export function isUnexpected(
   response:
     | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroup200Response
-    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse
+    | PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse,
 ): response is PrivateLinkServicesListAutoApprovedPrivateLinkServicesByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPPrefixesDelete200Response
     | PublicIPPrefixesDelete202Response
     | PublicIPPrefixesDelete204Response
-    | PublicIPPrefixesDeleteDefaultResponse
+    | PublicIPPrefixesDeleteDefaultResponse,
 ): response is PublicIPPrefixesDeleteDefaultResponse;
 export function isUnexpected(
-  response: PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse
+  response: PublicIPPrefixesGet200Response | PublicIPPrefixesGetDefaultResponse,
 ): response is PublicIPPrefixesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PublicIPPrefixesCreateOrUpdate200Response
     | PublicIPPrefixesCreateOrUpdate201Response
-    | PublicIPPrefixesCreateOrUpdateDefaultResponse
+    | PublicIPPrefixesCreateOrUpdateDefaultResponse,
 ): response is PublicIPPrefixesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse
+  response: PublicIPPrefixesUpdateTags200Response | PublicIPPrefixesUpdateTagsDefaultResponse,
 ): response is PublicIPPrefixesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse
+  response: PublicIPPrefixesListAll200Response | PublicIPPrefixesListAllDefaultResponse,
 ): response is PublicIPPrefixesListAllDefaultResponse;
 export function isUnexpected(
-  response: PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse
+  response: PublicIPPrefixesList200Response | PublicIPPrefixesListDefaultResponse,
 ): response is PublicIPPrefixesListDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFiltersDelete200Response
     | RouteFiltersDelete202Response
     | RouteFiltersDelete204Response
-    | RouteFiltersDeleteDefaultResponse
+    | RouteFiltersDeleteDefaultResponse,
 ): response is RouteFiltersDeleteDefaultResponse;
 export function isUnexpected(
-  response: RouteFiltersGet200Response | RouteFiltersGetDefaultResponse
+  response: RouteFiltersGet200Response | RouteFiltersGetDefaultResponse,
 ): response is RouteFiltersGetDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFiltersCreateOrUpdate200Response
     | RouteFiltersCreateOrUpdate201Response
-    | RouteFiltersCreateOrUpdateDefaultResponse
+    | RouteFiltersCreateOrUpdateDefaultResponse,
 ): response is RouteFiltersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse
+  response: RouteFiltersUpdateTags200Response | RouteFiltersUpdateTagsDefaultResponse,
 ): response is RouteFiltersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFiltersListByResourceGroup200Response
-    | RouteFiltersListByResourceGroupDefaultResponse
+    | RouteFiltersListByResourceGroupDefaultResponse,
 ): response is RouteFiltersListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: RouteFiltersList200Response | RouteFiltersListDefaultResponse
+  response: RouteFiltersList200Response | RouteFiltersListDefaultResponse,
 ): response is RouteFiltersListDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFilterRulesDelete200Response
     | RouteFilterRulesDelete202Response
     | RouteFilterRulesDelete204Response
-    | RouteFilterRulesDeleteDefaultResponse
+    | RouteFilterRulesDeleteDefaultResponse,
 ): response is RouteFilterRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response: RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse
+  response: RouteFilterRulesGet200Response | RouteFilterRulesGetDefaultResponse,
 ): response is RouteFilterRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFilterRulesCreateOrUpdate200Response
     | RouteFilterRulesCreateOrUpdate201Response
-    | RouteFilterRulesCreateOrUpdateDefaultResponse
+    | RouteFilterRulesCreateOrUpdateDefaultResponse,
 ): response is RouteFilterRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | RouteFilterRulesListByRouteFilter200Response
-    | RouteFilterRulesListByRouteFilterDefaultResponse
+    | RouteFilterRulesListByRouteFilterDefaultResponse,
 ): response is RouteFilterRulesListByRouteFilterDefaultResponse;
 export function isUnexpected(
   response:
     | RouteTablesDelete200Response
     | RouteTablesDelete202Response
     | RouteTablesDelete204Response
-    | RouteTablesDeleteDefaultResponse
+    | RouteTablesDeleteDefaultResponse,
 ): response is RouteTablesDeleteDefaultResponse;
 export function isUnexpected(
-  response: RouteTablesGet200Response | RouteTablesGetDefaultResponse
+  response: RouteTablesGet200Response | RouteTablesGetDefaultResponse,
 ): response is RouteTablesGetDefaultResponse;
 export function isUnexpected(
   response:
     | RouteTablesCreateOrUpdate200Response
     | RouteTablesCreateOrUpdate201Response
-    | RouteTablesCreateOrUpdateDefaultResponse
+    | RouteTablesCreateOrUpdateDefaultResponse,
 ): response is RouteTablesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse
+  response: RouteTablesUpdateTags200Response | RouteTablesUpdateTagsDefaultResponse,
 ): response is RouteTablesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: RouteTablesList200Response | RouteTablesListDefaultResponse
+  response: RouteTablesList200Response | RouteTablesListDefaultResponse,
 ): response is RouteTablesListDefaultResponse;
 export function isUnexpected(
-  response: RouteTablesListAll200Response | RouteTablesListAllDefaultResponse
+  response: RouteTablesListAll200Response | RouteTablesListAllDefaultResponse,
 ): response is RouteTablesListAllDefaultResponse;
 export function isUnexpected(
   response:
     | RoutesDelete200Response
     | RoutesDelete202Response
     | RoutesDelete204Response
-    | RoutesDeleteDefaultResponse
+    | RoutesDeleteDefaultResponse,
 ): response is RoutesDeleteDefaultResponse;
 export function isUnexpected(
-  response: RoutesGet200Response | RoutesGetDefaultResponse
+  response: RoutesGet200Response | RoutesGetDefaultResponse,
 ): response is RoutesGetDefaultResponse;
 export function isUnexpected(
   response:
     | RoutesCreateOrUpdate200Response
     | RoutesCreateOrUpdate201Response
-    | RoutesCreateOrUpdateDefaultResponse
+    | RoutesCreateOrUpdateDefaultResponse,
 ): response is RoutesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: RoutesList200Response | RoutesListDefaultResponse
+  response: RoutesList200Response | RoutesListDefaultResponse,
 ): response is RoutesListDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityPartnerProvidersDelete200Response
     | SecurityPartnerProvidersDelete202Response
     | SecurityPartnerProvidersDelete204Response
-    | SecurityPartnerProvidersDeleteDefaultResponse
+    | SecurityPartnerProvidersDeleteDefaultResponse,
 ): response is SecurityPartnerProvidersDeleteDefaultResponse;
 export function isUnexpected(
-  response: SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse
+  response: SecurityPartnerProvidersGet200Response | SecurityPartnerProvidersGetDefaultResponse,
 ): response is SecurityPartnerProvidersGetDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityPartnerProvidersCreateOrUpdate200Response
     | SecurityPartnerProvidersCreateOrUpdate201Response
-    | SecurityPartnerProvidersCreateOrUpdateDefaultResponse
+    | SecurityPartnerProvidersCreateOrUpdateDefaultResponse,
 ): response is SecurityPartnerProvidersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityPartnerProvidersUpdateTags200Response
-    | SecurityPartnerProvidersUpdateTagsDefaultResponse
+    | SecurityPartnerProvidersUpdateTagsDefaultResponse,
 ): response is SecurityPartnerProvidersUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | SecurityPartnerProvidersListByResourceGroup200Response
-    | SecurityPartnerProvidersListByResourceGroupDefaultResponse
+    | SecurityPartnerProvidersListByResourceGroupDefaultResponse,
 ): response is SecurityPartnerProvidersListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse
+  response: SecurityPartnerProvidersList200Response | SecurityPartnerProvidersListDefaultResponse,
 ): response is SecurityPartnerProvidersListDefaultResponse;
 export function isUnexpected(
-  response: BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse
+  response: BgpServiceCommunitiesList200Response | BgpServiceCommunitiesListDefaultResponse,
 ): response is BgpServiceCommunitiesListDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPoliciesDelete200Response
     | ServiceEndpointPoliciesDelete202Response
     | ServiceEndpointPoliciesDelete204Response
-    | ServiceEndpointPoliciesDeleteDefaultResponse
+    | ServiceEndpointPoliciesDeleteDefaultResponse,
 ): response is ServiceEndpointPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response: ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse
+  response: ServiceEndpointPoliciesGet200Response | ServiceEndpointPoliciesGetDefaultResponse,
 ): response is ServiceEndpointPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPoliciesCreateOrUpdate200Response
     | ServiceEndpointPoliciesCreateOrUpdate201Response
-    | ServiceEndpointPoliciesCreateOrUpdateDefaultResponse
+    | ServiceEndpointPoliciesCreateOrUpdateDefaultResponse,
 ): response is ServiceEndpointPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPoliciesUpdateTags200Response
-    | ServiceEndpointPoliciesUpdateTagsDefaultResponse
+    | ServiceEndpointPoliciesUpdateTagsDefaultResponse,
 ): response is ServiceEndpointPoliciesUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse
+  response: ServiceEndpointPoliciesList200Response | ServiceEndpointPoliciesListDefaultResponse,
 ): response is ServiceEndpointPoliciesListDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPoliciesListByResourceGroup200Response
-    | ServiceEndpointPoliciesListByResourceGroupDefaultResponse
+    | ServiceEndpointPoliciesListByResourceGroupDefaultResponse,
 ): response is ServiceEndpointPoliciesListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPolicyDefinitionsDelete200Response
     | ServiceEndpointPolicyDefinitionsDelete202Response
     | ServiceEndpointPolicyDefinitionsDelete204Response
-    | ServiceEndpointPolicyDefinitionsDeleteDefaultResponse
+    | ServiceEndpointPolicyDefinitionsDeleteDefaultResponse,
 ): response is ServiceEndpointPolicyDefinitionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPolicyDefinitionsGet200Response
-    | ServiceEndpointPolicyDefinitionsGetDefaultResponse
+    | ServiceEndpointPolicyDefinitionsGetDefaultResponse,
 ): response is ServiceEndpointPolicyDefinitionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPolicyDefinitionsCreateOrUpdate200Response
     | ServiceEndpointPolicyDefinitionsCreateOrUpdate201Response
-    | ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse
+    | ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse,
 ): response is ServiceEndpointPolicyDefinitionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ServiceEndpointPolicyDefinitionsListByResourceGroup200Response
-    | ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse
+    | ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse,
 ): response is ServiceEndpointPolicyDefinitionsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: ServiceTagsList200Response | ServiceTagsListDefaultResponse
+  response: ServiceTagsList200Response | ServiceTagsListDefaultResponse,
 ): response is ServiceTagsListDefaultResponse;
 export function isUnexpected(
-  response: ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse
+  response: ServiceTagInformationList200Response | ServiceTagInformationListDefaultResponse,
 ): response is ServiceTagInformationListDefaultResponse;
 export function isUnexpected(
-  response: UsagesList200Response | UsagesListDefaultResponse
+  response: UsagesList200Response | UsagesListDefaultResponse,
 ): response is UsagesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworksDelete200Response
     | VirtualNetworksDelete202Response
     | VirtualNetworksDelete204Response
-    | VirtualNetworksDeleteDefaultResponse
+    | VirtualNetworksDeleteDefaultResponse,
 ): response is VirtualNetworksDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse
+  response: VirtualNetworksGet200Response | VirtualNetworksGetDefaultResponse,
 ): response is VirtualNetworksGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworksCreateOrUpdate200Response
     | VirtualNetworksCreateOrUpdate201Response
-    | VirtualNetworksCreateOrUpdateDefaultResponse
+    | VirtualNetworksCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworksCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse
+  response: VirtualNetworksUpdateTags200Response | VirtualNetworksUpdateTagsDefaultResponse,
 ): response is VirtualNetworksUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse
+  response: VirtualNetworksListAll200Response | VirtualNetworksListAllDefaultResponse,
 ): response is VirtualNetworksListAllDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworksList200Response | VirtualNetworksListDefaultResponse
+  response: VirtualNetworksList200Response | VirtualNetworksListDefaultResponse,
 ): response is VirtualNetworksListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworksCheckIPAddressAvailability200Response
-    | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse
+    | VirtualNetworksCheckIPAddressAvailabilityDefaultResponse,
 ): response is VirtualNetworksCheckIPAddressAvailabilityDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse
+  response: VirtualNetworksListUsage200Response | VirtualNetworksListUsageDefaultResponse,
 ): response is VirtualNetworksListUsageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworksListDdosProtectionStatus200Response
     | VirtualNetworksListDdosProtectionStatus202Response
-    | VirtualNetworksListDdosProtectionStatusDefaultResponse
+    | VirtualNetworksListDdosProtectionStatusDefaultResponse,
 ): response is VirtualNetworksListDdosProtectionStatusDefaultResponse;
 export function isUnexpected(
   response:
     | SubnetsDelete200Response
     | SubnetsDelete202Response
     | SubnetsDelete204Response
-    | SubnetsDeleteDefaultResponse
+    | SubnetsDeleteDefaultResponse,
 ): response is SubnetsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SubnetsGet200Response | SubnetsGetDefaultResponse
+  response: SubnetsGet200Response | SubnetsGetDefaultResponse,
 ): response is SubnetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SubnetsCreateOrUpdate200Response
     | SubnetsCreateOrUpdate201Response
-    | SubnetsCreateOrUpdateDefaultResponse
+    | SubnetsCreateOrUpdateDefaultResponse,
 ): response is SubnetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SubnetsPrepareNetworkPolicies200Response
     | SubnetsPrepareNetworkPolicies202Response
-    | SubnetsPrepareNetworkPoliciesDefaultResponse
+    | SubnetsPrepareNetworkPoliciesDefaultResponse,
 ): response is SubnetsPrepareNetworkPoliciesDefaultResponse;
 export function isUnexpected(
   response:
     | SubnetsUnprepareNetworkPolicies200Response
     | SubnetsUnprepareNetworkPolicies202Response
-    | SubnetsUnprepareNetworkPoliciesDefaultResponse
+    | SubnetsUnprepareNetworkPoliciesDefaultResponse,
 ): response is SubnetsUnprepareNetworkPoliciesDefaultResponse;
 export function isUnexpected(
-  response: SubnetsList200Response | SubnetsListDefaultResponse
+  response: SubnetsList200Response | SubnetsListDefaultResponse,
 ): response is SubnetsListDefaultResponse;
 export function isUnexpected(
-  response: ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse
+  response: ResourceNavigationLinksList200Response | ResourceNavigationLinksListDefaultResponse,
 ): response is ResourceNavigationLinksListDefaultResponse;
 export function isUnexpected(
-  response: ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse
+  response: ServiceAssociationLinksList200Response | ServiceAssociationLinksListDefaultResponse,
 ): response is ServiceAssociationLinksListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkPeeringsDelete200Response
     | VirtualNetworkPeeringsDelete202Response
     | VirtualNetworkPeeringsDelete204Response
-    | VirtualNetworkPeeringsDeleteDefaultResponse
+    | VirtualNetworkPeeringsDeleteDefaultResponse,
 ): response is VirtualNetworkPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse
+  response: VirtualNetworkPeeringsGet200Response | VirtualNetworkPeeringsGetDefaultResponse,
 ): response is VirtualNetworkPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkPeeringsCreateOrUpdate200Response
     | VirtualNetworkPeeringsCreateOrUpdate201Response
-    | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse
+    | VirtualNetworkPeeringsCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse
+  response: VirtualNetworkPeeringsList200Response | VirtualNetworkPeeringsListDefaultResponse,
 ): response is VirtualNetworkPeeringsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysCreateOrUpdate200Response
     | VirtualNetworkGatewaysCreateOrUpdate201Response
-    | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse
+    | VirtualNetworkGatewaysCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse
+  response: VirtualNetworkGatewaysGet200Response | VirtualNetworkGatewaysGetDefaultResponse,
 ): response is VirtualNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysDelete200Response
     | VirtualNetworkGatewaysDelete202Response
     | VirtualNetworkGatewaysDelete204Response
-    | VirtualNetworkGatewaysDeleteDefaultResponse
+    | VirtualNetworkGatewaysDeleteDefaultResponse,
 ): response is VirtualNetworkGatewaysDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysUpdateTags200Response
     | VirtualNetworkGatewaysUpdateTags202Response
-    | VirtualNetworkGatewaysUpdateTagsDefaultResponse
+    | VirtualNetworkGatewaysUpdateTagsDefaultResponse,
 ): response is VirtualNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse
+  response: VirtualNetworkGatewaysList200Response | VirtualNetworkGatewaysListDefaultResponse,
 ): response is VirtualNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysListConnections200Response
-    | VirtualNetworkGatewaysListConnectionsDefaultResponse
+    | VirtualNetworkGatewaysListConnectionsDefaultResponse,
 ): response is VirtualNetworkGatewaysListConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysReset200Response
     | VirtualNetworkGatewaysReset202Response
-    | VirtualNetworkGatewaysResetDefaultResponse
+    | VirtualNetworkGatewaysResetDefaultResponse,
 ): response is VirtualNetworkGatewaysResetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysResetVpnClientSharedKey200Response
     | VirtualNetworkGatewaysResetVpnClientSharedKey202Response
-    | VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse
+    | VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse,
 ): response is VirtualNetworkGatewaysResetVpnClientSharedKeyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGeneratevpnclientpackage200Response
     | VirtualNetworkGatewaysGeneratevpnclientpackage202Response
-    | VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse
+    | VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse,
 ): response is VirtualNetworkGatewaysGeneratevpnclientpackageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGenerateVpnProfile200Response
     | VirtualNetworkGatewaysGenerateVpnProfile202Response
-    | VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse
+    | VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse,
 ): response is VirtualNetworkGatewaysGenerateVpnProfileDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetVpnProfilePackageUrl200Response
     | VirtualNetworkGatewaysGetVpnProfilePackageUrl202Response
-    | VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse
+    | VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse,
 ): response is VirtualNetworkGatewaysGetVpnProfilePackageUrlDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetBgpPeerStatus200Response
     | VirtualNetworkGatewaysGetBgpPeerStatus202Response
-    | VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse
+    | VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse,
 ): response is VirtualNetworkGatewaysGetBgpPeerStatusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysSupportedVpnDevices200Response
-    | VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse
+    | VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse,
 ): response is VirtualNetworkGatewaysSupportedVpnDevicesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetLearnedRoutes200Response
     | VirtualNetworkGatewaysGetLearnedRoutes202Response
-    | VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse
+    | VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse,
 ): response is VirtualNetworkGatewaysGetLearnedRoutesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetAdvertisedRoutes200Response
     | VirtualNetworkGatewaysGetAdvertisedRoutes202Response
-    | VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse
+    | VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse,
 ): response is VirtualNetworkGatewaysGetAdvertisedRoutesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysSetVpnclientIpsecParameters200Response
     | VirtualNetworkGatewaysSetVpnclientIpsecParameters202Response
-    | VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse
+    | VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse,
 ): response is VirtualNetworkGatewaysSetVpnclientIpsecParametersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetVpnclientIpsecParameters200Response
-    | VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse,
 ): response is VirtualNetworkGatewaysGetVpnclientIpsecParametersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysVpnDeviceConfigurationScript200Response
-    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse
+    | VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse,
 ): response is VirtualNetworkGatewaysVpnDeviceConfigurationScriptDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysStartPacketCapture200Response
     | VirtualNetworkGatewaysStartPacketCapture202Response
-    | VirtualNetworkGatewaysStartPacketCaptureDefaultResponse
+    | VirtualNetworkGatewaysStartPacketCaptureDefaultResponse,
 ): response is VirtualNetworkGatewaysStartPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysStopPacketCapture200Response
     | VirtualNetworkGatewaysStopPacketCapture202Response
-    | VirtualNetworkGatewaysStopPacketCaptureDefaultResponse
+    | VirtualNetworkGatewaysStopPacketCaptureDefaultResponse,
 ): response is VirtualNetworkGatewaysStopPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysGetVpnclientConnectionHealth200Response
     | VirtualNetworkGatewaysGetVpnclientConnectionHealth202Response
-    | VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse
+    | VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse,
 ): response is VirtualNetworkGatewaysGetVpnclientConnectionHealthDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections200Response
     | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnections202Response
-    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse
+    | VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse,
 ): response is VirtualNetworkGatewaysDisconnectVirtualNetworkGatewayVpnConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsCreateOrUpdate200Response
     | VirtualNetworkGatewayConnectionsCreateOrUpdate201Response
-    | VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse
+    | VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsGet200Response
-    | VirtualNetworkGatewayConnectionsGetDefaultResponse
+    | VirtualNetworkGatewayConnectionsGetDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsDelete200Response
     | VirtualNetworkGatewayConnectionsDelete202Response
     | VirtualNetworkGatewayConnectionsDelete204Response
-    | VirtualNetworkGatewayConnectionsDeleteDefaultResponse
+    | VirtualNetworkGatewayConnectionsDeleteDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsUpdateTags200Response
     | VirtualNetworkGatewayConnectionsUpdateTags202Response
-    | VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse
+    | VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsSetSharedKey200Response
     | VirtualNetworkGatewayConnectionsSetSharedKey201Response
-    | VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse
+    | VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsSetSharedKeyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsGetSharedKey200Response
-    | VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse
+    | VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsGetSharedKeyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsList200Response
-    | VirtualNetworkGatewayConnectionsListDefaultResponse
+    | VirtualNetworkGatewayConnectionsListDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsResetSharedKey200Response
     | VirtualNetworkGatewayConnectionsResetSharedKey202Response
-    | VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse
+    | VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsResetSharedKeyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsStartPacketCapture200Response
     | VirtualNetworkGatewayConnectionsStartPacketCapture202Response
-    | VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse
+    | VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsStartPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsStopPacketCapture200Response
     | VirtualNetworkGatewayConnectionsStopPacketCapture202Response
-    | VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse
+    | VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsStopPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsGetIkeSas200Response
     | VirtualNetworkGatewayConnectionsGetIkeSas202Response
-    | VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse
+    | VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsGetIkeSasDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayConnectionsResetConnection202Response
-    | VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse
+    | VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse,
 ): response is VirtualNetworkGatewayConnectionsResetConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | LocalNetworkGatewaysCreateOrUpdate200Response
     | LocalNetworkGatewaysCreateOrUpdate201Response
-    | LocalNetworkGatewaysCreateOrUpdateDefaultResponse
+    | LocalNetworkGatewaysCreateOrUpdateDefaultResponse,
 ): response is LocalNetworkGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse
+  response: LocalNetworkGatewaysGet200Response | LocalNetworkGatewaysGetDefaultResponse,
 ): response is LocalNetworkGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | LocalNetworkGatewaysDelete200Response
     | LocalNetworkGatewaysDelete202Response
     | LocalNetworkGatewaysDelete204Response
-    | LocalNetworkGatewaysDeleteDefaultResponse
+    | LocalNetworkGatewaysDeleteDefaultResponse,
 ): response is LocalNetworkGatewaysDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | LocalNetworkGatewaysUpdateTags200Response
-    | LocalNetworkGatewaysUpdateTagsDefaultResponse
+    | LocalNetworkGatewaysUpdateTagsDefaultResponse,
 ): response is LocalNetworkGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse
+  response: LocalNetworkGatewaysList200Response | LocalNetworkGatewaysListDefaultResponse,
 ): response is LocalNetworkGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayNatRulesGet200Response
-    | VirtualNetworkGatewayNatRulesGetDefaultResponse
+    | VirtualNetworkGatewayNatRulesGetDefaultResponse,
 ): response is VirtualNetworkGatewayNatRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayNatRulesCreateOrUpdate200Response
     | VirtualNetworkGatewayNatRulesCreateOrUpdate201Response
-    | VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse
+    | VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkGatewayNatRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayNatRulesDelete200Response
     | VirtualNetworkGatewayNatRulesDelete202Response
     | VirtualNetworkGatewayNatRulesDelete204Response
-    | VirtualNetworkGatewayNatRulesDeleteDefaultResponse
+    | VirtualNetworkGatewayNatRulesDeleteDefaultResponse,
 ): response is VirtualNetworkGatewayNatRulesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkGatewayNatRulesListByVirtualNetworkGateway200Response
-    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse
+    | VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse,
 ): response is VirtualNetworkGatewayNatRulesListByVirtualNetworkGatewayDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkTapsDelete200Response
     | VirtualNetworkTapsDelete202Response
     | VirtualNetworkTapsDelete204Response
-    | VirtualNetworkTapsDeleteDefaultResponse
+    | VirtualNetworkTapsDeleteDefaultResponse,
 ): response is VirtualNetworkTapsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse
+  response: VirtualNetworkTapsGet200Response | VirtualNetworkTapsGetDefaultResponse,
 ): response is VirtualNetworkTapsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkTapsCreateOrUpdate200Response
     | VirtualNetworkTapsCreateOrUpdate201Response
-    | VirtualNetworkTapsCreateOrUpdateDefaultResponse
+    | VirtualNetworkTapsCreateOrUpdateDefaultResponse,
 ): response is VirtualNetworkTapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse
+  response: VirtualNetworkTapsUpdateTags200Response | VirtualNetworkTapsUpdateTagsDefaultResponse,
 ): response is VirtualNetworkTapsUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse
+  response: VirtualNetworkTapsListAll200Response | VirtualNetworkTapsListAllDefaultResponse,
 ): response is VirtualNetworkTapsListAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualNetworkTapsListByResourceGroup200Response
-    | VirtualNetworkTapsListByResourceGroupDefaultResponse
+    | VirtualNetworkTapsListByResourceGroupDefaultResponse,
 ): response is VirtualNetworkTapsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualRoutersDelete200Response
     | VirtualRoutersDelete202Response
     | VirtualRoutersDelete204Response
-    | VirtualRoutersDeleteDefaultResponse
+    | VirtualRoutersDeleteDefaultResponse,
 ): response is VirtualRoutersDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse
+  response: VirtualRoutersGet200Response | VirtualRoutersGetDefaultResponse,
 ): response is VirtualRoutersGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualRoutersCreateOrUpdate200Response
     | VirtualRoutersCreateOrUpdate201Response
-    | VirtualRoutersCreateOrUpdateDefaultResponse
+    | VirtualRoutersCreateOrUpdateDefaultResponse,
 ): response is VirtualRoutersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualRoutersListByResourceGroup200Response
-    | VirtualRoutersListByResourceGroupDefaultResponse
+    | VirtualRoutersListByResourceGroupDefaultResponse,
 ): response is VirtualRoutersListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VirtualRoutersList200Response | VirtualRoutersListDefaultResponse
+  response: VirtualRoutersList200Response | VirtualRoutersListDefaultResponse,
 ): response is VirtualRoutersListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualRouterPeeringsDelete200Response
     | VirtualRouterPeeringsDelete202Response
     | VirtualRouterPeeringsDelete204Response
-    | VirtualRouterPeeringsDeleteDefaultResponse
+    | VirtualRouterPeeringsDeleteDefaultResponse,
 ): response is VirtualRouterPeeringsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse
+  response: VirtualRouterPeeringsGet200Response | VirtualRouterPeeringsGetDefaultResponse,
 ): response is VirtualRouterPeeringsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualRouterPeeringsCreateOrUpdate200Response
     | VirtualRouterPeeringsCreateOrUpdate201Response
-    | VirtualRouterPeeringsCreateOrUpdateDefaultResponse
+    | VirtualRouterPeeringsCreateOrUpdateDefaultResponse,
 ): response is VirtualRouterPeeringsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse
+  response: VirtualRouterPeeringsList200Response | VirtualRouterPeeringsListDefaultResponse,
 ): response is VirtualRouterPeeringsListDefaultResponse;
 export function isUnexpected(
-  response: VirtualWansGet200Response | VirtualWansGetDefaultResponse
+  response: VirtualWansGet200Response | VirtualWansGetDefaultResponse,
 ): response is VirtualWansGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualWansCreateOrUpdate200Response
     | VirtualWansCreateOrUpdate201Response
-    | VirtualWansCreateOrUpdateDefaultResponse
+    | VirtualWansCreateOrUpdateDefaultResponse,
 ): response is VirtualWansCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse
+  response: VirtualWansUpdateTags200Response | VirtualWansUpdateTagsDefaultResponse,
 ): response is VirtualWansUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualWansDelete200Response
     | VirtualWansDelete202Response
     | VirtualWansDelete204Response
-    | VirtualWansDeleteDefaultResponse
+    | VirtualWansDeleteDefaultResponse,
 ): response is VirtualWansDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualWansListByResourceGroup200Response
-    | VirtualWansListByResourceGroupDefaultResponse
+    | VirtualWansListByResourceGroupDefaultResponse,
 ): response is VirtualWansListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VirtualWansList200Response | VirtualWansListDefaultResponse
+  response: VirtualWansList200Response | VirtualWansListDefaultResponse,
 ): response is VirtualWansListDefaultResponse;
 export function isUnexpected(
-  response: VpnSitesGet200Response | VpnSitesGetDefaultResponse
+  response: VpnSitesGet200Response | VpnSitesGetDefaultResponse,
 ): response is VpnSitesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VpnSitesCreateOrUpdate200Response
     | VpnSitesCreateOrUpdate201Response
-    | VpnSitesCreateOrUpdateDefaultResponse
+    | VpnSitesCreateOrUpdateDefaultResponse,
 ): response is VpnSitesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse
+  response: VpnSitesUpdateTags200Response | VpnSitesUpdateTagsDefaultResponse,
 ): response is VpnSitesUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VpnSitesDelete200Response
     | VpnSitesDelete202Response
     | VpnSitesDelete204Response
-    | VpnSitesDeleteDefaultResponse
+    | VpnSitesDeleteDefaultResponse,
 ): response is VpnSitesDeleteDefaultResponse;
 export function isUnexpected(
-  response: VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse
+  response: VpnSitesListByResourceGroup200Response | VpnSitesListByResourceGroupDefaultResponse,
 ): response is VpnSitesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VpnSitesList200Response | VpnSitesListDefaultResponse
+  response: VpnSitesList200Response | VpnSitesListDefaultResponse,
 ): response is VpnSitesListDefaultResponse;
 export function isUnexpected(
-  response: VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse
+  response: VpnSiteLinksGet200Response | VpnSiteLinksGetDefaultResponse,
 ): response is VpnSiteLinksGetDefaultResponse;
 export function isUnexpected(
-  response: VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse
+  response: VpnSiteLinksListByVpnSite200Response | VpnSiteLinksListByVpnSiteDefaultResponse,
 ): response is VpnSiteLinksListByVpnSiteDefaultResponse;
 export function isUnexpected(
   response:
     | VpnSitesConfigurationDownload200Response
     | VpnSitesConfigurationDownload202Response
-    | VpnSitesConfigurationDownloadDefaultResponse
+    | VpnSitesConfigurationDownloadDefaultResponse,
 ): response is VpnSitesConfigurationDownloadDefaultResponse;
 export function isUnexpected(
-  response: VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse
+  response: VpnServerConfigurationsGet200Response | VpnServerConfigurationsGetDefaultResponse,
 ): response is VpnServerConfigurationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VpnServerConfigurationsCreateOrUpdate200Response
     | VpnServerConfigurationsCreateOrUpdate201Response
-    | VpnServerConfigurationsCreateOrUpdateDefaultResponse
+    | VpnServerConfigurationsCreateOrUpdateDefaultResponse,
 ): response is VpnServerConfigurationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VpnServerConfigurationsUpdateTags200Response
-    | VpnServerConfigurationsUpdateTagsDefaultResponse
+    | VpnServerConfigurationsUpdateTagsDefaultResponse,
 ): response is VpnServerConfigurationsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VpnServerConfigurationsDelete200Response
     | VpnServerConfigurationsDelete202Response
     | VpnServerConfigurationsDelete204Response
-    | VpnServerConfigurationsDeleteDefaultResponse
+    | VpnServerConfigurationsDeleteDefaultResponse,
 ): response is VpnServerConfigurationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VpnServerConfigurationsListByResourceGroup200Response
-    | VpnServerConfigurationsListByResourceGroupDefaultResponse
+    | VpnServerConfigurationsListByResourceGroupDefaultResponse,
 ): response is VpnServerConfigurationsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse
+  response: VpnServerConfigurationsList200Response | VpnServerConfigurationsListDefaultResponse,
 ): response is VpnServerConfigurationsListDefaultResponse;
 export function isUnexpected(
   response:
     | ConfigurationPolicyGroupsCreateOrUpdate200Response
     | ConfigurationPolicyGroupsCreateOrUpdate201Response
-    | ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse
+    | ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse,
 ): response is ConfigurationPolicyGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ConfigurationPolicyGroupsDelete200Response
     | ConfigurationPolicyGroupsDelete202Response
     | ConfigurationPolicyGroupsDelete204Response
-    | ConfigurationPolicyGroupsDeleteDefaultResponse
+    | ConfigurationPolicyGroupsDeleteDefaultResponse,
 ): response is ConfigurationPolicyGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse
+  response: ConfigurationPolicyGroupsGet200Response | ConfigurationPolicyGroupsGetDefaultResponse,
 ): response is ConfigurationPolicyGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ConfigurationPolicyGroupsListByVpnServerConfiguration200Response
-    | ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse
+    | ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse,
 ): response is ConfigurationPolicyGroupsListByVpnServerConfigurationDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubsGet200Response | VirtualHubsGetDefaultResponse
+  response: VirtualHubsGet200Response | VirtualHubsGetDefaultResponse,
 ): response is VirtualHubsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsCreateOrUpdate200Response
     | VirtualHubsCreateOrUpdate201Response
-    | VirtualHubsCreateOrUpdateDefaultResponse
+    | VirtualHubsCreateOrUpdateDefaultResponse,
 ): response is VirtualHubsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse
+  response: VirtualHubsUpdateTags200Response | VirtualHubsUpdateTagsDefaultResponse,
 ): response is VirtualHubsUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsDelete200Response
     | VirtualHubsDelete202Response
     | VirtualHubsDelete204Response
-    | VirtualHubsDeleteDefaultResponse
+    | VirtualHubsDeleteDefaultResponse,
 ): response is VirtualHubsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsListByResourceGroup200Response
-    | VirtualHubsListByResourceGroupDefaultResponse
+    | VirtualHubsListByResourceGroupDefaultResponse,
 ): response is VirtualHubsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubsList200Response | VirtualHubsListDefaultResponse
+  response: VirtualHubsList200Response | VirtualHubsListDefaultResponse,
 ): response is VirtualHubsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsGetEffectiveVirtualHubRoutes200Response
     | VirtualHubsGetEffectiveVirtualHubRoutes202Response
-    | VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse
+    | VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse,
 ): response is VirtualHubsGetEffectiveVirtualHubRoutesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsGetInboundRoutes200Response
     | VirtualHubsGetInboundRoutes202Response
-    | VirtualHubsGetInboundRoutesDefaultResponse
+    | VirtualHubsGetInboundRoutesDefaultResponse,
 ): response is VirtualHubsGetInboundRoutesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubsGetOutboundRoutes200Response
     | VirtualHubsGetOutboundRoutes202Response
-    | VirtualHubsGetOutboundRoutesDefaultResponse
+    | VirtualHubsGetOutboundRoutesDefaultResponse,
 ): response is VirtualHubsGetOutboundRoutesDefaultResponse;
 export function isUnexpected(
-  response: RouteMapsGet200Response | RouteMapsGetDefaultResponse
+  response: RouteMapsGet200Response | RouteMapsGetDefaultResponse,
 ): response is RouteMapsGetDefaultResponse;
 export function isUnexpected(
   response:
     | RouteMapsCreateOrUpdate200Response
     | RouteMapsCreateOrUpdate201Response
-    | RouteMapsCreateOrUpdateDefaultResponse
+    | RouteMapsCreateOrUpdateDefaultResponse,
 ): response is RouteMapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | RouteMapsDelete200Response
     | RouteMapsDelete202Response
     | RouteMapsDelete204Response
-    | RouteMapsDeleteDefaultResponse
+    | RouteMapsDeleteDefaultResponse,
 ): response is RouteMapsDeleteDefaultResponse;
 export function isUnexpected(
-  response: RouteMapsList200Response | RouteMapsListDefaultResponse
+  response: RouteMapsList200Response | RouteMapsListDefaultResponse,
 ): response is RouteMapsListDefaultResponse;
 export function isUnexpected(
   response:
     | HubVirtualNetworkConnectionsCreateOrUpdate200Response
     | HubVirtualNetworkConnectionsCreateOrUpdate201Response
-    | HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse
+    | HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse,
 ): response is HubVirtualNetworkConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | HubVirtualNetworkConnectionsDelete200Response
     | HubVirtualNetworkConnectionsDelete202Response
     | HubVirtualNetworkConnectionsDelete204Response
-    | HubVirtualNetworkConnectionsDeleteDefaultResponse
+    | HubVirtualNetworkConnectionsDeleteDefaultResponse,
 ): response is HubVirtualNetworkConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | HubVirtualNetworkConnectionsGet200Response
-    | HubVirtualNetworkConnectionsGetDefaultResponse
+    | HubVirtualNetworkConnectionsGetDefaultResponse,
 ): response is HubVirtualNetworkConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | HubVirtualNetworkConnectionsList200Response
-    | HubVirtualNetworkConnectionsListDefaultResponse
+    | HubVirtualNetworkConnectionsListDefaultResponse,
 ): response is HubVirtualNetworkConnectionsListDefaultResponse;
 export function isUnexpected(
-  response: VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse
+  response: VpnGatewaysGet200Response | VpnGatewaysGetDefaultResponse,
 ): response is VpnGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysCreateOrUpdate200Response
     | VpnGatewaysCreateOrUpdate201Response
-    | VpnGatewaysCreateOrUpdateDefaultResponse
+    | VpnGatewaysCreateOrUpdateDefaultResponse,
 ): response is VpnGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysUpdateTags200Response
     | VpnGatewaysUpdateTags202Response
-    | VpnGatewaysUpdateTagsDefaultResponse
+    | VpnGatewaysUpdateTagsDefaultResponse,
 ): response is VpnGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysDelete200Response
     | VpnGatewaysDelete202Response
     | VpnGatewaysDelete204Response
-    | VpnGatewaysDeleteDefaultResponse
+    | VpnGatewaysDeleteDefaultResponse,
 ): response is VpnGatewaysDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysReset200Response
     | VpnGatewaysReset202Response
-    | VpnGatewaysResetDefaultResponse
+    | VpnGatewaysResetDefaultResponse,
 ): response is VpnGatewaysResetDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysStartPacketCapture200Response
     | VpnGatewaysStartPacketCapture202Response
-    | VpnGatewaysStartPacketCaptureDefaultResponse
+    | VpnGatewaysStartPacketCaptureDefaultResponse,
 ): response is VpnGatewaysStartPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysStopPacketCapture200Response
     | VpnGatewaysStopPacketCapture202Response
-    | VpnGatewaysStopPacketCaptureDefaultResponse
+    | VpnGatewaysStopPacketCaptureDefaultResponse,
 ): response is VpnGatewaysStopPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VpnGatewaysListByResourceGroup200Response
-    | VpnGatewaysListByResourceGroupDefaultResponse
+    | VpnGatewaysListByResourceGroupDefaultResponse,
 ): response is VpnGatewaysListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: VpnGatewaysList200Response | VpnGatewaysListDefaultResponse
+  response: VpnGatewaysList200Response | VpnGatewaysListDefaultResponse,
 ): response is VpnGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
     | VpnLinkConnectionsResetConnection202Response
-    | VpnLinkConnectionsResetConnectionDefaultResponse
+    | VpnLinkConnectionsResetConnectionDefaultResponse,
 ): response is VpnLinkConnectionsResetConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | VpnLinkConnectionsGetIkeSas200Response
     | VpnLinkConnectionsGetIkeSas202Response
-    | VpnLinkConnectionsGetIkeSasDefaultResponse
+    | VpnLinkConnectionsGetIkeSasDefaultResponse,
 ): response is VpnLinkConnectionsGetIkeSasDefaultResponse;
 export function isUnexpected(
   response:
     | VpnLinkConnectionsListByVpnConnection200Response
-    | VpnLinkConnectionsListByVpnConnectionDefaultResponse
+    | VpnLinkConnectionsListByVpnConnectionDefaultResponse,
 ): response is VpnLinkConnectionsListByVpnConnectionDefaultResponse;
 export function isUnexpected(
-  response: VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse
+  response: VpnConnectionsGet200Response | VpnConnectionsGetDefaultResponse,
 ): response is VpnConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VpnConnectionsCreateOrUpdate200Response
     | VpnConnectionsCreateOrUpdate201Response
-    | VpnConnectionsCreateOrUpdateDefaultResponse
+    | VpnConnectionsCreateOrUpdateDefaultResponse,
 ): response is VpnConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VpnConnectionsDelete200Response
     | VpnConnectionsDelete202Response
     | VpnConnectionsDelete204Response
-    | VpnConnectionsDeleteDefaultResponse
+    | VpnConnectionsDeleteDefaultResponse,
 ): response is VpnConnectionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VpnConnectionsStartPacketCapture200Response
     | VpnConnectionsStartPacketCapture202Response
-    | VpnConnectionsStartPacketCaptureDefaultResponse
+    | VpnConnectionsStartPacketCaptureDefaultResponse,
 ): response is VpnConnectionsStartPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VpnConnectionsStopPacketCapture200Response
     | VpnConnectionsStopPacketCapture202Response
-    | VpnConnectionsStopPacketCaptureDefaultResponse
+    | VpnConnectionsStopPacketCaptureDefaultResponse,
 ): response is VpnConnectionsStopPacketCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VpnConnectionsListByVpnGateway200Response
-    | VpnConnectionsListByVpnGatewayDefaultResponse
+    | VpnConnectionsListByVpnGatewayDefaultResponse,
 ): response is VpnConnectionsListByVpnGatewayDefaultResponse;
 export function isUnexpected(
-  response: VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse
+  response: VpnSiteLinkConnectionsGet200Response | VpnSiteLinkConnectionsGetDefaultResponse,
 ): response is VpnSiteLinkConnectionsGetDefaultResponse;
 export function isUnexpected(
-  response: NatRulesGet200Response | NatRulesGetDefaultResponse
+  response: NatRulesGet200Response | NatRulesGetDefaultResponse,
 ): response is NatRulesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NatRulesCreateOrUpdate200Response
     | NatRulesCreateOrUpdate201Response
-    | NatRulesCreateOrUpdateDefaultResponse
+    | NatRulesCreateOrUpdateDefaultResponse,
 ): response is NatRulesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | NatRulesDelete200Response
     | NatRulesDelete202Response
     | NatRulesDelete204Response
-    | NatRulesDeleteDefaultResponse
+    | NatRulesDeleteDefaultResponse,
 ): response is NatRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response: NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse
+  response: NatRulesListByVpnGateway200Response | NatRulesListByVpnGatewayDefaultResponse,
 ): response is NatRulesListByVpnGatewayDefaultResponse;
 export function isUnexpected(
-  response: P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse
+  response: P2SVpnGatewaysGet200Response | P2SVpnGatewaysGetDefaultResponse,
 ): response is P2SVpnGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysCreateOrUpdate200Response
     | P2SVpnGatewaysCreateOrUpdate201Response
-    | P2SVpnGatewaysCreateOrUpdateDefaultResponse
+    | P2SVpnGatewaysCreateOrUpdateDefaultResponse,
 ): response is P2SVpnGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysUpdateTags200Response
     | P2SVpnGatewaysUpdateTags202Response
-    | P2SVpnGatewaysUpdateTagsDefaultResponse
+    | P2SVpnGatewaysUpdateTagsDefaultResponse,
 ): response is P2SVpnGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysDelete200Response
     | P2SVpnGatewaysDelete202Response
     | P2SVpnGatewaysDelete204Response
-    | P2SVpnGatewaysDeleteDefaultResponse
+    | P2SVpnGatewaysDeleteDefaultResponse,
 ): response is P2SVpnGatewaysDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysListByResourceGroup200Response
-    | P2SVpnGatewaysListByResourceGroupDefaultResponse
+    | P2SVpnGatewaysListByResourceGroupDefaultResponse,
 ): response is P2SVpnGatewaysListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse
+  response: P2SVpnGatewaysList200Response | P2SVpnGatewaysListDefaultResponse,
 ): response is P2SVpnGatewaysListDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysReset200Response
     | P2SVpnGatewaysReset202Response
-    | P2SVpnGatewaysResetDefaultResponse
+    | P2SVpnGatewaysResetDefaultResponse,
 ): response is P2SVpnGatewaysResetDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysGenerateVpnProfile200Response
     | P2SVpnGatewaysGenerateVpnProfile202Response
-    | P2SVpnGatewaysGenerateVpnProfileDefaultResponse
+    | P2SVpnGatewaysGenerateVpnProfileDefaultResponse,
 ): response is P2SVpnGatewaysGenerateVpnProfileDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysGetP2SVpnConnectionHealth200Response
     | P2SVpnGatewaysGetP2SVpnConnectionHealth202Response
-    | P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse,
 ): response is P2SVpnGatewaysGetP2SVpnConnectionHealthDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed200Response
     | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailed202Response
-    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse
+    | P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse,
 ): response is P2SVpnGatewaysGetP2SVpnConnectionHealthDetailedDefaultResponse;
 export function isUnexpected(
   response:
     | P2SVpnGatewaysDisconnectP2SVpnConnections200Response
     | P2SVpnGatewaysDisconnectP2SVpnConnections202Response
-    | P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse
+    | P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse,
 ): response is P2SVpnGatewaysDisconnectP2SVpnConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | VpnServerConfigurationsAssociatedWithVirtualWanList200Response
     | VpnServerConfigurationsAssociatedWithVirtualWanList202Response
-    | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse
+    | VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse,
 ): response is VpnServerConfigurationsAssociatedWithVirtualWanListDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse
+  response: VirtualHubRouteTableV2SGet200Response | VirtualHubRouteTableV2SGetDefaultResponse,
 ): response is VirtualHubRouteTableV2SGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubRouteTableV2SCreateOrUpdate200Response
     | VirtualHubRouteTableV2SCreateOrUpdate201Response
-    | VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse
+    | VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse,
 ): response is VirtualHubRouteTableV2SCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubRouteTableV2SDelete200Response
     | VirtualHubRouteTableV2SDelete202Response
     | VirtualHubRouteTableV2SDelete204Response
-    | VirtualHubRouteTableV2SDeleteDefaultResponse
+    | VirtualHubRouteTableV2SDeleteDefaultResponse,
 ): response is VirtualHubRouteTableV2SDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse
+  response: VirtualHubRouteTableV2SList200Response | VirtualHubRouteTableV2SListDefaultResponse,
 ): response is VirtualHubRouteTableV2SListDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteGatewaysListBySubscription200Response
-    | ExpressRouteGatewaysListBySubscriptionDefaultResponse
+    | ExpressRouteGatewaysListBySubscriptionDefaultResponse,
 ): response is ExpressRouteGatewaysListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteGatewaysListByResourceGroup200Response
-    | ExpressRouteGatewaysListByResourceGroupDefaultResponse
+    | ExpressRouteGatewaysListByResourceGroupDefaultResponse,
 ): response is ExpressRouteGatewaysListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteGatewaysCreateOrUpdate200Response
     | ExpressRouteGatewaysCreateOrUpdate201Response
-    | ExpressRouteGatewaysCreateOrUpdateDefaultResponse
+    | ExpressRouteGatewaysCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteGatewaysCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteGatewaysUpdateTags200Response
     | ExpressRouteGatewaysUpdateTags202Response
-    | ExpressRouteGatewaysUpdateTagsDefaultResponse
+    | ExpressRouteGatewaysUpdateTagsDefaultResponse,
 ): response is ExpressRouteGatewaysUpdateTagsDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse
+  response: ExpressRouteGatewaysGet200Response | ExpressRouteGatewaysGetDefaultResponse,
 ): response is ExpressRouteGatewaysGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteGatewaysDelete200Response
     | ExpressRouteGatewaysDelete202Response
     | ExpressRouteGatewaysDelete204Response
-    | ExpressRouteGatewaysDeleteDefaultResponse
+    | ExpressRouteGatewaysDeleteDefaultResponse,
 ): response is ExpressRouteGatewaysDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteConnectionsCreateOrUpdate200Response
     | ExpressRouteConnectionsCreateOrUpdate201Response
-    | ExpressRouteConnectionsCreateOrUpdateDefaultResponse
+    | ExpressRouteConnectionsCreateOrUpdateDefaultResponse,
 ): response is ExpressRouteConnectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse
+  response: ExpressRouteConnectionsGet200Response | ExpressRouteConnectionsGetDefaultResponse,
 ): response is ExpressRouteConnectionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ExpressRouteConnectionsDelete200Response
     | ExpressRouteConnectionsDelete202Response
     | ExpressRouteConnectionsDelete204Response
-    | ExpressRouteConnectionsDeleteDefaultResponse
+    | ExpressRouteConnectionsDeleteDefaultResponse,
 ): response is ExpressRouteConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse
+  response: ExpressRouteConnectionsList200Response | ExpressRouteConnectionsListDefaultResponse,
 ): response is ExpressRouteConnectionsListDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse
+  response: VirtualHubBgpConnectionGet200Response | VirtualHubBgpConnectionGetDefaultResponse,
 ): response is VirtualHubBgpConnectionGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubBgpConnectionCreateOrUpdate200Response
     | VirtualHubBgpConnectionCreateOrUpdate201Response
-    | VirtualHubBgpConnectionCreateOrUpdateDefaultResponse
+    | VirtualHubBgpConnectionCreateOrUpdateDefaultResponse,
 ): response is VirtualHubBgpConnectionCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubBgpConnectionDelete200Response
     | VirtualHubBgpConnectionDelete202Response
     | VirtualHubBgpConnectionDelete204Response
-    | VirtualHubBgpConnectionDeleteDefaultResponse
+    | VirtualHubBgpConnectionDeleteDefaultResponse,
 ): response is VirtualHubBgpConnectionDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse
+  response: VirtualHubBgpConnectionsList200Response | VirtualHubBgpConnectionsListDefaultResponse,
 ): response is VirtualHubBgpConnectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubBgpConnectionsListLearnedRoutes200Response
     | VirtualHubBgpConnectionsListLearnedRoutes202Response
-    | VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse
+    | VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse,
 ): response is VirtualHubBgpConnectionsListLearnedRoutesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubBgpConnectionsListAdvertisedRoutes200Response
     | VirtualHubBgpConnectionsListAdvertisedRoutes202Response
-    | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse
+    | VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse,
 ): response is VirtualHubBgpConnectionsListAdvertisedRoutesDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse
+  response: VirtualHubIpConfigurationGet200Response | VirtualHubIpConfigurationGetDefaultResponse,
 ): response is VirtualHubIpConfigurationGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubIpConfigurationCreateOrUpdate200Response
     | VirtualHubIpConfigurationCreateOrUpdate201Response
-    | VirtualHubIpConfigurationCreateOrUpdateDefaultResponse
+    | VirtualHubIpConfigurationCreateOrUpdateDefaultResponse,
 ): response is VirtualHubIpConfigurationCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualHubIpConfigurationDelete200Response
     | VirtualHubIpConfigurationDelete202Response
     | VirtualHubIpConfigurationDelete204Response
-    | VirtualHubIpConfigurationDeleteDefaultResponse
+    | VirtualHubIpConfigurationDeleteDefaultResponse,
 ): response is VirtualHubIpConfigurationDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse
+  response: VirtualHubIpConfigurationList200Response | VirtualHubIpConfigurationListDefaultResponse,
 ): response is VirtualHubIpConfigurationListDefaultResponse;
 export function isUnexpected(
   response:
     | HubRouteTablesCreateOrUpdate200Response
     | HubRouteTablesCreateOrUpdate201Response
-    | HubRouteTablesCreateOrUpdateDefaultResponse
+    | HubRouteTablesCreateOrUpdateDefaultResponse,
 ): response is HubRouteTablesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse
+  response: HubRouteTablesGet200Response | HubRouteTablesGetDefaultResponse,
 ): response is HubRouteTablesGetDefaultResponse;
 export function isUnexpected(
   response:
     | HubRouteTablesDelete200Response
     | HubRouteTablesDelete202Response
     | HubRouteTablesDelete204Response
-    | HubRouteTablesDeleteDefaultResponse
+    | HubRouteTablesDeleteDefaultResponse,
 ): response is HubRouteTablesDeleteDefaultResponse;
 export function isUnexpected(
-  response: HubRouteTablesList200Response | HubRouteTablesListDefaultResponse
+  response: HubRouteTablesList200Response | HubRouteTablesListDefaultResponse,
 ): response is HubRouteTablesListDefaultResponse;
 export function isUnexpected(
   response:
     | RoutingIntentCreateOrUpdate200Response
     | RoutingIntentCreateOrUpdate201Response
-    | RoutingIntentCreateOrUpdateDefaultResponse
+    | RoutingIntentCreateOrUpdateDefaultResponse,
 ): response is RoutingIntentCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: RoutingIntentGet200Response | RoutingIntentGetDefaultResponse
+  response: RoutingIntentGet200Response | RoutingIntentGetDefaultResponse,
 ): response is RoutingIntentGetDefaultResponse;
 export function isUnexpected(
   response:
     | RoutingIntentDelete200Response
     | RoutingIntentDelete202Response
     | RoutingIntentDelete204Response
-    | RoutingIntentDeleteDefaultResponse
+    | RoutingIntentDeleteDefaultResponse,
 ): response is RoutingIntentDeleteDefaultResponse;
 export function isUnexpected(
-  response: RoutingIntentList200Response | RoutingIntentListDefaultResponse
+  response: RoutingIntentList200Response | RoutingIntentListDefaultResponse,
 ): response is RoutingIntentListDefaultResponse;
 export function isUnexpected(
   response:
     | WebApplicationFirewallPoliciesList200Response
-    | WebApplicationFirewallPoliciesListDefaultResponse
+    | WebApplicationFirewallPoliciesListDefaultResponse,
 ): response is WebApplicationFirewallPoliciesListDefaultResponse;
 export function isUnexpected(
   response:
     | WebApplicationFirewallPoliciesListAll200Response
-    | WebApplicationFirewallPoliciesListAllDefaultResponse
+    | WebApplicationFirewallPoliciesListAllDefaultResponse,
 ): response is WebApplicationFirewallPoliciesListAllDefaultResponse;
 export function isUnexpected(
   response:
     | WebApplicationFirewallPoliciesGet200Response
-    | WebApplicationFirewallPoliciesGetDefaultResponse
+    | WebApplicationFirewallPoliciesGetDefaultResponse,
 ): response is WebApplicationFirewallPoliciesGetDefaultResponse;
 export function isUnexpected(
   response:
     | WebApplicationFirewallPoliciesCreateOrUpdate200Response
     | WebApplicationFirewallPoliciesCreateOrUpdate201Response
-    | WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse
+    | WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse,
 ): response is WebApplicationFirewallPoliciesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | WebApplicationFirewallPoliciesDelete200Response
     | WebApplicationFirewallPoliciesDelete202Response
     | WebApplicationFirewallPoliciesDelete204Response
-    | WebApplicationFirewallPoliciesDeleteDefaultResponse
+    | WebApplicationFirewallPoliciesDeleteDefaultResponse,
 ): response is WebApplicationFirewallPoliciesDeleteDefaultResponse;
 export function isUnexpected(
-  response: VipSwapGet200Response | VipSwapGetDefaultResponse
+  response: VipSwapGet200Response | VipSwapGetDefaultResponse,
 ): response is VipSwapGetDefaultResponse;
 export function isUnexpected(
-  response: VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse
+  response: VipSwapCreate200Response | VipSwapCreate202Response | VipSwapCreateDefaultResponse,
 ): response is VipSwapCreateDefaultResponse;
 export function isUnexpected(
-  response: VipSwapList200Response | VipSwapListDefaultResponse
+  response: VipSwapList200Response | VipSwapListDefaultResponse,
 ): response is VipSwapListDefaultResponse;
 export function isUnexpected(
   response:
@@ -7472,7 +7472,7 @@ export function isUnexpected(
     | VipSwapCreate202Response
     | VipSwapCreateDefaultResponse
     | VipSwapList200Response
-    | VipSwapListDefaultResponse
+    | VipSwapListDefaultResponse,
 ): response is
   | ApplicationGatewaysDeleteDefaultResponse
   | ApplicationGatewaysGetDefaultResponse
