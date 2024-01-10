@@ -49,11 +49,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -63,7 +63,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       startPosition = await getStartingPositionsForTests(consumerClient);
     });
@@ -143,9 +143,8 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(batch.tryAdd({ body: list[1] }), false); // The Mike message will be rejected - it's over the limit.
         should.equal(batch.tryAdd({ body: list[2] }), true); // Marie should get added";
 
-        const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
-          producerClient
-        );
+        const { subscriptionEventHandler } =
+          await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
         const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
           startPosition,
@@ -164,7 +163,7 @@ testWithServiceTypes((serviceVersion) => {
         // and was rejected above.
         [list[0], list[2]].should.be.deep.eq(
           receivedEvents.map((event) => event.body),
-          "Received messages should be equal to our sent messages"
+          "Received messages should be equal to our sent messages",
         );
       });
 
@@ -183,9 +182,8 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(batch.tryAdd({ body: list[0] }), true);
         should.equal(batch.tryAdd({ body: list[1] }), true);
 
-        const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
-          producerClient
-        );
+        const { subscriptionEventHandler } =
+          await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
         const subscriber = consumerClient.subscribe("0", subscriptionEventHandler, {
           startPosition,
@@ -202,7 +200,7 @@ testWithServiceTypes((serviceVersion) => {
 
         list.should.be.deep.eq(
           receivedEvents.map((event) => event.body),
-          "Received messages should be equal to our sent messages"
+          "Received messages should be equal to our sent messages",
         );
       });
 
@@ -221,9 +219,8 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(batch.tryAdd({ body: list[0] }), true);
         should.equal(batch.tryAdd({ body: list[1] }), true);
 
-        const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
-          producerClient
-        );
+        const { subscriptionEventHandler } =
+          await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
         const subscriber = consumerClient.subscribe(subscriptionEventHandler, {
           startPosition,
@@ -240,7 +237,7 @@ testWithServiceTypes((serviceVersion) => {
 
         list.should.be.deep.eq(
           receivedEvents.map((event) => event.body),
-          "Received messages should be equal to our sent messages"
+          "Received messages should be equal to our sent messages",
         );
       });
 
@@ -265,7 +262,7 @@ testWithServiceTypes((serviceVersion) => {
         const receivedEvents: ReceivedEventData[] = [];
         let waitUntilEventsReceivedResolver: (value?: any) => void;
         const waitUntilEventsReceived = new Promise(
-          (resolve) => (waitUntilEventsReceivedResolver = resolve)
+          (resolve) => (waitUntilEventsReceivedResolver = resolve),
         );
 
         const sequenceNumber = (await consumerClient.getPartitionProperties("0"))
@@ -289,7 +286,7 @@ testWithServiceTypes((serviceVersion) => {
               sequenceNumber,
             },
             maxBatchSize: 3,
-          }
+          },
         );
 
         await producerClient.sendBatch(batch);
@@ -307,7 +304,7 @@ testWithServiceTypes((serviceVersion) => {
               properties: event.properties,
             };
           }),
-          "Received messages should be equal to our sent messages"
+          "Received messages should be equal to our sent messages",
         );
       });
 
@@ -326,7 +323,7 @@ testWithServiceTypes((serviceVersion) => {
             }
             return producerClient.sendBatch(eventDataBatch, options);
           },
-          ["message", "EventHubProducerClient.sendBatch"]
+          ["message", "EventHubProducerClient.sendBatch"],
         );
       });
 
@@ -342,7 +339,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           (eventDataBatch as EventDataBatchImpl)._messageSpanContexts.length,
           0,
-          "Unexpected number of span contexts in batch."
+          "Unexpected number of span contexts in batch.",
         );
       });
 
@@ -359,7 +356,7 @@ testWithServiceTypes((serviceVersion) => {
             }
             return producerClient.sendBatch(eventDataBatch, options);
           },
-          ["message", "EventHubProducerClient.sendBatch"]
+          ["message", "EventHubProducerClient.sendBatch"],
         );
       });
 
@@ -375,7 +372,7 @@ testWithServiceTypes((serviceVersion) => {
               partitionId: "0",
               tracingOptions: options.tracingOptions,
             }),
-          ["message", "EventHubProducerClient.sendBatch"]
+          ["message", "EventHubProducerClient.sendBatch"],
         );
       });
 
@@ -407,9 +404,8 @@ testWithServiceTypes((serviceVersion) => {
 
     describe("Multiple sendBatch calls", function (): void {
       it("should be sent successfully in parallel", async function (): Promise<void> {
-        const { subscriptionEventHandler } = await SubscriptionHandlerForTests.startingFromHere(
-          consumerClient
-        );
+        const { subscriptionEventHandler } =
+          await SubscriptionHandlerForTests.startingFromHere(consumerClient);
 
         const promises = [];
         for (let i = 0; i < 5; i++) {
@@ -424,7 +420,7 @@ testWithServiceTypes((serviceVersion) => {
         try {
           const events = await subscriptionEventHandler.waitForEvents(
             await consumerClient.getPartitionIds({}),
-            5
+            5,
           );
 
           // we've allowed the server to choose which partition the messages are distributed to
@@ -466,12 +462,16 @@ testWithServiceTypes((serviceVersion) => {
             if (i === 0) {
               debug(">>>>> Sending a message to partition %d", i);
               promises.push(
-                await producerClient.sendBatch([{ body: `Hello World ${i}` }], { partitionId: "0" })
+                await producerClient.sendBatch([{ body: `Hello World ${i}` }], {
+                  partitionId: "0",
+                }),
               );
             } else if (i === 1) {
               debug(">>>>> Sending a message to partition %d", i);
               promises.push(
-                await producerClient.sendBatch([{ body: `Hello World ${i}` }], { partitionId: "1" })
+                await producerClient.sendBatch([{ body: `Hello World ${i}` }], {
+                  partitionId: "1",
+                }),
               );
             } else {
               debug(">>>>> Sending a message to the hub when i == %d", i);
@@ -498,7 +498,7 @@ testWithServiceTypes((serviceVersion) => {
           should.exist(err);
           should.equal(err.code, "MessageTooLargeError");
           err.message.should.match(
-            /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
+            /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi,
           );
         }
         await producerClient.sendBatch([{ body: "Hello World EventHub!!" }], { partitionId: "0" });
@@ -525,7 +525,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition,
               maxBatchSize: data.length,
-            }
+            },
           );
 
           await producerClient.sendBatch(data);
@@ -555,7 +555,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition,
               maxBatchSize: data.length,
-            }
+            },
           );
 
           await producerClient.sendBatch(data, { partitionKey: "foo" });
@@ -590,7 +590,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition,
               maxBatchSize: data.length,
-            }
+            },
           );
 
           await producerClient.sendBatch(data, { partitionId });
@@ -616,7 +616,7 @@ testWithServiceTypes((serviceVersion) => {
             throw new Error("Test Failure");
           } catch (err: any) {
             err.message.should.equal(
-              "The partitionId (0) and partitionKey (1) cannot both be specified."
+              "The partitionId (0) and partitionKey (1) cannot both be specified.",
             );
           }
         });
@@ -630,7 +630,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (error: any) {
               error.message.should.equal(
-                "The partitionId (0) and partitionKey (boo) cannot both be specified."
+                "The partitionId (0) and partitionKey (boo) cannot both be specified.",
               );
             }
           });
@@ -645,7 +645,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (error: any) {
               error.message.should.equal(
-                "The partitionId (0) and partitionKey (boo) cannot both be specified."
+                "The partitionId (0) and partitionKey (boo) cannot both be specified.",
               );
             }
           });
@@ -660,7 +660,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (error: any) {
               error.message.should.equal(
-                "The partitionId (1) and partitionKey (0) cannot both be specified."
+                "The partitionId (1) and partitionKey (0) cannot both be specified.",
               );
             }
           });
@@ -671,7 +671,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test Failure");
             } catch (err: any) {
               err.message.should.match(
-                /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi
+                /.*Max message size \((\d+) bytes\) is greater than maximum message size \((\d+) bytes\) on the AMQP sender link.*/gi,
               );
             }
           });
@@ -701,7 +701,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch."
+                "The partitionKey (bar) set on sendBatch does not match the partitionKey (foo) set when creating the batch.",
               );
             }
           });
@@ -715,7 +715,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch."
+                "The partitionKey (bar) set on sendBatch does not match the partitionKey (undefined) set when creating the batch.",
               );
             }
           });
@@ -729,7 +729,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch."
+                "The partitionId (0) set on sendBatch does not match the partitionId (1) set when creating the batch.",
               );
             }
           });
@@ -743,7 +743,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch."
+                "The partitionId (0) set on sendBatch does not match the partitionId (undefined) set when creating the batch.",
               );
             }
           });
@@ -798,7 +798,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionId (0) and partitionKey (foo) cannot both be specified."
+                "The partitionId (0) and partitionKey (foo) cannot both be specified.",
               );
             }
           });
@@ -814,7 +814,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionId (0) and partitionKey (foo) cannot both be specified."
+                "The partitionId (0) and partitionKey (foo) cannot both be specified.",
               );
             }
           });
@@ -830,7 +830,7 @@ testWithServiceTypes((serviceVersion) => {
               throw new Error("Test failure");
             } catch (err: any) {
               err.message.should.equal(
-                "The partitionId (0) and partitionKey (0) cannot both be specified."
+                "The partitionId (0) and partitionKey (0) cannot both be specified.",
               );
             }
           });
@@ -850,7 +850,7 @@ testWithServiceTypes((serviceVersion) => {
             should.exist(err);
             should.equal(err.code, "MessageTooLargeError");
             err.message.should.match(
-              /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi
+              /.*The received message \(delivery-id:(\d+), size:(\d+) bytes\) exceeds the limit \((\d+) bytes\) currently allowed on the link\..*/gi,
             );
           }
         });
@@ -871,7 +871,7 @@ testWithServiceTypes((serviceVersion) => {
                 debug(`>>>> Received error for invalid partition id "${id}" - `, err);
                 should.exist(err);
                 err.message.should.match(
-                  /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
+                  /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi,
                 );
               }
             });

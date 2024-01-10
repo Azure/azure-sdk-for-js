@@ -21,7 +21,7 @@ export default function createClient(
   resourceGroupName: string,
   workspaceName: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): EasmClient {
   const baseUrl =
     options.baseUrl ??

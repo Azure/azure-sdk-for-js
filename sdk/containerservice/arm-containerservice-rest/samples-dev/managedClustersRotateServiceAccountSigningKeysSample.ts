@@ -30,7 +30,7 @@ async function rotateClusterServiceAccountSigningKeys() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post();
   const poller = getLongRunningPoller(client, initialResponse);

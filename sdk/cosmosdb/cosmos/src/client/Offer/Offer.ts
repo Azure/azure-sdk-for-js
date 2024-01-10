@@ -29,7 +29,7 @@ export class Offer {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
@@ -49,7 +49,7 @@ export class Offer {
         response.headers,
         response.code,
         getEmptyCosmosDiagnostics(),
-        this
+        this,
       );
     }, this.clientContext);
   }
@@ -77,7 +77,7 @@ export class Offer {
         response.headers,
         response.code,
         getEmptyCosmosDiagnostics(),
-        this
+        this,
       );
     }, this.clientContext);
   }

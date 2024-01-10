@@ -32,7 +32,7 @@ async function listPeerings() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -64,7 +64,7 @@ async function listPeeringsWithRemoteVirtualNetworkEncryption() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/virtualNetworkPeerings",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

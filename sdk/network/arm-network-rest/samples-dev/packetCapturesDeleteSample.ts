@@ -34,7 +34,7 @@ async function deletePacketCapture() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      packetCaptureName
+      packetCaptureName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

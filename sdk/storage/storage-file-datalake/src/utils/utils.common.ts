@@ -113,7 +113,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
@@ -168,7 +168,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -556,7 +556,7 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
     /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -597,7 +597,7 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
 }
 
 export function ToBlobContainerEncryptionScope(
-  fileSystemEncryptionScope?: FileSystemEncryptionScope
+  fileSystemEncryptionScope?: FileSystemEncryptionScope,
 ): ContainerEncryptionScope | undefined {
   if (!fileSystemEncryptionScope) return undefined;
 
@@ -627,7 +627,7 @@ export function EscapePath(pathName: string): string {
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;
@@ -653,7 +653,7 @@ export interface PathGetPropertiesRawResponseWithExtraPropertiesLike {
 
 function ParseHeaderValue(
   rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
-  headerName: string
+  headerName: string,
 ): string | undefined {
   if (rawResponse._response) {
     const headers = rawResponse._response.headers as HttpHeadersLike;
@@ -669,7 +669,7 @@ function ParseHeaderValue(
  * Parse extra properties values from headers in raw response.
  */
 export function ParsePathGetPropertiesExtraHeaderValues(
-  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike
+  rawResponse: PathGetPropertiesRawResponseWithExtraPropertiesLike,
 ): PathGetPropertiesRawResponseWithExtraPropertiesLike {
   const response = rawResponse;
   response.encryptionContext = ParseHeaderValue(rawResponse, "x-ms-encryption-context");

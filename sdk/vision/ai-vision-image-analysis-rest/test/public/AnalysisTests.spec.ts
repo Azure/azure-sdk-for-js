@@ -114,7 +114,7 @@ describe("Analyze Tests", () => {
   function validateResponse(
     iaResult: ImageAnalysisResultOutput,
     testFeatures: string[],
-    genderNeutral: boolean
+    genderNeutral: boolean,
   ): void {
     validateMetadata(iaResult);
 
@@ -302,7 +302,7 @@ describe("Analyze Tests", () => {
         oneObject.boundingBox.x > 0 ||
           oneObject.boundingBox.y > 0 ||
           oneObject.boundingBox.h > 0 ||
-          oneObject.boundingBox.w > 0
+          oneObject.boundingBox.w > 0,
       );
       assert.isNotNull(oneObject.tags);
       for (const oneTag of oneObject.tags) {
@@ -315,7 +315,7 @@ describe("Analyze Tests", () => {
     assert.isAtLeast(
       objectsResult.values.filter((v) => v.tags.filter((t) => t.name.toLowerCase() === "person"))
         .length,
-      0
+      0,
     );
   }
 

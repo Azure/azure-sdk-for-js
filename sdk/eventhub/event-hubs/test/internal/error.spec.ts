@@ -57,7 +57,7 @@ describe("translateError", function () {
     should.equal(
       translatedError.retryable,
       false,
-      "ProducerDisconnectedError should not be retryable."
+      "ProducerDisconnectedError should not be retryable.",
     );
     should.equal(translatedError.code, "ProducerDisconnectedError");
   });

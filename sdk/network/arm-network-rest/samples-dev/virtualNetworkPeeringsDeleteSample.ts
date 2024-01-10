@@ -34,7 +34,7 @@ async function deletePeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

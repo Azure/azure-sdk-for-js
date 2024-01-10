@@ -31,7 +31,7 @@ async function getNetworkWatcher() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .get(options);
   console.log(result);

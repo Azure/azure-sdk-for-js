@@ -45,7 +45,7 @@ export class TestClient {
    */
   exampleOperation(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan("TestClient.outer", options, (updatedOptions) =>
-      this.generatedClientOperation(updatedOptions)
+      this.generatedClientOperation(updatedOptions),
     );
   }
 
@@ -64,7 +64,7 @@ export class TestClient {
           ...updatedOptions,
         });
       },
-      { spanKind: "client" }
+      { spanKind: "client" },
     );
   }
 }

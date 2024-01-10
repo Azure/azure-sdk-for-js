@@ -46,7 +46,7 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
  * Generates a version of the state with only public properties. At least those common for all of the Key Vault Admin pollers.
  */
 export function cleanState<TState extends KeyVaultAdminPollOperationState<TResult>, TResult>(
-  state: TState
+  state: TState,
 ): KeyVaultAdminPollOperationState<TResult> {
   return {
     jobId: state.jobId,
@@ -67,7 +67,7 @@ export function cleanState<TState extends KeyVaultAdminPollOperationState<TResul
  */
 export abstract class KeyVaultAdminPoller<
   TState extends KeyVaultAdminPollOperationState<TResult>,
-  TResult
+  TResult,
 > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -101,12 +101,15 @@ export interface KeyVaultAdminPollOperationOptions {
  */
 export class KeyVaultAdminPollOperation<
   TState extends KeyVaultAdminPollOperationState<unknown>,
-  TResult
+  TResult,
 > implements PollOperation<TState, TResult>
 {
   private cancelMessage: string;
 
-  constructor(public state: TState, options: KeyVaultAdminPollOperationOptions) {
+  constructor(
+    public state: TState,
+    options: KeyVaultAdminPollOperationOptions,
+  ) {
     this.cancelMessage = options.cancelMessage;
   }
 

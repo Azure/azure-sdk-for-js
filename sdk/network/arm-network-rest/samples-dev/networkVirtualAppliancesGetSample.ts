@@ -31,7 +31,7 @@ async function getNetworkVirtualAppliance() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .get(options);
   console.log(result);

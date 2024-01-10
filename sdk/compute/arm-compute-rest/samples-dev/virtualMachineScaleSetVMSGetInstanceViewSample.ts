@@ -33,12 +33,12 @@ async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicated
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .get(options);
   console.log(result);
 }
 
 getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
-  console.error
+  console.error,
 );

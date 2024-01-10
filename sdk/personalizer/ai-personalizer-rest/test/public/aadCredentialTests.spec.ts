@@ -16,7 +16,7 @@ describe("AAD Tests", () => {
     client = createPersonalizerClient(
       env["PERSONALIZER_ENDPOINT_SINGLE_SLOT"] ?? "",
       createTestCredential(),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 

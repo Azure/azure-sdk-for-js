@@ -32,7 +32,7 @@ async function updatePublicIPAddressTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .patch(options);
   console.log(result);

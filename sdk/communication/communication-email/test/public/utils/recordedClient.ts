@@ -61,13 +61,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedEmailClientWithConnectionString(
-  context: Context
+  context: Context,
 ): Promise<RecordedEmailClient> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new EmailClient(
     env.COMMUNICATION_CONNECTION_STRING_EMAIL ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return {
     client: client,

@@ -22,7 +22,7 @@ export interface TestSecretClientInterface {
    */
   restoreSecretBackup(
     backup: Uint8Array,
-    options?: BeginRestoreSecretBackupOptions
+    options?: BeginRestoreSecretBackupOptions,
   ): Promise<SecretProperties>;
 }
 
@@ -60,7 +60,7 @@ async function update(
   options: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RestoreSecretBackupPollOperationState) => void;
-  } = {}
+  } = {},
 ): Promise<RestoreSecretBackupPollOperation> {
   const state = this.state;
   const { backup, client, operationOptions = {} } = state;
@@ -104,7 +104,7 @@ function toString(this: RestoreSecretBackupPollOperation): string {
  * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreSecretBackupPollOperation(
-  state: RestoreSecretBackupPollOperationState
+  state: RestoreSecretBackupPollOperationState,
 ): RestoreSecretBackupPollOperation {
   return {
     state: {

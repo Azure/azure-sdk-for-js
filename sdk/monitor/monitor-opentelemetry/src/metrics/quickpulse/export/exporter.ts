@@ -53,14 +53,14 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    */
   async export(
     metrics: ResourceMetrics,
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
     let optionalParams: PostOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
-        this.getDocumentsFn()
+        this.getDocumentsFn(),
       ),
       xMsQpsTransmissionTime: Date.now(),
     };

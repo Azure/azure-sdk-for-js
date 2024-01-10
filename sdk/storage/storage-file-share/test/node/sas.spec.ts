@@ -43,7 +43,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     serviceClient = getBSU(recorder);
   });
@@ -72,7 +72,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -95,13 +95,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new ShareServiceClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, serviceClientWithSAS);
 
@@ -128,7 +128,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btq").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -161,7 +161,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasURL = `${serviceClient.url}?${sas}`;
@@ -201,7 +201,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2018-03-28",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
@@ -257,7 +257,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
@@ -325,7 +325,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         identifier: id,
         shareName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${shareClient.url}?${shareSAS}`;
@@ -389,7 +389,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         shareName,
         filePath: fileClient.path,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
@@ -419,7 +419,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
     const sasURL1 = `${serviceClient.url}?${sas}`;
 
@@ -432,7 +432,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2016-05-31",
-      }
+      },
     );
     assert.deepStrictEqual(sasURL, sasURL1);
 
@@ -481,7 +481,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2018-03-28",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL1 = `${shareClient.url}?${shareSAS}`;
@@ -555,7 +555,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
     const sasURL1 = `${fileClient.url}?${fileSAS}`;
 
@@ -627,7 +627,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: FileSASPermissions.parse("w"),
         shareName: shareName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const result = await sasSourceFileClient.rename(destFileName + "?" + destSAS, {
@@ -636,7 +636,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     assert.ok(
       result.destinationFileClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     try {
@@ -678,7 +678,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: FileSASPermissions.parse("w"),
         shareName: shareName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const result = await sasSourceDirClient.rename(destFileName + "?" + destSAS, {
@@ -687,7 +687,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     assert.ok(
       result.destinationDirectoryClient.name === destFileName,
-      "Destination name should be expected"
+      "Destination name should be expected",
     );
 
     assert.isFalse(await sourceDirClient.exists(), "Source directory should not exist anymore");

@@ -32,7 +32,7 @@ async function listExpressRoutePortAuthorization() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRoutePorts/{expressRoutePortName}/authorizations",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

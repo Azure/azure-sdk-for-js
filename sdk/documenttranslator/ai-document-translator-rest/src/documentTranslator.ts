@@ -79,7 +79,7 @@ export interface GetTranslationsStatus {
    * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
    */
   post(
-    options: StartTranslationParameters
+    options: StartTranslationParameters,
   ): Promise<
     | StartTranslation202Response
     | StartTranslation400Response
@@ -114,7 +114,7 @@ export interface GetTranslationsStatus {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetTranslationsStatusParameters
+    options?: GetTranslationsStatusParameters,
   ): Promise<
     | GetTranslationsStatus200Response
     | GetTranslationsStatus400Response
@@ -128,7 +128,7 @@ export interface GetTranslationsStatus {
 export interface GetDocumentStatus {
   /** Returns the translation status for a specific document based on the request Id and document Id. */
   get(
-    options?: GetDocumentStatusParameters
+    options?: GetDocumentStatusParameters,
   ): Promise<
     | GetDocumentStatus200Response
     | GetDocumentStatus401Response
@@ -145,7 +145,7 @@ export interface CancelTranslation {
    * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
    */
   get(
-    options?: GetTranslationStatusParameters
+    options?: GetTranslationStatusParameters,
   ): Promise<
     | GetTranslationStatus200Response
     | GetTranslationStatus401Response
@@ -162,7 +162,7 @@ export interface CancelTranslation {
    * All pending documents will be cancelled if possible.
    */
   delete(
-    options?: CancelTranslationParameters
+    options?: CancelTranslationParameters,
   ): Promise<
     | CancelTranslation200Response
     | CancelTranslation401Response
@@ -197,7 +197,7 @@ export interface GetDocumentsStatus {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetDocumentsStatusParameters
+    options?: GetDocumentsStatusParameters,
   ): Promise<
     | GetDocumentsStatus200Response
     | GetDocumentsStatus400Response
@@ -215,7 +215,7 @@ export interface GetSupportedDocumentFormats {
    * The list includes the common file extension, as well as the content-type if using the upload API.
    */
   get(
-    options?: GetSupportedDocumentFormatsParameters
+    options?: GetSupportedDocumentFormatsParameters,
   ): Promise<
     | GetSupportedDocumentFormats200Response
     | GetSupportedDocumentFormats429Response
@@ -230,7 +230,7 @@ export interface GetSupportedGlossaryFormats {
    * The list includes the common file extension used.
    */
   get(
-    options?: GetSupportedGlossaryFormatsParameters
+    options?: GetSupportedGlossaryFormatsParameters,
   ): Promise<
     | GetSupportedGlossaryFormats200Response
     | GetSupportedGlossaryFormats429Response
@@ -242,7 +242,7 @@ export interface GetSupportedGlossaryFormats {
 export interface GetSupportedStorageSources {
   /** Returns a list of storage sources/options supported by the Document Translation service. */
   get(
-    options?: GetSupportedStorageSourcesParameters
+    options?: GetSupportedStorageSourcesParameters,
   ): Promise<
     | GetSupportedStorageSources200Response
     | GetSupportedStorageSources429Response
@@ -279,7 +279,7 @@ export interface DocumentTranslatorFactory {
 export default function DocumentTranslator(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): DocumentTranslatorClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0`;
   options = {

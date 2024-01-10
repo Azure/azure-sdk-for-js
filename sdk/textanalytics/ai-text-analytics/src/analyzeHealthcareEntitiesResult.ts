@@ -190,7 +190,7 @@ export interface PagedAnalyzeHealthcareEntitiesResult
  * @internal
  */
 function makeHealthcareEntitiesWithoutNeighbors(
-  entity: GeneratedHealthcareEntity
+  entity: GeneratedHealthcareEntity,
 ): HealthcareEntity {
   const { category, confidenceScore, assertion, offset, text, links, subcategory, length, name } =
     entity;
@@ -214,7 +214,7 @@ function makeHealthcareEntitiesWithoutNeighbors(
  */
 function makeHealthcareRelations(
   entities: HealthcareEntity[],
-  relations: HealthcareRelation[]
+  relations: HealthcareRelation[],
 ): HealthcareEntityRelation[] {
   return relations.map(
     (relation: HealthcareRelation): HealthcareEntityRelation => ({
@@ -223,9 +223,9 @@ function makeHealthcareRelations(
         (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
           entity: entities[parseHealthcareEntityIndex(role.ref)],
           name: role.role,
-        })
+        }),
       ),
-    })
+    }),
   );
 }
 
@@ -235,7 +235,7 @@ function makeHealthcareRelations(
  * @internal
  */
 export function makeHealthcareEntitiesResult(
-  document: DocumentHealthcareEntities
+  document: DocumentHealthcareEntities,
 ): AnalyzeHealthcareEntitiesSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
   const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
@@ -251,7 +251,7 @@ export function makeHealthcareEntitiesResult(
  */
 export function makeHealthcareEntitiesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): AnalyzeHealthcareEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

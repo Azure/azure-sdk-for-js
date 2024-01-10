@@ -40,7 +40,7 @@ export class PartitionAssigner {
   }): string {
     if (isDefined(partitionId) && isDefined(partitionKey)) {
       throw new Error(
-        `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
+        `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`,
       );
     }
 

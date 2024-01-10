@@ -13,11 +13,11 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface AnalyzeFromBuffer {
   /** Performs a single Image Analysis operation */
   post(
-    options: AnalyzeFromBufferParameters
+    options: AnalyzeFromBufferParameters,
   ): StreamableMethod<AnalyzeFromBuffer200Response | AnalyzeFromBufferDefaultResponse>;
   /** Performs a single Image Analysis operation */
   post(
-    options: AnalyzeFromUrlParameters
+    options: AnalyzeFromUrlParameters,
   ): StreamableMethod<AnalyzeFromUrl200Response | AnalyzeFromUrlDefaultResponse>;
 }
 

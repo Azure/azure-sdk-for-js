@@ -10,7 +10,7 @@ describe(`Authoring Test`, function (this: Suite) {
     try {
       const client = createAuthoringClient(
         "Random Endpoint",
-        new AzureKeyCredential("Random API Key")
+        new AzureKeyCredential("Random API Key"),
       );
       client.path("/authoring/analyze-text/projects").get();
       throw new Error("Test failure");

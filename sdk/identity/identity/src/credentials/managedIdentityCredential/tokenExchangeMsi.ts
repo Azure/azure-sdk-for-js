@@ -21,18 +21,18 @@ export function tokenExchangeMsi(): MSI {
       const result = Boolean(
         (clientId || env.AZURE_CLIENT_ID) &&
           env.AZURE_TENANT_ID &&
-          process.env.AZURE_FEDERATED_TOKEN_FILE
+          process.env.AZURE_FEDERATED_TOKEN_FILE,
       );
       if (!result) {
         logger.info(
-          `${msiName}: Unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`
+          `${msiName}: Unavailable. The environment variables needed are: AZURE_CLIENT_ID (or the client ID sent through the parameters), AZURE_TENANT_ID and AZURE_FEDERATED_TOKEN_FILE`,
         );
       }
       return result;
     },
     async getToken(
       configuration: MSIConfiguration,
-      getTokenOptions: GetTokenOptions = {}
+      getTokenOptions: GetTokenOptions = {},
     ): Promise<AccessToken | null> {
       const { scopes, clientId } = configuration;
       const identityClientTokenCredentialOptions = {};
