@@ -19,8 +19,5 @@ export interface KeyCredential {
  * @param credential - The assumed KeyCredential to be tested.
  */
 export function isKeyCredential(credential: unknown): credential is KeyCredential {
-  return (
-    isObjectWithProperties(credential, ["key"]) &&
-    typeof credential.key === "string"
-  );
+  return isObjectWithProperties(credential, ["key"]) && typeof credential.key === "string";
 }
