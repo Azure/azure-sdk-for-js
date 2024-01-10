@@ -28,9 +28,6 @@ import {
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
-  SkuObject,
-  GatewaysUpdateCapacityOptionalParams,
-  GatewaysUpdateCapacityResponse,
   GatewaysDeleteOptionalParams,
   GatewaysListEnvSecretsOptionalParams,
   GatewaysListEnvSecretsResponse,
@@ -254,115 +251,6 @@ export class GatewaysImpl implements Gateways {
       serviceName,
       gatewayName,
       gatewayResource,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Operation to update an exiting Spring Cloud Gateway capacity.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayCapacityResource The gateway capacity for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdateCapacity(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    gatewayCapacityResource: SkuObject,
-    options?: GatewaysUpdateCapacityOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<GatewaysUpdateCapacityResponse>,
-      GatewaysUpdateCapacityResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<GatewaysUpdateCapacityResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        serviceName,
-        gatewayName,
-        gatewayCapacityResource,
-        options
-      },
-      spec: updateCapacityOperationSpec
-    });
-    const poller = await createHttpPoller<
-      GatewaysUpdateCapacityResponse,
-      OperationState<GatewaysUpdateCapacityResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Operation to update an exiting Spring Cloud Gateway capacity.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serviceName The name of the Service resource.
-   * @param gatewayName The name of Spring Cloud Gateway.
-   * @param gatewayCapacityResource The gateway capacity for the update operation
-   * @param options The options parameters.
-   */
-  async beginUpdateCapacityAndWait(
-    resourceGroupName: string,
-    serviceName: string,
-    gatewayName: string,
-    gatewayCapacityResource: SkuObject,
-    options?: GatewaysUpdateCapacityOptionalParams
-  ): Promise<GatewaysUpdateCapacityResponse> {
-    const poller = await this.beginUpdateCapacity(
-      resourceGroupName,
-      serviceName,
-      gatewayName,
-      gatewayCapacityResource,
       options
     );
     return poller.pollUntilDone();
@@ -675,40 +563,6 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.gatewayResource,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serviceName,
-    Parameters.gatewayName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const updateCapacityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GatewayResource
-    },
-    201: {
-      bodyMapper: Mappers.GatewayResource
-    },
-    202: {
-      bodyMapper: Mappers.GatewayResource
-    },
-    204: {
-      bodyMapper: Mappers.GatewayResource
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  requestBody: Parameters.gatewayCapacityResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

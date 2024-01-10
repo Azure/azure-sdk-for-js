@@ -8,42 +8,38 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SkuObject, AppPlatformManagementClient } from "@azure/arm-appplatform";
+import { AppPlatformManagementClient } from "@azure/arm-appplatform";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
 dotenv.config();
 
 /**
- * This sample demonstrates how to Operation to update an exiting Spring Cloud Gateway capacity.
+ * This sample demonstrates how to Get an resource upload URL for an App, which may be artifacts or source archive.
  *
- * @summary Operation to update an exiting Spring Cloud Gateway capacity.
- * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2023-03-01-preview/examples/Gateway_Scale.json
+ * @summary Get an resource upload URL for an App, which may be artifacts or source archive.
+ * x-ms-original-file: specification/appplatform/resource-manager/Microsoft.AppPlatform/stable/2023-12-01/examples/Apps_GetResourceUploadUrl.json
  */
-async function gatewayScale() {
+async function appsGetResourceUploadUrl() {
   const subscriptionId =
     process.env["APPPLATFORM_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
     process.env["APPPLATFORM_RESOURCE_GROUP"] || "myResourceGroup";
   const serviceName = "myservice";
-  const gatewayName = "default";
-  const gatewayCapacityResource: SkuObject = {
-    sku: { name: "E0", capacity: 2, tier: "Enterprise" }
-  };
+  const appName = "myapp";
   const credential = new DefaultAzureCredential();
   const client = new AppPlatformManagementClient(credential, subscriptionId);
-  const result = await client.gateways.beginUpdateCapacityAndWait(
+  const result = await client.apps.getResourceUploadUrl(
     resourceGroupName,
     serviceName,
-    gatewayName,
-    gatewayCapacityResource
+    appName
   );
   console.log(result);
 }
 
 async function main() {
-  gatewayScale();
+  appsGetResourceUploadUrl();
 }
 
 main().catch(console.error);
