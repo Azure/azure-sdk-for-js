@@ -87,9 +87,9 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
-        if (value.type) {
-          headers.set("Content-Type", value.type);
-        }
+
+        // again, || is used since an empty value.type means the content type is unset
+        headers.set("Content-Type", value.type || "application/octet-stream");
 
         parts.push({
           headers,
