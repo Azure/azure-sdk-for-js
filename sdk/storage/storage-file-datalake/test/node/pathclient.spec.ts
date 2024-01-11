@@ -50,7 +50,7 @@ describe("DataLakePathClient Node.js only", () => {
           headersForRemoval: ["x-ms-rename-source"],
         },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));
@@ -76,7 +76,7 @@ describe("DataLakePathClient Node.js only", () => {
 
     for (let i = 0; i < 5020; i++) {
       const fileClientInternal = directoryClient.getFileClient(
-        recorder.variable("file" + i, getUniqueName("file" + i))
+        recorder.variable("file" + i, getUniqueName("file" + i)),
       );
       await fileClientInternal.create();
     }
@@ -801,7 +801,7 @@ describe("DataLakePathClient Node.js only", () => {
   it("move should encode source", async () => {
     const destFileName = recorder.variable(
       " a+'%20%2F%2B%27%%25%2520.txt",
-      getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt")
+      getUniqueName(" a+'%20%2F%2B%27%%25%2520.txt"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
@@ -838,7 +838,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 1").create();
     const destFileName = recorder.variable(
       "dest file with & and 1/char",
-      getUniqueName("dest file with & and 1/char")
+      getUniqueName("dest file with & and 1/char"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(encodeURIComponent(destFileName));
@@ -849,7 +849,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileSystemClient.getDirectoryClient("dest file with & and 2").create();
     const destFileName = recorder.variable(
       "dest file with & and 2/char",
-      getUniqueName("dest file with & and 2/char")
+      getUniqueName("dest file with & and 2/char"),
     );
     const destFileClient = fileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileName);
@@ -1012,8 +1012,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -1051,7 +1051,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     let batchCounter = 0;
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         batchSize: 2,
@@ -1059,7 +1059,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         onProgress: () => {
           batchCounter++;
         },
-      }
+      },
     );
 
     assert.deepStrictEqual(1, batchCounter);
@@ -1100,7 +1100,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     };
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         batchSize: 2,
@@ -1109,7 +1109,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
             progress.batchCounters.changedDirectoriesCount +
               progress.batchCounters.changedFilesCount +
               progress.batchCounters.failedChangesCount <=
-              2
+              2,
           );
           cumulativeCounters.changedDirectoriesCount +=
             progress.batchCounters.changedDirectoriesCount;
@@ -1118,20 +1118,20 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
           assert.deepStrictEqual(
             progress.aggregateCounters.changedDirectoriesCount,
-            cumulativeCounters.changedDirectoriesCount
+            cumulativeCounters.changedDirectoriesCount,
           );
           assert.deepStrictEqual(
             progress.aggregateCounters.changedFilesCount,
-            cumulativeCounters.changedFilesCount
+            cumulativeCounters.changedFilesCount,
           );
           assert.deepStrictEqual(
             progress.aggregateCounters.failedChangesCount,
-            cumulativeCounters.failedChangesCount
+            cumulativeCounters.failedChangesCount,
           );
 
           batchCounter++;
         },
-      }
+      },
     );
 
     assert.deepStrictEqual(3, cumulativeCounters.changedDirectoriesCount);
@@ -1176,7 +1176,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       const aborter = new AbortController();
       await directoryClient.setAccessControlRecursive(
         toAcl(
-          "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+          "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
         ),
         {
           batchSize: 2,
@@ -1186,7 +1186,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
             aborter.abort();
           },
           abortSignal: aborter.signal,
-        }
+        },
       );
     } catch (err: any) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
@@ -1194,30 +1194,30 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
       assert.equal(
         err.innerError.message,
         "The operation was aborted.",
-        "Unexpected error caught: " + err
+        "Unexpected error caught: " + err,
       );
     }
 
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
       ),
       {
         continuationToken: continuation,
-      }
+      },
     );
 
     assert.deepStrictEqual(
       3,
-      result.counters.changedDirectoriesCount + midProgress!.batchCounters.changedDirectoriesCount
+      result.counters.changedDirectoriesCount + midProgress!.batchCounters.changedDirectoriesCount,
     );
     assert.deepStrictEqual(
       4,
-      result.counters.changedFilesCount + midProgress!.batchCounters.changedFilesCount
+      result.counters.changedFilesCount + midProgress!.batchCounters.changedFilesCount,
     );
     assert.deepStrictEqual(
       0,
-      result.counters.failedChangesCount + midProgress!.batchCounters.failedChangesCount
+      result.counters.failedChangesCount + midProgress!.batchCounters.failedChangesCount,
     );
     assert.deepStrictEqual(undefined, result.continuationToken);
   });
@@ -1250,8 +1250,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.updateAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -1288,8 +1288,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
     const result = await directoryClient.updateAccessControlRecursive(
       toAcl(
-        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
-      )
+        "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---",
+      ),
     );
 
     assert.deepStrictEqual(3, result.counters.changedDirectoriesCount);
@@ -1302,8 +1302,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         "mask," +
           "default:user,default:group," +
           "user:ec3595d6-2c17-4696-8caa-7e139758d24a,group:ec3595d6-2c17-4696-8caa-7e139758d24a," +
-          "default:user:ec3595d6-2c17-4696-8caa-7e139758d24a,default:group:ec3595d6-2c17-4696-8caa-7e139758d24a"
-      )
+          "default:user:ec3595d6-2c17-4696-8caa-7e139758d24a,default:group:ec3595d6-2c17-4696-8caa-7e139758d24a",
+      ),
     );
 
     assert.deepStrictEqual(3, removeResult.counters.changedDirectoriesCount);

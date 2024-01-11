@@ -24,16 +24,16 @@ import {
  * @returns - A poller object to poll for operation state updates and eventually get the final response.
  */
 export async function getLongRunningPoller<
-  TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse
+  TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse,
 >(
   client: Client,
   initialResponse: CreateJob200Response | CreateJob202Response | CreateJobDefaultResponse,
-  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>
+  options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>,
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {}
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {},
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,

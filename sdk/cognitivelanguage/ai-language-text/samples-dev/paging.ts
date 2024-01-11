@@ -54,19 +54,19 @@ export async function main() {
           nextContinuationToken = nextLink;
         }
       },
-    }
+    },
   );
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionInProgressCount}`,
     );
   });
 
   console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 
   console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
+    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`,
   );
 
   const actionResults = await poller.pollUntilDone();

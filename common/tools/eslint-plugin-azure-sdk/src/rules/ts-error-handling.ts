@@ -18,7 +18,7 @@ import { getRuleMetaData } from "../utils";
 export = {
   meta: getRuleMetaData(
     "ts-error-handling",
-    "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)"
+    "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     /src/.test(context.filename)

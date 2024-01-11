@@ -41,7 +41,7 @@ describe("Errors", function () {
         should.equal(
           translatedError.message,
           cases[i].outputErrorMessage,
-          "Unexpected error message."
+          "Unexpected error message.",
         );
       }
     });
@@ -182,7 +182,7 @@ describe("Errors", function () {
           } else {
             translatedError.retryable.should.equal(false);
           }
-        }
+        },
       );
     });
   });

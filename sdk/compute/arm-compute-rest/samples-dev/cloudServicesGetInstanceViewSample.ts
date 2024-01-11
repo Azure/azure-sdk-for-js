@@ -31,7 +31,7 @@ async function getCloudServiceInstanceViewWithMultipleRoles() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/instanceView",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .get(options);
   console.log(result);

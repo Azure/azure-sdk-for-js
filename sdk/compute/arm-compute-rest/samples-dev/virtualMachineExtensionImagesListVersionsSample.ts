@@ -38,7 +38,7 @@ async function virtualMachineExtensionImagesListVersionsMaximumSetGen() {
       subscriptionId,
       location,
       publisherName,
-      type
+      type,
     )
     .get(options);
   console.log(result);
@@ -67,7 +67,7 @@ async function virtualMachineExtensionImagesListVersionsMinimumSetGen() {
       subscriptionId,
       location,
       publisherName,
-      type
+      type,
     )
     .get(options);
   console.log(result);

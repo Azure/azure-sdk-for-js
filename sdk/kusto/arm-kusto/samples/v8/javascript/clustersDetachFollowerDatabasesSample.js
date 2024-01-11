@@ -33,7 +33,7 @@ async function kustoClusterDetachFollowerDatabases() {
   const result = await client.clusters.beginDetachFollowerDatabasesAndWait(
     resourceGroupName,
     clusterName,
-    followerDatabaseToRemove
+    followerDatabaseToRemove,
   );
   console.log(result);
 }

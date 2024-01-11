@@ -36,7 +36,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can add a secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const result = await client.setSecret(secretName, secretValue);
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
@@ -47,7 +47,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   // This is a bug related to the browser features of the recorder.
   it("can abort adding a secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const controller = new AbortController();
     controller.abort();
@@ -70,7 +70,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can set a secret with Empty Value", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const emptySecretValue = "";
     const result = await client.setSecret(secretName, emptySecretValue);
@@ -78,13 +78,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       result.value,
       emptySecretValue,
-      "Unexpected secret value in result from setSecret()."
+      "Unexpected secret value in result from setSecret().",
     );
   });
 
   it("can set a secret with attributes", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
@@ -93,13 +93,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       expiryDate.getDate(),
       updated!.properties.expiresOn!.getDate(),
-      "Expect attribute 'expiresOn' to be defined."
+      "Expect attribute 'expiresOn' to be defined.",
     );
   });
 
   it("can update a secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
@@ -113,13 +113,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       updated!.properties.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expiresOn' to be updated."
+      "Expect attribute 'expiresOn' to be updated.",
     );
   });
 
   it("can update a disabled secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
@@ -133,13 +133,13 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       updatedProperties!.expiresOn!.getDate(),
       expiryDate.getDate(),
-      "Expect attribute 'expiresOn' to be updated."
+      "Expect attribute 'expiresOn' to be updated.",
     );
   });
 
   it("can get a secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, secretValue);
     const result = await client.getSecret(secretName);
@@ -149,7 +149,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can't get a disabled secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const expiryDate = new Date("3000-01-01");
     expiryDate.setMilliseconds(0);
@@ -162,7 +162,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can retrieve the latest version of a secret value", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, secretValue);
 
@@ -174,7 +174,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can get a secret (Non Existing)", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     let error;
     try {
@@ -189,7 +189,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can delete a secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, secretValue);
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -226,7 +226,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can delete a secret (Non Existing)", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     let error;
     try {
@@ -241,7 +241,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can get a deleted secret", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -250,7 +250,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       deletedSecret!.name,
       secretName,
-      "Unexpected secret name in result from getSecret()."
+      "Unexpected secret name in result from getSecret().",
     );
 
     await deletePoller.pollUntilDone();
@@ -258,7 +258,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(
       deletedSecret!.name,
       secretName,
-      "Unexpected secret name in result from getSecret()."
+      "Unexpected secret name in result from getSecret().",
     );
 
     const getResult = await client.getDeletedSecret(secretName);
@@ -267,7 +267,7 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("can get a deleted secret (Non Existing)", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     let error;
     try {
@@ -284,7 +284,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   it("traces through the various operations", async () => {
     const secretName = recorder.variable(
       "secrettrace",
-      `secrettrace${Math.floor(Math.random() * 1000)}`
+      `secrettrace${Math.floor(Math.random() * 1000)}`,
     );
 
     await assert.supportsTracing(
@@ -308,7 +308,7 @@ describe("Secret client - create, read, update and delete operations", () => {
         "DeleteSecretPoller.deleteSecret",
         "DeleteSecretPoller.getDeletedSecret",
         "SecretClient.purgeDeletedSecret",
-      ]
+      ],
     );
   });
 });

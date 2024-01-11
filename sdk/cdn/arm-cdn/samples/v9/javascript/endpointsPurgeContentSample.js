@@ -30,7 +30,7 @@ async function endpointsPurgeContent() {
     resourceGroupName,
     profileName,
     endpointName,
-    contentFilePaths
+    contentFilePaths,
   );
   console.log(result);
 }

@@ -176,7 +176,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
@@ -231,7 +231,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       const protocol = defaultEndpointsProtocol!.toLowerCase();
       if (protocol !== "https" && protocol !== "http") {
         throw new Error(
-          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
+          "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         );
       }
 
@@ -301,7 +301,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 export async function delay(
   timeInMs: number,
   aborter?: AbortSignalLike,
-  abortError?: Error
+  abortError?: Error,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     /* eslint-disable-next-line prefer-const*/
@@ -398,7 +398,7 @@ export function isIpEndpointStyle(parsedUrl: URL): boolean {
   // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
   return (
     /^.*:.*:.*$|^(localhost|host.docker.internal)(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
-      host
+      host,
     ) ||
     (Boolean(parsedUrl.port) && PathStylePorts.includes(parsedUrl.port))
   );
@@ -502,8 +502,8 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
   (Body extends object
     ? ResponseWithBody<Headers, Body>
     : Headers extends object
-    ? ResponseWithHeaders<Headers>
-    : ResponseLike);
+      ? ResponseWithHeaders<Headers>
+      : ResponseLike);
 
 /**
  * A typesafe helper for ensuring that a given response object has
@@ -512,7 +512,7 @@ export type WithResponse<T, Headers = undefined, Body = undefined> = T &
  * @returns The same object, but with known _response property
  */
 export function assertResponse<T extends object, Headers = undefined, Body = undefined>(
-  response: T
+  response: T,
 ): WithResponse<T, Headers, Body> {
   if (`_response` in response) {
     return response as WithResponse<T, Headers, Body>;

@@ -46,7 +46,7 @@ async function createMigrationWithOtherSourceTypesForValidateAndMigrate() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -84,7 +84,7 @@ async function createPreMigrationValidation() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -122,7 +122,7 @@ async function migrationsCreateByPassingUserNames() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -159,7 +159,7 @@ async function migrationsCreate() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

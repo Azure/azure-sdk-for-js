@@ -70,7 +70,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.debug,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
-        null
+        null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
@@ -81,7 +81,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
             throw new ErrorResponse("Testing error handling in diagnostic child.");
           },
           diagnosticNode,
-          childNodeType
+          childNodeType,
         );
       };
 
@@ -102,7 +102,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
             const diagnosticNode = new DiagnosticNodeInternal(
               diagnosticLevel,
               DiagnosticNodeType.CLIENT_REQUEST_NODE,
-              null
+              null,
             );
             const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
             const testResponse = await addDignosticChild(
@@ -111,7 +111,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
                 return testValue;
               },
               diagnosticNode,
-              childNodeType
+              childNodeType,
             );
 
             // Test the returned value matches.
@@ -120,15 +120,15 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
             expect(diagnosticNode.children.length).to.equal(1);
             // Test a child diagnostic Node is for the correct type.
             expect(diagnosticNode.children[0].nodeType).to.equal(childNodeType);
-          }
-        )
+          },
+        ),
       );
     });
     it("Test in info diagnostic level child diagnostic nodes are not added.", async function () {
       const diagnosticNode = new DiagnosticNodeInternal(
         CosmosDbDiagnosticLevel.info,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
-        null
+        null,
       );
       const childNodeType = DiagnosticNodeType.METADATA_REQUEST_NODE;
       // Ensure that addDignosticChild throws an exception by wrapping it in a function
@@ -137,7 +137,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
           expect(childNode).to.exist; // eslint-disable-line no-unused-expressions
         },
         diagnosticNode,
-        childNodeType
+        childNodeType,
       );
 
       // Test a child diagnostic Node is added.
@@ -199,13 +199,13 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
       });
 
       expect((clientInfo as any).clientContext.diagnosticLevel).to.be.eql(
-        CosmosDbDiagnosticLevel.info
+        CosmosDbDiagnosticLevel.info,
       );
       expect((clientDebug as any).clientContext.diagnosticLevel).to.be.eql(
-        CosmosDbDiagnosticLevel.debug
+        CosmosDbDiagnosticLevel.debug,
       );
       expect((clientDebugUnsafe as any).clientContext.diagnosticLevel).to.be.eql(
-        CosmosDbDiagnosticLevel.debugUnsafe
+        CosmosDbDiagnosticLevel.debugUnsafe,
       );
     });
   });
@@ -230,7 +230,7 @@ describe("Diagnostic Unit Tests", function (this: Suite) {
 });
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel
+  diagnosticLevel: CosmosDbDiagnosticLevel,
 ) {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
@@ -246,7 +246,7 @@ function createTestClientContext(
       expect(opts).to.exist; // eslint-disable-line no-unused-expressions
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
-    }
+    },
   );
   const clientConfig: ClientConfigDiagnostic = {
     endpoint: "",
@@ -266,7 +266,7 @@ function createTestClientContext(
     clientOps,
     globalEndpointManager,
     clientConfig,
-    diagnosticLevel
+    diagnosticLevel,
   );
   return clientContext;
 }

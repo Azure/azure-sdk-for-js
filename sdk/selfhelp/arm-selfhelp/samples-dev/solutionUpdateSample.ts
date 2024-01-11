@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HelpRP } from "@azure/arm-selfhelp";
+import {
+  SolutionPatchRequestBody,
+  SolutionUpdateOptionalParams,
+  HelpRP
+} from "@azure/arm-selfhelp";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -24,11 +28,21 @@ async function solutionUpdate() {
   const scope =
     "subscriptions/mySubscription/resourcegroups/myresourceGroup/providers/Microsoft.KeyVault/vaults/test-keyvault-rp";
   const solutionResourceName = "SolutionResourceName1";
+  const solutionPatchRequestBody: SolutionPatchRequestBody = {
+    triggerCriteria: [
+      {
+        name: "ReplacementKey",
+        value: "<!--12345678-BBBb-cCCCC-0000-123456789012-->"
+      }
+    ]
+  };
+  const options: SolutionUpdateOptionalParams = { solutionPatchRequestBody };
   const credential = new DefaultAzureCredential();
   const client = new HelpRP(credential);
   const result = await client.solution.beginUpdateAndWait(
     scope,
-    solutionResourceName
+    solutionResourceName,
+    options
   );
   console.log(result);
 }

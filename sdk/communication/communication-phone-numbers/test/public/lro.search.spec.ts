@@ -68,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`
+          `Status code ${error.statusCode} does not indicate client error.`,
         );
         return;
       }

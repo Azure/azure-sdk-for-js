@@ -33,7 +33,7 @@ async function getACapacityReservation() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .get(options);
   console.log(result);

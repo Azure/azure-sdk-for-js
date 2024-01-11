@@ -99,7 +99,7 @@ export type DocumentModelAdministrationResponse =
  * @internal
  */
 export async function toTrainingPollOperationState(
-  response: DocumentModelAdministrationResponse
+  response: DocumentModelAdministrationResponse,
 ): Promise<DocumentModelOperationState | DocumentClassifierOperationState> {
   return {
     operationId: response.operationId,

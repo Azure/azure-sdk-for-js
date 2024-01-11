@@ -60,7 +60,7 @@ async function routesUpdate() {
     profileName,
     endpointName,
     routeName,
-    routeUpdateProperties
+    routeUpdateProperties,
   );
   console.log(result);
 }

@@ -37,7 +37,7 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       env.IDENTITY_SP_CERT_PEM || certificatePath!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -53,7 +53,7 @@ describe("ClientCertificateCredential", function () {
         certificate:
           env.IDENTITY_PEM_CONTENTS || fs.readFileSync(certificatePath, { encoding: "utf-8" }),
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -75,7 +75,7 @@ describe("ClientCertificateCredential", function () {
       recorder.configureClientOptions({
         certificatePath: env.IDENTITY_SP_CERT_SNI_PEM || certificatePath,
       }),
-      { sendCertificateChain: true }
+      { sendCertificateChain: true },
     );
 
     const token = await credential.getToken(scope);
@@ -100,7 +100,7 @@ describe("ClientCertificateCredential", function () {
             throw new Error("Fake HTTP client.");
           },
         },
-      })
+      }),
     );
 
     const controller = new AbortController();
@@ -133,12 +133,12 @@ describe("ClientCertificateCredential", function () {
         const credential = new ClientCertificateCredential(
           env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
           env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-          recorder.configureClientOptions({ certificatePath })
+          recorder.configureClientOptions({ certificatePath }),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["ClientCertificateCredential.getToken"]
+      ["ClientCertificateCredential.getToken"],
     );
   });
 });

@@ -28,7 +28,7 @@ export interface TimerLoop {
  */
 export function createTimerLoop(
   timeoutInMs: number,
-  createTask: () => Promise<unknown>
+  createTask: () => Promise<unknown>,
 ): TimerLoop {
   let token: ReturnType<typeof setTimeout>;
   const loop = {
@@ -41,7 +41,7 @@ export function createTimerLoop(
               /** eats up any unhandled error */
             })
             .finally(loop.start),
-        timeoutInMs
+        timeoutInMs,
       );
       loop.isRunning = true;
     },

@@ -9,7 +9,7 @@ export function relativeRecordingsPath(): string {
     return env.RECORDINGS_RELATIVE_PATH;
   } else {
     throw new RecorderError(
-      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration."
+      "RECORDINGS_RELATIVE_PATH was not set while in browser mode. Ensure that process.env.RELATIVE_RECORDINGS_PATH has been set properly in your Karma configuration.",
     );
   }
 }

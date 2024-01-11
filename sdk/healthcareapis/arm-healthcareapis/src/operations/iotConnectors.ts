@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IotConnector,
   IotConnectorsListByWorkspaceNextOptionalParams,
@@ -179,8 +183,8 @@ export class IotConnectorsImpl implements IotConnectors {
     iotConnector: IotConnector,
     options?: IotConnectorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsCreateOrUpdateResponse>,
       IotConnectorsCreateOrUpdateResponse
     >
   > {
@@ -190,7 +194,7 @@ export class IotConnectorsImpl implements IotConnectors {
     ): Promise<IotConnectorsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -223,19 +227,22 @@ export class IotConnectorsImpl implements IotConnectors {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
         iotConnector,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotConnectorsCreateOrUpdateResponse,
+      OperationState<IotConnectorsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -282,8 +289,8 @@ export class IotConnectorsImpl implements IotConnectors {
     iotConnectorPatchResource: IotConnectorPatchResource,
     options?: IotConnectorsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsUpdateResponse>,
       IotConnectorsUpdateResponse
     >
   > {
@@ -293,7 +300,7 @@ export class IotConnectorsImpl implements IotConnectors {
     ): Promise<IotConnectorsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -326,19 +333,22 @@ export class IotConnectorsImpl implements IotConnectors {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         iotConnectorName,
         workspaceName,
         iotConnectorPatchResource,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotConnectorsUpdateResponse,
+      OperationState<IotConnectorsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -382,14 +392,14 @@ export class IotConnectorsImpl implements IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     options?: IotConnectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -422,13 +432,13 @@ export class IotConnectorsImpl implements IotConnectors {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, iotConnectorName, workspaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, iotConnectorName, workspaceName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -627,7 +637,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorDetails
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

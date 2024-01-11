@@ -31,7 +31,7 @@ async function getsAWafPolicyWithinAResourceGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}",
       subscriptionId,
       resourceGroupName,
-      policyName
+      policyName,
     )
     .get(options);
   console.log(result);

@@ -32,7 +32,7 @@ export class BatchResponseParser {
 
   constructor(
     batchResponse: ServiceSubmitBatchResponseModel,
-    subRequests: Map<number, BatchSubRequest>
+    subRequests: Map<number, BatchSubRequest>,
   ) {
     if (!batchResponse || !batchResponse.contentType) {
       // In special case(reported), server may return invalid content-type which could not be parsed.
@@ -57,7 +57,7 @@ export class BatchResponseParser {
     // sub request's response.
     if (this.batchResponse._response.status !== HTTPURLConnection.HTTP_ACCEPTED) {
       throw new Error(
-        `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`
+        `Invalid state: batch request failed with status: '${this.batchResponse._response.status}'.`,
       );
     }
 
@@ -127,7 +127,7 @@ export class BatchResponseParser {
           if (responseLine.indexOf(HTTP_HEADER_DELIMITER) === -1) {
             // Defensive coding to prevent from missing valuable lines.
             throw new Error(
-              `Invalid state: find non-empty line '${responseLine}' without HTTP header delimiter '${HTTP_HEADER_DELIMITER}'.`
+              `Invalid state: find non-empty line '${responseLine}' without HTTP header delimiter '${HTTP_HEADER_DELIMITER}'.`,
             );
           }
 
@@ -163,7 +163,7 @@ export class BatchResponseParser {
         deserializedSubResponses[contentId] = deserializedSubResponse;
       } else {
         logger.error(
-          `subResponses[${index}] is dropped as the Content-ID is not found or invalid, Content-ID: ${contentId}`
+          `subResponses[${index}] is dropped as the Content-ID is not found or invalid, Content-ID: ${contentId}`,
         );
       }
 

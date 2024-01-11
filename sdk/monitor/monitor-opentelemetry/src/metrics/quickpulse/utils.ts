@@ -108,7 +108,7 @@ export function getCloudRoleInstance(resource: Resource): string {
 export function resourceMetricsToQuickpulseDataPoint(
   metrics: ResourceMetrics,
   baseMonitoringDataPoint: MonitoringDataPoint,
-  documents: DocumentIngress[]
+  documents: DocumentIngress[],
 ): MonitoringDataPoint[] {
   let metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
@@ -141,7 +141,7 @@ export function resourceMetricsToQuickpulseDataPoint(
 }
 
 export function getSpanDocument(
-  span: ReadableSpan
+  span: ReadableSpan,
 ): RequestDocumentIngress | RemoteDependencyDocumentIngress {
   let document: RequestDocumentIngress | RemoteDependencyDocumentIngress = {};
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
@@ -185,7 +185,7 @@ export function getSpanDocument(
 }
 
 export function getLogDocument(
-  logRecord: LogRecord
+  logRecord: LogRecord,
 ): TraceDocumentIngress | ExceptionDocumentIngress {
   let document: TraceDocumentIngress | ExceptionDocumentIngress = {};
   const exceptionType = String(logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]);

@@ -32,7 +32,7 @@ async function showNetworkInterfaceEffectiveRouteTables() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveRouteTable",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

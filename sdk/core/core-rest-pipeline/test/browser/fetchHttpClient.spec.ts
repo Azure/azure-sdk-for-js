@@ -21,7 +21,7 @@ function createResponse(
   body = "",
   chunkDelay = 0,
   chunkNumber?: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Response {
   const stream = new ReadableStream({
     async start(controller) {
@@ -432,7 +432,7 @@ describe("FetchHttpClient", function () {
         body &&
           typeof (body as ReadableStream).getReader === "function" &&
           typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body"
+        "expecting ReadableStream request body",
       );
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();

@@ -23,7 +23,7 @@ describe("Rank Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 

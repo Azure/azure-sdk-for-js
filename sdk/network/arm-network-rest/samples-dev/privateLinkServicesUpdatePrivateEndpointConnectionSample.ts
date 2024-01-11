@@ -45,7 +45,7 @@ async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() 
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName
+      peConnectionName,
     )
     .put(options);
   console.log(result);

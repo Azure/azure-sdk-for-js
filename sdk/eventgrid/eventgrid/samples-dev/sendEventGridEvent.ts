@@ -24,7 +24,7 @@ export async function main(): Promise<void> {
   const client = new EventGridPublisherClient(
     endpoint,
     "EventGrid",
-    new AzureKeyCredential(accessKey)
+    new AzureKeyCredential(accessKey),
   );
 
   // Send an event to the Event Grid Service, using the Event Grid schema.

@@ -32,7 +32,7 @@ async function deleteSecurityPartnerProvider() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       subscriptionId,
       resourceGroupName,
-      securityPartnerProviderName
+      securityPartnerProviderName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -171,7 +171,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       1,
-      "The first authentication attempt should have happened"
+      "The first authentication attempt should have happened",
     );
   });
 
@@ -209,7 +209,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       2,
-      "authCode should have been called once during the refresh time"
+      "authCode should have been called once during the refresh time",
     );
 
     const exceptionMessage =
@@ -235,13 +235,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
 
   function createBearerTokenPolicy(
     scopes: string | string[],
-    credential: TokenCredential
+    credential: TokenCredential,
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
       scopes,

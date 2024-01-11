@@ -7,7 +7,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const BrowserNotSupportedError = new Error(
-  "DefaultAzureCredential is not supported in the browser. Use InteractiveBrowserCredential instead."
+  "DefaultAzureCredential is not supported in the browser. Use InteractiveBrowserCredential instead.",
 );
 const logger = credentialLogger("DefaultAzureCredential");
 

@@ -34,7 +34,7 @@ async function deleteFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

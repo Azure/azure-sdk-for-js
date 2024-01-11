@@ -86,7 +86,7 @@ describe(`TableServiceClient`, function () {
       for (let i = 0; i < expectedTotalItems; i++) {
         assert.isTrue(
           all.some((t) => t.name === `ListTableTest${suffix}${i}`),
-          `Couldn't find table ListTableTest${suffix}${i}`
+          `Couldn't find table ListTableTest${suffix}${i}`,
         );
       }
     });
@@ -118,7 +118,7 @@ describe(`TableServiceClient`, function () {
       for (let i = 0; i < expectedTotalItems; i++) {
         assert.isTrue(
           all.some((t) => t.name === `ListTableTest${suffix}${i}`),
-          `Couldn't find table ListTableTest${suffix}${i}`
+          `Couldn't find table ListTableTest${suffix}${i}`,
         );
       }
     });
@@ -199,7 +199,7 @@ describe(`TableServiceClient`, function () {
           "TableServiceClient.setProperties",
           "TableServiceClient.getStatistics",
           "TableServiceClient.deleteTable",
-        ]
+        ],
       );
     });
   });

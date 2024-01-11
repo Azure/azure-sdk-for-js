@@ -29,7 +29,7 @@ async function afdEndpointsListResourceUsage() {
   for await (let item of client.afdEndpoints.listResourceUsage(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

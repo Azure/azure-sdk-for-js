@@ -32,7 +32,7 @@ async function deleteNetworkInterface() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

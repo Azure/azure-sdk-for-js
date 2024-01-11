@@ -35,7 +35,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         });
       },
       this.parsedOptions.count.value,
-      32
+      32,
     );
   }
 
@@ -67,7 +67,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         await this.client.deleteConfigurationSetting({ key: keys[count] });
       },
       this.parsedOptions.count.value,
-      32
+      32,
     );
   }
 }

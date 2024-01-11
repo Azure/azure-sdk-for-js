@@ -39,13 +39,13 @@ export async function main() {
 async function listAnomalyDimensionValues(client: MetricsAdvisorClient, detectionConfigId: string) {
   const dimensionName = "city";
   console.log(
-    `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`
+    `Listing anomaly dimension values for detection config ${detectionConfigId} and dimension ${dimensionName}`,
   );
   const listIterator = await client.listAnomalyDimensionValues(
     detectionConfigId,
     new Date("10/22/2020"),
     new Date("10/24/2020"),
-    dimensionName
+    dimensionName,
   );
   for await (const dimensionValue of listIterator) {
     console.log(dimensionValue);
@@ -57,7 +57,7 @@ async function listAnomalyDimensionValues(client: MetricsAdvisorClient, detectio
       detectionConfigId,
       new Date("10/22/2020"),
       new Date("10/24/2020"),
-      dimensionName
+      dimensionName,
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -72,7 +72,7 @@ async function listAnomalyDimensionValues(client: MetricsAdvisorClient, detectio
 
 async function listIncidentsForDetectionConfig(
   client: MetricsAdvisorClient,
-  detectionConfigId: string
+  detectionConfigId: string,
 ) {
   console.log(`Listing incidents for detection config '${detectionConfigId}'`);
   console.log("  using for-await-of syntax");
@@ -82,7 +82,7 @@ async function listIncidentsForDetectionConfig(
     new Date("10/24/2020"),
     {
       seriesGroupKeys: [{ city: "Manila", category: "Shoes Handbags & Sunglasses" }],
-    }
+    },
   );
   for await (const incident of listIterator) {
     console.log("    Incident");
@@ -100,7 +100,7 @@ async function listIncidentsForDetectionConfig(
     .listIncidentsForDetectionConfiguration(
       detectionConfigId,
       new Date("10/22/2020"),
-      new Date("10/24/2020")
+      new Date("10/24/2020"),
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -122,7 +122,7 @@ async function listIncidentsForDetectionConfig(
 
 async function listAnomaliesForDetectionConfig(
   client: MetricsAdvisorClient,
-  detectionConfigId: string
+  detectionConfigId: string,
 ) {
   console.log(`Listing anomalies for detection config '${detectionConfigId}'`);
   const listIterator = client.listAnomaliesForDetectionConfiguration(
@@ -131,7 +131,7 @@ async function listAnomaliesForDetectionConfig(
     new Date("10/24/2020"),
     {
       severityFilter: { min: "Medium", max: "High" },
-    }
+    },
   );
   console.log("  using for-await-of syntax");
   for await (const anomaly of listIterator) {
@@ -153,7 +153,7 @@ async function listAnomaliesForDetectionConfig(
       new Date("10/24/2020"),
       {
         severityFilter: { min: "Medium", max: "High" },
-      }
+      },
     )
     .byPage({ maxPageSize: 20 });
   let result = await iterator.next();
@@ -177,7 +177,7 @@ async function listAnomaliesForDetectionConfig(
 async function getRootCauses(
   client: MetricsAdvisorClient,
   detectionConfigId: string,
-  incidentId: string
+  incidentId: string,
 ) {
   console.log("Retrieving root causes...");
   const result = await client.getIncidentRootCauses(detectionConfigId, incidentId);
@@ -197,7 +197,7 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
     alertConfigId,
     new Date("11/01/2020"),
     new Date("11/05/2020"),
-    "AnomalyTime"
+    "AnomalyTime",
   );
   for await (const alert of listIterator) {
     console.log("    Alert");
@@ -226,10 +226,10 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
 async function listIncidentsForAlert(
   client: MetricsAdvisorClient,
   alertConfigId: string,
-  alertId: string
+  alertId: string,
 ) {
   console.log(
-    `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing incidents for alert configuration '${alertConfigId}' and alert '${alertId}'`,
   );
   console.log("  using for-await-of syntax");
   const listIterator = client.listIncidentsForAlert({ alertConfigId, id: alertId });
@@ -268,10 +268,10 @@ async function listIncidentsForAlert(
 async function listAnomaliesForAlert(
   client: MetricsAdvisorClient,
   alertConfigId: string,
-  alertId: string
+  alertId: string,
 ) {
   console.log(
-    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`
+    `Listing anomalies for alert configuration '${alertConfigId}' and alert '${alertId}'`,
   );
   console.log("  using for-await-of syntax");
   const listIterator = client.listAnomaliesForAlert({ alertConfigId, id: alertId });

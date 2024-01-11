@@ -34,7 +34,7 @@ async function deleteExpressRouteCircuitAuthorization() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      authorizationName
+      authorizationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -47,7 +47,7 @@ async function createBastionShareableLinksForTheRequestVMS() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/createShareableLinks",
       subscriptionId,
       resourceGroupName,
-      bastionHostName
+      bastionHostName,
     )
     .post(options);
   const pageData = paginate(client, initialResponse);

@@ -103,7 +103,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       Date.now(),
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header."
+      "It should now be the time from the header.",
     );
     expect(next).toHaveBeenCalledTimes(2);
 
@@ -181,7 +181,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       Date.now(),
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header."
+      "It should now be the time from the header.",
     );
     expect(next).toHaveBeenCalledTimes(2);
 
