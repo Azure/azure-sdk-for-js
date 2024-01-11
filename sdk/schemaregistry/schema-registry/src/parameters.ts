@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
+import { SchemaContentTypeValuesOutput } from "./responses";
 
 export type ListSchemaGroupsParameters = RequestParameters;
 export type GetSchemaByIdParameters = RequestParameters;

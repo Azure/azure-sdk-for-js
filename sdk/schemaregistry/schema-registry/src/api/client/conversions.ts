@@ -1,10 +1,10 @@
-import {
-  RegisterSchema204Response,
-  GetSchemaIdByContent204Response,
-  GetSchemaByVersion200Response,
-  GetSchemaById200Response,
-} from "../../../generated/src/responses";
 import { Schema, SchemaProperties } from "../../models/models";
+import {
+  GetSchemaById200Response,
+  GetSchemaByVersion200Response,
+  GetSchemaIdByContent204Response,
+  RegisterSchema204Response,
+} from "../../responses";
 
 /**
  * Union of generated client's response that return schema ID
@@ -13,11 +13,11 @@ type GeneratedSchemaIdResponse =
   | RegisterSchema204Response
   | GetSchemaIdByContent204Response
   | GetSchemaByVersion200Response;
-
 /**
  * Union of generated client's responses that return schema definition.
  */
 type GeneratedSchemaResponse = GetSchemaById200Response | GetSchemaByVersion200Response;
+
 /**
  * Converts generated client's response to SchemaIdentityResponse.
  *
@@ -37,11 +37,6 @@ export function convertSchemaIdResponse(
     version: Number(response.headers["schema-version"]!),
   };
 }
-
-const textPlain = "text/plain";
-const charsetutf8 = "charset=utf-8";
-const customContentType = `${textPlain}; ${charsetutf8}`;
-const customFormat = "Custom";
 
 /**
  * @internal
@@ -82,3 +77,8 @@ function mapContentTypeToFormat(contentType: string): string {
     throw new Error(`Unrecognized response's content-type: ${contentType}`);
   }
 }
+
+const textPlain = "text/plain";
+const charsetutf8 = "charset=utf-8";
+const customContentType = `${textPlain}; ${charsetutf8}`;
+const customFormat = "Custom";

@@ -9,18 +9,14 @@ import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 export interface SchemaProperties {
   /** ID that uniquely identifies a schema in the registry namespace. */
   id: string;
-
   /**
    * Serialization type of schema.
    */
   format: string;
-
   /** Schema group under which schema is or should be registered. */
   groupName: string;
-
-  /** Name of schema.*/
+  /** Name of schema. */
   name: string;
-
   /** The version of schema */
   version: number;
 }
@@ -31,15 +27,12 @@ export interface SchemaProperties {
 export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
   groupName: string;
-
-  /** Name of schema.*/
+  /** Name of schema. */
   name: string;
-
   /**
    * The format of schema and it must match the serialization type of the schema's group.
    */
   format: string;
-
   /** String representation of schema. */
   definition: string;
 }
@@ -52,18 +45,6 @@ export interface Schema {
   definition: string;
   /** The properties of the schema */
   properties: SchemaProperties;
-}
-
-/**
- * Schema formats supported at the time of this library release.
- */
-export enum KnownSchemaFormats {
-  /** Avro */
-  Avro = "Avro",
-  /** JSON */
-  Json = "Json",
-  /** Schemas of the custom format will be treated as an opaque string */
-  Custom = "Custom",
 }
 
 /**
@@ -112,7 +93,6 @@ export interface SchemaRegistry {
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
   ): Promise<SchemaProperties>;
-
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
    * definition.
@@ -124,7 +104,6 @@ export interface SchemaRegistry {
     schema: SchemaDescription,
     options?: GetSchemaPropertiesOptions
   ): Promise<SchemaProperties>;
-
   /**
    * Gets an existing schema by ID.
    *
@@ -132,4 +111,16 @@ export interface SchemaRegistry {
    * @returns Schema with given ID.
    */
   getSchema(schemaId: string, options?: GetSchemaOptions): Promise<Schema>;
+}
+
+/**
+ * Schema formats supported at the time of this library release.
+ */
+export enum KnownSchemaFormats {
+  /** Avro */
+  Avro = "Avro",
+  /** JSON */
+  Json = "Json",
+  /** Schemas of the custom format will be treated as an opaque string */
+  Custom = "Custom",
 }

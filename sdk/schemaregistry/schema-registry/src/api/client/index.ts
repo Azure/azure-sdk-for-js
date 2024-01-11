@@ -1,14 +1,14 @@
 import { Client } from "@azure-rest/core-client";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import {
-  SchemaDescription,
-  RegisterSchemaOptions,
-  SchemaProperties,
-  GetSchemaPropertiesOptions,
   GetSchemaOptions,
+  GetSchemaPropertiesOptions,
+  RegisterSchemaOptions,
   Schema,
+  SchemaDescription,
+  SchemaProperties,
 } from "../../models/models";
-import { isUnexpected } from "../../../generated/src/isUnexpected";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { isUnexpected } from "../../isUnexpected";
 import { RestError } from "@azure/core-rest-pipeline";
 
 export async function registerSchema(
@@ -65,6 +65,14 @@ export async function getSchemaById(
   options?: GetSchemaOptions
 ): Promise<Schema> {
   const response = await context.path("/$schemaGroups/$schemas/{id}", schemaId).get({ ...options });
+
+  if (isUnexpected(response)) {
+    throw new RestError(response.body.error.message, {
+      code: response.body.error.code,
+      statusCode: Number(response.status),
+    });
+  }
+
   return convertSchemaResponse(response);
 }
 
@@ -83,5 +91,12 @@ export async function getSchemaByVersion(
       version
     )
     .get({ ...options });
+  if (isUnexpected(response)) {
+    throw new RestError(response.body.error.message, {
+      code: response.body.error.code,
+      statusCode: Number(response.status),
+    });
+  }
+
   return convertSchemaResponse(response);
 }

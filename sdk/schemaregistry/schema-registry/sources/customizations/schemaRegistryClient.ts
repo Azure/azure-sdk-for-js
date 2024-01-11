@@ -11,9 +11,14 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models/models";
-import { TokenCredential } from "@azure/core-auth"
+import { TokenCredential } from "@azure/core-auth";
 import { SchemaRegistryClient as SchemaRegistryContext } from "../generated/src/clientDefinitions";
-import { registerSchema, getSchemaProperties, getSchemaById, getSchemaByVersion } from "./api/client";
+import {
+  registerSchema,
+  getSchemaProperties,
+  getSchemaById,
+  getSchemaByVersion,
+} from "./api/client";
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "../generated/src/logger";
 
@@ -44,17 +49,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://eventhubs.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://eventhubs.azure.net/.default"],
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as SchemaRegistryContext;
+  const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
 
   return client;
 }
@@ -85,7 +84,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
     this.fullyQualifiedNamespace = fullyQualifiedNamespace;
-    this._client = createClient(fullyQualifiedNamespace, credential, { ...options })
+    this._client = createClient(fullyQualifiedNamespace, credential, { ...options });
   }
 
   /**
@@ -169,8 +168,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: GetSchemaOptions = {}
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
-      return getSchemaById(this._client, nameOrId, options)
+      return getSchemaById(this._client, nameOrId, options);
     }
-    return getSchemaByVersion(this._client, groupNameOrOptions as string, nameOrId, version as number, options)
+    return getSchemaByVersion(
+      this._client,
+      groupNameOrOptions as string,
+      nameOrId,
+      version as number,
+      options
+    );
   }
 }
