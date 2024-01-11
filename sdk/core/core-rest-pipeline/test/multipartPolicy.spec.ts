@@ -93,9 +93,9 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        })
+        }),
       ).rejects.toThrow(
-        /Got multipart request body, but content-type header was not multipart: application\/json/
+        /Got multipart request body, but content-type header was not multipart: application\/json/,
       );
     });
 
@@ -108,7 +108,7 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        })
+        }),
       ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
@@ -119,7 +119,7 @@ describe("multipartPolicy", function () {
             boundary: "%%%%%%%",
             parts: [],
           },
-        })
+        }),
       ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 

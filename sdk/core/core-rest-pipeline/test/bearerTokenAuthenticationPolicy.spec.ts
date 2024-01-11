@@ -254,7 +254,10 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public shouldThrow: boolean = false;
 
-  constructor(public expiresOnTimestamp: number, public getTokenDelay?: number) {}
+  constructor(
+    public expiresOnTimestamp: number,
+    public getTokenDelay?: number,
+  ) {}
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;

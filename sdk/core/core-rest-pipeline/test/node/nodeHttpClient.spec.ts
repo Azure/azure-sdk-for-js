@@ -71,7 +71,7 @@ function yieldHttpsResponse(response: IncomingMessage): void {
   const lastCall = vi.mocked<{
     (
       options: string | https.RequestOptions | URL,
-      callback?: ((res: IncomingMessage) => void) | undefined
+      callback?: ((res: IncomingMessage) => void) | undefined,
     ): ClientRequest;
   }>(https.request).mock.lastCall;
   if (!lastCall) {
@@ -88,7 +88,7 @@ function yieldHttpResponse(response: IncomingMessage): void {
   const lastCall = vi.mocked<{
     (
       options: string | http.RequestOptions | URL,
-      callback?: ((res: IncomingMessage) => void) | undefined
+      callback?: ((res: IncomingMessage) => void) | undefined,
     ): ClientRequest;
   }>(http.request).mock.lastCall;
   if (!lastCall) {

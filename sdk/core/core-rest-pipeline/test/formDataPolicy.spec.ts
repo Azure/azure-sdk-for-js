@@ -111,7 +111,9 @@ describe("formDataPolicy", function () {
 
       const policy = formDataPolicy();
 
-      await expect(policy.sendRequest(request, next)).rejects.toThrow(/multipart\/form-data request must not have a request body already specified/);
+      await expect(policy.sendRequest(request, next)).rejects.toThrow(
+        /multipart\/form-data request must not have a request body already specified/,
+      );
     });
   });
 });

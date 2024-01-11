@@ -390,7 +390,7 @@ describe("FetchHttpClient", function () {
           body &&
             typeof (body as ReadableStream).getReader === "function" &&
             typeof (body as ReadableStream).tee === "function",
-          "expecting ReadableStream request body"
+          "expecting ReadableStream request body",
         );
         assert.strictEqual(options?.duplex, "half");
         const reader = (body as ReadableStream).getReader();
@@ -398,7 +398,7 @@ describe("FetchHttpClient", function () {
         assert.equal(data.value, requestText, "unexpected request text");
         bodySent = true;
         return new Response(undefined, { status: 200 });
-      }
+      },
     );
     const request = createPipelineRequest({
       url,
