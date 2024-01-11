@@ -12,14 +12,59 @@ import {
   SchemaRegistryClientOptions,
 } from "./models/models";
 import { TokenCredential } from "@azure/core-auth"
-import { SchemaRegistryContext } from "../generated/src/rest";
+import { SchemaRegistryClient as SchemaRegistryContext } from "../generated/src/clientDefinitions";
 import { registerSchema, getSchemaProperties, getSchemaById, getSchemaByVersion } from "./api/client";
-import createClient from "../generated/src/rest/schemaRegistryClient";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { logger } from "../generated/src/logger";
+
+/**
+ * Initialize a new instance of `SchemaRegistryClient`
+ * @param fullyQualifiedNamespace - The Schema Registry service endpoint, for example 'my-namespace.servicebus.windows.net'.
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
+ */
+export default function createClient(
+  fullyQualifiedNamespace: string,
+  credentials: TokenCredential,
+  options: ClientOptions = {}
+): SchemaRegistryContext {
+  const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
+  options.apiVersion = options.apiVersion ?? "2023-07-01";
+  const userAgentInfo = `azsdk-js-AzureSchemaRegistry-rest/1.0.0-beta.1`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? [
+        "https://eventhubs.azure.net/.default",
+      ],
+    },
+  };
+
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options
+  ) as SchemaRegistryContext;
+
+  return client;
+}
 
 /**
  * Client for Azure Schema Registry service.
  */
 export class SchemaRegistryClient implements SchemaRegistry {
+  /** The Schema Registry service fully qualified namespace URL. */
+  readonly fullyQualifiedNamespace: string;
 
   /** Underlying autorest generated client. */
   private readonly _client: SchemaRegistryContext;
@@ -39,6 +84,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   ) {
     // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
+    this.fullyQualifiedNamespace = fullyQualifiedNamespace;
     this._client = createClient(fullyQualifiedNamespace, credential, { ...options })
   }
 

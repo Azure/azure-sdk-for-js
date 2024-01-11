@@ -1,8 +1,6 @@
 import { Client } from "@azure-rest/core-client";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 import { SchemaDescription, RegisterSchemaOptions, SchemaProperties, GetSchemaPropertiesOptions, GetSchemaOptions, Schema } from "../../models/models";
-import { isUnexpected } from "../../../generated/src/rest/isUnexpected";
-
 
 export async function registerSchema(
     context: Client,
@@ -15,11 +13,6 @@ export async function registerSchema(
         body: schemaContent,
         ...options
       })
-
-    if (isUnexpected(response)){
-        throw response.body.error;
-    }
-
     return convertSchemaIdResponse(response.headers, format);
 }
 
@@ -34,11 +27,6 @@ export async function getSchemaProperties(
         body: schemaContent,
         ...options
     })
-
-    if (isUnexpected(response)){
-        throw response.body.error;
-    }
-
     return convertSchemaIdResponse(response, format)
 }
 
@@ -48,11 +36,6 @@ export async function getSchemaById(
     options?: GetSchemaOptions
 ): Promise<Schema>{
     const response = await context.path( "/$schemaGroups/$schemas/{id}", schemaId).get({...options})
-
-    if (isUnexpected(response)){
-        throw response.body.error
-    }
-
     return convertSchemaResponse(response)
 }
 
@@ -64,10 +47,5 @@ export async function getSchemaByVersion(
     options?: GetSchemaOptions    
 ): Promise<Schema>{
     const response = await context.path("/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}", groupName, name, version).get({...options})
-
-    if (isUnexpected(response)){
-        throw response.body.error
-    }
-
     return convertSchemaResponse(response)
 }

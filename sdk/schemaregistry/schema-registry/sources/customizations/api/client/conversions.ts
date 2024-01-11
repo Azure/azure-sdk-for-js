@@ -1,4 +1,4 @@
-import { RegisterSchema204Response, GetSchemaIdByContent204Response, GetSchemaByVersion200Response, GetSchemaById200Response } from "../../../generated/src/rest";
+import { RegisterSchema204Response, GetSchemaIdByContent204Response, GetSchemaByVersion200Response, GetSchemaById200Response } from "../../../generated/src/responses";
 import { Schema, SchemaProperties } from "../../models/models";
 
 /**
