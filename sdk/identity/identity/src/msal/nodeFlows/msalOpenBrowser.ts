@@ -49,7 +49,7 @@ export class MsalOpenBrowser extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
     try {
       const interactiveRequest: msalNode.InteractiveRequest = {
@@ -71,7 +71,7 @@ export class MsalOpenBrowser extends MsalNode {
         } else {
           // error should have been thrown from within the constructor of InteractiveBrowserCredential
           this.logger.warning(
-            "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+            "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
           );
         }
 
@@ -82,11 +82,11 @@ export class MsalOpenBrowser extends MsalNode {
       }
       if (hasNativeBroker() && !this.enableBroker) {
         this.logger.verbose(
-          "Authentication will resume normally without the broker, since it's not enabled"
+          "Authentication will resume normally without the broker, since it's not enabled",
         );
       }
       const result = await this.getApp("public", options?.enableCae).acquireTokenInteractive(
-        interactiveRequest
+        interactiveRequest,
       );
       if (result.fromNativeBroker) {
         this.logger.verbose(`This result is returned from native broker`);

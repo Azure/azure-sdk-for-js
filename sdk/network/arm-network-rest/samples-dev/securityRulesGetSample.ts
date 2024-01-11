@@ -31,7 +31,7 @@ async function getNetworkSecurityRuleInNetworkSecurityGroup() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      securityRuleName
+      securityRuleName,
     )
     .get(options);
   console.log(result);

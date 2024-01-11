@@ -31,7 +31,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
         "EventGrid",
-        "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY"
+        "EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY",
       ));
     });
 
@@ -55,7 +55,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -87,7 +87,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -105,7 +105,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
-        }
+        },
       ));
     });
 
@@ -147,7 +147,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
         "CloudEvent",
-        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY"
+        "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
       ));
       await recorder.setMatcher("HeaderlessMatcher");
     });
@@ -171,7 +171,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -203,7 +203,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -233,7 +233,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
           "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
           {
             additionalPolicies: [setHeadersPolicy],
-          }
+          },
         ));
         await recorder.setMatcher("HeaderlessMatcher");
       });
@@ -249,7 +249,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
                   type: "Azure.Sdk.TestEvent1",
                   id: recorder.variable(
                     "cloudTracingEventId",
-                    `cloudTracingEventId${getRandomNumber()}`
+                    `cloudTracingEventId${getRandomNumber()}`,
                   ),
                   time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
                   source: "/earth/unitedstates/washington/kirkland/finnhill",
@@ -262,10 +262,10 @@ describe("EventGridPublisherClient", function (this: Suite) {
               {
                 ...options,
                 onResponse: (response) => (requestBody = response.request.body as string),
-              }
+              },
             );
           },
-          ["EventGridPublisherClient.send"]
+          ["EventGridPublisherClient.send"],
         );
 
         const parsedBody = JSON.parse(requestBody || "");
@@ -287,7 +287,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
-        }
+        },
       ));
     });
 
@@ -327,7 +327,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
         "Custom",
-        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY"
+        "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
       ));
     });
 
@@ -349,7 +349,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -377,7 +377,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
             },
           },
         ],
-        { onResponse: (response) => (status = response.status) }
+        { onResponse: (response) => (status = response.status) },
       );
 
       assert.strictEqual(status, 200);
@@ -395,7 +395,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
         {
           removeApiEventsSuffixBool: true,
-        }
+        },
       ));
     });
 

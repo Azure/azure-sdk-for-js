@@ -31,7 +31,7 @@ async function getCloudServiceOSVersion() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/cloudServiceOsVersions/{osVersionName}",
       subscriptionId,
       location,
-      osVersionName
+      osVersionName,
     )
     .get(options);
   console.log(result);

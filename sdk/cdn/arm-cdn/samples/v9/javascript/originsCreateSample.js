@@ -44,7 +44,7 @@ async function originsCreate() {
     profileName,
     endpointName,
     originName,
-    origin
+    origin,
   );
   console.log(result);
 }

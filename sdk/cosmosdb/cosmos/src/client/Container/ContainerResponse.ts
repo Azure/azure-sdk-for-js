@@ -14,7 +14,7 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
     headers: CosmosHeaders,
     statusCode: number,
     container: Container,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.container = container;

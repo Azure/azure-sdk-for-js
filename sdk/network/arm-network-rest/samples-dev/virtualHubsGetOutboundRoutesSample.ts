@@ -37,7 +37,7 @@ async function outboundRoutesForTheVirtualHubOnAParticularConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/outboundRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

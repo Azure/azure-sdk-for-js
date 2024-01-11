@@ -31,7 +31,7 @@ async function routeMapGet() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeMapName
+      routeMapName,
     )
     .get(options);
   console.log(result);

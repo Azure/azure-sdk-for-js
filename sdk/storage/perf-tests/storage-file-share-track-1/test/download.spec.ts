@@ -4,7 +4,7 @@
 import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { Aborter, FileURL } from "@azure/storage-file";
 import { StorageFileShareTest } from "./storageTest";
-import { generateUuid } from "@azure/core-http";
+import { generateUuid } from "@azure/core-util";
 
 interface StorageFileShareDownloadTestOptions {
   size: number;

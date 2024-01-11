@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",

@@ -450,7 +450,7 @@ export class QueueClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of QueueClient.
@@ -473,7 +473,7 @@ export class QueueClient extends StorageClient {
       | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     options = options || {};
     let pipeline: Pipeline;
@@ -509,7 +509,7 @@ export class QueueClient extends StorageClient {
           const queueName = credentialOrPipelineOrQueueName;
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName,
-            extractedCreds.accountKey
+            extractedCreds.accountKey,
           );
           url = appendToURLPath(extractedCreds.url, queueName);
 
@@ -527,7 +527,7 @@ export class QueueClient extends StorageClient {
         pipeline = newPipeline(new AnonymousCredential(), options);
       } else {
         throw new Error(
-          "Connection string must be either an Account connection string or a SAS connection string"
+          "Connection string must be either an Account connection string or a SAS connection string",
         );
       }
     } else {
@@ -574,7 +574,7 @@ export class QueueClient extends StorageClient {
   public async create(options: QueueCreateOptions = {}): Promise<QueueCreateResponse> {
     return tracingClient.withSpan("QueueClient-create", options, async (updatedOptions) => {
       return assertResponse<QueueCreateHeaders, QueueCreateHeaders>(
-        await this.queueContext.create(updatedOptions)
+        await this.queueContext.create(updatedOptions),
       );
     });
   }
@@ -587,7 +587,7 @@ export class QueueClient extends StorageClient {
    * @param options -
    */
   public async createIfNotExists(
-    options: QueueCreateOptions = {}
+    options: QueueCreateOptions = {},
   ): Promise<QueueCreateIfNotExistsResponse> {
     return tracingClient.withSpan(
       "QueueClient-createIfNotExists",
@@ -620,7 +620,7 @@ export class QueueClient extends StorageClient {
 
           throw e;
         }
-      }
+      },
     );
   }
 
@@ -631,7 +631,7 @@ export class QueueClient extends StorageClient {
    * @param options -
    */
   public async deleteIfExists(
-    options: QueueDeleteOptions = {}
+    options: QueueDeleteOptions = {},
   ): Promise<QueueDeleteIfExistsResponse> {
     return tracingClient.withSpan("QueueClient-deleteIfExists", options, async (updatedOptions) => {
       try {
@@ -675,7 +675,7 @@ export class QueueClient extends StorageClient {
         await this.queueContext.delete({
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
-        })
+        }),
       );
     });
   }
@@ -717,11 +717,11 @@ export class QueueClient extends StorageClient {
    * @returns Response data for the Queue get properties operation.
    */
   public async getProperties(
-    options: QueueGetPropertiesOptions = {}
+    options: QueueGetPropertiesOptions = {},
   ): Promise<QueueGetPropertiesResponse> {
     return tracingClient.withSpan("QueueClient-getProperties", options, async (updatedOptions) => {
       return assertResponse<QueueGetPropertiesHeaders, QueueGetPropertiesHeaders>(
-        await this.queueContext.getProperties(updatedOptions)
+        await this.queueContext.getProperties(updatedOptions),
       );
     });
   }
@@ -739,14 +739,14 @@ export class QueueClient extends StorageClient {
    */
   public async setMetadata(
     metadata?: Metadata,
-    options: QueueSetMetadataOptions = {}
+    options: QueueSetMetadataOptions = {},
   ): Promise<QueueSetMetadataResponse> {
     return tracingClient.withSpan("QueueClient-setMetadata", options, async (updatedOptions) => {
       return assertResponse<QueueSetMetadataHeaders, QueueSetMetadataHeaders>(
         await this.queueContext.setMetadata({
           ...updatedOptions,
           metadata,
-        })
+        }),
       );
     });
   }
@@ -763,7 +763,7 @@ export class QueueClient extends StorageClient {
    * @returns Response data for the Queue get access policy operation.
    */
   public async getAccessPolicy(
-    options: QueueGetAccessPolicyOptions = {}
+    options: QueueGetAccessPolicyOptions = {},
   ): Promise<QueueGetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "QueueClient-getAccessPolicy",
@@ -777,7 +777,7 @@ export class QueueClient extends StorageClient {
           await this.queueContext.getAccessPolicy({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const res: QueueGetAccessPolicyResponse = {
@@ -813,7 +813,7 @@ export class QueueClient extends StorageClient {
         }
 
         return res;
-      }
+      },
     );
   }
 
@@ -827,7 +827,7 @@ export class QueueClient extends StorageClient {
    */
   public async setAccessPolicy(
     queueAcl?: SignedIdentifier[],
-    options: QueueSetAccessPolicyOptions = {}
+    options: QueueSetAccessPolicyOptions = {},
   ): Promise<QueueSetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "QueueClient-setAccessPolicy",
@@ -853,9 +853,9 @@ export class QueueClient extends StorageClient {
           await this.queueContext.setAccessPolicy({
             ...updatedOptions,
             queueAcl: acl,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -867,11 +867,11 @@ export class QueueClient extends StorageClient {
    * @returns Response data for the clear messages operation.
    */
   public async clearMessages(
-    options: QueueClearMessagesOptions = {}
+    options: QueueClearMessagesOptions = {},
   ): Promise<QueueClearMessagesResponse> {
     return tracingClient.withSpan("QueueClient-clearMessages", options, async (updatedOptions) => {
       return assertResponse<MessagesClearHeaders, MessagesClearHeaders>(
-        await this.messagesContext.clear(updatedOptions)
+        await this.messagesContext.clear(updatedOptions),
       );
     });
   }
@@ -899,7 +899,7 @@ export class QueueClient extends StorageClient {
    */
   public async sendMessage(
     messageText: string,
-    options: QueueSendMessageOptions = {}
+    options: QueueSendMessageOptions = {},
   ): Promise<QueueSendMessageResponse> {
     return tracingClient.withSpan("QueueClient-sendMessage", options, async (updatedOptions) => {
       const response = assertResponse<
@@ -911,8 +911,8 @@ export class QueueClient extends StorageClient {
           {
             messageText: messageText,
           },
-          updatedOptions
-        )
+          updatedOptions,
+        ),
       );
       const item = response[0];
       return {
@@ -957,7 +957,7 @@ export class QueueClient extends StorageClient {
    * ```
    */
   public async receiveMessages(
-    options: QueueReceiveMessageOptions = {}
+    options: QueueReceiveMessageOptions = {},
   ): Promise<QueueReceiveMessageResponse> {
     return tracingClient.withSpan(
       "QueueClient-receiveMessages",
@@ -984,7 +984,7 @@ export class QueueClient extends StorageClient {
         }
 
         return res;
-      }
+      },
     );
   }
 
@@ -1003,7 +1003,7 @@ export class QueueClient extends StorageClient {
    * ```
    */
   public async peekMessages(
-    options: QueuePeekMessagesOptions = {}
+    options: QueuePeekMessagesOptions = {},
   ): Promise<QueuePeekMessagesResponse> {
     return tracingClient.withSpan("QueueClient-peekMessages", options, async (updatedOptions) => {
       const response = assertResponse<
@@ -1042,11 +1042,11 @@ export class QueueClient extends StorageClient {
   public async deleteMessage(
     messageId: string,
     popReceipt: string,
-    options: QueueDeleteMessageOptions = {}
+    options: QueueDeleteMessageOptions = {},
   ): Promise<QueueDeleteMessageResponse> {
     return tracingClient.withSpan("QueueClient-deleteMessage", options, async (updatedOptions) => {
       return assertResponse<MessageIdDeleteHeaders, MessageIdDeleteHeaders>(
-        await this.getMessageIdContext(messageId).delete(popReceipt, updatedOptions)
+        await this.getMessageIdContext(messageId).delete(popReceipt, updatedOptions),
       );
     });
   }
@@ -1073,7 +1073,7 @@ export class QueueClient extends StorageClient {
     popReceipt: string,
     message?: string,
     visibilityTimeout?: number,
-    options: QueueUpdateMessageOptions = {}
+    options: QueueUpdateMessageOptions = {},
   ): Promise<QueueUpdateMessageResponse> {
     return tracingClient.withSpan("QueueClient-updateMessage", options, async (updatedOptions) => {
       let queueMessage = undefined;
@@ -1085,7 +1085,7 @@ export class QueueClient extends StorageClient {
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
           queueMessage,
-        })
+        }),
       );
     });
   }
@@ -1140,7 +1140,7 @@ export class QueueClient extends StorageClient {
   public generateSasUrl(options: QueueGenerateSasUrlOptions): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the SAS when the client is initialized with a shared key credential"
+        "Can only generate the SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -1149,7 +1149,7 @@ export class QueueClient extends StorageClient {
         queueName: this.name,
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);

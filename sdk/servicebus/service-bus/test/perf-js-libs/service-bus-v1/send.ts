@@ -46,7 +46,7 @@ async function RunTest(
   connectionString: string,
   entityPath: string,
   maxInflight: number,
-  messages: number
+  messages: number,
 ): Promise<void> {
   const ns = ServiceBusClient.createFromConnectionString(connectionString);
 
@@ -105,7 +105,7 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
 ): void {
   const memoryUsage = process.memoryUsage();
   log(
@@ -114,7 +114,7 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
       `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`
+      `\tHeapUsed\t${memoryUsage.heapUsed}`,
   );
 }
 

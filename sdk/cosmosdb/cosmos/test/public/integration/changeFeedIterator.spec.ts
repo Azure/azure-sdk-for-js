@@ -33,7 +33,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         "change feed iterator options",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
 
       for (let i = 1; i < 11; i++) {
@@ -79,7 +79,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         "changefeed for one partition key",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
 
       for (let i = 1; i < 11; i++) {
@@ -194,7 +194,7 @@ describe("Change Feed Iterator", function (this: Suite) {
           locationEndpointsContacted: 1,
           requestStartTimeUTCInMsLowerLimit: startTimestamp,
           requestDurationInMsUpperLimit: getCurrentTimestampInMs() - startTimestamp,
-        }
+        },
       );
     });
   });
@@ -214,7 +214,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         "changefeedEntireContainer",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
 
       for (let i = 1; i < 6; i++) {

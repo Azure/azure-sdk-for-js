@@ -18,7 +18,7 @@ import { TSESTree } from "@typescript-eslint/experimental-utils";
 export = {
   meta: getRuleMetaData(
     "ts-naming-drop-noun",
-    "require client methods returning an instance of the client to not include the client name in the method name"
+    "require client methods returning an instance of the client to not include the client name in the method name",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({
@@ -56,5 +56,5 @@ export = {
           }
         });
       },
-    } as Rule.RuleListener),
+    }) as Rule.RuleListener,
 };

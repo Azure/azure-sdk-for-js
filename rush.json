@@ -2149,6 +2149,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-hybridnetwork",
       "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"

@@ -33,7 +33,7 @@ async function createADiskAccessResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

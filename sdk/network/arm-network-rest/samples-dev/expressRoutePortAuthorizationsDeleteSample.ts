@@ -34,7 +34,7 @@ async function deleteExpressRoutePortAuthorization() {
       subscriptionId,
       resourceGroupName,
       expressRoutePortName,
-      authorizationName
+      authorizationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -28,7 +28,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
 
       const clientOptionsAuthKey = new CosmosClient({
@@ -38,7 +38,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsAuthKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
 
       const clientOptionsAuthMasterKey = new CosmosClient({
@@ -48,7 +48,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       });
       assert(
         undefined !== (await clientOptionsAuthMasterKey.databases.readAll().fetchAll()),
-        "Should be able to fetch list of databases"
+        "Should be able to fetch list of databases",
       );
     });
 
@@ -87,7 +87,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user1.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert((permissionOnColl1 as any)._token !== undefined, "permission token is invalid");
       permission = {
@@ -100,7 +100,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user1.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       assert((permissionOnDoc2 as any)._token !== undefined, "permission token is invalid"); // TODO: any rid
 
@@ -116,7 +116,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database.user(user2.id),
         permission,
         undefined,
-        isUpsertTest
+        isUpsertTest,
       );
       const entities = {
         database,
@@ -193,7 +193,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         successDoc.id,
         entities.doc1.id,
-        "Expected to read children using parent permissions"
+        "Expected to read children using parent permissions",
       );
       // TODO: Permission Feed uses RID right now
       /*
@@ -223,7 +223,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       const container = await getTestContainer(
         "authorization CRUD multiple partitons",
         undefined,
-        containerDefinition
+        containerDefinition,
       );
       // create user
       const { resource: userDef } = await container.database.users.create({ id: "user1" });
@@ -297,7 +297,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           resource: (await container.read()).resource._self,
         },
         undefined,
-        false
+        false,
       );
 
       const resourceTokens = {

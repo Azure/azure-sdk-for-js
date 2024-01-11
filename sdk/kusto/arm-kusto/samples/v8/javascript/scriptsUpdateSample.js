@@ -39,7 +39,7 @@ async function kustoScriptsUpdate() {
     clusterName,
     databaseName,
     scriptName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

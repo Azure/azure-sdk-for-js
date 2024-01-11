@@ -33,7 +33,7 @@ export class StreamingPartitionSender {
     sender: Sender,
     partitionId: string,
     startPosition: EventPosition,
-    enableRuntimeMetric: boolean
+    enableRuntimeMetric: boolean,
   ) {
     this._messageStore = messageStore;
     this._messageIterator = messageStore.getMessageIterator(partitionId, startPosition);
@@ -88,7 +88,7 @@ export class StreamingPartitionSender {
           const partitionInfo = this._messageStore.getPartitionInfo(this._partitionId);
           deliveryAnnotations["last_enqueued_offset"] = partitionInfo.lastEnqueuedOffset;
           deliveryAnnotations["last_enqueued_sequence_number"] = types.wrap_long(
-            partitionInfo.lastEnqueuedSequenceNumber
+            partitionInfo.lastEnqueuedSequenceNumber,
           );
           deliveryAnnotations["last_enqueued_time_utc"] = partitionInfo.lastEnqueuedTimeUtc;
           deliveryAnnotations["runtime_info_retrieval_time_utc"] = new Date();

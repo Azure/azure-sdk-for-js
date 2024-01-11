@@ -80,7 +80,7 @@ export class TableTransaction {
    */
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateOptions?: UpdateTableEntityOptions
+    updateOptions?: UpdateTableEntityOptions,
   ): void;
 
   /**
@@ -92,7 +92,7 @@ export class TableTransaction {
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
     updateMode: UpdateMode,
-    updateOptions?: UpdateTableEntityOptions
+    updateOptions?: UpdateTableEntityOptions,
   ): void;
 
   /**
@@ -104,7 +104,7 @@ export class TableTransaction {
   updateEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
     updateModeOrOptions: UpdateMode | UpdateTableEntityOptions | undefined,
-    updateOptions?: UpdateTableEntityOptions
+    updateOptions?: UpdateTableEntityOptions,
   ): void {
     // UpdateMode is a string union
     const realUpdateMode: UpdateMode | undefined =
@@ -121,7 +121,7 @@ export class TableTransaction {
    */
   upsertEntity<T extends object = Record<string, unknown>>(
     entity: TableEntity<T>,
-    updateMode: UpdateMode = "Merge"
+    updateMode: UpdateMode = "Merge",
   ): void {
     this.actions.push(["upsert", entity, updateMode]);
   }
@@ -162,7 +162,7 @@ export class InternalTableTransaction {
     client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
-    allowInsecureConnection: boolean = false
+    allowInsecureConnection: boolean = false,
   ) {
     this.client = client;
     this.url = url;
@@ -229,11 +229,11 @@ export class InternalTableTransaction {
   public deleteEntity(
     partitionKey: string,
     rowKey: string,
-    options?: DeleteTableEntityOptions
+    options?: DeleteTableEntityOptions,
   ): void {
     this.checkPartitionKey(partitionKey);
     this.state.pendingOperations.push(
-      this.interceptClient.deleteEntity(partitionKey, rowKey, options)
+      this.interceptClient.deleteEntity(partitionKey, rowKey, options),
     );
   }
 
@@ -246,7 +246,7 @@ export class InternalTableTransaction {
   public updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpdateTableEntityOptions
+    options?: UpdateTableEntityOptions,
   ): void {
     this.checkPartitionKey(entity.partitionKey);
     this.state.pendingOperations.push(this.interceptClient.updateEntity(entity, mode, options));
@@ -263,7 +263,7 @@ export class InternalTableTransaction {
   public upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): void {
     this.checkPartitionKey(entity.partitionKey);
     this.state.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
@@ -277,7 +277,7 @@ export class InternalTableTransaction {
     const body = getTransactionHttpRequestBody(
       this.state.bodyParts,
       this.state.transactionId,
-      this.state.changesetId
+      this.state.changesetId,
     );
 
     const headers = getTransactionHeaders(this.state.transactionId);
@@ -297,7 +297,7 @@ export class InternalTableTransaction {
 
         const rawTransactionResponse = await this.client.sendRequest(request);
         return parseTransactionResponse(rawTransactionResponse);
-      }
+      },
     );
   }
 
@@ -313,7 +313,7 @@ export class InternalTableTransaction {
 }
 
 export function parseTransactionResponse(
-  transactionResponse: PipelineResponse
+  transactionResponse: PipelineResponse,
 ): TableTransactionResponse {
   const subResponsePrefix = `--changesetresponse_`;
   const status = transactionResponse.status;
@@ -345,7 +345,7 @@ export function parseTransactionResponse(
         bodyMatch[0],
         subResponseStatus,
         transactionResponse.request,
-        transactionResponse
+        transactionResponse,
       );
     }
 
@@ -370,7 +370,7 @@ function handleBodyError(
   bodyAsText: string,
   statusCode: number,
   request: PipelineRequest,
-  response: PipelineResponse
+  response: PipelineResponse,
 ) {
   let parsedError;
 
@@ -405,7 +405,7 @@ export function prepateTransactionPipeline(
   pipeline: Pipeline,
   bodyParts: string[],
   changesetId: string,
-  isCosmos: boolean
+  isCosmos: boolean,
 ): void {
   // Fist, we need to clear all the existing policies to make sure we start
   // with a fresh state.

@@ -12,7 +12,7 @@ import { Attributes, AttributeValue, Link, SpanKind, SpanOptions, trace } from "
  * @returns - The OpenTelemetry {@link SpanKind}
  */
 export function toOpenTelemetrySpanKind<K extends TracingSpanKind>(
-  tracingSpanKind?: K
+  tracingSpanKind?: K,
 ): SpanKindMapping[K] {
   const key = (tracingSpanKind || "internal").toUpperCase() as keyof typeof SpanKind;
   return SpanKind[key] as SpanKindMapping[K];
@@ -55,7 +55,7 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
  * @returns An {@link SpanAttributes} to set on a span.
  */
 function toOpenTelemetrySpanAttributes(
-  spanAttributes: { [key: string]: unknown } | undefined
+  spanAttributes: { [key: string]: unknown } | undefined,
 ): Attributes {
   const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
   for (const key in spanAttributes) {

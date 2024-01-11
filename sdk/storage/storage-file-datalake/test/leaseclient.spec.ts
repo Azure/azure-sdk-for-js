@@ -22,7 +22,7 @@ describe("LeaseClient from FileSystem", () => {
         uriSanitizers,
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getDataLakeServiceClient(recorder);
     fileSystemName = recorder.variable("filesystem", getUniqueName("filesystem"));

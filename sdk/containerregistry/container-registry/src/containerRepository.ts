@@ -98,7 +98,7 @@ export interface ContainerRepository {
    * @param options -
    */
   updateProperties(
-    options: UpdateRepositoryPropertiesOptions
+    options: UpdateRepositoryPropertiesOptions,
   ): Promise<ContainerRepositoryProperties>;
   /**
    * Returns an async iterable iterator to list manifest properties.
@@ -145,7 +145,7 @@ export interface ContainerRepository {
    * @param options -
    */
   listManifestProperties(
-    options?: ListManifestPropertiesOptions
+    options?: ListManifestPropertiesOptions,
   ): PagedAsyncIterableIterator<ArtifactManifestProperties>;
 }
 
@@ -188,7 +188,7 @@ export class ContainerRepositoryImpl {
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
-      }
+      },
     );
   }
 
@@ -208,14 +208,14 @@ export class ContainerRepositoryImpl {
    * @param options -
    */
   public async getProperties(
-    options: GetRepositoryPropertiesOptions = {}
+    options: GetRepositoryPropertiesOptions = {},
   ): Promise<ContainerRepositoryProperties> {
     return tracingClient.withSpan(
       "ContainerRepositoryImpl.getProperties",
       options,
       (updatedOptions) => {
         return this.client.containerRegistry.getProperties(this.name, updatedOptions);
-      }
+      },
     );
   }
 
@@ -237,7 +237,7 @@ export class ContainerRepositoryImpl {
    * @param options -
    */
   public async updateProperties(
-    options: UpdateRepositoryPropertiesOptions
+    options: UpdateRepositoryPropertiesOptions,
   ): Promise<ContainerRepositoryProperties> {
     const value: RepositoryWriteableProperties = {
       canDelete: options.canDelete,
@@ -251,7 +251,7 @@ export class ContainerRepositoryImpl {
       { ...options, value },
       (updatedOptions) => {
         return this.client.containerRegistry.updateProperties(this.name, updatedOptions);
-      }
+      },
     );
   }
 
@@ -300,7 +300,7 @@ export class ContainerRepositoryImpl {
    * @param options -
    */
   public listManifestProperties(
-    options: ListManifestPropertiesOptions = {}
+    options: ListManifestPropertiesOptions = {},
   ): PagedAsyncIterableIterator<ArtifactManifestProperties, ManifestPageResponse> {
     const iter = this.listManifestsItems(options);
 
@@ -316,7 +316,7 @@ export class ContainerRepositoryImpl {
   }
 
   private async *listManifestsItems(
-    options: ListManifestPropertiesOptions = {}
+    options: ListManifestPropertiesOptions = {},
   ): AsyncIterableIterator<ArtifactManifestProperties> {
     for await (const page of this.listManifestsPage({}, options)) {
       yield* page;
@@ -325,7 +325,7 @@ export class ContainerRepositoryImpl {
 
   private async *listManifestsPage(
     continuationState: PageSettings,
-    options: ListManifestPropertiesOptions = {}
+    options: ListManifestPropertiesOptions = {},
   ): AsyncIterableIterator<ManifestPageResponse> {
     const orderby = toServiceManifestOrderBy(options.order);
     if (!continuationState.continuationToken) {
@@ -336,12 +336,12 @@ export class ContainerRepositoryImpl {
       };
       const currentPage = await this.client.containerRegistry.getManifests(
         this.name,
-        optionsComplete
+        optionsComplete,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
         const array = currentPage.manifests.map((t) =>
-          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!),
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,
@@ -353,12 +353,12 @@ export class ContainerRepositoryImpl {
       const currentPage = await this.client.containerRegistry.getManifestsNext(
         this.name,
         continuationState.continuationToken,
-        options
+        options,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.manifests) {
         const array = currentPage.manifests.map((t) =>
-          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!)
+          toArtifactManifestProperties(t, this.name, currentPage.registryLoginServer!),
         );
         yield Object.defineProperty(array, "continuationToken", {
           value: continuationState.continuationToken,

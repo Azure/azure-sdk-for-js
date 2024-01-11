@@ -28,7 +28,7 @@ export function assertClientCredentials(
   requestBody: string,
   expectedTenantId: string,
   expectedClientId: string,
-  expectedClientSecret?: string
+  expectedClientSecret?: string,
 ): void {
   assert.ok(requestUrl.indexOf(DefaultAuthorityHost) > -1);
   assert.ok(requestUrl.indexOf(expectedTenantId) > -1);
@@ -36,14 +36,14 @@ export function assertClientCredentials(
   assert.strictEqual(
     requestBody.indexOf(`client_id=${expectedClientId}`) > -1,
     true,
-    "Request body doesn't contain expected clientId"
+    "Request body doesn't contain expected clientId",
   );
 
   if (expectedClientSecret) {
     assert.strictEqual(
       requestBody.indexOf(`client_secret=${expectedClientSecret}`) > -1,
       true,
-      "Request body doesn't contain expected clientSecret"
+      "Request body doesn't contain expected clientSecret",
     );
   }
 }

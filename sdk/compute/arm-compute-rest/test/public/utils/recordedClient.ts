@@ -35,11 +35,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 export function createTestComputeManagementClient(
   recorder: Recorder,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ComputeManagementClient {
   const client = createComputeManagementClient(
     credentials,
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return client;
 }

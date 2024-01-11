@@ -54,13 +54,13 @@ describe("JobRouterClient", function () {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        distributionPolicyRequest,
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
       await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest
+        classificationPolicyRequest,
       );
     });
 
@@ -82,7 +82,7 @@ describe("JobRouterClient", function () {
           await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
           await administrationClient.deleteDistributionPolicy(distributionPolicyId);
         },
-        { retries: 5, retryIntervalMs: 1500 }
+        { retries: 5, retryIntervalMs: 1500 },
       );
 
       if (!this.currentTest?.isPending() && recorder) {
@@ -112,7 +112,7 @@ describe("JobRouterClient", function () {
       assert.equal(result.id, jobId);
       assert.equal(
         result.matchingMode?.scheduleAndSuspendMode?.scheduleAt?.toISOString(),
-        scheduledTime
+        scheduledTime,
       );
     }).timeout(timeoutMs);
 
@@ -163,7 +163,7 @@ describe("JobRouterClient", function () {
         async () => {
           result = await client.reclassifyJob(jobId);
         },
-        { retries: 3, retryIntervalMs: 1500 }
+        { retries: 3, retryIntervalMs: 1500 },
       );
 
       assert.isDefined(result);
@@ -206,7 +206,7 @@ describe("JobRouterClient", function () {
         async () => {
           result = await client.cancelJob(jobId);
         },
-        { retries: 3, retryIntervalMs: 1500 }
+        { retries: 3, retryIntervalMs: 1500 },
       );
 
       assert.isDefined(result);

@@ -30,7 +30,7 @@ async function profilesCanMigrate() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.profiles.beginCanMigrateAndWait(
     resourceGroupName,
-    canMigrateParameters
+    canMigrateParameters,
   );
   console.log(result);
 }

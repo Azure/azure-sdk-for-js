@@ -31,7 +31,7 @@ async function getSubnet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .get(options);
   console.log(result);
@@ -60,7 +60,7 @@ async function getSubnetWithADelegation() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .get(options);
   console.log(result);

@@ -130,7 +130,7 @@ async function createAzureFirewall() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -259,7 +259,7 @@ async function createAzureFirewallWithAdditionalProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -386,7 +386,7 @@ async function createAzureFirewallWithIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -513,7 +513,7 @@ async function createAzureFirewallWithZones() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -651,7 +651,7 @@ async function createAzureFirewallWithManagementSubnet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -696,7 +696,7 @@ async function createAzureFirewallInVirtualHub() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

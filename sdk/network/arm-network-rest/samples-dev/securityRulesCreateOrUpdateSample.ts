@@ -46,7 +46,7 @@ async function createSecurityRule() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      securityRuleName
+      securityRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
