@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/:search?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/:search?api-version=2024-01-31-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -31,10 +31,10 @@
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01",
         "Content-Length": "0",
         "Date": "Fri, 06 Jan 2023 17:31:36 GMT",
-        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "MS-CV": "vVMb/6S5106KRjeKYRA43w.0",
         "operation-id": "search_sanitized",
-        "Operation-Location": "/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+        "Operation-Location": "/phoneNumbers/operations/search_sanitized?api-version=2024-01-31-preview",
         "search-id": "sanitized",
         "Strict-Transport-Security": "max-age=2592000",
         "X-Azure-Ref": "09lq4YwAAAACYyFvnM\u002BwkRKT7c6boqPmNTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
@@ -44,7 +44,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -65,7 +65,7 @@
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Fri, 06 Jan 2023 17:31:36 GMT",
-        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "MS-CV": "7E1G1XlHE0usXvPyjDNkTg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
@@ -76,14 +76,14 @@
       "ResponseBody": {
         "operationType": "search",
         "status": "notStarted",
-        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "createdDateTime": "2023-01-06T17:31:35.8833059\u002B00:00",
         "id": "search_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -104,7 +104,7 @@
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Fri, 06 Jan 2023 17:31:37 GMT",
-        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "MS-CV": "VoHsaS\u002BEZ0CeewmZ6wctjQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
@@ -115,14 +115,14 @@
       "ResponseBody": {
         "operationType": "search",
         "status": "running",
-        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "createdDateTime": "2023-01-06T17:31:35.8833059\u002B00:00",
         "id": "search_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/search_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -143,7 +143,7 @@
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-11-15-preview, 2022-12-01",
         "Content-Type": "application/json; charset=utf-8",
         "Date": "Fri, 06 Jan 2023 17:31:39 GMT",
-        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "Location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "MS-CV": "Tw\u002B7Eu3v\u002BEWrIY7rphDMjQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
@@ -154,14 +154,14 @@
       "ResponseBody": {
         "operationType": "search",
         "status": "succeeded",
-        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+        "resourceLocation": "/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
         "createdDateTime": "2023-01-06T17:31:35.8833059\u002B00:00",
         "id": "search_sanitized",
         "lastActionDateTime": "0001-01-01T00:00:00\u002B00:00"
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -208,7 +208,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/:purchase?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/:purchase?api-version=2024-01-31-preview",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -234,7 +234,7 @@
         "Date": "Fri, 06 Jan 2023 17:31:42 GMT",
         "MS-CV": "bM1yYG7ktUa5K3\u002Bhx6DxRw.0",
         "operation-id": "purchase_sanitized",
-        "Operation-Location": "/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+        "Operation-Location": "/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
         "purchase-id": "sanitized",
         "Strict-Transport-Security": "max-age=2592000",
         "X-Azure-Ref": "0/Vq4YwAAAADPdCADXq6oQ6Q7MJysIxfjTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
@@ -244,7 +244,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -281,7 +281,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -318,7 +318,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -355,7 +355,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -392,7 +392,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -429,7 +429,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -466,7 +466,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -503,7 +503,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -540,7 +540,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -577,7 +577,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -622,7 +622,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100?api-version=2024-01-31-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -644,7 +644,7 @@
         "Date": "Fri, 06 Jan 2023 17:32:06 GMT",
         "MS-CV": "GbHQS7pj6Eu/w1XqMNFzuw.0",
         "operation-id": "release_sanitized",
-        "Operation-Location": "/phoneNumbers/operations/release_sanitized?api-version=2022-12-01",
+        "Operation-Location": "/phoneNumbers/operations/release_sanitized?api-version=2024-01-31-preview",
         "release-id": "sanitized",
         "Strict-Transport-Security": "max-age=2592000",
         "X-Azure-Ref": "0FFu4YwAAAADkf1CSzXThSLdo2Hfs4OoDTUVYMzBFREdFMDQyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
@@ -654,7 +654,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -690,7 +690,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -726,7 +726,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -762,7 +762,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2022-12-01\u0026top=100",
+      "RequestUri": "https://endpoint/phoneNumbers?skip=0\u0026api-version=2024-01-31-preview\u0026top=100",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",

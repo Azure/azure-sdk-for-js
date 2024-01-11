@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=0\u0026maxPageSize=100\u0026api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -23,7 +23,7 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-01-31",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "10217",
         "Content-Type": "application/json; charset=utf-8",
@@ -737,11 +737,11 @@
             }
           }
         ],
-        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01"
+        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2024-01-31-preview"
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=100\u0026maxPageSize=100\u0026api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -763,7 +763,7 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-01-31",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "10195",
         "Content-Type": "application/json; charset=utf-8",
@@ -1477,11 +1477,11 @@
             }
           }
         ],
-        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=200\u0026maxPageSize=100\u0026api-version=2022-12-01"
+        "nextLink": "/availablePhoneNumbers/countries/US/localities?skip=200\u0026maxPageSize=100\u0026api-version=2024-01-31-preview"
       }
     },
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=200\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/localities?skip=200\u0026maxPageSize=100\u0026api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -1503,7 +1503,7 @@
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-01-31",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
         "Content-Length": "743",
         "Content-Type": "application/json; charset=utf-8",
