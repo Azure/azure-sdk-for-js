@@ -7,11 +7,16 @@ export {
   OperationState,
   OperationStatus,
   PollerLike,
+  RestorableOperationState,
+  OperationConfig
 } from "./poller/models";
 export { CreateHttpPollerOptions } from "./http/models";
 export {
-  ResourceLocationConfig as LroResourceLocationConfig,
+  ResourceLocationConfig,
   LongRunningOperation,
-  OperationResponse as LroResponse,
+  OperationResponse,
   RawResponse,
 } from "./http/models";
+export {
+  deserializeState,
+} from "./poller/operation"
