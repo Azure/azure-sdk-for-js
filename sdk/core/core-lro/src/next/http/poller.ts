@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse } from "./models";
+import { LongRunningOperation, OperationResponse } from "./models";
 import { OperationState, PollerLike } from "../poller/models";
 import {
   getErrorFromResponse,
@@ -35,7 +35,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     withOperationLocation,
     resolveOnUnsuccessful = false,
   } = options || {};
-  return buildCreatePoller<LroResponse, TResult, TState>({
+  return buildCreatePoller<OperationResponse, TResult, TState>({
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     isOperationError,

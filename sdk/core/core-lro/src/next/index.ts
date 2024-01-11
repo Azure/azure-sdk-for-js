@@ -10,8 +10,8 @@ export {
 } from "./poller/models";
 export { CreateHttpPollerOptions } from "./http/models";
 export {
-  LroResourceLocationConfig,
+  ResourceLocationConfig as LroResourceLocationConfig,
   LongRunningOperation,
-  LroResponse,
+  OperationResponse as LroResponse,
   RawResponse,
 } from "./http/models";
