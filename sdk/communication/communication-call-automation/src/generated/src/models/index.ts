@@ -189,6 +189,11 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /**
+   * The source caller Id, a phone number, that's will be used when inviting a pstn target.
+   * Required only when transferring call to PSTN, if this is an incoming voip call.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */

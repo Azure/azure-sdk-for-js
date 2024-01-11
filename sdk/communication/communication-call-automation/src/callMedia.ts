@@ -74,12 +74,12 @@ export class CallMedia {
     endpoint: string,
     credential: KeyCredential | TokenCredential,
     eventProcessor: CallAutomationEventProcessor,
-    options?: CallAutomationApiClientOptionalParams,
+    options?: CallAutomationApiClientOptionalParams
   ) {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint,
+      endpoint
     );
     this.callConnectionId = callConnectionId;
     this.callAutomationEventProcessor = eventProcessor;
@@ -87,7 +87,7 @@ export class CallMedia {
   }
 
   private createPlaySourceInternal(
-    playSource: FileSource | TextSource | SsmlSource,
+    playSource: FileSource | TextSource | SsmlSource
   ): PlaySourceInternal {
     if (playSource.kind === "fileSource") {
       const fileSource: FileSourceInternal = {
@@ -141,7 +141,7 @@ export class CallMedia {
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    options: PlayOptions = { loop: false },
+    options: PlayOptions = { loop: false }
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -187,7 +187,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs,
+          timeoutInMs
         );
         return playEventResult;
       },
@@ -203,7 +203,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
+    options: PlayOptions = { loop: false }
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -249,7 +249,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs,
+          timeoutInMs
         );
         return playEventResult;
       },
@@ -263,7 +263,7 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions,
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): RecognizeRequest {
     if (recognizeOptions.kind === "callMediaRecognizeDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -385,7 +385,7 @@ export class CallMedia {
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
-    options: CallMediaRecognizeDtmfOptions,
+    options: CallMediaRecognizeDtmfOptions
   ): Promise<StartRecognizingResult>;
 
   /**
@@ -399,7 +399,7 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions,
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): Promise<StartRecognizingResult>;
   async startRecognizing(
     targetParticipant: CommunicationIdentifier,
@@ -409,18 +409,18 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions,
-    options?: CallMediaRecognizeDtmfOptions,
+    options?: CallMediaRecognizeDtmfOptions
   ): Promise<StartRecognizingResult> {
     if (typeof maxTonesOrOptions === "number" && options) {
       // Old function signature logic
       console.warn(
-        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
+        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options."
       );
       options.maxTonesToCollect = maxTonesOrOptions;
       await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
-        {},
+        {}
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
       maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
@@ -430,7 +430,7 @@ export class CallMedia {
       await this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
-        {},
+        {}
       );
       const startRecognizingResult: StartRecognizingResult = {
         waitForEventProcessor: async (abortSignal, timeoutInMs) => {
@@ -460,7 +460,7 @@ export class CallMedia {
               }
             },
             abortSignal,
-            timeoutInMs,
+            timeoutInMs
           );
           return startRecognizingEventResult;
         },
@@ -499,7 +499,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs,
+          timeoutInMs
         );
         return cancelAllMediaOperationsEventResult;
       },
@@ -514,7 +514,7 @@ export class CallMedia {
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {},
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -523,7 +523,7 @@ export class CallMedia {
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {},
+      {}
     );
   }
 
@@ -534,7 +534,7 @@ export class CallMedia {
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {},
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -544,7 +544,7 @@ export class CallMedia {
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {},
+      {}
     );
   }
 
@@ -557,7 +557,7 @@ export class CallMedia {
   public async sendDtmfTones(
     tones: Tone[] | DtmfTone[],
     targetParticipant: CommunicationIdentifier,
-    options: SendDtmfTonesOptions = {},
+    options: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
@@ -595,7 +595,7 @@ export class CallMedia {
             }
           },
           abortSignal,
-          timeoutInMs,
+          timeoutInMs
         );
         return sendDtmfEventResult;
       },
@@ -615,7 +615,7 @@ export class CallMedia {
     targetParticipant: CommunicationIdentifier,
     playSource: FileSource | TextSource | SsmlSource,
     loop: boolean = true,
-    operationContext: string | undefined = undefined,
+    operationContext: string | undefined = undefined
   ): Promise<void> {
     const holdRequest: StartHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -635,7 +635,7 @@ export class CallMedia {
    */
   public async stopHoldMusic(
     targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined,
+    operationContext: string | undefined = undefined
   ): Promise<void> {
     const unholdRequest: StopHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
@@ -679,7 +679,7 @@ export class CallMedia {
     return this.callMedia.updateTranscription(
       this.callConnectionId,
       updateTranscriptionRequest,
-      {},
+      {}
     );
   }
 }

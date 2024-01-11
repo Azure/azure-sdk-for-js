@@ -135,17 +135,17 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 export async function createTestUser(recorder: Recorder): Promise<CommunicationUserIdentifier> {
   const identityClient = new CommunicationIdentityClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({}) as CommunicationIdentityClientOptions,
+    recorder.configureClientOptions({}) as CommunicationIdentityClientOptions
   );
   return identityClient.createUser();
 }
 
 export function createCallAutomationClient(
   recorder: Recorder,
-  sourceIdentity: CommunicationUserIdentifier,
+  sourceIdentity: CommunicationUserIdentifier
 ): CallAutomationClient {
   const connectionString = assertEnvironmentVariable(
-    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+    "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"
   );
   const options: CallAutomationClientOptions = {
     sourceIdentity: sourceIdentity,
@@ -176,7 +176,7 @@ async function eventBodyHandler(body: any): Promise<void> {
 
 export async function serviceBusWithNewCall(
   caller: CommunicationIdentifier,
-  receiver: CommunicationIdentifier,
+  receiver: CommunicationIdentifier
 ): Promise<string> {
   const callerId: string = parseIdsFromIdentifier(caller);
   const receiverId: string = parseIdsFromIdentifier(receiver);
@@ -233,7 +233,7 @@ export async function serviceBusWithNewCall(
 
 export async function waitForIncomingCallContext(
   uniqueId: string,
-  timeOut: number,
+  timeOut: number
 ): Promise<string | undefined> {
   if (!isPlaybackMode()) {
     let currentTime = new Date().getTime();
@@ -253,7 +253,7 @@ export async function waitForIncomingCallContext(
 export async function waitForEvent(
   eventName: string,
   callConnectionId: string,
-  timeOut: number,
+  timeOut: number
 ): Promise<CallAutomationEvent | undefined> {
   let currentTime = new Date().getTime();
   const timeOutTime = currentTime + timeOut;
@@ -317,7 +317,7 @@ export async function loadPersistedEvents(testName: string): Promise<void> {
 export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
   const phoneNumbersClient = new PhoneNumbersClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({}) as PhoneNumbersClientOptions,
+    recorder.configureClientOptions({}) as PhoneNumbersClientOptions
   );
   const purchasedPhoneNumbers = phoneNumbersClient.listPurchasedPhoneNumbers();
   const phoneNumbers: string[] = [];

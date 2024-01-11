@@ -93,7 +93,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
     );
   });
 
@@ -124,7 +124,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings?api-version=${apiVersion.mapper.defaultValue}`
     );
   });
 
@@ -144,7 +144,7 @@ describe("CallRecording Unit Tests", async function () {
     assert.equal(request.method, "GET");
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
     );
   });
 
@@ -157,7 +157,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings/${RECORDING_ID}?api-version=${apiVersion.mapper.defaultValue}`
     );
     assert.equal(request.method, "DELETE");
   });
@@ -171,7 +171,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings/${RECORDING_ID}:pause?api-version=${apiVersion.mapper.defaultValue}`
     );
     assert.equal(request.method, "POST");
   });
@@ -185,7 +185,7 @@ describe("CallRecording Unit Tests", async function () {
 
     assert.equal(
       request.url,
-      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`,
+      `${baseUri}/calling/recordings/${RECORDING_ID}:resume?api-version=${apiVersion.mapper.defaultValue}`
     );
     assert.equal(request.method, "POST");
   });
@@ -243,7 +243,7 @@ describe("CallRecording Live Tests", function () {
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption,
+      createCallOption
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -256,7 +256,7 @@ describe("CallRecording Live Tests", function () {
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption,
+        answerCallOption
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);

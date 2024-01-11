@@ -513,6 +513,13 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CommunicationUserIdentifierModel"
         }
+      },
+      sourceCallerIdNumber: {
+        serializedName: "sourceCallerIdNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
       }
     }
   }

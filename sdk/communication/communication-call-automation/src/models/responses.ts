@@ -31,7 +31,7 @@ export interface CreateCallResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<CreateCallEventResult>;
 }
 
@@ -48,7 +48,7 @@ export interface AnswerCallResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<AnswerCallEventResult>;
 }
 
@@ -71,7 +71,7 @@ export interface AddParticipantResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<AddParticipantEventResult>;
 }
 
@@ -82,7 +82,7 @@ export interface TransferCallResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<TransferCallToParticipantEventResult>;
 }
 
@@ -93,7 +93,7 @@ export interface RemoveParticipantResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<RemoveParticipantEventResult>;
 }
 
@@ -114,7 +114,7 @@ export interface CancelAllMediaOperationsResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<CancelAllMediaOperationsEventResult>;
 }
 
@@ -123,7 +123,7 @@ export interface PlayResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<PlayEventResult>;
 }
 
@@ -134,7 +134,7 @@ export interface SendDtmfTonesResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<SendDtmfEventResult>;
 }
 
@@ -143,7 +143,7 @@ export interface StartRecognizingResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<StartRecognizingEventResult>;
 }
 
@@ -156,6 +156,6 @@ export interface CancelAddParticipantOperationResult {
   /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<CancelAddParticipantEventResult>;
 }

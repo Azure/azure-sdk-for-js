@@ -26,7 +26,7 @@ export class CallAutomationEventProcessor {
       // parse the event if not parsed already
       if (typeof event === "string" || Array.isArray(event)) {
         callAutomationEvent = parseCallAutomationEvent(
-          (event as string) || (event as Record<string, unknown>),
+          (event as string) || (event as Record<string, unknown>)
         );
       } else {
         callAutomationEvent = event as CallAutomationEvent;
@@ -67,7 +67,7 @@ export class CallAutomationEventProcessor {
   public async waitForEventProcessor(
     predicate: (event: CallAutomationEvent) => boolean,
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number,
+    timeoutInMs?: number
   ): Promise<CallAutomationEvent> {
     const controller = new AbortController();
     if (!timeoutInMs) {
@@ -128,7 +128,7 @@ export class CallAutomationEventProcessor {
   public async attachOngoingEventProcessor(
     callConnectionId: string,
     eventTypeKind: CallAutomationEvent["kind"],
-    eventProcessor: (event: CallAutomationEvent) => Promise<void>,
+    eventProcessor: (event: CallAutomationEvent) => Promise<void>
   ): Promise<void> {
     const eventAwaiter = (event: CallAutomationEvent) => {
       if (event.callConnectionId === callConnectionId && event.kind === eventTypeKind) {
@@ -150,7 +150,7 @@ export class CallAutomationEventProcessor {
    */
   public async detachOngoingEventProcessor(
     callConnectionId: string,
-    eventTypeKind: CallAutomationEvent["kind"],
+    eventTypeKind: CallAutomationEvent["kind"]
   ): Promise<void> {
     const uniqueId = this.generateIdTypeKey(callConnectionId, eventTypeKind);
     const value = this.ongoingEvents.get(uniqueId);
