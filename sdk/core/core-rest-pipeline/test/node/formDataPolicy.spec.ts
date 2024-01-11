@@ -68,11 +68,7 @@ describe("formDataPolicy (node-only)", function () {
   });
 
   describe("file uploads", function () {
-    it("can upload a File object", async function () {
-      if (typeof File === "undefined") {
-        this.skip();
-      }
-
+    it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
       const result = await performRequest({
         file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
           type: "application/octet-stream",
@@ -92,11 +88,7 @@ describe("formDataPolicy (node-only)", function () {
       assert.deepEqual([...buf], [1, 2, 3]);
     });
 
-    it("can upload a Blob object", async function () {
-      if (typeof Blob === "undefined") {
-        this.skip();
-      }
-
+    it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
       const result = await performRequest({
         file: new Blob([new Uint8Array([1, 2, 3])]),
       });
