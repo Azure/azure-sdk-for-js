@@ -1719,7 +1719,6 @@ export const QueryMetricsConstants: {
 
 // @public (undocumented)
 export interface QueryOperationOptions {
-    [key: string]: any;
     ruCapPerOperation?: number;
 }
 

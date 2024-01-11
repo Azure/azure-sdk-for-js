@@ -49,6 +49,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   };
   private initializedPriorityQueue: boolean = false;
   private ruCapExceededError: RUCapPerOperationExceededError = undefined;
+  /**
+   * Semaphore for Controlling Concurrent Access to the `nextItem` Method
+   *
+   * serializes access to the `nextItem` method,
+   * preventing concurrent issues during initialization, document producer
+   * handling, diagnostic node updates, and error propagation.
+   */
   private nextItemfetchSemaphore;
   /**
    * Provides the ParallelQueryExecutionContextBase.
@@ -591,6 +598,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         this.orderByPQ.enq(documentProducer);
       }
     } catch (err) {
+      this._mergeWithActiveResponseHeaders(err.headers);
+      this.err = err;
       if (err.code === RUCapPerOperationExceededErrorCode) {
         // would be halting further execution of other promises
         if (!this.ruCapExceededError) {
@@ -601,9 +610,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             this.ruCapExceededError.body.fetchedSoFarResults.push(...err.body.fetchedSoFarResults);
           }
         }
+      } else {
+        throw err;
       }
-      this._mergeWithActiveResponseHeaders(err.headers);
-      this.err = err;
     }
   }
 }

@@ -391,7 +391,7 @@ describe("Test RU Capping query", function (this: Suite) {
       const calculated_ru_threshold = (await queryIteratorRUCapCalculate.fetchAll()).requestCharge;
       try {
         await queryIterator.fetchAll({ ruCapPerOperation: calculated_ru_threshold - offset });
-        assert.fail("Must throw exception");
+        assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED exception");
       } catch (err) {
         assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
         assert.ok(err.body);
@@ -404,7 +404,6 @@ describe("Test RU Capping query", function (this: Suite) {
       const { resources: results } = await queryIterator.fetchAll({
         ruCapPerOperation: calculated_ru_threshold + offset,
       });
-      // TODO: Investigate why this is failing, sometime it turns 3 sometimes 7
       assert.equal(results.length, 7);
     });
   });
