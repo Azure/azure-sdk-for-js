@@ -8,13 +8,12 @@ import nock from "nock";
 
 import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
-import { Resource, detectResourcesSync } from "@opentelemetry/resources";
+import { Resource } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
-import { azureVmDetector } from "@opentelemetry/resource-detector-azure";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -422,25 +421,28 @@ describe("OpenTelemetry Resource", () => {
       .get("/metadata/instance/compute?api-version=2021-12-13&format=json")
       .reply(200, vmTestResponse);
 
-    const azureResource: Resource = detectResourcesSync({
-      detectors: [azureVmDetector],
-    });
-    if (azureResource.waitForAsyncAttributes) {
-      await azureResource.waitForAsyncAttributes();
-    }
-    for (let i = 0; i < Object.keys(azureResource.attributes).length; i++) {
-      const key = Object.keys(azureResource.attributes)[i];
-      assert.strictEqual(azureResource.attributes[key], testAttributes[key]);
-    }
-    assert.strictEqual(
-      azureResource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-      "azure",
-    );
-    assert.strictEqual(azureResource.attributes[SemanticResourceAttributes.CLOUD_REGION], "westus");
-    assert.strictEqual(
-      azureResource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-      CloudPlatformValues.AZURE_VM,
-    );
+    const config = new InternalConfig();
+    assert.ok(config);
+
+    // Wait for the async VM resource detector to finish
+    await setTimeout(() => {
+      for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
+        const key = Object.keys(config.resource.attributes)[i];
+        assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
+      }
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+        "azure",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
+        "westus",
+      );
+      assert.strictEqual(
+        config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+        CloudPlatformValues.AZURE_VM,
+      );
+    }, 150);
     scope.done();
   });
 
@@ -643,4 +645,8 @@ const testAttributes: any = {
   "os.type": "Windows",
   "os.version": "20.04.202307240",
   "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
+  "service.name": "unknown_service:node",
+  "telemetry.sdk.language": "nodejs",
+  "telemetry.sdk.name": "opentelemetry",
+  "telemetry.sdk.version": "1.19.0",
 };
