@@ -67,6 +67,30 @@ describe("multipartPolicy", function () {
     );
   });
 
+  it("throws if request.body is already present", async function () {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      headers: createHttpHeaders({
+        "Content-Type": "multipart/form-data",
+      }),
+      multipartBody: { parts: [] },
+      body: "AAAAAAAAAAAA",
+    });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = multipartPolicy();
+
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
+      /multipartBody and regular body cannot be set at the same time/,
+    );
+  });
+
   describe("content-type request header and boundary", async function () {
     it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
