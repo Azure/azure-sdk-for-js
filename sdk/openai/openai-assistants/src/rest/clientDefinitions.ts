@@ -274,13 +274,14 @@ export interface Routes {
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/steps' has methods for the following verbs: get */
   (path: "/threads/{threadId}/runs/{runId}/steps", threadId: string, runId: string): ListRunSteps;
   /** Resource for '/files' has methods for the following verbs: get, post */
-  (path: "/files"): ListFiles;
+  (path: "{azurePath}/files", azurePath: string): ListFiles;
   /** Resource for '/files/\{fileId\}' has methods for the following verbs: delete, get */
-  (path: "/files/{fileId}", fileId: string): DeleteFile;
+  (path: "{azurePath}/files/{fileId}", azurePath: string, fileId: string): DeleteFile;
   /** Resource for '/files/\{fileId\}/content' has methods for the following verbs: get */
-  (path: "/files/{fileId}/content", fileId: string): RetrieveFileContent;
+  (path: "{azurePath}/files/{fileId}/content", azurePath: string, fileId: string): RetrieveFileContent;
 }
 
 export type AssistantsContext = Client & {
   path: Routes;
+  isAzure: boolean;
 };

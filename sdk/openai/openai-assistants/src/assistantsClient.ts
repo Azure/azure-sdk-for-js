@@ -106,7 +106,7 @@ export class AssistantsClient {
     this._client = createAssistants(endpoint, cred, {
       ...opts,
       ...(this._isAzure
-        ? {}
+        ? { isAzure: true }
         : {
             additionalPolicies: [
               ...(opts.additionalPolicies ?? []),

@@ -24,8 +24,8 @@ describe("OpenAIAssistants", () => {
     await recorder.stop();
   });
 
-  // const authTypes = ["AzureAPIKey", "OpenAIKey", "AAD"] as AuthMethod[];
-  const authTypes = ["OpenAIKey" as AuthMethod];
+  const authTypes = ["AzureAPIKey", "OpenAIKey"] as AuthMethod[];
+  //const authTypes = ["AzureAPIKey" as AuthMethod];
 
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
@@ -427,6 +427,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(message.threadId, thread.id);
           let run = await client.threadRuns.createRun(thread.id, assistant.id, {
             tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool],
+            requestOptions: { timeout: 10000 },
           });
           const runId = run.id;
           assert.isNotNull(runId);
