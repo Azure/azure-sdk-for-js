@@ -22,7 +22,7 @@
   "types": "core-rest-pipeline.shims.d.ts",
   "scripts": {
     "build:samples": "echo Obsolete",
-    "build:test": "npx playwright install",
+    "build:test": "echo Obsolete",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test false && api-extractor run --local",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
