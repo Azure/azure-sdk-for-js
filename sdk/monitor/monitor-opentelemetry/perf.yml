@@ -15,10 +15,6 @@ parameters:
   displayName: Tests (regex of tests to run)
   type: string
   default: '^(span-export|log-export|metric-export)$'
-- name: Arguments
-  displayName: Arguments (regex of arguments to run)
-  type: string
-  default: '(1024)'
 - name: Iterations
   displayName: Iterations (times to run each test)
   type: number
