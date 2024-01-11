@@ -32,7 +32,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
-      "acquireTokenByUsernamePassword"
+      "acquireTokenByUsernamePassword",
     );
   });
 
@@ -63,7 +63,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
       env.AZURE_CLIENT_ID!,
       env.AZURE_USERNAME!,
       env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
     );
 
     await credential.getToken(scope);
@@ -93,7 +93,7 @@ describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
       env.AZURE_CLIENT_ID!,
       env.AZURE_USERNAME!,
       env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
     );
 
     await credential.getToken(scope);

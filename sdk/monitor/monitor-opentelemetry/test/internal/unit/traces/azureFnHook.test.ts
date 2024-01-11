@@ -38,7 +38,7 @@ describe("Library/AzureFunctionsHook", () => {
     assert.ok(spy.called);
     assert.equal(
       spy.args[0][0],
-      "@azure/functions-core failed to load, not running in Azure Functions"
+      "@azure/functions-core failed to load, not running in Azure Functions",
     );
   });
 
@@ -86,7 +86,7 @@ describe("Library/AzureFunctionsHook", () => {
                     // Context should be propagated here
                     assert.equal(
                       (span as any)["_spanContext"]["traceId"],
-                      "0af7651916cd43dd8448eb211c80319c"
+                      "0af7651916cd43dd8448eb211c80319c",
                     );
                     assert.ok((span as any)["_spanContext"]["spanId"]);
                   },

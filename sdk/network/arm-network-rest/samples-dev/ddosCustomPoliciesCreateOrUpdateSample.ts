@@ -33,7 +33,7 @@ async function createDDoSCustomPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       subscriptionId,
       resourceGroupName,
-      ddosCustomPolicyName
+      ddosCustomPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

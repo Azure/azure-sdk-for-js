@@ -8,15 +8,15 @@ describe("authenticationEndpoint", () => {
   it("construct with invalid argument", () => {
     assert.throws(
       () => constructAuthenticationEndpointFromDomain(undefined!),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
     assert.throws(
       () => constructAuthenticationEndpointFromDomain(null!),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
     assert.throws(
       () => constructAuthenticationEndpointFromDomain(""),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
   });
 

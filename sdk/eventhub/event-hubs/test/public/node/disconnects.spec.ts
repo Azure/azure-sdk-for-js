@@ -33,11 +33,11 @@ testWithServiceTypes((serviceVersion, onVersions) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -46,7 +46,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         const client = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
         );
         const clientConnectionContext = client["_context"];
 
@@ -81,7 +81,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         const consumer = new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
+          service.path,
         );
 
         const producer = new EventHubProducerClient(service.connectionString, service.path);
@@ -113,7 +113,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected to receive 1 event in first processEvents invocation."
+                    "Expected to receive 1 event in first processEvents invocation.",
                   );
                   should.equal(data[0].body, eventSentBeforeDisconnect.body);
                   originalConnectionId = clientConnectionContext.connectionId;
@@ -126,13 +126,13 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                   should.equal(
                     data.length,
                     0,
-                    "Expected to receive 0 events in second processEvents invocation."
+                    "Expected to receive 0 events in second processEvents invocation.",
                   );
                   // The elapsed time since the last processEvents invocation should be >= maxWaitTimeInSeconds
                   should.equal(
                     Date.now() - firstInvocationEndTime >= maxWaitTimeInSeconds,
                     true,
-                    "Expected elapsed time between first and second processEvents invocations to be >= maxWaitTimeInSeconds."
+                    "Expected elapsed time between first and second processEvents invocations to be >= maxWaitTimeInSeconds.",
                   );
                   const newConnectionId = clientConnectionContext.connectionId;
                   should.not.equal(originalConnectionId, newConnectionId);
@@ -143,7 +143,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected to receive 1 event in third processEvents invocation."
+                    "Expected to receive 1 event in third processEvents invocation.",
                   );
                   should.equal(data[0].body, eventSentAfterDisconnect.body);
                   const newConnectionId = clientConnectionContext.connectionId;
@@ -160,7 +160,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 sequenceNumber: partitionProperties.lastEnqueuedSequenceNumber,
               },
               maxWaitTimeInSeconds,
-            }
+            },
           );
         });
         await subscription!.close();

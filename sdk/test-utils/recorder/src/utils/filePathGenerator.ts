@@ -34,7 +34,7 @@ export function formatPath(path: string): string {
 export function generateTestRecordingFilePath(
   platform: "node" | "browsers",
   testSuiteTitle: string,
-  testTitle: string
+  testTitle: string,
 ): string {
   // File Extension
   return `${platform}/${formatPath(testSuiteTitle)}/recording_${formatPath(testTitle)}.json`;

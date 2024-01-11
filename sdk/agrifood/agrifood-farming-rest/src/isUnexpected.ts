@@ -639,783 +639,783 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ApplicationDataList200Response | ApplicationDataListDefaultResponse
+  response: ApplicationDataList200Response | ApplicationDataListDefaultResponse,
 ): response is ApplicationDataListDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataCreateCascadeDeleteJob202Response
-    | ApplicationDataCreateCascadeDeleteJobDefaultResponse
+    | ApplicationDataCreateCascadeDeleteJobDefaultResponse,
 ): response is ApplicationDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataGetCascadeDeleteJobDetails200Response
-    | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse
+    | ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is ApplicationDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataListByPartyId200Response | ApplicationDataListByPartyIdDefaultResponse
+  response: ApplicationDataListByPartyId200Response | ApplicationDataListByPartyIdDefaultResponse,
 ): response is ApplicationDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataGet200Response | ApplicationDataGetDefaultResponse
+  response: ApplicationDataGet200Response | ApplicationDataGetDefaultResponse,
 ): response is ApplicationDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationDataCreateOrUpdate200Response
     | ApplicationDataCreateOrUpdate201Response
-    | ApplicationDataCreateOrUpdateDefaultResponse
+    | ApplicationDataCreateOrUpdateDefaultResponse,
 ): response is ApplicationDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse
+  response: ApplicationDataDelete204Response | ApplicationDataDeleteDefaultResponse,
 ): response is ApplicationDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsListByPartyId200Response | AttachmentsListByPartyIdDefaultResponse
+  response: AttachmentsListByPartyId200Response | AttachmentsListByPartyIdDefaultResponse,
 ): response is AttachmentsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsGet200Response | AttachmentsGetDefaultResponse
+  response: AttachmentsGet200Response | AttachmentsGetDefaultResponse,
 ): response is AttachmentsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AttachmentsCreateOrUpdate200Response
     | AttachmentsCreateOrUpdate201Response
-    | AttachmentsCreateOrUpdateDefaultResponse
+    | AttachmentsCreateOrUpdateDefaultResponse,
 ): response is AttachmentsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse
+  response: AttachmentsDelete204Response | AttachmentsDeleteDefaultResponse,
 ): response is AttachmentsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse
+  response: AttachmentsDownload200Response | AttachmentsDownloadDefaultResponse,
 ): response is AttachmentsDownloadDefaultResponse;
 export function isUnexpected(
-  response: BoundariesList200Response | BoundariesListDefaultResponse
+  response: BoundariesList200Response | BoundariesListDefaultResponse,
 ): response is BoundariesListDefaultResponse;
 export function isUnexpected(
-  response: BoundariesSearch200Response | BoundariesSearchDefaultResponse
+  response: BoundariesSearch200Response | BoundariesSearchDefaultResponse,
 ): response is BoundariesSearchDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesCreateCascadeDeleteJob202Response
-    | BoundariesCreateCascadeDeleteJobDefaultResponse
+    | BoundariesCreateCascadeDeleteJobDefaultResponse,
 ): response is BoundariesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesGetCascadeDeleteJobDetails200Response
-    | BoundariesGetCascadeDeleteJobDetailsDefaultResponse
+    | BoundariesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is BoundariesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse
+  response: BoundariesListByPartyId200Response | BoundariesListByPartyIdDefaultResponse,
 ): response is BoundariesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: BoundariesSearchByPartyId200Response | BoundariesSearchByPartyIdDefaultResponse
+  response: BoundariesSearchByPartyId200Response | BoundariesSearchByPartyIdDefaultResponse,
 ): response is BoundariesSearchByPartyIdDefaultResponse;
 export function isUnexpected(
   response:
     | BoundariesCreateOrUpdate200Response
     | BoundariesCreateOrUpdate201Response
-    | BoundariesCreateOrUpdateDefaultResponse
+    | BoundariesCreateOrUpdateDefaultResponse,
 ): response is BoundariesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: BoundariesGet200Response | BoundariesGetDefaultResponse
+  response: BoundariesGet200Response | BoundariesGetDefaultResponse,
 ): response is BoundariesGetDefaultResponse;
 export function isUnexpected(
-  response: BoundariesDelete204Response | BoundariesDeleteDefaultResponse
+  response: BoundariesDelete204Response | BoundariesDeleteDefaultResponse,
 ): response is BoundariesDeleteDefaultResponse;
 export function isUnexpected(
-  response: BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse
+  response: BoundariesGetOverlap200Response | BoundariesGetOverlapDefaultResponse,
 ): response is BoundariesGetOverlapDefaultResponse;
 export function isUnexpected(
-  response: CropProductsList200Response | CropProductsListDefaultResponse
+  response: CropProductsList200Response | CropProductsListDefaultResponse,
 ): response is CropProductsListDefaultResponse;
 export function isUnexpected(
-  response: CropProductsGet200Response | CropProductsGetDefaultResponse
+  response: CropProductsGet200Response | CropProductsGetDefaultResponse,
 ): response is CropProductsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CropProductsCreateOrUpdate200Response
     | CropProductsCreateOrUpdate201Response
-    | CropProductsCreateOrUpdateDefaultResponse
+    | CropProductsCreateOrUpdateDefaultResponse,
 ): response is CropProductsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CropProductsDelete204Response | CropProductsDeleteDefaultResponse
+  response: CropProductsDelete204Response | CropProductsDeleteDefaultResponse,
 ): response is CropProductsDeleteDefaultResponse;
 export function isUnexpected(
-  response: CropsList200Response | CropsListDefaultResponse
+  response: CropsList200Response | CropsListDefaultResponse,
 ): response is CropsListDefaultResponse;
 export function isUnexpected(
-  response: CropsGet200Response | CropsGetDefaultResponse
+  response: CropsGet200Response | CropsGetDefaultResponse,
 ): response is CropsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CropsCreateOrUpdate200Response
     | CropsCreateOrUpdate201Response
-    | CropsCreateOrUpdateDefaultResponse
+    | CropsCreateOrUpdateDefaultResponse,
 ): response is CropsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CropsDelete204Response | CropsDeleteDefaultResponse
+  response: CropsDelete204Response | CropsDeleteDefaultResponse,
 ): response is CropsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse
+  response: DeviceDataModelsList200Response | DeviceDataModelsListDefaultResponse,
 ): response is DeviceDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
     | DeviceDataModelsCreateOrUpdate200Response
     | DeviceDataModelsCreateOrUpdate201Response
-    | DeviceDataModelsCreateOrUpdateDefaultResponse
+    | DeviceDataModelsCreateOrUpdateDefaultResponse,
 ): response is DeviceDataModelsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse
+  response: DeviceDataModelsGet200Response | DeviceDataModelsGetDefaultResponse,
 ): response is DeviceDataModelsGetDefaultResponse;
 export function isUnexpected(
-  response: DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse
+  response: DeviceDataModelsDelete204Response | DeviceDataModelsDeleteDefaultResponse,
 ): response is DeviceDataModelsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DevicesList200Response | DevicesListDefaultResponse
+  response: DevicesList200Response | DevicesListDefaultResponse,
 ): response is DevicesListDefaultResponse;
 export function isUnexpected(
   response:
     | DevicesCreateOrUpdate200Response
     | DevicesCreateOrUpdate201Response
-    | DevicesCreateOrUpdateDefaultResponse
+    | DevicesCreateOrUpdateDefaultResponse,
 ): response is DevicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DevicesGet200Response | DevicesGetDefaultResponse
+  response: DevicesGet200Response | DevicesGetDefaultResponse,
 ): response is DevicesGetDefaultResponse;
 export function isUnexpected(
-  response: DevicesDelete204Response | DevicesDeleteDefaultResponse
+  response: DevicesDelete204Response | DevicesDeleteDefaultResponse,
 ): response is DevicesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | FarmOperationsCreateDataIngestionJob202Response
-    | FarmOperationsCreateDataIngestionJobDefaultResponse
+    | FarmOperationsCreateDataIngestionJobDefaultResponse,
 ): response is FarmOperationsCreateDataIngestionJobDefaultResponse;
 export function isUnexpected(
   response:
     | FarmOperationsGetDataIngestionJobDetails200Response
-    | FarmOperationsGetDataIngestionJobDetailsDefaultResponse
+    | FarmOperationsGetDataIngestionJobDetailsDefaultResponse,
 ): response is FarmOperationsGetDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: FarmsList200Response | FarmsListDefaultResponse
+  response: FarmsList200Response | FarmsListDefaultResponse,
 ): response is FarmsListDefaultResponse;
 export function isUnexpected(
-  response: FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobDefaultResponse
+  response: FarmsCreateCascadeDeleteJob202Response | FarmsCreateCascadeDeleteJobDefaultResponse,
 ): response is FarmsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | FarmsGetCascadeDeleteJobDetails200Response
-    | FarmsGetCascadeDeleteJobDetailsDefaultResponse
+    | FarmsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is FarmsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse
+  response: FarmsListByPartyId200Response | FarmsListByPartyIdDefaultResponse,
 ): response is FarmsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: FarmsGet200Response | FarmsGetDefaultResponse
+  response: FarmsGet200Response | FarmsGetDefaultResponse,
 ): response is FarmsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FarmsCreateOrUpdate200Response
     | FarmsCreateOrUpdate201Response
-    | FarmsCreateOrUpdateDefaultResponse
+    | FarmsCreateOrUpdateDefaultResponse,
 ): response is FarmsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FarmsDelete204Response | FarmsDeleteDefaultResponse
+  response: FarmsDelete204Response | FarmsDeleteDefaultResponse,
 ): response is FarmsDeleteDefaultResponse;
 export function isUnexpected(
-  response: FieldsList200Response | FieldsListDefaultResponse
+  response: FieldsList200Response | FieldsListDefaultResponse,
 ): response is FieldsListDefaultResponse;
 export function isUnexpected(
   response:
     | FieldsGetCascadeDeleteJobDetails200Response
-    | FieldsGetCascadeDeleteJobDetailsDefaultResponse
+    | FieldsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is FieldsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobDefaultResponse
+  response: FieldsCreateCascadeDeleteJob202Response | FieldsCreateCascadeDeleteJobDefaultResponse,
 ): response is FieldsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse
+  response: FieldsListByPartyId200Response | FieldsListByPartyIdDefaultResponse,
 ): response is FieldsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: FieldsGet200Response | FieldsGetDefaultResponse
+  response: FieldsGet200Response | FieldsGetDefaultResponse,
 ): response is FieldsGetDefaultResponse;
 export function isUnexpected(
   response:
     | FieldsCreateOrUpdate200Response
     | FieldsCreateOrUpdate201Response
-    | FieldsCreateOrUpdateDefaultResponse
+    | FieldsCreateOrUpdateDefaultResponse,
 ): response is FieldsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: FieldsDelete204Response | FieldsDeleteDefaultResponse
+  response: FieldsDelete204Response | FieldsDeleteDefaultResponse,
 ): response is FieldsDeleteDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataList200Response | HarvestDataListDefaultResponse
+  response: HarvestDataList200Response | HarvestDataListDefaultResponse,
 ): response is HarvestDataListDefaultResponse;
 export function isUnexpected(
   response:
     | HarvestDataCreateCascadeDeleteJob202Response
-    | HarvestDataCreateCascadeDeleteJobDefaultResponse
+    | HarvestDataCreateCascadeDeleteJobDefaultResponse,
 ): response is HarvestDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | HarvestDataGetCascadeDeleteJobDetails200Response
-    | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse
+    | HarvestDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is HarvestDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataListByPartyId200Response | HarvestDataListByPartyIdDefaultResponse
+  response: HarvestDataListByPartyId200Response | HarvestDataListByPartyIdDefaultResponse,
 ): response is HarvestDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataGet200Response | HarvestDataGetDefaultResponse
+  response: HarvestDataGet200Response | HarvestDataGetDefaultResponse,
 ): response is HarvestDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | HarvestDataCreateOrUpdate200Response
     | HarvestDataCreateOrUpdate201Response
-    | HarvestDataCreateOrUpdateDefaultResponse
+    | HarvestDataCreateOrUpdateDefaultResponse,
 ): response is HarvestDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse
+  response: HarvestDataDelete204Response | HarvestDataDeleteDefaultResponse,
 ): response is HarvestDataDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ImageProcessingCreateRasterizeJob202Response
-    | ImageProcessingCreateRasterizeJobDefaultResponse
+    | ImageProcessingCreateRasterizeJobDefaultResponse,
 ): response is ImageProcessingCreateRasterizeJobDefaultResponse;
 export function isUnexpected(
   response:
     | ImageProcessingGetRasterizeJob200Response
-    | ImageProcessingGetRasterizeJobDefaultResponse
+    | ImageProcessingGetRasterizeJobDefaultResponse,
 ): response is ImageProcessingGetRasterizeJobDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsListByPartyIdModelIdAndResource200Response
-    | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse
+    | InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse,
 ): response is InsightAttachmentsListByPartyIdModelIdAndResourceDefaultResponse;
 export function isUnexpected(
   response:
     | InsightAttachmentsCreateOrUpdate200Response
     | InsightAttachmentsCreateOrUpdate201Response
-    | InsightAttachmentsCreateOrUpdateDefaultResponse
+    | InsightAttachmentsCreateOrUpdateDefaultResponse,
 ): response is InsightAttachmentsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse
+  response: InsightAttachmentsGet200Response | InsightAttachmentsGetDefaultResponse,
 ): response is InsightAttachmentsGetDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsDelete204Response | InsightAttachmentsDeleteDefaultResponse
+  response: InsightAttachmentsDelete204Response | InsightAttachmentsDeleteDefaultResponse,
 ): response is InsightAttachmentsDeleteDefaultResponse;
 export function isUnexpected(
-  response: InsightAttachmentsDownload200Response | InsightAttachmentsDownloadDefaultResponse
+  response: InsightAttachmentsDownload200Response | InsightAttachmentsDownloadDefaultResponse,
 ): response is InsightAttachmentsDownloadDefaultResponse;
 export function isUnexpected(
   response:
     | InsightsCreateCascadeDeleteJob202Response
-    | InsightsCreateCascadeDeleteJobDefaultResponse
+    | InsightsCreateCascadeDeleteJobDefaultResponse,
 ): response is InsightsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | InsightsGetCascadeDeleteJobDetails200Response
-    | InsightsGetCascadeDeleteJobDetailsDefaultResponse
+    | InsightsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is InsightsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | InsightsListByPartyIdModelIdAndResource200Response
-    | InsightsListByPartyIdModelIdAndResourceDefaultResponse
+    | InsightsListByPartyIdModelIdAndResourceDefaultResponse,
 ): response is InsightsListByPartyIdModelIdAndResourceDefaultResponse;
 export function isUnexpected(
   response:
     | InsightsCreateOrUpdate200Response
     | InsightsCreateOrUpdate201Response
-    | InsightsCreateOrUpdateDefaultResponse
+    | InsightsCreateOrUpdateDefaultResponse,
 ): response is InsightsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: InsightsGet200Response | InsightsGetDefaultResponse
+  response: InsightsGet200Response | InsightsGetDefaultResponse,
 ): response is InsightsGetDefaultResponse;
 export function isUnexpected(
-  response: InsightsDelete204Response | InsightsDeleteDefaultResponse
+  response: InsightsDelete204Response | InsightsDeleteDefaultResponse,
 ): response is InsightsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesList200Response | ManagementZonesListDefaultResponse
+  response: ManagementZonesList200Response | ManagementZonesListDefaultResponse,
 ): response is ManagementZonesListDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementZonesGetCascadeDeleteJobDetails200Response
-    | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse
+    | ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is ManagementZonesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementZonesCreateCascadeDeleteJob202Response
-    | ManagementZonesCreateCascadeDeleteJobDefaultResponse
+    | ManagementZonesCreateCascadeDeleteJobDefaultResponse,
 ): response is ManagementZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesListByPartyId200Response | ManagementZonesListByPartyIdDefaultResponse
+  response: ManagementZonesListByPartyId200Response | ManagementZonesListByPartyIdDefaultResponse,
 ): response is ManagementZonesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesGet200Response | ManagementZonesGetDefaultResponse
+  response: ManagementZonesGet200Response | ManagementZonesGetDefaultResponse,
 ): response is ManagementZonesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ManagementZonesCreateOrUpdate200Response
     | ManagementZonesCreateOrUpdate201Response
-    | ManagementZonesCreateOrUpdateDefaultResponse
+    | ManagementZonesCreateOrUpdateDefaultResponse,
 ): response is ManagementZonesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse
+  response: ManagementZonesDelete204Response | ManagementZonesDeleteDefaultResponse,
 ): response is ManagementZonesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceCreateBiomassModelJob202Response
-    | ModelInferenceCreateBiomassModelJobDefaultResponse
+    | ModelInferenceCreateBiomassModelJobDefaultResponse,
 ): response is ModelInferenceCreateBiomassModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceGetBiomassModelJob200Response
-    | ModelInferenceGetBiomassModelJobDefaultResponse
+    | ModelInferenceGetBiomassModelJobDefaultResponse,
 ): response is ModelInferenceGetBiomassModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceCreateSensorPlacementModelJob202Response
-    | ModelInferenceCreateSensorPlacementModelJobDefaultResponse
+    | ModelInferenceCreateSensorPlacementModelJobDefaultResponse,
 ): response is ModelInferenceCreateSensorPlacementModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceGetSensorPlacementModelJob200Response
-    | ModelInferenceGetSensorPlacementModelJobDefaultResponse
+    | ModelInferenceGetSensorPlacementModelJobDefaultResponse,
 ): response is ModelInferenceGetSensorPlacementModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceCreateSoilMoistureModelJob202Response
-    | ModelInferenceCreateSoilMoistureModelJobDefaultResponse
+    | ModelInferenceCreateSoilMoistureModelJobDefaultResponse,
 ): response is ModelInferenceCreateSoilMoistureModelJobDefaultResponse;
 export function isUnexpected(
   response:
     | ModelInferenceGetSoilMoistureModelJob200Response
-    | ModelInferenceGetSoilMoistureModelJobDefaultResponse
+    | ModelInferenceGetSoilMoistureModelJobDefaultResponse,
 ): response is ModelInferenceGetSoilMoistureModelJobDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse
+  response: NutrientAnalysesList200Response | NutrientAnalysesListDefaultResponse,
 ): response is NutrientAnalysesListDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesListByPartyId200Response | NutrientAnalysesListByPartyIdDefaultResponse
+  response: NutrientAnalysesListByPartyId200Response | NutrientAnalysesListByPartyIdDefaultResponse,
 ): response is NutrientAnalysesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse
+  response: NutrientAnalysesGet200Response | NutrientAnalysesGetDefaultResponse,
 ): response is NutrientAnalysesGetDefaultResponse;
 export function isUnexpected(
   response:
     | NutrientAnalysesCreateOrUpdate200Response
     | NutrientAnalysesCreateOrUpdate201Response
-    | NutrientAnalysesCreateOrUpdateDefaultResponse
+    | NutrientAnalysesCreateOrUpdateDefaultResponse,
 ): response is NutrientAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse
+  response: NutrientAnalysesDelete204Response | NutrientAnalysesDeleteDefaultResponse,
 ): response is NutrientAnalysesDeleteDefaultResponse;
 export function isUnexpected(
-  response: OAuthProvidersList200Response | OAuthProvidersListDefaultResponse
+  response: OAuthProvidersList200Response | OAuthProvidersListDefaultResponse,
 ): response is OAuthProvidersListDefaultResponse;
 export function isUnexpected(
-  response: OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse
+  response: OAuthProvidersGet200Response | OAuthProvidersGetDefaultResponse,
 ): response is OAuthProvidersGetDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersCreateOrUpdate200Response
     | OAuthProvidersCreateOrUpdate201Response
-    | OAuthProvidersCreateOrUpdateDefaultResponse
+    | OAuthProvidersCreateOrUpdateDefaultResponse,
 ): response is OAuthProvidersCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse
+  response: OAuthProvidersDelete204Response | OAuthProvidersDeleteDefaultResponse,
 ): response is OAuthProvidersDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersGetCascadeDeleteJobDetails200Response
-    | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse
+    | OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is OAuthProvidersGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthProvidersCreateCascadeDeleteJob202Response
-    | OAuthProvidersCreateCascadeDeleteJobDefaultResponse
+    | OAuthProvidersCreateCascadeDeleteJobDefaultResponse,
 ): response is OAuthProvidersCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: OAuthTokensList200Response | OAuthTokensListDefaultResponse
+  response: OAuthTokensList200Response | OAuthTokensListDefaultResponse,
 ): response is OAuthTokensListDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthTokensGetOAuthConnectionLink200Response
-    | OAuthTokensGetOAuthConnectionLinkDefaultResponse
+    | OAuthTokensGetOAuthConnectionLinkDefaultResponse,
 ): response is OAuthTokensGetOAuthConnectionLinkDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthTokensGetCascadeDeleteJobDetails200Response
-    | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse
+    | OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is OAuthTokensGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | OAuthTokensCreateCascadeDeleteJob202Response
-    | OAuthTokensCreateCascadeDeleteJobDefaultResponse
+    | OAuthTokensCreateCascadeDeleteJobDefaultResponse,
 ): response is OAuthTokensCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PartiesList200Response | PartiesListDefaultResponse
+  response: PartiesList200Response | PartiesListDefaultResponse,
 ): response is PartiesListDefaultResponse;
 export function isUnexpected(
-  response: PartiesGet200Response | PartiesGetDefaultResponse
+  response: PartiesGet200Response | PartiesGetDefaultResponse,
 ): response is PartiesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PartiesCreateOrUpdate200Response
     | PartiesCreateOrUpdate201Response
-    | PartiesCreateOrUpdateDefaultResponse
+    | PartiesCreateOrUpdateDefaultResponse,
 ): response is PartiesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PartiesDelete204Response | PartiesDeleteDefaultResponse
+  response: PartiesDelete204Response | PartiesDeleteDefaultResponse,
 ): response is PartiesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | PartiesGetCascadeDeleteJobDetails200Response
-    | PartiesGetCascadeDeleteJobDetailsDefaultResponse
+    | PartiesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PartiesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: PartiesCreateCascadeDeleteJob202Response | PartiesCreateCascadeDeleteJobDefaultResponse
+  response: PartiesCreateCascadeDeleteJob202Response | PartiesCreateCascadeDeleteJobDefaultResponse,
 ): response is PartiesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataListByPartyId200Response | PlantingDataListByPartyIdDefaultResponse
+  response: PlantingDataListByPartyId200Response | PlantingDataListByPartyIdDefaultResponse,
 ): response is PlantingDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataGet200Response | PlantingDataGetDefaultResponse
+  response: PlantingDataGet200Response | PlantingDataGetDefaultResponse,
 ): response is PlantingDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataCreateOrUpdate200Response
     | PlantingDataCreateOrUpdate201Response
-    | PlantingDataCreateOrUpdateDefaultResponse
+    | PlantingDataCreateOrUpdateDefaultResponse,
 ): response is PlantingDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse
+  response: PlantingDataDelete204Response | PlantingDataDeleteDefaultResponse,
 ): response is PlantingDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: PlantingDataList200Response | PlantingDataListDefaultResponse
+  response: PlantingDataList200Response | PlantingDataListDefaultResponse,
 ): response is PlantingDataListDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataCreateCascadeDeleteJob202Response
-    | PlantingDataCreateCascadeDeleteJobDefaultResponse
+    | PlantingDataCreateCascadeDeleteJobDefaultResponse,
 ): response is PlantingDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | PlantingDataGetCascadeDeleteJobDetails200Response
-    | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse
+    | PlantingDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PlantingDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesListByPartyId200Response
-    | PlantTissueAnalysesListByPartyIdDefaultResponse
+    | PlantTissueAnalysesListByPartyIdDefaultResponse,
 ): response is PlantTissueAnalysesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse
+  response: PlantTissueAnalysesGet200Response | PlantTissueAnalysesGetDefaultResponse,
 ): response is PlantTissueAnalysesGetDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesCreateOrUpdate200Response
     | PlantTissueAnalysesCreateOrUpdate201Response
-    | PlantTissueAnalysesCreateOrUpdateDefaultResponse
+    | PlantTissueAnalysesCreateOrUpdateDefaultResponse,
 ): response is PlantTissueAnalysesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeleteDefaultResponse
+  response: PlantTissueAnalysesDelete204Response | PlantTissueAnalysesDeleteDefaultResponse,
 ): response is PlantTissueAnalysesDeleteDefaultResponse;
 export function isUnexpected(
-  response: PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse
+  response: PlantTissueAnalysesList200Response | PlantTissueAnalysesListDefaultResponse,
 ): response is PlantTissueAnalysesListDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesCreateCascadeDeleteJob202Response
-    | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse
+    | PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse,
 ): response is PlantTissueAnalysesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | PlantTissueAnalysesGetCascadeDeleteJobDetails200Response
-    | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse
+    | PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PlantTissueAnalysesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsListByPartyId200Response | PrescriptionMapsListByPartyIdDefaultResponse
+  response: PrescriptionMapsListByPartyId200Response | PrescriptionMapsListByPartyIdDefaultResponse,
 ): response is PrescriptionMapsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse
+  response: PrescriptionMapsGet200Response | PrescriptionMapsGetDefaultResponse,
 ): response is PrescriptionMapsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsCreateOrUpdate200Response
     | PrescriptionMapsCreateOrUpdate201Response
-    | PrescriptionMapsCreateOrUpdateDefaultResponse
+    | PrescriptionMapsCreateOrUpdateDefaultResponse,
 ): response is PrescriptionMapsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse
+  response: PrescriptionMapsDelete204Response | PrescriptionMapsDeleteDefaultResponse,
 ): response is PrescriptionMapsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse
+  response: PrescriptionMapsList200Response | PrescriptionMapsListDefaultResponse,
 ): response is PrescriptionMapsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsGetCascadeDeleteJobDetails200Response
-    | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse
+    | PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PrescriptionMapsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionMapsCreateCascadeDeleteJob202Response
-    | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse
+    | PrescriptionMapsCreateCascadeDeleteJobDefaultResponse,
 ): response is PrescriptionMapsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsListByPartyId200Response | PrescriptionsListByPartyIdDefaultResponse
+  response: PrescriptionsListByPartyId200Response | PrescriptionsListByPartyIdDefaultResponse,
 ): response is PrescriptionsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsGet200Response | PrescriptionsGetDefaultResponse
+  response: PrescriptionsGet200Response | PrescriptionsGetDefaultResponse,
 ): response is PrescriptionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsCreateOrUpdate200Response
     | PrescriptionsCreateOrUpdate201Response
-    | PrescriptionsCreateOrUpdateDefaultResponse
+    | PrescriptionsCreateOrUpdateDefaultResponse,
 ): response is PrescriptionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse
+  response: PrescriptionsDelete204Response | PrescriptionsDeleteDefaultResponse,
 ): response is PrescriptionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: PrescriptionsList200Response | PrescriptionsListDefaultResponse
+  response: PrescriptionsList200Response | PrescriptionsListDefaultResponse,
 ): response is PrescriptionsListDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsGetCascadeDeleteJobDetails200Response
-    | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse
+    | PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is PrescriptionsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | PrescriptionsCreateCascadeDeleteJob202Response
-    | PrescriptionsCreateCascadeDeleteJobDefaultResponse
+    | PrescriptionsCreateCascadeDeleteJobDefaultResponse,
 ): response is PrescriptionsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: ScenesList200Response | ScenesListDefaultResponse
+  response: ScenesList200Response | ScenesListDefaultResponse,
 ): response is ScenesListDefaultResponse;
 export function isUnexpected(
-  response: ScenesDownload200Response | ScenesDownloadDefaultResponse
+  response: ScenesDownload200Response | ScenesDownloadDefaultResponse,
 ): response is ScenesDownloadDefaultResponse;
 export function isUnexpected(
   response:
     | ScenesCreateSatelliteDataIngestionJob202Response
-    | ScenesCreateSatelliteDataIngestionJobDefaultResponse
+    | ScenesCreateSatelliteDataIngestionJobDefaultResponse,
 ): response is ScenesCreateSatelliteDataIngestionJobDefaultResponse;
 export function isUnexpected(
   response:
     | ScenesGetSatelliteDataIngestionJobDetails200Response
-    | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse
+    | ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse,
 ): response is ScenesGetSatelliteDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse
+  response: ScenesSearchFeatures200Response | ScenesSearchFeaturesDefaultResponse,
 ): response is ScenesSearchFeaturesDefaultResponse;
 export function isUnexpected(
-  response: ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse
+  response: ScenesGetStacFeature200Response | ScenesGetStacFeatureDefaultResponse,
 ): response is ScenesGetStacFeatureDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsListByPartyId200Response | SeasonalFieldsListByPartyIdDefaultResponse
+  response: SeasonalFieldsListByPartyId200Response | SeasonalFieldsListByPartyIdDefaultResponse,
 ): response is SeasonalFieldsListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse
+  response: SeasonalFieldsGet200Response | SeasonalFieldsGetDefaultResponse,
 ): response is SeasonalFieldsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsCreateOrUpdate200Response
     | SeasonalFieldsCreateOrUpdate201Response
-    | SeasonalFieldsCreateOrUpdateDefaultResponse
+    | SeasonalFieldsCreateOrUpdateDefaultResponse,
 ): response is SeasonalFieldsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse
+  response: SeasonalFieldsDelete204Response | SeasonalFieldsDeleteDefaultResponse,
 ): response is SeasonalFieldsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse
+  response: SeasonalFieldsList200Response | SeasonalFieldsListDefaultResponse,
 ): response is SeasonalFieldsListDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsGetCascadeDeleteJobDetails200Response
-    | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse
+    | SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is SeasonalFieldsGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonalFieldsCreateCascadeDeleteJob202Response
-    | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse
+    | SeasonalFieldsCreateCascadeDeleteJobDefaultResponse,
 ): response is SeasonalFieldsCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
-  response: SeasonsList200Response | SeasonsListDefaultResponse
+  response: SeasonsList200Response | SeasonsListDefaultResponse,
 ): response is SeasonsListDefaultResponse;
 export function isUnexpected(
-  response: SeasonsGet200Response | SeasonsGetDefaultResponse
+  response: SeasonsGet200Response | SeasonsGetDefaultResponse,
 ): response is SeasonsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SeasonsCreateOrUpdate200Response
     | SeasonsCreateOrUpdate201Response
-    | SeasonsCreateOrUpdateDefaultResponse
+    | SeasonsCreateOrUpdateDefaultResponse,
 ): response is SeasonsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SeasonsDelete204Response | SeasonsDeleteDefaultResponse
+  response: SeasonsDelete204Response | SeasonsDeleteDefaultResponse,
 ): response is SeasonsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsList200Response | SensorDataModelsListDefaultResponse
+  response: SensorDataModelsList200Response | SensorDataModelsListDefaultResponse,
 ): response is SensorDataModelsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorDataModelsCreateOrUpdate200Response
     | SensorDataModelsCreateOrUpdate201Response
-    | SensorDataModelsCreateOrUpdateDefaultResponse
+    | SensorDataModelsCreateOrUpdateDefaultResponse,
 ): response is SensorDataModelsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse
+  response: SensorDataModelsGet200Response | SensorDataModelsGetDefaultResponse,
 ): response is SensorDataModelsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse
+  response: SensorDataModelsDelete204Response | SensorDataModelsDeleteDefaultResponse,
 ): response is SensorDataModelsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorEventsList200Response | SensorEventsListDefaultResponse
+  response: SensorEventsList200Response | SensorEventsListDefaultResponse,
 ): response is SensorEventsListDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsList200Response | SensorMappingsListDefaultResponse
+  response: SensorMappingsList200Response | SensorMappingsListDefaultResponse,
 ): response is SensorMappingsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorMappingsCreateOrUpdate200Response
     | SensorMappingsCreateOrUpdate201Response
-    | SensorMappingsCreateOrUpdateDefaultResponse
+    | SensorMappingsCreateOrUpdateDefaultResponse,
 ): response is SensorMappingsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsGet200Response | SensorMappingsGetDefaultResponse
+  response: SensorMappingsGet200Response | SensorMappingsGetDefaultResponse,
 ): response is SensorMappingsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse
+  response: SensorMappingsDelete204Response | SensorMappingsDeleteDefaultResponse,
 ): response is SensorMappingsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListDefaultResponse
+  response: SensorPartnerIntegrationsList200Response | SensorPartnerIntegrationsListDefaultResponse,
 ): response is SensorPartnerIntegrationsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsCreateOrUpdate200Response
     | SensorPartnerIntegrationsCreateOrUpdate201Response
-    | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse
+    | SensorPartnerIntegrationsCreateOrUpdateDefaultResponse,
 ): response is SensorPartnerIntegrationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetDefaultResponse
+  response: SensorPartnerIntegrationsGet200Response | SensorPartnerIntegrationsGetDefaultResponse,
 ): response is SensorPartnerIntegrationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsDelete204Response
-    | SensorPartnerIntegrationsDeleteDefaultResponse
+    | SensorPartnerIntegrationsDeleteDefaultResponse,
 ): response is SensorPartnerIntegrationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsCheckConsent200Response
-    | SensorPartnerIntegrationsCheckConsentDefaultResponse
+    | SensorPartnerIntegrationsCheckConsentDefaultResponse,
 ): response is SensorPartnerIntegrationsCheckConsentDefaultResponse;
 export function isUnexpected(
   response:
     | SensorPartnerIntegrationsGenerateConsentLink200Response
-    | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse
+    | SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse,
 ): response is SensorPartnerIntegrationsGenerateConsentLinkDefaultResponse;
 export function isUnexpected(
-  response: SensorsList200Response | SensorsListDefaultResponse
+  response: SensorsList200Response | SensorsListDefaultResponse,
 ): response is SensorsListDefaultResponse;
 export function isUnexpected(
   response:
     | SensorsCreateOrUpdate200Response
     | SensorsCreateOrUpdate201Response
-    | SensorsCreateOrUpdateDefaultResponse
+    | SensorsCreateOrUpdateDefaultResponse,
 ): response is SensorsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SensorsGet200Response | SensorsGetDefaultResponse
+  response: SensorsGet200Response | SensorsGetDefaultResponse,
 ): response is SensorsGetDefaultResponse;
 export function isUnexpected(
-  response: SensorsDelete204Response | SensorsDeleteDefaultResponse
+  response: SensorsDelete204Response | SensorsDeleteDefaultResponse,
 ): response is SensorsDeleteDefaultResponse;
 export function isUnexpected(
-  response: SensorsGetConnectionString200Response | SensorsGetConnectionStringDefaultResponse
+  response: SensorsGetConnectionString200Response | SensorsGetConnectionStringDefaultResponse,
 ): response is SensorsGetConnectionStringDefaultResponse;
 export function isUnexpected(
-  response: SensorsRenewConnectionString200Response | SensorsRenewConnectionStringDefaultResponse
+  response: SensorsRenewConnectionString200Response | SensorsRenewConnectionStringDefaultResponse,
 ): response is SensorsRenewConnectionStringDefaultResponse;
 export function isUnexpected(
-  response: SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse
+  response: SolutionInferenceCancel200Response | SolutionInferenceCancelDefaultResponse,
 ): response is SolutionInferenceCancelDefaultResponse;
 export function isUnexpected(
   response:
     | SolutionInferenceCreateOrUpdate202Response
-    | SolutionInferenceCreateOrUpdateDefaultResponse
+    | SolutionInferenceCreateOrUpdateDefaultResponse,
 ): response is SolutionInferenceCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse
+  response: SolutionInferenceFetch200Response | SolutionInferenceFetchDefaultResponse,
 ): response is SolutionInferenceFetchDefaultResponse;
 export function isUnexpected(
-  response: TillageDataListByPartyId200Response | TillageDataListByPartyIdDefaultResponse
+  response: TillageDataListByPartyId200Response | TillageDataListByPartyIdDefaultResponse,
 ): response is TillageDataListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: TillageDataGet200Response | TillageDataGetDefaultResponse
+  response: TillageDataGet200Response | TillageDataGetDefaultResponse,
 ): response is TillageDataGetDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataCreateOrUpdate200Response
     | TillageDataCreateOrUpdate201Response
-    | TillageDataCreateOrUpdateDefaultResponse
+    | TillageDataCreateOrUpdateDefaultResponse,
 ): response is TillageDataCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: TillageDataDelete204Response | TillageDataDeleteDefaultResponse
+  response: TillageDataDelete204Response | TillageDataDeleteDefaultResponse,
 ): response is TillageDataDeleteDefaultResponse;
 export function isUnexpected(
-  response: TillageDataList200Response | TillageDataListDefaultResponse
+  response: TillageDataList200Response | TillageDataListDefaultResponse,
 ): response is TillageDataListDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataCreateCascadeDeleteJob202Response
-    | TillageDataCreateCascadeDeleteJobDefaultResponse
+    | TillageDataCreateCascadeDeleteJobDefaultResponse,
 ): response is TillageDataCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | TillageDataGetCascadeDeleteJobDetails200Response
-    | TillageDataGetCascadeDeleteJobDetailsDefaultResponse
+    | TillageDataGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is TillageDataGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherList200Response | WeatherListDefaultResponse
+  response: WeatherList200Response | WeatherListDefaultResponse,
 ): response is WeatherListDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherGetDataDeleteJobDetails200Response
-    | WeatherGetDataDeleteJobDetailsDefaultResponse
+    | WeatherGetDataDeleteJobDetailsDefaultResponse,
 ): response is WeatherGetDataDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobDefaultResponse
+  response: WeatherCreateDataDeleteJob202Response | WeatherCreateDataDeleteJobDefaultResponse,
 ): response is WeatherCreateDataDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
     | WeatherGetDataIngestionJobDetails200Response
-    | WeatherGetDataIngestionJobDetailsDefaultResponse
+    | WeatherGetDataIngestionJobDetailsDefaultResponse,
 ): response is WeatherGetDataIngestionJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobDefaultResponse
+  response: WeatherCreateDataIngestionJob202Response | WeatherCreateDataIngestionJobDefaultResponse,
 ): response is WeatherCreateDataIngestionJobDefaultResponse;
 export function isUnexpected(
-  response: WeatherDataGet200Response | WeatherDataGetDefaultResponse
+  response: WeatherDataGet200Response | WeatherDataGetDefaultResponse,
 ): response is WeatherDataGetDefaultResponse;
 export function isUnexpected(
-  response: ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse
+  response: ZonesListByPartyId200Response | ZonesListByPartyIdDefaultResponse,
 ): response is ZonesListByPartyIdDefaultResponse;
 export function isUnexpected(
-  response: ZonesGet200Response | ZonesGetDefaultResponse
+  response: ZonesGet200Response | ZonesGetDefaultResponse,
 ): response is ZonesGetDefaultResponse;
 export function isUnexpected(
   response:
     | ZonesCreateOrUpdate200Response
     | ZonesCreateOrUpdate201Response
-    | ZonesCreateOrUpdateDefaultResponse
+    | ZonesCreateOrUpdateDefaultResponse,
 ): response is ZonesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ZonesDelete204Response | ZonesDeleteDefaultResponse
+  response: ZonesDelete204Response | ZonesDeleteDefaultResponse,
 ): response is ZonesDeleteDefaultResponse;
 export function isUnexpected(
-  response: ZonesList200Response | ZonesListDefaultResponse
+  response: ZonesList200Response | ZonesListDefaultResponse,
 ): response is ZonesListDefaultResponse;
 export function isUnexpected(
   response:
     | ZonesGetCascadeDeleteJobDetails200Response
-    | ZonesGetCascadeDeleteJobDetailsDefaultResponse
+    | ZonesGetCascadeDeleteJobDetailsDefaultResponse,
 ): response is ZonesGetCascadeDeleteJobDetailsDefaultResponse;
 export function isUnexpected(
-  response: ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobDefaultResponse
+  response: ZonesCreateCascadeDeleteJob202Response | ZonesCreateCascadeDeleteJobDefaultResponse,
 ): response is ZonesCreateCascadeDeleteJobDefaultResponse;
 export function isUnexpected(
   response:
@@ -1840,7 +1840,7 @@ export function isUnexpected(
     | ZonesGetCascadeDeleteJobDetails200Response
     | ZonesGetCascadeDeleteJobDetailsDefaultResponse
     | ZonesCreateCascadeDeleteJob202Response
-    | ZonesCreateCascadeDeleteJobDefaultResponse
+    | ZonesCreateCascadeDeleteJobDefaultResponse,
 ): response is
   | ApplicationDataListDefaultResponse
   | ApplicationDataCreateCascadeDeleteJobDefaultResponse
@@ -2080,7 +2080,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

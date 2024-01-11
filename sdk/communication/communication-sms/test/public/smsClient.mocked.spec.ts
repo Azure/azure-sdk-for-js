@@ -66,7 +66,7 @@ describe("[mocked] SmsClient", async function () {
       assert.isDefined(request.headers.get("authorization"));
       assert.match(
         request.headers.get("authorization") as string,
-        /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+        /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
       );
     });
 

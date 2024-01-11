@@ -49,7 +49,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
 
   envVars = {
     [EnvVarNames.SERVICEBUS_CONNECTION_STRING]: getEnvVarValue(
-      EnvVarNames.SERVICEBUS_CONNECTION_STRING
+      EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     ),
     [EnvVarNames.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_ID),
     [EnvVarNames.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_SECRET),

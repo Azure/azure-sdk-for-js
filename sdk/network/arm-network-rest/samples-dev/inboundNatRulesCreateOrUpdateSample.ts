@@ -47,7 +47,7 @@ async function inboundNatRuleCreate() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      inboundNatRuleName
+      inboundNatRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

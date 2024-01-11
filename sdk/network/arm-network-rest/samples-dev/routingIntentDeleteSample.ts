@@ -34,7 +34,7 @@ async function routeTableDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routingIntentName
+      routingIntentName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

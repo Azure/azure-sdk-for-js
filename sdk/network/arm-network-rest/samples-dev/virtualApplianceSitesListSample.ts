@@ -32,7 +32,7 @@ async function listAllNetworkVirtualApplianceSitesForAGivenNetworkVirtualApplian
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}/virtualApplianceSites",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

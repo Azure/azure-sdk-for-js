@@ -40,7 +40,7 @@ async function resetAadProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post(parameters);
   const poller = getLongRunningPoller(client, initialResponse);

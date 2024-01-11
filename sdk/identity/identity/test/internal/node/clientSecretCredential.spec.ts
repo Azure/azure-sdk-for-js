@@ -31,7 +31,7 @@ describe("ClientSecretCredential (internal)", function () {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential"
+      "acquireTokenByClientCredential",
     );
   });
   afterEach(async function () {
@@ -66,7 +66,7 @@ describe("ClientSecretCredential (internal)", function () {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
       );
     });
   });
@@ -78,7 +78,7 @@ describe("ClientSecretCredential (internal)", function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
+      env.AZURE_CLIENT_SECRET!,
     );
 
     const { token: firstToken } = await credential.getToken(scope);
@@ -101,7 +101,7 @@ describe("ClientSecretCredential (internal)", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
@@ -118,7 +118,7 @@ describe("ClientSecretCredential (internal)", function () {
       {
         // TODO: Uncomment once we're ready to release this feature.
         // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
-      }
+      },
     );
 
     // We'll abort since we only want to ensure the parameters are sent appropriately.
@@ -148,7 +148,7 @@ describe("ClientSecretCredential (internal)", function () {
       env.AZURE_CLIENT_SECRET!,
       recorder.configureClientOptions({
         loggingOptions: { allowLoggingAccountIdentifiers: true },
-      })
+      }),
     );
     setLogLevel("info");
     const spy = Sinon.spy(process.stderr, "write");
@@ -165,10 +165,10 @@ describe("ClientSecretCredential (internal)", function () {
       (expectedCall!.args[0] as any as string)
         .replace(
           /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
-          "Object ID (user): HIDDEN"
+          "Object ID (user): HIDDEN",
         )
         .trim(),
-      expectedMessage
+      expectedMessage,
     );
     spy.restore();
     AzureLogger.destroy();

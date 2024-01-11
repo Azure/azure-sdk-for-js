@@ -39,12 +39,12 @@ export async function main() {
       console.log("\tEntities:");
       for (const entity of result.entities) {
         console.log(
-          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
+          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`,
         );
         console.log("\t\tMatches:");
         for (const match of entity.matches) {
           console.log(
-            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
+            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`,
           );
         }
       }

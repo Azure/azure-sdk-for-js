@@ -25,7 +25,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
         await this.containerClient.uploadBlockBlob(randomUUID(), Buffer.alloc(0), 0);
       },
       this.parsedOptions.count.value!,
-      32
+      32,
     );
   }
 

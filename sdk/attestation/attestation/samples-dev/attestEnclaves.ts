@@ -239,7 +239,7 @@ async function attestOpenEnclaveWithRuntimeData() {
     if (attestResponse.body.enclaveHeldData) {
       console.log(
         " Runtime Data received by the service: ",
-        bytesToString(attestResponse.body.enclaveHeldData)
+        bytesToString(attestResponse.body.enclaveHeldData),
       );
     }
   }

@@ -31,7 +31,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  */
 export default function MapsRoute(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRouteClient;
 /**
  * Creates an instance of MapsRoute from an Azure Identity `TokenCredential`.
@@ -52,7 +52,7 @@ export default function MapsRoute(
 export default function MapsRoute(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRouteClient;
 /**
  * Creates an instance of MapsRoute from an Azure Identity `AzureSASCredential`.
@@ -71,12 +71,12 @@ export default function MapsRoute(
  */
 export default function MapsRoute(
   credential: AzureSASCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRouteClient;
 export default function MapsRoute(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsRouteClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -95,7 +95,7 @@ export default function MapsRoute(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;

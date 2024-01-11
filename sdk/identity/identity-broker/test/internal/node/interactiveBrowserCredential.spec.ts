@@ -62,7 +62,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
       };
       assert.throws(() => {
         new InteractiveBrowserCredential(
-          recorder.configureClientOptions(interactiveBrowserCredentialOptions)
+          recorder.configureClientOptions(interactiveBrowserCredentialOptions),
         );
       }, "Broker for WAM was requested to be enabled, but no native broker was configured.");
     } else {
@@ -93,7 +93,7 @@ describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite)
       const scope = "https://graph.microsoft.com/.default";
 
       const credential = new InteractiveBrowserCredential(
-        recorder.configureClientOptions(interactiveBrowserCredentialOptions)
+        recorder.configureClientOptions(interactiveBrowserCredentialOptions),
       );
 
       try {

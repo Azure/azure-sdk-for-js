@@ -42,7 +42,7 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeRecognizeCategorizedEntitiesResult(
-  result: DocumentEntities
+  result: DocumentEntities,
 ): RecognizeCategorizedEntitiesSuccessResult {
   const { entities, statistics, warnings, id } = result;
   return {
@@ -56,7 +56,7 @@ export function makeRecognizeCategorizedEntitiesResult(
  */
 export function makeRecognizeCategorizedEntitiesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): RecognizeCategorizedEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

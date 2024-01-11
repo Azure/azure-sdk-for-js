@@ -30,7 +30,7 @@ export function ensureValidMsalToken(
   scopes: string | string[],
   logger: CredentialLogger,
   msalToken?: MsalToken,
-  getTokenOptions?: GetTokenOptions
+  getTokenOptions?: GetTokenOptions,
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
@@ -79,7 +79,7 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  disableInstanceDiscovery?: boolean
+  disableInstanceDiscovery?: boolean,
 ): string[] {
   if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
@@ -94,7 +94,7 @@ export function getKnownAuthorities(
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
-  platform?: "Node" | "Browser"
+  platform?: "Node" | "Browser",
 ) => ILoggerCallback =
   (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
@@ -169,7 +169,7 @@ export class MsalBaseUtilities {
     scopes: string | string[],
     clientId: string,
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): AccessToken {
     if (result?.account) {
       this.account = msalToPublic(clientId, result.account);
@@ -202,7 +202,7 @@ export class MsalBaseUtilities {
         case "interaction_required":
         case "login_required":
           this.logger.info(
-            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
+            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`),
           );
           break;
         default:
@@ -223,8 +223,8 @@ export class MsalBaseUtilities {
           scopes,
           `Error from the native broker: ${error.message} with status code: ${
             (error as any).statusCode
-          }`
-        )
+          }`,
+        ),
       );
       return error;
     }

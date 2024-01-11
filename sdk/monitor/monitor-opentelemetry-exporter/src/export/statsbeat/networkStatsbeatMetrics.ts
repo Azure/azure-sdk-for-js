@@ -78,7 +78,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     this.networkMetricReader = new PeriodicExportingMetricReader(networkMetricReaderOptions);
     this.networkStatsbeatMeterProvider.addMetricReader(this.networkMetricReader);
     this.networkStatsbeatMeter = this.networkStatsbeatMeterProvider.getMeter(
-      "Azure Monitor Network Statsbeat"
+      "Azure Monitor Network Statsbeat",
     );
 
     this.endpointUrl = options.endpointUrl;
@@ -89,22 +89,22 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     this.cikey = options.instrumentationKey;
 
     this.successCountGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.SUCCESS_COUNT
+      StatsbeatCounter.SUCCESS_COUNT,
     );
     this.failureCountGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.FAILURE_COUNT
+      StatsbeatCounter.FAILURE_COUNT,
     );
     this.retryCountGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.RETRY_COUNT
+      StatsbeatCounter.RETRY_COUNT,
     );
     this.throttleCountGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.THROTTLE_COUNT
+      StatsbeatCounter.THROTTLE_COUNT,
     );
     this.exceptionCountGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.EXCEPTION_COUNT
+      StatsbeatCounter.EXCEPTION_COUNT,
     );
     this.averageDurationGauge = this.networkStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.AVERAGE_DURATION
+      StatsbeatCounter.AVERAGE_DURATION,
     );
 
     this.commonProperties = {
@@ -260,7 +260,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     const currentStatusCounter = counter.totalFailedRequestCount.find(
-      (statusCounter) => statusCode === statusCounter.statusCode
+      (statusCounter) => statusCode === statusCounter.statusCode,
     );
 
     if (currentStatusCounter) {
@@ -279,7 +279,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     const currentStatusCounter = counter.retryCount.find(
-      (statusCounter) => statusCode === statusCounter.statusCode
+      (statusCounter) => statusCode === statusCounter.statusCode,
     );
 
     if (currentStatusCounter) {
@@ -295,7 +295,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     const currentStatusCounter = counter.throttleCount.find(
-      (statusCounter) => statusCode === statusCounter.statusCode
+      (statusCounter) => statusCode === statusCounter.statusCode,
     );
 
     if (currentStatusCounter) {
@@ -311,7 +311,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
     const currentErrorCounter = counter.exceptionCount.find(
-      (exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType
+      (exceptionCounter) => exceptionType.name === exceptionCounter.exceptionType,
     );
     if (currentErrorCounter) {
       currentErrorCounter.count++;

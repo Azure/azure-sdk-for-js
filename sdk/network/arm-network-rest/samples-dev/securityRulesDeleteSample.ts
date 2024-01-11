@@ -34,7 +34,7 @@ async function deleteNetworkSecurityRuleFromNetworkSecurityGroup() {
       subscriptionId,
       resourceGroupName,
       networkSecurityGroupName,
-      securityRuleName
+      securityRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

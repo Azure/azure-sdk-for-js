@@ -39,19 +39,19 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function () {
       should.exist(
         env[EnvVarKeys.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests."
+        "define AZURE_CLIENT_ID in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests."
+        "define AZURE_TENANT_ID in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       // This is of the form <your-namespace>.servicebus.windows.net
       endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
@@ -81,7 +81,7 @@ testWithServiceTypes((serviceVersion) => {
         EventHubConsumerClient.defaultConsumerGroupName,
         endpoint,
         env.EVENTHUB_NAME,
-        credential
+        credential,
       );
       should.equal(client.fullyQualifiedNamespace, endpoint);
 

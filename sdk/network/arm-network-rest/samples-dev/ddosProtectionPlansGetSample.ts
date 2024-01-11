@@ -31,7 +31,7 @@ async function getDDoSProtectionPlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       subscriptionId,
       resourceGroupName,
-      ddosProtectionPlanName
+      ddosProtectionPlanName,
     )
     .get(options);
   console.log(result);

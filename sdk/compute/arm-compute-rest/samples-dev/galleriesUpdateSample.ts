@@ -33,7 +33,7 @@ async function updateASimpleGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

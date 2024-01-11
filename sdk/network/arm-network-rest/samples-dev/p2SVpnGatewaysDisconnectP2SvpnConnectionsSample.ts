@@ -33,7 +33,7 @@ async function disconnectVpnConnectionsFromP2SVpnGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections",
       subscriptionId,
       resourceGroupName,
-      p2sVpnGatewayName
+      p2sVpnGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

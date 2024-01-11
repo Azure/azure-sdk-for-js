@@ -67,7 +67,7 @@ async function updateOfferForCollection(
   newRups: number,
   dbName: string,
   collectionName: string,
-  oldOfferDefinition: OfferDefinition
+  oldOfferDefinition: OfferDefinition,
 ): Promise<void> {
   if (!oldOfferDefinition || !oldOfferDefinition.content) throw "found invalid offer";
   const newOfferDefinition: OfferDefinition = {
@@ -89,18 +89,18 @@ async function updateOfferForCollection(
       .filter((database: DatabaseDefinition & Resource) => database.id === dbName)
       .map((database: DatabaseDefinition & Resource) => {
         return client.database(database.id).containers.readAll().fetchAll();
-      })
+      }),
   );
 
   const containers: (ContainerDefinition & Resource)[] = containerResponses.flatMap(
-    (response: FeedResponse<ContainerDefinition & Resource>) => response.resources
+    (response: FeedResponse<ContainerDefinition & Resource>) => response.resources,
   );
 
   logStep("Finding container to offerDefinition");
   const container = containers.find(
     (containerParam: ContainerDefinition & Resource) =>
       containerParam._rid === oldOfferDefinition.offerResourceId &&
-      containerParam.id === collectionName
+      containerParam.id === collectionName,
   );
 
   if (container) {
@@ -116,7 +116,7 @@ async function updateOfferForCollection(
 
 async function asyncForEach<T>(
   array: Array<T>,
-  callback: (element: T, index?: number, array?: T[]) => Promise<void>
+  callback: (element: T, index?: number, array?: T[]) => Promise<void>,
 ): Promise<void> {
   for (let index = 0; index < array.length; index++) {
     await callback(array[index]);

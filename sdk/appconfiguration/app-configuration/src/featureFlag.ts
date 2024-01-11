@@ -55,7 +55,7 @@ export const FeatureFlagHelper = {
    * Takes the FeatureFlag (JSON) and returns a ConfigurationSetting (with the props encodeed in the value).
    */
   toConfigurationSettingParam: (
-    featureFlag: ConfigurationSettingParam<FeatureFlagValue>
+    featureFlag: ConfigurationSettingParam<FeatureFlagValue>,
   ): ConfigurationSettingParam => {
     logger.info("Encoding FeatureFlag value in a ConfigurationSetting:", featureFlag);
     if (!featureFlag.value) {
@@ -89,13 +89,13 @@ export const FeatureFlagHelper = {
  * Takes the ConfigurationSetting as input and returns the ConfigurationSetting<FeatureFlagValue> by parsing the value string.
  */
 export function parseFeatureFlag(
-  setting: ConfigurationSetting
+  setting: ConfigurationSetting,
 ): ConfigurationSetting<FeatureFlagValue> {
   logger.info("Parsing the value to return the FeatureFlagValue", setting);
   if (!isFeatureFlag(setting)) {
     logger.error("Invalid FeatureFlag input", setting);
     throw TypeError(
-      `Setting with key ${setting.key} is not a valid FeatureFlag, make sure to have the correct content-type and a valid non-null value.`
+      `Setting with key ${setting.key} is not a valid FeatureFlag, make sure to have the correct content-type and a valid non-null value.`,
     );
   }
 
@@ -126,7 +126,7 @@ export function parseFeatureFlag(
  * [Checks if the content type is featureFlagContentType `"application/vnd.microsoft.appconfig.ff+json;charset=utf-8"`]
  */
 export function isFeatureFlag(
-  setting: ConfigurationSetting
+  setting: ConfigurationSetting,
 ): setting is ConfigurationSetting & Required<Pick<ConfigurationSetting, "value">> {
   return (
     setting && setting.contentType === featureFlagContentType && typeof setting.value === "string"
