@@ -76,7 +76,7 @@ async function p2SVpnGatewayPut() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

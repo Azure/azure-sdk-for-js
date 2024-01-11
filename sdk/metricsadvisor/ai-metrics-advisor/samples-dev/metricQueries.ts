@@ -61,7 +61,7 @@ async function listEnrichmentStatus(client: MetricsAdvisorClient, metricId: stri
   const listIterator = client.listMetricEnrichmentStatus(
     metricId,
     new Date("10/22/2020"),
-    new Date("10/24/2020")
+    new Date("10/24/2020"),
   );
   for await (const status of listIterator) {
     console.log("  Enrichment status");

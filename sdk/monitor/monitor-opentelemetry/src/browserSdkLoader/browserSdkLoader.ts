@@ -25,7 +25,7 @@ export class BrowserSdkLoader {
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
       throw new Error(
-        "Browser SDK Loader should be configured from the applicationInsights object"
+        "Browser SDK Loader should be configured from the applicationInsights object",
       );
     }
 
@@ -35,7 +35,7 @@ export class BrowserSdkLoader {
     let clientWebIkey;
     if (config.browserSdkLoaderOptions?.connectionString) {
       clientWebIkey = this._getBrowserSdkLoaderIkey(
-        config?.browserSdkLoaderOptions?.connectionString
+        config?.browserSdkLoaderOptions?.connectionString,
       );
     }
     this._browserSdkLoaderIkey =
@@ -66,7 +66,7 @@ export class BrowserSdkLoader {
       if (!ConnectionStringParser.validateInstrumentationKey(iKeyCode)) {
         this._isIkeyValid = false;
         Logger.getInstance().info(
-          "Invalid browser SDK loader connection string, browser SDK loader is not enabled."
+          "Invalid browser SDK loader connection string, browser SDK loader is not enabled.",
         );
       } else {
         this._isIkeyValid = true;
@@ -91,7 +91,7 @@ export class BrowserSdkLoader {
     if (this._clientBrowserSdkLoaderSrc) {
       return replacedSdkLoader.replace(
         `${BROWSER_SDK_LOADER_DEFAULT_SOURCE}.2.min.js`,
-        this._clientBrowserSdkLoaderSrc
+        this._clientBrowserSdkLoaderSrc,
       );
     }
     return replacedSdkLoader;
@@ -124,7 +124,7 @@ export class BrowserSdkLoader {
       // if has any errors here, web Instrumentation will be disabled.
       this.dispose();
       Logger.getInstance().info(
-        "Parse client web instrumentation error. Browser SDK Loader is disabled"
+        "Parse client web instrumentation error. Browser SDK Loader is disabled",
       );
     }
     return configStr;
@@ -137,7 +137,7 @@ export class BrowserSdkLoader {
     const originalHttpsServer = https.createServer;
 
     (http.createServer as any) = (
-      requestListener?: (request: IncomingMessage, response: ServerResponse) => void
+      requestListener?: (request: IncomingMessage, response: ServerResponse) => void,
     ) => {
       const originalRequestListener = requestListener;
       if (originalRequestListener) {
@@ -160,7 +160,7 @@ export class BrowserSdkLoader {
                       response,
                       a,
                       undefined,
-                      writeBufferType
+                      writeBufferType,
                     );
                   }
                 } else if (headers.length) {
@@ -168,7 +168,7 @@ export class BrowserSdkLoader {
                   arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                     response,
                     a,
-                    encodeType
+                    encodeType,
                   );
                 }
               }
@@ -196,7 +196,7 @@ export class BrowserSdkLoader {
                         response,
                         a,
                         undefined,
-                        endBufferType
+                        endBufferType,
                       );
                     }
                   } else if (headers.length) {
@@ -204,7 +204,7 @@ export class BrowserSdkLoader {
                     arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                       response,
                       a,
-                      encodeType
+                      encodeType,
                     );
                   }
                 }
@@ -265,7 +265,7 @@ export class BrowserSdkLoader {
                       res,
                       a,
                       undefined,
-                      endBufferType
+                      endBufferType,
                     );
                   }
                 } else if (headers.length) {
@@ -313,7 +313,7 @@ export class BrowserSdkLoader {
     response: any,
     input: string | Buffer,
     encodeType?: browserSdkLoaderHelper.contentEncodingMethod,
-    bufferEncodeType?: string
+    bufferEncodeType?: string,
   ): string | Buffer {
     try {
       let isCompressedBuffer = !!encodeType;
@@ -325,7 +325,7 @@ export class BrowserSdkLoader {
         let newHtml = browserSdkLoaderHelper.insertBrowserSdkLoaderByIndex(
           index,
           html,
-          BrowserSdkLoader._sdkLoader
+          BrowserSdkLoader._sdkLoader,
         );
         if (typeof input === "string") {
           response.removeHeader("Content-Length");
@@ -348,13 +348,13 @@ export class BrowserSdkLoader {
         input = this._getInjectedCompressBuffer(
           response,
           input as Buffer,
-          encodeType as browserSdkLoaderHelper.contentEncodingMethod
+          encodeType as browserSdkLoaderHelper.contentEncodingMethod,
         );
         response.setHeader("Content-Length", input.length);
       }
     } catch (ex) {
       Logger.getInstance().warn(
-        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex
+        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex,
       );
     }
     return input;
@@ -368,7 +368,7 @@ export class BrowserSdkLoader {
   private _getInjectedCompressBuffer(
     response: any,
     input: Buffer,
-    encodeType: browserSdkLoaderHelper.contentEncodingMethod
+    encodeType: browserSdkLoaderHelper.contentEncodingMethod,
   ): Buffer {
     try {
       switch (encodeType) {

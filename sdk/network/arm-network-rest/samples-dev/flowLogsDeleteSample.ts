@@ -34,7 +34,7 @@ async function deleteFlowLog() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      flowLogName
+      flowLogName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

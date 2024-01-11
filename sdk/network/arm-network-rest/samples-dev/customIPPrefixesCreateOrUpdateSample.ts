@@ -33,7 +33,7 @@ async function createCustomIPPrefixAllocationMethod() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      customIpPrefixName
+      customIpPrefixName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

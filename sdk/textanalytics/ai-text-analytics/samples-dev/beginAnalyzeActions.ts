@@ -45,14 +45,14 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`
+      `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`,
     );
   });
 
   console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
 
   console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
+    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`,
   );
 
   const resultPages = await poller.pollUntilDone();

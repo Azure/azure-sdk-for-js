@@ -39,7 +39,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      vpnConnectionName
+      vpnConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

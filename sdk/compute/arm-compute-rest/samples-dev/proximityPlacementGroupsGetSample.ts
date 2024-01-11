@@ -31,7 +31,7 @@ async function createAProximityPlacementGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}",
       subscriptionId,
       resourceGroupName,
-      proximityPlacementGroupName
+      proximityPlacementGroupName,
     )
     .get(options);
   console.log(result);

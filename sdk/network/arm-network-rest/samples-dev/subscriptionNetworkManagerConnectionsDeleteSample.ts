@@ -29,7 +29,7 @@ async function deleteSubscriptionNetworkManagerConnection() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       subscriptionId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .delete(options);
   console.log(result);

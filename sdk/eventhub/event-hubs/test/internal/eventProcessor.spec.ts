@@ -77,11 +77,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -90,7 +90,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
     });
 
@@ -103,7 +103,7 @@ testWithServiceTypes((serviceVersion) => {
       describe("_getStartingPosition", () => {
         function createEventProcessor(
           checkpointStore: CheckpointStore,
-          startPosition?: FullEventProcessorOptions["startPosition"]
+          startPosition?: FullEventProcessorOptions["startPosition"],
         ): EventProcessor {
           return new EventProcessor(
             EventHubConsumerClient.defaultConsumerGroupName,
@@ -123,14 +123,14 @@ testWithServiceTypes((serviceVersion) => {
               maxWaitTimeInSeconds: 1,
               loadBalancingStrategy: defaultOptions.loadBalancingStrategy,
               loopIntervalInMs: defaultOptions.loopIntervalInMs,
-            }
+            },
           );
         }
 
         const emptyCheckpointStore = createCheckpointStore([]);
 
         function createCheckpointStore(
-          checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[]
+          checkpointsForTest: Pick<Checkpoint, "offset" | "sequenceNumber" | "partitionId">[],
         ): CheckpointStore {
           return {
             claimOwnership: async () => {
@@ -186,7 +186,7 @@ testWithServiceTypes((serviceVersion) => {
           const processor = createEventProcessor(
             checkpointStore,
             // checkpoints always win over the user's specified position
-            latestEventPosition
+            latestEventPosition,
           );
 
           const eventPosition = await processor["_getStartingPosition"]("0");
@@ -268,7 +268,7 @@ testWithServiceTypes((serviceVersion) => {
               },
             },
             new InMemoryCheckpointStore(),
-            defaultOptions
+            defaultOptions,
           );
         });
 
@@ -353,7 +353,7 @@ testWithServiceTypes((serviceVersion) => {
           {
             ...defaultOptions,
             pumpManager: pumpManager,
-          }
+          },
         );
 
         await eventProcessor["_claimOwnership"](
@@ -364,7 +364,7 @@ testWithServiceTypes((serviceVersion) => {
             ownerId: "owner",
             partitionId: "0",
           },
-          new AbortController().signal
+          new AbortController().signal,
         );
 
         // when we fail to claim a partition we should _definitely_
@@ -432,7 +432,7 @@ testWithServiceTypes((serviceVersion) => {
               },
             },
             loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
-          }
+          },
         );
 
         // allow three iterations through the loop - one for each partition that
@@ -451,7 +451,7 @@ testWithServiceTypes((serviceVersion) => {
         const numTimesAbortedIsCheckedInLoop = 6;
         await ep["_runLoopWithLoadBalancing"](
           ep["_loadBalancingStrategy"],
-          triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop)
+          triggerAbortedSignalAfterNumCalls(partitionIds.length * numTimesAbortedIsCheckedInLoop),
         );
 
         handlers.errors.should.deep.equal([]);
@@ -459,7 +459,7 @@ testWithServiceTypes((serviceVersion) => {
         const currentOwnerships = await checkpointStore.listOwnership(
           commonFields.fullyQualifiedNamespace,
           commonFields.eventHubName,
-          commonFields.consumerGroup
+          commonFields.consumerGroup,
         );
         currentOwnerships.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
@@ -509,7 +509,7 @@ testWithServiceTypes((serviceVersion) => {
         const ownershipsAfterStop = await checkpointStore.listOwnership(
           commonFields.fullyQualifiedNamespace,
           commonFields.eventHubName,
-          commonFields.consumerGroup
+          commonFields.consumerGroup,
         );
         ownershipsAfterStop.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
 
@@ -563,7 +563,7 @@ testWithServiceTypes((serviceVersion) => {
         faultyCheckpointStore,
         {
           ...defaultOptions,
-        }
+        },
       );
 
       // claimOwnership() calls that fail in the runloop of eventProcessor
@@ -603,7 +603,7 @@ testWithServiceTypes((serviceVersion) => {
         expectedErrorMessages.push(
           processCloseErrorMessage,
           processEventsErrorMessage,
-          processInitializeErrorMessage
+          processInitializeErrorMessage,
         );
       }
       expectedErrorMessages.sort();
@@ -630,7 +630,7 @@ testWithServiceTypes((serviceVersion) => {
         {
           ...defaultOptions,
           startPosition: earliestEventPosition,
-        }
+        },
       );
 
       // errors that occur within the user's own event handlers will get
@@ -669,7 +669,7 @@ testWithServiceTypes((serviceVersion) => {
         {
           ...defaultOptions,
           startPosition: latestEventPosition,
-        }
+        },
       );
 
       const id = processor.id;
@@ -689,7 +689,7 @@ testWithServiceTypes((serviceVersion) => {
           },
         },
         new InMemoryCheckpointStore(),
-        { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition }
+        { ...defaultOptions, ownerId: "hello", startPosition: latestEventPosition },
       );
 
       processor.id.should.equal("hello");
@@ -718,7 +718,7 @@ testWithServiceTypes((serviceVersion) => {
         {
           ...defaultOptions,
           startPosition: startPosition,
-        }
+        },
       );
 
       processor.start();
@@ -756,7 +756,7 @@ testWithServiceTypes((serviceVersion) => {
         {
           ...defaultOptions,
           startPosition: latestEventPosition,
-        }
+        },
       );
 
       // shutdown the processor
@@ -782,7 +782,7 @@ testWithServiceTypes((serviceVersion) => {
         {
           ...defaultOptions,
           startPosition: startPosition,
-        }
+        },
       );
 
       loggerForTest(`Starting processor for the first time`);
@@ -830,7 +830,7 @@ testWithServiceTypes((serviceVersion) => {
           {
             ...defaultOptions,
             startPosition: startPosition,
-          }
+          },
         );
 
         processor.start();
@@ -873,7 +873,7 @@ testWithServiceTypes((serviceVersion) => {
         const ownershiplist = await inMemoryCheckpointStore.listOwnership(
           "myNamespace.servicebus.windows.net",
           "myEventHub",
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
         ownershiplist.length.should.equals(2);
 
@@ -890,15 +890,15 @@ testWithServiceTypes((serviceVersion) => {
         const partitionOwnershipList = await inMemoryCheckpointStore.listOwnership(
           "myNamespace.servicebus.windows.net",
           "myEventHub",
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
         partitionOwnershipList[0].partitionId.should.equals(checkpoint.partitionId);
         partitionOwnershipList[0].fullyQualifiedNamespace!.should.equals(
-          "myNamespace.servicebus.windows.net"
+          "myNamespace.servicebus.windows.net",
         );
         partitionOwnershipList[0].eventHubName!.should.equals("myEventHub");
         partitionOwnershipList[0].consumerGroup!.should.equals(
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
       });
 
@@ -920,7 +920,7 @@ testWithServiceTypes((serviceVersion) => {
         class FooPartitionProcessor {
           async processEvents(
             events: ReceivedEventData[],
-            context: PartitionContext
+            context: PartitionContext,
           ): Promise<void> {
             processedAtLeastOneEvent.add(context.partitionId);
 
@@ -955,7 +955,7 @@ testWithServiceTypes((serviceVersion) => {
           {
             ...defaultOptions,
             startPosition: earliestEventPosition,
-          }
+          },
         );
 
         // start first processor
@@ -998,13 +998,13 @@ testWithServiceTypes((serviceVersion) => {
           consumerClient["_context"],
           new FooPartitionProcessor(),
           inMemoryCheckpointStore,
-          { ...defaultOptions, startPosition: earliestEventPosition }
+          { ...defaultOptions, startPosition: earliestEventPosition },
         );
 
         const checkpoints = await inMemoryCheckpointStore.listCheckpoints(
           consumerClient.fullyQualifiedNamespace,
           consumerClient.eventHubName,
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
 
         checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
@@ -1040,7 +1040,7 @@ testWithServiceTypes((serviceVersion) => {
         for (const partitionId of partitionIds) {
           debug(`Validate events for partition: ${partitionId}`);
           lastEventsReceivedFromProcessor1[index].sequenceNumber.should.equal(
-            firstEventsReceivedFromProcessor2[index].sequenceNumber - 1
+            firstEventsReceivedFromProcessor2[index].sequenceNumber - 1,
           );
           index++;
         }
@@ -1091,7 +1091,7 @@ testWithServiceTypes((serviceVersion) => {
           const ownerships = await checkpointStore.listOwnership(
             basicProperties.fullyQualifiedNamespace,
             basicProperties.eventHubName,
-            basicProperties.consumerGroup
+            basicProperties.consumerGroup,
           );
           assertUnique(...ownerships);
         }
@@ -1116,7 +1116,7 @@ testWithServiceTypes((serviceVersion) => {
           const checkpoints = await checkpointStore.listCheckpoints(
             basicProperties.fullyQualifiedNamespace,
             basicProperties.eventHubName,
-            basicProperties.consumerGroup
+            basicProperties.consumerGroup,
           );
           assertUnique(...checkpoints);
         }
@@ -1129,7 +1129,7 @@ testWithServiceTypes((serviceVersion) => {
         // ensure we have at least 3 partitions
         partitionIds.length.should.gte(
           3,
-          "The load balancing tests must be ran on an Event Hub with at least 3 partitions"
+          "The load balancing tests must be ran on an Event Hub with at least 3 partitions",
         );
       });
 
@@ -1146,7 +1146,7 @@ testWithServiceTypes((serviceVersion) => {
           { events: string[]; initialized: boolean; closeReason?: CloseReason }
         >();
         partitionIds.forEach((id) =>
-          partitionResultsMap.set(id, { events: [], initialized: false })
+          partitionResultsMap.set(id, { events: [], initialized: false }),
         );
         let didGetReceiverDisconnectedError = false;
 
@@ -1162,7 +1162,7 @@ testWithServiceTypes((serviceVersion) => {
           }
           async processEvents(
             events: ReceivedEventData[],
-            context: PartitionContext
+            context: PartitionContext,
           ): Promise<void> {
             partitionOwnershipArr.add(context.partitionId);
             const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
@@ -1206,7 +1206,7 @@ testWithServiceTypes((serviceVersion) => {
             startPosition: earliestEventPosition,
             ...processor1LoadBalancingInterval,
             loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
-          }
+          },
         );
 
         processorByName[`processor-1`].start();
@@ -1229,7 +1229,7 @@ testWithServiceTypes((serviceVersion) => {
             startPosition: earliestEventPosition,
             ...processor2LoadBalancingInterval,
             loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
-          }
+          },
         );
 
         partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1251,7 +1251,7 @@ testWithServiceTypes((serviceVersion) => {
             const partitionOwnership = await checkpointStore.listOwnership(
               consumerClient.fullyQualifiedNamespace,
               consumerClient.eventHubName,
-              EventHubConsumerClient.defaultConsumerGroupName
+              EventHubConsumerClient.defaultConsumerGroupName,
             );
 
             // map of ownerId as a key and partitionIds as a value
@@ -1263,7 +1263,7 @@ testWithServiceTypes((serviceVersion) => {
             const isBalanced = (friendlyName: string): boolean => {
               const n = Math.floor(partitionIds.length / 2);
               const numPartitions = partitionOwnershipMap.get(
-                processorByName[friendlyName].id
+                processorByName[friendlyName].id,
               )!.length;
               return numPartitions === n || numPartitions === n + 1;
             };
@@ -1306,7 +1306,7 @@ testWithServiceTypes((serviceVersion) => {
           { events: string[]; initialized: boolean; closeReason?: CloseReason }
         >();
         partitionIds.forEach((id) =>
-          partitionResultsMap.set(id, { events: [], initialized: false })
+          partitionResultsMap.set(id, { events: [], initialized: false }),
         );
         let didGetReceiverDisconnectedError = false;
 
@@ -1322,7 +1322,7 @@ testWithServiceTypes((serviceVersion) => {
           }
           async processEvents(
             events: ReceivedEventData[],
-            context: PartitionContext
+            context: PartitionContext,
           ): Promise<void> {
             partitionOwnershipArr.add(context.partitionId);
             const existingEvents = partitionResultsMap.get(context.partitionId)!.events;
@@ -1366,7 +1366,7 @@ testWithServiceTypes((serviceVersion) => {
             startPosition: earliestEventPosition,
             ...processor1LoadBalancingInterval,
             loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
-          }
+          },
         );
 
         processorByName[`processor-1`].start();
@@ -1389,7 +1389,7 @@ testWithServiceTypes((serviceVersion) => {
             startPosition: earliestEventPosition,
             ...processor2LoadBalancingInterval,
             loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
-          }
+          },
         );
 
         partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1411,7 +1411,7 @@ testWithServiceTypes((serviceVersion) => {
             const partitionOwnership = await checkpointStore.listOwnership(
               consumerClient.fullyQualifiedNamespace,
               consumerClient.eventHubName,
-              EventHubConsumerClient.defaultConsumerGroupName
+              EventHubConsumerClient.defaultConsumerGroupName,
             );
 
             // map of ownerId as a key and partitionIds as a value
@@ -1423,7 +1423,7 @@ testWithServiceTypes((serviceVersion) => {
             const isBalanced = (friendlyName: string): boolean => {
               const n = Math.floor(partitionIds.length / 2);
               const numPartitions = partitionOwnershipMap.get(
-                processorByName[friendlyName].id
+                processorByName[friendlyName].id,
               )!.length;
               return numPartitions === n || numPartitions === n + 1;
             };
@@ -1464,7 +1464,7 @@ testWithServiceTypes((serviceVersion) => {
         class FooPartitionProcessor {
           async processEvents(
             _events: ReceivedEventData[],
-            context: PartitionContext
+            context: PartitionContext,
           ): Promise<void> {
             partitionOwnershipArr.add(context.partitionId);
           }
@@ -1492,7 +1492,7 @@ testWithServiceTypes((serviceVersion) => {
               ...defaultOptions,
               startPosition: earliestEventPosition,
               loadBalancingStrategy: new BalancedLoadBalancingStrategy(60000),
-            }
+            },
           );
           processorByName[processorName].start();
           await delay(12000);
@@ -1511,7 +1511,7 @@ testWithServiceTypes((serviceVersion) => {
         const partitionOwnership = await checkpointStore.listOwnership(
           consumerClient.fullyQualifiedNamespace,
           consumerClient.eventHubName,
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
 
         partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1549,7 +1549,7 @@ testWithServiceTypes((serviceVersion) => {
         class FooPartitionProcessor {
           async processEvents(
             _events: ReceivedEventData[],
-            context: PartitionContext
+            context: PartitionContext,
           ): Promise<void> {
             partitionOwnershipArr.add(context.partitionId);
           }
@@ -1577,7 +1577,7 @@ testWithServiceTypes((serviceVersion) => {
               ...defaultOptions,
               startPosition: earliestEventPosition,
               loadBalancingStrategy: new GreedyLoadBalancingStrategy(60000),
-            }
+            },
           );
           processorByName[processorName].start();
           await delay(12000);
@@ -1596,7 +1596,7 @@ testWithServiceTypes((serviceVersion) => {
         const partitionOwnership = await checkpointStore.listOwnership(
           consumerClient.fullyQualifiedNamespace,
           consumerClient.eventHubName,
-          EventHubConsumerClient.defaultConsumerGroupName
+          EventHubConsumerClient.defaultConsumerGroupName,
         );
 
         partitionOwnershipArr.size.should.equal(partitionIds.length);
@@ -1663,11 +1663,11 @@ testWithServiceTypes((serviceVersion) => {
             loggerForTest(
               `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
                 context.partitionId
-              }`
+              }`,
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
               loggerForTest(
-                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`,
               );
               thrashAfterSettling = true;
             }
@@ -1690,7 +1690,7 @@ testWithServiceTypes((serviceVersion) => {
           consumerClient["_context"],
           handlers,
           checkpointStore,
-          eventProcessorOptions
+          eventProcessorOptions,
         );
 
         const processor2 = new EventProcessor(
@@ -1698,7 +1698,7 @@ testWithServiceTypes((serviceVersion) => {
           consumerClient["_context"],
           handlers,
           checkpointStore,
-          eventProcessorOptions
+          eventProcessorOptions,
         );
 
         processor1.start();
@@ -1783,7 +1783,7 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             thrashAfterSettling,
             false,
-            "Detected PartitionOwnership thrashing after load-balancing has settled."
+            "Detected PartitionOwnership thrashing after load-balancing has settled.",
           );
         }
       });
@@ -1828,11 +1828,11 @@ testWithServiceTypes((serviceVersion) => {
             loggerForTest(
               `[${(context as any).eventProcessorId}] processClose(${reason}) on partition ${
                 context.partitionId
-              }`
+              }`,
             );
             if (reason === CloseReason.OwnershipLost && allPartitionsClaimed) {
               loggerForTest(
-                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`
+                `[${(context as any).eventProcessorId}] Lost partition ${context.partitionId}`,
               );
               thrashAfterSettling = true;
             }
@@ -1855,7 +1855,7 @@ testWithServiceTypes((serviceVersion) => {
           consumerClient["_context"],
           handlers,
           checkpointStore,
-          eventProcessorOptions
+          eventProcessorOptions,
         );
 
         const processor2 = new EventProcessor(
@@ -1863,7 +1863,7 @@ testWithServiceTypes((serviceVersion) => {
           consumerClient["_context"],
           handlers,
           checkpointStore,
-          eventProcessorOptions
+          eventProcessorOptions,
         );
 
         processor1.start();
@@ -1948,7 +1948,7 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             thrashAfterSettling,
             false,
-            "Detected PartitionOwnership thrashing after load-balancing has settled."
+            "Detected PartitionOwnership thrashing after load-balancing has settled.",
           );
         }
       });

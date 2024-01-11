@@ -32,7 +32,7 @@ async function resetP2SVpnGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

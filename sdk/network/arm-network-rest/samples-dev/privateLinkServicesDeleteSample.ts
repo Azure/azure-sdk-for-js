@@ -32,7 +32,7 @@ async function deletePrivateLinkService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       subscriptionId,
       resourceGroupName,
-      serviceName
+      serviceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

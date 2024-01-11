@@ -58,13 +58,13 @@ testWithServiceTypes(() => {
             ...testMessage,
             ...{ content_type: "application/json", correlation_id: "cid", message_id: 1 },
           },
-          false
+          false,
         );
         should().equal(testEventData.messageId, 1, "Unexpected messageId found.");
         should().equal(
           testEventData.contentType,
           "application/json",
-          "Unexpected contentType found."
+          "Unexpected contentType found.",
         );
         should().equal(testEventData.correlationId, "cid", "Unexpected correlationId found.");
       });
@@ -106,7 +106,7 @@ testWithServiceTypes(() => {
                 ...extraAnnotations,
               },
             },
-            false
+            false,
           );
           testEventData
             .enqueuedTimeUtc!.getTime()
@@ -115,10 +115,10 @@ testWithServiceTypes(() => {
           testEventData.sequenceNumber!.should.equal(testAnnotations["x-opt-sequence-number"]);
           testEventData.partitionKey!.should.equal(testAnnotations["x-opt-partition-key"]);
           testEventData.systemProperties!["x-iot-foo-prop"].should.eql(
-            extraAnnotations["x-iot-foo-prop"]
+            extraAnnotations["x-iot-foo-prop"],
           );
           testEventData.systemProperties!["x-iot-bar-prop"].should.eql(
-            extraAnnotations["x-iot-bar-prop"]
+            extraAnnotations["x-iot-bar-prop"],
           );
         });
 
@@ -142,7 +142,7 @@ testWithServiceTypes(() => {
               group_id: "groupId",
               group_sequence: 1,
             },
-            false
+            false,
           );
 
           testEventData
@@ -188,7 +188,7 @@ testWithServiceTypes(() => {
               ...extraAnnotations,
             },
           },
-          false
+          false,
         );
         testEventData
           .enqueuedTimeUtc!.getTime()
@@ -213,12 +213,12 @@ testWithServiceTypes(() => {
         should().equal(
           expectedTestBodyContents.equals(messageFromED.body.content),
           true,
-          "Encoded body does not match expected result."
+          "Encoded body does not match expected result.",
         );
         should().equal(
           messageFromED.body.typecode,
           dataSectionTypeCode,
-          "Unexpected typecode encountered on body."
+          "Unexpected typecode encountered on body.",
         );
       });
 

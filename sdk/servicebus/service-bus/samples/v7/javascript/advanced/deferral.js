@@ -56,7 +56,7 @@ async function sendMessages() {
         } catch (err) {
           console.log("Error while sending message", err);
         }
-      })
+      }),
     );
   }
   // wait until all the send tasks are complete
@@ -97,7 +97,7 @@ async function receiveMessage() {
         // we dead-letter the message if we don't know what to do with it.
         console.log(
           "Unknown message received, moving it to dead-letter queue ",
-          brokeredMessage.body
+          brokeredMessage.body,
         );
         await receiver.deadLetterMessage(brokeredMessage);
       }
@@ -110,7 +110,7 @@ async function receiveMessage() {
       { processMessage, processError },
       {
         autoCompleteMessages: false,
-      }
+      },
     ); // Disabling autoCompleteMessages so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();

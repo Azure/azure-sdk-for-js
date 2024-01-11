@@ -31,7 +31,7 @@ describe("LeaseClient", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getBSU(recorder);
     shareName = recorder.variable("share", getUniqueName("share"));
@@ -72,7 +72,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease(duration);
@@ -88,7 +88,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease(duration);
@@ -113,7 +113,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     // only -1 for infinite is allowed.
     const invalid_duration = 20;
@@ -139,7 +139,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     try {
@@ -156,7 +156,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -173,7 +173,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -194,7 +194,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -208,7 +208,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -299,7 +299,7 @@ describe("LeaseClient", () => {
     await leaseClient.acquireLease();
 
     const newFileClient = dirClient.getFileClient(
-      recorder.variable("copiedfile", getUniqueName("copiedfile"))
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
     );
     await newFileClient.create(content.length);
     try {
@@ -332,7 +332,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -341,7 +341,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.getRangeList({ leaseAccessConditions: { leaseId: guid } });
       assert.fail(
-        "The lease ID specified in the request should matches that of the file if specified"
+        "The lease ID specified in the request should matches that of the file if specified",
       );
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
@@ -357,7 +357,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -370,7 +370,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.download(0, undefined, { leaseAccessConditions: { leaseId: guid } });
       assert.fail(
-        "The lease ID specified in the request should matches that of the file if specified"
+        "The lease ID specified in the request should matches that of the file if specified",
       );
     } catch (err: any) {
       assert.equal(err.statusCode, 412);
@@ -386,7 +386,7 @@ describe("LeaseClient", () => {
       {
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id"] },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const leaseClient = fileClient.getShareLeaseClient();
     await leaseClient.acquireLease();
@@ -399,7 +399,7 @@ describe("LeaseClient", () => {
     try {
       await fileClient.getProperties({ leaseAccessConditions: { leaseId: guid } });
       assert.fail(
-        "The lease ID specified in the request should matches that of the file if specified"
+        "The lease ID specified in the request should matches that of the file if specified",
       );
     } catch (err: any) {
       assert.equal(err.statusCode, 412);

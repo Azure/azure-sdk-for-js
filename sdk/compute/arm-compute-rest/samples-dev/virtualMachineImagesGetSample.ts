@@ -37,7 +37,7 @@ async function virtualMachineImagesGetMaximumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);
@@ -70,7 +70,7 @@ async function virtualMachineImagesGetMinimumSetGen() {
       publisherName,
       offer,
       skus,
-      version
+      version,
     )
     .get(options);
   console.log(result);

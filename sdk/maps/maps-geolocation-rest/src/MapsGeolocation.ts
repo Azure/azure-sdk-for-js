@@ -31,7 +31,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  */
 export default function MapsGeolocation(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsGeolocationClient;
 /**
  * Creates an instance of MapsGeolocation from an Azure Identity `TokenCredential`.
@@ -52,7 +52,7 @@ export default function MapsGeolocation(
 export default function MapsGeolocation(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsGeolocationClient;
 /**
  * Creates an instance of MapsGeolocation from an Azure Identity `AzureSASCredential`.
@@ -71,12 +71,12 @@ export default function MapsGeolocation(
  */
 export default function MapsGeolocation(
   credential: AzureSASCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsGeolocationClient;
 export default function MapsGeolocation(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsGeolocationClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -95,7 +95,7 @@ export default function MapsGeolocation(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;

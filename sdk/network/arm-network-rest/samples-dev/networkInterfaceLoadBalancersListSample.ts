@@ -32,7 +32,7 @@ async function networkInterfaceLoadBalancerList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/loadBalancers",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

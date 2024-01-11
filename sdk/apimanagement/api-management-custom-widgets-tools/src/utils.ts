@@ -40,11 +40,11 @@ export interface EditorData<Values extends ValuesCommon> extends PortalData {
 }
 
 function parseWidgetData<Values extends ValuesCommon>(
-  urlSearchParams: URLSearchParams
+  urlSearchParams: URLSearchParams,
 ): EditorData<Values> {
   try {
     const urlEditorParams: EditorData<Values> = JSON.parse(
-      decodeURIComponent(urlSearchParams.get(APIM_EDITOR_DATA_KEY) ?? "")
+      decodeURIComponent(urlSearchParams.get(APIM_EDITOR_DATA_KEY) ?? ""),
     );
 
     // if (!("origin" in urlEditorParams)) {
@@ -57,14 +57,14 @@ function parseWidgetData<Values extends ValuesCommon>(
     console.error(
       `Could not get '${APIM_EDITOR_DATA_KEY}' from the search params of the URL:\n` +
         self.location,
-      e
+      e,
     );
     return { values: {}, environment: "error", instanceId: "error" };
   }
 }
 
 export function getWidgetDataPure<Values extends ValuesCommon>(
-  urlSearchParams: URLSearchParams
+  urlSearchParams: URLSearchParams,
 ): EditorData<Values> {
   return parseWidgetData<Values>(urlSearchParams);
 }
@@ -78,7 +78,7 @@ export function getWidgetData<Values extends ValuesCommon>(): EditorData<Values>
 }
 
 export function getEditorValuesPure<Values extends ValuesCommon>(
-  urlSearchParams: URLSearchParams
+  urlSearchParams: URLSearchParams,
 ): Partial<Values> {
   return getWidgetDataPure<Values>(urlSearchParams).values;
 }
@@ -92,7 +92,7 @@ export function getEditorValues<Values extends ValuesCommon>(): Partial<Values> 
 
 export function getValuesPure<Values extends ValuesCommon>(
   valuesDefault: Values,
-  urlSearchParams: URLSearchParams
+  urlSearchParams: URLSearchParams,
 ): Values {
   const values = { ...valuesDefault }; // set Obj to contain all possible values and prefill default value
   const urlValues = parseWidgetData<Values>(urlSearchParams).values;
@@ -128,7 +128,7 @@ export type OnChange<Values extends ValuesCommon> = (values: Partial<Values>) =>
 export function onChangeWithOrigin<Values extends ValuesCommon>(
   origin: string,
   instanceId: string,
-  values: Values
+  values: Values,
 ): void {
   Object.entries(values).forEach(([key, value]) => {
     self.parent.postMessage({ [APIM_ON_CHANGE_MESSAGE_KEY]: { key, value, instanceId } }, origin);

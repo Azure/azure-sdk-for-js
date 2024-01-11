@@ -32,7 +32,7 @@ export class ChangeFeedIterator<T> {
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: PartitionKey,
-    private changeFeedOptions: ChangeFeedOptions
+    private changeFeedOptions: ChangeFeedOptions,
   ) {
     // partition key XOR partition key range id
     const partitionKeyValid = partitionKey !== undefined;
@@ -93,11 +93,11 @@ export class ChangeFeedIterator<T> {
   }
 
   private async getFeedResponse(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedResponse<Array<T & Resource>>> {
     if (!this.isPartitionSpecified) {
       throw new Error(
-        "Container is partitioned, but no partition key or partition key range id was specified."
+        "Container is partitioned, but no partition key or partition key range id was specified.",
       );
     }
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
@@ -137,7 +137,7 @@ export class ChangeFeedIterator<T> {
       response.result ? response.result.length : 0,
       response.code,
       response.headers,
-      getEmptyCosmosDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 }

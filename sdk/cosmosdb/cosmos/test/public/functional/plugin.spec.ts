@@ -24,7 +24,7 @@ describe("Plugin", function () {
     const FAILCOUNT = 2;
     const sometimesThrow: Plugin<any> = async (
       context: RequestContext,
-      diagNode: DiagnosticNodeInternal
+      diagNode: DiagnosticNodeInternal,
     ) => {
       expect(diagNode, "DiagnosticsNode should not be undefined or null").to.exist;
       requestCount++;

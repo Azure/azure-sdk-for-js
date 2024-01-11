@@ -57,7 +57,7 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-files-required",
     "requires package.json's files value to contain paths to the package contents",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -71,7 +71,7 @@ export = {
           "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
           "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
-            node: Property
+            node: Property,
           ): void => {
             // check that files is set to an array
             if (node.value.type !== "ArrayExpression") {
@@ -93,7 +93,7 @@ export = {
 
             const nodeValue = node.value;
             let filesList = (nodeValue.elements as Literal[]).map(
-              (element): unknown => element.value
+              (element): unknown => element.value,
             );
 
             const currBadPatterns: string[] = [];
@@ -111,7 +111,7 @@ export = {
                   const deletedItemsCount = 1;
                   currRequiredPatterns.splice(
                     currRequiredPatterns.indexOf(patternRoot),
-                    deletedItemsCount
+                    deletedItemsCount,
                   );
                 }
               }
@@ -126,7 +126,7 @@ export = {
                 currBadPatterns.length === unitLength ? "is" : "are"
               } included in files`;
               filesList = filesList.filter(
-                (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0
+                (filePattern) => currBadPatterns.indexOf(filePattern as string) < 0,
               );
             }
             // If there are required patterns missing from the files' list,

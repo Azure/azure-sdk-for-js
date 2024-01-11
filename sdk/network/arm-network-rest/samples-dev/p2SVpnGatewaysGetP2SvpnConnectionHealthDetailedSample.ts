@@ -37,7 +37,7 @@ async function p2SVpnGatewayGetConnectionHealthDetailed() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

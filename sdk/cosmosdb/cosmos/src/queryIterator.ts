@@ -47,7 +47,7 @@ export class QueryIterator<T> {
     private options: FeedOptions,
     private fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
     private resourceLink?: string,
-    private resourceType?: ResourceType
+    private resourceType?: ResourceType,
   ) {
     this.query = query;
     this.fetchFunctions = fetchFunctions;
@@ -85,7 +85,7 @@ export class QueryIterator<T> {
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
       DiagnosticNodeType.CLIENT_REQUEST_NODE,
-      null
+      null,
     );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     while (this.queryExecutionContext.hasMoreResults()) {
@@ -109,12 +109,12 @@ export class QueryIterator<T> {
         response.result,
         response.headers,
         this.queryExecutionContext.hasMoreResults(),
-        diagnosticNode.toDiagnostic(this.clientContext.getClientConfig())
+        diagnosticNode.toDiagnostic(this.clientContext.getClientConfig()),
       );
       diagnosticNode = new DiagnosticNodeInternal(
         this.clientContext.diagnosticLevel,
         DiagnosticNodeType.CLIENT_REQUEST_NODE,
-        null
+        null,
       );
       if (response.result !== undefined) {
         yield feedResponse;
@@ -169,7 +169,7 @@ export class QueryIterator<T> {
           return this.fetchQueryPlan(metadataNode);
         },
         diagnosticNode,
-        MetadataLookUpType.QueryPlanLookUp
+        MetadataLookUpType.QueryPlanLookUp,
       );
       if (!this.isInitialized) {
         await this.init();
@@ -194,7 +194,7 @@ export class QueryIterator<T> {
         response.result,
         response.headers,
         this.queryExecutionContext.hasMoreResults(),
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -208,19 +208,19 @@ export class QueryIterator<T> {
     this.fetchAllTempResources = [];
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
-      this.fetchFunctions
+      this.fetchFunctions,
     );
   }
 
   private async toArrayImplementation(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<FeedResponse<T>> {
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
       },
       diagnosticNode,
-      MetadataLookUpType.QueryPlanLookUp
+      MetadataLookUpType.QueryPlanLookUp,
     );
 
     // this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
@@ -251,7 +251,7 @@ export class QueryIterator<T> {
       this.fetchAllTempResources,
       this.fetchAllLastResHeaders,
       this.queryExecutionContext.hasMoreResults(),
-      getEmptyCosmosDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -273,7 +273,7 @@ export class QueryIterator<T> {
       this.resourceLink,
       this.query,
       this.options,
-      queryPlan
+      queryPlan,
     );
   }
 
@@ -286,7 +286,7 @@ export class QueryIterator<T> {
           this.resourceLink,
           this.query,
           this.options,
-          diagnosticNode
+          diagnosticNode,
         )
         .catch((error: any) => error); // Without this catch, node reports an unhandled rejection. So we stash the promise as resolved even if it errored.
     }
@@ -324,7 +324,7 @@ export class QueryIterator<T> {
   private handleSplitError(err: any): void {
     if (err.code === 410) {
       const error = new Error(
-        "Encountered partition split and could not recover. This request is retryable"
+        "Encountered partition split and could not recover. This request is retryable",
       ) as any;
       error.code = 503;
       error.originalError = err;

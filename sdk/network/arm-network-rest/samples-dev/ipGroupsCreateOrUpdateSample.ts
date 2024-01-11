@@ -39,7 +39,7 @@ async function createOrUpdateIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       subscriptionId,
       resourceGroupName,
-      ipGroupsName
+      ipGroupsName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

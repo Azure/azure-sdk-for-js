@@ -34,7 +34,7 @@ describe("LogHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(logs);
-        })
+        }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
     loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());
@@ -117,7 +117,7 @@ describe("LogHandler", () => {
             assert.strictEqual(result.length, 1);
             assert.strictEqual(
               result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Exceptions', Ver:'1.1')"
+              "(Name:'Exceptions', Ver:'1.1')",
             );
             done();
           })
@@ -140,7 +140,7 @@ describe("LogHandler", () => {
             assert.strictEqual(result.length, 1);
             assert.strictEqual(
               result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Traces', Ver:'1.1')"
+              "(Name:'Traces', Ver:'1.1')",
             );
             done();
           })

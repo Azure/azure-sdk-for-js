@@ -31,7 +31,7 @@ async function getPublicIPPrefix() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      publicIpPrefixName
+      publicIpPrefixName,
     )
     .get(options);
   console.log(result);

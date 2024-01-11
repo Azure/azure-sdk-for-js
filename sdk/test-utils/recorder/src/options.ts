@@ -10,7 +10,7 @@ export type RecordingOptions = {
 export async function setRecordingOptions(
   recorderUrl: string,
   httpClient: HttpClient,
-  { handleRedirects, tlsValidationCert }: RecordingOptions
+  { handleRedirects, tlsValidationCert }: RecordingOptions,
 ) {
   const rawBody: Record<string, any> = {
     HandleRedirects: handleRedirects,

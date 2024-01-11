@@ -23,7 +23,7 @@ dotenv.config();
  */
 async function workflowRunsList(
   client: PurviewWorkflowClient,
-  queryParameter: ListWorkflowRunsParameters
+  queryParameter: ListWorkflowRunsParameters,
 ) {
   const initialResponse = await client.path("/workflowruns").get(queryParameter);
 
@@ -36,7 +36,7 @@ async function workflowRunsList(
     result.push(item);
   }
   console.log(
-    `The total count of workflow runs is ${result.length}, these workflow runs are ${result}`
+    `The total count of workflow runs is ${result.length}, these workflow runs are ${result}`,
   );
 }
 
@@ -63,7 +63,7 @@ async function workflowRunGet(client: PurviewWorkflowClient, workflowRunId: stri
 async function workflowRunCancel(
   client: PurviewWorkflowClient,
   workflowRunId: string,
-  cancelReply: CancelWorkflowRunParameters
+  cancelReply: CancelWorkflowRunParameters,
 ) {
   const result = await client
     .path("/workflowruns/{workflowRunId}/cancel", workflowRunId)
