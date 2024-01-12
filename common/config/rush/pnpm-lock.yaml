@@ -4932,7 +4932,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240110
+      typescript: 5.4.0-dev.20240112
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9752,8 +9752,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240110:
-    resolution: {integrity: sha512-OEtXRprxdta9A5qLObqsgCrFjAWxGuTj8T4W+GBWqDhxIT//BevP5MROHX8Zi18RlvTZSu5G76xJaQT1CK1YpQ==}
+  /typescript@5.4.0-dev.20240112:
+    resolution: {integrity: sha512-jpdPO53r47ZiTebHw2O9jKp1ItTtwPe9kc62LGCZHEexROJn1MXChI7l/UmRtItOhOKwe2ZXOBlNMQh4YTMhIg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18612,7 +18612,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-mhPhHS7C+0/ABnu9KhTIFwJ81RUwDZWSFRuLOT+POypC0fYPB2hpc4uYQyR2Daccs9ftDR7MnnqsNn3qZSikXw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-PTwolY6RWEwvR9s35ux9gegGH63ynMvlfBqZNFNFJzGg0zdFcATpnWR7iDwQ+62tW4+P3NDMtXS6nuwPUXQv/A==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -18634,7 +18634,7 @@ packages:
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.56.0)
       eslint-plugin-tsdoc: 0.2.17
-      glob: 9.3.5
+      glob: 10.3.10
       json-schema: 0.4.0
       mocha: 10.2.0
       prettier: 3.1.1
