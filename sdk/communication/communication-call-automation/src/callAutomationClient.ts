@@ -297,6 +297,7 @@ export class CallAutomationClient {
       mediaStreamingConfiguration,
       transcriptionConfiguration,
       operationContext,
+      sourceCallIdNumber,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
@@ -307,6 +308,7 @@ export class CallAutomationClient {
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
+      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(sourceCallIdNumber),
     };
     const optionsInternal = {
       ...operationOptions,
