@@ -50,9 +50,8 @@ export function buildContentType(format: string): string {
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
-  const schemaDefinition = await getSchemaDefinition(response.body);
   return {
-    definition: schemaDefinition,
+    definition: response.body.toString(),
     properties: {
       id: response.headers["schema-id"]!,
       format: mapContentTypeToFormat(response.headers["content-type"]!),
@@ -61,10 +60,6 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
       version: Number(response.headers["schema-version"]!),
     },
   };
-}
-
-async function getSchemaDefinition(schemaDefinition: Uint8Array): Promise<string> {
-  return new TextDecoder().decode(schemaDefinition);
 }
 
 function mapContentTypeToFormat(contentType: string): string {
