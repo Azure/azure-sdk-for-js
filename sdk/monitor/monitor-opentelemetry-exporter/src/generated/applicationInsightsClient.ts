@@ -45,7 +45,7 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Host}/v2.1"
+      endpoint: options.endpoint ?? options.baseUri ?? "{Host}/v2.1"
     };
     super(optionsWithDefaults);
 
