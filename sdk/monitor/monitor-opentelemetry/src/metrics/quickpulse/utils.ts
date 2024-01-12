@@ -22,6 +22,7 @@ import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { AZURE_MONITOR_OPENTELEMETRY_VERSION } from "../../types";
 import { Resource } from "@opentelemetry/resources";
+import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
 
 export function getSdkVersion(): string {
   const { node } = process.versions;
@@ -115,10 +116,42 @@ export function resourceMetricsToQuickpulseDataPoint(
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
-          // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
-          name: metric.descriptor.name.replace("_", " "),
-          weight: 1,
+          weight: 4,
         };
+
+        // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
+        switch (metric.descriptor.name) {
+          case QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES:
+            metricPoint.name = QuickPulseMetricNames.COMMITTED_BYTES;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION:
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_DURATION;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE:
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE:
+            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_RATE;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE:
+            metricPoint.name = QuickPulseMetricNames.EXCEPTION_RATE;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME:
+            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION:
+            metricPoint.name = QuickPulseMetricNames.REQUEST_DURATION;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE:
+            metricPoint.name = QuickPulseMetricNames.REQUEST_FAILURE_RATE;
+            break;
+          case QuickPulseOpenTelemetryMetricNames.REQUEST_RATE:
+            metricPoint.name = QuickPulseMetricNames.REQUEST_RATE;
+            break;
+          default:
+            metricPoint.name = metric.descriptor.name;
+        }
+
         if (
           metric.dataPointType === DataPointType.SUM ||
           metric.dataPointType === DataPointType.GAUGE
@@ -143,7 +176,9 @@ export function resourceMetricsToQuickpulseDataPoint(
 export function getSpanDocument(
   span: ReadableSpan
 ): RequestDocumentIngress | RemoteDependencyDocumentIngress {
-  let document: RequestDocumentIngress | RemoteDependencyDocumentIngress = {};
+  let document: RequestDocumentIngress | RemoteDependencyDocumentIngress = {
+    internalType: "RequestDocumentIngress",
+  };
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
   let url = "";
@@ -160,6 +195,7 @@ export function getSpanDocument(
     }
 
     document = {
+      internalType: "RequestDocumentIngress",
       documentType: KnownDocumentIngressDocumentType.Request,
       name: span.name,
       url: url,
@@ -174,11 +210,16 @@ export function getSpanDocument(
     }
 
     document = {
+      internalType: "RemoteDependencyDocumentIngress",
       documentType: KnownDocumentIngressDocumentType.RemoteDependency,
       name: span.name,
       commandName: url,
       resultCode: code,
       duration: hrTimeToMilliseconds(span.duration).toString(),
+      properties: [
+        { key: "testProp1", value: "testValue1" },
+        { key: "testProp2", value: "testValue2" },
+      ],
     };
   }
   return document;
@@ -187,17 +228,21 @@ export function getSpanDocument(
 export function getLogDocument(
   logRecord: LogRecord
 ): TraceDocumentIngress | ExceptionDocumentIngress {
-  let document: TraceDocumentIngress | ExceptionDocumentIngress = {};
+  let document: TraceDocumentIngress | ExceptionDocumentIngress = {
+    internalType: "ExceptionDocumentIngress",
+  };
   const exceptionType = String(logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]);
   if (exceptionType) {
     const exceptionMessage = String(logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE]);
     document = {
+      internalType: "ExceptionDocumentIngress",
       documentType: KnownDocumentIngressDocumentType.Exception,
       exceptionType: exceptionType,
       exceptionMessage: exceptionMessage,
     };
   } else {
     document = {
+      internalType: "TraceDocumentIngress",
       documentType: KnownDocumentIngressDocumentType.Trace,
       message: String(logRecord.body),
     };

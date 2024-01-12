@@ -156,7 +156,19 @@ export const DocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: {
+      serializedName: "InternalType",
+      clientName: "internalType"
+    },
     modelProperties: {
+      internalType: {
+        serializedName: "InternalType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       documentType: {
         serializedName: "DocumentType",
         type: {
@@ -180,10 +192,31 @@ export const DocumentIngress: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Dictionary",
-              value: { type: { name: "any" } }
+              name: "Composite",
+              className: "KeyValuePairString"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const KeyValuePairString: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyValuePairString",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
         }
       }
     }
@@ -244,27 +277,6 @@ export const CollectionConfigurationError: coreClient.CompositeMapper = {
               className: "KeyValuePairString"
             }
           }
-        }
-      }
-    }
-  }
-};
-
-export const KeyValuePairString: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyValuePairString",
-    modelProperties: {
-      key: {
-        serializedName: "key",
-        type: {
-          name: "String"
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
         }
       }
     }
@@ -528,9 +540,12 @@ export const ServiceError: coreClient.CompositeMapper = {
 };
 
 export const RequestDocumentIngress: coreClient.CompositeMapper = {
+  serializedName: "RequestDocumentIngress",
   type: {
     name: "Composite",
     className: "RequestDocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
@@ -571,9 +586,12 @@ export const RequestDocumentIngress: coreClient.CompositeMapper = {
 };
 
 export const RemoteDependencyDocumentIngress: coreClient.CompositeMapper = {
+  serializedName: "RemoteDependencyDocumentIngress",
   type: {
     name: "Composite",
     className: "RemoteDependencyDocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
@@ -614,9 +632,12 @@ export const RemoteDependencyDocumentIngress: coreClient.CompositeMapper = {
 };
 
 export const ExceptionDocumentIngress: coreClient.CompositeMapper = {
+  serializedName: "ExceptionDocumentIngress",
   type: {
     name: "Composite",
     className: "ExceptionDocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       exceptionType: {
@@ -642,9 +663,12 @@ export const ExceptionDocumentIngress: coreClient.CompositeMapper = {
 };
 
 export const EventDocumentIngress: coreClient.CompositeMapper = {
+  serializedName: "EventDocumentIngress",
   type: {
     name: "Composite",
     className: "EventDocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
@@ -661,9 +685,12 @@ export const EventDocumentIngress: coreClient.CompositeMapper = {
 };
 
 export const TraceDocumentIngress: coreClient.CompositeMapper = {
+  serializedName: "TraceDocumentIngress",
   type: {
     name: "Composite",
     className: "TraceDocumentIngress",
+    uberParent: "DocumentIngress",
+    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       message: {
@@ -749,4 +776,13 @@ export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
       }
     }
   }
+};
+
+export let discriminators = {
+  DocumentIngress: DocumentIngress,
+  "DocumentIngress.RequestDocumentIngress": RequestDocumentIngress,
+  "DocumentIngress.RemoteDependencyDocumentIngress": RemoteDependencyDocumentIngress,
+  "DocumentIngress.ExceptionDocumentIngress": ExceptionDocumentIngress,
+  "DocumentIngress.EventDocumentIngress": EventDocumentIngress,
+  "DocumentIngress.TraceDocumentIngress": TraceDocumentIngress
 };
