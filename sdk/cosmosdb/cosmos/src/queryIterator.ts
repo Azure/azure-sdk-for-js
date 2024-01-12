@@ -82,9 +82,7 @@ export class QueryIterator<T> {
    * }
    * ```
    */
-  public async *getAsyncIterator(
-    operationOptions?: QueryOperationOptions
-  ): AsyncIterable<FeedResponse<T>> {
+  public async *getAsyncIterator(options?: QueryOperationOptions): AsyncIterable<FeedResponse<T>> {
     this.reset();
     let diagnosticNode = new DiagnosticNodeInternal(
       this.clientContext.diagnosticLevel,
@@ -93,7 +91,7 @@ export class QueryIterator<T> {
     );
     this.queryPlanPromise = this.fetchQueryPlan(diagnosticNode);
     let ruConsumedManager: RUConsumedManager | undefined;
-    if (operationOptions && operationOptions.ruCapPerOperation) {
+    if (options && options.ruCapPerOperation) {
       ruConsumedManager = new RUConsumedManager();
     }
     while (this.queryExecutionContext.hasMoreResults()) {
@@ -101,7 +99,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(
           diagnosticNode,
-          operationOptions,
+          options,
           ruConsumedManager
         );
       } catch (error: any) {
@@ -110,7 +108,7 @@ export class QueryIterator<T> {
           try {
             response = await this.queryExecutionContext.fetchMore(
               diagnosticNode,
-              operationOptions,
+              options,
               ruConsumedManager
             );
           } catch (queryError: any) {
@@ -151,9 +149,9 @@ export class QueryIterator<T> {
    * Fetch all pages for the query and return a single FeedResponse.
    */
 
-  public async fetchAll(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>> {
+  public async fetchAll(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      return this.fetchAllInternal(diagnosticNode, operationOptions);
+      return this.fetchAllInternal(diagnosticNode, options);
     }, this.clientContext);
   }
 
@@ -162,12 +160,12 @@ export class QueryIterator<T> {
    */
   public async fetchAllInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions
+    options?: QueryOperationOptions
   ): Promise<FeedResponse<T>> {
     this.reset();
     let response: FeedResponse<T>;
     try {
-      response = await this.toArrayImplementation(diagnosticNode, operationOptions);
+      response = await this.toArrayImplementation(diagnosticNode, options);
     } catch (error: any) {
       this.handleSplitError(error);
     }
@@ -181,10 +179,10 @@ export class QueryIterator<T> {
    * and the type of query. Aggregate queries will generally fetch all backend pages
    * before returning the first batch of responses.
    */
-  public async fetchNext(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>> {
+  public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       let ruConsumedManager: RUConsumedManager | undefined;
-      if (operationOptions && operationOptions.ruCapPerOperation) {
+      if (options && options.ruCapPerOperation) {
         ruConsumedManager = new RUConsumedManager();
       }
       this.queryPlanPromise = withMetadataDiagnostics(
@@ -202,7 +200,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.fetchMore(
           diagnosticNode,
-          operationOptions,
+          options,
           ruConsumedManager
         );
       } catch (error: any) {
@@ -211,7 +209,7 @@ export class QueryIterator<T> {
           try {
             response = await this.queryExecutionContext.fetchMore(
               diagnosticNode,
-              operationOptions,
+              options,
               ruConsumedManager
             );
           } catch (queryError: any) {
@@ -245,10 +243,10 @@ export class QueryIterator<T> {
 
   private async toArrayImplementation(
     diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions
+    options?: QueryOperationOptions
   ): Promise<FeedResponse<T>> {
     let ruConsumedManager: RUConsumedManager | undefined;
-    if (operationOptions && operationOptions.ruCapPerOperation) {
+    if (options && options.ruCapPerOperation) {
       ruConsumedManager = new RUConsumedManager();
     }
     this.queryPlanPromise = withMetadataDiagnostics(
@@ -268,7 +266,7 @@ export class QueryIterator<T> {
       try {
         response = await this.queryExecutionContext.nextItem(
           diagnosticNode,
-          operationOptions,
+          options,
           ruConsumedManager
         );
       } catch (error: any) {
@@ -276,7 +274,7 @@ export class QueryIterator<T> {
           await this.createPipelinedExecutionContext();
           response = await this.queryExecutionContext.nextItem(
             diagnosticNode,
-            operationOptions,
+            options,
             ruConsumedManager
           );
         } else if (error.code === RUCapPerOperationExceededErrorCode) {

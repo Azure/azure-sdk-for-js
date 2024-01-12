@@ -1624,11 +1624,11 @@ export interface QueryInfo {
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
     constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
-    fetchAll(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    fetchAll(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
     // (undocumented)
-    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal, operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>>;
-    fetchNext(operationOptions?: QueryOperationOptions): Promise<FeedResponse<T>>;
-    getAsyncIterator(operationOptions?: QueryOperationOptions): AsyncIterable<FeedResponse<T>>;
+    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal, options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    getAsyncIterator(options?: QueryOperationOptions): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
 }
