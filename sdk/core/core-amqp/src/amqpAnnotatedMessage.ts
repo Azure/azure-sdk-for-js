@@ -66,9 +66,8 @@ export const AmqpAnnotatedMessage = {
     if (msg.absolute_expiry_time) {
       const absoluteExpiryTime = msg.absolute_expiry_time.getTime();
       amqpMsg.properties.absoluteExpiryTime =
-        absoluteExpiryTime >= Constants.maxAbsoluteExpiryTime
-          ? Constants.maxAbsoluteExpiryTime
-          : absoluteExpiryTime;
+        Math.min(absoluteExpiryTime, Constants.maxAbsoluteExpiryTime);
+
       // The TTL from the header can be at most approximately 49 days (uint32
       // max value milliseconds) due to the AMQP spec. In order to allow for
       // larger TTLs set by the user, we take the difference of the
@@ -103,11 +102,7 @@ export const AmqpAnnotatedMessage = {
       const ttl = msg.header.timeToLive;
       rhMsg.ttl = ttl > Constants.maxUint32Value ? Constants.maxUint32Value : ttl;
       rhMsg.creation_time = rhMsg.creation_time ?? new Date();
-      if (Constants.maxAbsoluteExpiryTime - rhMsg.creation_time.getTime() > ttl) {
-        rhMsg.absolute_expiry_time = new Date(rhMsg.creation_time.getTime() + ttl);
-      } else {
-        rhMsg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
-      }
+      rhMsg.absolute_expiry_time = new Date(Math.min(rhMsg.creation_time.getTime() + ttl, Constants.maxAbsoluteExpiryTime));
     }
 
     return rhMsg;

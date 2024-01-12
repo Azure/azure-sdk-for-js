@@ -322,14 +322,11 @@ export function toRheaMessage(
     };
 
     if (msg.timeToLive) {
-      amqpMsg.ttl =
-        msg.timeToLive > Constants.maxUint32Value ? Constants.maxUint32Value : msg.timeToLive;
+      amqpMsg.ttl = Math.min(msg.timeToLive, Constants.maxUint32Value);
       amqpMsg.creation_time = new Date();
-      if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time.getTime() > amqpMsg.ttl) {
-        amqpMsg.absolute_expiry_time = new Date(amqpMsg.creation_time.getTime() + amqpMsg.ttl);
-      } else {
-        amqpMsg.absolute_expiry_time = new Date(Constants.maxAbsoluteExpiryTime);
-      }
+      amqpMsg.absolute_expiry_time = new Date(
+        Math.min(amqpMsg.creation_time.getTime() + amqpMsg.ttl, Constants.maxAbsoluteExpiryTime),
+      );
     }
   }
 
