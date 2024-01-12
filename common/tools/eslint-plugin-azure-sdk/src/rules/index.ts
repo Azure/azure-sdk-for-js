@@ -3,7 +3,6 @@
 
 /**
  * @file All rules
- * @author Arpan Laha
  */
 
 import githubSourceHeaders from "./github-source-headers";

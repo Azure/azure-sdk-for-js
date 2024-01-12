@@ -3,7 +3,6 @@
 
 /**
  * @file Definition of configs
- * @author Arpan Laha
  */
 
 import rootConfig from "./azure-sdk-base";

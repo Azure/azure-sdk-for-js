@@ -5,7 +5,7 @@ export default {
   parser: "@typescript-eslint/parser",
   parserOptions: {
     sourceType: "module",
-    extraFileExtensions: [".json", ".javascript"],
+    extraFileExtensions: [".json"],
   },
   plugins: [
     "@typescript-eslint",
