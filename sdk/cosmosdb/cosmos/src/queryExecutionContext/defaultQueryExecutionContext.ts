@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants } from "../common";
+import { Constants, RUConsumedManager } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, QueryOperationOptions, RUConsumedManager, Response } from "../request";
+import { FeedOptions, QueryOperationOptions, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
 import { ExecutionContext } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";

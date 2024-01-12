@@ -1969,17 +1969,6 @@ export class RUCapPerOperationExceededError extends ErrorResponse {
 }
 
 // @public (undocumented)
-export class RUConsumedManager {
-    constructor();
-    // (undocumented)
-    addToRUConsumed(value: number): void;
-    // (undocumented)
-    getRUConsumed(): number;
-    // (undocumented)
-    setRUConsumed(newValue: number): void;
-}
-
-// @public (undocumented)
 export class RuntimeExecutionTimes {
     constructor(queryEngineExecutionTime: TimeSpan, systemFunctionExecutionTime: TimeSpan, userDefinedFunctionExecutionTime: TimeSpan);
     add(...runtimeExecutionTimesArray: RuntimeExecutionTimes[]): RuntimeExecutionTimes;

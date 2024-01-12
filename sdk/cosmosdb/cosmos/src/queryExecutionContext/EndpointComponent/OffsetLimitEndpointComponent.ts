@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, RUConsumedManager, Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 import { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
+import { RUConsumedManager } from "../../common";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {

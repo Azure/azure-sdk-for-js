@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, RUConsumedManager, Response } from "../request";
+import { QueryOperationOptions, Response } from "../request";
+import { RUConsumedManager } from "../common";
 
 /** @hidden */
 export interface ExecutionContext {

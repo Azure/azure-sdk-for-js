@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions, QueryOperationOptions, RUConsumedManager } from "../request";
+import { Response, FeedOptions, QueryOperationOptions } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -17,6 +17,7 @@ import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueE
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
+import { RUConsumedManager } from "../common";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {

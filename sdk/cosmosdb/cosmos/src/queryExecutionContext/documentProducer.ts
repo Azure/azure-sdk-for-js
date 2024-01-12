@@ -9,9 +9,10 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
+  RUConsumedManager,
 } from "../common";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions, QueryOperationOptions, RUConsumedManager } from "../request";
+import { FeedOptions, QueryOperationOptions } from "../request";
 import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";

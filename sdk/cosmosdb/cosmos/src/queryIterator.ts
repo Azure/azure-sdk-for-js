@@ -5,7 +5,7 @@
 
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { getPathFromLink, ResourceType, StatusCodes } from "./common";
+import { getPathFromLink, ResourceType, StatusCodes, RUConsumedManager } from "./common";
 import {
   CosmosHeaders,
   DefaultQueryExecutionContext,
@@ -16,7 +16,7 @@ import {
   PipelinedQueryExecutionContext,
   SqlQuerySpec,
 } from "./queryExecutionContext";
-import { RUConsumedManager, Response } from "./request";
+import { Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
 import { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";

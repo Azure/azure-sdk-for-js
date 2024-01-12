@@ -3,8 +3,8 @@
 import PriorityQueue from "priorityqueuejs";
 import { ClientContext } from "../ClientContext";
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { FeedOptions, QueryOperationOptions, RUConsumedManager, Response } from "../request";
+import { StatusCodes, SubStatusCodes, RUConsumedManager } from "../common";
+import { FeedOptions, QueryOperationOptions, Response } from "../request";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
@@ -614,5 +614,6 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         throw err;
       }
     }
+    return;
   }
 }

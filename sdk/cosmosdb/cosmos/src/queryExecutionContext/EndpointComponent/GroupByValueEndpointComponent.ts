@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { QueryOperationOptions, RUConsumedManager, Response } from "../../request";
+import { QueryOperationOptions, Response } from "../../request";
 import { ExecutionContext } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
@@ -10,6 +10,7 @@ import { getInitialHeader, mergeHeaders } from "../headerUtils";
 import { emptyGroup, extractAggregateResult } from "./emptyGroup";
 import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
+import { RUConsumedManager } from "../../common";
 
 interface GroupByResponse {
   result: GroupByResult;

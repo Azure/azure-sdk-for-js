@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @hidden
+ * @hidden
+ * Specifies Net RUConsumed
+ */
 export class RUConsumedManager {
   private sharedBuffer: SharedArrayBuffer;
   private ruConsumedArray: BigInt64Array;
