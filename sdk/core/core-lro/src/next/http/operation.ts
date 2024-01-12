@@ -16,7 +16,7 @@ import {
   RestorableOperationState,
   StateProxy,
 } from "../poller/models";
-import { initOperation, pollOperation } from "../poller/operation";
+import { pollOperation } from "../poller/operation";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { logger } from "../logger";
 
@@ -229,39 +229,6 @@ export function getStatusFromInitialResponse<TState>(inputs: {
   }
   const status = helper();
   return status === "running" && operationLocation === undefined ? "succeeded" : status;
-}
-
-/**
- * Initiates the long-running operation.
- */
-export async function initHttpOperation<TResult, TState>(inputs: {
-  stateProxy: StateProxy<TState, TResult>;
-  resourceLocationConfig?: ResourceLocationConfig;
-  processResult?: (result: unknown, state: TState) => TResult;
-  setErrorAsResult: boolean;
-  lro: LongRunningOperation;
-}): Promise<RestorableOperationState<TState>> {
-  const { stateProxy, resourceLocationConfig, processResult, lro, setErrorAsResult } = inputs;
-  return initOperation({
-    init: async () => {
-      const response = await lro.sendInitialRequest();
-      const config = inferLroMode(response.rawResponse, resourceLocationConfig);
-      return {
-        response,
-        operationLocation: config?.operationLocation,
-        resourceLocation: config?.resourceLocation,
-        initialUri: config?.initialUri,
-        requestMethod: config?.requestMethod,
-        ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
-      };
-    },
-    stateProxy,
-    processResult: processResult
-      ? ({ flatResponse }, state) => processResult(flatResponse, state)
-      : ({ flatResponse }) => flatResponse as TResult,
-    getOperationStatus: getStatusFromInitialResponse,
-    setErrorAsResult,
-  });
 }
 
 export function getOperationLocation<TState>(
