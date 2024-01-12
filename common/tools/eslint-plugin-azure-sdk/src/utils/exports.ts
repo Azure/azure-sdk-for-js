@@ -3,11 +3,9 @@
 
 /**
  * @file Utilities for analyzing the exports of a package
- * @author Arpan Laha
+ *
  */
-
-import { ClassDeclaration, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { SourceFile, Symbol as TSSymbol } from "typescript";
 import { Rule } from "eslint";
 
@@ -115,8 +113,8 @@ export const getLocalExports = (context: Rule.RuleContext): TSSymbol[] | undefin
   return localExports;
 };
 
-export const getPublicMethods = (node: ClassDeclaration): MethodDefinition[] =>
-  node.body.body.filter((method): method is MethodDefinition => {
+export const getPublicMethods = (node: TSESTree.ClassDeclaration): TSESTree.MethodDefinition[] =>
+  node.body.body.filter((method): method is TSESTree.MethodDefinition => {
     const TSMethod = method as TSESTree.MethodDefinition;
     return method.type === "MethodDefinition" && TSMethod.accessibility !== "private";
   });
