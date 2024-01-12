@@ -44,7 +44,7 @@ export class MockInstrumenter implements Instrumenter {
 
   startSpan(
     name: string,
-    spanOptions?: InstrumenterSpanOptions
+    spanOptions?: InstrumenterSpanOptions,
   ): { span: TracingSpan; tracingContext: TracingContext } {
     const tracingContext = spanOptions?.tracingContext || this.currentContext();
     const parentSpan = tracingContext.getValue(spanKey) as MockTracingSpan | undefined;
@@ -66,7 +66,7 @@ export class MockInstrumenter implements Instrumenter {
       spanContext.spanId,
       tracingContext,
       spanOptions,
-      this.isEnabled
+      this.isEnabled,
     );
     let context: TracingContext = new MockContext(tracingContext);
     context = context.setValue(spanKey, span);
@@ -77,7 +77,7 @@ export class MockInstrumenter implements Instrumenter {
 
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,

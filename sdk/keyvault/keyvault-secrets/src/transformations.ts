@@ -10,7 +10,7 @@ import { DeletedSecret, KeyVaultSecret } from "./secretsModels";
  * Shapes the exposed {@link KeyVaultKey} based on either a received secret bundle or deleted secret bundle.
  */
 export function getSecretFromSecretBundle(
-  bundle: SecretBundle | DeletedSecretBundle
+  bundle: SecretBundle | DeletedSecretBundle,
 ): KeyVaultSecret {
   const secretBundle = bundle as SecretBundle;
   const deletedSecretBundle = bundle as DeletedSecretBundle;

@@ -30,7 +30,7 @@ async function routeFilterListByResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -33,7 +33,7 @@ async function virtualNetworkGatewayNatRuleGet() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName
+      natRuleName,
     )
     .get(options);
   console.log(result);

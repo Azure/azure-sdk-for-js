@@ -33,7 +33,7 @@ async function connectivityConfigurationsGet() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .get(options);
   console.log(result);

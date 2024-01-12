@@ -31,7 +31,7 @@ async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateLinkResources",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .get(options);
   console.log(result);

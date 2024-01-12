@@ -33,7 +33,7 @@ async function getPacketCapture() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      packetCaptureName
+      packetCaptureName,
     )
     .get(options);
   console.log(result);

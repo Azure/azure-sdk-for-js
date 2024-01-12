@@ -137,7 +137,7 @@ function getTypedObject(value: any, type: string, disableTypeConversion: boolean
 
 export function deserialize<T extends object = Record<string, any>>(
   obj: object,
-  disableTypeConversion: boolean = false
+  disableTypeConversion: boolean = false,
 ): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
@@ -191,7 +191,7 @@ function getTypedNumber(value: number): { value: string; type: "Int32" | "Double
 
 export function deserializeObjectsArray<T extends object>(
   objArray: object[],
-  disableTypeConversion: boolean
+  disableTypeConversion: boolean,
 ): T[] {
   return objArray.map((obj) => deserialize<T>(obj, disableTypeConversion));
 }
@@ -203,7 +203,7 @@ export function deserializeObjectsArray<T extends object>(
  * dates so that they are in the expected format
  */
 export function serializeSignedIdentifiers(
-  signedIdentifiers: SignedIdentifier[]
+  signedIdentifiers: SignedIdentifier[],
 ): GeneratedSignedIdentifier[] {
   return signedIdentifiers.map((acl) => {
     const { id, accessPolicy } = acl;
@@ -227,7 +227,7 @@ export function serializeSignedIdentifiers(
 }
 
 export function deserializeSignedIdentifier(
-  signedIdentifiers: GeneratedSignedIdentifier[]
+  signedIdentifiers: GeneratedSignedIdentifier[],
 ): SignedIdentifier[] {
   return signedIdentifiers.map((si) => {
     const { id, accessPolicy } = si;

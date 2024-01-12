@@ -4,7 +4,7 @@ import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 
 const httpTrigger: AzureFunction = async function (
   context: Context,
-  req: HttpRequest
+  req: HttpRequest,
 ): Promise<void> {
   try {
     const credential = new DefaultAzureCredential();

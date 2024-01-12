@@ -173,7 +173,7 @@ describe("Sent Shares Operations", () => {
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareUserInvitationId
+        sentShareUserInvitationId,
       )
       .put({
         body: {
@@ -188,7 +188,7 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "201");
     console.log(
-      `Sent Share invitation ${sentShareUserInvitationId} for user ${targetEmail} created.`
+      `Sent Share invitation ${sentShareUserInvitationId} for user ${targetEmail} created.`,
     );
     if (isUnexpected(response)) {
       throw response.body.error;
@@ -210,7 +210,7 @@ describe("Sent Shares Operations", () => {
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify",
         sentShareId,
-        sentShareUserInvitationId
+        sentShareUserInvitationId,
       )
       .post();
 
@@ -236,7 +236,7 @@ describe("Sent Shares Operations", () => {
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .put({
         body: {
@@ -251,7 +251,7 @@ describe("Sent Shares Operations", () => {
 
     assert.strictEqual(response.status, "201");
     console.log(
-      `Sent Share invitation ${sentShareServiceInvitationId} for service ${targetActiveDirectoryId}_${targetObjectId} created.`
+      `Sent Share invitation ${sentShareServiceInvitationId} for service ${targetActiveDirectoryId}_${targetObjectId} created.`,
     );
     if (isUnexpected(response)) {
       throw response.body.error;
@@ -267,7 +267,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
     assert.strictEqual(
       invitationResponse.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
@@ -277,7 +277,7 @@ describe("Sent Shares Operations", () => {
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .get();
 
@@ -297,7 +297,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.state, "Succeeded");
     assert.strictEqual(
       invitationResponse.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
@@ -317,7 +317,7 @@ describe("Sent Shares Operations", () => {
     console.log("Retrieved Sent Share Invitations.");
 
     const sentshareInvitation = sentsharesListResponse.value.find(
-      (i) => i.invitationKind === "Service"
+      (i) => i.invitationKind === "Service",
     ) as ServiceInvitationOutput;
 
     assert.isDefined(sentshareInvitation);
@@ -325,7 +325,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentshareInvitation.properties.state, "Succeeded");
     assert.strictEqual(
       sentshareInvitation.properties.targetActiveDirectoryId,
-      targetActiveDirectoryId
+      targetActiveDirectoryId,
     );
     assert.strictEqual(sentshareInvitation.properties.targetObjectId, targetObjectId);
   });
@@ -335,7 +335,7 @@ describe("Sent Shares Operations", () => {
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
         sentShareId,
-        sentShareServiceInvitationId
+        sentShareServiceInvitationId,
       )
       .delete();
 

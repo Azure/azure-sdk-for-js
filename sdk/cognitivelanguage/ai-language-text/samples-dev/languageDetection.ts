@@ -41,7 +41,7 @@ export async function main() {
   for (const doc of result) {
     if (!doc.error) {
       console.log(
-        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`
+        `Primary language: ${doc.primaryLanguage.name} (iso6391 name: ${doc.primaryLanguage.iso6391Name})`,
       );
     }
   }

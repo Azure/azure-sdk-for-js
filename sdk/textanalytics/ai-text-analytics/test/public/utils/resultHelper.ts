@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "../../../src/";
 
 export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
-  results: (TextAnalyticsErrorResult | TSuccess)[]
+  results: (TextAnalyticsErrorResult | TSuccess)[],
 ): void {
   for (const result of results) {
     assert.ok(isSuccess(result));
@@ -15,7 +15,7 @@ export function assertAllSuccess<TSuccess extends TextAnalyticsSuccessResult>(
 }
 
 export function isSuccess<TSuccess extends TextAnalyticsSuccessResult>(
-  res: TextAnalyticsErrorResult | TSuccess
+  res: TextAnalyticsErrorResult | TSuccess,
 ): res is TSuccess {
   return res.error === undefined;
 }
@@ -26,7 +26,7 @@ export async function assertRestError(
     statusCode?: number;
     code?: string;
     messagePattern?: RegExp;
-  } = {}
+  } = {},
 ): Promise<void> {
   const { code, statusCode, messagePattern } = options;
   try {

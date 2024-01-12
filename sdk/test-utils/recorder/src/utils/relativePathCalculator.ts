@@ -48,7 +48,7 @@ function relativePackagePath() {
     return path.relative(rootPath, expectedProjectPath);
   } else {
     throw new RecorderError(
-      "rootPath or expectedProjectPath could not be calculated properly from process.cwd()"
+      "rootPath or expectedProjectPath could not be calculated properly from process.cwd()",
     );
   }
 }

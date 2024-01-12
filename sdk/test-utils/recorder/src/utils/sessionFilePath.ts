@@ -19,14 +19,14 @@ export function sessionFilePath(testContext: Mocha.Test): string {
 export function recordingFilePath(testContext: Mocha.Test): string {
   if (!testContext.parent) {
     throw new RecorderError(
-      `Test ${testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`
+      `Test ${testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
     );
   }
 
   return generateTestRecordingFilePath(
     isNode ? "node" : "browsers",
     testContext.parent.fullTitle(),
-    testContext.title
+    testContext.title,
   );
 }
 

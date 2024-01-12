@@ -32,7 +32,7 @@ async function deleteServiceEndpointPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

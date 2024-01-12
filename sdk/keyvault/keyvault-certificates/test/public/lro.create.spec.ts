@@ -35,12 +35,12 @@ describe("Certificates client - LRO - create", () => {
 
   it("can wait until a certificate is created", async function (this: Context) {
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     assert.ok(poller.getOperationState().isStarted);
 
@@ -58,12 +58,12 @@ describe("Certificates client - LRO - create", () => {
   it("can resume from a stopped poller", async function (this: Context) {
     this.retries(5);
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const poller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     assert.ok(poller.getOperationState().isStarted);
 
@@ -85,7 +85,7 @@ describe("Certificates client - LRO - create", () => {
       {
         resumeFrom: serialized,
         ...testPollerProperties,
-      }
+      },
     );
 
     assert.ok(resumePoller.getOperationState().isStarted);

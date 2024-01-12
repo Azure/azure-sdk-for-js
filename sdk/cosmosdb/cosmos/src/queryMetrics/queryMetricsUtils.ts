@@ -36,7 +36,7 @@ export function parseDelimitedString(delimitedString: string): {
  */
 export function timeSpanFromMetrics(
   metrics: { [key: string]: any } /* TODO: any */,
-  key: string
+  key: string,
 ): TimeSpan {
   if (key in metrics) {
     return TimeSpan.fromMilliseconds(metrics[key]);

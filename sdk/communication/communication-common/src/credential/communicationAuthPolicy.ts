@@ -16,7 +16,7 @@ import { createCommunicationAccessKeyCredentialPolicy } from "./communicationAcc
  * @param credential - The KeyCredential or TokenCredential.
  */
 export function createCommunicationAuthPolicy(
-  credential: KeyCredential | TokenCredential
+  credential: KeyCredential | TokenCredential,
 ): PipelinePolicy {
   if (isTokenCredential(credential)) {
     const policyOptions: BearerTokenAuthenticationPolicyOptions = {

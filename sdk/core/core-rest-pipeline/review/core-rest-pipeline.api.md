@@ -6,13 +6,13 @@
 
 /// <reference types="node" />
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { AccessToken } from '@azure/core-auth';
-import { AzureLogger } from '@azure/logger';
-import { Debugger } from '@azure/logger';
-import { GetTokenOptions } from '@azure/core-auth';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { TokenCredential } from '@azure/core-auth';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { AccessToken } from '@azure/core-auth';
+import type { AzureLogger } from '@azure/logger';
+import type { Debugger } from '@azure/logger';
+import type { GetTokenOptions } from '@azure/core-auth';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddPipelineOptions {

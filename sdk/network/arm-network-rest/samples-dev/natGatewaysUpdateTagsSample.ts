@@ -32,7 +32,7 @@ async function updateNatGatewayTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       subscriptionId,
       resourceGroupName,
-      natGatewayName
+      natGatewayName,
     )
     .patch(options);
   console.log(result);

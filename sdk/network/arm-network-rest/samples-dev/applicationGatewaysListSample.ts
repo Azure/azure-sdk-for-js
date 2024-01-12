@@ -30,7 +30,7 @@ async function listsAllApplicationGatewaysInAResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

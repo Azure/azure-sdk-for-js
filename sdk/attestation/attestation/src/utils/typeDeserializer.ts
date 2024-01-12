@@ -23,7 +23,7 @@ export class TypeDeserializer {
   public static deserialize(
     rawJson: unknown,
     typeMappers: { [key: string]: any },
-    bodyTypeName: string
+    bodyTypeName: string,
   ): unknown {
     const serializer = createSerializer(typeMappers);
     return serializer.deserialize(typeMappers[bodyTypeName], rawJson, bodyTypeName);
@@ -40,7 +40,7 @@ export class TypeDeserializer {
   public static serialize(
     objectToSerialize: unknown,
     typeMappers: { [key: string]: Mapper },
-    bodyMapper: Mapper
+    bodyMapper: Mapper,
   ): string {
     const serializer = createSerializer(typeMappers);
     return JSON.stringify(serializer.serialize(bodyMapper, objectToSerialize));

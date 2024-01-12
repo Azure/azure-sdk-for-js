@@ -36,12 +36,12 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
  */
 export function makeAnalyzeSentimentResultArray(
   input: TextDocumentInput[],
-  response: SentimentResponse
+  response: SentimentResponse,
 ): AnalyzeSentimentResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeAnalyzeSentimentResult,
-    makeAnalyzeSentimentErrorResult
+    makeAnalyzeSentimentErrorResult,
   );
 }

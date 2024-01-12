@@ -17,7 +17,10 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
    * @param accountId - The Mixed Reality service account identifier.
    * @param accountKey - The Mixed Reality service account primary or secondary key.
    */
-  constructor(public readonly accountId: string, accountKey: string | KeyCredential) {
+  constructor(
+    public readonly accountId: string,
+    accountKey: string | KeyCredential,
+  ) {
     if (typeof accountKey === "string") {
       this.accountKey = { key: accountKey };
     } else {

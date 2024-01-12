@@ -37,7 +37,7 @@ async function resetServicePrincipalProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post(parameters);
   const poller = getLongRunningPoller(client, initialResponse);

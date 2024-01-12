@@ -190,6 +190,8 @@ import {
   AcsRouterWorkerOfferRevokedEventData,
   ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
   ResourceNotificationsResourceManagementDeletedEventData,
+  StorageTaskAssignmentQueuedEventData,
+  StorageTaskAssignmentCompletedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -580,6 +582,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
   /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.Deleted" event. */
   "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentQueued" event. */
+  "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentCompleted" event. */
+  "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
 }
 
 /**
@@ -588,7 +594,7 @@ export interface SystemEventNameToEventData {
  * @param o - Either an EventGrid our CloudEvent event.
  */
 function isCloudEventLike(
-  o: EventGridEvent<unknown> | CloudEvent<unknown>
+  o: EventGridEvent<unknown> | CloudEvent<unknown>,
 ): o is CloudEvent<unknown> {
   return (o as any).source !== undefined;
 }
@@ -603,7 +609,7 @@ function isCloudEventLike(
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: EventGridEvent<unknown>
+  event: EventGridEvent<unknown>,
 ): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
 /**
@@ -616,12 +622,12 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: CloudEvent<unknown>
+  event: CloudEvent<unknown>,
 ): event is CloudEvent<SystemEventNameToEventData[T]>;
 
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
+  event: EventGridEvent<unknown> | CloudEvent<unknown>,
 ): event is
   | EventGridEvent<SystemEventNameToEventData[T]>
   | CloudEvent<SystemEventNameToEventData[T]> {

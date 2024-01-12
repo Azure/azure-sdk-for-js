@@ -41,7 +41,7 @@ export class BatchingReceiver extends MessageReceiver {
     identifier: string,
     connectionContext: ConnectionContext,
     entityPath: string,
-    options: ReceiveOptions
+    options: ReceiveOptions,
   ) {
     super(identifier, connectionContext, entityPath, "batching", options);
 
@@ -79,7 +79,7 @@ export class BatchingReceiver extends MessageReceiver {
       },
       this.receiveMode,
       options.skipParsingBodyAsJson ?? false,
-      options.skipConvertingDate ?? false
+      options.skipConvertingDate ?? false,
     );
   }
 
@@ -98,7 +98,7 @@ export class BatchingReceiver extends MessageReceiver {
 
     if (connectionError == null) {
       connectionError = new Error(
-        "Unknown error occurred on the AMQP connection while receiving messages."
+        "Unknown error occurred on the AMQP connection while receiving messages.",
       );
     }
 
@@ -119,7 +119,7 @@ export class BatchingReceiver extends MessageReceiver {
     maxMessageCount: number,
     maxWaitTimeInMs: number,
     maxTimeAfterFirstMessageInMs: number,
-    options: OperationOptionsBase
+    options: OperationOptionsBase,
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
@@ -150,7 +150,7 @@ export class BatchingReceiver extends MessageReceiver {
     clientId: string,
     context: ConnectionContext,
     entityPath: string,
-    options: ReceiveOptions
+    options: ReceiveOptions,
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(clientId, context, entityPath, options);
@@ -175,7 +175,7 @@ export class BatchingReceiver extends MessageReceiver {
  */
 export function getRemainingWaitTimeInMsFn(
   maxWaitTimeInMs: number,
-  maxTimeAfterFirstMessageInMs: number
+  maxTimeAfterFirstMessageInMs: number,
 ): () => number {
   const startTimeMs = Date.now();
 
@@ -248,11 +248,11 @@ export class BatchingReceiverLite {
     private _connectionContext: ConnectionContext,
     public entityPath: string,
     private _getCurrentReceiver: (
-      abortSignal?: AbortSignalLike
+      abortSignal?: AbortSignalLike,
     ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode,
     _skipParsingBodyAsJson: boolean,
-    _skipConvertingDate: boolean
+    _skipConvertingDate: boolean,
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
@@ -261,20 +261,20 @@ export class BatchingReceiverLite {
         true,
         this._receiveMode,
         _skipParsingBodyAsJson,
-        _skipConvertingDate
+        _skipConvertingDate,
       );
     };
 
     this._getRemainingWaitTimeInMsFn = (
       maxWaitTimeInMs: number,
-      maxTimeAfterFirstMessageInMs: number
+      maxTimeAfterFirstMessageInMs: number,
     ) => getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
 
     this.isReceivingMessages = false;
   }
 
   private _createServiceBusMessage: (
-    context: Pick<EventContext, "message" | "delivery">
+    context: Pick<EventContext, "message" | "delivery">,
   ) => ServiceBusMessageImpl;
 
   private _getRemainingWaitTimeInMsFn: typeof getRemainingWaitTimeInMsFn;
@@ -300,13 +300,13 @@ export class BatchingReceiverLite {
       }
 
       const messages = await new Promise<ServiceBusMessageImpl[]>((resolve, reject) =>
-        this._receiveMessagesImpl(receiver, args, resolve, reject)
+        this._receiveMessagesImpl(receiver, args, resolve, reject),
       );
       return tracingClient.withSpan(
         "BatchingReceiverLite.process",
         args,
         () => messages,
-        toProcessingSpanOptions(messages, this, this._connectionContext.config, "process")
+        toProcessingSpanOptions(messages, this, this._connectionContext.config, "process"),
       );
     } finally {
       this._closeHandler = undefined;
@@ -329,7 +329,7 @@ export class BatchingReceiverLite {
   private async tryDrainReceiver(
     receiver: MinimalReceiver,
     loggingPrefix: string,
-    abortSignal?: AbortSignalLike
+    abortSignal?: AbortSignalLike,
   ): Promise<void> {
     if (!receiver.isOpen() || receiver.credit <= 0) {
       return;
@@ -363,12 +363,12 @@ export class BatchingReceiverLite {
 
     receiver.drainCredit();
     logger.verbose(
-      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`
+      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`,
     );
     await drainPromise;
     if (drainTimedout) {
       logger.warning(
-        `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`
+        `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`,
       );
       // Close the receiver link since we have not received the receiver drain event
       // to prevent out-of-sync state between local and remote
@@ -383,11 +383,11 @@ export class BatchingReceiverLite {
     receiver: MinimalReceiver,
     args: ReceiveMessageArgs,
     origResolve: (messages: ServiceBusMessageImpl[]) => void,
-    origReject: (err: Error | AmqpError) => void
+    origReject: (err: Error | AmqpError) => void,
   ): void {
     const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
       args.maxWaitTimeInMs,
-      args.maxTimeAfterFirstMessageInMs
+      args.maxTimeAfterFirstMessageInMs,
     );
 
     const brokeredMessages: ServiceBusMessageImpl[] = [];
@@ -441,7 +441,7 @@ export class BatchingReceiverLite {
         (this._receiveMode === "receiveAndDelete" && brokeredMessages.length)
       ) {
         logger.verbose(
-          `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
+          `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`,
         );
         return resolveAfterPendingMessageCallbacks(brokeredMessages);
       }
@@ -465,7 +465,7 @@ export class BatchingReceiverLite {
 
       await this.tryDrainReceiver(receiver, loggingPrefix, args.abortSignal);
       logger.verbose(
-        `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
+        `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`,
       );
       resolveImmediately(brokeredMessages);
     };
@@ -487,7 +487,7 @@ export class BatchingReceiverLite {
           const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
           totalWaitTimer = setTimeout(() => {
             logger.verbose(
-              `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`
+              `${loggingPrefix} Batching, waited for ${remainingWaitTimeInMs} milliseconds after receiving the first message.`,
             );
             this._finalAction!();
           }, remainingWaitTimeInMs);
@@ -503,14 +503,14 @@ export class BatchingReceiverLite {
         // silently dropped on the floor.
         if (brokeredMessages.length > args.maxMessageCount) {
           logger.warning(
-            `More messages arrived than expected: ${args.maxMessageCount} vs ${brokeredMessages.length}`
+            `More messages arrived than expected: ${args.maxMessageCount} vs ${brokeredMessages.length}`,
           );
         }
       } catch (err: any) {
         const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
         logger.logError(
           err,
-          `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`
+          `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage`,
         );
         rejectAfterCleanup(errObj);
       }
@@ -562,7 +562,7 @@ export class BatchingReceiverLite {
     // (complete/abandon/defer/deadletter) the messages from the array.
     const creditToAdd = args.maxMessageCount - receiver.credit;
     logger.verbose(
-      `${loggingPrefix} Ensure enough credit for receiving ${args.maxMessageCount} messages. Current: ${receiver.credit}.  To add: ${creditToAdd}.`
+      `${loggingPrefix} Ensure enough credit for receiving ${args.maxMessageCount} messages. Current: ${receiver.credit}.  To add: ${creditToAdd}.`,
     );
 
     if (creditToAdd > 0) {
@@ -570,12 +570,12 @@ export class BatchingReceiverLite {
     }
 
     logger.verbose(
-      `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
+      `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`,
     );
 
     totalWaitTimer = setTimeout(() => {
       logger.verbose(
-        `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`
+        `${loggingPrefix} Batching, waited for max wait time ${args.maxWaitTimeInMs} milliseconds.`,
       );
       this._finalAction!();
     }, args.maxWaitTimeInMs);

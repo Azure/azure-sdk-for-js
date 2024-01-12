@@ -12,7 +12,7 @@ export function createRecordingRequest(
   sessionFile?: string,
   recordingId?: string,
   method: HttpMethods = "POST",
-  assetsJson?: string
+  assetsJson?: string,
 ) {
   const req = createPipelineRequest({ url: url, method });
 

@@ -22,7 +22,7 @@ export interface MsalTestSetupResponse {
 
 export async function msalNodeTestSetup(
   testContext?: Test,
-  playbackClientId?: string
+  playbackClientId?: string,
 ): Promise<{
   cleanup: MsalTestCleanup;
   recorder: Recorder;
@@ -36,7 +36,7 @@ export async function msalNodeTestSetup(stubbedToken: AuthenticationResult): Pro
 
 export async function msalNodeTestSetup(
   testContextOrStubbedToken?: Test | AuthenticationResult,
-  playbackClientId = "azure_client_id"
+  playbackClientId = "azure_client_id",
 ): Promise<MsalTestSetupResponse> {
   const playbackValues = {
     correlationId: "client-request-id",
@@ -176,7 +176,7 @@ export async function msalNodeTestSetup(
           },
         ],
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
 
     return {
@@ -208,12 +208,12 @@ export async function msalNodeTestSetup(
     ];
 
     publicClientMethods.forEach((method) =>
-      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken)
+      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken),
     );
     confidentialClientMethods.forEach((method) =>
       sandbox
         .stub(ConfidentialClientApplication.prototype, method)
-        .callsFake(async () => stubbedToken)
+        .callsFake(async () => stubbedToken),
     );
 
     return {

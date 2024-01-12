@@ -31,7 +31,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       registryClient = createRegistryClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         serviceVersion,
-        recorder
+        recorder,
       );
       repository = registryClient.getRepository(repositoryName);
     });
@@ -99,7 +99,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     it("sets manifest properties", async () => {
       const artifact = repository.getArtifact(artifactDigest);
       assert.isTrue(
-        artifact.fullyQualifiedReference.endsWith(`${repositoryName}@${artifactDigest}`)
+        artifact.fullyQualifiedReference.endsWith(`${repositoryName}@${artifactDigest}`),
       );
       const original = await artifact.getManifestProperties();
 

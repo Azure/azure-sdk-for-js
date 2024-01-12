@@ -33,7 +33,7 @@ async function virtualMachineScaleSetsStartMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -62,7 +62,7 @@ async function virtualMachineScaleSetsStartMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/start",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

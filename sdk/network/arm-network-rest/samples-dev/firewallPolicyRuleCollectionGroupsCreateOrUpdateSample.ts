@@ -60,7 +60,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -114,7 +114,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -171,7 +171,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -224,7 +224,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
       subscriptionId,
       resourceGroupName,
       firewallPolicyName,
-      ruleCollectionGroupName
+      ruleCollectionGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

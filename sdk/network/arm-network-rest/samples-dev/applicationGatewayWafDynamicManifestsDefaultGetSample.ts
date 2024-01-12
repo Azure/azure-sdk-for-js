@@ -29,7 +29,7 @@ async function getsWafDefaultManifest() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/applicationGatewayWafDynamicManifests/dafault",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);

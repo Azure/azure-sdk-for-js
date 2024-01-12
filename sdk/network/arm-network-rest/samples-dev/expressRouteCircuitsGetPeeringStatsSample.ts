@@ -33,7 +33,7 @@ async function getExpressRouteCircuitPeeringTrafficStats() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName
+      peeringName,
     )
     .get(options);
   console.log(result);

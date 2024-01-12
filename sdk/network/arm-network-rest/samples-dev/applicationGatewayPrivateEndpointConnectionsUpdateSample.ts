@@ -46,7 +46,7 @@ async function updateApplicationGatewayPrivateEndpointConnection() {
       subscriptionId,
       resourceGroupName,
       applicationGatewayName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

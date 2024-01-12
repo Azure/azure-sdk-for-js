@@ -120,7 +120,7 @@ export class LiveMetrics {
       streamId: streamId,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString
+      this.config.azureMonitorExporterOptions.connectionString,
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -240,13 +240,13 @@ export class LiveMetrics {
       QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyDurationHistogram = this.meter.createHistogram(
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.requestRateGauge = this.meter.createObservableGauge(
@@ -259,39 +259,39 @@ export class LiveMetrics {
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyFailedRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.memoryCommitedGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
       {
         valueType: ValueType.INT,
-      }
+      },
     );
 
     this.processorTimeGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.exceptionsRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.requestRateGauge.addCallback(this.getRequestRate.bind(this));

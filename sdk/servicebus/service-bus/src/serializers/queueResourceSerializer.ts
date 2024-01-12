@@ -81,29 +81,29 @@ export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
     requiresSession: getBoolean(rawQueue[Constants.REQUIRES_SESSION], "requiresSession"),
     enableBatchedOperations: getBoolean(
       rawQueue[Constants.ENABLE_BATCHED_OPERATIONS],
-      "enableBatchedOperations"
+      "enableBatchedOperations",
     ),
 
     defaultMessageTimeToLive: getString(
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTimeToLive",
     ),
     autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
     requiresDuplicateDetection: getBoolean(
       rawQueue[Constants.REQUIRES_DUPLICATE_DETECTION],
-      "requiresDuplicateDetection"
+      "requiresDuplicateDetection",
     ),
     duplicateDetectionHistoryTimeWindow: getString(
       rawQueue[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-      "duplicateDetectionHistoryTimeWindow"
+      "duplicateDetectionHistoryTimeWindow",
     ),
     deadLetteringOnMessageExpiration: getBoolean(
       rawQueue[Constants.DEAD_LETTERING_ON_MESSAGE_EXPIRATION],
-      "deadLetteringOnMessageExpiration"
+      "deadLetteringOnMessageExpiration",
     ),
     forwardDeadLetteredMessagesTo: getStringOrUndefined(
-      rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO]
+      rawQueue[Constants.FORWARD_DEADLETTERED_MESSAGES_TO],
     ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
@@ -115,7 +115,7 @@ export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
     availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS],
 
     maxMessageSizeInKilobytes: getIntegerOrUndefined(
-      rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
+      rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES],
     ),
   };
 }
