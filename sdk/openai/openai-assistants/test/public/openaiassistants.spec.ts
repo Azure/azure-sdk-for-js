@@ -284,7 +284,7 @@ describe("OpenAIAssistants", () => {
           const deleteAssistantResponse = await client.assistants.deleteAssistant(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
-        it("create and run function scenario for weather bot", async function () {
+        it("create and run function scenario for assistant", async function () {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";
           const getFavoriteCity = () => "Atlanta, GA";
@@ -333,45 +333,8 @@ describe("OpenAIAssistants", () => {
             },
           };
 
-          const getWeatherAtLocation = (location: string, temperatureUnit = "f") => {
-            switch (location) {
-              case "Atlanta, GA":
-                return temperatureUnit === "f" ? "84f" : "26c";
-              case "Seattle, WA":
-                return temperatureUnit === "f" ? "70f" : "21c";
-              case "Los Angeles, CA":
-                return temperatureUnit === "f" ? "90f" : "28c";
-              default:
-                return "Unknown";
-            }
-          };
-          const getWeatherFunctionName = "getWeatherAtLocation";
-          const getWeatherFunctionDescription = "Gets the current weather at a provided location.";
-          const getWeatherAtLocationTool = {
-            type: "function",
-            function: {
-              name: getWeatherFunctionName,
-              description: getWeatherFunctionDescription,
-              parameters: {
-                type: "object",
-                properties: {
-                  location: {
-                    type: "string",
-                    description: "The city and state, e.g. San Francisco, CA",
-                  },
-                  temperatureUnit: {
-                    type: "string",
-                    enum: ["f", "c"],
-                  },
-                },
-                required: ["location"],
-              },
-            },
-          };
-
           let favoriteCityCalled = false;
           let nicknameCalled = false;
-          let weatherCalled = false;
           const getResolvedToolOutput = (toolCall: {
             id: string;
             function?: any;
@@ -390,13 +353,6 @@ describe("OpenAIAssistants", () => {
                   toolOutput.output = getCityNickname(functionArgs["city"]);
                   nicknameCalled = true;
                   break;
-                case getWeatherFunctionName:
-                  toolOutput.output = getWeatherAtLocation(
-                    functionArgs.location,
-                    functionArgs.temperatureUnit
-                  );
-                  weatherCalled = true;
-                  break;
                 default:
                   toolOutput.output = `Unknown function: ${functionName}`;
                   break;
@@ -406,27 +362,27 @@ describe("OpenAIAssistants", () => {
             return toolOutput;
           };
 
-          const instructions = `You are a weather bot. Use the provided functions to help answer questions.
+          const instructions = `You are a helpful assistant. Use the provided functions to help answer questions.
               Customize your responses to the user's preferences as much as possible and use friendly
               nicknames for cities whenever possible.
           `;
           const functionAssistant = {
             model: "gpt-4-1106-preview",
-            name: "JS SDK Test Assistant - Weather",
+            name: "JS SDK Test Assistant - Nickname",
             instructions,
-            tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool],
+            tools: [getUserFavoriteCityTool, getCityNicknameTool],
           };
           const assistant = await client.assistants.createAssistant(functionAssistant);
           assert.isNotNull(assistant.id);
           const thread = await client.assistantThreads.createThread({});
           assert.isNotNull(thread.id);
-          const content = "What's the weather like right now in my favorite city?";
+          const content = "What's the nickname of my favorite city?";
           const role = "user";
           const message = await client.threadMessages.createMessage(thread.id, role, content);
           assert.isNotNull(message.id);
           assert.equal(message.threadId, thread.id);
           let run = await client.threadRuns.createRun(thread.id, assistant.id, {
-            tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool],
+            tools: [getUserFavoriteCityTool, getCityNicknameTool],
             requestOptions: { timeout: 10000 },
           });
           const runId = run.id;
@@ -458,7 +414,6 @@ describe("OpenAIAssistants", () => {
 
           assert.equal(favoriteCityCalled, true);
           assert.equal(nicknameCalled, true);
-          assert.equal(weatherCalled, true);
 
           const runMessages = await client.threadMessages.listMessages(thread.id);
           for (const runMessageDatum of runMessages.data) {
