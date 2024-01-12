@@ -3,8 +3,8 @@
 
 /**
  * @file Testing the ts-package-json-types rule.
- * @author Arpan Laha
- * @author Will Temple
+ *
+ *
  */
 
 import { RuleTester } from "eslint";

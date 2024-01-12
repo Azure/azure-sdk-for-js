@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-no-window rule.
- * @author Maor Leger
+ *
  */
 
 import { RuleTester } from "eslint";

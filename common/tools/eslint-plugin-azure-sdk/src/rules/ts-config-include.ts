@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force tsconfig.json's "include" value to at least contain "src/**\/*.ts", "test/**\/*.ts", and "samples-dev/**\/*.ts"
- * @author Wei Jun Tan
+ *
  */
 
 import { ArrayExpression, Literal, Property } from "estree";

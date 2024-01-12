@@ -3,11 +3,11 @@
 
 /**
  * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the class name if it is a class constructor and prefixed with the method name otherwise.
- * @author Arpan Laha
+ *
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { getPublicMethods, getRuleMetaData } from "../utils";
 import { Rule } from "eslint";
 

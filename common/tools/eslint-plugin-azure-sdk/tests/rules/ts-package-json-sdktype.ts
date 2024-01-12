@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-package-json-sdktype rule.
- * @author Ben Zhang
+ *
  */
 
 import { RuleTester } from "eslint";

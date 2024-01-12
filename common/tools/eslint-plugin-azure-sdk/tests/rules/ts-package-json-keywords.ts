@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-package-json-keywords rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

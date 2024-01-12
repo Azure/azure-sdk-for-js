@@ -31,7 +31,7 @@ console.log("hello")`;
 
 const invalid2 = `/*
  * Module description
- * @author Someone
+ * 
  */
 
 console.log("hello")`;

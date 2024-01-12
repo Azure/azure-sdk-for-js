@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-naming-options rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

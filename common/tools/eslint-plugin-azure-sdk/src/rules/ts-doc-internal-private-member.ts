@@ -3,10 +3,10 @@
 
 /**
  * @file Rule to check if a private class member is tagged with @internal
- * @author Hamsa Shankar
+ *
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
 import { Rule } from "eslint";

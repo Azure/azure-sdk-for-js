@@ -3,10 +3,10 @@
 
 /**
  * @file Rule to require TSDoc comments to include internal or hidden tags if the object is internal.
- * @author Arpan Laha
+ *
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { getLocalExports, getRuleMetaData } from "../utils";
 import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";

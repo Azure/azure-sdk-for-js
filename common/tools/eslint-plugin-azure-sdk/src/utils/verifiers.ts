@@ -3,7 +3,7 @@
 
 /**
  * @file Helper methods for rules pertaining to JSON object structure
- * @author Arpan Laha
+ *
  */
 
 import { ArrayExpression, Literal, ObjectExpression, Property, SpreadElement } from "estree";

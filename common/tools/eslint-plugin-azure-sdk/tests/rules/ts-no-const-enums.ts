@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-no-const-enums rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

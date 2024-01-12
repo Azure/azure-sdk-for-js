@@ -3,8 +3,6 @@
 
 /**
  * @file Rule to force the inclusion of type declarations in the package.
- * @author Arpan Laha
- * @author Will Temple
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

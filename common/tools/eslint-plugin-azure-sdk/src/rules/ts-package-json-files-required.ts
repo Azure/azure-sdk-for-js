@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force package.json's files value to contain paths to the package contents and excludes source code files.
- * @author Arpan Laha
+ *
  */
 
 import { Literal, Property } from "estree";

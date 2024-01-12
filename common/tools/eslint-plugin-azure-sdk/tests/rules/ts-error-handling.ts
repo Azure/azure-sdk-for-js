@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-error-handling rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

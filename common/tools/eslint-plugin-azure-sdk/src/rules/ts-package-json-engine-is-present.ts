@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force Node support for all LTS versions.
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

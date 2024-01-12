@@ -3,7 +3,7 @@
 
 /**
  * @file Ensuring the plugin is properly structured
- * @author Arpan Laha
+ *
  */
 
 import { describe, it } from "mocha";

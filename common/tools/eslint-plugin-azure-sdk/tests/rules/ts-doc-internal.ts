@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-doc-internal rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

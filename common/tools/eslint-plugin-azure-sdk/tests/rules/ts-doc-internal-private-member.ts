@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-doc-internal-private-member rule.
- * @author Hamsa Shankar
+ *
  */
 
 import { RuleTester } from "eslint";

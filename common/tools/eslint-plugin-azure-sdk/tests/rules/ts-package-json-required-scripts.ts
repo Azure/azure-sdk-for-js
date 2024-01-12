@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-package-json-required-scripts rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-config-include rule.
- * @author Wei Jun Tan
+ *
  */
 
 import { RuleTester } from "eslint";

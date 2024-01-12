@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force main to point to a CommonJS or UMD module.
- * @author Arpan Laha
+ *
  */
 
 import { Literal, Property } from "estree";

@@ -3,12 +3,12 @@
 
 /**
  * @file Rule to require client list methods to return a PagedAsyncIterableIterator.
- * @author Arpan Laha
+ *
  */
 
 import { Identifier, MethodDefinition } from "estree";
 import { Rule } from "eslint";
-import { TSESTree } from "@typescript-eslint/experimental-utils";
+import { TSESTree } from "@typescript-eslint/utils";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------

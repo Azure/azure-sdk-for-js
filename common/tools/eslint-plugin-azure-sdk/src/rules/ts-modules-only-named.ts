@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force there to be only named exports at the top level.
- * @author Arpan Laha
+ *
  */
 
 import { normalize, relative } from "path";

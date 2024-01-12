@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-use-promises rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

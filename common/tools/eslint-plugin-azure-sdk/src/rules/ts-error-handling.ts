@@ -3,11 +3,11 @@
 
 /**
  * @file Rule to limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error).
- * @author Arpan Laha
+ *
  */
 
 import { Identifier, NewExpression, ThrowStatement } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 

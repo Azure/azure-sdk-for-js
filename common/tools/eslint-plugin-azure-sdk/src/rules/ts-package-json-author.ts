@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force package.json's author value to be set to "Microsoft Corporation".
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

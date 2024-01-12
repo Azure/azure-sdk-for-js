@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-oackage-json-engine-is-present rule.
- * @author Arpan Laha
+ *
  */
 
 "use strict";

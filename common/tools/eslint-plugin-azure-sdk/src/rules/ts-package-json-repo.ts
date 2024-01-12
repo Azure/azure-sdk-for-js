@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force package.json's repository value to be set to github:Azure/azure-sdk-for-js.
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

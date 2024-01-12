@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-versioning-semver rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-apisurface-standardized-verbs rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

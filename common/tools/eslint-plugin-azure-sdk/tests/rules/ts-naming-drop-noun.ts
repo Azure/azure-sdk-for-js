@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-naming-drop-noun rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-use-interface-parameters.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-naming-subclients rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

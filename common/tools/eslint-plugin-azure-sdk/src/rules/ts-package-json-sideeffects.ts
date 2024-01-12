@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force package.json's sideEffects value to be set to false.
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

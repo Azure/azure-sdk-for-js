@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-pagination-list rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

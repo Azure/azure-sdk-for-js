@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force package.json's keywords value to contain at least "Azure" and "cloud".
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

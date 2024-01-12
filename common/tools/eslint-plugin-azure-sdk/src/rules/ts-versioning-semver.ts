@@ -3,7 +3,7 @@
 
 /**
  * @file Rule to force adherence to SemVer guidelines.
- * @author Arpan Laha
+ *
  */
 
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";

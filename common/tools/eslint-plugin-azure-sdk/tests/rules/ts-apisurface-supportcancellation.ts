@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-apisurface-supportcancellation rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";

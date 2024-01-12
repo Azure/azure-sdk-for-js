@@ -3,11 +3,11 @@
 
 /**
  * @file Rule to require async client methods to accept an AbortSignalLike parameter.
- * @author Arpan Laha
+ *
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree, ESLintUtils } from "@typescript-eslint/utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
 import { getPublicMethods, getRuleMetaData } from "../utils";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
@@ -104,11 +104,9 @@ export = {
     "require async client methods to accept an AbortSignalLike parameter",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
+    ESLintUtils.getParserServices(context);
     const parserServices = context.sourceCode.parserServices as ParserServices;
-    if (
-      parserServices.program === undefined ||
-      parserServices.esTreeNodeToTSNodeMap === undefined
-    ) {
+    if (!parserServices.program || parserServices.esTreeNodeToTSNodeMap === undefined) {
       return {};
     }
     const typeChecker = parserServices.program.getTypeChecker();

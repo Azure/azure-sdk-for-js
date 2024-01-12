@@ -3,7 +3,7 @@
 
 /**
  * @file Testing the ts-package-json-author rule.
- * @author Arpan Laha
+ *
  */
 
 import { RuleTester } from "eslint";
