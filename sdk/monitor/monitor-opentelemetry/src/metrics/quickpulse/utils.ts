@@ -216,10 +216,6 @@ export function getSpanDocument(
       commandName: url,
       resultCode: code,
       duration: hrTimeToMilliseconds(span.duration).toString(),
-      properties: [
-        { key: "testProp1", value: "testValue1" },
-        { key: "testProp2", value: "testValue2" },
-      ],
     };
   }
   return document;
