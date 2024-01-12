@@ -1,37 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { PipelinePolicy, PipelineResponse, SendRequest } from "../src/index.js";
 import {
-  PipelinePolicy,
-  PipelineResponse,
-  SendRequest,
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
 } from "../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("BearerTokenAuthenticationPolicy", function () {
-  let clock: sinon.SinonFakeTimers;
-
   beforeEach(() => {
-    clock = sinon.useFakeTimers(Date.now());
+    vi.useFakeTimers({ now: Date.now() });
   });
+
   afterEach(() => {
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOnTimestamp: +new Date() })
-    );
+    const fakeGetToken = vi
+      .fn()
+      .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
     };
@@ -42,19 +38,16 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const bearerTokenAuthPolicy = createBearerTokenPolicy(tokenScopes, mockCredential);
     await bearerTokenAuthPolicy.sendRequest(request, next);
 
-    assert(
-      fakeGetToken.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: undefined,
-      }),
-      "fakeGetToken called incorrectly."
-    );
+    expect(fakeGetToken).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+    });
     assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
   });
 
@@ -68,8 +61,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
 
@@ -88,8 +81,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
 
@@ -101,7 +94,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
 
     // For safe measure, we test the token is still cached a second earlier than the forced refresh expectation.
-    clock.tick(expireDelayMs - defaultRefreshWindow - 1000);
+    vi.advanceTimersByTime(expireDelayMs - defaultRefreshWindow - 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 1);
 
@@ -110,7 +103,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     credential.expiresOnTimestamp = tokenExpiration;
 
     // Now we wait until it expires:
-    clock.tick(expireDelayMs + 1000);
+    vi.advanceTimersByTime(expireDelayMs + 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 2);
   });
@@ -120,7 +113,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -128,8 +121,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
 
@@ -151,7 +144,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -159,8 +152,8 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
 
@@ -177,7 +170,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       1,
-      "The first authentication attempt should have happened"
+      "The first authentication attempt should have happened",
     );
   });
 
@@ -186,7 +179,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + defaultRefreshWindow + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -194,15 +187,15 @@ describe("BearerTokenAuthenticationPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createBearerTokenPolicy("test-scope", credential);
 
     await policy.sendRequest(request, next);
     assert.strictEqual(credential.authCount, 1, "The first authentication should have happened");
 
-    clock.tick(tokenExpiration - startTime - defaultRefreshWindow); // Until we start refreshing the token
+    vi.advanceTimersByTime(tokenExpiration - startTime - defaultRefreshWindow); // Until we start refreshing the token
 
     // Now we wait until some requests are all resolved.
     await Promise.all([
@@ -215,7 +208,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       2,
-      "authCode should have been called once during the refresh time"
+      "authCode should have been called once during the refresh time",
     );
 
     const exceptionMessage =
@@ -230,7 +223,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     const request = createPipelineRequest({ url: "http://example.com" });
     const policy = createBearerTokenPolicy("test-scope", credential);
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     let error: Error | undefined;
     try {
@@ -241,13 +234,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
 
   function createBearerTokenPolicy(
     scopes: string | string[],
-    credential: TokenCredential
+    credential: TokenCredential,
   ): PipelinePolicy {
     return bearerTokenAuthenticationPolicy({
       scopes,
@@ -263,7 +256,6 @@ class MockRefreshAzureCredential implements TokenCredential {
   constructor(
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
-    public clock?: sinon.SinonFakeTimers
   ) {}
 
   public async getToken(): Promise<AccessToken> {
@@ -274,8 +266,8 @@ class MockRefreshAzureCredential implements TokenCredential {
     }
 
     // Allowing getToken to take a while
-    if (this.getTokenDelay && this.clock) {
-      this.clock.tick(this.getTokenDelay);
+    if (this.getTokenDelay && vi.isFakeTimers()) {
+      vi.advanceTimersByTime(this.getTokenDelay);
     }
 
     return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };

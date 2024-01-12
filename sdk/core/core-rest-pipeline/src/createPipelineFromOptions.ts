@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
-import { Pipeline, createEmptyPipeline } from "./pipeline.js";
-import { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
-import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
-import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+import type { LogPolicyOptions } from "./policies/logPolicy.js";
+import { logPolicy } from "./policies/logPolicy.js";
+import type { Pipeline } from "./pipeline.js";
+import { createEmptyPipeline } from "./pipeline.js";
+import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
+import type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
+import { redirectPolicy } from "./policies/redirectPolicy.js";
+import type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
+import { userAgentPolicy } from "./policies/userAgentPolicy.js";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";

@@ -13,5 +13,17 @@
     "esm": true
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
-  "include": ["./src/**/*.{ts,mts}", "./test/**/*.ts", "./samples-dev/**/*.ts", "src/policies/proxyPolicy-browser.mts", "src/policies/formDataPolicy-browser.mts", "src/policies/decompressResponsePolicy-browser.mts", "src/util/inspect-browser.mts", "src/defaultHttpClient-react-native.mts", "src/util/userAgentPlatform-react-native.mts", "src/util/userAgentPlatform-browser.mts", "src/defaultHttpClient-browser.mts"]
+  "include": [
+    "./src/**/*.{ts,mts}",
+    "./test/**/*.ts",
+    "./samples-dev/**/*.ts",
+    "src/policies/proxyPolicy-browser.mts",
+    "src/policies/formDataPolicy-browser.mts",
+    "src/policies/decompressResponsePolicy-browser.mts",
+    "src/util/inspect-browser.mts",
+    "src/defaultHttpClient-react-native.mts",
+    "src/util/userAgentPlatform-react-native.mts",
+    "src/util/userAgentPlatform-browser.mts",
+    "src/defaultHttpClient-browser.mts"
+  ]
 }

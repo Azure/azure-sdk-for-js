@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  AuthorizeRequestOnChallengeOptions,
-  HttpClient,
-  PipelineResponse,
+  type AuthorizeRequestOnChallengeOptions,
+  type HttpClient,
+  type PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
@@ -62,12 +61,12 @@ function parseCAEChallenge(challenges: string): any[] {
         .split('", ')
         .filter((x) => x)
         .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
-        .reduce((a, b) => ({ ...a, ...b }), {})
+        .reduce((a, b) => ({ ...a, ...b }), {}),
     );
 }
 
 async function authorizeRequestOnChallenge(
-  options: AuthorizeRequestOnChallengeOptions
+  options: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes } = options;
 
@@ -90,7 +89,7 @@ async function authorizeRequestOnChallenge(
     {
       ...options,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64")),
-    } as GetTokenOptions
+    } as GetTokenOptions,
   );
 
   if (!accessToken) {
@@ -115,7 +114,7 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   public getToken(
     scope: string | string[],
-    options: GetTokenOptions & { claims?: string }
+    options: GetTokenOptions & { claims?: string },
   ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
@@ -124,13 +123,11 @@ class MockRefreshAzureCredential implements TokenCredential {
 }
 
 describe("bearerTokenAuthenticationPolicy with challenge", function () {
-  let clock: sinon.SinonFakeTimers;
-
   beforeEach(() => {
-    clock = sinon.useFakeTimers(Date.now());
+    vi.useFakeTimers({ now: Date.now() });
   });
   afterEach(() => {
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
@@ -146,7 +143,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
-            expected.challengeClaims
+            expected.challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -238,7 +235,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
-            expected[0].challengeClaims
+            expected[0].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -252,7 +249,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[1].scope[0]}", claims="${encodeString(
-            expected[1].challengeClaims
+            expected[1].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -319,7 +316,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
 
     // Will refresh token once as the first time token is empty
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-    clock.tick(5000);
+    vi.advanceTimersByTime(5000);
     // Will refresh token twice
     // - 1st refreshing because the token is epxired
     // - 2nd refreshing because the response with old token has 401 error and claim details so we need refresh token again
@@ -369,7 +366,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
-            expected[0].challengeClaims
+            expected[0].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -428,7 +425,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     // - 2nd refreshing to handle challenge process
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     assert.equal(credential.authCount, 2);
-    clock.tick(5000);
+    vi.advanceTimersByTime(5000);
     // Will not refresh the token because the previous one is still valid
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);

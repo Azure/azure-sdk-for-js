@@ -11,7 +11,7 @@ declare global {
   interface TransformStream<I = any, O = any> {}
 }
 
-export {
+export type {
   Agent,
   BodyPart,
   FormDataMap,

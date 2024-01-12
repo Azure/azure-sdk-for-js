@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,
@@ -102,7 +102,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
-  abortControllerCleanup?: () => void
+  abortControllerCleanup?: () => void,
 ): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
@@ -249,7 +249,7 @@ function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
   const { onProgress, onEnd } = options;
@@ -274,7 +274,7 @@ function buildBodyStream(
         flush() {
           onEnd?.();
         },
-      })
+      }),
     );
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream

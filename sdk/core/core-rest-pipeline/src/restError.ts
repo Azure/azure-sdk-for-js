@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isError } from "@azure/core-util";
-import { PipelineRequest, PipelineResponse } from "./interfaces.js";
+import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 import { custom } from "./util/inspect.js";
 import { Sanitizer } from "./util/sanitizer.js";
 

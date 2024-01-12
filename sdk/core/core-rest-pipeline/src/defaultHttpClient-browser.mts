@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "./interfaces.js";
+import type { HttpClient } from "./interfaces.js";
 import { createFetchHttpClient } from "./fetchHttpClient.js";
 
 /**

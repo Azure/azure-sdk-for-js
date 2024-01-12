@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, vi } from "vitest";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 import { PipelinePolicy } from "../src/pipeline.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { isNode } from "@azure/core-util";
-import sinon from "sinon";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -38,7 +37,7 @@ describe("defaultLogPolicy", function () {
       "setClientRequestIdPolicy",
       "multipartPolicy",
       "defaultRetryPolicy",
-      "tracingPolicy"
+      "tracingPolicy",
     );
     if (isNode) {
       expectedOrderedPolicies.push("redirectPolicy");
@@ -46,14 +45,15 @@ describe("defaultLogPolicy", function () {
     expectedOrderedPolicies.push("testSignPolicy", "logPolicy");
     assert.deepEqual(
       orderedPolicies.map((policy) => policy.name),
-      expectedOrderedPolicies
+      expectedOrderedPolicies,
     );
 
     const order: string[] = [];
     for (const policy of orderedPolicies) {
-      const stub = sinon.stub(policy, "sendRequest").callsFake(async function (req, next) {
+      const originalSendRequest = policy.sendRequest;
+      vi.spyOn(policy, "sendRequest").mockImplementation(async function (req, next) {
         order.push(policy.name);
-        return stub.wrappedMethod(req, next);
+        return originalSendRequest(req, next);
       });
     }
 
@@ -63,7 +63,7 @@ describe("defaultLogPolicy", function () {
           return { headers: createHttpHeaders(), request: req, status: 500 };
         },
       },
-      request
+      request,
     );
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);

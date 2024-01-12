@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, afterEach } from "vitest";
-import * as sinon from "sinon";
+import { describe, it, assert, expect, vi } from "vitest";
 import {
-  PipelineResponse,
-  SendRequest,
+  type PipelineResponse,
+  type SendRequest,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
+  multipartPolicy,
 } from "../src/index.js";
-import { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
+import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
 import { createFile } from "../src/util/file.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
@@ -26,8 +27,8 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
     request,
     status: 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(successResponse);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(successResponse);
 
   const policy = formDataPolicy();
 
@@ -35,10 +36,6 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
 }
 
 describe("formDataPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -55,8 +52,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -65,7 +62,7 @@ describe("formDataPolicy", function () {
     assert.isUndefined(result.request.formData);
     assert.strictEqual(
       result.request.body,
-      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`
+      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`,
     );
   });
 
@@ -82,8 +79,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -108,13 +105,14 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(successResponse);
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockResolvedValue(successResponse);
+      const pipeline = createEmptyPipeline();
+      pipeline.addPolicy(formDataPolicy());
+      pipeline.addPolicy(multipartPolicy());
 
-      const policy = formDataPolicy();
-
-      await expect(policy.sendRequest(request, next)).rejects.toThrowError(
-        /multipart\/form-data request must not have a request body already specified/
+      await expect(pipeline.sendRequest({ sendRequest: next }, request)).rejects.toThrow(
+        /multipartBody and regular body cannot be set at the same time/,
       );
     });
 
@@ -148,11 +146,7 @@ describe("formDataPolicy", function () {
     });
 
     describe("file uploads", function () {
-      it("can upload a File object", async (context) => {
-        if (typeof File === "undefined") {
-          context.skip();
-        }
-
+      it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
         const result = await performRequest({
           file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
             type: "application/octet-stream",
@@ -166,19 +160,15 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             "Content-Type": "application/octet-stream",
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-          })
+          }),
         );
         const buf = new Uint8Array(
-          await new Response((parts[0].body as any).stream()).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer(),
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
 
-      it("can upload a Blob object", async (context) => {
-        if (typeof Blob === "undefined") {
-          context.skip();
-        }
-
+      it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
         const result = await performRequest({
           file: new Blob([new Uint8Array([1, 2, 3])]),
         });
@@ -190,10 +180,10 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             // Content-Type should not be inferred
             "Content-Disposition": `form-data; name="file"; filename="blob"`,
-          })
+          }),
         );
         const buf = new Uint8Array(
-          await new Response((parts[0].body as any).stream()).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer(),
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
@@ -212,7 +202,7 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             "Content-Type": "text/plain",
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-          })
+          }),
         );
 
         const content = new Uint8Array(await (parts[0].body as Blob).arrayBuffer());

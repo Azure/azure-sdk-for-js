@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert } from "vitest";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { MultipartRequestBody } from "../../src/interfaces";
-import { isBlob } from "../../src/util/typeGuards";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import type { MultipartRequestBody } from "../../src/interfaces.js";
+import { isBlob } from "../../src/util/typeGuards.js";
 import { Readable } from "stream";
-import { performRequest } from "../formDataPolicy.spec";
-import { createFileFromStream } from "../../src/util/file";
+import { performRequest } from "../formDataPolicy.spec.js";
+import { createFileFromStream } from "../../src/util/file.js";
 import { ReadableStream } from "stream/web";
 
 describe("formDataPolicy (node-only)", function () {
@@ -25,7 +25,7 @@ describe("formDataPolicy (node-only)", function () {
       createHttpHeaders({
         "Content-Type": "text/plain",
         "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-      })
+      }),
     );
     assert.ok(isBlob(parts[0].body));
 

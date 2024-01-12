@@ -81,7 +81,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",
-          `form-data; name="${fieldName}"; filename="${fileName}"`
+          `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
         if (value.type) {
           headers.set("Content-Type", value.type);

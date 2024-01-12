@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
@@ -11,27 +10,25 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "../src/index.js";
-import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("AuxiliaryAuthenticationHeaderPolicy", function () {
-  let clock: sinon.SinonFakeTimers;
-
   beforeEach(() => {
-    clock = sinon.useFakeTimers(Date.now());
+    vi.useFakeTimers({ now: Date.now() });
   });
   afterEach(() => {
-    clock.restore();
+    vi.useRealTimers();
   });
 
   it("correctly adds an Authentication header with one access token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken = sinon.fake.returns(
-      Promise.resolve({ token: mockToken, expiresOnTimestamp: +new Date() })
-    );
+    const fakeGetToken = vi
+      .fn()
+      .mockResolvedValue({ token: mockToken, expiresOnTimestamp: new Date().getTime() });
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
     };
@@ -42,21 +39,27 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential]
+      [mockCredential],
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
-    assert(
-      fakeGetToken.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: undefined,
-      }),
-      "fakeGetToken called incorrectly."
+    assert.deepStrictEqual(
+      fakeGetToken.mock.calls,
+      [
+        [
+          tokenScopes,
+          {
+            abortSignal: undefined,
+            tracingOptions: undefined,
+          },
+        ],
+      ],
+      "fakeGetToken called incorrectly.",
     );
     assert.strictEqual(request.headers.get("x-ms-authorization-auxiliary"), `Bearer ${mockToken}`);
   });
@@ -65,12 +68,12 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const mockToken1 = "token1",
       mockToken2 = "token2";
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken1, expiresOnTimestamp: +new Date() })
-    );
-    const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: mockToken2, expiresOnTimestamp: +new Date() })
-    );
+    const fakeGetToken1 = vi
+      .fn()
+      .mockResolvedValue({ token: mockToken1, expiresOnTimestamp: new Date().getTime() });
+    const fakeGetToken2 = vi
+      .fn()
+      .mockResolvedValue({ token: mockToken2, expiresOnTimestamp: new Date().getTime() });
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
     };
@@ -84,25 +87,22 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential1, mockCredential2]
+      [mockCredential1, mockCredential2],
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
-    assert(
-      fakeGetToken1.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: undefined,
-      }),
-      "fakeGetToken called incorrectly."
-    );
+    expect(fakeGetToken1).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+    });
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer ${mockToken1}, Bearer ${mockToken2}`
+      `Bearer ${mockToken1}, Bearer ${mockToken2}`,
     );
   });
 
@@ -118,8 +118,8 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [
       shortCredential,
@@ -133,13 +133,13 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     assert.strictEqual(longCredential.authCount, 1);
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer mock-token, Bearer mock-token`
+      `Bearer mock-token, Bearer mock-token`,
     );
 
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
 
     // For safe measure, we test the token is still cached a second earlier than the forced refresh expectation.
-    clock.tick(expireDelayMs - defaultRefreshWindow - 1000);
+    vi.advanceTimersByTime(expireDelayMs - defaultRefreshWindow - 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(shortCredential.authCount, 1);
     assert.strictEqual(longCredential.authCount, 1);
@@ -149,7 +149,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     shortCredential.expiresOnTimestamp = tokenExpiration;
 
     // Now we wait until it expires:
-    clock.tick(expireDelayMs + 1000);
+    vi.advanceTimersByTime(expireDelayMs + 1000);
     await policy.sendRequest(request, next);
     assert.strictEqual(shortCredential.authCount, 2);
     assert.strictEqual(longCredential.authCount, 1);
@@ -160,7 +160,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const startTime = Date.now();
     const tokenExpiration = startTime + expireDelayMs;
     const getTokenDelay = 100;
-    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay, clock);
+    const credential = new MockRefreshAzureCredential(tokenExpiration, getTokenDelay);
 
     const request = createPipelineRequest({ url: "https://example.com" });
     const successResponse: PipelineResponse = {
@@ -168,8 +168,8 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
 
@@ -186,7 +186,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       1,
-      "The first authentication attempt should have happened"
+      "The first authentication attempt should have happened",
     );
   });
 
@@ -197,7 +197,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     const request = createPipelineRequest({ url: "http://example.com" });
     const policy = createAuxiliaryAuthenticationHeaderPolicy("test-scope", [credential]);
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     let error: Error | undefined;
     try {
@@ -208,18 +208,20 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
+      "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
 
   it("should not add auxiliary header if all tokens are invalid", async function () {
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken1 = sinon.fake.returns(
-      Promise.resolve({ token: null!, expiresOnTimestamp: +new Date() })
-    );
-    const fakeGetToken2 = sinon.fake.returns(
-      Promise.resolve({ token: null!, expiresOnTimestamp: +new Date() })
-    );
+    const fakeGetToken1 = vi.fn().mockResolvedValue({
+      token: null,
+      expiresOnTimestamp: +new Date(),
+    } as unknown as AccessToken);
+    const fakeGetToken2 = vi.fn().mockResolvedValue({
+      token: null,
+      expiresOnTimestamp: +new Date(),
+    });
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
     };
@@ -233,28 +235,25 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential1, mockCredential2]
+      [mockCredential1, mockCredential2],
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
-    assert(
-      fakeGetToken1.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: undefined,
-      }),
-      "fakeGetToken called incorrectly."
-    );
+    expect(fakeGetToken1).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+    });
     assert.isUndefined(request.headers.get("x-ms-authorization-auxiliary"));
   });
 
   function createAuxiliaryAuthenticationHeaderPolicy(
     scopes: string | string[],
-    credentials: TokenCredential[]
+    credentials: TokenCredential[],
   ): PipelinePolicy {
     return auxiliaryAuthenticationHeaderPolicy({
       scopes,
@@ -270,7 +269,6 @@ class MockRefreshAzureCredential implements TokenCredential {
   constructor(
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
-    public clock?: sinon.SinonFakeTimers
   ) {}
 
   public async getToken(): Promise<AccessToken> {
@@ -281,8 +279,8 @@ class MockRefreshAzureCredential implements TokenCredential {
     }
 
     // Allowing getToken to take a while
-    if (this.getTokenDelay && this.clock) {
-      this.clock.tick(this.getTokenDelay);
+    if (this.getTokenDelay && vi.isFakeTimers()) {
+      vi.advanceTimersByTime(this.getTokenDelay);
     }
 
     return { token: "mock-token", expiresOnTimestamp: this.expiresOnTimestamp };
