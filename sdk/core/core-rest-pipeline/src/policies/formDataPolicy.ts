@@ -97,7 +97,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         });
       }
     }
-
-    request.multipartBody = { parts };
   }
+
+  request.multipartBody = { parts };
 }

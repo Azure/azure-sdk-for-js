@@ -6,6 +6,7 @@ import { Pipeline, createEmptyPipeline } from "./pipeline";
 import { PipelineRetryOptions, TlsSettings } from "./interfaces";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
+import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 
 import { ProxySettings } from ".";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
@@ -16,7 +17,6 @@ import { proxyPolicy } from "./policies/proxyPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { multipartPolicy } from "./policies/multipartPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -88,7 +88,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
-  pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
   // The multipart policy is added after policies with no phase, so that
