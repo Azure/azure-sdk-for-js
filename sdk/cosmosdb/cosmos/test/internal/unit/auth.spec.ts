@@ -14,7 +14,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         foo: "bar",
       },
       "foo",
-      "foo"
+      "foo",
     );
     assert.strictEqual(token, "bar");
   });
@@ -25,7 +25,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344": "token",
       },
       "/dbs/ValidateAuthorization%20containe8734/colls/ValidateAuthorization%20containe5344/docs/coll1doc1",
-      "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344/docs/coll1doc1"
+      "dbs/ValidateAuthorization containe8734/colls/ValidateAuthorization containe5344/docs/coll1doc1",
     );
     assert.strictEqual(token, "token");
   });

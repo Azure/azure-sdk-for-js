@@ -33,7 +33,7 @@ async function loadBalancerFrontendIPConfigurationGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      frontendIPConfigurationName
+      frontendIPConfigurationName,
     )
     .get(options);
   console.log(result);

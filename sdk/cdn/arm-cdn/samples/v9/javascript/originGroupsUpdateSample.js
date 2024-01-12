@@ -44,7 +44,7 @@ async function originGroupsUpdate() {
     profileName,
     endpointName,
     originGroupName,
-    originGroupUpdateProperties
+    originGroupUpdateProperties,
   );
   console.log(result);
 }

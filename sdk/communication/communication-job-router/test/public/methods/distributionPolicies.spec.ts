@@ -20,9 +20,8 @@ describe("JobRouterClient", function () {
 
   describe("Distribution Policy Operations", function () {
     this.beforeEach(async function (this: Context) {
-      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
-        this
-      ));
+      ({ administrationClient, recorder } =
+        await createRecordedRouterClientWithConnectionString(this));
     });
 
     this.afterEach(async function (this: Context) {
@@ -34,7 +33,7 @@ describe("JobRouterClient", function () {
     it("should create a distribution policy", async function () {
       const result = await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        distributionPolicyRequest,
       );
 
       assert.isDefined(result);
@@ -49,7 +48,7 @@ describe("JobRouterClient", function () {
       assert.equal(result.name, distributionPolicyRequest.name);
       assert.equal(
         result.offerExpiresAfterSeconds,
-        distributionPolicyRequest.offerExpiresAfterSeconds
+        distributionPolicyRequest.offerExpiresAfterSeconds,
       );
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
@@ -58,13 +57,13 @@ describe("JobRouterClient", function () {
       const updatePatch = { ...distributionPolicyRequest, name: "new-name" };
       const updateResult = await administrationClient.updateDistributionPolicy(
         distributionPolicyId,
-        updatePatch
+        updatePatch,
       );
 
       const removePatch = { ...distributionPolicyRequest, name: null! };
       const removeResult = await administrationClient.updateDistributionPolicy(
         distributionPolicyId,
-        removePatch
+        removePatch,
       );
 
       assert.isDefined(updateResult);

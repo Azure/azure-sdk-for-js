@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Instance,
   InstancesListByAccountOptionalParams,
@@ -78,8 +78,8 @@ export interface Instances {
     instance: Instance,
     options?: InstancesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<InstancesCreateResponse>,
+    SimplePollerLike<
+      OperationState<InstancesCreateResponse>,
       InstancesCreateResponse
     >
   >;
@@ -110,7 +110,7 @@ export interface Instances {
     accountName: string,
     instanceName: string,
     options?: InstancesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes instance.
    * @param resourceGroupName The resource group name.

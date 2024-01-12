@@ -38,7 +38,7 @@ function runProcess(cmd, callback) {
               process.exit(0);
             });
           });
-        }
+        },
       );
     }
   } catch (error) {

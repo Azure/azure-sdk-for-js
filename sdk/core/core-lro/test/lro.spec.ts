@@ -1547,7 +1547,7 @@ matrix(
               });
             });
           });
-        }
+        },
       );
 
       describe("LRO Sad scenarios", () => {
@@ -1999,7 +1999,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2054,7 +2054,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2133,7 +2133,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
 
@@ -2212,7 +2212,7 @@ matrix(
             }),
             {
               name: "SyntaxError",
-            }
+            },
           );
         });
       });
@@ -2485,7 +2485,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.isFalse(poller.isDone());
         });
@@ -2531,7 +2531,7 @@ matrix(
             }),
             {
               messagePattern: /The operation was aborted/,
-            }
+            },
           );
           assert.equal(pollCount, 1);
           assert.isFalse(poller.isDone());
@@ -2693,7 +2693,7 @@ matrix(
             throwOnNon2xxResponse,
             throwing: {
               messagePattern: new RegExp(
-                `The long-running operation has failed. ${code}. ${message}`
+                `The long-running operation has failed. ${code}. ${message}`,
               ),
             },
             notThrowing: {
@@ -2703,5 +2703,5 @@ matrix(
         });
       });
     });
-  }
+  },
 );

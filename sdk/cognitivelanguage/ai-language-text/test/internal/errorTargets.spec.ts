@@ -24,7 +24,7 @@ describe("Error targets", function () {
         },
       ],
       docs,
-      "en"
+      "en",
     );
     assertActionsResults(await poller.pollUntilDone(), expectation73);
   });
@@ -47,7 +47,7 @@ describe("extractErrorPointerIndex", function () {
     };
     assert.Throw(
       () => extractErrorPointerIndex(error),
-      "Unexpected response from service - no target present"
+      "Unexpected response from service - no target present",
     );
   });
 
@@ -59,7 +59,7 @@ describe("extractErrorPointerIndex", function () {
     };
     assert.Throw(
       () => extractErrorPointerIndex(error),
-      'Unexpected response from service - action pointer "invalid target" is not a valid action pointer.'
+      'Unexpected response from service - action pointer "invalid target" is not a valid action pointer.',
     );
   });
 });

@@ -153,7 +153,7 @@ export class BlobLeaseClient {
    */
   public async acquireLease(
     duration: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -162,7 +162,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan(
@@ -179,9 +179,9 @@ export class BlobLeaseClient {
             },
             proposedLeaseId: this._leaseId,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -197,7 +197,7 @@ export class BlobLeaseClient {
    */
   public async changeLease(
     proposedLeaseId: string,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -206,7 +206,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
 
@@ -222,11 +222,11 @@ export class BlobLeaseClient {
               ifTags: options.conditions?.tagConditions,
             },
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
         this._leaseId = proposedLeaseId;
         return response;
-      }
+      },
     );
   }
 
@@ -248,7 +248,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan(
@@ -263,9 +263,9 @@ export class BlobLeaseClient {
               ifTags: options.conditions?.tagConditions,
             },
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -286,7 +286,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
     return tracingClient.withSpan("BlobLeaseClient-renewLease", options, async (updatedOptions) => {
@@ -314,7 +314,7 @@ export class BlobLeaseClient {
    */
   public async breakLease(
     breakPeriod: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     if (
       this._isContainer &&
@@ -323,7 +323,7 @@ export class BlobLeaseClient {
         options.conditions?.tagConditions)
     ) {
       throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable.",
       );
     }
 
@@ -338,7 +338,7 @@ export class BlobLeaseClient {
         tracingOptions: updatedOptions.tracingOptions,
       };
       return assertResponse<ContainerBreakLeaseHeaders, ContainerBreakLeaseHeaders>(
-        await this._containerOrBlobOperation.breakLease(operationOptions)
+        await this._containerOrBlobOperation.breakLease(operationOptions),
       );
     });
   }

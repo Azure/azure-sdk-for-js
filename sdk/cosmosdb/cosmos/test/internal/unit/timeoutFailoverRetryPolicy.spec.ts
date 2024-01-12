@@ -53,10 +53,10 @@ describe("TimeoutFailoverRetryPolicy", function () {
         headers,
         200,
         getEmptyCosmosDiagnostics(),
-        undefined
+        undefined,
       );
       return response;
-    }
+    },
   );
 
   let retryPolicy: TimeoutFailoverRetryPolicy;
@@ -71,7 +71,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Read,
-      true
+      true,
     );
     retryCtx = { retryCount: 2 };
     timeoutErr = new TimeoutError();
@@ -89,9 +89,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         err,
         createDummyDiagnosticNode(),
         retryContext,
-        locationEndpoint
+        locationEndpoint,
       ),
-      false
+      false,
     );
     //  retryContext is undefined
     assert.equal(
@@ -99,9 +99,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         err,
         createDummyDiagnosticNode(),
         retryContext,
-        "locationEndpoint"
+        "locationEndpoint",
       ),
-      false
+      false,
     );
   });
   it("should not retry when timeout error but the request is not valid for timeout error", async function () {
@@ -111,16 +111,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.post,
       ResourceType.item,
       OperationType.Read,
-      true
+      true,
     );
     assert.equal(
       await retryPolicy_post.shouldRetry(
         timeoutErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        "locationEndpoint"
+        "locationEndpoint",
       ),
-      false
+      false,
     );
   });
   it("should not retry when Endpoint discovery is disabled", async function () {
@@ -130,16 +130,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Read,
-      false
+      false,
     );
     assert.equal(
       await retryPolicy_endpointDiscoveryDisabled.shouldRetry(
         timeoutErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        "locationEndpoint"
+        "locationEndpoint",
       ),
-      false
+      false,
     );
   });
   it("should not retry when maxServiceUnavailableRetryCount exceeded", async function () {
@@ -156,9 +156,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         serviceUnavailableErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        locEndpoint
+        locEndpoint,
       ),
-      true
+      true,
     );
 
     //  test maxServiceUnavailableRetryCount exceeded
@@ -166,16 +166,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
       serviceUnavailableErr,
       createDummyDiagnosticNode(),
       retryCtx,
-      locEndpoint
+      locEndpoint,
     );
     assert.equal(
       await retryPolicy.shouldRetry(
         serviceUnavailableErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        locEndpoint
+        locEndpoint,
       ),
-      false
+      false,
     );
   });
   it("should not retry when Maximum retry attempt count exceeded", async function () {
@@ -185,7 +185,7 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Read,
-      true
+      true,
     );
 
     for (let i = 0; i < 120; i++) {
@@ -194,9 +194,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
           timeoutErr,
           createDummyDiagnosticNode(),
           retryCtx,
-          locEndpoint
+          locEndpoint,
         ),
-        true
+        true,
       );
     }
     assert.equal(
@@ -204,9 +204,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         timeoutErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        locEndpoint
+        locEndpoint,
       ),
-      false
+      false,
     );
   });
   it("should not retry when multiple write locations are not allowed", async function () {
@@ -226,10 +226,10 @@ describe("TimeoutFailoverRetryPolicy", function () {
           headers,
           200,
           getEmptyCosmosDiagnostics(),
-          undefined
+          undefined,
         );
         return response;
-      }
+      },
     );
     const retryPolicy_multipleWriteLocationsDisabled = new TimeoutFailoverRetryPolicy(
       gem_test,
@@ -237,16 +237,16 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Create,
-      true
+      true,
     );
     assert.equal(
       await retryPolicy_multipleWriteLocationsDisabled.shouldRetry(
         timeoutErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        locEndpoint
+        locEndpoint,
       ),
-      false
+      false,
     );
   });
   it("should retry when prefered locations are not defined and failover count exceeds the number of read", async function () {
@@ -265,10 +265,10 @@ describe("TimeoutFailoverRetryPolicy", function () {
           headers,
           200,
           getEmptyCosmosDiagnostics(),
-          undefined
+          undefined,
         );
         return response;
-      }
+      },
     );
     const retryPolicy_preferedLocationsNotDefined = new TimeoutFailoverRetryPolicy(
       gem_test2,
@@ -276,13 +276,13 @@ describe("TimeoutFailoverRetryPolicy", function () {
       HTTPMethod.get,
       ResourceType.item,
       OperationType.Read,
-      true
+      true,
     );
     //  initialising redable locations
     await gem_test2.resolveServiceEndpoint(
       createDummyDiagnosticNode(),
       ResourceType.item,
-      OperationType.Read
+      OperationType.Read,
     );
     for (let i = 0; i < 120; i++) {
       assert.equal(
@@ -290,9 +290,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
           timeoutErr,
           createDummyDiagnosticNode(),
           retryCtx,
-          locEndpoint
+          locEndpoint,
         ),
-        true
+        true,
       );
     }
     //  retry count breached as only 2 endpoints were available
@@ -301,9 +301,9 @@ describe("TimeoutFailoverRetryPolicy", function () {
         timeoutErr,
         createDummyDiagnosticNode(),
         retryCtx,
-        locEndpoint
+        locEndpoint,
       ),
-      false
+      false,
     );
   });
 });

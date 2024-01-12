@@ -51,7 +51,7 @@ function assertEnvelope(
   baseType: string,
   expectedTags: Tags,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
-  expectedTime?: Date
+  expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
   assert.ok(envelope);
@@ -125,7 +125,7 @@ describe("metricUtil.ts", () => {
         100,
         "MetricData",
         expectedTags,
-        expectedBaseData
+        expectedBaseData,
       );
     });
   });

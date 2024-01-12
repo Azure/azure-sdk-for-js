@@ -29,7 +29,7 @@ async function expressRouteProviderPort() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts/{providerport}",
       subscriptionId,
-      providerport
+      providerport,
     )
     .get(options);
   console.log(result);

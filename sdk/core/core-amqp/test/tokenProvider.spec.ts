@@ -16,7 +16,7 @@ describe("SasTokenProvider", function (): void {
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("myaudience");
       tokenInfo.token.should.match(
-        /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g
+        /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g,
       );
       // account for elapsed time between two Date.now() calls
       // eslint-disable-next-line no-unused-expressions
@@ -32,7 +32,7 @@ describe("SasTokenProvider", function (): void {
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
       tokenInfo.token.should.match(
-        /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g
+        /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g,
       );
       // account for elapsed time between two Date.now() calls
       // eslint-disable-next-line no-unused-expressions
@@ -42,20 +42,20 @@ describe("SasTokenProvider", function (): void {
 
   it("should work as expected with AzureSASCredential", async function (): Promise<void> {
     const sasTokenProvider = createSasTokenProvider(
-      new AzureSASCredential("SharedAccessSignature se=<blah>")
+      new AzureSASCredential("SharedAccessSignature se=<blah>"),
     );
     const accessToken = await sasTokenProvider.getToken("audience isn't used");
 
     should.equal(
       accessToken.token,
       "SharedAccessSignature se=<blah>",
-      "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)"
+      "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)",
     );
 
     should.equal(
       accessToken.expiresOnTimestamp,
       0,
-      "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)"
+      "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)",
     );
   });
 

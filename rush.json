@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -821,6 +821,11 @@
     {
       "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/vite-plugin-browser-test-map",
+      "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"
     },
     {
@@ -2141,6 +2146,16 @@
     {
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"
     },
     {

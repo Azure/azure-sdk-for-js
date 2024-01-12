@@ -54,7 +54,7 @@ export class ChainedTokenCredential implements TokenCredential {
 
   private async getTokenInternal(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<{ token: AccessToken; successfulCredential: TokenCredential }> {
     let token: AccessToken | null = null;
     let successfulCredential: TokenCredential;
@@ -84,21 +84,21 @@ export class ChainedTokenCredential implements TokenCredential {
         if (!token && errors.length > 0) {
           const err = new AggregateAuthenticationError(
             errors,
-            "ChainedTokenCredential authentication failed."
+            "ChainedTokenCredential authentication failed.",
           );
           logger.getToken.info(formatError(scopes, err));
           throw err;
         }
 
         logger.getToken.info(
-          `Result for ${successfulCredential.constructor.name}: ${formatSuccess(scopes)}`
+          `Result for ${successfulCredential.constructor.name}: ${formatSuccess(scopes)}`,
         );
 
         if (token === null) {
           throw new CredentialUnavailableError("Failed to retrieve a valid token");
         }
         return { token, successfulCredential };
-      }
+      },
     );
   }
 }

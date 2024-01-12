@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from business cards.
  */
 export const PrebuiltBusinessCardModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltBusinessCardResult>;
 
 export interface PrebuiltBusinessCardResult extends fr.AnalyzeResultCommon {

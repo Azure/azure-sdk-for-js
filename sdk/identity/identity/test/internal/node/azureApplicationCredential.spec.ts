@@ -42,7 +42,7 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     });
     assert.ok(
       error!.message!.indexOf("No MSI credential available") > -1,
-      "Failed to match the expected error"
+      "Failed to match the expected error",
     );
   });
 
@@ -106,12 +106,12 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.MSI_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
     assert.equal(authRequest.headers.secret, process.env.MSI_SECRET);
     assert.ok(
       authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);

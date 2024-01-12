@@ -33,7 +33,7 @@ async function putAnApplicationType() {
       subscriptionId,
       resourceGroupName,
       clusterName,
-      applicationTypeName
+      applicationTypeName,
     )
     .put(parameters);
   console.log(result);

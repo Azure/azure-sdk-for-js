@@ -31,7 +31,7 @@ async function getSignatureOverrides() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   console.log(result);

@@ -34,7 +34,7 @@ async function virtualRouterPeerListAdvertisedRoutes() {
       subscriptionId,
       resourceGroupName,
       hubName,
-      connectionName
+      connectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

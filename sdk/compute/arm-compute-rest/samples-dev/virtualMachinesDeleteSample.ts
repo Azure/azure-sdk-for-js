@@ -32,7 +32,7 @@ async function forceDeleteAVM() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

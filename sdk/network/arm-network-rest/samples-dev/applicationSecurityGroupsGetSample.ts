@@ -31,7 +31,7 @@ async function getApplicationSecurityGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      applicationSecurityGroupName
+      applicationSecurityGroupName,
     )
     .get(options);
   console.log(result);

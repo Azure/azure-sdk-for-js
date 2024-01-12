@@ -10,7 +10,7 @@ import { isDefined } from "@azure/core-util";
  * - Typically, such APIs("subscribe" method) offered by the AMQP based SDKs - event-hubs/service-bus.
  */
 export abstract class EventPerfTest<
-  TOptions = Record<string, unknown>
+  TOptions = Record<string, unknown>,
 > extends PerfTestBase<TOptions> {
   startTime: bigint;
   private testDuration = 0;
@@ -34,7 +34,7 @@ export abstract class EventPerfTest<
    */
   public async runAll(
     durationMilliseconds: number,
-    abortController: AbortController
+    abortController: AbortController,
   ): Promise<void> {
     this.startTime = process.hrtime.bigint(); // process.hrtime.bigint() method returns the current high-resolution real-time in nanoseconds as a bigint
     this.completedOperations = 0;

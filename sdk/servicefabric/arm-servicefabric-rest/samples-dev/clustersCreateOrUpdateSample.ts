@@ -189,7 +189,7 @@ async function putAClusterWithMaximumParameters() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .put(parameters);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -253,7 +253,7 @@ async function putAClusterWithMinimumParameters() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .put(parameters);
   const poller = getLongRunningPoller(client, initialResponse);

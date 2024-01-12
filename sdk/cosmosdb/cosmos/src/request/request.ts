@@ -137,7 +137,7 @@ export async function getHeaders({
         options.maxIntegratedCacheStalenessInMs.toString();
     } else {
       defaultLogger.error(
-        `RangeError: maxIntegratedCacheStalenessInMs "${options.maxIntegratedCacheStalenessInMs}" is not a valid parameter.`
+        `RangeError: maxIntegratedCacheStalenessInMs "${options.maxIntegratedCacheStalenessInMs}" is not a valid parameter.`,
       );
       headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] = "null";
     }

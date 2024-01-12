@@ -7,7 +7,7 @@ import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "ManagedIdentityCredential is not supported in the browser."
+  "ManagedIdentityCredential is not supported in the browser.",
 );
 const logger = credentialLogger("ManagedIdentityCredential");
 

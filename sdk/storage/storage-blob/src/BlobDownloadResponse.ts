@@ -527,7 +527,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     this.originalResponse = originalResponse;
     this.blobDownloadStream = new RetriableReadableStream(
@@ -535,7 +535,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
       getter,
       offset,
       count,
-      options
+      options,
     );
   }
 }

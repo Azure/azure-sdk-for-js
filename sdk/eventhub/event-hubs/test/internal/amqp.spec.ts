@@ -22,9 +22,9 @@ testWithServiceTypes(() => {
               },
               body: undefined,
             },
-            false
-          )
-        )
+            false,
+          ),
+        ),
       );
 
       assert.isTrue(
@@ -36,35 +36,35 @@ testWithServiceTypes(() => {
               },
               body: undefined,
             },
-            false
-          ).getRawAmqpMessage()
-        )
+            false,
+          ).getRawAmqpMessage(),
+        ),
       );
 
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
           bodyType: "sequence",
-        })
+        }),
       );
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
           bodyType: "value",
-        })
+        }),
       );
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
           bodyType: "data",
-        })
+        }),
       );
 
       assert.isTrue(
         isAmqpAnnotatedMessage({
           body: "hello world",
           bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
-        })
+        }),
       );
     });
   });

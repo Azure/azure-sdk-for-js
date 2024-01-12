@@ -26,5 +26,5 @@ export = {
             fixer.replaceTextRange([node.range[0], node.range[0] + "window".length], "self"),
         });
       },
-    } as Rule.RuleListener),
+    }) as Rule.RuleListener,
 };

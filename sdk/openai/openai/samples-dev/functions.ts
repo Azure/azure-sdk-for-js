@@ -47,7 +47,7 @@ export async function main() {
     [{ role: "user", content: "What's the weather like in Boston?" }],
     {
       functions: [getCurrentWeather],
-    }
+    },
   );
 
   for (const choice of result.choices) {

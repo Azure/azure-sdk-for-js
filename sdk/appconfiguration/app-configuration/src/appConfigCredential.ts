@@ -36,7 +36,7 @@ export function appConfigKeyCredentialPolicy(credential: string, secret: string)
       // Reference - https://docs.microsoft.com/en-us/azure/azure-app-configuration/rest-api-authentication-hmac#syntax
       request.headers.set(
         "Authorization",
-        `HMAC-SHA256 Credential=${credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`
+        `HMAC-SHA256 Credential=${credential}&SignedHeaders=${signedHeaders}&Signature=${signature}`,
       );
 
       return next(request);

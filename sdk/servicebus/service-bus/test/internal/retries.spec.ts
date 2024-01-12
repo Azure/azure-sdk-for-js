@@ -46,7 +46,7 @@ describe("Retries - ManagementClient", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
@@ -62,10 +62,10 @@ describe("Retries - ManagementClient", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
     const senderMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
-      sender.entityPath
+      sender.entityPath,
     );
     const receiverMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
-      receiver.entityPath
+      receiver.entityPath,
     );
 
     senderMgmtClient["_makeManagementRequest"] = fakeFunction;
@@ -83,7 +83,7 @@ describe("Retries - ManagementClient", () => {
       should.equal(
         numberOfTimesManagementClientInvoked,
         defaultMaxRetries + 1,
-        "Unexpected number of retries"
+        "Unexpected number of retries",
       );
     }
     should.equal(errorThrown, true, "Error was not thrown");
@@ -215,7 +215,7 @@ describe("Retries - MessageSender", () => {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
 
@@ -355,7 +355,7 @@ describe("Retries - Receive methods", () => {
           receiveMode: "peekLock",
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;

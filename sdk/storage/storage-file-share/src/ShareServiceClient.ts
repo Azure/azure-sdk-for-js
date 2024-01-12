@@ -237,14 +237,14 @@ export class ShareServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: ShareClientOptions
+    options?: ShareClientOptions,
   ): ShareServiceClient {
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
       if (isNode) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
-          extractedCreds.accountKey
+          extractedCreds.accountKey,
         );
         const pipeline = newPipeline(sharedKeyCredential, options);
         return new ShareServiceClient(extractedCreds.url, pipeline, options);
@@ -256,11 +256,11 @@ export class ShareServiceClient extends StorageClient {
       return new ShareServiceClient(
         extractedCreds.url + "?" + extractedCreds.accountSas,
         pipeline,
-        options
+        options,
       );
     } else {
       throw new Error(
-        "Connection string must be either an Account connection string or a SAS connection string"
+        "Connection string must be either an Account connection string or a SAS connection string",
       );
     }
   }
@@ -281,7 +281,7 @@ export class ShareServiceClient extends StorageClient {
     credential?: AnonymousCredential | StorageSharedKeyCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: ShareClientOptions
+    options?: ShareClientOptions,
   );
   /**
    * Creates an instance of ShareServiceClient.
@@ -305,7 +305,7 @@ export class ShareServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: ShareClientOptions
+    options?: ShareClientOptions,
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
@@ -343,7 +343,7 @@ export class ShareServiceClient extends StorageClient {
     return new ShareClient(
       appendToURLPath(this.url, shareName),
       this.pipeline,
-      this.shareClientConfig
+      this.shareClientConfig,
     );
   }
 
@@ -356,7 +356,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async createShare(
     shareName: string,
-    options: ShareCreateOptions = {}
+    options: ShareCreateOptions = {},
   ): Promise<{ shareCreateResponse: ShareCreateResponse; shareClient: ShareClient }> {
     return tracingClient.withSpan(
       "ShareServiceClient-createShare",
@@ -368,7 +368,7 @@ export class ShareServiceClient extends StorageClient {
           shareCreateResponse,
           shareClient,
         };
-      }
+      },
     );
   }
 
@@ -381,7 +381,7 @@ export class ShareServiceClient extends StorageClient {
    */
   public async deleteShare(
     shareName: string,
-    options: ShareDeleteMethodOptions = {}
+    options: ShareDeleteMethodOptions = {},
   ): Promise<ShareDeleteResponse> {
     return tracingClient.withSpan(
       "ShareServiceClient-deleteShare",
@@ -389,7 +389,7 @@ export class ShareServiceClient extends StorageClient {
       async (updatedOptions) => {
         const shareClient = this.getShareClient(shareName);
         return shareClient.delete(updatedOptions);
-      }
+      },
     );
   }
 
@@ -402,7 +402,7 @@ export class ShareServiceClient extends StorageClient {
    * @returns Response data for the Get Properties operation.
    */
   public async getProperties(
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceGetPropertiesResponse> {
     return tracingClient.withSpan(
       "ShareServiceClient-getProperties",
@@ -413,7 +413,7 @@ export class ShareServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders,
           FileServiceProperties
         >(await this.serviceContext.getProperties(updatedOptions));
-      }
+      },
     );
   }
 
@@ -428,16 +428,16 @@ export class ShareServiceClient extends StorageClient {
    */
   public async setProperties(
     properties: FileServiceProperties,
-    options: ServiceSetPropertiesOptions = {}
+    options: ServiceSetPropertiesOptions = {},
   ): Promise<ServiceSetPropertiesResponse> {
     return tracingClient.withSpan(
       "ShareServiceClient-setProperties",
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, updatedOptions)
+          await this.serviceContext.setProperties(properties, updatedOptions),
         );
-      }
+      },
     );
   }
 
@@ -455,7 +455,7 @@ export class ShareServiceClient extends StorageClient {
    */
   private async *listSegments(
     marker?: string,
-    options: ServiceListSharesSegmentOptions = {}
+    options: ServiceListSharesSegmentOptions = {},
   ): AsyncIterableIterator<ServiceListSharesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -475,7 +475,7 @@ export class ShareServiceClient extends StorageClient {
    * @param options - Options to list shares operation.
    */
   private async *listItems(
-    options: ServiceListSharesSegmentOptions = {}
+    options: ServiceListSharesSegmentOptions = {},
   ): AsyncIterableIterator<ShareItem> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -564,7 +564,7 @@ export class ShareServiceClient extends StorageClient {
    * An asyncIterableIterator that supports paging.
    */
   public listShares(
-    options: ServiceListSharesOptions = {}
+    options: ServiceListSharesOptions = {},
   ): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -628,7 +628,7 @@ export class ShareServiceClient extends StorageClient {
    */
   private async listSharesSegment(
     marker?: string,
-    options: ServiceListSharesSegmentOptions = {}
+    options: ServiceListSharesSegmentOptions = {},
   ): Promise<ServiceListSharesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -645,7 +645,7 @@ export class ShareServiceClient extends StorageClient {
           await this.serviceContext.listSharesSegment({
             ...updatedOptions,
             marker,
-          })
+          }),
         );
 
         // parse protocols
@@ -657,7 +657,7 @@ export class ShareServiceClient extends StorageClient {
         }
 
         return res;
-      }
+      },
     );
   }
 
@@ -674,7 +674,7 @@ export class ShareServiceClient extends StorageClient {
   public async undeleteShare(
     deletedShareName: string,
     deletedShareVersion: string,
-    options: ServiceUndeleteShareOptions = {}
+    options: ServiceUndeleteShareOptions = {},
   ): Promise<ShareClient> {
     return tracingClient.withSpan(
       "ShareServiceClient-undeleteShare",
@@ -687,7 +687,7 @@ export class ShareServiceClient extends StorageClient {
           deletedShareVersion: deletedShareVersion,
         });
         return shareClient;
-      }
+      },
     );
   }
 
@@ -709,11 +709,11 @@ export class ShareServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
+    options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -730,7 +730,7 @@ export class ShareServiceClient extends StorageClient {
         services: AccountSASServices.parse("f").toString(),
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);

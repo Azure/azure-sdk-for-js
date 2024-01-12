@@ -109,7 +109,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       {
         maxBatchSize: this.parsedOptions["max-batch-size"].value,
         startPosition: earliestEventPosition,
-      }
+      },
     );
   }
 
@@ -125,13 +125,13 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
       console.log(
         `\tBatch count: ${this.callbackCallsCount}, Batch count per sec: ${
           this.callbackCallsCount / this.parsedOptions.duration.value
-        }`
+        }`,
       );
       console.log(`\tmessagesPerBatch: ${this.messagesPerBatch}`);
       console.log(
         `\tmessagesPerBatch... median: ${median(this.messagesPerBatch)}, avg: ${
           this.messagesPerBatch.reduce((a, b) => a + b, 0) / this.messagesPerBatch.length
-        }, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`
+        }, max: ${Math.max(...this.messagesPerBatch)}, min: ${Math.min(...this.messagesPerBatch)}`,
       );
     }
   }
@@ -140,7 +140,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
 async function sendBatch(
   numberOfEvents: number,
   eventBodySize: number,
-  partitions: number
+  partitions: number,
 ): Promise<void> {
   const _payload = Buffer.alloc(eventBodySize);
   const producer = new EventHubProducerClient(connectionString, eventHubName);

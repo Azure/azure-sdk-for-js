@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes instance.
  *
  * @summary Deletes instance.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Delete.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_Delete.json
  */
 async function deletesInstance() {
   const subscriptionId =
