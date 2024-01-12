@@ -5,15 +5,13 @@
  * @file Utilities relating to ESLint Rule metadata
  * @author Arpan Laha
  */
-
-import { JSONSchema4 } from "json-schema";
 import { Rule } from "eslint";
 
 export const getRuleMetaData = (
   ruleName: string,
   ruleDescription: string,
   fix?: "code" | "whitespace",
-  schema?: JSONSchema4 | JSONSchema4[],
+  schema?: any,
 ): Rule.RuleMetaData => {
   const required = {
     type: "suggestion",
