@@ -13,7 +13,7 @@ export interface OperationConfig {
   /** The resource location */
   resourceLocation?: string;
   /** The initial Url  */
-  initialUrl?: string;
+  initialUri?: string;
   /** The request method */
   requestMethod?: string;
   /** metadata about the operation */
@@ -106,7 +106,7 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getStatusFromPollResponse: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   /**
    * Determines if the input error is an operation error.
@@ -117,14 +117,14 @@ export interface BuildCreatePollerOptions<TResponse, TState> {
    */
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   /**
    * Gets the resource location from a response.
    */
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   /**
    * Gets from the response the time interval the service suggests the client to
@@ -177,7 +177,8 @@ export type CancelOnProgress = () => void;
 /**
  * A simple poller interface.
  */
-export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
+export interface PollerLike<TState extends OperationState<TResult>, TResult>
+  extends Promise<TResult> {
   /**
    * Returns true if the poller has finished polling.
    */
@@ -221,7 +222,7 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
   serialize(): Promise<string>;
 
   /**
-   * 
+   *
    */
   submitted(): Promise<void>;
 }

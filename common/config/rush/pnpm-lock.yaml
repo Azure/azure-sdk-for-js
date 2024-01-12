@@ -4932,7 +4932,7 @@ packages:
     dependencies:
       semver: 7.5.4
       shelljs: 0.8.5
-      typescript: 5.4.0-dev.20240110
+      typescript: 5.4.0-dev.20240111
     dev: false
 
   /eastasianwidth@0.2.0:
@@ -9752,8 +9752,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.0-dev.20240110:
-    resolution: {integrity: sha512-OEtXRprxdta9A5qLObqsgCrFjAWxGuTj8T4W+GBWqDhxIT//BevP5MROHX8Zi18RlvTZSu5G76xJaQT1CK1YpQ==}
+  /typescript@5.4.0-dev.20240111:
+    resolution: {integrity: sha512-97UgxVdlXJau9HbNNYghxWHaauDT+50ioh3mepeOfOec6Eq2Hsc4ivTg+N4o4sfVF4MNBJ7rYrejqDvhhrE6aw==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -18029,10 +18029,11 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-CJo5AnEWyg088whW4+S3ETxA4i9EcS+jQUyVFMw8XKQ6ndziqlvNnJlbSCJY8jyiKFqfTk40ZEOghtXG8ng9Fg==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-7m4zp1N88fJPLtE4LQkjZjXnRRxKC/AUlMbIIK9izw9F1HfX4YXkXyC6bPo+Q0C8Ce+qciZiA8sMzj2ko7XCRg==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3

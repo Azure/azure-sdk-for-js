@@ -78,13 +78,12 @@ function findResourceLocation(inputs: {
   }
 }
 
-export function inferLroMode(inputs: {
-  rawResponse: RawResponse;
-  requestPath?: string;
-  requestMethod?: string;
-  resourceLocationConfig?: ResourceLocationConfig;
-}): (OperationConfig & { mode: HttpOperationMode }) | undefined {
-  const { rawResponse, requestMethod, requestPath, resourceLocationConfig } = inputs;
+export function inferLroMode(
+  rawResponse: RawResponse,
+  resourceLocationConfig?: ResourceLocationConfig,
+): (OperationConfig & { mode: HttpOperationMode }) | undefined {
+  const requestPath = rawResponse.request.url;
+  const requestMethod = rawResponse.request.method;
   const operationLocation = getOperationLocationHeader(rawResponse);
   const azureAsyncOperation = getAzureAsyncOperationHeader(rawResponse);
   const pollingUrl = getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation });
@@ -100,16 +99,22 @@ export function inferLroMode(inputs: {
         requestPath,
         resourceLocationConfig,
       }),
+      initialUri: requestPath,
+      requestMethod,
     };
   } else if (location !== undefined) {
     return {
       mode: "ResourceLocation",
       operationLocation: location,
+      initialUri: requestPath,
+      requestMethod,
     };
   } else if (normalizedRequestMethod === "PUT" && requestPath) {
     return {
       mode: "Body",
       operationLocation: requestPath,
+      initialUri: requestPath,
+      requestMethod,
     };
   } else {
     return undefined;
@@ -120,7 +125,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   const { status, statusCode } = inputs;
   if (typeof status !== "string" && status !== undefined) {
     throw new Error(
-      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`
+      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
   switch (status?.toLocaleLowerCase()) {
@@ -183,13 +188,13 @@ export function getErrorFromResponse<T>(response: OperationResponse<T>): LroErro
   const error = accessBodyProperty(response, "error");
   if (!error) {
     logger.warning(
-      `The long-running operation failed but there is no error property in the response's body`
+      `The long-running operation failed but there is no error property in the response's body`,
     );
     return;
   }
   if (!error.code || !error.message) {
     logger.warning(
-      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`,
     );
     return;
   }
@@ -240,16 +245,13 @@ export async function initHttpOperation<TResult, TState>(inputs: {
   return initOperation({
     init: async () => {
       const response = await lro.sendInitialRequest();
-      const config = inferLroMode({
-        rawResponse: response.rawResponse,
-        requestPath: lro.requestPath,
-        requestMethod: lro.requestMethod,
-        resourceLocationConfig,
-      });
+      const config = inferLroMode(response.rawResponse, resourceLocationConfig);
       return {
         response,
         operationLocation: config?.operationLocation,
         resourceLocation: config?.resourceLocation,
+        initialUri: config?.initialUri,
+        requestMethod: config?.requestMethod,
         ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
       };
     },
@@ -264,7 +266,7 @@ export async function initHttpOperation<TResult, TState>(inputs: {
 
 export function getOperationLocation<TState>(
   { rawResponse }: OperationResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -286,7 +288,7 @@ export function getOperationLocation<TState>(
 
 export function getOperationStatus<TState>(
   { rawResponse }: OperationResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -306,14 +308,14 @@ export function getOperationStatus<TState>(
 
 function accessBodyProperty<P extends string>(
   { flatResponse, rawResponse }: OperationResponse,
-  prop: P
+  prop: P,
 ): ResponseBody[P] {
   return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
 }
 
 export function getResourceLocation<TState>(
   res: OperationResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): string | undefined {
   const loc = accessBodyProperty(res, "resourceLocation");
   if (loc && typeof loc === "string") {

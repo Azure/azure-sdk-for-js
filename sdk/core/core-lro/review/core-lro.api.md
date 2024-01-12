@@ -19,11 +19,14 @@ declare namespace CoreNext {
         OperationState_2 as OperationState,
         OperationStatus_2 as OperationStatus,
         PollerLike_2 as PollerLike,
+        RestorableOperationState,
+        OperationConfig,
         CreateHttpPollerOptions_2 as CreateHttpPollerOptions,
-        LroResourceLocationConfig_2 as LroResourceLocationConfig,
+        ResourceLocationConfig,
         LongRunningOperation_2 as LongRunningOperation,
-        LroResponse_2 as LroResponse,
-        RawResponse_2 as RawResponse
+        OperationResponse,
+        RawResponse_2 as RawResponse,
+        deserializeState
     }
 }
 export { CoreNext }
@@ -50,11 +53,14 @@ interface CreateHttpPollerOptions_2<TResult, TState> {
     intervalInMs?: number;
     processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
     resolveOnUnsuccessful?: boolean;
-    resourceLocationConfig?: LroResourceLocationConfig_2;
+    resourceLocationConfig?: ResourceLocationConfig;
     restoreFrom?: string;
-    updateState?: (state: TState, response: LroResponse_2) => void;
+    updateState?: (state: TState, response: OperationResponse) => void;
     withOperationLocation?: (operationLocation: string) => void;
 }
+
+// @public
+function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
 
 // @public
 export interface LongRunningOperation<T = unknown> {
@@ -68,12 +74,10 @@ export interface LongRunningOperation<T = unknown> {
 
 // @public
 interface LongRunningOperation_2<T = unknown> {
-    requestMethod?: string;
-    requestPath?: string;
-    sendInitialRequest: () => Promise<LroResponse_2<unknown>>;
+    sendInitialRequest: () => Promise<OperationResponse<unknown>>;
     sendPollRequest: (path: string, options?: {
         abortSignal?: AbortSignalLike;
-    }) => Promise<LroResponse_2<T>>;
+    }) => Promise<OperationResponse<T>>;
 }
 
 // @public
@@ -97,18 +101,26 @@ export interface LroEngineOptions<TResult, TState> {
 export type LroResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
 
 // @public
-type LroResourceLocationConfig_2 = "azure-async-operation" | "location" | "original-uri";
-
-// @public
 export interface LroResponse<T = unknown> {
     flatResponse: T;
     rawResponse: RawResponse;
 }
 
 // @public
-interface LroResponse_2<T = unknown> {
+interface OperationConfig {
+    initialUri?: string;
+    metadata?: Record<string, string>;
+    operationLocation?: string;
+    requestMethod?: string;
+    resourceLocation?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RawRequest" needs to be exported by the entry point index.d.ts
+//
+// @public
+interface OperationResponse<T = unknown, TRequest extends RawRequest = RawRequest> {
     flatResponse: T;
-    rawResponse: RawResponse_2;
+    rawResponse: RawResponse_2<TRequest>;
 }
 
 // @public
@@ -240,13 +252,22 @@ export interface RawResponse {
 }
 
 // @public
-interface RawResponse_2 {
+interface RawResponse_2<TRequest extends RawRequest = RawRequest> {
     body?: unknown;
     headers: {
         [headerName: string]: string;
     };
+    request: TRequest;
     statusCode: number;
 }
+
+// @public
+type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
+
+// @public
+type RestorableOperationState<T> = T & {
+    config: OperationConfig;
+};
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {

@@ -24,7 +24,7 @@ import { buildCreatePoller } from "../poller/poller";
  */
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>
+  options?: CreateHttpPollerOptions<TResult, TState>,
 ): PollerLike<TState, TResult> {
   const {
     resourceLocationConfig,
@@ -48,18 +48,13 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     {
       init: async () => {
         const response = await lro.sendInitialRequest();
-        const config = inferLroMode({
-          rawResponse: response.rawResponse,
-          requestPath: lro.requestPath,
-          requestMethod: lro.requestMethod,
-          resourceLocationConfig,
-        });
+        const config = inferLroMode(response.rawResponse, resourceLocationConfig);
         return {
           response,
           operationLocation: config?.operationLocation,
           resourceLocation: config?.resourceLocation,
-          initialUrl: lro.requestPath,
-          requestMethod: lro.requestMethod,
+          initialUri: config?.initialUri,
+          requestMethod: config?.requestMethod,
           ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
         };
       },
@@ -73,6 +68,6 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
         : ({ flatResponse }) => flatResponse as TResult,
-    }
+    },
   );
 }

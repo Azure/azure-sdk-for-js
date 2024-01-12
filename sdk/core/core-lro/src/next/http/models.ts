@@ -38,7 +38,7 @@ export interface RawRequest {
 /**
  * Simple type of the raw response.
  */
-export interface RawResponse<TRequest extends RawRequest> {
+export interface RawResponse<TRequest extends RawRequest = RawRequest> {
   /** The HTTP status code */
   statusCode: number;
   /** The raw request that was sent to the server */
@@ -66,16 +66,6 @@ export interface OperationResponse<T = unknown, TRequest extends RawRequest = Ra
  */
 export interface LongRunningOperation<T = unknown> {
   /**
-   * The request path. This should be set if the operation is a PUT and needs
-   * to poll from the same request path.
-   */
-  requestPath?: string;
-  /**
-   * The HTTP request method. This should be set if the operation is a PUT or a
-   * DELETE.
-   */
-  requestMethod?: string;
-  /**
    * A function that can be used to send initial request to the service.
    */
   sendInitialRequest: () => Promise<OperationResponse<unknown>>;
@@ -84,7 +74,7 @@ export interface LongRunningOperation<T = unknown> {
    */
   sendPollRequest: (
     path: string,
-    options?: { abortSignal?: AbortSignalLike }
+    options?: { abortSignal?: AbortSignalLike },
   ) => Promise<OperationResponse<T>>;
 }
 

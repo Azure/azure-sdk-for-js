@@ -8,7 +8,7 @@ export {
   OperationStatus,
   PollerLike,
   RestorableOperationState,
-  OperationConfig
+  OperationConfig,
 } from "./poller/models";
 export { CreateHttpPollerOptions } from "./http/models";
 export {
@@ -17,6 +17,4 @@ export {
   OperationResponse,
   RawResponse,
 } from "./http/models";
-export {
-  deserializeState,
-} from "./poller/operation"
+export { deserializeState } from "./poller/operation";

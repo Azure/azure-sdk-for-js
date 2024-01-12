@@ -24,7 +24,7 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
    * It will be updated later to be of type TState when the
    * customer-provided callback, `updateState`, is called during polling.
    */
-  initState: (config) => ({ status: "running", config } as any),
+  initState: (config) => ({ status: "running", config }) as any,
   setCanceled: (state) => (state.status = "canceled"),
   setError: (state, error) => (state.error = error),
   setResult: (state, result) => (state.result = result),
@@ -44,10 +44,10 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
-  inputs: BuildCreatePollerOptions<TResponse, TState>
+  inputs: BuildCreatePollerOptions<TResponse, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-  options?: CreatePollerOptions<TResponse, TResult, TState>
+  options?: CreatePollerOptions<TResponse, TResult, TState>,
 ) => PollerLike<TState, TResult> {
   const {
     getOperationLocation,
@@ -61,7 +61,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
   } = inputs;
   return (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-    options?: CreatePollerOptions<TResponse, TResult, TState>
+    options?: CreatePollerOptions<TResponse, TResult, TState>,
   ) => {
     const {
       processResult,
@@ -73,13 +73,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-        let called = false;
-        return (operationLocation: string, isUpdated: boolean) => {
-          if (isUpdated) withOperationLocationCallback(operationLocation);
-          else if (!called) withOperationLocationCallback(operationLocation);
-          called = true;
-        };
-      })()
+          let called = false;
+          return (operationLocation: string, isUpdated: boolean) => {
+            if (isUpdated) withOperationLocationCallback(operationLocation);
+            else if (!called) withOperationLocationCallback(operationLocation);
+            called = true;
+          };
+        })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState> | undefined = undefined;
@@ -94,7 +94,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         getOperationStatus: getStatusFromInitialResponse,
         withOperationLocation,
         setErrorAsResult: !resolveOnUnsuccessful,
-      }).then((s) => state = s);
+      }).then((s) => (state = s));
     }
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();
@@ -173,7 +173,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
                 throw new Error(`Polling completed without succeeding or failing`);
             }
           }
-        })().finally(() => { resultPromise = undefined; });
+        })().finally(() => {
+          resultPromise = undefined;
+        });
         return resultPromise;
       },
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
@@ -224,18 +226,19 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       // promise operations - directly delegate then/catch/finally to the promise of pollUntilDone() returned
       then<TResult1 = TResult, TResult2 = never>(
         onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
-        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
       ): Promise<TResult1 | TResult2> {
         return poller.pollUntilDone().then(onfulfilled, onrejected);
       },
-      catch<TResult2 = never>(onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult | TResult2> {
+      catch<TResult2 = never>(
+        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+      ): Promise<TResult | TResult2> {
         return poller.pollUntilDone().catch(onrejected);
       },
       finally(onfinally?: (() => void) | undefined | null): Promise<TResult> {
         return poller.pollUntilDone().finally(onfinally);
       },
-      [Symbol.toStringTag]: "Poller"
-
+      [Symbol.toStringTag]: "Poller",
     };
     return poller;
   };

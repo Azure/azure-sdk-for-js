@@ -16,7 +16,7 @@ import { terminalStates } from "./constants";
  * Deserializes the state
  */
 export function deserializeState<TState>(
-  serializedState: string
+  serializedState: string,
 ): RestorableOperationState<TState> {
   try {
     return JSON.parse(serializedState).state;
@@ -112,7 +112,7 @@ async function processOperationStatus<TState, TResult, TResponse>(result: {
         response,
         state,
         processResult,
-      })
+      }),
     );
   }
 }
@@ -149,7 +149,14 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
     withOperationLocation,
     setErrorAsResult,
   } = inputs;
-  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } = await init();
+  const {
+    operationLocation,
+    resourceLocation,
+    initialUri: initialUrl,
+    requestMethod,
+    metadata,
+    response,
+  } = await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
@@ -161,7 +168,14 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
   logger.verbose(`LRO: Operation description:`, config);
   const state = stateProxy.initState(config);
   const status = getOperationStatus({ response, state, operationLocation });
-  await processOperationStatus({ state, status, stateProxy, response, setErrorAsResult, processResult });
+  await processOperationStatus({
+    state,
+    status,
+    stateProxy,
+    response,
+    setErrorAsResult,
+    processResult,
+  });
   return state;
 }
 
@@ -172,11 +186,11 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   operationLocation: string;
   getOperationStatus: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   isOperationError: (error: Error) => boolean;
   options?: TOptions;
@@ -199,20 +213,22 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
       state,
       stateProxy,
       isOperationError,
-    })
+    }),
   );
   const status = getOperationStatus(response, state);
   logger.verbose(
-    `LRO: Status:\n\tPolling from: ${state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${terminalStates.includes(status) ? "Stopped" : "Running"
-    }`
+    `LRO: Status:\n\tPolling from: ${
+      state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${
+      terminalStates.includes(status) ? "Stopped" : "Running"
+    }`,
   );
   if (status === "succeeded") {
     const resourceLocation = getResourceLocation(response, state);
     if (resourceLocation !== undefined) {
       return {
         response: await poll(resourceLocation).catch(
-          setStateError({ state, stateProxy, isOperationError })
+          setStateError({ state, stateProxy, isOperationError }),
         ),
         status,
       };
@@ -228,18 +244,18 @@ export async function pollOperation<TResponse, TState, TResult, TOptions>(inputs
   state: RestorableOperationState<TState>;
   getOperationStatus: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => OperationStatus;
   getResourceLocation: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   isOperationError: (error: Error) => boolean;
   getPollingInterval?: (response: TResponse) => number | undefined;
   setDelay: (intervalInMs: number) => void;
   getOperationLocation?: (
     response: TResponse,
-    state: RestorableOperationState<TState>
+    state: RestorableOperationState<TState>,
   ) => string | undefined;
   withOperationLocation?: (operationLocation: string, isUpdated: boolean) => void;
   processResult?: (result: TResponse, state: TState) => TResult | Promise<TResult>;
