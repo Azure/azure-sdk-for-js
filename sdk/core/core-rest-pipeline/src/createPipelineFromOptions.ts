@@ -6,7 +6,7 @@ import { type Pipeline, createEmptyPipeline } from "./pipeline";
 import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces";
 import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
-
+import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
@@ -15,7 +15,6 @@ import { proxyPolicy } from "./policies/proxyPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
