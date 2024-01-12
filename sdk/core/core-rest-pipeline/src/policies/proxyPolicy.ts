@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
+import type * as http from "http";
+import type * as https from "https";
 import { HttpsProxyAgent, type HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, type HttpProxyAgentOptions } from "http-proxy-agent";
 import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";

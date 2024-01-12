@@ -6,7 +6,7 @@ import type { PipelinePolicy } from "../pipeline";
 import { delay } from "../util/helpers";
 import { createClientLogger } from "@azure/logger";
 import type { RetryStrategy } from "../retryStrategies/retryStrategy";
-import { RestError } from "../restError";
+import type { RestError } from "../restError";
 import { AbortError } from "@azure/abort-controller";
 import type { AzureLogger } from "@azure/logger";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";

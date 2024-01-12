@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import type { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
+import type { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "@azure/core-util";
 import type { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
