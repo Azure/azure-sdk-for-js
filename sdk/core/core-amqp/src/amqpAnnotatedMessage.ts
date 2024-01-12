@@ -100,7 +100,7 @@ export const AmqpAnnotatedMessage = {
     // values are then used to reconstruct the accurate TTL for received messages.
     if (msg.header?.timeToLive) {
       const ttl = msg.header.timeToLive;
-      rhMsg.ttl = ttl > Constants.maxUint32Value ? Constants.maxUint32Value : ttl;
+      rhMsg.ttl = Math.min(ttl, Constants.maxUint32Value);
       rhMsg.creation_time = rhMsg.creation_time ?? new Date();
       rhMsg.absolute_expiry_time = new Date(Math.min(rhMsg.creation_time.getTime() + ttl, Constants.maxAbsoluteExpiryTime));
     }
