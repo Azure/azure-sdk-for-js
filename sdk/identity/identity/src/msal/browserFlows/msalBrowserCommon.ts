@@ -91,7 +91,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
-  protected app?: msalBrowser.PublicClientApplication;
+  protected app?: msalBrowser.IPublicClientApplication;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
