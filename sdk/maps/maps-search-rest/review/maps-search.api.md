@@ -5,124 +5,67 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { LroEngineOptions } from '@azure/core-lro';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export interface AddressAdminDistrictsItemOutput {
+    name?: string;
+    shortName?: string;
+}
+
+// @public (undocumented)
+export interface AddressCountryRegionOutput {
+    ISO?: string;
+    name?: string;
+}
+
 // @public
 export interface AddressOutput {
-    boundingBox?: BoundingBoxCompassNotationOutput;
-    buildingNumber?: string;
-    country?: string;
-    countryCode?: string;
-    countryCodeISO3?: string;
-    countrySecondarySubdivision?: string;
-    countrySubdivision?: string;
-    countrySubdivisionName?: string;
-    countryTertiarySubdivision?: string;
-    crossStreet?: string;
-    extendedPostalCode?: string;
-    freeformAddress?: string;
-    localName?: string;
-    municipality?: string;
-    municipalitySubdivision?: string;
+    addressLine?: string;
+    adminDistricts?: Array<AddressAdminDistrictsItemOutput>;
+    // (undocumented)
+    countryRegion?: AddressCountryRegionOutput;
+    formattedAddress?: string;
+    intersection?: IntersectionOutput;
+    locality?: string;
+    neighborhood?: string;
     postalCode?: string;
-    routeNumbers?: Array<string>;
-    street?: string;
-    streetName?: string;
-    streetNameAndNumber?: string;
-    streetNumber?: string;
 }
 
 // @public
-export interface AddressRangesOutput {
-    from: LatLongPairAbbreviatedOutput;
-    rangeLeft: string;
-    rangeRight: string;
-    to: LatLongPairAbbreviatedOutput;
+export interface BoundaryOutput extends GeoJsonFeatureOutputParent, BoundaryPropertiesOutput {
+    // (undocumented)
+    type: "Boundary";
 }
 
 // @public
-export interface BatchRequest {
-    batchItems?: Array<BatchRequestItem>;
+export interface BoundaryPropertiesOutput {
+    copyright?: string;
+    copyrightURL?: string;
+    geometriesCopyright?: Array<GeometryCopyrightOutput>;
+    name?: string;
 }
 
 // @public
-export interface BatchRequestItem {
-    query?: string;
-}
-
-// @public
-export interface BatchResultItemOutput {
-    statusCode: number;
-}
-
-// @public
-export interface BatchResultOutput {
-    summary: BatchResultSummaryOutput;
-}
-
-// @public
-export interface BatchResultSummaryOutput {
-    successfulRequests: number;
-    totalRequests: number;
-}
-
-// @public
-export interface BoundingBoxCompassNotationOutput {
-    entity?: "position";
-    northEast: string;
-    southWest: string;
-}
-
-// @public
-export interface BoundingBoxOutput {
-    btmRightPoint: LatLongPairAbbreviatedOutput;
-    topLeftPoint: LatLongPairAbbreviatedOutput;
-}
-
-// @public
-export interface BrandOutput {
-    name: string;
-}
-
-// @public
-export interface ClassificationNameOutput {
-    name: string;
-    nameLocale: string;
-}
-
-// @public
-export interface ClassificationOutput {
-    code: string;
-    names: Array<ClassificationNameOutput>;
-}
-
-// @public
-export function createBatchItems<T extends Record<string, any>>(requests: Array<T>): Array<BatchRequestItem>;
-
-// @public
-export interface DataSourceOutput {
-    geometry?: GeometryIdentifierOutput;
-}
-
-// @public
-export interface EntryPointOutput {
-    position: LatLongPairAbbreviatedOutput;
-    type: "main" | "minor";
+export interface ErrorAdditionalInfoOutput {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorDetailOutput {
-    code?: string;
-    message?: string;
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+    readonly code?: string;
+    readonly details?: Array<ErrorDetailOutput>;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -131,36 +74,82 @@ export interface ErrorResponseOutput {
 }
 
 // @public (undocumented)
-export interface FuzzySearch {
-    get(options: SearchFuzzySearchParameters): StreamableMethod<SearchFuzzySearch200Response | SearchFuzzySearchDefaultResponse>;
+export interface FeaturesItemOutput {
+    bbox?: Array<number>;
+    geometry: GeoJsonPointOutput;
+    id?: string;
+    // (undocumented)
+    properties?: FeaturesItemPropertiesOutput;
+    type?: "Feature";
 }
 
 // @public (undocumented)
-export interface FuzzySearchBatch {
-    get(options?: SearchGetFuzzySearchBatchParameters): StreamableMethod<SearchGetFuzzySearchBatch200Response | SearchGetFuzzySearchBatch202Response>;
-    post(options: SearchFuzzySearchBatchParameters): StreamableMethod<SearchFuzzySearchBatch200Response | SearchFuzzySearchBatch202Response>;
+export interface FeaturesItemPropertiesOutput {
+    address?: AddressOutput;
+    confidence?: "High" | "Medium" | "Low";
+    geocodePoints?: Array<GeocodePointsItemOutput>;
+    matchCodes?: Array<"Good" | "Ambiguous" | "UpHierarchy">;
+    type?: string;
 }
 
 // @public (undocumented)
-export interface FuzzySearchBatchSync {
-    post(options: SearchFuzzySearchBatchSyncParameters): StreamableMethod<SearchFuzzySearchBatchSync200Response | SearchFuzzySearchBatchSync408Response | SearchFuzzySearchBatchSyncDefaultResponse>;
+export interface GeocodePointsItemOutput {
+    calculationMethod?: "Interpolation" | "InterpolationOffset" | "Parcel" | "Rooftop";
+    geometry?: GeoJsonPointOutput;
+    usageTypes?: Array<"Display" | "Route">;
 }
 
 // @public
-export interface GeoJsonFeature extends GeoJsonObjectParent, GeoJsonFeatureData {
-    // (undocumented)
-    type: "Feature";
+export interface GeocodingBatchRequestBody {
+    batchItems?: Array<GeocodingBatchRequestItem>;
 }
 
 // @public
-export interface GeoJsonFeatureCollection extends GeoJsonObjectParent, GeoJsonFeatureCollectionData {
-    // (undocumented)
-    type: "FeatureCollection";
+export interface GeocodingBatchRequestItem {
+    addressLine?: string;
+    adminDistrict?: string;
+    adminDistrict2?: string;
+    adminDistrict3?: string;
+    bbox?: Array<number>;
+    coordinates?: Array<number>;
+    countryRegion?: string;
+    locality?: string;
+    optionalId?: string;
+    postalCode?: string;
+    query?: string;
+    top?: number;
+    view?: string;
 }
 
 // @public (undocumented)
-export interface GeoJsonFeatureCollectionData {
-    features: Array<GeoJsonFeature>;
+export interface GeocodingBatchResponseItemOutput {
+    error?: ErrorDetailOutput;
+    // (undocumented)
+    features?: Array<FeaturesItemOutput>;
+    nextLink?: string;
+    optionalId?: string;
+    type?: "FeatureCollection";
+}
+
+// @public
+export interface GeocodingBatchResponseOutput {
+    batchItems?: Array<GeocodingBatchResponseItemOutput>;
+    nextLink?: string;
+    summary?: GeocodingBatchResponseSummaryOutput;
+}
+
+// @public
+export interface GeocodingBatchResponseSummaryOutput {
+    successfulRequests?: number;
+    totalRequests?: number;
+}
+
+// @public
+export interface GeocodingResponseOutput {
+    // (undocumented)
+    features?: Array<FeaturesItemOutput>;
+    nextLink?: string;
+    type?: "FeatureCollection";
 }
 
 // @public (undocumented)
@@ -175,14 +164,6 @@ export interface GeoJsonFeatureCollectionOutput extends GeoJsonObjectOutputParen
 }
 
 // @public (undocumented)
-export interface GeoJsonFeatureData {
-    featureType?: string;
-    geometry: GeoJsonGeometry;
-    id?: string;
-    properties?: Record<string, unknown>;
-}
-
-// @public (undocumented)
 export interface GeoJsonFeatureDataOutput {
     featureType?: string;
     geometry: GeoJsonGeometryOutput;
@@ -191,23 +172,12 @@ export interface GeoJsonFeatureDataOutput {
 }
 
 // @public
-export interface GeoJsonFeatureOutput extends GeoJsonObjectOutputParent, GeoJsonFeatureDataOutput {
-    // (undocumented)
-    type: "Feature";
-}
+export type GeoJsonFeatureOutput = GeoJsonFeatureOutputParent | BoundaryOutput;
 
 // @public
-export type GeoJsonGeometry = GeoJsonGeometryParent | GeoJsonLineString | GeoJsonPoint | GeoJsonMultiPoint | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon | GeoJsonGeometryCollection;
-
-// @public
-export interface GeoJsonGeometryCollection extends GeoJsonGeometryParent, GeoJsonGeometryCollectionData {
+export interface GeoJsonFeatureOutputParent extends GeoJsonObjectOutputParent, GeoJsonFeatureDataOutput {
     // (undocumented)
-    type: "GeometryCollection";
-}
-
-// @public (undocumented)
-export interface GeoJsonGeometryCollectionData {
-    geometries: Array<GeoJsonGeometry>;
+    type: "Feature" | "Boundary";
 }
 
 // @public (undocumented)
@@ -222,29 +192,12 @@ export interface GeoJsonGeometryCollectionOutput extends GeoJsonGeometryOutputPa
 }
 
 // @public
-export type GeoJsonGeometryOutput = GeoJsonGeometryOutputParent | GeoJsonLineStringOutput | GeoJsonPointOutput | GeoJsonMultiPointOutput | GeoJsonMultiLineStringOutput | GeoJsonPolygonOutput | GeoJsonMultiPolygonOutput | GeoJsonGeometryCollectionOutput;
+export type GeoJsonGeometryOutput = GeoJsonGeometryOutputParent | GeoJsonPointOutput | GeoJsonMultiPointOutput | GeoJsonLineStringOutput | GeoJsonMultiLineStringOutput | GeoJsonPolygonOutput | GeoJsonMultiPolygonOutput | GeoJsonGeometryCollectionOutput;
 
 // @public
 export interface GeoJsonGeometryOutputParent extends GeoJsonObjectOutputParent {
     // (undocumented)
-    type: "GeoJsonGeometry" | "LineString" | "Point" | "MultiPoint" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
-}
-
-// @public
-export interface GeoJsonGeometryParent extends GeoJsonObjectParent {
-    // (undocumented)
-    type: "GeoJsonGeometry" | "LineString" | "Point" | "MultiPoint" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
-}
-
-// @public
-export interface GeoJsonLineString extends GeoJsonGeometryParent, GeoJsonLineStringData {
-    // (undocumented)
-    type: "LineString";
-}
-
-// @public (undocumented)
-export interface GeoJsonLineStringData {
-    coordinates: Array<Array<number>>;
+    type: "GeoJsonGeometry" | "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection";
 }
 
 // @public (undocumented)
@@ -256,17 +209,6 @@ export interface GeoJsonLineStringDataOutput {
 export interface GeoJsonLineStringOutput extends GeoJsonGeometryOutputParent, GeoJsonLineStringDataOutput {
     // (undocumented)
     type: "LineString";
-}
-
-// @public
-export interface GeoJsonMultiLineString extends GeoJsonGeometryParent, GeoJsonMultiLineStringData {
-    // (undocumented)
-    type: "MultiLineString";
-}
-
-// @public (undocumented)
-export interface GeoJsonMultiLineStringData {
-    coordinates: Array<Array<Array<number>>>;
 }
 
 // @public (undocumented)
@@ -281,17 +223,6 @@ export interface GeoJsonMultiLineStringOutput extends GeoJsonGeometryOutputParen
 }
 
 // @public
-export interface GeoJsonMultiPoint extends GeoJsonGeometryParent, GeoJsonMultiPointData {
-    // (undocumented)
-    type: "MultiPoint";
-}
-
-// @public
-export interface GeoJsonMultiPointData {
-    coordinates: Array<Array<number>>;
-}
-
-// @public
 export interface GeoJsonMultiPointDataOutput {
     coordinates: Array<Array<number>>;
 }
@@ -300,17 +231,6 @@ export interface GeoJsonMultiPointDataOutput {
 export interface GeoJsonMultiPointOutput extends GeoJsonGeometryOutputParent, GeoJsonMultiPointDataOutput {
     // (undocumented)
     type: "MultiPoint";
-}
-
-// @public
-export interface GeoJsonMultiPolygon extends GeoJsonGeometryParent, GeoJsonMultiPolygonData {
-    // (undocumented)
-    type: "MultiPolygon";
-}
-
-// @public (undocumented)
-export interface GeoJsonMultiPolygonData {
-    coordinates: Array<Array<Array<Array<number>>>>;
 }
 
 // @public (undocumented)
@@ -325,32 +245,13 @@ export interface GeoJsonMultiPolygonOutput extends GeoJsonGeometryOutputParent, 
 }
 
 // @public
-export type GeoJsonObject = GeoJsonGeometry | GeoJsonLineString | GeoJsonPoint | GeoJsonMultiPoint | GeoJsonMultiLineString | GeoJsonPolygon | GeoJsonMultiPolygon | GeoJsonGeometryCollection | GeoJsonFeature | GeoJsonFeatureCollection;
-
-// @public
-export type GeoJsonObjectOutput = GeoJsonGeometryOutput | GeoJsonLineStringOutput | GeoJsonPointOutput | GeoJsonMultiPointOutput | GeoJsonMultiLineStringOutput | GeoJsonPolygonOutput | GeoJsonMultiPolygonOutput | GeoJsonGeometryCollectionOutput | GeoJsonFeatureOutput | GeoJsonFeatureCollectionOutput;
+export type GeoJsonObjectOutput = GeoJsonGeometryOutput | GeoJsonPointOutput | GeoJsonFeatureOutput | BoundaryOutput | GeoJsonMultiPointOutput | GeoJsonLineStringOutput | GeoJsonMultiLineStringOutput | GeoJsonPolygonOutput | GeoJsonMultiPolygonOutput | GeoJsonGeometryCollectionOutput | GeoJsonFeatureCollectionOutput;
 
 // @public
 export interface GeoJsonObjectOutputParent {
+    bbox?: Array<number>;
     // (undocumented)
-    type: "GeoJsonObject" | "GeoJsonGeometry" | "LineString" | "Point" | "MultiPoint" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection" | "Feature" | "FeatureCollection";
-}
-
-// @public
-export interface GeoJsonObjectParent {
-    // (undocumented)
-    type: "GeoJsonObject" | "GeoJsonGeometry" | "LineString" | "Point" | "MultiPoint" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection" | "Feature" | "FeatureCollection";
-}
-
-// @public
-export interface GeoJsonPoint extends GeoJsonGeometryParent, GeoJsonPointData {
-    // (undocumented)
-    type: "Point";
-}
-
-// @public
-export interface GeoJsonPointData {
-    coordinates: Array<number>;
+    type: "GeoJsonObject" | "GeoJsonGeometry" | "Point" | "Feature" | "Boundary" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection" | "FeatureCollection";
 }
 
 // @public
@@ -362,17 +263,6 @@ export interface GeoJsonPointDataOutput {
 export interface GeoJsonPointOutput extends GeoJsonGeometryOutputParent, GeoJsonPointDataOutput {
     // (undocumented)
     type: "Point";
-}
-
-// @public
-export interface GeoJsonPolygon extends GeoJsonGeometryParent, GeoJsonPolygonData {
-    // (undocumented)
-    type: "Polygon";
-}
-
-// @public (undocumented)
-export interface GeoJsonPolygonData {
-    coordinates: Array<Array<Array<number>>>;
 }
 
 // @public (undocumented)
@@ -387,79 +277,68 @@ export interface GeoJsonPolygonOutput extends GeoJsonGeometryOutputParent, GeoJs
 }
 
 // @public
-export interface GeometryIdentifierOutput {
-    id: string;
+export interface GeometryCopyrightOutput {
+    copyright?: string;
+    sourceName?: string;
+}
+
+// @public (undocumented)
+export interface GetGeocoding {
+    get(options?: SearchGetGeocodingParameters): StreamableMethod<SearchGetGeocoding200Response | SearchGetGeocodingDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetGeocodingBatch {
+    post(options: SearchGetGeocodingBatchParameters): StreamableMethod<SearchGetGeocodingBatch200Response | SearchGetGeocodingBatchDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetPolygon {
+    get(options: SearchGetPolygonParameters): StreamableMethod<SearchGetPolygon200Response | SearchGetPolygonDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetReverseGeocoding {
+    get(options: SearchGetReverseGeocodingParameters): StreamableMethod<SearchGetReverseGeocoding200Response | SearchGetReverseGeocodingDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface GetReverseGeocodingBatch {
+    post(options: SearchGetReverseGeocodingBatchParameters): StreamableMethod<SearchGetReverseGeocodingBatch200Response | SearchGetReverseGeocodingBatchDefaultResponse>;
 }
 
 // @public
-export function getLongRunningPoller<TResult extends HttpResponse>(client: Client, initialResponse: TResult, options?: LroEngineOptions<TResult, PollOperationState<TResult>>): PollerLike<PollOperationState<TResult>, TResult>;
-
-// @public (undocumented)
-export interface GetPointOfInterestCategoryTree {
-    get(options?: SearchGetPointOfInterestCategoryTreeParameters): StreamableMethod<SearchGetPointOfInterestCategoryTree200Response | SearchGetPointOfInterestCategoryTreeDefaultResponse>;
+export interface IntersectionOutput {
+    baseStreet?: string;
+    displayName?: string;
+    intersectionType?: string;
+    secondaryStreet1?: string;
+    secondaryStreet2?: string;
 }
 
 // @public (undocumented)
-export function isUnexpected(response: SearchListPolygons200Response | SearchListPolygonsDefaultResponse): response is SearchListPolygonsDefaultResponse;
+export function isUnexpected(response: SearchGetGeocoding200Response | SearchGetGeocodingDefaultResponse): response is SearchGetGeocodingDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SearchFuzzySearch200Response | SearchFuzzySearchDefaultResponse): response is SearchFuzzySearchDefaultResponse;
+export function isUnexpected(response: SearchGetGeocodingBatch200Response | SearchGetGeocodingBatchDefaultResponse): response is SearchGetGeocodingBatchDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SearchSearchPointOfInterest200Response | SearchSearchPointOfInterestDefaultResponse): response is SearchSearchPointOfInterestDefaultResponse;
+export function isUnexpected(response: SearchGetPolygon200Response | SearchGetPolygonDefaultResponse): response is SearchGetPolygonDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SearchSearchNearbyPointOfInterest200Response | SearchSearchNearbyPointOfInterestDefaultResponse): response is SearchSearchNearbyPointOfInterestDefaultResponse;
+export function isUnexpected(response: SearchGetReverseGeocoding200Response | SearchGetReverseGeocodingDefaultResponse): response is SearchGetReverseGeocodingDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: SearchSearchPointOfInterestCategory200Response | SearchSearchPointOfInterestCategoryDefaultResponse): response is SearchSearchPointOfInterestCategoryDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchGetPointOfInterestCategoryTree200Response | SearchGetPointOfInterestCategoryTreeDefaultResponse): response is SearchGetPointOfInterestCategoryTreeDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchSearchAddress200Response | SearchSearchAddressDefaultResponse): response is SearchSearchAddressDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchReverseSearchAddress200Response | SearchReverseSearchAddressDefaultResponse): response is SearchReverseSearchAddressDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchReverseSearchCrossStreetAddress200Response | SearchReverseSearchCrossStreetAddressDefaultResponse): response is SearchReverseSearchCrossStreetAddressDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchSearchStructuredAddress200Response | SearchSearchStructuredAddressDefaultResponse): response is SearchSearchStructuredAddressDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchSearchInsideGeometry200Response | SearchSearchInsideGeometryDefaultResponse): response is SearchSearchInsideGeometryDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchSearchAlongRoute200Response | SearchSearchAlongRouteDefaultResponse): response is SearchSearchAlongRouteDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchFuzzySearchBatchSync200Response | SearchFuzzySearchBatchSync408Response | SearchFuzzySearchBatchSyncDefaultResponse): response is SearchFuzzySearchBatchSync408Response;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchSearchAddressBatchSync200Response | SearchSearchAddressBatchSync408Response | SearchSearchAddressBatchSyncDefaultResponse): response is SearchSearchAddressBatchSync408Response;
-
-// @public (undocumented)
-export function isUnexpected(response: SearchReverseSearchAddressBatchSync200Response | SearchReverseSearchAddressBatchSync408Response | SearchReverseSearchAddressBatchSyncDefaultResponse): response is SearchReverseSearchAddressBatchSync408Response;
-
-// @public
-export interface LatLongPairAbbreviatedOutput {
-    lat: number;
-    lon: number;
-}
-
-// @public (undocumented)
-export interface ListPolygons {
-    get(options: SearchListPolygonsParameters): StreamableMethod<SearchListPolygons200Response | SearchListPolygonsDefaultResponse>;
-}
+export function isUnexpected(response: SearchGetReverseGeocodingBatch200Response | SearchGetReverseGeocodingBatchDefaultResponse): response is SearchGetReverseGeocodingBatchDefaultResponse;
 
 // @public
 function MapsSearch(credential: AzureKeyCredential, options?: ClientOptions): MapsSearchClient;
 
 // @public
 function MapsSearch(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsSearchClient;
+
+// @public
+function MapsSearch(credential: AzureSASCredential, options?: ClientOptions): MapsSearchClient;
 export default MapsSearch;
 
 // @public (undocumented)
@@ -468,282 +347,73 @@ export type MapsSearchClient = Client & {
 };
 
 // @public
-export interface OperatingHoursOutput {
-    mode: string;
-    timeRanges: Array<OperatingHoursTimeRangeOutput>;
+export interface ReverseGeocodingBatchRequestBody {
+    batchItems?: Array<ReverseGeocodingBatchRequestItem>;
 }
 
 // @public
-export interface OperatingHoursTimeOutput {
-    date: string;
-    hour: number;
-    minute: number;
-}
-
-// @public
-export interface OperatingHoursTimeRangeOutput {
-    endTime: OperatingHoursTimeOutput;
-    startTime: OperatingHoursTimeOutput;
-}
-
-// @public
-export interface PointOfInterestCategoryOutput {
-    childCategoryIds: Array<number>;
-    id: number;
-    name: string;
-    synonyms: Array<string>;
-}
-
-// @public
-export interface PointOfInterestCategorySetOutput {
-    id: number;
-}
-
-// @public
-export interface PointOfInterestCategoryTreeResultOutput {
-    poiCategories?: Array<PointOfInterestCategoryOutput>;
-}
-
-// @public
-export interface PointOfInterestOutput {
-    brands?: Array<BrandOutput>;
-    categories?: Array<string>;
-    categorySet?: Array<PointOfInterestCategorySetOutput>;
-    classifications?: Array<ClassificationOutput>;
-    name: string;
-    openingHours?: OperatingHoursOutput;
-    phone?: string;
-    url?: string;
-}
-
-// @public (undocumented)
-export interface PolygonOutput {
-    geometryData?: GeoJsonObjectOutput;
-    providerID: string;
-}
-
-// @public
-export interface PolygonResultOutput {
-    additionalData?: Array<PolygonOutput>;
-}
-
-// @public (undocumented)
-export interface ReverseSearchAddress {
-    get(options: SearchReverseSearchAddressParameters): StreamableMethod<SearchReverseSearchAddress200Response | SearchReverseSearchAddressDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface ReverseSearchAddressBatch {
-    get(options?: SearchGetReverseSearchAddressBatchParameters): StreamableMethod<SearchGetReverseSearchAddressBatch200Response | SearchGetReverseSearchAddressBatch202Response>;
-    post(options: SearchReverseSearchAddressBatchParameters): StreamableMethod<SearchReverseSearchAddressBatch200Response | SearchReverseSearchAddressBatch202Response>;
-}
-
-// @public
-export interface ReverseSearchAddressBatchItemOutput extends BatchResultItemOutput {
-    response: ReverseSearchAddressBatchItemResponseOutput;
-}
-
-// @public
-export interface ReverseSearchAddressBatchItemResponseOutput extends ReverseSearchAddressResultOutput, ErrorResponseOutput {
-}
-
-// @public
-export interface ReverseSearchAddressBatchResultOutput extends BatchResultOutput {
-    batchItems: Array<ReverseSearchAddressBatchItemOutput>;
-}
-
-// @public (undocumented)
-export interface ReverseSearchAddressBatchSync {
-    post(options: SearchReverseSearchAddressBatchSyncParameters): StreamableMethod<SearchReverseSearchAddressBatchSync200Response | SearchReverseSearchAddressBatchSync408Response | SearchReverseSearchAddressBatchSyncDefaultResponse>;
-}
-
-// @public
-export interface ReverseSearchAddressResultItemOutput {
-    address: AddressOutput;
-    matchType?: "AddressPoint" | "HouseNumberRange" | "Street";
-    position: string;
-    // (undocumented)
-    roadUse?: Array<"LimitedAccess" | "Arterial" | "Terminal" | "Ramp" | "Rotary" | "LocalStreet">;
-}
-
-// @public
-export interface ReverseSearchAddressResultOutput {
-    addresses: Array<ReverseSearchAddressResultItemOutput>;
-    summary: SearchSummaryOutput;
-}
-
-// @public (undocumented)
-export interface ReverseSearchCrossStreetAddress {
-    get(options: SearchReverseSearchCrossStreetAddressParameters): StreamableMethod<SearchReverseSearchCrossStreetAddress200Response | SearchReverseSearchCrossStreetAddressDefaultResponse>;
-}
-
-// @public
-export interface ReverseSearchCrossStreetAddressResultItemOutput {
-    address?: AddressOutput;
-    position?: string;
-}
-
-// @public
-export interface ReverseSearchCrossStreetAddressResultOutput {
-    addresses: Array<ReverseSearchCrossStreetAddressResultItemOutput>;
-    summary: SearchSummaryOutput;
+export interface ReverseGeocodingBatchRequestItem {
+    coordinates?: Array<number>;
+    optionalId?: string;
+    resultTypes?: Array<"Address" | "Neighborhood" | "PopulatedPlace" | "Postcode1" | "AdminDivision1" | "AdminDivision2" | "CountryRegion">;
+    view?: string;
 }
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/search/polygon/{format}", format: "json"): ListPolygons;
-    (path: "/search/fuzzy/{format}", format: "json" | "xml"): FuzzySearch;
-    (path: "/search/poi/{format}", format: "json" | "xml"): SearchPointOfInterest;
-    (path: "/search/nearby/{format}", format: "json" | "xml"): SearchNearbyPointOfInterest;
-    (path: "/search/poi/category/{format}", format: "json" | "xml"): SearchPointOfInterestCategory;
-    (path: "/search/poi/category/tree/{format}", format: "json"): GetPointOfInterestCategoryTree;
-    (path: "/search/address/{format}", format: "json" | "xml"): SearchAddress;
-    (path: "/search/address/reverse/{format}", format: "json" | "xml"): ReverseSearchAddress;
-    (path: "/search/address/reverse/crossStreet/{format}", format: "json" | "xml"): ReverseSearchCrossStreetAddress;
-    (path: "/search/address/structured/{format}", format: "json" | "xml"): SearchStructuredAddress;
-    (path: "/search/geometry/{format}", format: "json" | "xml"): SearchInsideGeometry;
-    (path: "/search/alongRoute/{format}", format: "json" | "xml"): SearchAlongRoute;
-    (path: "/search/fuzzy/batch/sync/{format}", format: "json"): FuzzySearchBatchSync;
-    (path: "/search/fuzzy/batch/{format}", format: "json"): FuzzySearchBatch;
-    (path: "/search/address/batch/sync/{format}", format: "json"): SearchAddressBatchSync;
-    (path: "/search/address/batch/{format}", format: "json"): SearchAddressBatch;
-    (path: "/search/address/reverse/batch/sync/{format}", format: "json"): ReverseSearchAddressBatchSync;
-    (path: "/search/address/reverse/batch/{format}", format: "json"): ReverseSearchAddressBatch;
+    (path: "/geocode"): GetGeocoding;
+    (path: "/geocode:batch"): GetGeocodingBatch;
+    (path: "/search/polygon"): GetPolygon;
+    (path: "/reverseGeocode"): GetReverseGeocoding;
+    (path: "/reverseGeocode:batch"): GetReverseGeocodingBatch;
 }
 
 // @public (undocumented)
-export interface SearchAddress {
-    get(options: SearchSearchAddressParameters): StreamableMethod<SearchSearchAddress200Response | SearchSearchAddressDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface SearchAddressBatch {
-    get(options?: SearchGetSearchAddressBatchParameters): StreamableMethod<SearchGetSearchAddressBatch200Response | SearchGetSearchAddressBatch202Response>;
-    post(options: SearchSearchAddressBatchParameters): StreamableMethod<SearchSearchAddressBatch200Response | SearchSearchAddressBatch202Response>;
+export interface SearchGetGeocoding200Headers {
+    "x-ms-request-id"?: string;
 }
 
 // @public
-export interface SearchAddressBatchItemOutput extends BatchResultItemOutput {
-    response: SearchAddressBatchItemResponseOutput;
-}
-
-// @public
-export interface SearchAddressBatchItemResponseOutput extends SearchAddressResultOutput, ErrorResponseOutput {
-}
-
-// @public
-export interface SearchAddressBatchResultOutput extends BatchResultOutput {
-    batchItems: Array<SearchAddressBatchItemOutput>;
-}
-
-// @public (undocumented)
-export interface SearchAddressBatchSync {
-    post(options: SearchSearchAddressBatchSyncParameters): StreamableMethod<SearchSearchAddressBatchSync200Response | SearchSearchAddressBatchSync408Response | SearchSearchAddressBatchSyncDefaultResponse>;
-}
-
-// @public
-export interface SearchAddressResultItemOutput {
-    address: AddressOutput;
-    addressRanges?: AddressRangesOutput;
-    dataSources?: DataSourceOutput;
-    detourTime?: number;
-    dist?: number;
+export interface SearchGetGeocoding200Response extends HttpResponse {
     // (undocumented)
-    entityType?: "Country" | "CountrySubdivision" | "CountrySecondarySubdivision" | "CountryTertiarySubdivision" | "Municipality" | "MunicipalitySubdivision" | "Neighbourhood" | "PostalCodeArea";
-    entryPoints?: Array<EntryPointOutput>;
-    id: string;
-    info?: string;
-    matchType?: "AddressPoint" | "HouseNumberRange" | "Street";
-    poi?: PointOfInterestOutput;
-    position: LatLongPairAbbreviatedOutput;
-    score: number;
-    type: "POI" | "Street" | "Geography" | "Point Address" | "Address Range" | "Cross Street";
-    viewport: BoundingBoxOutput;
-}
-
-// @public
-export interface SearchAddressResultOutput {
-    results: Array<SearchAddressResultItemOutput>;
-    summary: SearchSummaryOutput;
-}
-
-// @public (undocumented)
-export interface SearchAlongRoute {
-    post(options: SearchSearchAlongRouteParameters): StreamableMethod<SearchSearchAlongRoute200Response | SearchSearchAlongRouteDefaultResponse>;
-}
-
-// @public
-export interface SearchAlongRouteRequest {
-    route?: GeoJsonLineString;
-}
-
-// @public
-export interface SearchFuzzySearch200Response extends HttpResponse {
+    body: GeocodingResponseOutput;
     // (undocumented)
-    body: SearchAddressResultOutput;
+    headers: RawHttpHeaders & SearchGetGeocoding200Headers;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface SearchFuzzySearchBatch200Response extends HttpResponse {
+export interface SearchGetGeocodingBatch200Response extends HttpResponse {
     // (undocumented)
-    body: SearchAddressBatchResultOutput;
+    body: GeocodingBatchResponseOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface SearchFuzzySearchBatch202Headers {
-    location?: string;
+export interface SearchGetGeocodingBatchBodyParam {
+    body: GeocodingBatchRequestBody;
 }
 
 // @public
-export interface SearchFuzzySearchBatch202Response extends HttpResponse {
+export interface SearchGetGeocodingBatchDefaultResponse extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
+    body: ErrorResponseOutput;
     // (undocumented)
-    headers: RawHttpHeaders & SearchFuzzySearchBatch202Headers;
-    // (undocumented)
-    status: "202";
+    status: string;
 }
 
 // @public (undocumented)
-export interface SearchFuzzySearchBatchBodyParam {
-    body: BatchRequest;
-}
-
-// @public (undocumented)
-export interface SearchFuzzySearchBatchMediaTypesParam {
+export interface SearchGetGeocodingBatchMediaTypesParam {
     contentType?: "application/json";
 }
 
 // @public (undocumented)
-export type SearchFuzzySearchBatchParameters = SearchFuzzySearchBatchMediaTypesParam & SearchFuzzySearchBatchBodyParam & RequestParameters;
+export type SearchGetGeocodingBatchParameters = SearchGetGeocodingBatchMediaTypesParam & SearchGetGeocodingBatchBodyParam & RequestParameters;
 
 // @public
-export interface SearchFuzzySearchBatchSync200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchFuzzySearchBatchSync408Response extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "408";
-}
-
-// @public (undocumented)
-export interface SearchFuzzySearchBatchSyncBodyParam {
-    body: BatchRequest;
-}
-
-// @public
-export interface SearchFuzzySearchBatchSyncDefaultResponse extends HttpResponse {
+export interface SearchGetGeocodingDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -751,770 +421,122 @@ export interface SearchFuzzySearchBatchSyncDefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export interface SearchFuzzySearchBatchSyncMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchFuzzySearchBatchSyncParameters = SearchFuzzySearchBatchSyncMediaTypesParam & SearchFuzzySearchBatchSyncBodyParam & RequestParameters;
-
-// @public
-export interface SearchFuzzySearchDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchFuzzySearchParameters = SearchFuzzySearchQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchFuzzySearchQueryParam {
-    // (undocumented)
-    queryParameters: SearchFuzzySearchQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchFuzzySearchQueryParamProperties {
-    brandSet?: Array<string>;
-    btmRight?: string;
-    categorySet?: Array<number>;
-    connectorSet?: Array<"StandardHouseholdCountrySpecific" | "IEC62196Type1" | "IEC62196Type1CCS" | "IEC62196Type2CableAttached" | "IEC62196Type2Outlet" | "IEC62196Type2CCS" | "IEC62196Type3" | "Chademo" | "IEC60309AC1PhaseBlue" | "IEC60309DCWhite" | "Tesla">;
-    countrySet?: Array<string>;
-    entityType?: "Country" | "CountrySubdivision" | "CountrySecondarySubdivision" | "CountryTertiarySubdivision" | "Municipality" | "MunicipalitySubdivision" | "Neighbourhood" | "PostalCodeArea";
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    idxSet?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    lat?: number;
-    limit?: number;
-    lon?: number;
-    maxFuzzyLevel?: number;
-    minFuzzyLevel?: number;
-    ofs?: number;
-    openingHours?: "nextSevenDays";
-    query: string;
-    radius?: number;
-    topLeft?: string;
-    typeahead?: boolean;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchGetFuzzySearchBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchGetFuzzySearchBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface SearchGetFuzzySearchBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & SearchGetFuzzySearchBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export type SearchGetFuzzySearchBatchParameters = RequestParameters;
-
-// @public
-export interface SearchGetPointOfInterestCategoryTree200Response extends HttpResponse {
-    // (undocumented)
-    body: PointOfInterestCategoryTreeResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchGetPointOfInterestCategoryTreeDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchGetPointOfInterestCategoryTreeParameters = SearchGetPointOfInterestCategoryTreeQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchGetPointOfInterestCategoryTreeQueryParam {
-    // (undocumented)
-    queryParameters?: SearchGetPointOfInterestCategoryTreeQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchGetPointOfInterestCategoryTreeQueryParamProperties {
-    language?: string;
-}
-
-// @public
-export interface SearchGetReverseSearchAddressBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: ReverseSearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchGetReverseSearchAddressBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface SearchGetReverseSearchAddressBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & SearchGetReverseSearchAddressBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export type SearchGetReverseSearchAddressBatchParameters = RequestParameters;
-
-// @public
-export interface SearchGetSearchAddressBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchGetSearchAddressBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface SearchGetSearchAddressBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & SearchGetSearchAddressBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export type SearchGetSearchAddressBatchParameters = RequestParameters;
-
-// @public (undocumented)
-export interface SearchInsideGeometry {
-    post(options: SearchSearchInsideGeometryParameters): StreamableMethod<SearchSearchInsideGeometry200Response | SearchSearchInsideGeometryDefaultResponse>;
-}
-
-// @public
-export interface SearchInsideGeometryRequest {
-    geometry?: Record<string, unknown>;
-}
-
-// @public
-export interface SearchListPolygons200Response extends HttpResponse {
-    // (undocumented)
-    body: PolygonResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchListPolygonsDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchListPolygonsParameters = SearchListPolygonsQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchListPolygonsQueryParam {
-    // (undocumented)
-    queryParameters: SearchListPolygonsQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchListPolygonsQueryParamProperties {
-    geometries: Array<string>;
-}
-
-// @public (undocumented)
-export interface SearchNearbyPointOfInterest {
-    get(options: SearchSearchNearbyPointOfInterestParameters): StreamableMethod<SearchSearchNearbyPointOfInterest200Response | SearchSearchNearbyPointOfInterestDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface SearchPointOfInterest {
-    get(options: SearchSearchPointOfInterestParameters): StreamableMethod<SearchSearchPointOfInterest200Response | SearchSearchPointOfInterestDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface SearchPointOfInterestCategory {
-    get(options: SearchSearchPointOfInterestCategoryParameters): StreamableMethod<SearchSearchPointOfInterestCategory200Response | SearchSearchPointOfInterestCategoryDefaultResponse>;
-}
-
-// @public
-export interface SearchReverseSearchAddress200Response extends HttpResponse {
-    // (undocumented)
-    body: ReverseSearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchReverseSearchAddressBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: ReverseSearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface SearchReverseSearchAddressBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & SearchReverseSearchAddressBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressBatchBodyParam {
-    body: BatchRequest;
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressBatchMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchReverseSearchAddressBatchParameters = SearchReverseSearchAddressBatchMediaTypesParam & SearchReverseSearchAddressBatchBodyParam & RequestParameters;
-
-// @public
-export interface SearchReverseSearchAddressBatchSync200Response extends HttpResponse {
-    // (undocumented)
-    body: ReverseSearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchReverseSearchAddressBatchSync408Response extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "408";
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressBatchSyncBodyParam {
-    body: BatchRequest;
-}
-
-// @public
-export interface SearchReverseSearchAddressBatchSyncDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressBatchSyncMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchReverseSearchAddressBatchSyncParameters = SearchReverseSearchAddressBatchSyncMediaTypesParam & SearchReverseSearchAddressBatchSyncBodyParam & RequestParameters;
-
-// @public
-export interface SearchReverseSearchAddressDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchReverseSearchAddressParameters = SearchReverseSearchAddressQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressQueryParam {
-    // (undocumented)
-    queryParameters: SearchReverseSearchAddressQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchAddressQueryParamProperties {
-    allowFreeformNewline?: boolean;
-    entityType?: "Country" | "CountrySubdivision" | "CountrySecondarySubdivision" | "CountryTertiarySubdivision" | "Municipality" | "MunicipalitySubdivision" | "Neighbourhood" | "PostalCodeArea";
-    heading?: number;
-    language?: string;
-    number?: string;
-    query: Array<number>;
-    radius?: number;
-    returnMatchType?: boolean;
-    returnRoadUse?: boolean;
-    returnSpeedLimit?: boolean;
-    roadUse?: Array<"LimitedAccess" | "Arterial" | "Terminal" | "Ramp" | "Rotary" | "LocalStreet">;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchReverseSearchCrossStreetAddress200Response extends HttpResponse {
-    // (undocumented)
-    body: ReverseSearchCrossStreetAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchReverseSearchCrossStreetAddressDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchReverseSearchCrossStreetAddressParameters = SearchReverseSearchCrossStreetAddressQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchReverseSearchCrossStreetAddressQueryParam {
-    // (undocumented)
-    queryParameters: SearchReverseSearchCrossStreetAddressQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchReverseSearchCrossStreetAddressQueryParamProperties {
-    heading?: number;
-    language?: string;
-    limit?: number;
-    query: Array<number>;
-    radius?: number;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchAddress200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchAddressBatch200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressBatch202Headers {
-    location?: string;
-}
-
-// @public
-export interface SearchSearchAddressBatch202Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
-    headers: RawHttpHeaders & SearchSearchAddressBatch202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressBatchBodyParam {
-    body: BatchRequest;
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressBatchMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchSearchAddressBatchParameters = SearchSearchAddressBatchMediaTypesParam & SearchSearchAddressBatchBodyParam & RequestParameters;
-
-// @public
-export interface SearchSearchAddressBatchSync200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressBatchResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchAddressBatchSync408Response extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "408";
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressBatchSyncBodyParam {
-    body: BatchRequest;
-}
-
-// @public
-export interface SearchSearchAddressBatchSyncDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressBatchSyncMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchSearchAddressBatchSyncParameters = SearchSearchAddressBatchSyncMediaTypesParam & SearchSearchAddressBatchSyncBodyParam & RequestParameters;
-
-// @public
-export interface SearchSearchAddressDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchSearchAddressParameters = SearchSearchAddressQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchAddressQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchAddressQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchAddressQueryParamProperties {
-    btmRight?: string;
-    countrySet?: Array<string>;
-    entityType?: "Country" | "CountrySubdivision" | "CountrySecondarySubdivision" | "CountryTertiarySubdivision" | "Municipality" | "MunicipalitySubdivision" | "Neighbourhood" | "PostalCodeArea";
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    lat?: number;
-    limit?: number;
-    lon?: number;
-    ofs?: number;
-    query: string;
-    radius?: number;
-    topLeft?: string;
-    typeahead?: boolean;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchAlongRoute200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchSearchAlongRouteBodyParam {
-    body: SearchAlongRouteRequest;
-}
-
-// @public
-export interface SearchSearchAlongRouteDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SearchSearchAlongRouteMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchSearchAlongRouteParameters = SearchSearchAlongRouteQueryParam & SearchSearchAlongRouteMediaTypesParam & SearchSearchAlongRouteBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchAlongRouteQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchAlongRouteQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchAlongRouteQueryParamProperties {
-    brandSet?: Array<string>;
-    categorySet?: Array<number>;
-    connectorSet?: Array<"StandardHouseholdCountrySpecific" | "IEC62196Type1" | "IEC62196Type1CCS" | "IEC62196Type2CableAttached" | "IEC62196Type2Outlet" | "IEC62196Type2CCS" | "IEC62196Type3" | "Chademo" | "IEC60309AC1PhaseBlue" | "IEC60309DCWhite" | "Tesla">;
-    limit?: number;
-    maxDetourTime: number;
-    openingHours?: "nextSevenDays";
-    query: string;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchInsideGeometry200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface SearchSearchInsideGeometryBodyParam {
-    body: SearchInsideGeometryRequest;
-}
-
-// @public
-export interface SearchSearchInsideGeometryDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface SearchSearchInsideGeometryMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type SearchSearchInsideGeometryParameters = SearchSearchInsideGeometryQueryParam & SearchSearchInsideGeometryMediaTypesParam & SearchSearchInsideGeometryBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchInsideGeometryQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchInsideGeometryQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchInsideGeometryQueryParamProperties {
-    categorySet?: Array<number>;
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    idxSet?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    limit?: number;
-    openingHours?: "nextSevenDays";
-    query: string;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchNearbyPointOfInterest200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchNearbyPointOfInterestDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchSearchNearbyPointOfInterestParameters = SearchSearchNearbyPointOfInterestQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchNearbyPointOfInterestQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchNearbyPointOfInterestQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchNearbyPointOfInterestQueryParamProperties {
-    brandSet?: Array<string>;
-    categorySet?: Array<number>;
-    connectorSet?: Array<"StandardHouseholdCountrySpecific" | "IEC62196Type1" | "IEC62196Type1CCS" | "IEC62196Type2CableAttached" | "IEC62196Type2Outlet" | "IEC62196Type2CCS" | "IEC62196Type3" | "Chademo" | "IEC60309AC1PhaseBlue" | "IEC60309DCWhite" | "Tesla">;
-    countrySet?: Array<string>;
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    lat: number;
-    limit?: number;
-    lon: number;
-    ofs?: number;
-    radius?: number;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchPointOfInterest200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchPointOfInterestCategory200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchPointOfInterestCategoryDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchSearchPointOfInterestCategoryParameters = SearchSearchPointOfInterestCategoryQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchPointOfInterestCategoryQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchPointOfInterestCategoryQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchPointOfInterestCategoryQueryParamProperties {
-    brandSet?: Array<string>;
-    btmRight?: string;
-    categorySet?: Array<number>;
-    connectorSet?: Array<"StandardHouseholdCountrySpecific" | "IEC62196Type1" | "IEC62196Type1CCS" | "IEC62196Type2CableAttached" | "IEC62196Type2Outlet" | "IEC62196Type2CCS" | "IEC62196Type3" | "Chademo" | "IEC60309AC1PhaseBlue" | "IEC60309DCWhite" | "Tesla">;
-    countrySet?: Array<string>;
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    lat?: number;
-    limit?: number;
-    lon?: number;
-    ofs?: number;
-    openingHours?: "nextSevenDays";
-    query: string;
-    radius?: number;
-    topLeft?: string;
-    typeahead?: boolean;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchPointOfInterestDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchSearchPointOfInterestParameters = SearchSearchPointOfInterestQueryParam & RequestParameters;
-
-// @public (undocumented)
-export interface SearchSearchPointOfInterestQueryParam {
-    // (undocumented)
-    queryParameters: SearchSearchPointOfInterestQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface SearchSearchPointOfInterestQueryParamProperties {
-    brandSet?: Array<string>;
-    btmRight?: string;
-    categorySet?: Array<number>;
-    connectorSet?: Array<"StandardHouseholdCountrySpecific" | "IEC62196Type1" | "IEC62196Type1CCS" | "IEC62196Type2CableAttached" | "IEC62196Type2Outlet" | "IEC62196Type2CCS" | "IEC62196Type3" | "Chademo" | "IEC60309AC1PhaseBlue" | "IEC60309DCWhite" | "Tesla">;
-    countrySet?: Array<string>;
-    extendedPostalCodesFor?: Array<"POI" | "None">;
-    language?: string;
-    lat?: number;
-    limit?: number;
-    lon?: number;
-    ofs?: number;
-    openingHours?: "nextSevenDays";
-    query: string;
-    radius?: number;
-    topLeft?: string;
-    typeahead?: boolean;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public
-export interface SearchSearchStructuredAddress200Response extends HttpResponse {
-    // (undocumented)
-    body: SearchAddressResultOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface SearchSearchStructuredAddressDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type SearchSearchStructuredAddressParameters = SearchSearchStructuredAddressQueryParam & RequestParameters;
+export type SearchGetGeocodingParameters = SearchGetGeocodingQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface SearchSearchStructuredAddressQueryParam {
+export interface SearchGetGeocodingQueryParam {
     // (undocumented)
-    queryParameters: SearchSearchStructuredAddressQueryParamProperties;
+    queryParameters?: SearchGetGeocodingQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface SearchSearchStructuredAddressQueryParamProperties {
-    countryCode: string;
-    countrySecondarySubdivision?: string;
-    countrySubdivision?: string;
-    countryTertiarySubdivision?: string;
-    crossStreet?: string;
-    entityType?: "Country" | "CountrySubdivision" | "CountrySecondarySubdivision" | "CountryTertiarySubdivision" | "Municipality" | "MunicipalitySubdivision" | "Neighbourhood" | "PostalCodeArea";
-    extendedPostalCodesFor?: Array<"Addr" | "Geo" | "PAD" | "POI" | "Str" | "Xstr">;
-    language?: string;
-    limit?: number;
-    municipality?: string;
-    municipalitySubdivision?: string;
-    ofs?: number;
+export interface SearchGetGeocodingQueryParamProperties {
+    addressLine?: string;
+    adminDistrict?: string;
+    adminDistrict2?: string;
+    adminDistrict3?: string;
+    bbox?: Array<number>;
+    coordinates?: Array<number>;
+    countryRegion?: string;
+    locality?: string;
     postalCode?: string;
-    streetName?: string;
-    streetNumber?: string;
-    view?: "AE" | "AR" | "BH" | "IN" | "IQ" | "JO" | "KW" | "LB" | "MA" | "OM" | "PK" | "PS" | "QA" | "SA" | "SY" | "YE" | "Auto" | "Unified";
-}
-
-// @public (undocumented)
-export interface SearchStructuredAddress {
-    get(options: SearchSearchStructuredAddressParameters): StreamableMethod<SearchSearchStructuredAddress200Response | SearchSearchStructuredAddressDefaultResponse>;
+    query?: string;
+    top?: number;
+    view?: string;
 }
 
 // @public
-export interface SearchSummaryOutput {
-    fuzzyLevel?: number;
-    geoBias?: LatLongPairAbbreviatedOutput;
-    numResults: number;
-    offset?: number;
-    query?: string;
-    queryTime: number;
-    queryType?: "NEARBY" | "NON_NEAR";
-    totalResults?: number;
+export interface SearchGetPolygon200Response extends HttpResponse {
+    // (undocumented)
+    body: BoundaryOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface SearchGetPolygonDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type SearchGetPolygonParameters = SearchGetPolygonQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface SearchGetPolygonQueryParam {
+    // (undocumented)
+    queryParameters: SearchGetPolygonQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface SearchGetPolygonQueryParamProperties {
+    coordinates: Array<number>;
+    resolution?: "small" | "medium" | "large" | "huge";
+    resultType?: "countryRegion" | "adminDistrict" | "adminDistrict2" | "postalCode" | "postalCode2" | "postalCode3" | "postalCode4" | "neighborhood" | "locality";
+    view?: string;
+}
+
+// @public
+export interface SearchGetReverseGeocoding200Response extends HttpResponse {
+    // (undocumented)
+    body: GeocodingResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface SearchGetReverseGeocodingBatch200Response extends HttpResponse {
+    // (undocumented)
+    body: GeocodingBatchResponseOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface SearchGetReverseGeocodingBatchBodyParam {
+    body: ReverseGeocodingBatchRequestBody;
+}
+
+// @public
+export interface SearchGetReverseGeocodingBatchDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface SearchGetReverseGeocodingBatchMediaTypesParam {
+    contentType?: "application/json";
+}
+
+// @public (undocumented)
+export type SearchGetReverseGeocodingBatchParameters = SearchGetReverseGeocodingBatchMediaTypesParam & SearchGetReverseGeocodingBatchBodyParam & RequestParameters;
+
+// @public
+export interface SearchGetReverseGeocodingDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type SearchGetReverseGeocodingParameters = SearchGetReverseGeocodingQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface SearchGetReverseGeocodingQueryParam {
+    // (undocumented)
+    queryParameters: SearchGetReverseGeocodingQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface SearchGetReverseGeocodingQueryParamProperties {
+    coordinates: Array<number>;
+    resultTypes?: Array<"Address" | "Neighborhood" | "PopulatedPlace" | "Postcode1" | "AdminDivision1" | "AdminDivision2" | "CountryRegion">;
+    view?: string;
 }
 
 // (No @packageDocumentation comment for this package)

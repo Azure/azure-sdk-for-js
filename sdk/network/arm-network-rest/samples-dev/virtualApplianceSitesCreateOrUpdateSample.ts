@@ -42,7 +42,7 @@ async function createNetworkVirtualApplianceSite() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      siteName
+      siteName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

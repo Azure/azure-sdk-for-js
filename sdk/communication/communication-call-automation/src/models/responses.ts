@@ -22,22 +22,16 @@ import { AbortSignalLike } from "@azure/abort-controller";
  * CreateCall result
  */
 export interface CreateCallResult {
-  /*
-   * The callConnectionProperties
-   */
+  /** The callConnectionProperties */
   callConnectionProperties: CallConnectionProperties;
 
-  /*
-   * The callConnection
-   */
+  /** The callConnection */
   callConnection: CallConnection;
 
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<CreateCallEventResult>;
 }
 
@@ -45,22 +39,16 @@ export interface CreateCallResult {
  * AnswerCall result
  */
 export interface AnswerCallResult {
-  /*
-   * The callConnectionProperties
-   */
+  /** The callConnectionProperties */
   callConnectionProperties: CallConnectionProperties;
 
-  /*
-   * The callConnection
-   */
+  /** The callConnection */
   callConnection: CallConnection;
 
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<AnswerCallEventResult>;
 }
 
@@ -80,12 +68,10 @@ export interface AddParticipantResult {
   participant?: CallParticipant;
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<AddParticipantEventResult>;
 }
 
@@ -93,12 +79,10 @@ export interface AddParticipantResult {
 export interface TransferCallResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<TransferCallToParticipantEventResult>;
 }
 
@@ -106,17 +90,15 @@ export interface TransferCallResult {
 export interface RemoveParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<RemoveParticipantEventResult>;
 }
 
-/** The response payload for muting participants from the call. */
-export interface MuteParticipantsResult {
+/** The response payload for muting participant from the call. */
+export interface MuteParticipantResult {
   /** The operation context provided by client. */
   operationContext?: string;
 }
@@ -129,59 +111,51 @@ export interface RecordingStateResult {
 
 /** The response payload for starting a call recording or getting call recording state. */
 export interface CancelAllMediaOperationsResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<CancelAllMediaOperationsEventResult>;
 }
 
 /** The response from play. */
 export interface PlayResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<PlayEventResult>;
 }
 
-/** The response from send dtmf. */
-export interface SendDtmfResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+/** The response payload for sending DTMF tones. */
+export interface SendDtmfTonesResult {
+  /** The operation context provided by client. */
+  operationContext?: string;
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<SendDtmfEventResult>;
 }
 
 /** The response from recognizing. */
 export interface StartRecognizingResult {
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<StartRecognizingEventResult>;
 }
 
 /** The response payload for cancelling add participant request. */
-export interface CancelAddParticipantResult {
+export interface CancelAddParticipantOperationResult {
   /** the invitation ID used to cancel the add participant request. */
   invitationId?: string;
   /** The operation context provided by client. */
   operationContext?: string;
-  /*
-   * Waiting for event processor to process the event
-   */
+  /** Waiting for event processor to process the event */
   waitForEventProcessor(
     abortSignal?: AbortSignalLike,
-    timeoutInMs?: number
+    timeoutInMs?: number,
   ): Promise<CancelAddParticipantEventResult>;
 }

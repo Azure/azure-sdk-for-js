@@ -15,7 +15,7 @@ import yargsParser from "yargs-parser";
 export const extractConfigFromArgs = <TConfig extends Configs>(
   argv: yargsParser.Arguments,
   validateConfig: Validate<TConfig>,
-  red: (msg: string) => void
+  red: (msg: string) => void,
 ): { configPartial: Partial<TConfig>; missing: boolean } => {
   const configPartial: Partial<TConfig> = {};
   let missing: boolean = false;
@@ -44,14 +44,14 @@ export const extractConfigFromArgs = <TConfig extends Configs>(
 export type Log = (msg: string) => void;
 type Config = <C extends Configs>(
   promptForConfig: (partial: Partial<C>) => Promise<C>,
-  validateConfig: ReplaceTypesPreserveOptional<C, ValidateFnc>
+  validateConfig: ReplaceTypesPreserveOptional<C, ValidateFnc>,
 ) => Promise<C>;
 
 export const buildGetConfig = (gray: Log, red: Log): Config => {
   const argv = yargsParser(hideBin(process.argv));
   return async <C extends Configs>(
     promptForConfig: (partial: Partial<C>) => Promise<C>,
-    validateConfig: Validate<C>
+    validateConfig: Validate<C>,
   ) => {
     const { configPartial, missing } = extractConfigFromArgs(argv, validateConfig, red);
 
@@ -60,7 +60,7 @@ export const buildGetConfig = (gray: Log, red: Log): Config => {
     } else {
       gray("Retrieved from the command parameters");
       Object.entries(configPartial).forEach(
-        ([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`)
+        ([key, value]) => value != null && gray(`${fieldIdToName[key] ?? key}: ${value}`),
       );
       return configPartial as C;
     }

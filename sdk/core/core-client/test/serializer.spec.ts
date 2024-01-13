@@ -45,7 +45,7 @@ describe("Serializer", function () {
           name: "testProduct",
           maxProductDisplayName: "MaxDisplayName",
         },
-        "SimpleProduct"
+        "SimpleProduct",
       );
 
       assert.deepEqual(serialized, expected);
@@ -68,7 +68,7 @@ describe("Serializer", function () {
           name: "testProduct",
           maxProductDisplayName: "MaxDisplayName",
         },
-        "SimpleProduct"
+        "SimpleProduct",
       );
 
       assert.deepEqual(serialized, expected);
@@ -168,7 +168,7 @@ describe("Serializer", function () {
       } catch (error: any) {
         assert.match(
           error.message,
-          /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/gi
+          /6 is not a valid value for enumBody\. The valid values are: \[1,2,3,4\]/gi,
         );
       }
     });
@@ -205,7 +205,7 @@ describe("Serializer", function () {
       const serializedDateString = Serializer.serialize(
         mapper,
         new Date("9999-12-31T23:59:59-12:00"),
-        "dateTimeObj"
+        "dateTimeObj",
       );
       assert.equal(serializedDateString, "+010000-01-01T11:59:59.000Z");
     });
@@ -219,7 +219,7 @@ describe("Serializer", function () {
       const serializedDate = Serializer.serialize(
         mapper,
         new Date("9999-12-31T23:59:59-12:00"),
-        "dateTimeObj"
+        "dateTimeObj",
       );
       assert.equal(serializedDate, 253402343999);
     });
@@ -518,19 +518,19 @@ describe("Serializer", function () {
         } else if (prop === "dispatchTime") {
           assert.equal(
             JSON.stringify(serializedProduct[prop]),
-            JSON.stringify(productObj.dispatchTime)
+            JSON.stringify(productObj.dispatchTime),
           );
         } else if (prop === "invoiceInfo") {
           assert.equal(
             JSON.stringify(serializedProduct[prop]).length -
               JSON.stringify(productObj.invoiceInfo).length,
-            4
+            4,
           );
         } else if (prop === "subProducts") {
           assert.equal(
             JSON.stringify(serializedProduct[prop]).length -
               JSON.stringify(productObj.subProducts).length,
-            8
+            8,
           );
         }
       }
@@ -572,13 +572,13 @@ describe("Serializer", function () {
       assert.equal(serializedSawshark.siblings[0].age, 6);
       assert.equal(
         serializedSawshark.siblings[0].birthday,
-        new Date("2012-01-05T01:00:00Z").toISOString()
+        new Date("2012-01-05T01:00:00Z").toISOString(),
       );
       assert.equal(serializedSawshark.siblings[1]["fish.type"], "sawshark");
       assert.equal(serializedSawshark.siblings[1].age, 105);
       assert.equal(
         serializedSawshark.siblings[1].birthday,
-        new Date("1900-01-05T01:00:00Z").toISOString()
+        new Date("1900-01-05T01:00:00Z").toISOString(),
       );
       assert.equal(serializedSawshark.siblings[1].picture, "//////4=");
       assert.equal(serializedSawshark.picture, "//////4=");
@@ -992,7 +992,7 @@ describe("Serializer", function () {
         if (prop === "provisioningState") {
           assert.equal(
             deserializedProduct.provisioningState,
-            responseBody.properties.provisioningState
+            responseBody.properties.provisioningState,
           );
         } else if (prop === "id") {
           assert.equal(deserializedProduct[prop], responseBody.id);
@@ -1001,24 +1001,24 @@ describe("Serializer", function () {
         } else if (prop === "tags") {
           assert.equal(
             JSON.stringify(deserializedProduct[prop]),
-            JSON.stringify(responseBody.tags)
+            JSON.stringify(responseBody.tags),
           );
         } else if (prop === "dispatchTime") {
           assert.equal(
             JSON.stringify(deserializedProduct[prop]),
-            JSON.stringify(responseBody.dispatchTime)
+            JSON.stringify(responseBody.dispatchTime),
           );
         } else if (prop === "invoiceInfo") {
           assert.equal(
             JSON.stringify(deserializedProduct[prop]).length -
               JSON.stringify(responseBody.invoiceInfo).length,
-            10
+            10,
           );
         } else if (prop === "subProducts") {
           assert.equal(
             JSON.stringify(deserializedProduct[prop]).length -
               JSON.stringify(responseBody.subProducts).length,
-            20
+            20,
           );
         }
       }
@@ -1183,13 +1183,13 @@ describe("Serializer", function () {
       assert.equal(deserializedSawshark.siblings[0].age, 6);
       assert.equal(
         deserializedSawshark.siblings[0].birthday.toISOString(),
-        "2012-01-05T01:00:00.000Z"
+        "2012-01-05T01:00:00.000Z",
       );
       assert.equal(deserializedSawshark.siblings[1].fishtype, "sawshark");
       assert.equal(deserializedSawshark.siblings[1].age, 105);
       assert.equal(
         deserializedSawshark.siblings[1].birthday.toISOString(),
-        "1900-01-05T01:00:00.000Z"
+        "1900-01-05T01:00:00.000Z",
       );
     });
 
@@ -1398,7 +1398,7 @@ describe("Serializer", function () {
             fishtype: "shark",
             age: 10,
           },
-          ""
+          "",
         );
 
         assert.strictEqual("shark", result.fishtype);
@@ -1476,7 +1476,7 @@ describe("Serializer", function () {
             age: 10,
             sibling: { fishtype: "shark", age: 15 },
           },
-          ""
+          "",
         );
 
         assert.strictEqual("shark", result.fishtype);
@@ -1552,7 +1552,7 @@ describe("Serializer", function () {
             age: 10,
             sibling: { fishtype: "shark", age: 15 },
           },
-          ""
+          "",
         );
 
         assert.strictEqual("shark", result.fishtype);
@@ -1614,7 +1614,7 @@ describe("Serializer", function () {
         const result: any = serializer.deserialize(
           blobServiceProperties,
           { Cors: "" },
-          "mockedBlobServiceProperties"
+          "mockedBlobServiceProperties",
         );
 
         assert.deepEqual(result, { cors: [] });
@@ -1654,7 +1654,7 @@ describe("Serializer", function () {
         const result: any = serializer.deserialize(
           stringEncoded,
           { $: { Encoded: true }, _: "dir%EF%BF%BE0166562954291707607" },
-          "mockedStringEncoded"
+          "mockedStringEncoded",
         );
 
         assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
@@ -1694,7 +1694,7 @@ describe("Serializer", function () {
         const result: any = serializer.deserialize(
           stringEncoded,
           "justastring",
-          "mockedStringEncoded"
+          "mockedStringEncoded",
         );
 
         assert.equal(result.content, "justastring");
@@ -1738,7 +1738,7 @@ describe("Serializer", function () {
           "mockedStringEncoded",
           {
             xml: { xmlCharKey: "#" },
-          }
+          },
         );
 
         assert.deepEqual(result, { encoded: true, content: "dir%EF%BF%BE0166562954291707607" });
@@ -1800,7 +1800,7 @@ describe("Serializer", function () {
         const result: any = serializer.deserialize(
           FilesAndDirectoriesListSegment,
           value,
-          "mockedEntries"
+          "mockedEntries",
         );
 
         assert.deepEqual(result, { directoryItems: [{ name: "d1" }, { name: "d2" }] });
@@ -2092,7 +2092,7 @@ describe("Serializer", function () {
       const result = MediaSerializer.deserialize(
         MediaMappers.Job,
         serializedPayload,
-        "anyResponseBody"
+        "anyResponseBody",
       );
       // This can fail by "@odata.type" properties not turning into odataType
       assert.deepStrictEqual(result, {

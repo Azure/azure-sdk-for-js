@@ -42,7 +42,7 @@ async function addSharingIdToTheSharingProfileOfAGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -72,7 +72,7 @@ async function resetSharingProfileOfAGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -102,7 +102,7 @@ async function shareAGalleryToCommunity() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/share",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

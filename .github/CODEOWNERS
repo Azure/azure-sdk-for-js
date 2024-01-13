@@ -92,7 +92,7 @@
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @ozgurcivi-msft @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
+/sdk/communication/communication-sms/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
 
 # PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @danielav7
@@ -104,10 +104,10 @@
 /sdk/containerregistry/ @jeremymeng @timovv @Azure/azsdk-acr
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT @simorenoh @v1k1
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms @simorenoh @v1k1
+#/<NotInRepo>/ @sajeetharan @pjohari-ms @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
@@ -258,6 +258,9 @@
 /sdk/batch/arm-batch/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/baremetalinfrastructure/arm-baremetalinfrastructure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/billing/arm-billing/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -327,6 +330,9 @@
 /sdk/databox/arm-databox/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dashboard/arm-dashboard/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/databoxedge/arm-databoxedge/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -351,10 +357,16 @@
 /sdk/datamigration/arm-datamigration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/dataprotection/arm-dataprotection/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/deploymentmanager/arm-deploymentmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/deviceprovisioningservices/arm-deviceprovisioningservices/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/deviceupdate/arm-deviceupdate/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/devspaces/arm-devspaces/ @qiaozha @MaryGao
@@ -416,7 +428,13 @@
 /sdk/hybridcompute/arm-hybridcompute/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/hybridcontainerservice/arm-hybridcontainerservice/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/hybridconnectivity/arm-hybridconnectivity/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hybridkubernetes/arm-hybridkubernetes/ @qiaozha @MaryGao
@@ -482,6 +500,9 @@
 /sdk/managednetworkfabric/arm-managednetworkfabric/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/mobilenetwork/arm-mobilenetwork/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/managementgroups/arm-managementgroups/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -521,6 +542,9 @@
 /sdk/netapp/arm-netapp/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/nginx/arm-nginx/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/network/arm-network/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -528,6 +552,9 @@
 
 # PRLabel: %Mgmt
 /sdk/networkcloud/arm-networkcloud/      @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/networkanalytics/arm-networkanalytics/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/network/arm-network-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
@@ -632,6 +659,9 @@
 /sdk/service-map/arm-servicemap/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/servicenetworking/arm-servicenetworking/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/servicebus/arm-servicebus/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -642,6 +672,9 @@
 
 # PRLabel: %Mgmt
 /sdk/servicefabricmesh/arm-servicefabricmesh/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/selfhelp/arm-selfhelp/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/signalr/arm-signalr/ @qiaozha @MaryGao
@@ -1129,7 +1162,7 @@
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
+#/<NotInRepo>/          @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai

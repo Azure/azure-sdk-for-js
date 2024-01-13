@@ -27,11 +27,12 @@ import {
   StopTranscriptionRequest as StopTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
-  SendDtmfRequest as SendDtmfRequestMapper,
-  UpdateTranscriptionDataRequest as UpdateTranscriptionDataRequestMapper,
+  SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
+  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
+  UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
 
@@ -79,7 +80,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-01-15-preview",
+    defaultValue: "2023-10-03-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -212,14 +213,14 @@ export const continuousDtmfRecognitionRequest: OperationParameter = {
   mapper: ContinuousDtmfRecognitionRequestMapper
 };
 
-export const sendDtmfRequest: OperationParameter = {
-  parameterPath: "sendDtmfRequest",
-  mapper: SendDtmfRequestMapper
+export const sendDtmfTonesRequest: OperationParameter = {
+  parameterPath: "sendDtmfTonesRequest",
+  mapper: SendDtmfTonesRequestMapper
 };
 
-export const updateTranscriptionDataRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionDataRequest",
-  mapper: UpdateTranscriptionDataRequestMapper
+export const updateTranscriptionRequest: OperationParameter = {
+  parameterPath: "updateTranscriptionRequest",
+  mapper: UpdateTranscriptionRequestMapper
 };
 
 export const startHoldMusicRequest: OperationParameter = {
@@ -246,6 +247,21 @@ export const dialogId: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const operationCallbackUri: OperationQueryParameter = {
+  parameterPath: ["options", "operationCallbackUri"],
+  mapper: {
+    serializedName: "operationCallbackUri",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateDialogRequest: OperationParameter = {
+  parameterPath: "updateDialogRequest",
+  mapper: UpdateDialogRequestMapper
 };
 
 export const startCallRecording: OperationParameter = {

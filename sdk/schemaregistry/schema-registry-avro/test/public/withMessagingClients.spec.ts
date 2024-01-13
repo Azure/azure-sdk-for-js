@@ -57,7 +57,7 @@ describe("With messaging clients", function () {
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
         eventHubsConnectionString,
-      })
+      }),
     );
     client.initialize();
     return client;
@@ -145,7 +145,7 @@ describe("With messaging clients", function () {
             await processMessage(
               serializer.deserialize(receivedMessage, {
                 schema: readerSchema,
-              })
+              }),
             );
           } catch (e: any) {
             errors.push({
@@ -158,7 +158,7 @@ describe("With messaging clients", function () {
         if (errors.length > 0) {
           throw new Error(
             "The following error(s) occurred:\n" +
-              errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
+              errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
           );
         }
       }

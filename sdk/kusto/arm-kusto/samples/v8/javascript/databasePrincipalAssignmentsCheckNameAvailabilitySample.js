@@ -34,7 +34,7 @@ async function kustoDatabaseCheckNameAvailability() {
     resourceGroupName,
     clusterName,
     databaseName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }

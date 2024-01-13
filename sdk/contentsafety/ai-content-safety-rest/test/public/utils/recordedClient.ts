@@ -13,7 +13,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 // import { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
-  CONTENT_SAFETY_ENDPOINT: "https://endpoint",
+  CONTENT_SAFETY_ENDPOINT: "https://endpoint/",
   CONTENT_SAFETY_API_KEY: "fake_key",
 };
 

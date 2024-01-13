@@ -30,7 +30,7 @@ async function endpointServicesList() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/virtualNetworkAvailableEndpointServices",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

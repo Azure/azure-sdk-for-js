@@ -29,7 +29,7 @@ async function attachedDatabaseConfigurationsGet() {
   const result = await client.attachedDatabaseConfigurations.get(
     resourceGroupName,
     clusterName,
-    attachedDatabaseConfigurationName
+    attachedDatabaseConfigurationName,
   );
   console.log(result);
 }

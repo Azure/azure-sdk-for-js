@@ -45,7 +45,7 @@ describe.skip("MetricsBatchClient live tests", function () {
     const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
       resourceIds,
       metricsNamespace,
-      metricNames
+      metricNames,
     );
     assert.equal(result.length, 2);
   });
@@ -54,7 +54,7 @@ describe.skip("MetricsBatchClient live tests", function () {
     const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
       [resourceIds[0]],
       metricsNamespace,
-      metricNames
+      metricNames,
     );
     assert.equal(result.length, 1);
   });

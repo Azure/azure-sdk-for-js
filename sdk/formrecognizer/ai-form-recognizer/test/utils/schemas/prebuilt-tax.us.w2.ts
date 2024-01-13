@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from IRS US W2 tax forms (year 2018-current).
  */
 export const PrebuiltTaxUsW2Model = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltTaxUsW2Result>;
 
 export interface PrebuiltTaxUsW2Result extends fr.AnalyzeResultCommon {

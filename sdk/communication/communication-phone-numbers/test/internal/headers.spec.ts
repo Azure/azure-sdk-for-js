@@ -44,7 +44,7 @@ describe("PhoneNumbersClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g"),
     );
   });
 
@@ -57,7 +57,7 @@ describe("PhoneNumbersClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -74,7 +74,7 @@ describe("PhoneNumbersClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -113,8 +113,8 @@ describe("PhoneNumbersClient - headers", function () {
       request.headers.get(userAgentHeader) as string,
       new RegExp(
         `phonenumbersclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
-        "g"
-      )
+        "g",
+      ),
     );
   });
 });

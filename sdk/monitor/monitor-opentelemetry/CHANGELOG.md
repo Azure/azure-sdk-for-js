@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Implement browser SDK loader.
+- Use OpenTelemetry resource detectors for App Service, Functions, and VM.
+
 ### Breaking Changes
 
 ### Bugs Fixed

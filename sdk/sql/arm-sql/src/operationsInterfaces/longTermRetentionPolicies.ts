@@ -52,7 +52,7 @@ export interface LongTermRetentionPolicies {
     options?: LongTermRetentionPoliciesGetOptionalParams
   ): Promise<LongTermRetentionPoliciesGetResponse>;
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
@@ -75,7 +75,7 @@ export interface LongTermRetentionPolicies {
     >
   >;
   /**
-   * Sets a database's long term retention policy.
+   * Set or update a database's long term retention policy.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.

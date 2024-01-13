@@ -6,9 +6,185 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
+import { SimplePollerLike } from '@azure/core-lro';
+
+// @public
+export interface Access {
+    inviteUser(resourceGroupName: string, organizationName: string, body: AccessInviteUserAccountModel, options?: AccessInviteUserOptionalParams): Promise<AccessInviteUserResponse>;
+    listClusters(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListClustersOptionalParams): Promise<AccessListClustersResponse>;
+    listEnvironments(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListEnvironmentsOptionalParams): Promise<AccessListEnvironmentsResponse>;
+    listInvitations(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListInvitationsOptionalParams): Promise<AccessListInvitationsResponse>;
+    listRoleBindings(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListRoleBindingsOptionalParams): Promise<AccessListRoleBindingsResponse>;
+    listServiceAccounts(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListServiceAccountsOptionalParams): Promise<AccessListServiceAccountsResponse>;
+    listUsers(resourceGroupName: string, organizationName: string, body: ListAccessRequestModel, options?: AccessListUsersOptionalParams): Promise<AccessListUsersResponse>;
+}
+
+// @public
+export interface AccessInvitedUserDetails {
+    authType?: string;
+    invitedEmail?: string;
+}
+
+// @public
+export interface AccessInviteUserAccountModel {
+    email?: string;
+    invitedUserDetails?: AccessInvitedUserDetails;
+    organizationId?: string;
+    upn?: string;
+}
+
+// @public
+export interface AccessInviteUserOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessInviteUserResponse = InvitationRecord;
+
+// @public
+export interface AccessListClustersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListClustersResponse = AccessListClusterSuccessResponse;
+
+// @public
+export interface AccessListClusterSuccessResponse {
+    data?: ClusterRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListEnvironmentsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListEnvironmentsResponse = AccessListEnvironmentsSuccessResponse;
+
+// @public
+export interface AccessListEnvironmentsSuccessResponse {
+    data?: EnvironmentRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListInvitationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListInvitationsResponse = AccessListInvitationsSuccessResponse;
+
+// @public
+export interface AccessListInvitationsSuccessResponse {
+    data?: InvitationRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListRoleBindingsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListRoleBindingsResponse = AccessListRoleBindingsSuccessResponse;
+
+// @public
+export interface AccessListRoleBindingsSuccessResponse {
+    data?: RoleBindingRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListServiceAccountsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListServiceAccountsResponse = AccessListServiceAccountsSuccessResponse;
+
+// @public
+export interface AccessListServiceAccountsSuccessResponse {
+    data?: ServiceAccountRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface AccessListUsersOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccessListUsersResponse = AccessListUsersSuccessResponse;
+
+// @public
+export interface AccessListUsersSuccessResponse {
+    data?: UserRecord[];
+    kind?: string;
+    metadata?: ConfluentListMetadata;
+}
+
+// @public
+export interface ClusterByokEntity {
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterConfigEntity {
+    kind?: string;
+}
+
+// @public
+export interface ClusterEnvironmentEntity {
+    environment?: string;
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterNetworkEntity {
+    environment?: string;
+    id?: string;
+    related?: string;
+    resourceName?: string;
+}
+
+// @public
+export interface ClusterRecord {
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    spec?: ClusterSpecEntity;
+    status?: ClusterStatusEntity;
+}
+
+// @public
+export interface ClusterSpecEntity {
+    apiEndpoint?: string;
+    availability?: string;
+    byok?: ClusterByokEntity;
+    cloud?: string;
+    config?: ClusterConfigEntity;
+    displayName?: string;
+    environment?: ClusterEnvironmentEntity;
+    httpEndpoint?: string;
+    kafkaBootstrapEndpoint?: string;
+    network?: ClusterNetworkEntity;
+    region?: string;
+    zone?: string;
+}
+
+// @public
+export interface ClusterStatusEntity {
+    cku?: number;
+    phase?: string;
+}
 
 // @public
 export interface ConfluentAgreementResource {
@@ -32,11 +208,23 @@ export interface ConfluentAgreementResourceListResponse {
     value?: ConfluentAgreementResource[];
 }
 
+// @public
+export interface ConfluentListMetadata {
+    first?: string;
+    last?: string;
+    next?: string;
+    prev?: string;
+    totalSize?: number;
+}
+
 // @public (undocumented)
 export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ConfluentManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: ConfluentManagementClientOptionalParams);
+    // (undocumented)
+    access: Access;
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -46,7 +234,7 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     organizationOperations: OrganizationOperations;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     validations: Validations;
 }
@@ -62,6 +250,14 @@ export interface ConfluentManagementClientOptionalParams extends coreClient.Serv
 export type CreatedByType = string;
 
 // @public
+export interface EnvironmentRecord {
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
+
+// @public
 export interface ErrorResponseBody {
     readonly code?: string;
     readonly details?: ErrorResponseBody[];
@@ -71,6 +267,18 @@ export interface ErrorResponseBody {
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
+
+// @public
+export interface InvitationRecord {
+    acceptedAt?: string;
+    authType?: string;
+    email?: string;
+    expiresAt?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    status?: string;
+}
 
 // @public
 export enum KnownCreatedByType {
@@ -108,6 +316,18 @@ export enum KnownSaaSOfferStatus {
 }
 
 // @public
+export interface LinkOrganization {
+    token: string;
+}
+
+// @public
+export interface ListAccessRequestModel {
+    searchFilters?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export interface MarketplaceAgreements {
     create(options?: MarketplaceAgreementsCreateOptionalParams): Promise<MarketplaceAgreementsCreateResponse>;
     list(options?: MarketplaceAgreementsListOptionalParams): PagedAsyncIterableIterator<ConfluentAgreementResource>;
@@ -136,12 +356,24 @@ export interface MarketplaceAgreementsListOptionalParams extends coreClient.Oper
 export type MarketplaceAgreementsListResponse = ConfluentAgreementResourceListResponse;
 
 // @public
+export interface MetadataEntity {
+    createdAt?: string;
+    deletedAt?: string;
+    resourceName?: string;
+    self?: string;
+    updatedAt?: string;
+}
+
+// @public
 export interface OfferDetail {
     id: string;
     planId: string;
     planName: string;
+    privateOfferId?: string;
+    privateOfferIds?: string[];
     publisherId: string;
-    readonly status?: SaaSOfferStatus;
+    status?: SaaSOfferStatus;
+    termId?: string;
     termUnit: string;
 }
 
@@ -168,9 +400,9 @@ export interface OperationResult {
 
 // @public
 export interface Organization {
-    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<PollerLike<PollOperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
+    beginCreate(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<SimplePollerLike<OperationState<OrganizationCreateResponse>, OrganizationCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationCreateOptionalParams): Promise<OrganizationCreateResponse>;
-    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, organizationName: string, options?: OrganizationDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, organizationName: string, options?: OrganizationGetOptionalParams): Promise<OrganizationGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: OrganizationListByResourceGroupOptionalParams): PagedAsyncIterableIterator<OrganizationResource>;
@@ -252,6 +484,7 @@ export type OrganizationOperationsListResponse = OperationListResult;
 export interface OrganizationResource {
     readonly createdTime?: Date;
     readonly id?: string;
+    linkOrganization?: LinkOrganization;
     location?: string;
     readonly name?: string;
     offerDetail: OfferDetail;
@@ -296,7 +529,26 @@ export interface ResourceProviderDefaultErrorResponse {
 }
 
 // @public
+export interface RoleBindingRecord {
+    crnPattern?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+    principal?: string;
+    roleName?: string;
+}
+
+// @public
 export type SaaSOfferStatus = string;
+
+// @public
+export interface ServiceAccountRecord {
+    description?: string;
+    displayName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
 
 // @public
 export interface SystemData {
@@ -310,14 +562,34 @@ export interface SystemData {
 
 // @public
 export interface UserDetail {
+    aadEmail?: string;
     emailAddress: string;
     firstName?: string;
     lastName?: string;
+    userPrincipalName?: string;
+}
+
+// @public
+export interface UserRecord {
+    authType?: string;
+    email?: string;
+    fullName?: string;
+    id?: string;
+    kind?: string;
+    metadata?: MetadataEntity;
+}
+
+// @public
+export interface ValidationResponse {
+    info?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
 export interface Validations {
     validateOrganization(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationOptionalParams): Promise<ValidationsValidateOrganizationResponse>;
+    validateOrganizationV2(resourceGroupName: string, organizationName: string, body: OrganizationResource, options?: ValidationsValidateOrganizationV2OptionalParams): Promise<ValidationsValidateOrganizationV2Response>;
 }
 
 // @public
@@ -326,6 +598,13 @@ export interface ValidationsValidateOrganizationOptionalParams extends coreClien
 
 // @public
 export type ValidationsValidateOrganizationResponse = OrganizationResource;
+
+// @public
+export interface ValidationsValidateOrganizationV2OptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ValidationsValidateOrganizationV2Response = ValidationResponse;
 
 // (No @packageDocumentation comment for this package)
 

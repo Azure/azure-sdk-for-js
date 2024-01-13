@@ -94,7 +94,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
 export function assertEditableFieldsAreEqual(
   expected: USProgramBrief,
   actual: USProgramBrief,
-  messageContext: string
+  messageContext: string,
 ): void {
   assert.equal(expected.id, actual.id, `Program brief Id is incorrect - ${messageContext}`);
 
@@ -119,8 +119,8 @@ function assertDeepEqualKnownFields(
   comparisons: [
     propertyToCompareExtractor: (object: any) => any,
     mapper: CompositeMapper,
-    errorMessage: string
-  ][]
+    errorMessage: string,
+  ][],
 ): void {
   for (const comparison of comparisons) {
     assertDeepEqualKnownFieldsInternal(
@@ -129,7 +129,7 @@ function assertDeepEqualKnownFields(
       comparison[1],
       comparison[0],
       comparison[2],
-      messageContext
+      messageContext,
     );
   }
 }
@@ -140,7 +140,7 @@ function assertDeepEqualKnownFieldsInternal(
   mapper: CompositeMapper,
   propertyToCompareExtractor: (object: any) => any,
   errorMessage: string,
-  messageContext: string
+  messageContext: string,
 ): void {
   const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
   const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
@@ -161,7 +161,7 @@ function mapKnownFields<TMapper extends CompositeMapper>(object: any, mapper: TM
 
 export async function doesProgramBriefExist(
   client: ShortCodesClient,
-  id: string
+  id: string,
 ): Promise<boolean> {
   try {
     const programBrief = await client.getUSProgramBrief(id);
@@ -182,7 +182,7 @@ export async function doesProgramBriefExist(
 export async function runTestCleaningLeftovers(
   testProgramBriefIds: string[],
   client: ShortCodesClient,
-  testLogic: () => Promise<void>
+  testLogic: () => Promise<void>,
 ): Promise<void> {
   try {
     await tryDeleteLeftOversFromPreviousTests(client);
@@ -240,7 +240,7 @@ function getDateDifferenceInDays(date: Date): number {
     now.getHours(),
     now.getMinutes(),
     now.getSeconds(),
-    now.getMilliseconds()
+    now.getMilliseconds(),
   );
   const utcOther = Date.UTC(
     date.getFullYear(),
@@ -249,7 +249,7 @@ function getDateDifferenceInDays(date: Date): number {
     date.getHours(),
     date.getMinutes(),
     date.getSeconds(),
-    date.getMilliseconds()
+    date.getMilliseconds(),
   );
 
   return (utcThis - utcOther) / 86400000;

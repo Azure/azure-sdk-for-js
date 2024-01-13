@@ -7,16 +7,16 @@ import { getAnnotation } from "./helpers/annotations";
 export function augmentInterfaces(
   originalInterfaces: Map<string, InterfaceDeclaration>,
   customInterfaces: InterfaceDeclaration[],
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   for (const customInterface of customInterfaces) {
     const annotation = getAnnotation(customInterface);
     const expectedInterfaceName =
-      annotation?.type === "rename" && annotation?.param
+      annotation?.type === "rename" && annotation.param
         ? annotation.param
         : customInterface.getName();
 
-    const originalInterface = originalInterfaces.get(expectedInterfaceName ?? "");
+    const originalInterface = originalInterfaces.get(expectedInterfaceName);
     augmentInterface(customInterface, originalInterface, originalFile);
   }
 }
@@ -24,7 +24,7 @@ export function augmentInterfaces(
 export function augmentInterface(
   customInterface: InterfaceDeclaration,
   originalInterface: InterfaceDeclaration | undefined,
-  originalFile: SourceFile
+  originalFile: SourceFile,
 ) {
   const annotation = getAnnotation(customInterface);
   /* If the interface is marked with `// @azsdk-remove`, we'll remove it from the original file */
@@ -59,7 +59,7 @@ export function augmentInterface(
 
 export function mergeProperties(
   customInterface: InterfaceDeclaration,
-  originalInterface: InterfaceDeclaration
+  originalInterface: InterfaceDeclaration,
 ) {
   const customProperties = customInterface.getProperties();
   for (const customProperty of customProperties) {
@@ -82,7 +82,7 @@ export function mergeProperties(
 
 export function removeProperties(
   customInterface: InterfaceDeclaration,
-  originalInterface: InterfaceDeclaration
+  originalInterface: InterfaceDeclaration,
 ) {
   const customProperties = customInterface.getProperties();
   for (const customProperty of customProperties) {
@@ -97,12 +97,12 @@ export function removeProperties(
 
 function findCallSignature(
   interfaceDeclaration: InterfaceDeclaration,
-  callSignature: CallSignatureDeclaration
+  callSignature: CallSignatureDeclaration,
 ): CallSignatureDeclaration | undefined {
   function typeEquals(a: Type, b: Type) {
     // Need to handle cases where the type is imported
-    const aStr = a?.getText()?.replace(/import\(\".+\"\)\./, "");
-    const bStr = b?.getText()?.replace(/import\(\".+\"\)\./, "");
+    const aStr = a.getText().replace(/import\(".+"\)\./, "");
+    const bStr = b.getText().replace(/import\(".+"\)\./, "");
     return aStr && bStr && aStr === bStr;
   }
   return interfaceDeclaration.getCallSignature((signature) => {
@@ -117,7 +117,7 @@ function findCallSignature(
       if (
         !typeEquals(
           signature.getParameters()[i].getType(),
-          callSignature.getParameters()[i].getType()
+          callSignature.getParameters()[i].getType(),
         )
       ) {
         return false;
@@ -129,7 +129,7 @@ function findCallSignature(
 
 export function mergeCallSignatures(
   customInterface: InterfaceDeclaration,
-  originalInterface: InterfaceDeclaration
+  originalInterface: InterfaceDeclaration,
 ) {
   const customCallSignatures = customInterface.getCallSignatures();
   for (const customCallSignature of customCallSignatures) {
@@ -147,7 +147,7 @@ export function mergeCallSignatures(
 
 export function removeCallSignatures(
   customInterface: InterfaceDeclaration,
-  originalInterface: InterfaceDeclaration
+  originalInterface: InterfaceDeclaration,
 ) {
   const customCallSignatures = customInterface.getCallSignatures();
   for (const customCallSignature of customCallSignatures) {

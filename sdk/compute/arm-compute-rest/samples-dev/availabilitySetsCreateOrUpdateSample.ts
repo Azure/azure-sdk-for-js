@@ -35,7 +35,7 @@ async function createAnAvailabilitySet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .put(options);
   console.log(result);

@@ -46,7 +46,7 @@ function RunTest(
   connectionString: string,
   entityPath: string,
   maxInflight: number,
-  messages: number
+  messages: number,
 ): void {
   const sbService: ServiceBusService = createServiceBusService(connectionString);
 
@@ -95,7 +95,7 @@ async function WriteResults(messages: number): Promise<void> {
       currentMessages,
       currentElapsed,
       maxMessages,
-      maxElapsed
+      maxElapsed,
     );
   } while (_accepted + _rejected < messages);
 }
@@ -106,13 +106,13 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
-      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`
+      `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}`,
   );
 }
 

@@ -33,7 +33,7 @@ async function loadBalancerProbeGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      probeName
+      probeName,
     )
     .get(options);
   console.log(result);

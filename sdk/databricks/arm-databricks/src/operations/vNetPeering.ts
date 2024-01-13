@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureDatabricksManagementClient } from "../azureDatabricksManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   VirtualNetworkPeering,
   VNetPeeringListByWorkspaceNextOptionalParams,
@@ -156,14 +160,14 @@ export class VNetPeeringImpl implements VNetPeering {
     workspaceName: string,
     peeringName: string,
     options?: VNetPeeringDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -196,13 +200,13 @@ export class VNetPeeringImpl implements VNetPeering {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, workspaceName, peeringName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, workspaceName, peeringName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -246,8 +250,8 @@ export class VNetPeeringImpl implements VNetPeering {
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
     options?: VNetPeeringCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VNetPeeringCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VNetPeeringCreateOrUpdateResponse>,
       VNetPeeringCreateOrUpdateResponse
     >
   > {
@@ -257,7 +261,7 @@ export class VNetPeeringImpl implements VNetPeering {
     ): Promise<VNetPeeringCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -290,19 +294,22 @@ export class VNetPeeringImpl implements VNetPeering {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         peeringName,
         virtualNetworkPeeringParameters,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VNetPeeringCreateOrUpdateResponse,
+      OperationState<VNetPeeringCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -488,7 +495,6 @@ const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

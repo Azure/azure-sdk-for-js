@@ -132,7 +132,7 @@ describe("RetryPolicy", function () {
       assert.equal(lastEndpointCalled[2], "https://failovertest-eastus.documents.azure.com:443/");
       assert.equal(
         lastEndpointCalled[3],
-        "https://failovertest-australiaeast.documents.azure.com:443/"
+        "https://failovertest-australiaeast.documents.azure.com:443/",
       );
       client.dispose();
     });
@@ -213,15 +213,15 @@ describe("RetryPolicy", function () {
       assert.equal(lastEndpointCalled.length, 9);
       assert.equal(
         lastEndpointCalled[lastEndpointCalled.length - 1],
-        "https://failovertest-eastus.documents.azure.com:443/"
+        "https://failovertest-eastus.documents.azure.com:443/",
       );
       assert.equal(
         lastEndpointCalled[lastEndpointCalled.length - 2],
-        "https://failovertest-australiaeast.documents.azure.com:443/"
+        "https://failovertest-australiaeast.documents.azure.com:443/",
       );
       assert.equal(
         lastEndpointCalled[lastEndpointCalled.length - 3],
-        "https://failovertest-eastus.documents.azure.com:443/"
+        "https://failovertest-eastus.documents.azure.com:443/",
       );
 
       client.dispose();

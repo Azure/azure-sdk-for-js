@@ -18,13 +18,25 @@ describe("sendRequest", () => {
   describe("Binary content", () => {
     it("should handle request body as Uint8Array", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = "foo";
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.equal(request.body, expectedBody);
+        assert.sameOrderedMembers([...(request.body as Uint8Array)], [...foo]);
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
       await sendRequest("POST", mockBaseUrl, mockPipeline, { body: foo });
+    });
+
+    it("should send Uint8Array as bytes for octet-stream content type", async () => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.body, foo);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: foo,
+        contentType: "application/octet-stream",
+      });
     });
 
     it("should handle request body as string", async () => {
@@ -57,7 +69,12 @@ describe("sendRequest", () => {
       const expectedFormData = { fileName: "foo.txt", file: "foo" };
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
-        assert.deepEqual(request.formData, expectedFormData);
+        assert.equal(request.formData?.fileName, "foo.txt");
+        assert.instanceOf(request.formData?.file, Blob);
+        assert.sameOrderedMembers(
+          [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
+          [...foo],
+        );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
@@ -331,5 +348,23 @@ describe("sendRequest", () => {
       headers: { "content-type": "foo" },
       body: "test",
     });
+  });
+
+  it("should call onResponse", async () => {
+    let called = false;
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async () => {
+      return {
+        headers: createHttpHeaders(),
+      } as PipelineResponse;
+    };
+
+    await sendRequest("GET", mockBaseUrl, mockPipeline, {
+      body: "{}",
+      onResponse: () => {
+        called = true;
+      },
+    });
+    assert.isTrue(called);
   });
 });

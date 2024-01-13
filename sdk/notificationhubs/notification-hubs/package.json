@@ -36,25 +36,17 @@
     ]
   },
   "types": "types/latest/notification-hubs.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "types/3.1/notification-hubs.d.ts"
-      ]
-    }
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf -G node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "bundle": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete",
     "build:test": "npm run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run build:test && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build": "npm run build:test && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf -G dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 600000 \"test/internal/**/*.spec.ts\" \"test/public/**/*.spec.ts\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -73,7 +65,6 @@
     "dist-esm/src/",
     "types/src",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -106,7 +97,6 @@
     "c8": "^8.0.0",
     "chai": "^4.3.10",
     "dotenv": "^16.3.1",
-    "downlevel-dts": "^0.11.0",
     "eslint": "^8.53.0",
     "esm": "^3.2.18",
     "karma": "^6.4.2",
@@ -121,8 +111,6 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.2",
-    "prettier": "^3.0.3",
     "puppeteer": "^19.2.2",
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",

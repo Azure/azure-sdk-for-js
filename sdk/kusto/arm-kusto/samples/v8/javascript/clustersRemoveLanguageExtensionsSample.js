@@ -31,7 +31,7 @@ async function kustoClusterRemoveLanguageExtensions() {
   const result = await client.clusters.beginRemoveLanguageExtensionsAndWait(
     resourceGroupName,
     clusterName,
-    languageExtensionsToRemove
+    languageExtensionsToRemove,
   );
   console.log(result);
 }

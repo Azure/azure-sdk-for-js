@@ -43,7 +43,7 @@ const argv = yargs
   })
   .demandOption(
     ["client-id", "resource-id", "vault-url", "repository", "image-name", "image-tag"],
-    "please provide all required parameters"
+    "please provide all required parameters",
   )
   .help()
   .alias("help", "h").argv;

@@ -32,7 +32,7 @@ async function configurationPolicyGroupListByVpnServerConfiguration() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName
+      vpnServerConfigurationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -10,6 +10,7 @@
  */
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { WidgetServiceClientOptions, createWidgetService } from "./api/WidgetServiceContext.js";
 import {
   AnalyzeResult,
   AnalyzeWidgetOptions,
@@ -20,16 +21,14 @@ import {
   ListWidgetsOptions,
   UpdateWidgetOptions,
   Widget,
-  WidgetServiceClientOptions,
-  WidgetServiceContext,
   analyzeWidget,
   createWidget,
-  createWidgetService,
   deleteWidget,
   getWidget,
   listWidgets,
   updateWidget,
 } from "./api/index.js";
+import { WidgetServiceContext } from "./rest/clientDefinitions.js";
 
 export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 
@@ -42,7 +41,7 @@ export class WidgetServiceClient {
   constructor(
     endpoint: string,
     credentialOrOptions?: TokenCredential | WidgetServiceClientOptions,
-    options: WidgetServiceClientOptions = {}
+    options: WidgetServiceClientOptions = {},
   ) {
     if (isTokenCredential(credentialOrOptions)) {
       this._client = createWidgetService(endpoint, credentialOrOptions, options);
@@ -74,7 +73,7 @@ export class WidgetServiceClient {
   createWidget(
     weight: number,
     color: ColorType,
-    options: CreateWidgetOptions = { requestOptions: {} }
+    options: CreateWidgetOptions = { requestOptions: {} },
   ): Promise<Widget> {
     return createWidget(this._client, weight, color, options);
   }
@@ -95,7 +94,7 @@ export class WidgetServiceClient {
   /** Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis. */
   analyzeWidget(
     id: string,
-    options: AnalyzeWidgetOptions = { requestOptions: {} }
+    options: AnalyzeWidgetOptions = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
     return analyzeWidget(this._client, id, options);
   }

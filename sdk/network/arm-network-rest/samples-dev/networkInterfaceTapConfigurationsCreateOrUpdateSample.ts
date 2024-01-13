@@ -41,7 +41,7 @@ async function createNetworkInterfaceTapConfigurations() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      tapConfigurationName
+      tapConfigurationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

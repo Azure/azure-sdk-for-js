@@ -3,6 +3,7 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 
+/** The result format of an audio task */
 export type AudioResultFormat =
   /** This format will return an JSON structure containing a single \"text\" with the transcription. */
   | "json"
@@ -28,7 +29,7 @@ export interface AudioResultVerboseJson extends AudioResultSimpleJson {
   /** Language detected in the source audio file. */
   language: string;
   /** Duration. */
-  duration: string;
+  duration: number;
   /** Segments. */
   segments: AudioSegment[];
 }
@@ -50,7 +51,7 @@ export interface AudioSegment {
   /** Temperature. */
   temperature: number;
   /** Average log probability. */
-  averageLogProb: number;
+  avgLogprob: number;
   /** Compression ratio. */
   compressionRatio: number;
   /** Probability of 'no speech'. */
@@ -61,6 +62,7 @@ export interface AudioSegment {
   seek: number;
 }
 
+/** The options for an audio transcription request */
 export interface GetAudioTranscriptionOptions extends OperationOptions {
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
   prompt?: string;
@@ -72,10 +74,9 @@ export interface GetAudioTranscriptionOptions extends OperationOptions {
   temperature?: number;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
+/** The options for an audio translation request */
 export interface GetAudioTranslationOptions extends OperationOptions {
   /** An optional text to guide the model's style or continue a previous audio segment. The prompt should match the audio language. */
   prompt?: string;
@@ -85,8 +86,6 @@ export interface GetAudioTranslationOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The type of the result of the transcription based on the requested response format */

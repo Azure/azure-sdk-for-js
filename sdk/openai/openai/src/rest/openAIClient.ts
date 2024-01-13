@@ -24,19 +24,11 @@ import { OpenAIContext } from "./clientDefinitions.js";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): OpenAIContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-  options.apiVersion = options.apiVersion ?? "2023-09-01-preview";
-  options = {
-    ...options,
-    credentials: {
-      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
-    },
-  };
-
-  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.8`;
+  options.apiVersion = options.apiVersion ?? "2023-12-01-preview";
+  const userAgentInfo = `azsdk-js-openai-rest/1.0.0-beta.9`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -48,6 +40,10 @@ export default function createClient(
     },
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://cognitiveservices.azure.com/.default"],
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
 

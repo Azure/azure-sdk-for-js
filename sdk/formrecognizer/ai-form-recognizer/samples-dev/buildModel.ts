@@ -41,7 +41,7 @@ async function main() {
         containerUrl: trainingDataSasUrl,
       },
     },
-    DocumentModelBuildMode.Template
+    DocumentModelBuildMode.Template,
   );
   const model = await poller.pollUntilDone();
 
@@ -54,7 +54,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {}
+    model.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

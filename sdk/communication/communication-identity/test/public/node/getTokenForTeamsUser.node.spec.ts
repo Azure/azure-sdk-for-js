@@ -77,9 +77,8 @@ matrix([[true, false]], async function (useAad) {
     }
 
     it("successfully exchanges a Teams User AAD token for a Communication access token", async function () {
-      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser(
-        options
-      );
+      const { token, expiresOn }: CommunicationAccessToken =
+        await client.getTokenForTeamsUser(options);
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
@@ -108,7 +107,7 @@ matrix([[true, false]], async function (useAad) {
         }
 
         assert.fail("Should have thrown an error");
-      })
+      }),
     );
 
     [
@@ -132,7 +131,7 @@ matrix([[true, false]], async function (useAad) {
         }
 
         assert.fail("Should have thrown an error");
-      })
+      }),
     );
 
     [
@@ -156,7 +155,7 @@ matrix([[true, false]], async function (useAad) {
         }
 
         assert.fail("Should have thrown an error");
-      })
+      }),
     );
   });
 });

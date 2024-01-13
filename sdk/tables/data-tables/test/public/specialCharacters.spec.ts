@@ -226,12 +226,12 @@ describe("SpecialCharacters", function () {
         }
 
         const hasEntity = results.some(
-          (e) => e.partitionKey === partitionKey && e.rowKey === rowKey && e.value === value
+          (e) => e.partitionKey === partitionKey && e.rowKey === rowKey && e.value === value,
         );
 
         assert.isTrue(
           hasEntity,
-          `Couldn't find entity with partitionKey: ${partitionKey} and rowKey: ${rowKey}`
+          `Couldn't find entity with partitionKey: ${partitionKey} and rowKey: ${rowKey}`,
         );
       });
     });

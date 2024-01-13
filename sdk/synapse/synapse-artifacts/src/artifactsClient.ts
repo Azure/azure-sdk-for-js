@@ -70,7 +70,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
    * Initializes a new instance of the ArtifactsClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint The workspace development endpoint, for example
-   *                 https://myworkspace.dev.azuresynapse.net.
+   *                 `https://myworkspace.dev.azuresynapse.net`.
    * @param options The parameter options
    */
   constructor(
@@ -94,7 +94,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.13`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.15`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

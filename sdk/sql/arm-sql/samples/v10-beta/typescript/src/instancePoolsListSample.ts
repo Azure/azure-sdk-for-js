@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of all instance pools in the subscription.
  *
  * @summary Gets a list of all instance pools in the subscription.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ListInstancePoolsBySubscriptionId.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ListInstancePoolsBySubscriptionId.json
  */
 async function listInstancePoolsInTheSubscription() {
   const subscriptionId =

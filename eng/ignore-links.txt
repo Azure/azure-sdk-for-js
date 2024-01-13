@@ -7,3 +7,7 @@ https://docs.microsoft.com/javascript/api/@azure/arm-hybridconnectivity
 https://docs.microsoft.com/javascript/api/@azure/arm-recoveryservicesdatareplication?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure-rest/ai-content-safety?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-playwrighttesting?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics
+https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork

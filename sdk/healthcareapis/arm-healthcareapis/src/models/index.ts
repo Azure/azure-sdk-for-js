@@ -31,6 +31,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -45,6 +47,8 @@ export interface ServiceCosmosDbConfigurationInfo {
   offerThroughput?: number;
   /** The URI of the customer-managed key for the backing database. */
   keyVaultKeyUri?: string;
+  /** The multi-tenant application id used to enable CMK access for services in a data sovereign region. */
+  crossTenantCmkApplicationId?: string;
 }
 
 /** Authentication configuration information */
@@ -131,6 +135,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -350,6 +364,32 @@ export interface DicomServiceAuthenticationConfiguration {
   readonly audiences?: string[];
 }
 
+/** The settings for the CORS configuration of the service instance. */
+export interface CorsConfiguration {
+  /** The origins to be allowed via CORS. */
+  origins?: string[];
+  /** The headers to be allowed via CORS. */
+  headers?: string[];
+  /** The methods to be allowed via CORS. */
+  methods?: string[];
+  /** The max age to be allowed via CORS. */
+  maxAge?: number;
+  /** If credentials are allowed via CORS. */
+  allowCredentials?: boolean;
+}
+
+/** Settings to encrypt a service */
+export interface Encryption {
+  /** The encryption settings for the customer-managed key */
+  customerManagedKeyEncryption?: EncryptionCustomerManagedKeyEncryption;
+}
+
+/** The encryption settings for the customer-managed key */
+export interface EncryptionCustomerManagedKeyEncryption {
+  /** The URL of the key to use for encryption */
+  keyEncryptionKeyUrl?: string;
+}
+
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface ServiceManagedIdentity {
   /** Setting indicating whether the service has a managed identity associated with it. */
@@ -437,12 +477,6 @@ export interface FhirServiceCollection {
   value?: FhirService[];
 }
 
-/** An access policy entry. */
-export interface FhirServiceAccessPolicyEntry {
-  /** An Azure AD object ID (User or Apps) that is allowed access to the FHIR service. */
-  objectId: string;
-}
-
 /** Azure container registry configuration information */
 export interface FhirServiceAcrConfiguration {
   /** The list of the Azure container registry login servers. */
@@ -487,6 +521,22 @@ export interface ResourceVersionPolicyConfiguration {
   default?: FhirResourceVersionPolicy;
   /** A list of FHIR Resources and their version policy overrides. */
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
+}
+
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
+}
+
+/** The settings for Implementation Guides - defining capabilities for national standards, vendor consortiums, clinical societies, etc. */
+export interface ImplementationGuidesConfiguration {
+  /** If US Core Missing Data requirement is enabled. */
+  usCoreMissingData?: boolean;
 }
 
 /** Available operations of the service */
@@ -599,10 +649,20 @@ export interface MetricSpecification {
   supportedTimeGrainTypes?: string[];
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
   fillGapWithZero?: boolean;
+  /** Pattern for the filter of the metric. */
+  metricFilterPattern?: string;
   /** Dimensions of the metric */
   dimensions?: MetricDimension[];
-  /** Name of the MDM namespace. Optional. */
+  /** Whether the metric is internal. */
+  isInternal?: boolean;
+  /** The source MDM account. */
+  sourceMdmAccount?: string;
+  /** The source MDM namespace. */
   sourceMdmNamespace?: string;
+  /** Whether regional MDM account enabled. */
+  enableRegionalMdmAccount?: boolean;
+  /** The resource Id dimension name override. */
+  resourceIdDimensionNameOverride?: string;
 }
 
 /** Specifications of the Dimension of metrics */
@@ -733,6 +793,8 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly provisioningState?: ProvisioningState;
   /** Dicom Service authentication configuration. */
   authenticationConfiguration?: DicomServiceAuthenticationConfiguration;
+  /** Dicom Service Cors configuration. */
+  corsConfiguration?: CorsConfiguration;
   /**
    * The url of the Dicom Services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -745,6 +807,13 @@ export interface DicomService extends TaggedResource, ServiceManagedIdentity {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * DICOM Service event support status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eventState?: ServiceEventState;
+  /** The encryption settings of the DICOM service */
+  encryption?: Encryption;
 }
 
 /** IoT Connector definition. */
@@ -779,8 +848,6 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
-  /** Fhir Service access policies. */
-  accessPolicies?: FhirServiceAccessPolicyEntry[];
   /** Fhir Service Azure container registry configuration. */
   acrConfiguration?: FhirServiceAcrConfiguration;
   /** Fhir Service authentication configuration. */
@@ -803,6 +870,12 @@ export interface FhirService extends TaggedResource, ServiceManagedIdentity {
   readonly eventState?: ServiceEventState;
   /** Determines tracking of history for resources. */
   resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+  /** Fhir Service import configuration. */
+  importConfiguration?: FhirServiceImportConfiguration;
+  /** Implementation Guides configuration. */
+  implementationGuidesConfiguration?: ImplementationGuidesConfiguration;
+  /** The encryption settings of the FHIR service */
+  encryption?: Encryption;
 }
 
 /** IoT Connector destination properties for an Azure FHIR service. */
@@ -1021,6 +1094,27 @@ export enum KnownManagedServiceIdentityType {
  */
 export type ManagedServiceIdentityType = string;
 
+/** Known values of {@link ServiceEventState} that the service accepts. */
+export enum KnownServiceEventState {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Updating */
+  Updating = "Updating"
+}
+
+/**
+ * Defines values for ServiceEventState. \
+ * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **Updating**
+ */
+export type ServiceEventState = string;
+
 /** Known values of {@link ServiceManagedIdentityType} that the service accepts. */
 export enum KnownServiceManagedIdentityType {
   /** None */
@@ -1080,27 +1174,6 @@ export enum KnownFhirServiceKind {
  * **fhir-R4**
  */
 export type FhirServiceKind = string;
-
-/** Known values of {@link ServiceEventState} that the service accepts. */
-export enum KnownServiceEventState {
-  /** Disabled */
-  Disabled = "Disabled",
-  /** Enabled */
-  Enabled = "Enabled",
-  /** Updating */
-  Updating = "Updating"
-}
-
-/**
- * Defines values for ServiceEventState. \
- * {@link KnownServiceEventState} can be used interchangeably with ServiceEventState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Disabled** \
- * **Enabled** \
- * **Updating**
- */
-export type ServiceEventState = string;
 
 /** Known values of {@link FhirResourceVersionPolicy} that the service accepts. */
 export enum KnownFhirResourceVersionPolicy {

@@ -61,7 +61,7 @@ export function buildContentType(format: string): string {
  * @internal
  */
 export function convertSchemaIdResponse(
-  schemaFormat: string
+  schemaFormat: string,
 ): (response: GeneratedSchemaIdResponse) => SchemaProperties {
   return (response: GeneratedSchemaIdResponse): SchemaProperties => {
     return {

@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Adds an application to the specified Batch account.
  *
  * @summary Adds an application to the specified Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/ApplicationCreate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/ApplicationCreate.json
  */
 async function applicationCreate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

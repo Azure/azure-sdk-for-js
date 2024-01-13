@@ -22,7 +22,7 @@ describe("CommunicationIdentityClient [Mocked]", function () {
 
   it("creates instance of CommunicationIdentityClient", function () {
     const client = new CommunicationIdentityClient(
-      "endpoint=https://contoso.spool.azure.local;accesskey=banana"
+      "endpoint=https://contoso.spool.azure.local;accesskey=banana",
     );
     assert.instanceOf(client, CommunicationIdentityClient);
   });
@@ -44,7 +44,7 @@ describe("CommunicationIdentityClient [Mocked]", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 

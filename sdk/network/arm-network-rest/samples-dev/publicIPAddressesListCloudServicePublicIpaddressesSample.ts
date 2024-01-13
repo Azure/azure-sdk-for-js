@@ -32,7 +32,7 @@ async function listVmssPublicIP() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/publicipaddresses",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -17,7 +17,8 @@ import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
 
 if (isNode) {
   dotenv.config();
@@ -78,13 +79,20 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({
+      additionalPolicies: [
+        {
+          policy: createMSUserAgentPolicy(),
+          position: "perCall",
+        },
+      ],
+    }),
   );
 
   return { client, recorder };
@@ -99,13 +107,13 @@ export function createMockToken(): TokenCredential {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -114,7 +122,18 @@ export async function createRecordedClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new SipRoutingClient(endpoint, credential, recorder.configureClientOptions({}));
+  const client = new SipRoutingClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({
+      additionalPolicies: [
+        {
+          policy: createMSUserAgentPolicy(),
+          position: "perCall",
+        },
+      ],
+    }),
+  );
 
   // casting is a workaround to enable min-max testing
   return { client, recorder };
@@ -122,7 +141,7 @@ export async function createRecordedClientWithToken(
 
 export async function clearSipConfiguration(): Promise<void> {
   const client = new SipRoutingClient(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING")
+    assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
   );
   await client.setRoutes([]);
   await client.setTrunks([]);
@@ -130,7 +149,7 @@ export async function clearSipConfiguration(): Promise<void> {
 
 let fqdnNumber = 1;
 export function getUniqueFqdn(recorder: Recorder): string {
-  const id = uuid().replace(/-/g, "");
+  const id = randomUUID().replace(/-/g, "");
   return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
 }
 export function resetUniqueFqdns(): void {
@@ -158,6 +177,6 @@ export async function listAllRoutes(client: SipRoutingClient): Promise<SipTrunkR
   return result;
 }
 
-function getAzureTestDomain() {
+function getAzureTestDomain(): string {
   return env.AZURE_TEST_DOMAIN ?? "sanitized.sbc.test";
 }

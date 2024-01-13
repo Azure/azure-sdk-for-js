@@ -32,7 +32,7 @@ async function listExpressRouteCircuitAuthorization() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/authorizations",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

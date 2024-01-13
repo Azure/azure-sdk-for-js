@@ -189,6 +189,13 @@
       "summary": "Unlink dependencies and purge downloaded node_modules",
       "safeForSimultaneousRushProcesses": true,
       "shellCommand": "rush unlink && rush purge"
+    },
+    {
+      "commandKind": "global",
+      "name": "install-test-browsers",
+      "summary": "Ensure supported browsers are preinstalled before running playwright based tests",
+      "safeForSimultaneousRushProcesses": true,
+      "shellCommand": "node common/scripts/install-run.js playwright playwright install"
     }
   ],
   /**
@@ -200,9 +207,7 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": [
-        "sync-versions"
-      ]
+      "associatedCommands": ["sync-versions"]
     }
   ]
 }

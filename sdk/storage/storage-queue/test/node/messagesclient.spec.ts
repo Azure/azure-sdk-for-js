@@ -106,8 +106,8 @@ describe("QueueClient message methods, Node.js only", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
@@ -202,7 +202,7 @@ describe("QueueClient message methods, Node.js only", () => {
     };
     const newClient = new QueueClient(
       `https://myaccount.queue.core.windows.net/` + queueName,
-      tokenCredential
+      tokenCredential,
     );
     configureStorageClient(recorder, newClient);
     assertClientUsesTokenCredential(newClient);

@@ -1,5 +1,17 @@
 # Release History
 
+## 12.22.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Allow HTTP connections
+
 ## 12.22.0-beta.1 (2023-11-01)
 
 ### Other Changes

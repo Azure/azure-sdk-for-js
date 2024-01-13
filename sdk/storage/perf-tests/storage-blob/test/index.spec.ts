@@ -7,7 +7,6 @@ import { StorageBlobUploadTest } from "./upload.spec";
 import { StorageBlobUploadFileTest } from "./uploadFromFile.spec";
 import { StorageBlobListTest } from "./listBlobs.spec";
 import { StorageBlobDownloadWithSASTest } from "./dowloadWithSAS.spec";
-import { NodeFetchDownloadWithSASTest } from "./node-fetch.spec";
 import { CoreHTTPSDownloadWithSASTest } from "./core-rest-pipeline.spec";
 
 const perfProgram = createPerfProgram(
@@ -17,7 +16,6 @@ const perfProgram = createPerfProgram(
   StorageBlobListTest,
   StorageBlobDownloadWithSASTest,
   CoreHTTPSDownloadWithSASTest,
-  NodeFetchDownloadWithSASTest
 );
 
 perfProgram.run();

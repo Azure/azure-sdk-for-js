@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update an existing event subscription of a namespace topic.
  *
  * @summary Update an existing event subscription of a namespace topic.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/NamespaceTopicEventSubscriptions_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/NamespaceTopicEventSubscriptions_Update.json
  */
 async function namespaceTopicEventSubscriptionsUpdate() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function namespaceTopicEventSubscriptionsUpdate() {
     namespaceName,
     topicName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

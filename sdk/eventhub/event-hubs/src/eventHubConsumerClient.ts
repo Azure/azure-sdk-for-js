@@ -123,7 +123,7 @@ export class EventHubConsumerClient {
   constructor(
     consumerGroup: string,
     connectionString: string,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #1
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -145,7 +145,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #1.1
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -165,7 +165,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     connectionString: string,
     eventHubName: string,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #2
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -189,7 +189,7 @@ export class EventHubConsumerClient {
     connectionString: string,
     eventHubName: string,
     checkpointStore: CheckpointStore,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #2.1
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -217,7 +217,7 @@ export class EventHubConsumerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #3
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
@@ -249,7 +249,7 @@ export class EventHubConsumerClient {
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
     checkpointStore: CheckpointStore,
-    options?: EventHubConsumerClientOptions
+    options?: EventHubConsumerClientOptions,
   ); // #3.1
   constructor(
     private _consumerGroup: string,
@@ -265,7 +265,7 @@ export class EventHubConsumerClient {
       | NamedKeyCredential
       | SASCredential,
     checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
-    options6?: EventHubConsumerClientOptions
+    options6?: EventHubConsumerClientOptions,
   ) {
     if (isCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
@@ -286,7 +286,7 @@ export class EventHubConsumerClient {
         connectionStringOrFullyQualifiedNamespace2,
         checkpointStoreOrEventHubNameOrOptions3 as string,
         checkpointStoreOrCredentialOrOptions4,
-        this._clientOptions
+        this._clientOptions,
       );
     } else if (typeof checkpointStoreOrEventHubNameOrOptions3 === "string") {
       // #2 or 2.1
@@ -307,7 +307,7 @@ export class EventHubConsumerClient {
       this._context = createConnectionContext(
         connectionStringOrFullyQualifiedNamespace2,
         checkpointStoreOrEventHubNameOrOptions3,
-        this._clientOptions
+        this._clientOptions,
       );
     } else {
       // #1 or 1.1
@@ -329,7 +329,7 @@ export class EventHubConsumerClient {
 
       this._context = createConnectionContext(
         connectionStringOrFullyQualifiedNamespace2,
-        this._clientOptions
+        this._clientOptions,
       );
     }
     this.identifier = this._clientOptions.identifier ?? getRandomName();
@@ -355,7 +355,7 @@ export class EventHubConsumerClient {
     await Promise.all(
       activeSubscriptions.map((subscription) => {
         return subscription.close();
-      })
+      }),
     );
     // Close the connection via the connection context.
     return this._context.close();
@@ -390,7 +390,7 @@ export class EventHubConsumerClient {
    */
   getPartitionProperties(
     partitionId: string,
-    options: GetPartitionPropertiesOptions = {}
+    options: GetPartitionPropertiesOptions = {},
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       ...options,
@@ -472,12 +472,12 @@ export class EventHubConsumerClient {
   subscribe(
     partitionId: string,
     handlers: SubscriptionEventHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): Subscription; // #2
   subscribe(
     handlersOrPartitionId1?: SubscriptionEventHandlers | string,
     optionsOrHandlers2?: SubscribeOptions | SubscriptionEventHandlers,
-    possibleOptions3?: SubscribeOptions
+    possibleOptions3?: SubscribeOptions,
   ): Subscription {
     let eventProcessor: EventProcessor;
     let targetedPartitionId: string;
@@ -490,7 +490,7 @@ export class EventHubConsumerClient {
       }
       ({ targetedPartitionId, eventProcessor } = this.createEventProcessorForAllPartitions(
         handlersOrPartitionId1,
-        options
+        options,
       ));
     } else if (isSubscriptionEventHandlers(optionsOrHandlers2)) {
       // #2: subscribe overload (read from specific partition IDs), don't coordinate
@@ -503,7 +503,7 @@ export class EventHubConsumerClient {
         // we don't validate the user input and instead rely on service throwing errors if any
         String(handlersOrPartitionId1),
         optionsOrHandlers2,
-        possibleOptions3
+        possibleOptions3,
       ));
     } else {
       throw new TypeError("Unhandled subscribe() overload");
@@ -548,13 +548,13 @@ export class EventHubConsumerClient {
 
   private createEventProcessorForAllPartitions(
     subscriptionEventHandlers: SubscriptionEventHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
     this._partitionGate.add("all");
 
     if (this._userChoseCheckpointStore) {
       logger.verbose(
-        "EventHubConsumerClient subscribing to all partitions, using a checkpoint store."
+        "EventHubConsumerClient subscribing to all partitions, using a checkpoint store.",
       );
     } else {
       logger.verbose("EventHubConsumerClient subscribing to all partitions, no checkpoint store.");
@@ -575,7 +575,7 @@ export class EventHubConsumerClient {
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy,
         loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs,
-      }
+      },
     );
 
     return { targetedPartitionId: "all", eventProcessor };
@@ -584,7 +584,7 @@ export class EventHubConsumerClient {
   private createEventProcessorForSinglePartition(
     partitionId: string,
     eventHandlers: SubscriptionEventHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): { targetedPartitionId: string; eventProcessor: EventProcessor } {
     this._partitionGate.add(partitionId);
 
@@ -592,11 +592,11 @@ export class EventHubConsumerClient {
 
     if (this._userChoseCheckpointStore) {
       logger.verbose(
-        `EventHubConsumerClient subscribing to specific partition (${partitionId}), using a checkpoint store.`
+        `EventHubConsumerClient subscribing to specific partition (${partitionId}), using a checkpoint store.`,
       );
     } else {
       logger.verbose(
-        `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`
+        `EventHubConsumerClient subscribing to specific partition (${partitionId}), no checkpoint store.`,
       );
     }
 
@@ -612,7 +612,7 @@ export class EventHubConsumerClient {
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
         loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000,
-      }
+      },
     );
 
     return { targetedPartitionId: partitionId, eventProcessor };
@@ -622,14 +622,14 @@ export class EventHubConsumerClient {
     connectionContext: ConnectionContext,
     subscriptionEventHandlers: SubscriptionEventHandlers,
     checkpointStore: CheckpointStore,
-    options: FullEventProcessorOptions
+    options: FullEventProcessorOptions,
   ): EventProcessor {
     return new EventProcessor(
       this._consumerGroup,
       connectionContext,
       subscriptionEventHandlers,
       checkpointStore,
-      options
+      options,
     );
   }
 }
@@ -656,14 +656,14 @@ export function isCheckpointStore(possible: CheckpointStore | any): possible is 
  * @internal
  */
 function isSubscriptionEventHandlers(
-  possible: any | SubscriptionEventHandlers
+  possible: any | SubscriptionEventHandlers,
 ): possible is SubscriptionEventHandlers {
   return typeof (possible as SubscriptionEventHandlers).processEvents === "function";
 }
 
 function getOwnerLevel(
   options: SubscribeOptions | undefined,
-  userChoseCheckpointStore: boolean
+  userChoseCheckpointStore: boolean,
 ): number | undefined {
   if (options && options.ownerLevel) {
     return options.ownerLevel;

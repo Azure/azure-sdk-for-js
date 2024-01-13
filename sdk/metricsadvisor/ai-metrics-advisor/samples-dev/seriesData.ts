@@ -41,7 +41,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const enriched of result) {
@@ -76,7 +76,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
         { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
-      new Date("09/12/2020")
+      new Date("09/12/2020"),
     );
 
     for (const series of result) {

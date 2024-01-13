@@ -32,19 +32,19 @@ const english = "EN";
 const french = "FR";
 
 const isO365: ExpressionRouterRule = {
-  kind: "expression-rule",
+  kind: "expression",
   language: "powerFx",
   expression: `If(job.Product = "${product}", true, false)`,
 };
 
 const isEnglish: ExpressionRouterRule = {
-  kind: "expression-rule",
+  kind: "expression",
   language: "powerFx",
   expression: `If(job.Language = "${english}", true, false)`,
 };
 
 const isFrench: ExpressionRouterRule = {
-  kind: "expression-rule",
+  kind: "expression",
   language: "powerFx",
   expression: `If(job.Language = "${french}", true, false)`,
 };
@@ -81,13 +81,13 @@ const staticQueueDoesNotExistSelector: StaticQueueSelectorAttachment = {
 };
 
 const passThroughRegionSelector: PassThroughQueueSelectorAttachment = {
-  kind: "pass-through",
+  kind: "passThrough",
   key: "Region",
   labelOperator: "equal",
 };
 
 const passThroughProductSelector: PassThroughQueueSelectorAttachment = {
-  kind: "pass-through",
+  kind: "passThrough",
   key: "Product",
   labelOperator: "equal",
 };
@@ -264,7 +264,7 @@ export interface ExceptionPolicyRequest {
   exceptionPolicyRequest: ExceptionPolicy;
 }
 export function getExceptionPolicyRequestWithReclassifyAction(
-  guid: string
+  guid: string,
 ): ExceptionPolicyRequest {
   return getExceptionPolicyRequestInternal(guid, true);
 }
@@ -273,7 +273,7 @@ export function getExceptionPolicyRequest(guid: string): ExceptionPolicyRequest 
 }
 function getExceptionPolicyRequestInternal(
   guid: string,
-  addReclassifyAction: boolean
+  addReclassifyAction: boolean,
 ): ExceptionPolicyRequest {
   const id = `${exceptionPolicyId}-${guid}`;
   const id2 = `${exceptionPolicyId2}-${guid}`;
@@ -299,7 +299,7 @@ function getExceptionRules(guid: string, addReclassifyAction: boolean): Array<Ex
         },
       ],
       trigger: {
-        kind: "wait-time",
+        kind: "waitTime",
         thresholdSeconds: 10,
       },
     },
@@ -318,7 +318,7 @@ function getExceptionRules(guid: string, addReclassifyAction: boolean): Array<Ex
         },
       ],
       trigger: {
-        kind: "wait-time",
+        kind: "waitTime",
         thresholdSeconds: 10,
       },
     });
@@ -342,7 +342,7 @@ export function getDistributionPolicyRequest(guid: string): DistributionPolicyRe
       name: distributionPolicyId,
       offerExpiresAfterSeconds: 60,
       mode: {
-        kind: "longest-idle",
+        kind: "longestIdle",
         minConcurrentOffers: 1,
         maxConcurrentOffers: 5,
         bypassSelectors: false,
@@ -385,7 +385,7 @@ export function getJobRequest(guid: string): JobRequest {
       labels: {},
       notes: [],
       matchingMode: {
-        kind: "queue-and-match",
+        kind: "queueAndMatch",
       },
     },
   };

@@ -19,7 +19,7 @@ export function processMultiTenantRequest(
   tenantId?: string,
   getTokenOptions?: GetTokenOptions,
   additionallyAllowedTenantIds: string[] = [],
-  logger?: CredentialLogger
+  logger?: CredentialLogger,
 ): string | undefined {
   let resolvedTenantId: string | undefined;
   if (process.env.AZURE_IDENTITY_DISABLE_MULTITENANTAUTH) {

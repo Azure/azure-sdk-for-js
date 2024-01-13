@@ -14,6 +14,7 @@ import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics";
 import { InternalConfig } from "../../../../src/shared";
+import { getDependencyTarget } from "../../../../src/metrics/utils";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;
@@ -31,7 +32,7 @@ describe("#StandardMetricsHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(spans);
-        })
+        }),
     );
   });
 
@@ -58,7 +59,7 @@ describe("#StandardMetricsHandler", () => {
       {
         body: "testMessage",
         timestamp: 123,
-      }
+      },
     );
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
@@ -95,7 +96,7 @@ describe("#StandardMetricsHandler", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
@@ -116,7 +117,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual((metrics[0].dataPoints[0].value as Histogram).sum, 654321, "dataPoint sum");
     assert.strictEqual(
       metrics[0].dataPoints[0].attributes["cloudRoleInstance"],
-      "testcloudRoleInstance"
+      "testcloudRoleInstance",
     );
     assert.strictEqual(metrics[0].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
     assert.strictEqual(metrics[0].dataPoints[0].attributes["IsAutocollected"], "True");
@@ -130,7 +131,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual((metrics[0].dataPoints[1].value as Histogram).sum, 4500000, "dataPoint sum");
     assert.strictEqual(
       metrics[0].dataPoints[1].attributes["cloudRoleInstance"],
-      "testcloudRoleInstance"
+      "testcloudRoleInstance",
     );
     assert.strictEqual(metrics[0].dataPoints[1].attributes["cloudRoleName"], "testcloudRoleName");
     assert.strictEqual(metrics[0].dataPoints[1].attributes["IsAutocollected"], "True");
@@ -165,7 +166,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[2].dataPoints[0].value, 1, "dataPoint value");
     assert.strictEqual(
       metrics[2].dataPoints[0].attributes["cloudRoleInstance"],
-      "testcloudRoleInstance"
+      "testcloudRoleInstance",
     );
     assert.strictEqual(metrics[2].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
 
@@ -174,7 +175,7 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[3].dataPoints[0].value, 1, "dataPoint value");
     assert.strictEqual(
       metrics[3].dataPoints[0].attributes["cloudRoleInstance"],
-      "testcloudRoleInstance"
+      "testcloudRoleInstance",
     );
     assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
   });
@@ -194,7 +195,7 @@ describe("#StandardMetricsHandler", () => {
       {
         body: "testMessage",
         timestamp: 123,
-      }
+      },
     );
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
@@ -211,7 +212,7 @@ describe("#StandardMetricsHandler", () => {
     clientSpan.attributes[SemanticAttributes.PEER_SERVICE] = "testPeerService";
     autoCollect.recordSpan(clientSpan);
 
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
@@ -220,7 +221,7 @@ describe("#StandardMetricsHandler", () => {
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(
       metrics[2].dataPoints[0].attributes["cloudRoleName"],
-      "testcloudRoleName.serviceTestName"
+      "testcloudRoleName.serviceTestName",
     );
   });
 
@@ -228,16 +229,16 @@ describe("#StandardMetricsHandler", () => {
     let attributes: Attributes;
 
     attributes = { [SemanticAttributes.HTTP_URL]: "http://testHttpHost" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "http://testHttpHost");
+    assert.strictEqual(getDependencyTarget(attributes), "http://testHttpHost");
 
     attributes = { [SemanticAttributes.NET_PEER_NAME]: "testNetPeerName" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerName");
+    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerName");
 
     attributes = { [SemanticAttributes.NET_PEER_IP]: "testNetPeerIp" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "testNetPeerIp");
+    assert.strictEqual(getDependencyTarget(attributes), "testNetPeerIp");
 
     attributes = { "unknown.attribute": "value" };
-    assert.strictEqual(autoCollect["_getDependencyTarget"](attributes), "");
+    assert.strictEqual(getDependencyTarget(attributes), "");
   });
 
   it("should retrieve meter provider", () => {
