@@ -171,6 +171,9 @@
 # PRLabel: %OpenAI
 /sdk/openai/ @deyaaeldeen @minhanh-phan
 
+# PRLabel: %Image Analysis
+/sdk/vision/Azure.AI.Vision.ImageAnalysis/                         @rhurey @dargilco
+
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
 
