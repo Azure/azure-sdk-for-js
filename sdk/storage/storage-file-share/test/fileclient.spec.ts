@@ -929,6 +929,7 @@ describe("FileClient", () => {
       assert.notDeepEqual(handle.path, undefined);
       assert.notDeepEqual(handle.fileId, undefined);
       assert.notDeepEqual(handle.sessionId, undefined);
+      assert.notDeepEqual(handle.clientName, undefined);
       assert.notDeepEqual(handle.clientIp, undefined);
       assert.notDeepEqual(handle.openTime, undefined);
     }

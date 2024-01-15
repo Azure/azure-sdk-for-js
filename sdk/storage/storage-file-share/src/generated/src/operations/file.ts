@@ -768,6 +768,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.version,
     Parameters.accept1,
     Parameters.leaseId,
+    Parameters.fileRequestIntent,
     Parameters.allowTrailingDot,
     Parameters.allowSourceTrailingDot,
     Parameters.range1,
