@@ -118,7 +118,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       this.tenantId = options?.tenantId;
     }
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -130,7 +130,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   private async getAzurePowerShellAccessToken(
     resource: string,
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -184,13 +184,13 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,
-        this.additionallyAllowedTenantIds
+        this.additionallyAllowedTenantIds,
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       if (tenantId) {
@@ -217,7 +217,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           throw error;
         }
         const error = new CredentialUnavailableError(
-          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`
+          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`,
         );
         logger.getToken.info(formatError(scope, error));
         throw error;

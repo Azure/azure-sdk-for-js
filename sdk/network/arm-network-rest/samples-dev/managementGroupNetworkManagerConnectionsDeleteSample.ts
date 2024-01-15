@@ -29,7 +29,7 @@ async function deleteManagementGroupNetworkManagerConnection() {
     .path(
       "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       managementGroupId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .delete(options);
   console.log(result);

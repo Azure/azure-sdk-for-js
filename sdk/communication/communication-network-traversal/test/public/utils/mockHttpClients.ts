@@ -10,7 +10,7 @@ import {
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
 ): HttpClient => {
   return {
     async sendRequest(httpRequest: PipelineRequest): Promise<PipelineResponse> {

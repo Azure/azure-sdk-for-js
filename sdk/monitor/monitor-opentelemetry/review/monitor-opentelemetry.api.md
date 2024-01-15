@@ -11,9 +11,31 @@ import { Resource } from '@opentelemetry/resources';
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
     azureMonitorExporterOptions?: AzureMonitorExporterOptions;
+    browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
+    enableLiveMetrics?: boolean;
+    enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
     resource?: Resource;
     samplingRatio?: number;
+}
+
+// @public
+export interface BrowserSdkLoaderOptions {
+    config?: IBrowserSdkLoaderConfig;
+    connectionString?: string;
+    enabled?: boolean;
+    src?: string;
+}
+
+// @public
+export interface IBrowserSdkLoaderConfig {
+    cfg: string;
+    crossOrigin?: string;
+    ld?: number;
+    name?: string;
+    onInit?: string;
+    src: string;
+    useXhr?: boolean;
 }
 
 // @public

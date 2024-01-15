@@ -106,7 +106,7 @@ export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
       client,
       tracing,
       documents,
-      options
+      options,
     );
 
     super(operation);

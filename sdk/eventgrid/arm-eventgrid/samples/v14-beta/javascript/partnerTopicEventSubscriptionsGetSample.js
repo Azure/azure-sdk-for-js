@@ -29,7 +29,7 @@ async function partnerTopicEventSubscriptionsGet() {
   const result = await client.partnerTopicEventSubscriptions.get(
     resourceGroupName,
     partnerTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

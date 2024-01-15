@@ -29,7 +29,7 @@ async function getAnSshPublicKey() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .get(options);
   console.log(result);

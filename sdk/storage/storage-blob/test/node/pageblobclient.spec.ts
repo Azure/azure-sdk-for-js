@@ -54,7 +54,7 @@ describe("PageBlobClient Node.js only", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -77,7 +77,7 @@ describe("PageBlobClient Node.js only", () => {
     }
     const diskBlobClient = new PageBlobClient(
       "https://md-hdd-jxsm54fzq3jc.z8.blob.storage.azure.net/wmkmgnjxxnjt/abcd?sv=2018-03-28&sr=b&si=9a01f5e5-ae40-4251-917d-66ac35cda429&sig=***",
-      new DefaultAzureCredential()
+      new DefaultAzureCredential(),
     );
 
     const result = await diskBlobClient.getProperties();
@@ -94,7 +94,7 @@ describe("PageBlobClient Node.js only", () => {
       new DefaultAzureCredential(),
       {
         audience: StorageBlobAudience.DiskComputeOAuthScopes,
-      }
+      },
     );
 
     const result = await diskBlobClient.getProperties();
@@ -113,7 +113,7 @@ describe("PageBlobClient Node.js only", () => {
     assert.ok(snapshotResult.snapshot);
 
     const destPageBlobClient = containerClient.getPageBlobClient(
-      recorder.variable("page", getUniqueName("page"))
+      recorder.variable("page", getUniqueName("page")),
     );
 
     await containerClient.setAccessPolicy("container");
@@ -205,7 +205,7 @@ describe("PageBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512);
@@ -240,7 +240,7 @@ describe("PageBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const tokenBlobServiceClient = getTokenBSUWithDefaultCredential(recorder);
@@ -370,7 +370,7 @@ describe("PageBlobClient Node.js only", () => {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -388,7 +388,7 @@ describe("PageBlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -428,7 +428,7 @@ describe("PageBlobClient Node.js only", () => {
         blobName: blockBlobName,
         permissions: BlobSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const uResp = await pageBlobClient.uploadPages("a".repeat(512), 0, 512, {
@@ -440,7 +440,7 @@ describe("PageBlobClient Node.js only", () => {
       0,
       512,
       512,
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -520,7 +520,7 @@ describe("PageBlobClient Node.js only", () => {
       await delay(30 * 1000);
 
       const destPageBlobClient = containerClient.getPageBlobClient(
-        recorder.variable("destPageBlob", getUniqueName("destPageBlob"))
+        recorder.variable("destPageBlob", getUniqueName("destPageBlob")),
       );
 
       const copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -541,8 +541,8 @@ describe("PageBlobClient Node.js only", () => {
       assert.ok(
         await throwExpectedError(
           destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionUnmet }),
-          "ConditionNotMet"
-        )
+          "ConditionNotMet",
+        ),
       );
       await destPageBlobClient.startCopyIncremental(copySource1, { conditions: tagConditionMet });
     });
@@ -567,7 +567,7 @@ describe("PageBlobClient Node.js only", () => {
           blobName: blockBlobName,
           permissions: BlobSASPermissions.parse("r"),
         },
-        sharedKeyCredential as StorageSharedKeyCredential
+        sharedKeyCredential as StorageSharedKeyCredential,
       );
 
       assert.ok(
@@ -575,8 +575,8 @@ describe("PageBlobClient Node.js only", () => {
           pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512, {
             conditions: tagConditionUnmet,
           }),
-          "ConditionNotMet"
-        )
+          "ConditionNotMet",
+        ),
       );
 
       await pageBlobClient.uploadPagesFromURL(`${blockBlobClient.url}?${sas}`, 0, 0, 512, {

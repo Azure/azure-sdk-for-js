@@ -15,19 +15,17 @@ export function getAnnotation(
 ): Annotation | undefined {
   // Check if the property has a `// @azsdk-remove` comment
   const leadingCommentRanges = declaration.getLeadingCommentRanges();
-  if (leadingCommentRanges) {
-    for (const commentRange of leadingCommentRanges) {
-      const commentText = commentRange.getText();
+  for (const commentRange of leadingCommentRanges) {
+    const commentText = commentRange.getText();
 
-      const regex = /@azsdk-(\w+)(?:\((\w+)\))?/;
-      const match = commentText.match(regex);
+    const regex = /@azsdk-(\w+)(?:\((\w+)\))?/;
+    const match = commentText.match(regex);
 
-      if (match) {
-        return {
-          type: match[1] as AnnotationType,
-          param: match[2],
-        };
-      }
+    if (match) {
+      return {
+        type: match[1] as AnnotationType,
+        param: match[2],
+      };
     }
   }
   return undefined;

@@ -262,7 +262,7 @@ describe("Content Safety Client Test", () => {
       .path(
         "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
         blocklistName,
-        blockItemId
+        blockItemId,
       )
       .get();
     if (isUnexpected(getBlockItemResponse)) {

@@ -88,7 +88,7 @@ const sprocDefinition = {
           } else {
             throw new Error("Error in retrieving document: " + doc.id);
           }
-        }
+        },
       );
       if (!isAccepted) throw new Error("Unable to query documents");
     }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { Aborter, BlobURL, BlockBlobURL } from "@azure/storage-blob";
 import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { StorageBlobTest } from "./storageTest.spec";
@@ -17,11 +17,11 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
-  static blobName = generateUuid();
+  static blobName = randomUUID();
   blockBlobClient: BlockBlobURL;
 
   constructor() {

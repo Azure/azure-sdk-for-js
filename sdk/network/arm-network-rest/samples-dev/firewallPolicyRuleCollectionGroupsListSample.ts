@@ -32,7 +32,7 @@ async function listAllFirewallPolicyRuleCollectionGroupWithWebCategories() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -64,7 +64,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsForAGivenFirewallPolicy(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -96,7 +96,7 @@ async function listAllFirewallPolicyRuleCollectionGroupsWithIPGroupsForAGivenFir
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

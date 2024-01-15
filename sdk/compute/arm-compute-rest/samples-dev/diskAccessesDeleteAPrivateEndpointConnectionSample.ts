@@ -34,7 +34,7 @@ async function deleteAPrivateEndpointConnectionUnderADiskAccessResource() {
       subscriptionId,
       resourceGroupName,
       diskAccessName,
-      privateEndpointConnectionName
+      privateEndpointConnectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

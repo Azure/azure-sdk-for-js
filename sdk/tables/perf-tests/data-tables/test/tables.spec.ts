@@ -1,5 +1,7 @@
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
+import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 import { TableClient } from "@azure/data-tables";
 
 export abstract class TablesTest<TOptions = Record<string, unknown>> extends PerfTest<TOptions> {
@@ -10,7 +12,7 @@ export abstract class TablesTest<TOptions = Record<string, unknown>> extends Per
     this.client = TableClient.fromConnectionString(
       connectionString,
       tableName,
-      this.configureClientOptions({})
+      this.configureClientOptions({}),
     );
   }
 

@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
+## 2.0.0-beta.1 (2024-01-09)
 
 ### Features Added
 
@@ -8,6 +8,7 @@
   - `/geocode`, `/geocode:batch`: Turn an address to coordinates. Replace the v1 `/search/address`, `/search/address/batch/sync/`.
   - `/reverseGeocode`, `/reverseGeocode:batch`: Turn coordinates to an address. Replace the v1 `/search/address/reverse`, `/search/address/batch/reverse/sync/`.
   - `/search/polygon`: Supplies polygon data of a geographical area outline such as a city or a country region. Replace the v1 `/search/polygon`.
+- Support SAS token authentication.
 
 ### Breaking Changes
 

@@ -92,7 +92,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/pools/{poolName}/schedules/{scheduleName}",
         projectName,
         poolName,
-        "default"
+        "default",
       )
       .get();
 
@@ -131,7 +131,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .get();
 
@@ -148,7 +148,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/remoteConnection",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .get();
 
@@ -225,7 +225,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .get();
 
@@ -253,7 +253,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         projectName,
         userId,
         devboxName,
-        "schedule-default"
+        "schedule-default",
       )
       .get();
 
@@ -271,7 +271,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         projectName,
         userId,
         devboxName,
-        "schedule-default"
+        "schedule-default",
       )
       .post();
 
@@ -291,7 +291,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         projectName,
         userId,
         devboxName,
-        "schedule-default"
+        "schedule-default",
       )
       .post(delayActionParameters);
 
@@ -310,7 +310,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}/actions:delay",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .post(delayActionsParameters);
 
@@ -335,14 +335,14 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:stop",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .post();
 
     const devBoxStopPoller = await getLongRunningPoller(
       client,
       stopDevBoxResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const devBoxStopResult = await devBoxStopPoller.pollUntilDone();
 
@@ -353,7 +353,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(
       devBoxStopResult.status,
       "200",
-      "Dev box stop long-running operation should return 200 OK."
+      "Dev box stop long-running operation should return 200 OK.",
     );
 
     // Start Dev Box
@@ -362,14 +362,14 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}:start",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .post();
 
     const devBoxStartPoller = await getLongRunningPoller(
       client,
       startDevBoxResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const devBoxStartResult = await devBoxStartPoller.pollUntilDone();
 
@@ -380,7 +380,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(
       devBoxStartResult.status,
       "200",
-      "Dev box start long-running operation should return 200 OK."
+      "Dev box start long-running operation should return 200 OK.",
     );
   });
 
@@ -396,7 +396,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
         projectName,
         userId,
-        devboxName
+        devboxName,
       )
       .put(devBoxCreateParameters);
 
@@ -410,7 +410,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     const devBoxCreatePoller = await getLongRunningPoller(
       client,
       devBoxCreateResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const devBoxCreateResult = await devBoxCreatePoller.pollUntilDone();
 
@@ -421,7 +421,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(
       devBoxCreateResult.status,
       "200",
-      "Dev box creation long-running operation should return 200 OK."
+      "Dev box creation long-running operation should return 200 OK.",
     );
 
     assert.equal(devBoxCreateResult.body.name, devboxName);
@@ -434,7 +434,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
         "/projects/{projectName}/users/{userId}/devboxes/{devBoxName}",
         projectName,
         "me",
-        devboxName
+        devboxName,
       )
       .delete();
 
@@ -447,7 +447,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     const devBoxDeletePoller = await getLongRunningPoller(
       client,
       devBoxDeleteResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const devBoxDeleteResult = await devBoxDeletePoller.pollUntilDone();
 
@@ -458,7 +458,7 @@ describe("DevCenter Dev Boxes Operations Test", () => {
     assert.equal(
       devBoxDeleteResult.status,
       "200",
-      "Dev box delete long-running operation should return 200 OK."
+      "Dev box delete long-running operation should return 200 OK.",
     );
 
     console.log(`Cleaned up dev box successfully.`);

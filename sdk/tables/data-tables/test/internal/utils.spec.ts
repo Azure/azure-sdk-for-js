@@ -108,7 +108,7 @@ describe("Utility Helpers", function () {
           "BlobEndpoint=BlobEndpoint=https://testaccount.blob.core.windows.net/;QueueEndpoint=https://testaccount.queue.core.windows.net/;FileEndpoint=https://testaccount.file.core.windows.net/;TableEndpoint=https://testaccount.table.core.windows.net/";
         assert.throws(
           () => extractConnectionStringParts(invalidSAS),
-          /Invalid SharedAccessSignature/
+          /Invalid SharedAccessSignature/,
         );
       });
 

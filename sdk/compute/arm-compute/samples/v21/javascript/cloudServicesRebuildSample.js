@@ -31,7 +31,7 @@ async function rebuildCloudServiceRoleInstancesInACloudService() {
   const result = await client.cloudServices.beginRebuildAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }

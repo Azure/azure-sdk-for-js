@@ -8,7 +8,7 @@ import { DeviceUpdateClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): DeviceUpdateClient {
   const baseUrl = options.baseUrl ?? `https://${endpoint}`;
   options.apiVersion = options.apiVersion ?? "2022-10-01";

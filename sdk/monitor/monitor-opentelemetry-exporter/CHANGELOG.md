@@ -5,6 +5,7 @@
 ### Other Changes
 
 - Statsbeat will stop being exported when user iKey is invalid.
+- Statsbeat attach type name updated to follow spec.
 
 ## 1.0.0-beta.18 (2023-11-09)
 

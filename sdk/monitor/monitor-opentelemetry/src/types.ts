@@ -4,11 +4,28 @@
 export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.1.1";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 
+/**
+ * Default Browser SDK Loader Source
+ * @internal
+ */
+export const BROWSER_SDK_LOADER_DEFAULT_SOURCE = "https://js.monitor.azure.com/scripts/b/ai";
+
+/**
+ * Default Breeze endpoint.
+ * @internal
+ */
+export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
+/**
+ * Default Live Metrics endpoint.
+ * @internal
+ */
+export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
+
 export enum StatsbeatFeature {
   NONE = 0,
   DISK_RETRY = 1,
   AAD_HANDLING = 2,
-  WEB_SNIPPET = 4,
+  BROWSER_SDK_LOADER = 4,
   DISTRO = 8,
 }
 

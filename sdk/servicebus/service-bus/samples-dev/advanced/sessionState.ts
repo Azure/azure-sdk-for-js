@@ -137,7 +137,7 @@ async function processMessageFromSession(sessionId: string) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`,
     );
     await sessionReceiver.completeMessage(messages[0]);
   } else {

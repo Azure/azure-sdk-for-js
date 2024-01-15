@@ -31,7 +31,7 @@ async function cancelMigration() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function migrationsUpdate() {
     resourceGroupName,
     targetDbServerName,
     migrationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -27,7 +27,7 @@ describe(`Tracing for send`, function (): void {
     entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
 
     sender = sbClient.test.addToCleanup(
-      sbClient.createSender(entityName.queue ?? entityName.topic!)
+      sbClient.createSender(entityName.queue ?? entityName.topic!),
     );
   });
 
@@ -43,7 +43,7 @@ describe(`Tracing for send`, function (): void {
         }
         return sender.sendMessages(batch, options);
       },
-      ["message", "ServiceBusSender.send"]
+      ["message", "ServiceBusSender.send"],
     );
   });
 
@@ -59,7 +59,7 @@ describe(`Tracing for send`, function (): void {
           tracingOptions: options.tracingOptions,
         });
       },
-      ["message", "ServiceBusSender.send"]
+      ["message", "ServiceBusSender.send"],
     );
   });
 });

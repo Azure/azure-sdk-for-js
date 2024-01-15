@@ -27,7 +27,7 @@ async function main() {
 
   const sourceEndpoint = process.env.FORM_RECOGNIZER_SOURCE_ENDPOINT || "<source endpoint>";
   const sourceCredential = new AzureKeyCredential(
-    process.env.FORM_RECOGNIZER_SOURCE_API_KEY || "<source api key>"
+    process.env.FORM_RECOGNIZER_SOURCE_API_KEY || "<source api key>",
   );
   const sourceModelId = process.env.COPY_SOURCE_MODEL_ID || "<source model id>";
 

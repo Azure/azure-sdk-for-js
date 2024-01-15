@@ -76,7 +76,7 @@ export class WebPubSubProtobufProtocolBase {
         dataType = "binary";
         data = messageData.binaryData.buffer.slice(
           messageData.binaryData.byteOffset,
-          messageData.binaryData.byteLength + messageData.binaryData.byteOffset
+          messageData.binaryData.byteLength + messageData.binaryData.byteOffset,
         );
       } else if (messageData.protobufData) {
         dataType = "protobuf";
@@ -166,7 +166,7 @@ export class WebPubSubProtobufProtocolBase {
 
   private static _getIMessageData(
     data: JSONTypes | ArrayBuffer,
-    dataType: WebPubSubDataType
+    dataType: WebPubSubDataType,
   ): IMessageData {
     switch (dataType) {
       case "binary":

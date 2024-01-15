@@ -17,7 +17,6 @@ PackageVersions:
 - '@azure/event-hubs': source
   '@azure/core-amqp': source
   '@azure/core-auth': source
-  '@azure/core-http': source
   '@azure/core-rest-pipeline': source
   '@azure/core-tracing': source
   '@azure/core-util': source

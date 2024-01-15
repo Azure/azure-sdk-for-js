@@ -38,7 +38,7 @@ async function virtualMachineScaleSetVMSRunCommand() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

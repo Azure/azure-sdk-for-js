@@ -2017,6 +2017,12 @@ export interface ServerThreatProtectionSettings {
 }
 
 // @public
+export interface ServerThreatProtectionSettingsCreateOrUpdateHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
 export interface ServerThreatProtectionSettingsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;

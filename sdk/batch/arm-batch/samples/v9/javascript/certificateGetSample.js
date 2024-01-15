@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/CertificateGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateGet.json
  */
 async function getCertificate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getCertificate() {
   const result = await client.certificateOperations.get(
     resourceGroupName,
     accountName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function getCertificate() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/CertificateGetWithDeletionError.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateGetWithDeletionError.json
  */
 async function getCertificateWithDeletionError() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -49,7 +49,7 @@ async function getCertificateWithDeletionError() {
   const result = await client.certificateOperations.get(
     resourceGroupName,
     accountName,
-    certificateName
+    certificateName,
   );
   console.log(result);
 }

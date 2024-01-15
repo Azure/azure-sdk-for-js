@@ -26,28 +26,28 @@ describe("MixedRealityStsClient", () => {
   it("can create with invalid arguments", () => {
     assert.throws(
       () => new MixedRealityStsClient(undefined!, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
+      "Argument cannot be null or empty: 'accountId'.",
     );
     assert.throws(
       () => new MixedRealityStsClient(null!, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
+      "Argument cannot be null or empty: 'accountId'.",
     );
     assert.throws(
       () => new MixedRealityStsClient("", accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
+      "Argument cannot be null or empty: 'accountId'.",
     );
 
     assert.throws(
       () => new MixedRealityStsClient(accountId, undefined!, keyCredential),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
     assert.throws(
       () => new MixedRealityStsClient(accountId, null!, keyCredential),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
     assert.throws(
       () => new MixedRealityStsClient(accountId, "", keyCredential),
-      "Argument cannot be null or empty: 'accountDomain'."
+      "Argument cannot be null or empty: 'accountDomain'.",
     );
   });
 

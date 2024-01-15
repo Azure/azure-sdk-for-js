@@ -33,7 +33,7 @@ async function getResourceNavigationLinks() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .get(options);
   console.log(result);

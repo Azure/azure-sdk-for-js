@@ -55,7 +55,7 @@ export function addCredentialPipelinePolicy(
     }
     const keyPolicy = keyCredentialAuthenticationPolicy(
       credential,
-      clientOptions?.credentials?.apiKeyHeaderName
+      clientOptions?.credentials?.apiKeyHeaderName,
     );
     pipeline.addPolicy(keyPolicy);
   }
@@ -67,7 +67,7 @@ export function addCredentialPipelinePolicy(
 export function createDefaultPipeline(
   endpoint: string,
   credential?: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 

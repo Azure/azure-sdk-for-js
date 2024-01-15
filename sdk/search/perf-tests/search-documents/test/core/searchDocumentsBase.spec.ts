@@ -14,7 +14,7 @@ export interface SearchDocumentsTestOptions {
 }
 
 export abstract class SearchDocumentsBase<
-  TOptions = Record<string, unknown>
+  TOptions = Record<string, unknown>,
 > extends PerfTest<TOptions> {
   searchIndexClient: SearchIndexClient;
   searchClient: SearchClient<Hotel>;

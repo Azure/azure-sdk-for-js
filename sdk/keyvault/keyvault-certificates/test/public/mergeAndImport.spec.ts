@@ -37,7 +37,7 @@ describe("Certificates client - merge and import certificates", () => {
     secretClient = new SecretClient(
       keyVaultUrl,
       credential,
-      recorder.configureClientOptions({ disableChallengeResourceVerification: true })
+      recorder.configureClientOptions({ disableChallengeResourceVerification: true }),
     );
   });
 
@@ -56,7 +56,7 @@ describe("Certificates client - merge and import certificates", () => {
         issuerName: "Self",
         subject: "cn=MyCert",
       },
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const certificateSecret = await secretClient.getSecret(certificateNames[0]);
@@ -76,7 +76,7 @@ describe("Certificates client - merge and import certificates", () => {
         issuerName: "Self",
         subject: "cn=MyCert",
       },
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const certificateSecret = await secretClient.getSecret(certificateNames[0]);
@@ -107,7 +107,7 @@ describe("Certificates client - merge and import certificates", () => {
         certificateTransparency: false,
         subject: "cn=MyCert",
       },
-      testPollerProperties
+      testPollerProperties,
     );
 
     const certificateOperationPoller = await client.getCertificateOperation(certificateName);
@@ -122,7 +122,7 @@ ${base64Csr}
     //   openssl genrsa -out ca.key 2048
     //   openssl req -new -x509 -key ca.key -out ca.crt
     childProcess.execSync(
-      "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
+      "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
     );
     const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 

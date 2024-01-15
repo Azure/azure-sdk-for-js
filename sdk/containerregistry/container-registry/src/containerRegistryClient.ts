@@ -81,7 +81,7 @@ export class ContainerRegistryClient {
   constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: ContainerRegistryClientOptions
+    options?: ContainerRegistryClientOptions,
   );
 
   /**
@@ -106,7 +106,7 @@ export class ContainerRegistryClient {
   constructor(
     endpoint: string,
     credentialOrOptions?: TokenCredential | ContainerRegistryClientOptions,
-    clientOptions: ContainerRegistryClientOptions = {}
+    clientOptions: ContainerRegistryClientOptions = {},
   ) {
     if (!endpoint) {
       throw new Error("invalid endpoint");
@@ -142,9 +142,9 @@ export class ContainerRegistryClient {
         credential,
         scopes: [defaultScope],
         challengeCallbacks: new ChallengeHandler(
-          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential)
+          new ContainerRegistryRefreshTokenCredential(authClient, defaultScope, credential),
         ),
-      })
+      }),
     );
   }
 
@@ -156,7 +156,7 @@ export class ContainerRegistryClient {
    */
   public async deleteRepository(
     repositoryName: string,
-    options: DeleteRepositoryOptions = {}
+    options: DeleteRepositoryOptions = {},
   ): Promise<void> {
     if (!repositoryName) {
       throw new Error("invalid repositoryName");
@@ -167,7 +167,7 @@ export class ContainerRegistryClient {
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
-      }
+      },
     );
   }
 
@@ -186,7 +186,7 @@ export class ContainerRegistryClient {
     }
 
     return new ContainerRepositoryImpl(this.endpoint, repositoryName, this.client).getArtifact(
-      tagOrDigest
+      tagOrDigest,
     );
   }
 
@@ -244,7 +244,7 @@ export class ContainerRegistryClient {
    * @param options -
    */
   public listRepositoryNames(
-    options: ListRepositoriesOptions = {}
+    options: ListRepositoriesOptions = {},
   ): PagedAsyncIterableIterator<string, RepositoryPageResponse> {
     const iter = this.listRepositoryItems(options);
 
@@ -260,7 +260,7 @@ export class ContainerRegistryClient {
   }
 
   private async *listRepositoryItems(
-    options: ListRepositoriesOptions = {}
+    options: ListRepositoriesOptions = {},
   ): AsyncIterableIterator<string> {
     for await (const page of this.listRepositoriesPage({}, options)) {
       yield* page;
@@ -269,7 +269,7 @@ export class ContainerRegistryClient {
 
   private async *listRepositoriesPage(
     continuationState: PageSettings,
-    options: ListRepositoriesOptions = {}
+    options: ListRepositoriesOptions = {},
   ): AsyncIterableIterator<RepositoryPageResponse> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
@@ -289,7 +289,7 @@ export class ContainerRegistryClient {
     while (continuationState.continuationToken) {
       const currentPage = await this.client.containerRegistry.getRepositoriesNext(
         continuationState.continuationToken,
-        options
+        options,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.repositories) {

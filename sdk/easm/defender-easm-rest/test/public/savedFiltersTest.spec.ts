@@ -29,7 +29,7 @@ describe("Saved Filters Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     delete_saved_filter_name = "put_filter";
     put_saved_filter_name = "put_filter";

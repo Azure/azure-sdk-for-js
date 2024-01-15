@@ -368,7 +368,7 @@ export class TextAnalyticsClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
-    options: TextAnalyticsClientOptions = {}
+    options: TextAnalyticsClientOptions = {},
   ) {
     this.endpointUrl = endpointUrl;
     const { defaultCountryHint = "us", defaultLanguage = "en", ...pipelineOptions } = options;
@@ -428,7 +428,7 @@ export class TextAnalyticsClient {
   public async detectLanguage(
     documents: string[],
     countryHint?: string,
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray>;
   /**
    * Runs a predictive model to determine the language that the passed-in
@@ -441,12 +441,12 @@ export class TextAnalyticsClient {
    */
   public async detectLanguage(
     documents: DetectLanguageInput[],
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray>;
   public async detectLanguage(
     documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
-    options?: DetectLanguageOptions
+    options?: DetectLanguageOptions,
   ): Promise<DetectLanguageResultArray> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
@@ -477,9 +477,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeDetectLanguageResultArray(realInputs, result))
+          .then((result) => makeDetectLanguageResultArray(realInputs, result)),
     );
   }
 
@@ -503,7 +503,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of named entities
@@ -519,13 +519,13 @@ export class TextAnalyticsClient {
   public async recognizeEntities(
     documents: TextDocumentInput[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeCategorizedEntitiesOptions,
   ): Promise<RecognizeCategorizedEntitiesResultArray> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -552,9 +552,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
-          )
-        ).then((result) => makeRecognizeCategorizedEntitiesResultArray(realInputs, result))
+            finalOptions,
+          ),
+        ).then((result) => makeRecognizeCategorizedEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -576,7 +576,7 @@ export class TextAnalyticsClient {
   public async analyzeSentiment(
     documents: string[],
     language?: string,
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray>;
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
@@ -590,12 +590,12 @@ export class TextAnalyticsClient {
    */
   public async analyzeSentiment(
     documents: TextDocumentInput[],
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray>;
   public async analyzeSentiment(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
-    options?: AnalyzeSentimentOptions
+    options?: AnalyzeSentimentOptions,
   ): Promise<AnalyzeSentimentResultArray> {
     let realOptions: AnalyzeSentimentOptions;
     let realInputs: TextDocumentInput[];
@@ -622,9 +622,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeAnalyzeSentimentResultArray(realInputs, result))
+          .then((result) => makeAnalyzeSentimentResultArray(realInputs, result)),
     );
   }
 
@@ -644,7 +644,7 @@ export class TextAnalyticsClient {
   public async extractKeyPhrases(
     documents: string[],
     language?: string,
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray>;
   /**
    * Runs a model to identify a collection of significant phrases
@@ -656,12 +656,12 @@ export class TextAnalyticsClient {
    */
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray>;
   public async extractKeyPhrases(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
-    options?: ExtractKeyPhrasesOptions
+    options?: ExtractKeyPhrasesOptions,
   ): Promise<ExtractKeyPhrasesResultArray> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
@@ -688,9 +688,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeExtractKeyPhrasesResultArray(realInputs, result))
+          .then((result) => makeExtractKeyPhrasesResultArray(realInputs, result)),
     );
   }
 
@@ -712,7 +712,7 @@ export class TextAnalyticsClient {
   public async recognizePiiEntities(
     inputs: string[],
     language?: string,
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities containing
@@ -726,12 +726,12 @@ export class TextAnalyticsClient {
    */
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray>;
   public async recognizePiiEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
-    options?: RecognizePiiEntitiesOptions
+    options?: RecognizePiiEntitiesOptions,
   ): Promise<RecognizePiiEntitiesResultArray> {
     let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -754,9 +754,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeRecognizePiiEntitiesResultArray(realInputs, result))
+          .then((result) => makeRecognizePiiEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -777,7 +777,7 @@ export class TextAnalyticsClient {
   public async recognizeLinkedEntities(
     documents: string[],
     language?: string,
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities
@@ -790,12 +790,12 @@ export class TextAnalyticsClient {
    */
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray>;
   public async recognizeLinkedEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
-    options?: RecognizeLinkedEntitiesOptions
+    options?: RecognizeLinkedEntitiesOptions,
   ): Promise<RecognizeLinkedEntitiesResultArray> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -822,9 +822,9 @@ export class TextAnalyticsClient {
             {
               documents: realInputs,
             },
-            finalOptions
+            finalOptions,
           )
-          .then((result) => makeRecognizeLinkedEntitiesResultArray(realInputs, result))
+          .then((result) => makeRecognizeLinkedEntitiesResultArray(realInputs, result)),
     );
   }
 
@@ -842,7 +842,7 @@ export class TextAnalyticsClient {
   async beginAnalyzeHealthcareEntities(
     documents: string[],
     language?: string,
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
   /**
    * Start a healthcare analysis operation to recognize healthcare related entities (drugs, conditions,
@@ -852,13 +852,13 @@ export class TextAnalyticsClient {
    */
   async beginAnalyzeHealthcareEntities(
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike>;
 
   async beginAnalyzeHealthcareEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | BeginAnalyzeHealthcareEntitiesOptions,
-    options?: BeginAnalyzeHealthcareEntitiesOptions
+    options?: BeginAnalyzeHealthcareEntitiesOptions,
   ): Promise<AnalyzeHealthcareEntitiesPollerLike> {
     let realOptions: BeginAnalyzeHealthcareEntitiesOptions;
     let realInputs: TextDocumentInput[];
@@ -900,7 +900,7 @@ export class TextAnalyticsClient {
     documents: string[],
     actions: TextAnalyticsActions,
     language?: string,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike>;
   /**
    * Submit a collection of text documents for analysis. Specify one or more unique actions to be executed.
@@ -911,13 +911,13 @@ export class TextAnalyticsClient {
   public async beginAnalyzeActions(
     documents: TextDocumentInput[],
     actions: TextAnalyticsActions,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike>;
   public async beginAnalyzeActions(
     documents: string[] | TextDocumentInput[],
     actions: TextAnalyticsActions,
     languageOrOptions?: string | BeginAnalyzeActionsOptions,
-    options?: BeginAnalyzeActionsOptions
+    options?: BeginAnalyzeActionsOptions,
   ): Promise<AnalyzeActionsPollerLike> {
     let realOptions: BeginAnalyzeActionsOptions;
     let realInputs: TextDocumentInput[];
@@ -957,17 +957,17 @@ export class TextAnalyticsClient {
 function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
   return {
     entityRecognitionPiiTasks: actions.recognizePiiEntitiesActions?.map(
-      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask))
+      compose(setStrEncodingParam, compose(setCategoriesFilter, addParamsToTask)),
     ),
     entityRecognitionTasks: actions.recognizeEntitiesActions?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask),
     ),
     keyPhraseExtractionTasks: actions.extractKeyPhrasesActions?.map(addParamsToTask),
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
-      compose(setStrEncodingParam, addParamsToTask)
+      compose(setStrEncodingParam, addParamsToTask),
     ),
     sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
-      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask))
+      compose(setStrEncodingParam, compose(setOpinionMining, addParamsToTask)),
     ),
   };
 }
@@ -981,7 +981,7 @@ function isStringArray(documents: any[]): documents is string[] {
  */
 function convertToDetectLanguageInput(
   inputs: string[],
-  countryHint: string
+  countryHint: string,
 ): DetectLanguageInput[] {
   if (countryHint === "none") {
     countryHint = "";
@@ -1014,7 +1014,7 @@ function convertToTextDocumentInput(inputs: string[], language: string): TextDoc
  * @internal
  */
 function makeGeneratedAnalyzeSentimentOptions(
-  params: AnalyzeSentimentOptions
+  params: AnalyzeSentimentOptions,
 ): GeneratedAnalyzeSentimentOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1036,7 +1036,7 @@ function makeGeneratedAnalyzeSentimentOptions(
  * @internal
  */
 function makeGeneratedRecognizePiiEntitiesOptions(
-  params: RecognizePiiEntitiesOptions
+  params: RecognizePiiEntitiesOptions,
 ): GeneratedRecognizePiiEntitiesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1059,7 +1059,7 @@ function makeGeneratedRecognizePiiEntitiesOptions(
  * @internal
  */
 function makeGeneratedRecognizeCategorizedEntitiesOptions(
-  params: RecognizeCategorizedEntitiesOptions
+  params: RecognizeCategorizedEntitiesOptions,
 ): GeneratedRecognizeCategorizedEntitiesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1080,7 +1080,7 @@ function makeGeneratedRecognizeCategorizedEntitiesOptions(
  * @internal
  */
 function makeGeneratedDetectLanguageOptions(
-  params: DetectLanguageOptions
+  params: DetectLanguageOptions,
 ): GeneratedDetectLanguageOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1100,7 +1100,7 @@ function makeGeneratedDetectLanguageOptions(
  * @internal
  */
 function makeGeneratedExtractKeyPhrasesOptions(
-  params: ExtractKeyPhrasesOptions
+  params: ExtractKeyPhrasesOptions,
 ): GeneratedExtractKeyPhrasesOptions {
   return {
     abortSignal: params.abortSignal,
@@ -1120,7 +1120,7 @@ function makeGeneratedExtractKeyPhrasesOptions(
  * @internal
  */
 function makeGeneratedRecognizeLinkingEntitiesOptions(
-  params: RecognizeLinkedEntitiesOptions
+  params: RecognizeLinkedEntitiesOptions,
 ): GeneratedRecognizeLinkedEntitiesOptions {
   return {
     abortSignal: params.abortSignal,

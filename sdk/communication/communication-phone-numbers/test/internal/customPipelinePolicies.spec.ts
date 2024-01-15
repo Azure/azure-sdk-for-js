@@ -27,11 +27,11 @@ describe("phoneNumbersPagingPolicy", function () {
       createMockResponse({
         phoneNumbers: [],
         nextLink: "/phoneNumbers?top=100&skip=100",
-      })
+      }),
     );
     assert.equal(
       response.parsedBody.nextLink,
-      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100"
+      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100",
     );
   });
 
@@ -41,18 +41,18 @@ describe("phoneNumbersPagingPolicy", function () {
       createMockResponse({
         phoneNumbers: [],
         nextLink: "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100",
-      })
+      }),
     );
     assert.equal(
       response.parsedBody.nextLink,
-      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100"
+      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100",
     );
   });
 
   it("does not change responses without nextLink", async function () {
     const policy = createPhoneNumbersPagingPolicy(endpoint);
     const response: FullOperationResponse = await policy.sendRequest(request, (_request) =>
-      createMockResponse({ phoneNumbers: [] })
+      createMockResponse({ phoneNumbers: [] }),
     );
     assert.isUndefined(response.parsedBody.nextLink);
   });
@@ -63,11 +63,11 @@ describe("phoneNumbersPagingPolicy", function () {
       createMockResponse({
         phoneNumbers: [],
         nextLink: "/phoneNumbers?top=100&skip=100",
-      })
+      }),
     );
     assert.equal(
       response.parsedBody.nextLink,
-      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100"
+      "https://contoso.spool.azure.local/phoneNumbers?top=100&skip=100",
     );
   });
 });

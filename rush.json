@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.109.2",
+  "rushVersion": "5.112.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.7.5",
+  "pnpmVersion": "8.11.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -185,7 +185,7 @@
     /**
      * The list of shell commands to run after the Rush installation finishes
      */
-    "postRushInstall": [],
+    "postRushInstall": ["rush install-test-browsers"],
     /**
      * The list of shell commands to run before the Rush build command starts
      */
@@ -531,14 +531,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http",
-      "decoupledLocalDependencies": [
-        "@azure/core-tracing"
-      ],
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-rest-pipeline",
       "projectFolder": "sdk/core/core-rest-pipeline",
       "versionPolicyName": "core"
@@ -631,9 +623,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -829,6 +819,11 @@
     {
       "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/vite-plugin-browser-test-map",
+      "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"
     },
     {
@@ -2149,6 +2144,16 @@
     {
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"
     },
     {

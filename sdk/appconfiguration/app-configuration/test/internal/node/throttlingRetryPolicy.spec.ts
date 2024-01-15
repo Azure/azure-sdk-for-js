@@ -5,7 +5,7 @@ import { AbortController } from "@azure/abort-controller";
 import { AppConfigurationClient } from "../../../src";
 import { RestError } from "@azure/core-rest-pipeline";
 import chai from "chai";
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import nock from "nock";
 
 describe("Should not retry forever", () => {
@@ -24,7 +24,7 @@ describe("Should not retry forever", () => {
         policy: "Total Requests",
         status: 429,
       },
-      ["retry-after-ms", retryAfterMs]
+      ["retry-after-ms", retryAfterMs],
     );
   }
 
@@ -40,7 +40,7 @@ describe("Should not retry forever", () => {
 
   it("simulate the service throttling - honors the abort signal passed", async () => {
     mockErrorResponse("123456");
-    const key = generateUuid();
+    const key = randomUUID();
     const numberOfSettings = 200;
     const promises = [];
     let errorWasThrown = false;
@@ -54,8 +54,8 @@ describe("Should not retry forever", () => {
             },
             {
               abortSignal: AbortController.timeout(1000),
-            }
-          )
+            },
+          ),
         );
       }
       await Promise.all(promises);
@@ -71,13 +71,13 @@ describe("Should not retry forever", () => {
     for (let index = 0; index < responseCount; index++) {
       mockErrorResponse("100", false);
     }
-    const key = generateUuid();
+    const key = randomUUID();
     let errorWasThrown = false;
 
     chai.assert.equal(
       nock.pendingMocks().length,
       responseCount,
-      "unexpected pending mocks before making the request"
+      "unexpected pending mocks before making the request",
     );
     try {
       await client.addConfigurationSetting({
@@ -92,14 +92,14 @@ describe("Should not retry forever", () => {
       chai.assert.equal(
         JSON.parse(err.message).title,
         "Resource utilization has surpassed the assigned quota",
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
     }
     chai.assert.equal(errorWasThrown, true, "Error was not thrown");
     chai.assert.equal(
       nock.pendingMocks().length,
       responseCount - 1 - 3, // one attempt + three retries
-      "unexpected pending mocks after the test was run"
+      "unexpected pending mocks after the test was run",
     );
   });
 });
