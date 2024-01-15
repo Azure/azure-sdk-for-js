@@ -318,8 +318,13 @@ export type ClientOptions = PipelineOptions & {
   };
   /**
    * Base url for the client
+   * @deprecated Use `endpoint` instead.
    */
   baseUrl?: string;
+  /**
+   * Endpoint for the client
+   */
+  endpoint?: string;
   /**
    * Options for setting a custom apiVersion.
    */
