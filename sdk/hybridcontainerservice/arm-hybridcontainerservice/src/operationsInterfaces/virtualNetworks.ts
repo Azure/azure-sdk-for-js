@@ -27,7 +27,7 @@ import {
 /** Interface representing a VirtualNetworks. */
 export interface VirtualNetworks {
   /**
-   * Lists the Hybrid AKS virtual networks by resource group
+   * Lists the virtual networks in the specified resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -36,14 +36,14 @@ export interface VirtualNetworks {
     options?: VirtualNetworksListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
-   * Lists the Hybrid AKS virtual networks by subscription
+   * Lists the virtual networks in the specified subscription
    * @param options The options parameters.
    */
   listBySubscription(
     options?: VirtualNetworksListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<VirtualNetwork>;
   /**
-   * Gets the Hybrid AKS virtual network
+   * Gets the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -54,10 +54,10 @@ export interface VirtualNetworks {
     options?: VirtualNetworksRetrieveOptionalParams
   ): Promise<VirtualNetworksRetrieveResponse>;
   /**
-   * Puts the Hybrid AKS virtual network
+   * Creates or updates the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource definition.
+   * @param virtualNetworks Virtual Network resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
@@ -72,10 +72,10 @@ export interface VirtualNetworks {
     >
   >;
   /**
-   * Puts the Hybrid AKS virtual network
+   * Creates or updates the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource definition.
+   * @param virtualNetworks Virtual Network resource definition
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
@@ -85,7 +85,7 @@ export interface VirtualNetworks {
     options?: VirtualNetworksCreateOrUpdateOptionalParams
   ): Promise<VirtualNetworksCreateOrUpdateResponse>;
   /**
-   * Deletes the Hybrid AKS virtual network
+   * Deletes the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -101,7 +101,7 @@ export interface VirtualNetworks {
     >
   >;
   /**
-   * Deletes the Hybrid AKS virtual network
+   * Deletes the specified virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -112,10 +112,10 @@ export interface VirtualNetworks {
     options?: VirtualNetworksDeleteOptionalParams
   ): Promise<VirtualNetworksDeleteResponse>;
   /**
-   * Patches the Hybrid AKS virtual network
+   * Patches the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource patch definition.
+   * @param virtualNetworks Virtual Network resource patch definition
    * @param options The options parameters.
    */
   beginUpdate(
@@ -130,10 +130,10 @@ export interface VirtualNetworks {
     >
   >;
   /**
-   * Patches the Hybrid AKS virtual network
+   * Patches the virtual network resource
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks The virtualNetworks resource patch definition.
+   * @param virtualNetworks Virtual Network resource patch definition
    * @param options The options parameters.
    */
   beginUpdateAndWait(
