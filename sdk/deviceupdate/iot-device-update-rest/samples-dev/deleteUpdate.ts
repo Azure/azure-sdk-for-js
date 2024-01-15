@@ -34,7 +34,7 @@ async function main() {
       instanceId,
       updateProvider,
       updateName,
-      updateVersion
+      updateVersion,
     )
     .delete();
 

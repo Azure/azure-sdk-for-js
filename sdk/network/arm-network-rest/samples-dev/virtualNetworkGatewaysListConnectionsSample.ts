@@ -32,7 +32,7 @@ async function virtualNetworkGatewaysListConnections() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/connections",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

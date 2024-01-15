@@ -13,7 +13,7 @@ import { SynonymMap } from "./serviceModels";
  */
 export async function createSynonymMapFromFile(
   _name: string,
-  _filePath: string
+  _filePath: string,
 ): Promise<SynonymMap> {
   throw new Error("Not implemented for browser.");
 }

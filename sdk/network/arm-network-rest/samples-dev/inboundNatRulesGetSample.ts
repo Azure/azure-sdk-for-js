@@ -33,7 +33,7 @@ async function inboundNatRuleGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      inboundNatRuleName
+      inboundNatRuleName,
     )
     .get(options);
   console.log(result);

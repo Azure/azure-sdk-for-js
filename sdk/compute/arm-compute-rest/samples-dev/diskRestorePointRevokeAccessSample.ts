@@ -36,7 +36,7 @@ async function revokesAccessToADiskRestorePoint() {
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      diskRestorePointName
+      diskRestorePointName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -28,7 +28,7 @@ async function securityPoliciesGet() {
   const result = await client.securityPolicies.get(
     resourceGroupName,
     profileName,
-    securityPolicyName
+    securityPolicyName,
   );
   console.log(result);
 }

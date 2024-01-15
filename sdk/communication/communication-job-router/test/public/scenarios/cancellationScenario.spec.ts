@@ -39,13 +39,13 @@ describe("JobRouterClient", function () {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        distributionPolicyRequest,
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
       await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest
+        classificationPolicyRequest,
       );
     });
 

@@ -30,7 +30,7 @@ async function kustoPrincipalAssignmentsList() {
   for await (let item of client.databasePrincipalAssignments.list(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

@@ -30,14 +30,14 @@ export class FileAccessControl {
         // This guarantees we can immediately fail setDiskRetryMode if we need to
         try {
           FileAccessControl.OS_PROVIDES_FILE_PROTECTION = fs.existsSync(
-            FileAccessControl.ICACLS_PATH
+            FileAccessControl.ICACLS_PATH,
           );
         } catch (e: any) {
           // Ignore error
         }
         if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
           diag.warn(
-            "Could not find ICACLS in expected location! This is necessary to use disk retry mode on Windows."
+            "Could not find ICACLS in expected location! This is necessary to use disk retry mode on Windows.",
           );
         }
       } else {
@@ -96,7 +96,7 @@ export class FileAccessControl {
           resolve();
         } else {
           reject(
-            new Error(`Setting ACL restrictions did not succeed (ICACLS returned code ${code})`)
+            new Error(`Setting ACL restrictions did not succeed (ICACLS returned code ${code})`),
           );
         }
       });
@@ -113,7 +113,7 @@ export class FileAccessControl {
         throw aclProc.error;
       } else if (aclProc.status !== 0) {
         throw new Error(
-          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status})`
+          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status})`,
         );
       }
     } else {
@@ -132,7 +132,7 @@ export class FileAccessControl {
         <any>{
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
-        }
+        },
       );
       let data = "";
       psProc.stdout.on("data", (d: string) => (data += d));
@@ -160,7 +160,7 @@ export class FileAccessControl {
         <any>{
           windowsHide: true,
           stdio: ["ignore", "pipe", "pipe"], // Needed to prevent hanging on Win 7
-        }
+        },
       );
       if (psProc.error) {
         throw psProc.error;

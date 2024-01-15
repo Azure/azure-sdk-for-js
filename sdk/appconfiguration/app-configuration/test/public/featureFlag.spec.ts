@@ -77,7 +77,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
 
     function assertFeatureFlagProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
-      expected: ConfigurationSetting<FeatureFlagValue>
+      expected: ConfigurationSetting<FeatureFlagValue>,
     ): void {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
       assert.isDefined(actual.value, "Expected the value to be defined");
@@ -85,12 +85,12 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       assert.equal(
         actual.key,
         expected.key,
-        "Key from the response from get request is not as expected"
+        "Key from the response from get request is not as expected",
       );
       assert.deepEqual(
         featureFlagValue.conditions,
         expected.value.conditions,
-        "conditions from the response from get request is not as expected"
+        "conditions from the response from get request is not as expected",
       );
       assert.equal(featureFlagValue.description, expected.value.description);
       assert.equal(featureFlagValue.enabled, expected.value.enabled);
@@ -183,7 +183,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
       assert.equal(
         numberOFFeatureFlagsReceived,
         0,
-        "Unexpected number of FeatureFlags seen after updating"
+        "Unexpected number of FeatureFlags seen after updating",
       );
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
@@ -200,7 +200,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         contentType: featureFlagContentType,
         key: `${featureFlagPrefix}${recorder.variable(
           "name-1",
-          `name-1${Math.floor(Math.random() * 1000)}`
+          `name-1${Math.floor(Math.random() * 1000)}`,
         )}`,
         isReadOnly: false,
         value: { conditions: { clientFilters: [] }, enabled: true },
@@ -219,7 +219,7 @@ describe("AppConfigurationClient - FeatureFlag", () => {
         assert.equal(
           (await client.getConfigurationSetting({ key: featureFlag.key })).value,
           value,
-          "message"
+          "message",
         );
       });
     });

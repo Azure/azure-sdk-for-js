@@ -70,10 +70,10 @@ type LinkOptionsT<LinkT extends Receiver | AwaitableSender | RequestResponseLink
   LinkT extends Receiver
     ? ReceiverOptions
     : LinkT extends AwaitableSender
-    ? AwaitableSenderOptions
-    : LinkT extends RequestResponseLink
-    ? RequestResponseLinkOptions
-    : never;
+      ? AwaitableSenderOptions
+      : LinkT extends RequestResponseLink
+        ? RequestResponseLinkOptions
+        : never;
 
 /**
  * @internal
@@ -82,10 +82,10 @@ type LinkTypeT<LinkT extends Receiver | AwaitableSender | RequestResponseLink> =
   LinkT extends Receiver
     ? ReceiverType
     : LinkT extends AwaitableSender
-    ? "sender" // sender
-    : LinkT extends RequestResponseLink
-    ? "mgmt" // management link
-    : never;
+      ? "sender" // sender
+      : LinkT extends RequestResponseLink
+        ? "mgmt" // management link
+        : never;
 
 /**
  * @internal
@@ -182,7 +182,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     context: ConnectionContext,
     private _linkType: LinkTypeT<LinkT>,
     private _logger: ServiceBusLogger,
-    options?: LinkEntityOptions
+    options?: LinkEntityOptions,
   ) {
     if (!options) options = {};
     this._context = context;
@@ -213,26 +213,26 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     await this._context.readyToOpenLink();
 
     this._logger.verbose(
-      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`,
     );
     return defaultCancellableLock.acquire(
       this._openLock,
       () => {
         this._logger.verbose(
-          `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`
+          `${this._logPrefix} Lock ${this._openLock} acquired for initializing link`,
         );
         return this._initLinkImpl(options, abortSignal);
       },
       {
         abortSignal: abortSignal,
         timeoutInMs: Constants.defaultOperationTimeoutInMs,
-      }
+      },
     );
   }
 
   private async _initLinkImpl(
     options: LinkOptionsT<LinkT>,
-    abortSignal?: AbortSignalLike
+    abortSignal?: AbortSignalLike,
   ): Promise<void> {
     const checkAborted = (): void => {
       if (abortSignal?.aborted) {
@@ -259,7 +259,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     this._logger.verbose(
-      `${this._logPrefix} Is not open and is not currently connecting. Opening.`
+      `${this._logPrefix} Is not open and is not currently connecting. Opening.`,
     );
 
     try {
@@ -321,7 +321,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   protected closeLink(): Promise<void> {
     this._logger.verbose(
-      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`,
     );
     return defaultCancellableLock.acquire(
       this._openLock,
@@ -329,7 +329,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         this._logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
         return this.closeLinkImpl();
       },
-      { abortSignal: undefined, timeoutInMs: undefined }
+      { abortSignal: undefined, timeoutInMs: undefined },
     );
   }
 
@@ -403,7 +403,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._context.cbsSession.cbsLock,
       this._type,
       this.name,
-      this.address
+      this.address,
     );
 
     const startTime = Date.now();
@@ -417,7 +417,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         {
           abortSignal,
           timeoutInMs: timeoutInMs - (Date.now() - startTime),
-        }
+        },
       );
     }
 
@@ -442,7 +442,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       "%s %s: calling negotiateClaim for audience '%s'.",
       this.logPrefix,
       this._type,
-      this.audience
+      this.audience,
     );
     // Acquire the lock to negotiate the CBS claim.
     this._logger.verbose(
@@ -451,7 +451,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._context.negotiateClaimLock,
       this._type,
       this.name,
-      this.address
+      this.address,
     );
     if (!tokenObject) {
       throw new Error("Token cannot be null");
@@ -467,20 +467,20 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
           {
             abortSignal,
             timeoutInMs: timeoutInMs - (Date.now() - startTime),
-          }
+          },
         );
       },
       {
         abortSignal,
         timeoutInMs: timeoutInMs - (Date.now() - startTime),
-      }
+      },
     );
     this._logger.verbose(
       "%s Negotiated claim for %s '%s' with with address: %s",
       this.logPrefix,
       this._type,
       this.name,
-      this.address
+      this.address,
     );
     if (setTokenRenewal) {
       this._ensureTokenRenewal();
@@ -498,11 +498,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     this._logger.verbose(
-      `${this._logPrefix} Connection is reopening, aborting link initialization.`
+      `${this._logPrefix} Connection is reopening, aborting link initialization.`,
     );
     const err = new ServiceBusError(
       "Connection is reopening, aborting link initialization.",
-      "GeneralError"
+      "GeneralError",
     );
     err.retryable = true;
     throw err;
@@ -535,7 +535,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
           this.logPrefix,
           this._type,
           this.name,
-          this.address
+          this.address,
         );
       }
     }, this._tokenTimeout);
@@ -546,7 +546,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.name,
       this.address,
       this._tokenTimeout,
-      new Date(Date.now() + this._tokenTimeout).toString()
+      new Date(Date.now() + this._tokenTimeout).toString(),
     );
   }
 }

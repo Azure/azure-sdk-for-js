@@ -30,7 +30,7 @@ async function afdProfilesCheckHostNameAvailability() {
   const result = await client.afdProfiles.checkHostNameAvailability(
     resourceGroupName,
     profileName,
-    checkHostNameAvailabilityInput
+    checkHostNameAvailabilityInput,
   );
   console.log(result);
 }

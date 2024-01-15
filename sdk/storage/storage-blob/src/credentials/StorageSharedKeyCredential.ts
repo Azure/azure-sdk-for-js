@@ -45,7 +45,7 @@ export class StorageSharedKeyCredential extends Credential {
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptions,
   ): StorageSharedKeyCredentialPolicy {
     return new StorageSharedKeyCredentialPolicy(nextPolicy, options, this);
   }

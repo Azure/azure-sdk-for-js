@@ -244,9 +244,9 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
       }),
       contentType: "multipart/form-data",
       body: {
-        file: createFile(fileContent, "placeholder.wav"),
-        response_format,
         ...snakeCaseKeys(rest),
+        file: createFile(fileContent, "placeholder.wav"),
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -310,9 +310,9 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
       }),
       contentType: "multipart/form-data",
       body: {
-        file: createFile(fileContent, "placeholder.wav"),
-        response_format,
         ...snakeCaseKeys(rest),
+        file: createFile(fileContent, "placeholder.wav"),
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {

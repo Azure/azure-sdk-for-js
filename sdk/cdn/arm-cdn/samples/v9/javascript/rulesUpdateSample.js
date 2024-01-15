@@ -45,7 +45,7 @@ async function rulesUpdate() {
     profileName,
     ruleSetName,
     ruleName,
-    ruleUpdateProperties
+    ruleUpdateProperties,
   );
   console.log(result);
 }

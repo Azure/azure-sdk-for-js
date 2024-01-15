@@ -28,7 +28,7 @@ describe("DocumentIntelligenceClient", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -101,7 +101,7 @@ describe("DocumentIntelligenceClient", () => {
 
       assert.ok(
         paragraphs && paragraphs.length > 0,
-        `Expected non-empty paragraphs but got ${paragraphs}.`
+        `Expected non-empty paragraphs but got ${paragraphs}.`,
       );
 
       assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -432,7 +432,7 @@ describe("DocumentIntelligenceClient", () => {
       if (!_model) {
         modelName = recorder.variable(
           "customFormModelName",
-          `customFormModelName${getRandomNumber()}`
+          `customFormModelName${getRandomNumber()}`,
         );
 
         const initialResponse = await client.path("/documentModels:build").post({
@@ -441,7 +441,7 @@ describe("DocumentIntelligenceClient", () => {
             modelId: modelName,
             azureBlobSource: {
               containerUrl: assertEnvironmentVariable(
-                "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL"
+                "DOCUMENT_INTELLIGENCE_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
               ),
             },
           },

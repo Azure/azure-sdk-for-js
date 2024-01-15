@@ -33,8 +33,7 @@ async function kustoClustersCreateOrUpdate() {
     languageExtensions: {
       value: [
         {
-          languageExtensionCustomImageName: "customImage8",
-          languageExtensionImageName: "Python_Custom_Image",
+          languageExtensionImageName: "Python3_10_8",
           languageExtensionName: "PYTHON",
         },
         { languageExtensionImageName: "R", languageExtensionName: "R" },
@@ -50,7 +49,7 @@ async function kustoClustersCreateOrUpdate() {
   const result = await client.clusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@ export function tablesNamedKeyCredentialPolicy(_credential: NamedKeyCredential):
 
 export function getAuthorizationHeader(
   _request: PipelineRequest,
-  _credential: NamedKeyCredential
+  _credential: NamedKeyCredential,
 ): never {
   throw new Error("Shared Access Key authentication is not supported in the browser");
 }

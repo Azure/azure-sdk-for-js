@@ -32,7 +32,7 @@ describe("#parseEventHubSpan(...)", () => {
       ROOT_CONTEXT,
       "test span",
       { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-      SpanKind.CLIENT
+      SpanKind.CLIENT,
     );
     span.setAttributes(attributes);
 
@@ -53,7 +53,7 @@ describe("#parseEventHubSpan(...)", () => {
       ROOT_CONTEXT,
       "test span",
       { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
-      SpanKind.PRODUCER
+      SpanKind.PRODUCER,
     );
     span.setAttributes(attributes);
 
@@ -90,7 +90,7 @@ describe("#parseEventHubSpan(...)", () => {
           context: null as unknown as SpanContext,
           attributes: { [ENQUEUED_TIME]: startTime - 111 },
         },
-      ]
+      ],
     );
 
     // cast since startTime is readonly

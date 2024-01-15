@@ -32,7 +32,7 @@ async function vpnGatewayDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

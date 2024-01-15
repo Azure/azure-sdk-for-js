@@ -41,7 +41,7 @@ async function createVirtualRouter() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       subscriptionId,
       resourceGroupName,
-      virtualRouterName
+      virtualRouterName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

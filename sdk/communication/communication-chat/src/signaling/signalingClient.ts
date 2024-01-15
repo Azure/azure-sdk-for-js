@@ -13,7 +13,7 @@ export interface SignalingClientOptions {
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
-  options?: SignalingClientOptions
+  options?: SignalingClientOptions,
 ): SignalingClient | undefined => {
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native

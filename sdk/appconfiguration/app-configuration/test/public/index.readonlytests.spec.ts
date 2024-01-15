@@ -26,7 +26,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     recorder = await startRecorder(this);
     testConfigSetting.key = recorder.variable(
       "readOnlyTests",
-      `readOnlyTests${Math.floor(Math.random() * 1000)}`
+      `readOnlyTests${Math.floor(Math.random() * 1000)}`,
     );
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     // before it's set to read only we can set it all we want
@@ -57,7 +57,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await assertThrowsRestError(
       () => client.setConfigurationSetting(testConfigSetting),
       409,
-      "Set should fail because the setting is read-only"
+      "Set should fail because the setting is read-only",
     );
     await assertThrowsRestError(
       () =>
@@ -66,7 +66,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
           label: testConfigSetting.label,
         }),
       409,
-      "Delete should fail because the setting is read-only"
+      "Delete should fail because the setting is read-only",
     );
   });
 

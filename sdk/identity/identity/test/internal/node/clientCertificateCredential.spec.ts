@@ -33,7 +33,7 @@ describe("ClientCertificateCredential (internal)", function () {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential"
+      "acquireTokenByClientCredential",
     );
   });
   afterEach(async function () {
@@ -68,7 +68,7 @@ describe("ClientCertificateCredential (internal)", function () {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientCertificateCredential: tenantId and clientId are required parameters."
+        "ClientCertificateCredential: tenantId and clientId are required parameters.",
       );
     });
 
@@ -89,7 +89,7 @@ describe("ClientCertificateCredential (internal)", function () {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+        "ClientCertificateCredential: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
       );
     });
 
@@ -106,7 +106,7 @@ describe("ClientCertificateCredential (internal)", function () {
     assert.ok(error);
     assert.equal(
       (error as Error).message,
-      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+      "ClientCertificateCredential: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
     );
   });
 
@@ -142,7 +142,7 @@ describe("ClientCertificateCredential (internal)", function () {
     assert.ok(error);
     assert.deepEqual(
       error?.message,
-      `The file at the specified path does not contain a PEM-encoded certificate.`
+      `The file at the specified path does not contain a PEM-encoded certificate.`,
     );
   });
 
@@ -184,7 +184,7 @@ describe("ClientCertificateCredential (internal)", function () {
       {
         // TODO: Uncomment once we're ready to release this feature.
         // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
-      }
+      },
     );
 
     // We'll abort since we only want to ensure the parameters are sent appropriately.

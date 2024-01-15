@@ -43,7 +43,7 @@ describe("[Mocked] ChatClient", async function () {
     chatClient = new ChatClient(
       baseUri,
       new AzureCommunicationTokenCredential(generateToken()),
-      options as ChatClientOptions
+      options as ChatClientOptions,
     );
 
     const spy = sinon.spy(mockHttpClient, "sendRequest");
@@ -72,7 +72,7 @@ describe("[Mocked] ChatClient", async function () {
     assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
     assert.deepEqual(
       (createThreadResult.chatThread?.createdBy as CommunicationUserIdentifier).communicationUserId,
-      mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id
+      mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id,
     );
 
     const request = spy.getCall(0).args[0];
@@ -147,7 +147,7 @@ describe("[Mocked] ChatClient", async function () {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`
+      `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`,
     );
     assert.equal(request.method, "DELETE");
   });
@@ -163,7 +163,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are not supported in node js."
+        "Realtime notifications are not supported in node js.",
       );
     }
   });
@@ -179,7 +179,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are not supported in node js."
+        "Realtime notifications are not supported in node js.",
       );
     }
   });
@@ -195,7 +195,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -211,7 +211,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -227,7 +227,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -243,7 +243,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -259,7 +259,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -275,7 +275,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -291,7 +291,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -307,7 +307,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -323,7 +323,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -339,7 +339,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });
@@ -355,7 +355,7 @@ describe("[Mocked] ChatClient", async function () {
     } catch (error) {
       expect(error).to.be.an.instanceof(Error);
       expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser."
+        "Realtime notifications are only supported in the browser.",
       );
     }
   });

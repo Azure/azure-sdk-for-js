@@ -209,7 +209,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async addConnection(
     connectionId: string,
-    options: GroupAddConnectionOptions = {}
+    options: GroupAddConnectionOptions = {},
   ): Promise<void> {
     let response: FullOperationResponse | undefined;
     function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
@@ -230,7 +230,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
           {
             ...updatedOptions,
             onResponse,
-          }
+          },
         );
 
         if (response!.status === 404) {
@@ -240,7 +240,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
             response: response,
           });
         }
-      }
+      },
     );
   }
 
@@ -252,7 +252,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    */
   public async removeConnection(
     connectionId: string,
-    options: GroupRemoveConnectionOptions = {}
+    options: GroupRemoveConnectionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "WebPubSubGroupClient.removeConnection",
@@ -262,9 +262,9 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
           this.hubName,
           this.groupName,
           connectionId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -281,9 +281,9 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         return this.client.webPubSub.closeGroupConnections(
           this.hubName,
           this.groupName,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
   /**
@@ -298,7 +298,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         this.hubName,
         this.groupName,
         username,
-        updatedOptions
+        updatedOptions,
       );
     });
   }
@@ -315,7 +315,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         this.hubName,
         this.groupName,
         username,
-        updatedOptions
+        updatedOptions,
       );
     });
   }
@@ -344,7 +344,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
 
   public async sendToAll(
     message: JSONTypes | RequestBodyType,
-    options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
+    options: GroupSendToAllOptions | GroupSendTextToAllOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan("WebPubSubGroupClient.sendToAll", options, (updatedOptions) => {
       const { contentType, payload } = getPayloadForMessage(message, updatedOptions);
@@ -353,7 +353,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
         this.groupName,
         contentType,
         payload as any,
-        updatedOptions
+        updatedOptions,
       );
     });
   }

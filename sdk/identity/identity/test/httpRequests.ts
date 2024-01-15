@@ -131,7 +131,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
    */
   async sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    { response }: { response: TestResponse }
+    { response }: { response: TestResponse },
   ): Promise<T | null> {
     const request = createRequest();
     this.sandbox.replace(
@@ -140,7 +140,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       (_options: string | URL | http.RequestOptions, resolve: any) => {
         resolve(responseToIncomingMessage(response));
         return request;
-      }
+      },
     );
     this.clock.runAllAsync();
     return sendPromise();
@@ -151,7 +151,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
    */
   async sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: { response: TestResponse }
+    response: { response: TestResponse },
   ): Promise<Error> {
     return getError(this.sendIndividualRequest(sendPromise, response));
   }
@@ -162,7 +162,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   public registerResponses(
     provider: "http" | "https",
     responses: { response?: TestResponse; error?: RestError }[],
-    spies: sinon.SinonSpy[]
+    spies: sinon.SinonSpy[],
   ): http.RequestOptions[] {
     const providerObject = provider === "http" ? http : https;
     const totalOptions: http.RequestOptions[] = [];
@@ -170,7 +170,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     try {
       const fakeRequest = (
         options: string | URL | http.RequestOptions,
-        resolve: any
+        resolve: any,
       ): http.ClientRequest => {
         totalOptions.push(options as http.RequestOptions);
 
@@ -193,7 +193,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     } catch (e: any) {
       console.debug(
         "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls.",
-        e.message
+        e.message,
       );
     }
 
@@ -209,7 +209,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   extractRequests(
     options: http.RequestOptions[],
     spies: sinon.SinonSpy[],
-    protocol: "http" | "https"
+    protocol: "http" | "https",
   ): {
     url: string;
     body: string;

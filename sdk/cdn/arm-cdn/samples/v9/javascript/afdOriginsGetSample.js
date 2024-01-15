@@ -30,7 +30,7 @@ async function afdOriginsGet() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originName
+    originName,
   );
   console.log(result);
 }

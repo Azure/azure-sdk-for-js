@@ -35,7 +35,7 @@ async function updateExpressRouteCrossConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       subscriptionId,
       resourceGroupName,
-      crossConnectionName
+      crossConnectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

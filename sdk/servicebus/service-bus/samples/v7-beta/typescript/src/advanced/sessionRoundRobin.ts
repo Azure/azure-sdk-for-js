@@ -120,7 +120,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
       },
       {
         abortSignal: abortController.signal,
-      }
+      },
     );
   });
 
@@ -146,7 +146,7 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
         while (!abortController.signal.aborted) {
           await receiveFromNextSession(serviceBusClient);
         }
-      })()
+      })(),
     );
   }
 
@@ -159,5 +159,5 @@ async function roundRobinThroughAvailableSessions(): Promise<void> {
 
 // To stop the round-robin processing you can just call abortController.abort()
 roundRobinThroughAvailableSessions().catch((err) =>
-  console.log(`Session RoundRobin - Fatal error: ${err}`)
+  console.log(`Session RoundRobin - Fatal error: ${err}`),
 );

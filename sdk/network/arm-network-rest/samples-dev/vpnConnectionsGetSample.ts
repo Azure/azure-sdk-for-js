@@ -33,7 +33,7 @@ async function vpnConnectionGet() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

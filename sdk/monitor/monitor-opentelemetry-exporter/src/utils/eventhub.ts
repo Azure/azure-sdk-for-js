@@ -40,7 +40,7 @@ const getTimeSinceEnqueued = (span: ReadableSpan) => {
  */
 export const parseEventHubSpan = (
   span: ReadableSpan,
-  baseData: RequestData | RemoteDependencyData
+  baseData: RequestData | RemoteDependencyData,
 ): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
   const peerAddress = (

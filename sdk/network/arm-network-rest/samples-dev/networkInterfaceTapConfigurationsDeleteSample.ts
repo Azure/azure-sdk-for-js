@@ -34,7 +34,7 @@ async function deleteTapConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      tapConfigurationName
+      tapConfigurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

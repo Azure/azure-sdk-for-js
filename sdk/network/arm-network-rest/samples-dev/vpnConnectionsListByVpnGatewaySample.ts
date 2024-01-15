@@ -32,7 +32,7 @@ async function vpnConnectionList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/vpnConnections",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

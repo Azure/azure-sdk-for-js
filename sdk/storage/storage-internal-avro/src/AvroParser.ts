@@ -31,7 +31,7 @@ export class AvroParser {
   public static async readFixedBytes(
     stream: AvroReadable,
     length: number,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<Uint8Array> {
     const bytes = await stream.read(length, { abortSignal: options.abortSignal });
     if (bytes.length !== length) {
@@ -48,7 +48,7 @@ export class AvroParser {
    */
   private static async readByte(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     const buf = await AvroParser.readFixedBytes(stream, 1, options);
     return buf[0];
@@ -59,7 +59,7 @@ export class AvroParser {
   // zig-zag: https://developers.google.com/protocol-buffers/docs/encoding?csw=1#types
   private static async readZigZagLong(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     let zigZagEncoded = 0;
     let significanceInBit = 0;
@@ -95,14 +95,14 @@ export class AvroParser {
 
   public static async readLong(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     return AvroParser.readZigZagLong(stream, options);
   }
 
   public static async readInt(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     return AvroParser.readZigZagLong(stream, options);
   }
@@ -113,7 +113,7 @@ export class AvroParser {
 
   public static async readBoolean(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<boolean> {
     const b = await AvroParser.readByte(stream, options);
     if (b === 1) {
@@ -127,7 +127,7 @@ export class AvroParser {
 
   public static async readFloat(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     const u8arr = await AvroParser.readFixedBytes(stream, 4, options);
     const view = new DataView(u8arr.buffer, u8arr.byteOffset, u8arr.byteLength);
@@ -136,7 +136,7 @@ export class AvroParser {
 
   public static async readDouble(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<number> {
     const u8arr = await AvroParser.readFixedBytes(stream, 8, options);
     const view = new DataView(u8arr.buffer, u8arr.byteOffset, u8arr.byteLength);
@@ -145,7 +145,7 @@ export class AvroParser {
 
   public static async readBytes(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<Uint8Array> {
     const size = await AvroParser.readLong(stream, options);
     if (size < 0) {
@@ -157,7 +157,7 @@ export class AvroParser {
 
   public static async readString(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<string> {
     const u8arr = await AvroParser.readBytes(stream, options);
     const utf8decoder = new TextDecoder();
@@ -167,7 +167,7 @@ export class AvroParser {
   private static async readMapPair<T>(
     stream: AvroReadable,
     readItemMethod: (s: AvroReadable, options?: AvroParserReadOptions) => Promise<T>,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<KeyValuePair<T>> {
     const key = await AvroParser.readString(stream, options);
     // FUTURE: this won't work with readFixed (currently not supported) which needs a length as the parameter.
@@ -178,11 +178,11 @@ export class AvroParser {
   public static async readMap<T>(
     stream: AvroReadable,
     readItemMethod: (s: AvroReadable, options?: AvroParserReadOptions) => Promise<T>,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<Record<string, T>> {
     const readPairMethod = (
       s: AvroReadable,
-      opts: AvroParserReadOptions = {}
+      opts: AvroParserReadOptions = {},
     ): Promise<KeyValuePair<T>> => {
       return AvroParser.readMapPair(s, readItemMethod, opts);
     };
@@ -199,7 +199,7 @@ export class AvroParser {
   private static async readArray<T>(
     stream: AvroReadable,
     readItemMethod: (s: AvroReadable, options?: AvroParserReadOptions) => Promise<T>,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<T[]> {
     const items: T[] = [];
     for (
@@ -263,7 +263,7 @@ export abstract class AvroType {
    */
   public abstract read(
     stream: AvroReadable,
-    options?: AvroParserReadOptions
+    options?: AvroParserReadOptions,
   ): Promise<Object | null>; // eslint-disable-line @typescript-eslint/ban-types
 
   /**
@@ -403,7 +403,7 @@ class AvroUnionType extends AvroType {
 
   public async read(
     stream: AvroReadable,
-    options: AvroParserReadOptions = {}
+    options: AvroParserReadOptions = {},
   ): Promise<Object | null> {
     // eslint-disable-line @typescript-eslint/ban-types
     const typeIndex = await AvroParser.readInt(stream, options);
@@ -422,7 +422,7 @@ class AvroMapType extends AvroType {
   public read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
     const readItemMethod = (
       s: AvroReadable,
-      opts?: AvroParserReadOptions
+      opts?: AvroParserReadOptions,
     ): Promise<Object | null> => {
       return this._itemType.read(s, opts);
     };
