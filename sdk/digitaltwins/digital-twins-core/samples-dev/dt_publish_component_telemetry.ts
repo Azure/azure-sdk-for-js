@@ -34,7 +34,7 @@ async function main() {
     digitalTwinId,
     componentPath,
     telemetryPayload,
-    v4()
+    v4(),
   );
   console.log(`Publish Component Telemetry response:`);
   console.log(inspect(response));

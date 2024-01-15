@@ -31,7 +31,7 @@ async function getAzureFirewall() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function getAzureFirewallWithAdditionalProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -85,7 +85,7 @@ async function getAzureFirewallWithIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -112,7 +112,7 @@ async function getAzureFirewallWithZones() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);
@@ -139,7 +139,7 @@ async function getAzureFirewallWithManagementSubnet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .get(options);
   console.log(result);

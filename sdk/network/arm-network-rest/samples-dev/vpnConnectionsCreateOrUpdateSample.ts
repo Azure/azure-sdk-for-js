@@ -82,7 +82,7 @@ async function vpnConnectionPut() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

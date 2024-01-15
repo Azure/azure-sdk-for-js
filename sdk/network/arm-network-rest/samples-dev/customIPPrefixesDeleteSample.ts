@@ -32,7 +32,7 @@ async function deleteCustomIPPrefix() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}",
       subscriptionId,
       resourceGroupName,
-      customIpPrefixName
+      customIpPrefixName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

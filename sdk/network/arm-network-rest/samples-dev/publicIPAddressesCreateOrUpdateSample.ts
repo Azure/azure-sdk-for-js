@@ -36,7 +36,7 @@ async function createPublicIPAddressDns() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -74,7 +74,7 @@ async function createPublicIPAddressAllocationMethod() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -104,7 +104,7 @@ async function createPublicIPAddressDefaults() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

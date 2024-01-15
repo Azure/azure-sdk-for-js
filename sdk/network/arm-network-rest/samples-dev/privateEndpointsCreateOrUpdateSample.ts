@@ -61,7 +61,7 @@ async function createPrivateEndpoint() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -113,7 +113,7 @@ async function createPrivateEndpointWithApplicationSecurityGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -171,7 +171,7 @@ async function createPrivateEndpointWithManualApprovalConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -31,7 +31,7 @@ async function getExpressRouteCrossConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       subscriptionId,
       resourceGroupName,
-      crossConnectionName
+      crossConnectionName,
     )
     .get(options);
   console.log(result);

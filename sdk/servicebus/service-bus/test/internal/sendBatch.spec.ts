@@ -44,7 +44,7 @@ describe("Send Batch", () => {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
 
@@ -71,7 +71,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
@@ -109,7 +109,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const sentMessages: ServiceBusMessage[] = [];
@@ -189,7 +189,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages();
@@ -298,7 +298,7 @@ describe("Send Batch", () => {
     async function testSendBatch(
       useSessions: boolean,
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(useSessions);
@@ -361,7 +361,7 @@ describe("Send Batch", () => {
 
     async function testSendBatch(
       // Max batch size
-      maxSizeInBytes?: number
+      maxSizeInBytes?: number,
     ): Promise<void> {
       // Prepare messages to send
       const messagesToSend = prepareMessages(entityNames.usesSessions);
@@ -370,22 +370,22 @@ describe("Send Batch", () => {
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[0]),
         true,
-        "tryAdd should not have failed for the first message"
+        "tryAdd should not have failed for the first message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[1]),
         false,
-        "tryAdd should have failed for the second message"
+        "tryAdd should have failed for the second message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[2]),
         false,
-        "tryAdd should have failed for the third message"
+        "tryAdd should have failed for the third message",
       );
       should.equal(
         batchMessage.tryAddMessage(messagesToSend[3]),
         false,
-        "tryAdd should have failed for the fourth message"
+        "tryAdd should have failed for the fourth message",
       );
       await sender.sendMessages(batchMessage);
       // receive all the messages in receive and delete mode
@@ -418,14 +418,14 @@ describe("Send Batch", () => {
         should.equal(
           error.message,
           `Max message size (${maxSizeInBytes} bytes) is greater than maximum message size (${maxSize} bytes) on the AMQP sender link.`,
-          "Unexpected error message when tried to create a batch of size > maximum message size."
+          "Unexpected error message when tried to create a batch of size > maximum message size.",
         );
         errorIsThrown = true;
       }
       should.equal(
         errorIsThrown,
         true,
-        "Error is not thrown when tried to create a batch of size > maximum message size."
+        "Error is not thrown when tried to create a batch of size > maximum message size.",
       );
     }
 
@@ -449,13 +449,13 @@ describe("Send Batch", () => {
           // this isn't a documented option for send(batch) but we do pass it through to the underlying
           // createBatch call.
           maxSizeInBytes: 1,
-        } as OperationOptions
+        } as OperationOptions,
       );
       should.fail("Should have thrown - the batch is too big");
     } catch (err: any) {
       should.equal(
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
-        err.message
+        err.message,
       );
       should.equal(err.code, "MessageSizeExceeded");
       should.equal(err.name, "ServiceBusError");
@@ -516,7 +516,7 @@ describe("Send Batch", () => {
           undefinedProperty: null, // NOTE, undefined just gets squashed to null,
           canary: "hello",
         },
-      }
+      },
     );
   });
 });
@@ -610,7 +610,7 @@ describe("Premium namespaces - Sending", () => {
           : (await atomClient.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
               .totalMessageCount,
         1,
-        `Unexpected number of messages are present in the entity.`
+        `Unexpected number of messages are present in the entity.`,
       );
     }
 

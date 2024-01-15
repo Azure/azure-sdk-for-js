@@ -76,7 +76,7 @@ describe("Deserialize Validation", function () {
           data: encoder.encode(JSON.stringify(data)),
           contentType: createContentType(id),
         },
-        skipValidationOption
+        skipValidationOption,
       );
       assert.deepEqual(data, deserialedData);
     });
@@ -91,9 +91,9 @@ describe("Deserialize Validation", function () {
             data: encoder.encode(JSON.stringify(data)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
-        data
+        data,
       );
     });
 
@@ -107,12 +107,12 @@ describe("Deserialize Validation", function () {
             data: encoder.encode(JSON.stringify(data)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must have required property 'name'/,
-        }
+        },
       );
     });
 
@@ -127,12 +127,12 @@ describe("Deserialize Validation", function () {
             data: encoder.encode(JSON.stringify(data)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be integer/,
-        }
+        },
       );
     });
   });
@@ -184,12 +184,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be boolean/,
-        }
+        },
       );
     });
 
@@ -210,12 +210,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be string/,
-        }
+        },
       );
     });
 
@@ -236,12 +236,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be integer/,
-        }
+        },
       );
     });
 
@@ -262,12 +262,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be null/,
-        }
+        },
       );
     });
 
@@ -288,12 +288,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be number/,
-        }
+        },
       );
     });
 
@@ -314,12 +314,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be array/,
-        }
+        },
       );
     });
 
@@ -345,12 +345,12 @@ describe("Validation Error", function () {
             data: encoder.encode(JSON.stringify(testData)),
             contentType: createContentType(id),
           },
-          validateWithAjvOption
+          validateWithAjvOption,
         ),
         {
           message: /Json validation failed/,
           causeMessage: /must be object/,
-        }
+        },
       );
     });
   });

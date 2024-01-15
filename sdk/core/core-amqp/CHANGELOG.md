@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Correct timeToLive calculation to use absolute expiry time.
+
 ### Other Changes
 
 ## 4.1.0 (2023-11-07)

@@ -33,7 +33,7 @@ async function staticMembersGet() {
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      staticMemberName
+      staticMemberName,
     )
     .get(options);
   console.log(result);

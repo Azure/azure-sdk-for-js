@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
     consumerGroup,
     eventHubsFullyQualifiedName,
     eventHubName,
-    credential
+    credential,
   );
   /*
    Refer to other samples, and place your code here

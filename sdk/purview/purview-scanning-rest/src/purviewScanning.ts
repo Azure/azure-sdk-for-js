@@ -128,15 +128,15 @@ import { TokenCredential } from "@azure/core-auth";
 export interface KeyVaultConnectionsGet {
   /** Gets key vault information */
   get(
-    options?: KeyVaultConnectionsGetParameters
+    options?: KeyVaultConnectionsGetParameters,
   ): Promise<KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetdefaultResponse>;
   /** Creates an instance of a key vault connection */
   put(
-    options: KeyVaultConnectionsCreateParameters
+    options: KeyVaultConnectionsCreateParameters,
   ): Promise<KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreatedefaultResponse>;
   /** Deletes the key vault connection associated with the account */
   delete(
-    options?: KeyVaultConnectionsDeleteParameters
+    options?: KeyVaultConnectionsDeleteParameters,
   ): Promise<
     | KeyVaultConnectionsDelete200Response
     | KeyVaultConnectionsDelete204Response
@@ -147,18 +147,18 @@ export interface KeyVaultConnectionsGet {
 export interface KeyVaultConnectionsListAll {
   /** List key vault connections in account */
   get(
-    options?: KeyVaultConnectionsListAllParameters
+    options?: KeyVaultConnectionsListAllParameters,
   ): Promise<KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAlldefaultResponse>;
 }
 
 export interface ClassificationRulesGet {
   /** Get a classification rule */
   get(
-    options?: ClassificationRulesGetParameters
+    options?: ClassificationRulesGetParameters,
   ): Promise<ClassificationRulesGet200Response | ClassificationRulesGetdefaultResponse>;
   /** Creates or Updates a classification rule */
   put(
-    options?: ClassificationRulesCreateOrUpdateParameters
+    options?: ClassificationRulesCreateOrUpdateParameters,
   ): Promise<
     | ClassificationRulesCreateOrUpdate200Response
     | ClassificationRulesCreateOrUpdate201Response
@@ -166,7 +166,7 @@ export interface ClassificationRulesGet {
   >;
   /** Deletes a classification rule */
   delete(
-    options?: ClassificationRulesDeleteParameters
+    options?: ClassificationRulesDeleteParameters,
   ): Promise<
     | ClassificationRulesDelete200Response
     | ClassificationRulesDelete204Response
@@ -177,14 +177,14 @@ export interface ClassificationRulesGet {
 export interface ClassificationRulesListAll {
   /** List classification rules in Account */
   get(
-    options?: ClassificationRulesListAllParameters
+    options?: ClassificationRulesListAllParameters,
   ): Promise<ClassificationRulesListAll200Response | ClassificationRulesListAlldefaultResponse>;
 }
 
 export interface ClassificationRulesListVersionsByClassificationRuleName {
   /** Lists the rule versions of a classification rule */
   get(
-    options?: ClassificationRulesListVersionsByClassificationRuleNameParameters
+    options?: ClassificationRulesListVersionsByClassificationRuleNameParameters,
   ): Promise<
     | ClassificationRulesListVersionsByClassificationRuleName200Response
     | ClassificationRulesListVersionsByClassificationRuleNamedefaultResponse
@@ -194,7 +194,7 @@ export interface ClassificationRulesListVersionsByClassificationRuleName {
 export interface ClassificationRulesTagClassificationVersion {
   /** Sets Classification Action on a specific classification rule version. */
   post(
-    options: ClassificationRulesTagClassificationVersionParameters
+    options: ClassificationRulesTagClassificationVersionParameters,
   ): Promise<
     | ClassificationRulesTagClassificationVersion202Response
     | ClassificationRulesTagClassificationVersiondefaultResponse
@@ -204,7 +204,7 @@ export interface ClassificationRulesTagClassificationVersion {
 export interface DataSourcesCreateOrUpdate {
   /** Creates or Updates a data source */
   put(
-    options?: DataSourcesCreateOrUpdateParameters
+    options?: DataSourcesCreateOrUpdateParameters,
   ): Promise<
     | DataSourcesCreateOrUpdate200Response
     | DataSourcesCreateOrUpdate201Response
@@ -212,11 +212,11 @@ export interface DataSourcesCreateOrUpdate {
   >;
   /** Get a data source */
   get(
-    options?: DataSourcesGetParameters
+    options?: DataSourcesGetParameters,
   ): Promise<DataSourcesGet200Response | DataSourcesGetdefaultResponse>;
   /** Deletes a data source */
   delete(
-    options?: DataSourcesDeleteParameters
+    options?: DataSourcesDeleteParameters,
   ): Promise<
     DataSourcesDelete200Response | DataSourcesDelete204Response | DataSourcesDeletedefaultResponse
   >;
@@ -225,7 +225,7 @@ export interface DataSourcesCreateOrUpdate {
 export interface DataSourcesListAll {
   /** List data sources in Data catalog */
   get(
-    options?: DataSourcesListAllParameters
+    options?: DataSourcesListAllParameters,
   ): Promise<DataSourcesListAll200Response | DataSourcesListAlldefaultResponse>;
 }
 
@@ -234,7 +234,7 @@ export interface FiltersGet {
   get(options?: FiltersGetParameters): Promise<FiltersGet200Response | FiltersGetdefaultResponse>;
   /** Creates or updates a filter */
   put(
-    options?: FiltersCreateOrUpdateParameters
+    options?: FiltersCreateOrUpdateParameters,
   ): Promise<
     | FiltersCreateOrUpdate200Response
     | FiltersCreateOrUpdate201Response
@@ -245,7 +245,7 @@ export interface FiltersGet {
 export interface ScansCreateOrUpdate {
   /** Creates an instance of a scan */
   put(
-    options: ScansCreateOrUpdateParameters
+    options: ScansCreateOrUpdateParameters,
   ): Promise<
     | ScansCreateOrUpdate200Response
     | ScansCreateOrUpdate201Response
@@ -255,46 +255,46 @@ export interface ScansCreateOrUpdate {
   get(options?: ScansGetParameters): Promise<ScansGet200Response | ScansGetdefaultResponse>;
   /** Deletes the scan associated with the data source */
   delete(
-    options?: ScansDeleteParameters
+    options?: ScansDeleteParameters,
   ): Promise<ScansDelete200Response | ScansDelete204Response | ScansDeletedefaultResponse>;
 }
 
 export interface ScansListByDataSource {
   /** List scans in data source */
   get(
-    options?: ScansListByDataSourceParameters
+    options?: ScansListByDataSourceParameters,
   ): Promise<ScansListByDataSource200Response | ScansListByDataSourcedefaultResponse>;
 }
 
 export interface ScanResultRunScan {
   /** Runs the scan */
   put(
-    options?: ScanResultRunScanParameters
+    options?: ScanResultRunScanParameters,
   ): Promise<ScanResultRunScan202Response | ScanResultRunScandefaultResponse>;
 }
 
 export interface ScanResultCancelScan {
   /** Cancels a scan */
   post(
-    options?: ScanResultCancelScanParameters
+    options?: ScanResultCancelScanParameters,
   ): Promise<ScanResultCancelScan202Response | ScanResultCancelScandefaultResponse>;
 }
 
 export interface ScanResultListScanHistory {
   /** Lists the scan history of a scan */
   get(
-    options?: ScanResultListScanHistoryParameters
+    options?: ScanResultListScanHistoryParameters,
   ): Promise<ScanResultListScanHistory200Response | ScanResultListScanHistorydefaultResponse>;
 }
 
 export interface ScanRulesetsGet {
   /** Get a scan ruleset */
   get(
-    options?: ScanRulesetsGetParameters
+    options?: ScanRulesetsGetParameters,
   ): Promise<ScanRulesetsGet200Response | ScanRulesetsGetdefaultResponse>;
   /** Creates or Updates a scan ruleset */
   put(
-    options?: ScanRulesetsCreateOrUpdateParameters
+    options?: ScanRulesetsCreateOrUpdateParameters,
   ): Promise<
     | ScanRulesetsCreateOrUpdate200Response
     | ScanRulesetsCreateOrUpdate201Response
@@ -302,7 +302,7 @@ export interface ScanRulesetsGet {
   >;
   /** Deletes a scan ruleset */
   delete(
-    options?: ScanRulesetsDeleteParameters
+    options?: ScanRulesetsDeleteParameters,
   ): Promise<
     | ScanRulesetsDelete200Response
     | ScanRulesetsDelete204Response
@@ -313,28 +313,28 @@ export interface ScanRulesetsGet {
 export interface ScanRulesetsListAll {
   /** List scan rulesets in Data catalog */
   get(
-    options?: ScanRulesetsListAllParameters
+    options?: ScanRulesetsListAllParameters,
   ): Promise<ScanRulesetsListAll200Response | ScanRulesetsListAlldefaultResponse>;
 }
 
 export interface SystemScanRulesetsListAll {
   /** List all system scan rulesets for an account */
   get(
-    options?: SystemScanRulesetsListAllParameters
+    options?: SystemScanRulesetsListAllParameters,
   ): Promise<SystemScanRulesetsListAll200Response | SystemScanRulesetsListAlldefaultResponse>;
 }
 
 export interface SystemScanRulesetsGet {
   /** Get a system scan ruleset for a data source */
   get(
-    options?: SystemScanRulesetsGetParameters
+    options?: SystemScanRulesetsGetParameters,
   ): Promise<SystemScanRulesetsGet200Response | SystemScanRulesetsGetdefaultResponse>;
 }
 
 export interface SystemScanRulesetsGetByVersion {
   /** Get a scan ruleset by version */
   get(
-    options?: SystemScanRulesetsGetByVersionParameters
+    options?: SystemScanRulesetsGetByVersionParameters,
   ): Promise<
     SystemScanRulesetsGetByVersion200Response | SystemScanRulesetsGetByVersiondefaultResponse
   >;
@@ -343,14 +343,14 @@ export interface SystemScanRulesetsGetByVersion {
 export interface SystemScanRulesetsGetLatest {
   /** Get the latest version of a system scan ruleset */
   get(
-    options?: SystemScanRulesetsGetLatestParameters
+    options?: SystemScanRulesetsGetLatestParameters,
   ): Promise<SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestdefaultResponse>;
 }
 
 export interface SystemScanRulesetsListVersionsByDataSource {
   /** List system scan ruleset versions in Data catalog */
   get(
-    options?: SystemScanRulesetsListVersionsByDataSourceParameters
+    options?: SystemScanRulesetsListVersionsByDataSourceParameters,
   ): Promise<
     | SystemScanRulesetsListVersionsByDataSource200Response
     | SystemScanRulesetsListVersionsByDataSourcedefaultResponse
@@ -360,11 +360,11 @@ export interface SystemScanRulesetsListVersionsByDataSource {
 export interface TriggersGetTrigger {
   /** Gets trigger information */
   get(
-    options?: TriggersGetTriggerParameters
+    options?: TriggersGetTriggerParameters,
   ): Promise<TriggersGetTrigger200Response | TriggersGetTriggerdefaultResponse>;
   /** Creates an instance of a trigger */
   put(
-    options: TriggersCreateTriggerParameters
+    options: TriggersCreateTriggerParameters,
   ): Promise<
     | TriggersCreateTrigger200Response
     | TriggersCreateTrigger201Response
@@ -372,7 +372,7 @@ export interface TriggersGetTrigger {
   >;
   /** Deletes the trigger associated with the scan */
   delete(
-    options?: TriggersDeleteTriggerParameters
+    options?: TriggersDeleteTriggerParameters,
   ): Promise<
     | TriggersDeleteTrigger200Response
     | TriggersDeleteTrigger204Response
@@ -388,20 +388,20 @@ export interface Routes {
   /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/classificationrules/{classificationRuleName}",
-    classificationRuleName: string
+    classificationRuleName: string,
   ): ClassificationRulesGet;
   /** Resource for '/classificationrules' has methods for the following verbs: get */
   (path: "/classificationrules"): ClassificationRulesListAll;
   /** Resource for '/classificationrules/\{classificationRuleName\}/versions' has methods for the following verbs: get */
   (
     path: "/classificationrules/{classificationRuleName}/versions",
-    classificationRuleName: string
+    classificationRuleName: string,
   ): ClassificationRulesListVersionsByClassificationRuleName;
   /** Resource for '/classificationrules/\{classificationRuleName\}/versions/\{classificationRuleVersion\}/:tag' has methods for the following verbs: post */
   (
     path: "/classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/:tag",
     classificationRuleName: string,
-    classificationRuleVersion: string
+    classificationRuleVersion: string,
   ): ClassificationRulesTagClassificationVersion;
   /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
   (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesCreateOrUpdate;
@@ -411,13 +411,13 @@ export interface Routes {
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/filters/custom",
     dataSourceName: string,
-    scanName: string
+    scanName: string,
   ): FiltersGet;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}",
     dataSourceName: string,
-    scanName: string
+    scanName: string,
   ): ScansCreateOrUpdate;
   /** Resource for '/datasources/\{dataSourceName\}/scans' has methods for the following verbs: get */
   (path: "/datasources/{dataSourceName}/scans", dataSourceName: string): ScansListByDataSource;
@@ -426,20 +426,20 @@ export interface Routes {
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}",
     dataSourceName: string,
     scanName: string,
-    runId: string
+    runId: string,
   ): ScanResultRunScan;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}/:cancel' has methods for the following verbs: post */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}/:cancel",
     dataSourceName: string,
     scanName: string,
-    runId: string
+    runId: string,
   ): ScanResultCancelScan;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs' has methods for the following verbs: get */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs",
     dataSourceName: string,
-    scanName: string
+    scanName: string,
   ): ScanResultListScanHistory;
   /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: get, put, delete */
   (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsGet;
@@ -450,7 +450,7 @@ export interface Routes {
   /** Resource for '/systemScanRulesets/datasources/\{dataSourceType\}' has methods for the following verbs: get */
   (
     path: "/systemScanRulesets/datasources/{dataSourceType}",
-    dataSourceType: string
+    dataSourceType: string,
   ): SystemScanRulesetsGet;
   /** Resource for '/systemScanRulesets/versions/\{version\}' has methods for the following verbs: get */
   (path: "/systemScanRulesets/versions/{version}", version: string): SystemScanRulesetsGetByVersion;
@@ -462,7 +462,7 @@ export interface Routes {
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/triggers/default",
     dataSourceName: string,
-    scanName: string
+    scanName: string,
   ): TriggersGetTrigger;
 }
 
@@ -473,7 +473,7 @@ export type PurviewScanningRestClient = Client & {
 export default function PurviewScanning(
   Endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): PurviewScanningRestClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}`;
   options.apiVersion = options.apiVersion ?? "2018-12-01-preview";

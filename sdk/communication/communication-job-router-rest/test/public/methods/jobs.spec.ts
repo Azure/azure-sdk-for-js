@@ -210,7 +210,7 @@ describe("JobRouterClient", function () {
           }
           result = response.body;
         },
-        { retries: 3, retryIntervalMs: 1500 }
+        { retries: 3, retryIntervalMs: 1500 },
       );
 
       assert.isDefined(result);
@@ -272,7 +272,7 @@ describe("JobRouterClient", function () {
           }
           result = response.body;
         },
-        { retries: 3, retryIntervalMs: 1500 }
+        { retries: 3, retryIntervalMs: 1500 },
       );
 
       assert.isDefined(result);
@@ -300,7 +300,7 @@ describe("JobRouterClient", function () {
             deleted = true;
           }
         },
-        { retries: 5, retryIntervalMs: 1500 }
+        { retries: 5, retryIntervalMs: 1500 },
       );
 
       assert.isTrue(deleted);

@@ -31,7 +31,7 @@ async function getVirtualNetworkGatewayConnection() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .get(options);
   console.log(result);

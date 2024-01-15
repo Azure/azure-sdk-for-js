@@ -36,7 +36,7 @@ async function stopPacketCaptureOnVpnGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/stoppacketcapture",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

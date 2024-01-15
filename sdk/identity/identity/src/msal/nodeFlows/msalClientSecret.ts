@@ -29,12 +29,12 @@ export class MsalClientSecret extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {}
+    options: CredentialFlowGetTokenOptions = {},
   ): Promise<AccessToken> {
     try {
       const result = await this.getApp(
         "confidential",
-        options.enableCae
+        options.enableCae,
       ).acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,

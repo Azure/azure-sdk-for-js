@@ -46,7 +46,7 @@ async function createOrUpdateAnAdminRuleCollection() {
       resourceGroupName,
       networkManagerName,
       configurationName,
-      ruleCollectionName
+      ruleCollectionName,
     )
     .put(options);
   console.log(result);

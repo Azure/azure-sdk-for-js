@@ -31,7 +31,7 @@ async function vpnServerConfigurationGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName
+      vpnServerConfigurationName,
     )
     .get(options);
   console.log(result);

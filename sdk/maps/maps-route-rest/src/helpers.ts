@@ -26,7 +26,7 @@ export function toColonDelimitedLatLonString(coordinates: LatLon[]): string {
  * @returns The composed batch request.
  */
 export function createRouteDirectionsBatchRequest(
-  queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[]
+  queryParamProperties: RouteGetRouteDirectionsQueryParamProperties[],
 ): BatchRequest {
   return {
     batchItems: queryParamProperties.map((queryParam) => ({
