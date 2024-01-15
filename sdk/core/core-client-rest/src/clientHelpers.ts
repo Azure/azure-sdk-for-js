@@ -36,7 +36,7 @@ export interface AddCredentialPipelinePolicyOptions {
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
   endpoint: string,
-  options: AddCredentialPipelinePolicyOptions = {}
+  options: AddCredentialPipelinePolicyOptions = {},
 ): void {
   const { credential, clientOptions } = options;
   if (!credential) {
