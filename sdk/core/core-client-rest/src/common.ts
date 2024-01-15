@@ -318,7 +318,7 @@ export type ClientOptions = PipelineOptions & {
   };
   /**
    * Base url for the client
-   * @deprecated Use `endpoint` instead.
+   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
    */
   baseUrl?: string;
   /**
