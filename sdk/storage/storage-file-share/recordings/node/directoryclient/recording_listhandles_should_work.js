@@ -67,7 +67,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/share168222949361104655/dir168222949541108029')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults><Entries><Handle><HandleId>50304516137</HandleId><Path>dir168222949541108029</Path><FileId>13835128424026341376</FileId><ParentId>0</ParentId><SessionId>9913091334384648269</SessionId><AccessRightList><AccessRight>Read</AccessRight><AccessRight>Write</AccessRight><AccessRight>Delete</AccessRight></AccessRightList><ClientIp>10.2.4.26:49849</ClientIp><OpenTime>Sun, 23 Apr 2023 05:59:52 GMT</OpenTime></Handle></Entries><NextMarker /></EnumerationResults>", [
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults><Entries><Handle><HandleId>50304516137</HandleId><Path>dir168222949541108029</Path><FileId>13835128424026341376</FileId><ParentId>0</ParentId><SessionId>9913091334384648269</SessionId><AccessRightList><AccessRight>Read</AccessRight><AccessRight>Write</AccessRight><AccessRight>Delete</AccessRight></AccessRightList><ClientIp>10.2.4.26:49849</ClientIp><OpenTime>Sun, 23 Apr 2023 05:59:52 GMT</OpenTime><ClientName>dir168222949541108029</ClientName></Handle></Entries><NextMarker /></EnumerationResults>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',

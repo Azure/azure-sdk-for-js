@@ -232,6 +232,8 @@ export interface HandleItem {
   sessionId: string;
   /** Client IP that opened the handle */
   clientIp: string;
+  /** Name of the client machine where the share is being mounted */
+  clientName: string;
   /** Time when the session that previously opened the handle has last been reconnected. (UTC) */
   openTime: Date;
   /** Time handle was last connected to (UTC) */
@@ -2752,6 +2754,8 @@ export interface FileUploadRangeFromURLOptionalParams
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a> */
   timeoutInSeconds?: number;
+  /** Valid value is backup */
+  fileRequestIntent?: ShareTokenIntent;
   /** If true, the trailing dot will not be trimmed from the target URI. */
   allowTrailingDot?: boolean;
   /** If true, the trailing dot will not be trimmed from the source URI. */

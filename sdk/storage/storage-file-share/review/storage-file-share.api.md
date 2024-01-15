@@ -1097,6 +1097,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
     allowTrailingDot?: boolean;
     copySourceAuthorization?: string;
     fileLastWrittenMode?: FileLastWrittenMode;
+    fileRequestIntent?: ShareTokenIntent;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -1174,6 +1175,7 @@ export interface HandleItem {
     // (undocumented)
     accessRightList?: ShareFileHandleAccessRights[];
     clientIp: string;
+    clientName: string;
     fileId: string;
     handleId: string;
     lastReconnectTime?: Date;

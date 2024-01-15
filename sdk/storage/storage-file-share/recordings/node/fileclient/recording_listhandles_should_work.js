@@ -104,7 +104,7 @@ nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParam
 nock('https://fakestorageaccount.file.core.windows.net:443', {"encodedQueryParams":true})
   .get('/share168223109138903404/dir168223109208607815/file168223109220904712')
   .query(true)
-  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults><Entries><Handle><HandleId>50304516139</HandleId><Path>dir168223109208607815/file168223109220904712</Path><FileId>11529285414812647424</FileId><ParentId>13835128424026341376</ParentId><SessionId>9913091334384648269</SessionId><AccessRightList><AccessRight>Read</AccessRight><AccessRight>Write</AccessRight><AccessRight>Delete</AccessRight></AccessRightList><ClientIp>10.2.4.26:49849</ClientIp><OpenTime>Sun, 23 Apr 2023 06:25:29 GMT</OpenTime></Handle></Entries><NextMarker /></EnumerationResults>", [
+  .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults><Entries><Handle><HandleId>50304516139</HandleId><Path>dir168223109208607815/file168223109220904712</Path><FileId>11529285414812647424</FileId><ParentId>13835128424026341376</ParentId><SessionId>9913091334384648269</SessionId><AccessRightList><AccessRight>Read</AccessRight><AccessRight>Write</AccessRight><AccessRight>Delete</AccessRight></AccessRightList><ClientIp>10.2.4.26:49849</ClientIp><OpenTime>Sun, 23 Apr 2023 06:25:29 GMT</OpenTime><ClientName>file168223109220904712</ClientName></Handle></Entries><NextMarker /></EnumerationResults>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
