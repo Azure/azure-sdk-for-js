@@ -43,7 +43,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
         alreadyEnqueued,
         eventHubName: alreadyEnqueued ? inputEventHubName : eventHubName,
         eventHubsConnectionString,
-      })
+      }),
     );
     client.initialize({
       skipParsingBodyAsJson,
@@ -107,7 +107,7 @@ matrix([[true, false]] as const, async (skipParsingJson: boolean) => {
       if (errors.length > 0) {
         throw new Error(
           "The following error(s) occurred:\n" +
-            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n")
+            errors.map(({ error, language }) => `${language}:\t${error.message}`).join("\n"),
         );
       }
     }

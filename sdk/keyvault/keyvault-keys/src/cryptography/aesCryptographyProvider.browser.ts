@@ -12,12 +12,12 @@ import { CryptographyProvider, LocalCryptographyUnsupportedError } from "./model
 export class AesCryptographyProvider implements CryptographyProvider {
   encrypt(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
   decrypt(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
@@ -30,37 +30,37 @@ export class AesCryptographyProvider implements CryptographyProvider {
 
   wrapKey(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
   unwrapKey(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
   sign(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
   signData(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
   verify(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 
   verifyData(): never {
     throw new LocalCryptographyUnsupportedError(
-      "AES Local cryptography is not supported in the browser."
+      "AES Local cryptography is not supported in the browser.",
     );
   }
 }

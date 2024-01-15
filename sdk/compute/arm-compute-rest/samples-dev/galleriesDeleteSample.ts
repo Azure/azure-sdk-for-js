@@ -32,7 +32,7 @@ async function deleteAGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

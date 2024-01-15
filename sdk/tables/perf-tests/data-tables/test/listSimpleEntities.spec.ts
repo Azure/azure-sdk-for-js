@@ -28,7 +28,7 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
     await super.globalSetup(); // Calling base class' setup
     const batches: TransactionAction[][] = createBatch(
       "simple",
-      this.parsedOptions.entityCount.value!
+      this.parsedOptions.entityCount.value!,
     );
 
     for (const batch of batches) {

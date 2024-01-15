@@ -131,7 +131,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     endpointUrl: string,
     inputSchema: T,
     credential: KeyCredential | SASCredential | TokenCredential,
-    options: EventGridPublisherClientOptions = {}
+    options: EventGridPublisherClientOptions = {},
   ) {
     this.endpointUrl = endpointUrl;
     this.inputSchema = inputSchema;
@@ -157,7 +157,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
    */
   send(
     events: InputSchemaToInputTypeMap[T][],
-    options: InputSchemaToOptionsTypeMap[T] = {}
+    options: InputSchemaToOptionsTypeMap[T] = {},
   ): Promise<void> {
     return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
@@ -165,9 +165,9 @@ export class EventGridPublisherClient<T extends InputSchema> {
           return this.client.publishEventGridEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["EventGrid"][]).map(
-              convertEventGridEventToModelType
+              convertEventGridEventToModelType,
             ),
-            updatedOptions
+            updatedOptions,
           );
         }
         case "CloudEvent": {
@@ -187,14 +187,14 @@ export class EventGridPublisherClient<T extends InputSchema> {
           return this.client.publishCloudEventEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["CloudEvent"][]).map(convertCloudEventToModelType),
-            sendOptions
+            sendOptions,
           );
         }
         case "Custom": {
           return this.client.publishCustomEventEvents(
             this.endpointUrl,
             events as InputSchemaToInputTypeMap["Custom"][],
-            updatedOptions
+            updatedOptions,
           );
         }
         default: {
@@ -209,7 +209,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
  * @internal
  */
 export function convertEventGridEventToModelType(
-  event: SendEventGridEventInput<any>
+  event: SendEventGridEventInput<any>,
 ): EventGridEventWireModel {
   return {
     eventType: event.eventType,
@@ -254,7 +254,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
   if (event.data instanceof Uint8Array) {
     if (!event.datacontenttype) {
       throw new Error(
-        "a data content type must be provided when sending an event with binary data"
+        "a data content type must be provided when sending an event with binary data",
       );
     }
 

@@ -76,7 +76,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -92,7 +92,7 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificatePath,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -108,13 +108,13 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     configuration: ClientCertificatePEMCertificate,
-    options?: ClientCertificateCredentialOptions
+    options?: ClientCertificateCredentialOptions,
   );
   constructor(
     tenantId: string,
     clientId: string,
     certificatePathOrConfiguration: string | ClientCertificateCredentialPEMConfiguration,
-    options: ClientCertificateCredentialOptions = {}
+    options: ClientCertificateCredentialOptions = {},
   ) {
     if (!tenantId || !clientId) {
       throw new Error(`${credentialName}: tenantId and clientId are required parameters.`);
@@ -122,7 +122,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     const configuration: ClientCertificateCredentialPEMConfiguration = {
@@ -139,12 +139,12 @@ export class ClientCertificateCredential implements TokenCredential {
     ).certificatePath;
     if (!configuration || !(certificate || certificatePath)) {
       throw new Error(
-        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: Provide either a PEM certificate in string form, or the path to that certificate in the filesystem. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     if (certificate && certificatePath) {
       throw new Error(
-        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`
+        `${credentialName}: To avoid unexpected behaviors, providing both the contents of a PEM certificate and the path to a PEM certificate is forbidden. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.`,
       );
     }
     this.msalFlow = new MsalClientCertificate({
@@ -172,7 +172,7 @@ export class ClientCertificateCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];

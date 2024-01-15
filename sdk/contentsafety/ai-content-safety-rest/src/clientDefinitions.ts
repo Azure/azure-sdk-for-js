@@ -41,25 +41,25 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface AnalyzeText {
   /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
-    options: AnalyzeTextParameters
+    options: AnalyzeTextParameters,
   ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
 }
 
 export interface AnalyzeImage {
   /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
-    options: AnalyzeImageParameters
+    options: AnalyzeImageParameters,
   ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
 }
 
 export interface GetTextBlocklist {
   /** Returns text blocklist details. */
   get(
-    options?: GetTextBlocklistParameters
+    options?: GetTextBlocklistParameters,
   ): StreamableMethod<GetTextBlocklist200Response | GetTextBlocklistDefaultResponse>;
   /** Updates a text blocklist. If the blocklistName does not exist, a new blocklist will be created. */
   patch(
-    options: CreateOrUpdateTextBlocklistParameters
+    options: CreateOrUpdateTextBlocklistParameters,
   ): StreamableMethod<
     | CreateOrUpdateTextBlocklist200Response
     | CreateOrUpdateTextBlocklist201Response
@@ -67,21 +67,21 @@ export interface GetTextBlocklist {
   >;
   /** Deletes a text blocklist. */
   delete(
-    options?: DeleteTextBlocklistParameters
+    options?: DeleteTextBlocklistParameters,
   ): StreamableMethod<DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse>;
 }
 
 export interface ListTextBlocklists {
   /** Get all text blocklists details. */
   get(
-    options?: ListTextBlocklistsParameters
+    options?: ListTextBlocklistsParameters,
   ): StreamableMethod<ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse>;
 }
 
 export interface AddOrUpdateBlocklistItems {
   /** Add or update blocklistItems to a text blocklist. You can add or update at most 100 blocklistItems in one request. */
   post(
-    options: AddOrUpdateBlocklistItemsParameters
+    options: AddOrUpdateBlocklistItemsParameters,
   ): StreamableMethod<
     AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse
   >;
@@ -90,21 +90,21 @@ export interface AddOrUpdateBlocklistItems {
 export interface RemoveBlocklistItems {
   /** Remove blocklistItems from a text blocklist. You can remove at most 100 BlocklistItems in one request. */
   post(
-    options: RemoveBlocklistItemsParameters
+    options: RemoveBlocklistItemsParameters,
   ): StreamableMethod<RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse>;
 }
 
 export interface GetTextBlocklistItem {
   /** Get blocklistItem by blocklistName and blocklistItemId from a text blocklist. */
   get(
-    options?: GetTextBlocklistItemParameters
+    options?: GetTextBlocklistItemParameters,
   ): StreamableMethod<GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse>;
 }
 
 export interface ListTextBlocklistItems {
   /** Get all blocklistItems in a text blocklist. */
   get(
-    options?: ListTextBlocklistItemsParameters
+    options?: ListTextBlocklistItemsParameters,
   ): StreamableMethod<ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse>;
 }
 
@@ -120,23 +120,23 @@ export interface Routes {
   /** Resource for '/text/blocklists/\{blocklistName\}:addOrUpdateBlocklistItems' has methods for the following verbs: post */
   (
     path: "/text/blocklists/{blocklistName}:addOrUpdateBlocklistItems",
-    blocklistName: string
+    blocklistName: string,
   ): AddOrUpdateBlocklistItems;
   /** Resource for '/text/blocklists/\{blocklistName\}:removeBlocklistItems' has methods for the following verbs: post */
   (
     path: "/text/blocklists/{blocklistName}:removeBlocklistItems",
-    blocklistName: string
+    blocklistName: string,
   ): RemoveBlocklistItems;
   /** Resource for '/text/blocklists/\{blocklistName\}/blocklistItems/\{blocklistItemId\}' has methods for the following verbs: get */
   (
     path: "/text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}",
     blocklistName: string,
-    blocklistItemId: string
+    blocklistItemId: string,
   ): GetTextBlocklistItem;
   /** Resource for '/text/blocklists/\{blocklistName\}/blocklistItems' has methods for the following verbs: get */
   (
     path: "/text/blocklists/{blocklistName}/blocklistItems",
-    blocklistName: string
+    blocklistName: string,
   ): ListTextBlocklistItems;
 }
 

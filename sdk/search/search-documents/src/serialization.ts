@@ -185,7 +185,7 @@ function isValidObject(
   options: {
     requiredKeys?: string[];
     propertyValidator?: (keyName: string) => boolean;
-  } = {}
+  } = {},
 ): boolean {
   if (typeof obj !== "object" || obj === null) {
     return false;

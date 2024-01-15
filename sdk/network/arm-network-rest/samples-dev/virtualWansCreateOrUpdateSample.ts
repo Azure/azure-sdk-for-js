@@ -37,7 +37,7 @@ async function virtualWanCreate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       subscriptionId,
       resourceGroupName,
-      VirtualWANName
+      VirtualWANName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

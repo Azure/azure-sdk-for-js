@@ -27,7 +27,7 @@ describe("#LiveMetrics", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(spans);
-        })
+        }),
     );
   });
 
@@ -53,7 +53,7 @@ describe("#LiveMetrics", () => {
       {
         body: "testMessage",
         timestamp: 1234567890,
-      }
+      },
     );
     autoCollect.recordLog(traceLog as any);
     traceLog.attributes["exception.type"] = "testExceptionType";
@@ -94,7 +94,7 @@ describe("#LiveMetrics", () => {
       autoCollect.recordSpan(serverSpan);
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 110));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
@@ -108,44 +108,44 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(
       (metrics[0].dataPoints[0].value as Histogram).count,
       6,
-      "REQUEST_DURATION dataPoint count"
+      "REQUEST_DURATION dataPoint count",
     );
     assert.strictEqual(
       (metrics[0].dataPoints[0].value as Histogram).min,
       100000,
-      "REQUEST_DURATION dataPoint min"
+      "REQUEST_DURATION dataPoint min",
     );
     assert.strictEqual(
       (metrics[0].dataPoints[0].value as Histogram).max,
       98765432,
-      "REQUEST_DURATION dataPoint max"
+      "REQUEST_DURATION dataPoint max",
     );
     assert.strictEqual(
       (metrics[0].dataPoints[0].value as Histogram).sum,
       197930864,
-      "REQUEST_DURATION dataPoint sum"
+      "REQUEST_DURATION dataPoint sum",
     );
     assert.strictEqual(metrics[1].descriptor.name, QuickPulseMetricNames.DEPENDENCY_DURATION);
     assert.strictEqual(metrics[1].dataPoints.length, 1, "dataPoints count");
     assert.strictEqual(
       (metrics[1].dataPoints[0].value as Histogram).count,
       4,
-      "DEPENDENCY_DURATION dataPoint count"
+      "DEPENDENCY_DURATION dataPoint count",
     );
     assert.strictEqual(
       (metrics[1].dataPoints[0].value as Histogram).min,
       900000,
-      "DEPENDENCY_DURATION dataPoint min"
+      "DEPENDENCY_DURATION dataPoint min",
     );
     assert.strictEqual(
       (metrics[1].dataPoints[0].value as Histogram).max,
       12345678,
-      "DEPENDENCY_DURATION dataPoint max"
+      "DEPENDENCY_DURATION dataPoint max",
     );
     assert.strictEqual(
       (metrics[1].dataPoints[0].value as Histogram).sum,
       15045678,
-      "DEPENDENCY_DURATION dataPoint sum"
+      "DEPENDENCY_DURATION dataPoint sum",
     );
     assert.strictEqual(metrics[2].descriptor.name, QuickPulseMetricNames.REQUEST_RATE);
     assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");

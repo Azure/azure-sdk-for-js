@@ -23,7 +23,7 @@ import { generateAccountSasQueryParameters } from "./accountSasSignatureValues";
  */
 export function generateAccountSas(
   credential: NamedKeyCredential,
-  options: AccountSasOptions = {}
+  options: AccountSasOptions = {},
 ): string {
   const {
     expiresOn,
@@ -34,7 +34,7 @@ export function generateAccountSas(
   } = options;
   if (!isNamedKeyCredential(credential)) {
     throw RangeError(
-      "Can only generate the account SAS when the client is initialized with a shared key credential"
+      "Can only generate the account SAS when the client is initialized with a shared key credential",
     );
   }
 
@@ -53,7 +53,7 @@ export function generateAccountSas(
       services: accountSasServicesToString(services),
       ...rest,
     },
-    credential
+    credential,
   ).toString();
 
   return sas;

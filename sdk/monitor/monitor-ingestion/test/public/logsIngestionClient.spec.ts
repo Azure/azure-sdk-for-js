@@ -91,7 +91,7 @@ describe("LogsIngestionClient live tests", function () {
       createTestCredential(),
       recorder.configureClientOptions({
         additionalPolicies,
-      })
+      }),
     );
     recordedClient.client = client;
     try {
@@ -104,7 +104,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'fake-id' not found.`
+            `Data collection rule with immutable Id 'fake-id' not found.`,
           );
         });
 
@@ -133,7 +133,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`,
           );
         });
         const chunkArraySize = getChunkArraylength(noOfElements);
@@ -171,7 +171,7 @@ describe("LogsIngestionClient live tests", function () {
         result.forEach((err) => {
           assert.equal(
             err.cause.message,
-            `Data collection rule with immutable Id 'immutable-id-123' not found.`
+            `Data collection rule with immutable Id 'immutable-id-123' not found.`,
           );
         });
       }
@@ -213,7 +213,7 @@ describe("LogsIngestionClient live tests", function () {
       assert.equal(error?.cause.name, "RestError");
       assert.equal(
         error?.cause.message,
-        "Data collection rule with immutable Id 'immutable-id-123' not found."
+        "Data collection rule with immutable Id 'immutable-id-123' not found.",
       );
       while (result.length > 0) {
         error = result.shift();

@@ -13,7 +13,7 @@ function buildRequest(
   hub: string,
   connectionId: string,
   userId?: string,
-  states?: string
+  states?: string,
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["content-type"] = "application/json; charset=utf-8";
@@ -163,7 +163,7 @@ describe("Can handle connect event", function () {
         key3: "",
       }),
       res.getHeader("ce-connectionState"),
-      "should contain multiple state headers"
+      "should contain multiple state headers",
     );
   });
 

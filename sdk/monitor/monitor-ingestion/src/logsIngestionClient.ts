@@ -37,7 +37,7 @@ export class LogsIngestionClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: LogsIngestionClientOptions
+    options?: LogsIngestionClientOptions,
   ) {
     this.endpoint = endpoint;
     this._dataClient = new GeneratedMonitorIngestionClient(tokenCredential, this.endpoint, {
@@ -61,7 +61,7 @@ export class LogsIngestionClient {
     streamName: string,
     logs: Record<string, unknown>[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: LogsUploadOptions
+    options?: LogsUploadOptions,
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
 
@@ -89,7 +89,7 @@ export class LogsIngestionClient {
           });
         }
       },
-      options?.abortSignal
+      options?.abortSignal,
     );
     if (uploadResultErrors.length > 0) {
       throw new AggregateLogsUploadError(uploadResultErrors);

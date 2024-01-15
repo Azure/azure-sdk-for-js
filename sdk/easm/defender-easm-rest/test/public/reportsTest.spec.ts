@@ -26,7 +26,7 @@ describe("Reports Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     metric = "savedfilter_metric_51126";
   });

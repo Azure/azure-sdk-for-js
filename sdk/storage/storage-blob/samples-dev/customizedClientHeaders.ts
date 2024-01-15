@@ -55,7 +55,7 @@ class RequestIDPolicy extends BaseRequestPolicy {
     // Customize client request ID header
     request.headers.set(
       "x-ms-client-request-id",
-      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`
+      `${this.prefix}_SOME_PATTERN_${new Date().getTime()}`,
     );
 
     // response is HttpOperationResponse type
@@ -80,7 +80,7 @@ async function main() {
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net${accountSas}`,
-    pipeline
+    pipeline,
   );
 
   const result = await blobServiceClient.listContainers().byPage().next();

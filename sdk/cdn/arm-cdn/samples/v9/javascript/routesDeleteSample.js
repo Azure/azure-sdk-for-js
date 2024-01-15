@@ -30,7 +30,7 @@ async function routesDelete() {
     resourceGroupName,
     profileName,
     endpointName,
-    routeName
+    routeName,
   );
   console.log(result);
 }

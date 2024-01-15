@@ -30,7 +30,7 @@ async function afdOriginsDelete() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originName
+    originName,
   );
   console.log(result);
 }

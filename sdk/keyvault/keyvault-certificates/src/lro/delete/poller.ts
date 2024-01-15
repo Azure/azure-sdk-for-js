@@ -41,7 +41,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

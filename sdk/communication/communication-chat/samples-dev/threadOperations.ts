@@ -29,7 +29,7 @@ export async function main() {
   // create ChatClient
   const chatClient = new ChatClient(
     endpoint,
-    new AzureCommunicationTokenCredential(userToken.token)
+    new AzureCommunicationTokenCredential(userToken.token),
   );
 
   // create chat thread
@@ -47,7 +47,7 @@ export async function main() {
   };
   const createChatThreadResult = await chatClient.createChatThread(
     createChatThreadRequest,
-    createChatThreadOptions
+    createChatThreadOptions,
   );
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
 

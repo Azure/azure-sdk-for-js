@@ -92,7 +92,7 @@
 /sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @ozgurcivi-msft @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
+/sdk/communication/communication-sms/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
 
 # PRLabel: %Communication - Short Codes
 /sdk/communication/communication-short-codes/ @danielav7
@@ -104,10 +104,10 @@
 /sdk/containerregistry/ @jeremymeng @timovv @Azure/azsdk-acr
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @abkolant-MSFT @simorenoh @v1k1
+/sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @abkolant-MSFT @pjohari-ms @simorenoh @v1k1
+#/<NotInRepo>/ @sajeetharan @pjohari-ms @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
@@ -1162,7 +1162,7 @@
 #/<NotInRepo>/          @sunilagarwal @lfittl-msft @sr-msft @niklarin
 
 # ServiceLabel: %Recovery Services Backup %Service Attention
-#/<NotInRepo>/          @pvrk @adityabalaji-msft @Daya-Patil
+#/<NotInRepo>/          @Daya-Patil
 
 # ServiceLabel: %Recovery Services Site-Recovery %Service Attention
 #/<NotInRepo>/          @Sharmistha-Rai

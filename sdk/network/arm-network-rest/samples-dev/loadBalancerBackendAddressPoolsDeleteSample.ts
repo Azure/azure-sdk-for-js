@@ -34,7 +34,7 @@ async function backendAddressPoolDelete() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

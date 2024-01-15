@@ -33,7 +33,7 @@ async function afdEndpointsPurgeContent() {
     resourceGroupName,
     profileName,
     endpointName,
-    contents
+    contents,
   );
   console.log(result);
 }

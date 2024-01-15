@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -46,7 +46,7 @@ async function handleRedirect(
   next: SendRequest,
   response: PipelineResponse,
   maxRetries: number,
-  currentRetries: number = 0
+  currentRetries: number = 0,
 ): Promise<PipelineResponse> {
   const { request, status, headers } = response;
   const locationHeader = headers.get("location");

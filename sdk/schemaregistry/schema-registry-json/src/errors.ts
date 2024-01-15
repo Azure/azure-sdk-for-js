@@ -20,6 +20,6 @@ export function errorWithCause(message: string, cause: Error): Error {
     // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    { cause }
+    { cause },
   );
 }

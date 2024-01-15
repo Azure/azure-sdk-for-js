@@ -49,7 +49,7 @@ async function RunTest(
   entityPath: string,
   maxInflight: number,
   messages: number,
-  batchAPI: boolean
+  batchAPI: boolean,
 ): Promise<void> {
   const ns = new ServiceBusClient(connectionString);
 
@@ -70,7 +70,7 @@ async function RunTest(
 async function ExecuteSendsAsync(
   sender: ServiceBusSender,
   messages: number,
-  batchAPI: boolean
+  batchAPI: boolean,
 ): Promise<void> {
   while (_messages <= messages) {
     if (batchAPI) {
@@ -120,7 +120,7 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
 ): void {
   const memoryUsage = process.memoryUsage();
   log(
@@ -129,7 +129,7 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
       `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`
+      `\tHeapUsed\t${memoryUsage.heapUsed}`,
   );
 }
 

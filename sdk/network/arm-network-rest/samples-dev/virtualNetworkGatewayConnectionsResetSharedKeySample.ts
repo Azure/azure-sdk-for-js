@@ -33,7 +33,7 @@ async function resetVirtualNetworkGatewayConnectionSharedKey() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey/reset",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

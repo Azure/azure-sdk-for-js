@@ -46,7 +46,7 @@ describe("MetricHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(result);
-        })
+        }),
     );
     const meterProvider = new MeterProvider({
       views: handler.getViews(),

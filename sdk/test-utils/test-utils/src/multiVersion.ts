@@ -52,7 +52,7 @@ function skipReason(currentVersion: string, supported: SupportedVersions): strin
 export function isVersionInSupportedRange(
   currentVersion: string,
   supported: SupportedVersions,
-  allVersions: ReadonlyArray<string>
+  allVersions: ReadonlyArray<string>,
 ): { isSupported: boolean; skipReason?: string } {
   const lessThanOrEqual = function (a: string, b: string) {
     const idxA = allVersions.indexOf(a);
@@ -123,7 +123,7 @@ export function isVersionInSupportedRange(
       }
     } else {
       throw new Error(
-        "Must use either minVer, or maxVer, or both to specify supported version range."
+        "Must use either minVer, or maxVer, or both to specify supported version range.",
       );
     }
   }
@@ -140,20 +140,20 @@ export function isVersionInSupportedRange(
 export function supports(
   currentVersion: string,
   supported: SupportedVersions,
-  allVersions: ReadonlyArray<string>
+  allVersions: ReadonlyArray<string>,
 ): TestFunctionWrapper {
   const run = isVersionInSupportedRange(currentVersion, supported, allVersions);
   const either = function (match: any, skip: any) {
     return run.isSupported
       ? match
       : isLiveMode()
-      ? // only append skip reason to titles in live TEST_MODE.
-        // Record and playback depends on titles for recording file names so keeping them
-        // in order to be compatible with existing recordings.
-        function (title: string, fn: Mocha.Func | Mocha.AsyncFunc) {
-          return skip(`${title} (${run.skipReason})`, fn);
-        }
-      : skip;
+        ? // only append skip reason to titles in live TEST_MODE.
+          // Record and playback depends on titles for recording file names so keeping them
+          // in order to be compatible with existing recordings.
+          function (title: string, fn: Mocha.Func | Mocha.AsyncFunc) {
+            return skip(`${title} (${run.skipReason})`, fn);
+          }
+        : skip;
   };
 
   const it = either(supports.global.it, supports.global.xit);
@@ -226,8 +226,8 @@ export function versionsToTest(
   options: MultiVersionTestOptions = {},
   handler: (
     serviceVersion: string,
-    onVersions: (supported: SupportedVersions) => TestFunctionWrapper
-  ) => void
+    onVersions: (supported: SupportedVersions) => TestFunctionWrapper,
+  ) => void,
 ): void {
   if (versions.length <= 0) {
     throw new Error("invalid list of service versions to run the tests.");

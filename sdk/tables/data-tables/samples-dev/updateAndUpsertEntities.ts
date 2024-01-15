@@ -50,7 +50,7 @@ async function updateAndUpsertEntities() {
       // Replace with the same entity but without a brand
       brand: undefined,
     },
-    "Replace"
+    "Replace",
   );
 
   // Getting the entity we just created should give us an entity similar to the one that we first inserted

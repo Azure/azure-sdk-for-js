@@ -60,7 +60,7 @@ export async function main() {
               // what is considered fatal for your program.
               console.log(
                 `An unrecoverable error occurred. Stopping processing. ${args.error.code}`,
-                args.error
+                args.error,
               );
               await subscription.close();
               break;

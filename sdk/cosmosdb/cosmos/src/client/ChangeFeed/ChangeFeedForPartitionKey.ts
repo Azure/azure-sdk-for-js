@@ -31,7 +31,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     private resourceId: string,
     private resourceLink: string,
     private partitionKey: PartitionKey,
-    private changeFeedOptions: InternalChangeFeedIteratorOptions
+    private changeFeedOptions: InternalChangeFeedIteratorOptions,
   ) {
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
@@ -53,7 +53,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       this.continuationToken = new ContinuationTokenForPartitionKey(
         this.rId,
         this.partitionKey,
-        ""
+        "",
       );
     }
 
@@ -106,18 +106,18 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
    * Read feed and retrieves the next set of results in Azure Cosmos DB.
    */
   private async fetchNext(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const response = await this.getFeedResponse(diagnosticNode);
     this.continuationToken.Continuation = response.headers[Constants.HttpHeaders.ETag];
     response.headers[Constants.HttpHeaders.ContinuationToken] = JSON.stringify(
-      this.continuationToken
+      this.continuationToken,
     );
     return response;
   }
 
   private async getFeedResponse(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
@@ -157,7 +157,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       response.result ? response.result.length : 0,
       response.code,
       response.headers,
-      getEmptyCosmosDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 }

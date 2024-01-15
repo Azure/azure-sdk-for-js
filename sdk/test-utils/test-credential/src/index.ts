@@ -23,7 +23,7 @@ export interface CreateTestCredentialOptions {
  */
 export function createTestCredential(
   tokenCredentialOptions?: TokenCredentialOptions,
-  createTestCredentialOptions?: CreateTestCredentialOptions
+  createTestCredentialOptions?: CreateTestCredentialOptions,
 ) {
   return isPlaybackMode()
     ? new NoOpCredential()
@@ -32,7 +32,7 @@ export function createTestCredential(
         createTestCredentialOptions?.clientId ?? assertEnvironmentVariable("AZURE_CLIENT_ID"),
         createTestCredentialOptions?.clientSecret ??
           assertEnvironmentVariable("AZURE_CLIENT_SECRET"),
-        tokenCredentialOptions
+        tokenCredentialOptions,
       );
 }
 

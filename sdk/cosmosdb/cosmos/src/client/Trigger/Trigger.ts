@@ -36,7 +36,7 @@ export class Trigger {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class Trigger {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -70,7 +70,7 @@ export class Trigger {
    */
   public async replace(
     body: TriggerDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<TriggerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (body.body) {
@@ -98,7 +98,7 @@ export class Trigger {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -123,7 +123,7 @@ export class Trigger {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

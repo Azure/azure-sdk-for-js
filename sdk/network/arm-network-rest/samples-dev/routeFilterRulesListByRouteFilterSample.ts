@@ -32,7 +32,7 @@ async function routeFilterRuleListByRouteFilter() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}/routeFilterRules",
       subscriptionId,
       resourceGroupName,
-      routeFilterName
+      routeFilterName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

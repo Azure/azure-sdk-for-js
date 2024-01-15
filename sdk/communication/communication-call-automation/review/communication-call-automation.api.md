@@ -74,6 +74,7 @@ export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
+    sourceCallIdNumber?: PhoneNumberIdentifier;
     transcriptionConfiguration?: TranscriptionConfiguration;
 }
 

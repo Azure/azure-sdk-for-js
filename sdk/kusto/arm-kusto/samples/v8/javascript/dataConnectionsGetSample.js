@@ -31,7 +31,7 @@ async function kustoDataConnectionsCosmosDbGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function kustoDataConnectionsEventGridGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }
@@ -79,7 +79,7 @@ async function kustoDataConnectionsGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }

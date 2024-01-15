@@ -32,7 +32,7 @@ async function getAvailablePrivateEndpointTypesInTheResourceGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availablePrivateEndpointTypes",
       subscriptionId,
       resourceGroupName,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

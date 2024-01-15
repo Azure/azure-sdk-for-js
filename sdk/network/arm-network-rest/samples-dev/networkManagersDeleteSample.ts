@@ -32,7 +32,7 @@ async function networkManagersDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

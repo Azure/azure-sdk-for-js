@@ -27,7 +27,10 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   private aggregateType: AggregateType;
   private completed: boolean = false;
 
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {
     // VALUE queries will only every have a single grouping
     this.aggregateType = this.queryInfo.aggregates[0];
   }
@@ -53,7 +56,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     while (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode
+        diagnosticNode,
       )) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 

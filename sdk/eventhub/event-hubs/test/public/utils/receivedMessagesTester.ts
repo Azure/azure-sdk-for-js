@@ -32,7 +32,10 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
    *                      about errors that occur and concentrate on making sure all expected
    *                      messages are received at least once.
    */
-  constructor(private expectedPartitions: string[], private multipleConsumers: boolean) {
+  constructor(
+    private expectedPartitions: string[],
+    private multipleConsumers: boolean,
+  ) {
     this.data = new Map<string, ReceivedMessages>();
     this.expectedMessageBodies = new Set();
     this.done = false;
@@ -63,7 +66,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     // level errors and should be considered a fatal error for our tests
     should.exist(
       context.partitionId,
-      `Non-partition level errors should definitely not happen : ${error}`
+      `Non-partition level errors should definitely not happen : ${error}`,
     );
 
     if (context.partitionId) {

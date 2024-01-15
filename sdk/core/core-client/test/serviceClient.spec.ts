@@ -104,7 +104,7 @@ describe("ServiceClient", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`,
         );
       }
     });
@@ -252,7 +252,7 @@ describe("ServiceClient", function () {
         responses: {
           200: {},
         },
-      }
+      },
     );
 
     assert(request!);
@@ -287,7 +287,7 @@ describe("ServiceClient", function () {
         responses: {
           200: {},
         },
-      }
+      },
     );
 
     assert(request!);
@@ -341,7 +341,7 @@ describe("ServiceClient", function () {
           responses: {
             200: {},
           },
-        }
+        },
       );
     } catch (e: any) {
       caughtError = e;
@@ -441,7 +441,7 @@ describe("ServiceClient", function () {
             },
           },
         },
-      }
+      },
     );
 
     assert.strictEqual(rawResponse?.status, 200);
@@ -466,7 +466,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      null
+      null,
     );
   });
 
@@ -488,7 +488,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      []
+      [],
     );
   });
 
@@ -510,7 +510,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      null
+      null,
     );
   });
 
@@ -532,7 +532,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      {}
+      {},
     );
   });
 
@@ -556,7 +556,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      null
+      null,
     );
   });
 
@@ -580,7 +580,7 @@ describe("ServiceClient", function () {
           },
         },
       },
-      {}
+      {},
     );
   });
 
@@ -599,7 +599,7 @@ describe("ServiceClient", function () {
       },
       {
         body: null,
-      }
+      },
     );
   });
 
@@ -618,7 +618,7 @@ describe("ServiceClient", function () {
       },
       {
         body: undefined,
-      }
+      },
     );
   });
 
@@ -638,7 +638,7 @@ describe("ServiceClient", function () {
       },
       {
         body: undefined,
-      }
+      },
     );
   });
 
@@ -756,7 +756,7 @@ describe("ServiceClient", function () {
           mapper: parameterMapper,
         },
 
-        serviceClient
+        serviceClient,
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -781,7 +781,7 @@ describe("ServiceClient", function () {
           mapper: parameterMapper,
         },
 
-        serviceClient
+        serviceClient,
       );
       assert.strictEqual(parameterValue, 22);
     });
@@ -829,7 +829,7 @@ describe("ServiceClient", function () {
           parameterPath,
           mapper: parameterMapper,
         },
-        serviceClient
+        serviceClient,
       );
       assert.strictEqual(parameterValue, 4);
     });
@@ -851,7 +851,7 @@ describe("ServiceClient", function () {
           parameterPath,
           mapper: parameterMapper,
         },
-        serviceClient
+        serviceClient,
       );
       assert.strictEqual(parameterValue, undefined);
     });
@@ -874,7 +874,7 @@ describe("ServiceClient", function () {
           parameterPath,
           mapper: parameterMapper,
         },
-        serviceClient
+        serviceClient,
       );
       assert.strictEqual(parameterValue, 21);
     });
@@ -994,7 +994,7 @@ describe("ServiceClient", function () {
           parameterPath,
           mapper: parameterMapper,
         },
-        serviceClient
+        serviceClient,
       );
 
       assert.strictEqual(parameterValue, 5);
@@ -1229,7 +1229,7 @@ describe("ServiceClient", function () {
     });
     await client.sendOperationRequest(
       { options: { requestOptions: { allowInsecureConnection: true } } },
-      operationSpec
+      operationSpec,
     );
   });
 
@@ -1336,7 +1336,7 @@ describe("ServiceClient", function () {
         {
           options: undefined,
         },
-        operationSpec
+        operationSpec,
       );
       assert.fail("Expected client to throw");
     } catch (error: any) {
@@ -1420,7 +1420,7 @@ describe("ServiceClient", function () {
         {
           options: undefined,
         },
-        operationSpec
+        operationSpec,
       );
       assert.fail("Expected client to throw");
     } catch (error: any) {
@@ -1522,7 +1522,7 @@ async function testSendOperationRequest(
   queryValue: any,
   queryCollectionFormat: QueryCollectionFormat,
   skipEncodingParameter: boolean,
-  expected: string
+  expected: string,
 ): Promise<void> {
   let request: OperationRequest;
   const client = new ServiceClient({
@@ -1565,7 +1565,7 @@ async function testSendOperationRequest(
       responses: {
         200: {},
       },
-    }
+    },
   );
 
   assert(request!);
