@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support OAuth for interface ShareFileClient.uploadRangeFromURL().
+- Added support to return clientName property in file/directory handle properties in ShareFileClient.listHandles() and ShareDirectoryClient.listHandles().
+
 ### Breaking Changes
 
 ### Bugs Fixed
