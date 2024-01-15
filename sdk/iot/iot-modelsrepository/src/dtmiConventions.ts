@@ -25,7 +25,7 @@ export function isValidDtmi(dtmi: string): boolean {
 export function getModelUri(
   dtmi: string,
   repositoryUri: string,
-  expanded: boolean = false
+  expanded: boolean = false,
 ): string {
   if (!repositoryUri.endsWith("/")) {
     repositoryUri = repositoryUri.concat("/");

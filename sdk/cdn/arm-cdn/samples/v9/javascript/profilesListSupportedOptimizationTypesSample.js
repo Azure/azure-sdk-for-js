@@ -26,7 +26,7 @@ async function profilesListSupportedOptimizationTypes() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.profiles.listSupportedOptimizationTypes(
     resourceGroupName,
-    profileName
+    profileName,
   );
   console.log(result);
 }

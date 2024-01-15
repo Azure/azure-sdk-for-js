@@ -43,7 +43,7 @@ async function kustoDatabaseInviteFollower() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

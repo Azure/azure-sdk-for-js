@@ -14,7 +14,7 @@ describe("ManagementClient unit tests", () => {
 
     const mgmtClient = new ManagementClient(
       connectionContext,
-      connectionContext.config.entityPath || ""
+      connectionContext.config.entityPath || "",
     );
     try {
       mgmtClient["_init"] = async () => {

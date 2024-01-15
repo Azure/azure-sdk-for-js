@@ -35,7 +35,7 @@ async function createVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName
+      peeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -16,7 +16,7 @@ export interface AbortSignalLike {
   addEventListener(
     type: "abort",
     listener: (this: AbortSignalLike, ev: any) => any,
-    options?: any
+    options?: any,
   ): void;
   /**
    * Remove "abort" event listener, only support "abort" event.
@@ -24,6 +24,6 @@ export interface AbortSignalLike {
   removeEventListener(
     type: "abort",
     listener: (this: AbortSignalLike, ev: any) => any,
-    options?: any
+    options?: any,
   ): void;
 }

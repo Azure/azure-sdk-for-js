@@ -70,11 +70,11 @@ describe("PolicyManagementTests ", function () {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.addPolicyManagementCertificate(rsaCertificate, "Foo", "Bar")
+      adminClient.addPolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
     ).to.be.rejectedWith("can't find PEM header");
 
     await expect(
-      adminClient.addPolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate)
+      adminClient.addPolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
     ).to.be.rejectedWith("Key does not match Certificate");
   });
 
@@ -86,11 +86,11 @@ describe("PolicyManagementTests ", function () {
     const rsaCertificate = createX509Certificate(rsaKey, rsapubKey, "CertificateName");
 
     await expect(
-      adminClient.removePolicyManagementCertificate(rsaCertificate, "Foo", "Bar")
+      adminClient.removePolicyManagementCertificate(rsaCertificate, "Foo", "Bar"),
     ).to.be.rejectedWith("can't find PEM header");
 
     await expect(
-      adminClient.removePolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate)
+      adminClient.removePolicyManagementCertificate(rsaCertificate, rsaKey2, rsaCertificate),
     ).to.be.rejectedWith("Key does not match Certificate");
   });
 
@@ -115,7 +115,7 @@ describe("PolicyManagementTests ", function () {
       const setResult = await client.addPolicyManagementCertificate(
         rsaCertificate,
         signingKeys.privateKey,
-        signingKeys.certificate
+        signingKeys.certificate,
       );
       assert(setResult.body.certificateResolution === KnownCertificateModification.IsPresent);
       assert(setResult.body.certificateThumbprint === expectedThumbprint);
@@ -126,7 +126,7 @@ describe("PolicyManagementTests ", function () {
       const setResult = await client.addPolicyManagementCertificate(
         rsaCertificate,
         signingKeys.privateKey,
-        signingKeys.certificate
+        signingKeys.certificate,
       );
       assert(setResult.body.certificateResolution === KnownCertificateModification.IsPresent);
       assert(setResult.body.certificateThumbprint === expectedThumbprint);
@@ -136,7 +136,7 @@ describe("PolicyManagementTests ", function () {
       const removeResult = await client.removePolicyManagementCertificate(
         rsaCertificate,
         signingKeys.privateKey,
-        signingKeys.certificate
+        signingKeys.certificate,
       );
       assert(removeResult.body.certificateResolution === KnownCertificateModification.IsAbsent);
       assert(removeResult.body.certificateThumbprint === expectedThumbprint);
@@ -146,7 +146,7 @@ describe("PolicyManagementTests ", function () {
       const removeResult = await client.removePolicyManagementCertificate(
         rsaCertificate,
         signingKeys.privateKey,
-        signingKeys.certificate
+        signingKeys.certificate,
       );
       assert(removeResult.body.certificateResolution === KnownCertificateModification.IsAbsent);
       assert(removeResult.body.certificateThumbprint === expectedThumbprint);

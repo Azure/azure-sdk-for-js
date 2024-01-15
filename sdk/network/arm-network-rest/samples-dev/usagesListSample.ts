@@ -30,7 +30,7 @@ async function listUsages() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -60,7 +60,7 @@ async function listUsagesSpacedLocation() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/usages",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

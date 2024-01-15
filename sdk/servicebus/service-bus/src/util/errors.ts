@@ -96,7 +96,7 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
 export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   parameterName: string,
-  parameterValue: unknown
+  parameterValue: unknown,
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
@@ -118,11 +118,11 @@ export function throwTypeErrorIfNotInstanceOfParameterType(
   parameterName: string,
   parameterValue: unknown,
   // eslint-disable-next-line @typescript-eslint/ban-types
-  constructor: Function
+  constructor: Function,
 ): void {
   if (!(parameterValue instanceof constructor)) {
     const error = new TypeError(
-      `The parameter "${parameterName}" should be an instance of "${constructor.name}"`
+      `The parameter "${parameterName}" should be an instance of "${constructor.name}"`,
     );
     logger.warning(`[${connectionId}] %O`, error);
     throw error;
@@ -141,11 +141,11 @@ export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
   parameterValue: unknown,
-  expectedType: string
+  expectedType: string,
 ): void {
   if (typeof parameterValue !== expectedType) {
     const error = new TypeError(
-      `The parameter "${parameterName}" should be of type "${expectedType}"`
+      `The parameter "${parameterName}" should be of type "${expectedType}"`,
     );
     logger.warning(`[${connectionId}] %O`, error);
     throw error;
@@ -162,7 +162,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 export function throwTypeErrorIfParameterNotLong(
   connectionId: string,
   parameterName: string,
-  parameterValue: unknown
+  parameterValue: unknown,
 ): TypeError | undefined {
   if (Array.isArray(parameterValue)) {
     return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
@@ -185,7 +185,7 @@ export function throwTypeErrorIfParameterNotLong(
 export function throwTypeErrorIfParameterNotLongArray(
   connectionId: string,
   parameterName: string,
-  parameterValue: any[]
+  parameterValue: any[],
 ): TypeError | undefined {
   if (parameterValue.every((item) => Long.isLong(item))) {
     return;
@@ -205,7 +205,7 @@ export function throwTypeErrorIfParameterNotLongArray(
 export function throwTypeErrorIfParameterIsEmptyString(
   connectionId: string,
   parameterName: string,
-  parameterValue: string
+  parameterValue: string,
 ): TypeError | undefined {
   if (parameterValue !== "") {
     return;
@@ -242,7 +242,7 @@ export const MessageAlreadySettled = "The message has either been deleted or alr
 export function throwErrorIfInvalidOperationOnMessage(
   message: ServiceBusReceivedMessage,
   receiveMode: ReceiveMode,
-  connectionId: string
+  connectionId: string,
 ): void {
   let error: Error | undefined;
 
@@ -257,7 +257,7 @@ export function throwErrorIfInvalidOperationOnMessage(
       error,
       "[%s] An error occurred for message with id '%s'",
       connectionId,
-      message.messageId
+      message.messageId,
     );
     throw error;
   }
@@ -278,7 +278,7 @@ export const PartitionKeySessionIdMismatchError =
  */
 export function throwIfNotValidServiceBusMessage(
   msg: unknown,
-  errorMessageForWrongType: string
+  errorMessageForWrongType: string,
 ): void {
   if (!isServiceBusMessage(msg) && !isAmqpAnnotatedMessage(msg)) {
     throw new TypeError(errorMessageForWrongType);

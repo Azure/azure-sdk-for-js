@@ -24,7 +24,7 @@ const communicationAccessKeyCredentialPolicy = "CommunicationAccessKeyCredential
  * @param credential - The key credential.
  */
 export function createCommunicationAccessKeyCredentialPolicy(
-  credential: KeyCredential
+  credential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: communicationAccessKeyCredentialPolicy,
@@ -52,7 +52,7 @@ export function createCommunicationAccessKeyCredentialPolicy(
       request.headers.set("x-ms-content-sha256", contentHash);
       request.headers.set(
         "Authorization",
-        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`
+        `HMAC-SHA256 SignedHeaders=${signedHeaders}&Signature=${signature}`,
       );
       return next(request);
     },

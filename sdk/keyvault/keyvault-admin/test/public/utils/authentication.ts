@@ -17,7 +17,7 @@ import { getEnvironmentVariable, getServiceVersion } from "./common";
 
 export async function authenticate(
   that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>
+  serviceVersion: ReturnType<typeof getServiceVersion>,
 ): Promise<any> {
   const recorder = new Recorder(that.currentTest);
   let generatedUUIDs = 0;
@@ -69,17 +69,17 @@ export async function authenticate(
     recorder.configureClientOptions({
       serviceVersion,
       disableChallengeResourceVerification: true,
-    })
+    }),
   );
   const keyClient = new KeyClient(
     keyVaultHsmUrl,
     credential,
-    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
+    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true }),
   );
   const backupClient = new KeyVaultBackupClient(
     keyVaultHsmUrl,
     credential,
-    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true })
+    recorder.configureClientOptions({ serviceVersion, disableChallengeResourceVerification: true }),
   );
   const settingsClient = new KeyVaultSettingsClient(
     keyVaultHsmUrl,
@@ -87,7 +87,7 @@ export async function authenticate(
     recorder.configureClientOptions({
       serviceVersion,
       disableChallengeResourceVerification: true,
-    })
+    }),
   );
 
   return {

@@ -32,7 +32,7 @@ async function listCloudServiceNetworkInterfaces() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

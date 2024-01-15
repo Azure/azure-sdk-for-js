@@ -90,7 +90,7 @@ describe("DevCenter Environments Operations Test", () => {
         "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions/{definitionName}",
         projectName,
         catalogName,
-        envDefinitionName
+        envDefinitionName,
       )
       .get();
 
@@ -106,7 +106,7 @@ describe("DevCenter Environments Operations Test", () => {
       .path(
         "/projects/{projectName}/catalogs/{catalogName}/environmentDefinitions",
         projectName,
-        catalogName
+        catalogName,
       )
       .get();
 
@@ -183,7 +183,7 @@ describe("DevCenter Environments Operations Test", () => {
         "/projects/{projectName}/users/{userId}/environments/{environmentName}",
         projectName,
         userId,
-        environmentName
+        environmentName,
       )
       .get();
 
@@ -237,40 +237,40 @@ describe("DevCenter Environments Operations Test", () => {
         "/projects/{projectName}/users/{userId}/environments/{environmentName}",
         projectName,
         userId,
-        environmentName
+        environmentName,
       )
       .put(environmentsCreateParameters);
     console.log("Sent create");
 
     if (isUnexpected(environmentCreateResponse)) {
       throw new Error(
-        `Creation failed with message ${environmentCreateResponse.body?.error.message}`
+        `Creation failed with message ${environmentCreateResponse.body?.error.message}`,
       );
     }
 
     assert.equal(
       environmentCreateResponse.status,
       "201",
-      "Environment creation should return 201 created."
+      "Environment creation should return 201 created.",
     );
 
     const environmentCreatePoller = await getLongRunningPoller(
       client,
       environmentCreateResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const environmentCreateResult = await environmentCreatePoller.pollUntilDone();
 
     if (isUnexpected(environmentCreateResult)) {
       throw new Error(
-        `Creation failed with message ${environmentCreateResult.body?.error.message}`
+        `Creation failed with message ${environmentCreateResult.body?.error.message}`,
       );
     }
 
     assert.equal(
       environmentCreateResult.status,
       "200",
-      "Create environment polling should return 200 OK."
+      "Create environment polling should return 200 OK.",
     );
     assert.equal(environmentCreateResult.body.name, environmentName);
     assert.equal(environmentCreateResult.body.provisioningState, "Succeeded");
@@ -283,7 +283,7 @@ describe("DevCenter Environments Operations Test", () => {
         "/projects/{projectName}/users/{userId}/environments/{environmentName}",
         projectName,
         userId,
-        environmentName
+        environmentName,
       )
       .delete();
 
@@ -294,13 +294,13 @@ describe("DevCenter Environments Operations Test", () => {
     assert.equal(
       environmentDeleteResponse.status,
       "202",
-      "Environment delete should return 202 accepted."
+      "Environment delete should return 202 accepted.",
     );
 
     const environmentDeletePoller = await getLongRunningPoller(
       client,
       environmentDeleteResponse,
-      testPollingOptions
+      testPollingOptions,
     );
     const environmentDeleteResult = await environmentDeletePoller.pollUntilDone();
 
@@ -311,7 +311,7 @@ describe("DevCenter Environments Operations Test", () => {
     assert.equal(
       environmentDeleteResult.status,
       "200",
-      "Environment delete long-running operation should return 200 OK."
+      "Environment delete long-running operation should return 200 OK.",
     );
 
     console.log("Cleaned up environment successfully.");

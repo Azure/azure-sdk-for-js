@@ -60,13 +60,13 @@ export class StandardMetrics {
       "azureMonitor.http.requestDuration",
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this._outgoingRequestDurationHistogram = this._meter.createHistogram(
       "azureMonitor.http.dependencyDuration",
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {

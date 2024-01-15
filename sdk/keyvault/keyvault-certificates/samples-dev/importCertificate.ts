@@ -146,7 +146,7 @@ export async function main(): Promise<void> {
         issuerName: WellKnownIssuer.Self,
         subject: "CN=contoso.com",
       },
-    }
+    },
   );
 
   console.log("importedCertificate", importedCertificate);
@@ -169,7 +169,7 @@ export async function main(): Promise<void> {
         issuerName: WellKnownIssuer.Self,
         subject: "CN=contoso.com",
       },
-    }
+    },
   );
 
   console.log("importedCertificate", importedCertificate);

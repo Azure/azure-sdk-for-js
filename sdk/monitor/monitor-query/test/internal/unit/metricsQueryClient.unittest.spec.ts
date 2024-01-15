@@ -11,7 +11,7 @@ it("verify tracing", async () => {
   const tokenCredential: TokenCredential = {
     async getToken(
       scopes: string | string[],
-      _options?: GetTokenOptions
+      _options?: GetTokenOptions,
     ): Promise<AccessToken | null> {
       if (Array.isArray(scopes)) {
         scopesPassed.push(...scopes);
@@ -43,6 +43,6 @@ it("verify tracing", async () => {
       "MetricsQueryClient.queryResource",
       "MetricsQueryClient.listSegmentOfMetricNamespaces",
       "MetricsQueryClient.listSegmentOfMetricDefinitions",
-    ]
+    ],
   );
 });

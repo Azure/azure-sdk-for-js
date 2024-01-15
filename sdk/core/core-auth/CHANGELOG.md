@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added the `isKeyCredential` typeguard function similar to the existing `isTokenCredential`.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -4,10 +4,11 @@
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { wrapError } from "./util.js";
+import { IncomingMessage } from "http";
 
 export async function getStream<TResponse>(
   response: StreamableMethod<TResponse>,
-): Promise<NodeJS.ReadableStream> {
+): Promise<IncomingMessage> {
   const { body, status } = await response.asNodeStream();
   if (status !== "200" && body !== undefined) {
     const text = await streamToText(body);
@@ -15,7 +16,7 @@ export async function getStream<TResponse>(
   }
 
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
-  return body;
+  return body as IncomingMessage;
 }
 
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {

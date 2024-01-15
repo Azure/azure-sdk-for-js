@@ -21,9 +21,11 @@ require("dotenv").config();
 async function marketplaceAgreementsCreateOrUpdate() {
   const subscriptionId =
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const body = { properties: { accepted: true } };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.marketplaceAgreements.createOrUpdate();
+  const result = await client.marketplaceAgreements.createOrUpdate(options);
   console.log(result);
 }
 

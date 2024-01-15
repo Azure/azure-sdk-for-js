@@ -33,7 +33,7 @@ async function hubVirtualNetworkConnectionGet() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

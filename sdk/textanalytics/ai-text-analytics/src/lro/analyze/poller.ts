@@ -60,7 +60,7 @@ export class BeginAnalyzeActionsPoller extends AnalysisPoller<
       tracing,
       documents,
       actions,
-      options
+      options,
     );
 
     super(operation);

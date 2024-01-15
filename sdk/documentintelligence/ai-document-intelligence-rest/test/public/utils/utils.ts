@@ -10,7 +10,7 @@ export const ASSET_PATH = path.resolve(path.join(process.cwd(), "assets"));
 
 export function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = assertEnvironmentVariable(
-    "DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL"
+    "DOCUMENT_INTELLIGENCE_TESTING_CONTAINER_SAS_URL",
   );
   const parts = testingContainerUrl.split("?");
   return `${parts[0]}${urlPath}?${parts[1]}`;

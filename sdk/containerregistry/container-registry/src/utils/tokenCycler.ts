@@ -14,7 +14,7 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
  */
 export type AccessTokenGetter<T extends GetTokenOptions> = (
   scopes: string | string[],
-  options: T
+  options: T,
 ) => Promise<AccessToken>;
 
 /**
@@ -66,7 +66,7 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 async function beginRefresh(
   getAccessToken: () => Promise<AccessToken | null>,
   retryIntervalInMs: number,
-  refreshTimeout: number
+  refreshTimeout: number,
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
@@ -116,7 +116,7 @@ async function beginRefresh(
  */
 export function createTokenCycler<T extends GetTokenOptions>(
   credential: TokenCredential,
-  tokenCyclerOptions?: Partial<TokenCyclerOptions>
+  tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenRefresher<T> {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
@@ -174,7 +174,7 @@ export function createTokenCycler<T extends GetTokenOptions>(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now()
+        token?.expiresOnTimestamp ?? Date.now(),
       )
         .then((_token) => {
           refreshWorker = null;

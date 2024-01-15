@@ -53,11 +53,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -65,19 +65,19 @@ testWithServiceTypes((serviceVersion) => {
       debug("Creating the clients..");
       clientMap.set(
         "EventHubBufferedProducerClient",
-        new EventHubBufferedProducerClient(service.connectionString, service.path)
+        new EventHubBufferedProducerClient(service.connectionString, service.path),
       );
       clientMap.set(
         "EventHubConsumerClient",
         new EventHubConsumerClient(
           EventHubConsumerClient.defaultConsumerGroupName,
           service.connectionString,
-          service.path
-        )
+          service.path,
+        ),
       );
       clientMap.set(
         "EventHubProducerClient",
-        new EventHubProducerClient(service.connectionString, service.path)
+        new EventHubProducerClient(service.connectionString, service.path),
       );
     });
 
@@ -107,7 +107,7 @@ testWithServiceTypes((serviceVersion) => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getPartitionIds(options),
-            ["ManagementClient.getEventHubProperties"]
+            ["ManagementClient.getEventHubProperties"],
           );
         });
       });
@@ -119,7 +119,7 @@ testWithServiceTypes((serviceVersion) => {
           hubRuntimeInfo.name.should.equal(service.path);
 
           hubRuntimeInfo.partitionIds.should.have.members(
-            arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length)
+            arrayOfIncreasingNumbersFromZero(hubRuntimeInfo.partitionIds.length),
           );
           hubRuntimeInfo.createdOn.should.be.instanceof(Date);
         });
@@ -128,7 +128,7 @@ testWithServiceTypes((serviceVersion) => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getEventHubProperties(options),
-            ["ManagementClient.getEventHubProperties"]
+            ["ManagementClient.getEventHubProperties"],
           );
         });
       });
@@ -142,7 +142,7 @@ testWithServiceTypes((serviceVersion) => {
           } catch (err: any) {
             (err as any).name.should.equal("TypeError");
             (err as any).message.should.equal(
-              `getPartitionProperties called without required argument "partitionId"`
+              `getPartitionProperties called without required argument "partitionId"`,
             );
           }
         });
@@ -182,7 +182,7 @@ testWithServiceTypes((serviceVersion) => {
           const client = clientMap.get(clientType)!;
           await assert.supportsTracing(
             (options) => client.getPartitionProperties("0", options),
-            ["ManagementClient.getPartitionProperties"]
+            ["ManagementClient.getPartitionProperties"],
           );
         });
       });

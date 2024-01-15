@@ -32,7 +32,7 @@ async function expressRouteCrossConnectionBgpPeeringList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings",
       subscriptionId,
       resourceGroupName,
-      crossConnectionName
+      crossConnectionName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

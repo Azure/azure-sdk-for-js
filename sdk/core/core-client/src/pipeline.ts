@@ -44,7 +44,7 @@ export function createClientPipeline(options: InternalClientPipelineOptions = {}
       bearerTokenAuthenticationPolicy({
         credential: options.credentialOptions.credential,
         scopes: options.credentialOptions.credentialScopes,
-      })
+      }),
     );
   }
 

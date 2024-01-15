@@ -54,7 +54,7 @@ describe("BatchingReceiver unit tests", () => {
         "fakeEntityPath",
         "peekLock",
         1,
-        false
+        false,
       );
       let wasCalled = false;
 
@@ -64,7 +64,7 @@ describe("BatchingReceiver unit tests", () => {
             _maxMessageCount: number,
             _maxWaitTimeInMs: number,
             _maxTimeAfterFirstMessageMs: number,
-            options?: OperationOptionsBase
+            options?: OperationOptionsBase,
           ): Promise<ServiceBusMessageImpl[]> {
             assert.equal(options?.abortSignal, origAbortSignal);
             wasCalled = true;
@@ -94,7 +94,7 @@ describe("BatchingReceiver unit tests", () => {
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       try {
@@ -120,7 +120,7 @@ describe("BatchingReceiver unit tests", () => {
           lockRenewer: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
       closeables.push(receiver);
 
@@ -212,7 +212,7 @@ describe("BatchingReceiver unit tests", () => {
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
             skipConvertingDate: false,
-          }
+          },
         );
         closeables.push(batchingReceiver);
 
@@ -229,7 +229,7 @@ describe("BatchingReceiver unit tests", () => {
         const messages = await receivePromise;
         assert.deepEqual(
           messages.map((m) => m.body),
-          ["the message"]
+          ["the message"],
         );
 
         assertListenersRemoved(rheaReceiver);
@@ -247,7 +247,7 @@ describe("BatchingReceiver unit tests", () => {
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
             skipConvertingDate: false,
-          }
+          },
         );
         closeables.push(receiver);
 
@@ -282,7 +282,7 @@ describe("BatchingReceiver unit tests", () => {
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
               skipConvertingDate: false,
-            }
+            },
           );
           closeables.push(batchingReceiver);
 
@@ -312,11 +312,11 @@ describe("BatchingReceiver unit tests", () => {
           const messages = await receivePromise;
           assert.deepEqual(
             messages.map((m) => m.body),
-            ["the first message", "the second message"]
+            ["the first message", "the second message"],
           );
 
           assertListenersRemoved(rheaReceiver);
-        }
+        },
       ).timeout(5 * 1000);
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
@@ -333,7 +333,7 @@ describe("BatchingReceiver unit tests", () => {
             lockRenewer: undefined,
             skipParsingBodyAsJson: false,
             skipConvertingDate: false,
-          }
+          },
         );
         closeables.push(batchingReceiver);
 
@@ -368,7 +368,7 @@ describe("BatchingReceiver unit tests", () => {
         const messages = await receivePromise;
         assert.deepEqual(
           messages.map((m) => m.body),
-          ["the first message", "the second message"]
+          ["the first message", "the second message"],
         );
 
         assertListenersRemoved(rheaReceiver);
@@ -390,13 +390,13 @@ describe("BatchingReceiver unit tests", () => {
               lockRenewer: undefined,
               skipParsingBodyAsJson: false,
               skipConvertingDate: false,
-            }
+            },
           );
           closeables.push(batchingReceiver);
 
           const { receiveIsReady, rheaReceiver: emitter } = setupBatchingReceiver(
             batchingReceiver,
-            clock
+            clock,
           );
 
           let wasCalled = false;
@@ -405,7 +405,7 @@ describe("BatchingReceiver unit tests", () => {
 
           batchingReceiver["_batchingReceiverLite"]["_getRemainingWaitTimeInMsFn"] = (
             maxWaitTimeInMs: number,
-            maxTimeAfterFirstMessageMs: number
+            maxTimeAfterFirstMessageMs: number,
           ) => {
             // sanity check that the timeouts are passed in correctly....
             assert.equal(maxWaitTimeInMs, bigTimeout + 1);
@@ -439,12 +439,12 @@ describe("BatchingReceiver unit tests", () => {
           assert.isTrue(wasCalled);
 
           assertListenersRemoved(emitter);
-        }
+        },
       );
 
       function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver,
-        clockParam?: ReturnType<typeof sinon.useFakeTimers>
+        clockParam?: ReturnType<typeof sinon.useFakeTimers>,
       ): {
         receiveIsReady: Promise<void>;
         rheaReceiver: RheaPromiseReceiver;
@@ -562,7 +562,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         "peekLock",
         false,
-        false
+        false,
       );
 
       assert.isFalse(batchingReceiver.isReceivingMessages);
@@ -594,7 +594,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         "peekLock",
         false,
-        false
+        false,
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -631,7 +631,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         "peekLock",
         false,
-        false
+        false,
       );
 
       batchingReceiver["_receiveMessagesImpl"](
@@ -646,13 +646,13 @@ describe("BatchingReceiver unit tests", () => {
         },
         () => {
           /* empty body */
-        }
+        },
       );
 
       assert.equal(
         fakeRheaReceiver.credit,
         2,
-        "No messages received, nothing drained, should have all the credits from the start."
+        "No messages received, nothing drained, should have all the credits from the start.",
       );
 
       batchingReceiver["_receiveMessagesImpl"](
@@ -667,13 +667,13 @@ describe("BatchingReceiver unit tests", () => {
         },
         () => {
           /* empty body */
-        }
+        },
       );
 
       assert.equal(
         fakeRheaReceiver.credit,
         2,
-        "No messages received, nothing drained, should still have enough credits."
+        "No messages received, nothing drained, should still have enough credits.",
       );
     });
 
@@ -688,7 +688,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         "peekLock",
         false,
-        false
+        false,
       );
 
       assert.notExists(batchingReceiver["_closeHandler"]);
@@ -708,7 +708,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         () => {
           rejectWasCalled = true;
-        }
+        },
       );
 
       assert.exists(batchingReceiver["_closeHandler"]);
@@ -743,7 +743,7 @@ describe("BatchingReceiver unit tests", () => {
         },
         "peekLock",
         false,
-        false
+        false,
       );
 
       batchingReceiverLite["_receiveMessagesImpl"](
@@ -758,13 +758,13 @@ describe("BatchingReceiver unit tests", () => {
         },
         () => {
           /* empty body */
-        }
+        },
       );
 
       assert.equal(
         fakeRheaReceiver.credit,
         2,
-        "No messages received, nothing drained, should have all the credits from the start."
+        "No messages received, nothing drained, should have all the credits from the start.",
       );
 
       const finalAction = batchingReceiverLite["_finalAction"];
@@ -806,7 +806,7 @@ describe("BatchingReceiver unit tests", () => {
       },
       "peekLock",
       false,
-      false
+      false,
     );
 
     const receiveIsReady = getReceiveIsReadyPromise(batchingReceiverLite);
@@ -906,17 +906,17 @@ function assertListenersRemoved(rheaReceiver: RheaPromiseReceiver): void {
     rheaReceiver
       .listeners(ReceiverEvents.message)
       .filter((f) => f.name !== "creditRemoverForTests"),
-    `No listeners (aside from the test credit remover) should be registered for ${ReceiverEvents.message}`
+    `No listeners (aside from the test credit remover) should be registered for ${ReceiverEvents.message}`,
   );
 
   for (const eventName of shouldBeEmpty) {
     assert.isEmpty(
       rheaReceiver.listeners(eventName),
-      `No listeners should be registered for ${eventName} on the receiver`
+      `No listeners should be registered for ${eventName} on the receiver`,
     );
     assert.isEmpty(
       rheaReceiver.session.listeners(eventName),
-      `No listeners should be registered for ${eventName} on the receiver.session`
+      `No listeners should be registered for ${eventName} on the receiver.session`,
     );
   }
 }

@@ -39,7 +39,7 @@ export async function main() {
 
   const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
     phoneNumberToUpdate,
-    updateRequest
+    updateRequest,
   );
 
   // Update is underway.

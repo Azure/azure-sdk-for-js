@@ -43,7 +43,7 @@ async function afdOriginGroupsCreate() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originGroup
+    originGroup,
   );
   console.log(result);
 }

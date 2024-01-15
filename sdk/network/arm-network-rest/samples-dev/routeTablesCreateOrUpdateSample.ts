@@ -33,7 +33,7 @@ async function createRouteTable() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName
+      routeTableName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -77,7 +77,7 @@ async function createRouteTableWithRoute() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName
+      routeTableName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -30,7 +30,7 @@ async function customDomainsDisableCustomHttps() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }
