@@ -3728,6 +3728,29 @@ packages:
       vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
     dev: false
 
+  /@vitest/coverage-v8@1.2.0(vitest@1.1.0):
+    resolution: {integrity: sha512-YvX8ULTUm1+zkvkl14IqXYGxE1h13OXKPoDsxazARKlp4YLrP28hHEBdplaU7ZTN/Yn6zy6Z3JadWNRJwcmyrQ==}
+    peerDependencies:
+      vitest: ^1.0.0
+    dependencies:
+      '@ampproject/remapping': 2.2.1
+      '@bcoe/v8-coverage': 0.2.3
+      debug: 4.3.4(supports-color@8.1.1)
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 4.0.1
+      istanbul-reports: 3.1.6
+      magic-string: 0.30.5
+      magicast: 0.3.2
+      picocolors: 1.0.0
+      std-env: 3.7.0
+      test-exclude: 6.0.0
+      v8-to-istanbul: 9.2.0
+      vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@vitest/expect@1.1.0:
     resolution: {integrity: sha512-9IE2WWkcJo2BR9eqtY5MIo3TPmS50Pnwpm66A6neb2hvk/QSLfPXBz2qdiwUOQkwyFuuXEUj5380CbwfzW4+/w==}
     dependencies:
@@ -7204,6 +7227,14 @@ packages:
     engines: {node: '>=12'}
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: false
+
+  /magicast@0.3.2:
+    resolution: {integrity: sha512-Fjwkl6a0syt9TFN0JSYpOybxiMCkYNEeOTnOTNRbjphirLakznZXAqrXgj/7GG3D1dvETONNwrBfinvAbpunDg==}
+    dependencies:
+      '@babel/parser': 7.23.6
+      '@babel/types': 7.23.6
+      source-map-js: 1.0.2
     dev: false
 
   /make-dir@1.3.0:
@@ -11133,18 +11164,20 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-W3AYreQU1SCW8lM7NXIRO4i8cGsNvkUO1zXVvbKc5CZRHCJx3d+uG3PqwXEVNBL66K/LI3MsS5uB+LPCEA0frg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-oC1teXlxuNlz2PSgDdFzVUkUovUnC3d1RxlbwLG0NCzlrr+Mxw72NHfj4n+qFAsix/iKfpRXhVuBe/za3Y2CVg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 3.4.1
       '@azure/keyvault-secrets': 4.7.0
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
+      '@microsoft/api-extractor': 7.39.0(@types/node@16.18.68)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
       '@types/sinon': 17.0.2
+      '@vitest/browser': 1.1.0(playwright@1.40.1)(vitest@1.1.0)
+      '@vitest/coverage-v8': 1.2.0(vitest@1.1.0)
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -11162,6 +11195,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.2.0
       nock: 12.0.3
+      playwright: 1.40.1
       prettier: 2.8.8
       rimraf: 3.0.2
       sinon: 17.0.1
@@ -11169,13 +11203,22 @@ packages:
       tslib: 2.6.2
       typescript: 5.2.2
       uglify-js: 3.17.4
+      vitest: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - bufferutil
-      - debug
+      - '@edge-runtime/vm'
+      - '@types/node'
+      - '@vitest/ui'
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
-      - utf-8-validate
+      - terser
+      - webdriverio
     dev: false
 
   file:projects/arm-advisor.tgz:
