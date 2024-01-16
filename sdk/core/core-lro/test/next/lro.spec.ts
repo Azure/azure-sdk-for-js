@@ -2536,9 +2536,10 @@ matrix(
           assert.isFalse(poller.isDone);
         });
 
-        it("pollUntilDone is aborted when stopPolling() gets called", async () => {
+        it("pollUntilDone is aborted when pollCount = 10", async () => {
           let pollCount = 0;
           const pollingPath = "pollingPath";
+          const abortController = new AbortController();
           const poller = createTestPoller({
             routes: [
               {
@@ -2548,7 +2549,7 @@ matrix(
                   "Operation-Location": pollingPath,
                 },
               },
-              ...Array(10).fill({
+              ...Array(20).fill({
                 method: "GET",
                 path: pollingPath,
                 body: `{ "status": "running"}`,
@@ -2565,21 +2566,18 @@ matrix(
             implName,
             updateState: () => {
               pollCount++;
+              if (pollCount === 10) {
+                abortController.abort();
+              }
             },
           });
-          const abortController = new AbortController();
           await poller.poll();
-          abortController.abort();
           assert.equal(pollCount, 1);
-          const promise = poller.pollUntilDone();
-          // TODO: use abort to stop polling
-          // poller.stopPolling();
+          const promise = poller.pollUntilDone({
+            abortSignal: abortController.signal,
+          });
           await assertError(promise);
-          /**
-           * There is a behavior difference in how each poller is being stopped.
-           * TODO: revisit this if it becomes an issue.
-           */
-          assert.equal(pollCount, implName === "createPollerSync" ? 2 : 1);
+          assert.equal(pollCount, 10);
           assert.isFalse(poller.isDone);
         });
       });
@@ -2611,10 +2609,24 @@ matrix(
             ],
             throwOnNon2xxResponse,
           });
+          const pollerState = {
+            status: 'failed',
+            config: {
+              metadata: { mode: 'Body' },
+              operationLocation: 'path',
+              resourceLocation: undefined,
+              initialUri: 'path',
+              requestMethod: 'PUT'
+            },
+            result: {
+              ...bodyObj,
+              statusCode: 200
+            }
+          }
           await assertDivergentBehavior({
-            op: poller.poll() as any,
+            op: poller.poll(),
             notThrowing: {
-              result: undefined,
+              partResult: pollerState
             },
             throwing: {
               messagePattern: /failed/,
@@ -2645,9 +2657,14 @@ matrix(
             throwOnNon2xxResponse,
           });
           await assertDivergentBehavior({
-            op: poller.poll() as any,
+            op: poller.poll(),
             notThrowing: {
-              result: undefined,
+              partResult: {
+                result: {
+                  ...bodyObj,
+                  statusCode: 200
+                }
+              },
             },
             throwing: {
               messagePattern: /canceled/,
@@ -2702,7 +2719,7 @@ matrix(
           });
         });
 
-        // TODO: readonly attributes, initial state, etc.
+        // TODO: restoreFrom, readonly attributes, initial state, etc.
       });
     });
   },
