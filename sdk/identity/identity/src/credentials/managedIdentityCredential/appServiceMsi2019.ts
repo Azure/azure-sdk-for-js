@@ -20,7 +20,7 @@ const logger = credentialLogger(msiName);
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
-  resourceId?: string
+  resourceId?: string,
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -74,19 +74,19 @@ export const appServiceMsi2019: MSI = {
     const result = Boolean(env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER);
     if (!result) {
       logger.info(
-        `${msiName}: Unavailable. The environment variables needed are: IDENTITY_ENDPOINT and IDENTITY_HEADER.`
+        `${msiName}: Unavailable. The environment variables needed are: IDENTITY_ENDPOINT and IDENTITY_HEADER.`,
       );
     }
     return result;
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     logger.info(
-      `${msiName}: Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
+      `${msiName}: Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`,
     );
 
     const request = createPipelineRequest({

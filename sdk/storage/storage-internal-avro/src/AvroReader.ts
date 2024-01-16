@@ -63,14 +63,14 @@ export class AvroReader {
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     currentBlockOffset: number,
-    indexWithinCurrentBlock: number
+    indexWithinCurrentBlock: number,
   );
 
   constructor(
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     currentBlockOffset?: number,
-    indexWithinCurrentBlock?: number
+    indexWithinCurrentBlock?: number,
   ) {
     this._dataStream = dataStream;
     this._headerStream = headerStream || dataStream;
@@ -133,7 +133,7 @@ export class AvroReader {
   }
 
   public async *parseObjects(
-    options: AvroParseOptions = {}
+    options: AvroParseOptions = {},
   ): AsyncIterableIterator<Record<string, any> | null> {
     if (!this._initialized) {
       await this.initialize(options);

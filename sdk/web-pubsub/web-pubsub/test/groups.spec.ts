@@ -22,7 +22,7 @@ describe("Group client working with a group", function () {
     const hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
       "simplechat",
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     client = hubClient.group("group");
@@ -65,7 +65,7 @@ describe("Group client working with a group", function () {
     assert.equal(error.statusCode, 400);
     assert.equal(
       JSON.parse(error.message).message,
-      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
 
@@ -117,7 +117,7 @@ describe("client working with multiple groups", function () {
     hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
       "simplechat",
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -144,7 +144,7 @@ describe("client working with multiple groups", function () {
     assert.equal(error.statusCode, 400);
     assert.equal(
       JSON.parse(error.message).message,
-      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
 
@@ -167,7 +167,7 @@ describe("client working with multiple groups", function () {
     assert.equal(error.statusCode, 400);
     assert.equal(
       JSON.parse(error.message).message,
-      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')"
+      "Invalid syntax for 'invalid filter': Syntax error at position 14 in 'invalid filter'. (Parameter 'filter')",
     );
   });
 });

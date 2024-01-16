@@ -3,14 +3,15 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
+import * as path from "path";
 
-import { InternalAzureLogger } from "../../../../src/shared/logging/internal";
-import * as fileHelper from "../../../../src/utils/fileSystem";
+import * as fileHelper from "../../../../../src/utils/fileSystem";
+import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger";
 
-describe("Library/InternalAzureLogger", () => {
+describe("Library/DiagFileConsoleLogger", () => {
   let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
-  let internalLogger: InternalAzureLogger;
+  let logger: DiagFileConsoleLogger;
 
   before(() => {
     sandbox = sinon.createSandbox();
@@ -18,30 +19,59 @@ describe("Library/InternalAzureLogger", () => {
 
   beforeEach(() => {
     originalEnv = process.env;
-    internalLogger = new InternalAzureLogger();
   });
 
   afterEach(() => {
     process.env = originalEnv;
     sandbox.restore();
-    (internalLogger as any) = null;
+    (logger as any) = null;
+  });
+
+  describe("Set logDesitination", () => {
+    it("should set file+console logDestination", () => {
+      process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file+console";
+      logger = new DiagFileConsoleLogger();
+      assert.strictEqual(logger["_logDestination"], "file+console");
+    });
+
+    it("should set file logDestination", () => {
+      process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
+      logger = new DiagFileConsoleLogger();
+      assert.strictEqual(logger["_logDestination"], "file");
+    });
+  });
+
+  describe("Set logDesitination", () => {
+    it("should set absolute path for log dir", () => {
+      process.env["APPLICATIONINSIGHTS_LOGDIR"] = "/tmp/example/test";
+      logger = new DiagFileConsoleLogger();
+      assert.strictEqual(logger["_tempDir"], "/tmp/example/test");
+    });
+    it("should set relative path for log dir", () => {
+      process.env["APPLICATIONINSIGHTS_LOGDIR"] = "./tmp/example/test";
+      logger = new DiagFileConsoleLogger();
+      assert.strictEqual(logger["_tempDir"], path.join(process.cwd(), "tmp/example/test"));
+    });
   });
 
   describe("Write to file", () => {
+    beforeEach(() => {
+      logger = new DiagFileConsoleLogger();
+    });
+
     it("should log message to new file", (done) => {
       const confirmDirStub = sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {
         // Fake directory creation
       });
       const appendFileAsyncStub = sandbox.stub(fileHelper, "appendFileAsync");
-      internalLogger["_logToFile"] = true;
+      logger["_logToFile"] = true;
 
-      internalLogger
-        .logMessage("testMessage")
+      logger["logMessage"]("testMessage")
         .then(() => {
           assert.ok(confirmDirStub.called, "confirmDirStub called");
           assert.ok(appendFileAsyncStub.called, "writeStub called"); // File creation was called
           assert.ok(
-            appendFileAsyncStub.lastCall.args[0].toString().indexOf("applicationinsights.log") > 0
+            appendFileAsyncStub.lastCall.args[0].toString().indexOf("applicationinsights.log") > 0,
           );
           assert.equal(appendFileAsyncStub.lastCall.args[1], "testMessage\r\n");
           done();
@@ -57,17 +87,16 @@ describe("Library/InternalAzureLogger", () => {
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         async () =>
           // Fake file size check
-          123
+          123,
       );
-      internalLogger["_maxSizeBytes"] = 122;
+      logger["_maxSizeBytes"] = 122;
 
       const writeStub = sandbox.stub(fileHelper, "writeFileAsync");
       const appendStub = sandbox.stub(fileHelper, "appendFileAsync");
       const readStub = sandbox.stub(fileHelper, "readFileAsync");
-      internalLogger["_logToFile"] = true;
+      logger["_logToFile"] = true;
 
-      internalLogger
-        .logMessage("backupTestMessage")
+      logger["logMessage"]("backupTestMessage")
         .then(() => {
           assert.ok(readStub.calledOnce, "readStub calledOnce"); // Read content to create backup
           assert.ok(appendStub.notCalled, "appendStub notCalled");
@@ -75,7 +104,7 @@ describe("Library/InternalAzureLogger", () => {
           //assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
           assert.ok(
             writeStub.args[0][0].toString().indexOf(".applicationinsights.log") > 0,
-            ".applicationinsights.log present in backup file name"
+            ".applicationinsights.log present in backup file name",
           ); // First call is for backup file
           //assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
           assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
@@ -92,17 +121,15 @@ describe("Library/InternalAzureLogger", () => {
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         async () =>
           // Fake file size check
-          123
+          123,
       );
       const writeStub = sandbox.stub(fileHelper, "writeFileAsync");
       const readStub = sandbox.stub(fileHelper, "readFileAsync");
-      internalLogger["_maxSizeBytes"] = 122;
-      internalLogger["_logToFile"] = true;
-      internalLogger
-        .logMessage("backupTestMessage")
+      logger["_maxSizeBytes"] = 122;
+      logger["_logToFile"] = true;
+      logger["logMessage"]("backupTestMessage")
         .then(() => {
-          internalLogger
-            .logMessage("backupTestMessage")
+          logger["logMessage"]("backupTestMessage")
             .then(() => {
               assert.equal(writeStub.callCount, 4);
               assert.ok(readStub.calledTwice);
@@ -119,14 +146,14 @@ describe("Library/InternalAzureLogger", () => {
     });
 
     it("should start file cleanup task", () => {
-      (internalLogger as any) = null;
+      (logger as any) = null;
       const env = <{ [id: string]: string }>{};
       env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
       process.env = env;
       const setIntervalSpy = sandbox.spy(global, "setInterval");
-      internalLogger = new InternalAzureLogger();
+      logger = new DiagFileConsoleLogger();
       assert.ok(setIntervalSpy.called);
-      assert.ok(internalLogger["_fileCleanupTimer"]);
+      assert.ok(logger["_fileCleanupTimer"]);
     });
 
     it("should remove backup files", (done) => {
@@ -138,11 +165,11 @@ describe("Library/InternalAzureLogger", () => {
               "applicationinsights.log",
               "123.applicationinsights.log",
               "456.applicationinsights.log",
-            ] as any
+            ] as any,
         );
-      internalLogger["_maxHistory"] = 0;
+      logger["_maxHistory"] = 0;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
-      internalLogger["_fileCleanupTask"]()
+      logger["_fileCleanupTask"]()
         .then(() => {
           assert.ok(unlinkStub.calledTwice, "unlinkStub calledTwice");
           done();
@@ -161,16 +188,16 @@ describe("Library/InternalAzureLogger", () => {
               "applicationinsights.log",
               "123.applicationinsights.log",
               "456.applicationinsights.log",
-            ] as any
+            ] as any,
         );
-      internalLogger["_maxHistory"] = 1;
+      logger["_maxHistory"] = 1;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
-      internalLogger["_fileCleanupTask"]()
+      logger["_fileCleanupTask"]()
         .then(() => {
           assert.ok(unlinkStub.calledOnce, "unlinkStub calledOnce");
           assert.ok(
             unlinkStub.args[0][0].toString().indexOf("123.applicationinsights.log") > 0,
-            "Oldest file is deleted"
+            "Oldest file is deleted",
           );
           done();
         })

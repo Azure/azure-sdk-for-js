@@ -66,57 +66,57 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ServiceConfigurationUpdate200Response | ServiceConfigurationUpdatedefaultResponse
+  response: ServiceConfigurationUpdate200Response | ServiceConfigurationUpdatedefaultResponse,
 ): response is ServiceConfigurationUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ServiceConfigurationApplyFromEvaluation204Response
-    | ServiceConfigurationApplyFromEvaluationdefaultResponse
+    | ServiceConfigurationApplyFromEvaluationdefaultResponse,
 ): response is ServiceConfigurationApplyFromEvaluationdefaultResponse;
 export function isUnexpected(
-  response: PolicyUpdate200Response | PolicyUpdatedefaultResponse
+  response: PolicyUpdate200Response | PolicyUpdatedefaultResponse,
 ): response is PolicyUpdatedefaultResponse;
 export function isUnexpected(
-  response: EvaluationsGet200Response | EvaluationsGetdefaultResponse
+  response: EvaluationsGet200Response | EvaluationsGetdefaultResponse,
 ): response is EvaluationsGetdefaultResponse;
 export function isUnexpected(
-  response: EvaluationsCreate201Response | EvaluationsCreatedefaultResponse
+  response: EvaluationsCreate201Response | EvaluationsCreatedefaultResponse,
 ): response is EvaluationsCreatedefaultResponse;
 export function isUnexpected(
-  response: EventsReward204Response | EventsRewarddefaultResponse
+  response: EventsReward204Response | EventsRewarddefaultResponse,
 ): response is EventsRewarddefaultResponse;
 export function isUnexpected(
-  response: EventsActivate204Response | EventsActivatedefaultResponse
+  response: EventsActivate204Response | EventsActivatedefaultResponse,
 ): response is EventsActivatedefaultResponse;
 export function isUnexpected(
-  response: LogInteractions204Response | LogInteractionsdefaultResponse
+  response: LogInteractions204Response | LogInteractionsdefaultResponse,
 ): response is LogInteractionsdefaultResponse;
 export function isUnexpected(
-  response: LogObservations204Response | LogObservationsdefaultResponse
+  response: LogObservations204Response | LogObservationsdefaultResponse,
 ): response is LogObservationsdefaultResponse;
 export function isUnexpected(
-  response: LogGetProperties200Response | LogGetPropertiesdefaultResponse
+  response: LogGetProperties200Response | LogGetPropertiesdefaultResponse,
 ): response is LogGetPropertiesdefaultResponse;
 export function isUnexpected(
-  response: ModelGet200Response | ModelGetdefaultResponse
+  response: ModelGet200Response | ModelGetdefaultResponse,
 ): response is ModelGetdefaultResponse;
 export function isUnexpected(
-  response: ModelImport204Response | ModelImportdefaultResponse
+  response: ModelImport204Response | ModelImportdefaultResponse,
 ): response is ModelImportdefaultResponse;
 export function isUnexpected(
-  response: ModelReset204Response | ModelResetdefaultResponse
+  response: ModelReset204Response | ModelResetdefaultResponse,
 ): response is ModelResetdefaultResponse;
 export function isUnexpected(
-  response: MultiSlotEventsReward204Response | MultiSlotEventsRewarddefaultResponse
+  response: MultiSlotEventsReward204Response | MultiSlotEventsRewarddefaultResponse,
 ): response is MultiSlotEventsRewarddefaultResponse;
 export function isUnexpected(
-  response: MultiSlotEventsActivate204Response | MultiSlotEventsActivatedefaultResponse
+  response: MultiSlotEventsActivate204Response | MultiSlotEventsActivatedefaultResponse,
 ): response is MultiSlotEventsActivatedefaultResponse;
 export function isUnexpected(
-  response: MultiSlotRank201Response | MultiSlotRankdefaultResponse
+  response: MultiSlotRank201Response | MultiSlotRankdefaultResponse,
 ): response is MultiSlotRankdefaultResponse;
 export function isUnexpected(
-  response: Rank201Response | RankdefaultResponse
+  response: Rank201Response | RankdefaultResponse,
 ): response is RankdefaultResponse;
 export function isUnexpected(
   response:
@@ -153,7 +153,7 @@ export function isUnexpected(
     | MultiSlotRank201Response
     | MultiSlotRankdefaultResponse
     | Rank201Response
-    | RankdefaultResponse
+    | RankdefaultResponse,
 ): response is
   | ServiceConfigurationUpdatedefaultResponse
   | ServiceConfigurationApplyFromEvaluationdefaultResponse

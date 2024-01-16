@@ -36,7 +36,7 @@ async function listVirtualMachineScaleSetNetworkInterfaceIPConfigurations() {
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

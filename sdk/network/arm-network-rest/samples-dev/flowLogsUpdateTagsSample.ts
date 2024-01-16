@@ -34,7 +34,7 @@ async function updateFlowLogTags() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      flowLogName
+      flowLogName,
     )
     .patch(options);
   console.log(result);

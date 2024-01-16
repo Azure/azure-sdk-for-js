@@ -32,7 +32,7 @@ async function natRuleList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

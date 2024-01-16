@@ -29,7 +29,7 @@ async function getIPAllocation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       subscriptionId,
       resourceGroupName,
-      ipAllocationName
+      ipAllocationName,
     )
     .get(options);
   console.log(result);

@@ -69,7 +69,7 @@ async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -139,7 +139,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -148,7 +148,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndA
 }
 
 createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -207,7 +207,7 @@ async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -276,7 +276,7 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -285,7 +285,7 @@ async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAu
 }
 
 createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -338,7 +338,7 @@ async function createAVMFromACommunityGalleryImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -398,7 +398,7 @@ async function createAVMFromASharedGalleryImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -468,7 +468,7 @@ async function createAVMWithDiskControllerType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -537,7 +537,7 @@ async function createAVMWithHibernationEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -603,7 +603,7 @@ async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -672,7 +672,7 @@ async function createAVMWithUserData() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -744,7 +744,7 @@ async function createAVMWithVMSizeProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -826,7 +826,7 @@ async function createAVMWithNetworkInterfaceConfiguration() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -900,7 +900,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() 
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -971,7 +971,7 @@ async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() 
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1038,7 +1038,7 @@ async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1105,7 +1105,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1176,7 +1176,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1185,7 +1185,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
 }
 
 createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -1248,7 +1248,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1257,7 +1257,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAn
 }
 
 createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -1317,7 +1317,7 @@ async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1387,7 +1387,7 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1396,7 +1396,7 @@ async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToA
 }
 
 createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
@@ -1451,7 +1451,7 @@ async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1533,7 +1533,7 @@ async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1592,7 +1592,7 @@ async function createAVMFromACustomImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1651,7 +1651,7 @@ async function createAVMFromAGeneralizedSharedImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1705,7 +1705,7 @@ async function createAVMFromASpecializedSharedImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1771,7 +1771,7 @@ async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFau
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1836,7 +1836,7 @@ async function createAVMInAnAvailabilitySet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1916,7 +1916,7 @@ async function createAVMWithApplicationProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2007,7 +2007,7 @@ async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() 
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2075,7 +2075,7 @@ async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2149,7 +2149,7 @@ async function createAVMWithScheduledEventsProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2216,7 +2216,7 @@ async function createAVMWithAMarketplaceImagePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2285,7 +2285,7 @@ async function createAVMWithAnExtensionsTimeBudget() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2353,7 +2353,7 @@ async function createAVMWithBootDiagnostics() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2419,7 +2419,7 @@ async function createAVMWithEmptyDataDisks() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2487,7 +2487,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacement
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2555,7 +2555,7 @@ async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacem
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2623,7 +2623,7 @@ async function createAVMWithEphemeralOSDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2686,7 +2686,7 @@ async function createAVMWithManagedBootDiagnostics() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2748,7 +2748,7 @@ async function createAVMWithPasswordAuthentication() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2810,7 +2810,7 @@ async function createAVMWithPremiumStorage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2883,7 +2883,7 @@ async function createAVMWithSshAuthentication() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2955,7 +2955,7 @@ async function createOrUpdateAVMWithCapacityReservation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

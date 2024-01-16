@@ -39,7 +39,7 @@ export class Segment {
     shards: Shard[],
     shardIndex: number,
     dateTime: Date,
-    private readonly manifestPath: string
+    private readonly manifestPath: string,
   ) {
     this.shards = shards;
     this.shardIndex = shardIndex;
@@ -54,7 +54,7 @@ export class Segment {
   }
 
   public async getChange(
-    options: SegmentGetChangeOptions = {}
+    options: SegmentGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("Segment-getChange", options, async (updatedOptions) => {
       if (this.shardIndex >= this.shards.length || this.shardIndex < 0) {

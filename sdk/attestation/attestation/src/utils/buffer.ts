@@ -8,7 +8,7 @@
  * @returns Promise which completes with the input data as a Uint8Array.
  */
 export async function Uint8ArrayFromInput(
-  input: Uint8Array | Buffer | Blob | undefined
+  input: Uint8Array | Buffer | Blob | undefined,
 ): Promise<Uint8Array | undefined> {
   if (input === undefined) {
     return input;

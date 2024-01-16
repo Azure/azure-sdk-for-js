@@ -52,7 +52,7 @@ async function main() {
 
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Create a container

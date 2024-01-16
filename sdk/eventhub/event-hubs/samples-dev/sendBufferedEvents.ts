@@ -22,7 +22,7 @@ async function handleError(ctx: OnSendEventsErrorContext): Promise<void> {
   console.log(`The following error occurred:`);
   console.log(JSON.stringify(ctx.error, undefined, 2));
   console.log(
-    `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`
+    `The following events were not sent as a result to the partition with ID ${ctx.partitionId}:`,
   );
   for (const event of ctx.events) {
     console.log(JSON.stringify(event, undefined, 2));

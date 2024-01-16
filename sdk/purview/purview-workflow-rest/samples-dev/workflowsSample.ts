@@ -23,7 +23,7 @@ dotenv.config();
  */
 async function workflowCreateOrUpdate(
   client: PurviewWorkflowClient,
-  workflow: CreateOrReplaceWorkflowParameters
+  workflow: CreateOrReplaceWorkflowParameters,
 ) {
   const workflowId = randomUUID();
   const result = await client.path("/workflows/{workflowId}", workflowId).put(workflow);

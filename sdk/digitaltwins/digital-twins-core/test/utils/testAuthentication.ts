@@ -20,7 +20,7 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
   const client = new DigitalTwinsClient(
     AZURE_DIGITALTWINS_URL,
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return { recorder, client };

@@ -34,7 +34,7 @@ async function configurationPolicyGroupDelete() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

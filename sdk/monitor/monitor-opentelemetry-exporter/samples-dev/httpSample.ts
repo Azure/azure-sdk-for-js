@@ -107,7 +107,7 @@ function makeRequest() {
           console.log(body.toString());
           span.end();
         });
-      }
+      },
     );
   });
 }

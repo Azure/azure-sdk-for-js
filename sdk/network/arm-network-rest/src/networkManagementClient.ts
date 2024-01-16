@@ -11,7 +11,7 @@ import { NetworkManagementClient } from "./clientDefinitions";
  */
 export default function createClient(
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): NetworkManagementClient {
   const baseUrl = options.baseUrl ?? `https://management.azure.com`;
   options = {

@@ -32,7 +32,7 @@ async function deleteVirtualRouter() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       subscriptionId,
       resourceGroupName,
-      virtualRouterName
+      virtualRouterName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

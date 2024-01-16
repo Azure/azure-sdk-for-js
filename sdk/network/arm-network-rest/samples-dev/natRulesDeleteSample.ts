@@ -34,7 +34,7 @@ async function natRuleDelete() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      natRuleName
+      natRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -34,7 +34,7 @@ async function updateConnectionMonitorTags() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .patch(options);
   console.log(result);

@@ -34,12 +34,12 @@ export class CallRecording {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: CallAutomationApiClientOptionalParams
+    options?: CallAutomationApiClientOptionalParams,
   ) {
     this.callAutomationApiClient = createCustomCallAutomationApiClient(
       credential,
       options,
-      endpoint
+      endpoint,
     );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
@@ -76,7 +76,7 @@ export class CallRecording {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
       options.audioChannelParticipantOrdering.forEach((identifier) => {
         startCallRecordingRequest.audioChannelParticipantOrdering?.push(
-          communicationIdentifierModelConverter(identifier)
+          communicationIdentifierModelConverter(identifier),
         );
       });
     }
@@ -96,7 +96,7 @@ export class CallRecording {
     };
     const response = await this.callRecordingImpl.startRecording(
       startCallRecordingRequest,
-      optionsInternal
+      optionsInternal,
     );
 
     const result: RecordingStateResult = {
@@ -114,7 +114,7 @@ export class CallRecording {
    */
   public async getState(
     recordingId: string,
-    options: GetRecordingPropertiesOptions = {}
+    options: GetRecordingPropertiesOptions = {},
   ): Promise<RecordingStateResult> {
     const response = await this.callRecordingImpl.getRecordingProperties(recordingId, options);
 
@@ -160,7 +160,7 @@ export class CallRecording {
    */
   public async delete(
     recordingLocationUrl: string,
-    options: DeleteRecordingOptions = {}
+    options: DeleteRecordingOptions = {},
   ): Promise<void> {
     await this.contentDownloader.deleteRecording(recordingLocationUrl, options);
   }
@@ -172,7 +172,7 @@ export class CallRecording {
    */
   public async downloadStreaming(
     sourceLocationUrl: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<NodeJS.ReadableStream> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
@@ -192,7 +192,7 @@ export class CallRecording {
   public async downloadToStream(
     sourceLocationUrl: string,
     destinationStream: NodeJS.WritableStream,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
@@ -217,7 +217,7 @@ export class CallRecording {
   public async downloadToPath(
     sourceLocationUrl: string,
     destinationPath: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;

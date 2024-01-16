@@ -40,7 +40,7 @@ async function createOrUpdateNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName
+      scopeConnectionName,
     )
     .put(options);
   console.log(result);

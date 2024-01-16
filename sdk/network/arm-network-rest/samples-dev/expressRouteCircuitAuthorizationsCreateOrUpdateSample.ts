@@ -35,7 +35,7 @@ async function createExpressRouteCircuitAuthorization() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      authorizationName
+      authorizationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

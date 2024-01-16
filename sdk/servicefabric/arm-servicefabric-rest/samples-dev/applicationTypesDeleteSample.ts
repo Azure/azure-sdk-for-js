@@ -30,7 +30,7 @@ async function deleteAnApplicationType() {
       subscriptionId,
       resourceGroupName,
       clusterName,
-      applicationTypeName
+      applicationTypeName,
     )
     .delete();
   const poller = getLongRunningPoller(client, initialResponse);

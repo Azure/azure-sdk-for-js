@@ -105,10 +105,10 @@ export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 const assertNotNullOrUndefined = <
   T extends Record<string, unknown>,
   P extends keyof T,
-  Q extends string & keyof T[P]
+  Q extends string & keyof T[P],
 >(
   obj: T,
-  prop: Q
+  prop: Q,
 ): Required<Required<T>[P]>[Q] => {
   const subObjName = Object.keys(obj)[0];
   const subObj = (obj as any)[subObjName];
@@ -134,7 +134,7 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
   }
   if (presentProperties.length > 1) {
     throw new Error(
-      `Only one of the properties in ${JSON.stringify(presentProperties)} should be present.`
+      `Only one of the properties in ${JSON.stringify(presentProperties)} should be present.`,
     );
   }
 };
@@ -145,7 +145,7 @@ const assertMaximumOneNestedModel = (identifier: SerializedCommunicationIdentifi
  * @param identifier - The CommunicationIdentifier to be serialized.
  */
 export const serializeCommunicationIdentifier = (
-  identifier: CommunicationIdentifier
+  identifier: CommunicationIdentifier,
 ): SerializedCommunicationIdentifier => {
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
@@ -211,7 +211,7 @@ const getKind = (serializedIdentifier: SerializedCommunicationIdentifier): strin
  * @param serializedIdentifier - The SerializedCommunicationIdentifier to be deserialized.
  */
 export const deserializeCommunicationIdentifier = (
-  serializedIdentifier: SerializedCommunicationIdentifier
+  serializedIdentifier: SerializedCommunicationIdentifier,
 ): CommunicationIdentifierKind => {
   assertMaximumOneNestedModel(serializedIdentifier);
 

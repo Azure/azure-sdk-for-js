@@ -42,7 +42,7 @@ async function approveAPrivateEndpointConnectionUnderADiskAccessResource() {
       subscriptionId,
       resourceGroupName,
       diskAccessName,
-      privateEndpointConnectionName
+      privateEndpointConnectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

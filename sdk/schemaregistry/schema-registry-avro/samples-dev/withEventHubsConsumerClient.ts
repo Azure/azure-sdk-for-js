@@ -65,7 +65,7 @@ export async function main() {
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Register the schema. This would generally have been done somewhere else.
@@ -82,7 +82,7 @@ export async function main() {
   const eventHubConsumerClient = new EventHubConsumerClient(
     consumerGroup,
     eventHubsConnectionString,
-    eventHubName
+    eventHubName,
   );
 
   const subscription = eventHubConsumerClient.subscribe(
@@ -99,7 +99,7 @@ export async function main() {
           console.log(
             `Received event: '${JSON.stringify(event)}' from partition: '${
               context.partitionId
-            }' and consumer group: '${context.consumerGroup}'`
+            }' and consumer group: '${context.consumerGroup}'`,
           );
           if (event.contentType !== undefined && event.body) {
             const contentTypeParts = event.contentType.split("+");
@@ -114,7 +114,7 @@ export async function main() {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
       },
     },
-    { startPosition: earliestEventPosition }
+    { startPosition: earliestEventPosition },
   );
 
   // Wait for a bit before cleaning up the sample

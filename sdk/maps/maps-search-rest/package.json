@@ -38,11 +38,11 @@
     "build:samples": "dev-tool samples publish --force",
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "rimraf review && mkdirp ./review && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
@@ -67,7 +67,7 @@
     "tslib": "^2.2.0",
     "@azure/core-lro": "^2.2.0",
     "@azure/maps-common": "1.0.0-beta.2",
-    "@azure/logger": "^1.0.5"
+    "@azure/logger": "^1.0.4"
   },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
@@ -76,7 +76,6 @@
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "mkdirp": "^1.0.4",
-    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "typescript": "~5.2.0",

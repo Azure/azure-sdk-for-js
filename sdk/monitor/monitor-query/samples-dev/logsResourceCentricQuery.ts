@@ -41,7 +41,7 @@ export async function main() {
     logsResourceId,
     kustoQuery,
     { duration: Durations.sevenDays },
-    queryLogsOptions
+    queryLogsOptions,
   );
 
   const executionTime =
@@ -50,7 +50,7 @@ export async function main() {
   console.log(
     `Results for query '${kustoQuery}', execution time: ${
       executionTime == null ? "unknown" : executionTime
-    }`
+    }`,
   );
 
   if (result.status === LogsQueryResultStatus.Success) {

@@ -76,7 +76,7 @@ export interface EventDataAdapterParameters {
  * @returns An event data adapter that can produce and consume event data
  */
 export function createEventDataAdapter(
-  params: EventDataAdapterParameters = {}
+  params: EventDataAdapterParameters = {},
 ): MessageAdapter<EventData> {
   return {
     produce: ({ data: body, contentType }: MessageContent) => {

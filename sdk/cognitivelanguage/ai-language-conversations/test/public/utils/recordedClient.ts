@@ -42,7 +42,7 @@ export function createClient(options: {
       return new ConversationAnalysisClient(
         endpoint,
         new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "AAD": {
@@ -52,7 +52,7 @@ export function createClient(options: {
       return new ConversationAnalysisClient(
         endpoint,
         new AzureKeyCredential("whatever"),
-        updatedOptions
+        updatedOptions,
       );
     }
     default: {

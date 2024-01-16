@@ -73,7 +73,7 @@ export class TraceBasicScenario implements Scenario {
           numbers: "123",
         },
       },
-      ctx
+      ctx,
     );
     let eventAttributes: any = {};
     eventAttributes["SomeAttribute"] = "Test";

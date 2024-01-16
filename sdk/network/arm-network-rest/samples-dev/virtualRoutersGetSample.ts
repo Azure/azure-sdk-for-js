@@ -31,7 +31,7 @@ async function getVirtualRouter() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}",
       subscriptionId,
       resourceGroupName,
-      virtualRouterName
+      virtualRouterName,
     )
     .get(options);
   console.log(result);
