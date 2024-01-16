@@ -96,6 +96,7 @@
     "@opentelemetry/api-logs": "^0.46.0",
     "@opentelemetry/core": "^1.19.0",
     "@opentelemetry/instrumentation": "^0.46.0",
+    "@opentelemetry/instrumentation-bunyan": "^0.34.1",
     "@opentelemetry/instrumentation-http": "^0.46.0",
     "@opentelemetry/instrumentation-mongodb": "^0.38.0",
     "@opentelemetry/instrumentation-mysql": "^0.34.4",

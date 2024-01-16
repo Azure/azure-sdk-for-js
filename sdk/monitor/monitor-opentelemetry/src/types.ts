@@ -30,4 +30,5 @@ export enum StatsbeatInstrumentation {
   MYSQL = 4,
   REDIS = 8,
   POSTGRES = 16,
+  BUNYAN = 32,
 }

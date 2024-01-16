@@ -43,4 +43,6 @@ export interface InstrumentationOptions {
   redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
   redis4?: InstrumentationConfig;
+  /** Bunyan Instrumentation Config */
+  bunyan?: InstrumentationConfig;
 }
