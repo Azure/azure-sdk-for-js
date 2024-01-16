@@ -7,12 +7,11 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 Use the client library for Azure OpenAI to:
 
 * [Create a chat completion with ChatGPT][stream_chat_completion_sample]
-* [Create a text embedding for comparisons][msdocs_openai_embedding]
+* [Create a vector embedding for text][get_embeddings_sample]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images][get_images_sample]
 * [Transcribe and Translate audio files][transcribe_audio_sample]
 * [Create a legacy completion for text][get_completions_sample]
-* [Get embedding vectors for text][get_embeddings_sample]
 
 Azure OpenAI is a managed service that allows developers to deploy, tune, and generate content from OpenAI models on Azure resources.
 
@@ -510,7 +509,6 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts
 [get_embeddings_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/getEmbeddings.ts
-[msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
