@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Introducing compliant [Maps Search V2](https://learn.microsoft.com/rest/api/maps/search-v2?view=rest-maps-2023-06-01) features:
+- Introducing compliant [Maps Search V2](https://learn.microsoft.com/rest/api/maps/search?view=rest-maps-2023-06-01) features:
   - `/geocode`, `/geocode:batch`: Turn an address to coordinates. Replace the v1 `/search/address`, `/search/address/batch/sync/`.
   - `/reverseGeocode`, `/reverseGeocode:batch`: Turn coordinates to an address. Replace the v1 `/search/address/reverse`, `/search/address/batch/reverse/sync/`.
   - `/search/polygon`: Supplies polygon data of a geographical area outline such as a city or a country region. Replace the v1 `/search/polygon`.
