@@ -253,7 +253,7 @@ export class LiveMetrics {
       QuickPulseOpenTelemetryMetricNames.REQUEST_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.requestFailedRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
