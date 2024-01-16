@@ -84,12 +84,6 @@
     },
     {
       "commandKind": "bulk",
-      "name": "lint:fix",
-      "summary": "Fix linting errors for projects",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "lint",
       "summary": "Lint projects",
       "enableParallelism": true
@@ -160,6 +154,13 @@
       "commandKind": "bulk",
       "name": "extract-api",
       "summary": "Run API Extractor on projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
+      "name": "lint:fix",
+      "summary": "Fix linting errors for projects",
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
