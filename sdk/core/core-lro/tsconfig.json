@@ -2,11 +2,8 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "paths": { "@azure/core-lro": ["./src/index.js"] },
-    "rootDir": "."
+    "declarationDir": "./types"
   },
   "exclude": ["node_modules", "./samples/**/*.ts"],
-  "ts-node": { "esm": true },
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }
