@@ -39,17 +39,17 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
               operationType: OperationType.Read,
             },
           ],
-        },
+        }
       );
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");
       assert.equal(
         databaseAccount.MaxMediaStorageUsageInMB,
-        headers["x-ms-max-media-storage-usage-mb"],
+        headers["x-ms-max-media-storage-usage-mb"]
       ); // TODO: should use constants here
       assert.equal(
         databaseAccount.CurrentMediaStorageUsageInMB,
-        headers["x-ms-media-storage-usage-mb"],
+        headers["x-ms-media-storage-usage-mb"]
       );
       assert(databaseAccount.ConsistencyPolicy !== undefined);
       assert(statusCode !== undefined);

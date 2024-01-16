@@ -18,7 +18,7 @@ import { ConflictDefinition } from "./ConflictDefinition";
 export class Conflicts {
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -53,7 +53,7 @@ export class Conflicts {
           options: innerOptions,
           diagnosticNode: diagNode,
         });
-      },
+      }
     );
   }
 

@@ -31,7 +31,7 @@ export async function setAuthorizationHeader(
   path: string,
   resourceId: string,
   resourceType: ResourceType,
-  headers: CosmosHeaders,
+  headers: CosmosHeaders
 ): Promise<void> {
   if (clientOptions.permissionFeed) {
     clientOptions.resourceTokens = {};
@@ -52,15 +52,15 @@ export async function setAuthorizationHeader(
       resourceId,
       resourceType,
       headers,
-      clientOptions.key,
+      clientOptions.key
     );
   } else if (clientOptions.resourceTokens) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
-      getAuthorizationTokenUsingResourceTokens(clientOptions.resourceTokens, path, resourceId),
+      getAuthorizationTokenUsingResourceTokens(clientOptions.resourceTokens, path, resourceId)
     );
   } else if (clientOptions.tokenProvider) {
     headers[Constants.HttpHeaders.Authorization] = encodeURIComponent(
-      await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers }),
+      await clientOptions.tokenProvider({ verb, path, resourceId, resourceType, headers })
     );
   }
 }
@@ -74,7 +74,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
   resourceId: string,
   resourceType: ResourceType,
   headers: CosmosHeaders,
-  masterKey: string,
+  masterKey: string
 ): Promise<void> {
   // TODO This should live in cosmos-sign
   if (resourceType === ResourceType.offer) {
@@ -82,7 +82,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
   }
   headers = Object.assign(
     headers,
-    await generateHeaders(masterKey, verb, resourceType, resourceId),
+    await generateHeaders(masterKey, verb, resourceType, resourceId)
   );
 }
 
@@ -93,7 +93,7 @@ export async function setAuthorizationTokenHeaderUsingMasterKey(
 export function getAuthorizationTokenUsingResourceTokens(
   resourceTokens: { [resourceId: string]: string },
   path: string,
-  resourceId: string,
+  resourceId: string
 ): string {
   if (resourceTokens && Object.keys(resourceTokens).length > 0) {
     // For database account access(through getDatabaseAccount API), path and resourceId are "",

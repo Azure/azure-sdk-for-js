@@ -14,7 +14,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
     statusCode: number,
     subsstatusCode: number,
     item: Item,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics, subsstatusCode);
     this.item = item;

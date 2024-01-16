@@ -12,7 +12,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private offset: number,
-    private limit: number,
+    private limit: number
   ) {}
 
   public async nextItem(
@@ -44,7 +44,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
       }
     } catch (err) {
       if (err.code === RUCapPerOperationExceededErrorCode) {
-        err.body.fetchedSoFarResults = undefined;
+        err.fetchedResults = undefined;
       }
       throw err;
     }

@@ -21,7 +21,7 @@ export class Offers {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**

@@ -45,7 +45,7 @@ export class Item {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    partitionKey?: PartitionKey,
+    partitionKey?: PartitionKey
   ) {
     this.partitionKey =
       partitionKey === undefined ? undefined : convertToInternalPartitionKey(partitionKey);
@@ -76,13 +76,13 @@ export class Item {
    * ```
    */
   public async read<T extends ItemDefinition = any>(
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (this.partitionKey === undefined) {
         const partitionKeyDefinition = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container,
+          this.container
         );
         this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
@@ -112,7 +112,7 @@ export class Item {
         response.code,
         response.substatus,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -127,7 +127,7 @@ export class Item {
    */
   public replace(
     body: ItemDefinition,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Replace the item's definition.
@@ -142,17 +142,17 @@ export class Item {
    */
   public replace<T extends ItemDefinition>(
     body: T,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ItemResponse<T>>;
   public async replace<T extends ItemDefinition>(
     body: T,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (this.partitionKey === undefined) {
         const partitionKeyResponse = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container,
+          this.container
         );
         this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
       }
@@ -180,7 +180,7 @@ export class Item {
         response.code,
         response.substatus,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -194,13 +194,13 @@ export class Item {
    * @param options - Additional options for the request
    */
   public async delete<T extends ItemDefinition = any>(
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (this.partitionKey === undefined) {
         const partitionKeyResponse = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container,
+          this.container
         );
         this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
       }
@@ -223,7 +223,7 @@ export class Item {
         response.code,
         response.substatus,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -238,13 +238,13 @@ export class Item {
    */
   public async patch<T extends ItemDefinition = any>(
     body: PatchRequestBody,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (this.partitionKey === undefined) {
         const partitionKeyResponse = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container,
+          this.container
         );
         this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
       }
@@ -268,7 +268,7 @@ export class Item {
         response.code,
         response.substatus,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

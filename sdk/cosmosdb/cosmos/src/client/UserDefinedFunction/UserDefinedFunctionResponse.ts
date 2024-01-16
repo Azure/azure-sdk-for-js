@@ -15,7 +15,7 @@ export class UserDefinedFunctionResponse extends ResourceResponse<
     headers: CosmosHeaders,
     statusCode: number,
     udf: UserDefinedFunction,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.userDefinedFunction = udf;

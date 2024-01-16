@@ -13,7 +13,7 @@ export class TriggerResponse extends ResourceResponse<TriggerDefinition & Resour
     headers: CosmosHeaders,
     statusCode: number,
     trigger: Trigger,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.trigger = trigger;

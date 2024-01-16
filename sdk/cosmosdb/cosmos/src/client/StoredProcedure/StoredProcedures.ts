@@ -25,7 +25,7 @@ export class StoredProcedures {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -97,7 +97,7 @@ export class StoredProcedures {
    */
   public async create(
     body: StoredProcedureDefinition,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<StoredProcedureResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (body.body) {
@@ -126,7 +126,7 @@ export class StoredProcedures {
         response.headers,
         response.code,
         ref,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

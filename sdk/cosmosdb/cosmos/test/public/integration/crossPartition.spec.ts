@@ -70,7 +70,7 @@ describe("Cross Partition", function (this: Suite) {
         "Validate 中文 Query",
         undefined,
         containerDefinition,
-        containerOptions,
+        containerOptions
       );
       await bulkInsertItems(container, documentDefinitions);
     });
@@ -78,19 +78,19 @@ describe("Cross Partition", function (this: Suite) {
     const validateResults = function (
       actualResults: any[],
       expectedOrderIds: string[],
-      expectedCount: number,
+      expectedCount: number
     ): void {
       assert.equal(
         actualResults.length,
         expectedCount ||
           (expectedOrderIds && expectedOrderIds.length) ||
           documentDefinitions.length,
-        "actual results length doesn't match with expected results length.",
+        "actual results length doesn't match with expected results length."
       );
       if (expectedOrderIds) {
         assert.deepStrictEqual(
           actualResults.map((doc) => doc.id || doc),
-          expectedOrderIds,
+          expectedOrderIds
         );
       }
     };
@@ -99,7 +99,7 @@ describe("Cross Partition", function (this: Suite) {
       queryIterator: QueryIterator<any>,
       options: any,
       expectedOrderIds: string[],
-      expectedCount: number,
+      expectedCount: number
     ): Promise<FeedResponse<any>> {
       options.continuation = undefined;
       const response = await queryIterator.fetchAll();
@@ -109,12 +109,12 @@ describe("Cross Partition", function (this: Suite) {
         expectedCount ||
           (expectedOrderIds && expectedOrderIds.length) ||
           documentDefinitions.length,
-        "invalid number of results",
+        "invalid number of results"
       );
       assert.equal(
         queryIterator.hasMoreResults(),
         false,
-        "hasMoreResults: no more results is left",
+        "hasMoreResults: no more results is left"
       );
 
       validateResults(results, expectedOrderIds, expectedCount);
@@ -127,7 +127,7 @@ describe("Cross Partition", function (this: Suite) {
       expectedOrderIds: string[],
       fetchAllResponse: FeedResponse<any>,
       expectedCount: number,
-      expectedIteratorCalls: number,
+      expectedIteratorCalls: number
     ): Promise<void> {
       const pageSize = options["maxItemCount"];
       let totalExecuteNextRequestCharge = 0;
@@ -162,7 +162,7 @@ describe("Cross Partition", function (this: Suite) {
           assert.equal(
             expectedLength,
             totalFetchedResults.length,
-            "executeNext: didn't fetch all the results",
+            "executeNext: didn't fetch all the results"
           );
         }
       }
@@ -176,7 +176,7 @@ describe("Cross Partition", function (this: Suite) {
       assert.equal(
         queryIterator.hasMoreResults(),
         false,
-        "hasMoreResults: no more results is left",
+        "hasMoreResults: no more results is left"
       );
       assert(totalExecuteNextRequestCharge > 0);
       const percentDifference =
@@ -188,14 +188,14 @@ describe("Cross Partition", function (this: Suite) {
           percentDifference * 100
         }. \n fetchAllResponse.requestCharge: ${
           fetchAllResponse.requestCharge
-        }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`,
+        }, totalExecuteNextRequestCharge: ${totalExecuteNextRequestCharge}`
       );
     };
 
     const validateAsyncIterator = async function (
       queryIterator: QueryIterator<any>,
       expectedOrderIds: any[],
-      expecetedCount: number,
+      expecetedCount: number
     ): Promise<void> {
       const expectedLength =
         expecetedCount ||
@@ -235,7 +235,7 @@ describe("Cross Partition", function (this: Suite) {
         queryIterator,
         options,
         expectedOrderIds,
-        expectedCount,
+        expectedCount
       );
       if (expectedRus) {
         const percentDifference =
@@ -244,7 +244,7 @@ describe("Cross Partition", function (this: Suite) {
           percentDifference <= 0.05,
           `difference between fetchAll request charge and expected request charge should be less than 5%. Got ${
             percentDifference * 100
-          }`,
+          }`
         );
       }
       queryIterator.reset();
@@ -254,7 +254,7 @@ describe("Cross Partition", function (this: Suite) {
         expectedOrderIds,
         fetchAllResponse,
         expectedCount,
-        expectedIteratorCalls,
+        expectedIteratorCalls
       );
       queryIterator.reset();
       await validateAsyncIterator(queryIterator, expectedOrderIds, expectedCount);

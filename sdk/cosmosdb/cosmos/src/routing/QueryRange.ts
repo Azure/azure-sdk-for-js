@@ -24,7 +24,7 @@ export class QueryRange {
     rangeMin: string,
     rangeMax: string,
     isMinInclusive: boolean,
-    isMaxInclusive: boolean,
+    isMaxInclusive: boolean
   ) {
     this.min = rangeMin;
     this.max = rangeMax;
@@ -75,7 +75,7 @@ export class QueryRange {
       partitionKeyRange[Constants.PartitionKeyRange.MinInclusive],
       partitionKeyRange[Constants.PartitionKeyRange.MaxExclusive],
       true,
-      false,
+      false
     );
   }
   /**
@@ -88,7 +88,7 @@ export class QueryRange {
       queryRangeDict.min,
       queryRangeDict.max,
       queryRangeDict.isMinInclusive,
-      queryRangeDict.isMaxInclusive,
+      queryRangeDict.isMaxInclusive
     );
   }
 }

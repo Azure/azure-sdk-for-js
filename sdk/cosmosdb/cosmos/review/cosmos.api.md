@@ -937,8 +937,6 @@ export enum DiagnosticNodeType {
 // @public (undocumented)
 export interface ErrorBody {
     // (undocumented)
-    [key: string]: any;
-    // (undocumented)
     additionalErrorInfo?: PartitionedQueryExecutionInfo;
     // (undocumented)
     code: string;
@@ -1963,9 +1961,11 @@ export interface RetryOptions {
 
 // @public (undocumented)
 export class RUCapPerOperationExceededError extends ErrorResponse {
-    constructor(message?: string, fetchedSoFarResults?: any[]);
+    constructor(message?: string, fetchedResults?: unknown[]);
     // (undocumented)
     readonly code: string;
+    // (undocumented)
+    fetchedResults: unknown[];
 }
 
 // @public (undocumented)

@@ -31,7 +31,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -50,8 +50,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.collectionLink,
           this.query,
           this.options,
-          this.partitionedQueryExecutionInfo,
-        ),
+          this.partitionedQueryExecutionInfo
+        )
       );
     } else {
       this.endpoint = new ParallelQueryExecutionContext(
@@ -59,7 +59,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.collectionLink,
         this.query,
         this.options,
-        this.partitionedQueryExecutionInfo,
+        this.partitionedQueryExecutionInfo
       );
     }
     if (
@@ -70,12 +70,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
         this.endpoint = new GroupByValueEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo,
+          partitionedQueryExecutionInfo.queryInfo
         );
       } else {
         this.endpoint = new GroupByEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo,
+          partitionedQueryExecutionInfo.queryInfo
         );
       }
     }
@@ -173,12 +173,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
-      if (
-        err.code === RUCapPerOperationExceededErrorCode &&
-        err.body &&
-        err.body.fetchedSoFarResults
-      ) {
-        err.body.fetchedSoFarResults.push(...this.fetchBuffer);
+      if (err.code === RUCapPerOperationExceededErrorCode && err.fetchedResults) {
+        err.fetchedResults.push(...this.fetchBuffer);
       }
       if (err) {
         throw err;

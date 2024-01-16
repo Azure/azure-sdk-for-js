@@ -28,7 +28,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
       "validate correct execution of query",
       undefined,
       containerDefinition,
-      containerOptions,
+      containerOptions
     );
 
     await container.items.create(doc);
@@ -61,7 +61,7 @@ describe("Test Query Metrics", function (this: Suite) {
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions,
+      collectionOptions
     );
     const createdContainer = database.container(createdCollectionDef.id);
 
@@ -107,7 +107,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     const container = await getTestContainer(
       "validate correct execution of query",
       undefined,
-      containerDefinition,
+      containerDefinition
     );
 
     await container.items.create({ id: "foo" });
@@ -127,7 +127,7 @@ describe("aggregate query over null value", function (this: Suite) {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
-    containerThroughput: number,
+    containerThroughput: number
   ): Promise<void> {
     const containerDefinition = {
       id: containerName,
@@ -141,7 +141,7 @@ describe("aggregate query over null value", function (this: Suite) {
       testName,
       undefined,
       containerDefinition,
-      containerOptions,
+      containerOptions
     );
 
     await container.items.create({
@@ -198,26 +198,16 @@ describe("Test Index metrics", function (this: Suite) {
     const containerOptions1 = { offerThroughput: 4000 };
     const createdContainerSinglePartition = await getTestContainer(
       "index metrics test db",
-<<<<<<< HEAD
       undefined,
       containerDefinition,
       containerOptions1
-=======
-      collectionId,
-      4000,
->>>>>>> 245a18317f7b9d51d3ac12432b9c491b4719834c
     );
     const containerOptions2 = { offerThroughput: 12000 };
     const createdContainerMultiPartition = await getTestContainer(
       "index metrics test db multipartioned",
-<<<<<<< HEAD
       undefined,
       containerDefinition,
       containerOptions2
-=======
-      collectionId,
-      12000,
->>>>>>> 245a18317f7b9d51d3ac12432b9c491b4719834c
     );
 
     await validateIndexMetrics(createdContainerSinglePartition, collectionId);
@@ -292,7 +282,7 @@ describe("Test RU Capping query", function (this: Suite) {
       assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED error");
     } catch (err) {
       assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-      assert.ok(err.body);
+      assert.ok(err.fetchedResults);
       assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
     }
     queryIterator1.reset();
@@ -320,7 +310,7 @@ describe("Test RU Capping query", function (this: Suite) {
       assert.fail("Must throw exception");
     } catch (err) {
       assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-      assert.ok(err.body);
+      assert.ok(err.fetchedResults);
       assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
     }
     queryiterator2.reset();
@@ -380,11 +370,13 @@ describe("Test RU Capping query", function (this: Suite) {
       const calculated_ru_threshold1 = (await queryIteratorRUCapCalculate.fetchNext())
         .requestCharge;
       try {
-        await queryIterator.fetchNext({ ruCapPerOperation: calculated_ru_threshold1 - offset });
-        assert.fail("Must throw exception");
+        await queryIterator.fetchNext({
+          ruCapPerOperation: calculated_ru_threshold1 - offset,
+        });
+        assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED exception");
       } catch (err) {
         assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-        assert.ok(err.body);
+        assert.ok(err.fetchedResults === undefined);
         assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
       }
     });
@@ -404,7 +396,7 @@ describe("Test RU Capping query", function (this: Suite) {
         assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED exception");
       } catch (err) {
         assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
-        assert.ok(err.body);
+        assert.ok(err.fetchedResults === undefined);
         assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
       }
     });

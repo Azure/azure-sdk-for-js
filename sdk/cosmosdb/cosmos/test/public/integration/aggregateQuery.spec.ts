@@ -54,14 +54,14 @@ describe("Aggregate Query", function (this: Suite) {
       "Validate Aggregate Document Query",
       undefined,
       containerDefinition,
-      containerOptions,
+      containerOptions
     );
     await bulkInsertItems(container, documentDefinitions);
   });
 
   const validateFetchAll = async function (
     queryIterator: QueryIterator<any>,
-    expectedResults: any,
+    expectedResults: any
   ): Promise<number> {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
     assert(requestCharge > 0, "request charge was not greater than zero");
@@ -74,7 +74,7 @@ describe("Aggregate Query", function (this: Suite) {
     queryIterator: QueryIterator<any>,
     options: any,
     expectedResults: any[],
-    fetchAllRequestCharge: number,
+    fetchAllRequestCharge: number
   ): Promise<void> {
     const pageSize = options["maxItemCount"];
 
@@ -107,11 +107,11 @@ describe("Aggregate Query", function (this: Suite) {
         assert.equal(
           expectedResults.length,
           totalFetchedResults.length,
-          "executeNext: didn't fetch all the results",
+          "executeNext: didn't fetch all the results"
         );
         assert(
           results.length <= pageSize,
-          "executeNext: actual fetch size is more than the requested page size",
+          "executeNext: actual fetch size is more than the requested page size"
         );
       }
     }
@@ -126,13 +126,13 @@ describe("Aggregate Query", function (this: Suite) {
       totalExecuteNextRequestCharge;
     assert(
       percentDifference <= 0.01,
-      "difference between fetchAll request charge and executeNext request charge should be less than 1%",
+      "difference between fetchAll request charge and executeNext request charge should be less than 1%"
     );
   };
 
   const ValidateAsyncIterator = async function (
     queryIterator: QueryIterator<any>,
-    expectedResults: any[],
+    expectedResults: any[]
   ): Promise<void> {
     const results: any[] = [];
     let completed = false;
@@ -151,7 +151,7 @@ describe("Aggregate Query", function (this: Suite) {
 
   const executeQueryAndValidateResults = async function (
     query: string | SqlQuerySpec,
-    expectedResults: any[],
+    expectedResults: any[]
   ): Promise<void> {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
@@ -162,7 +162,7 @@ describe("Aggregate Query", function (this: Suite) {
       queryIterator,
       options,
       expectedResults,
-      fetchAllRequestCharge,
+      fetchAllRequestCharge
     );
     queryIterator.reset();
     await ValidateAsyncIterator(queryIterator, expectedResults);
@@ -177,7 +177,7 @@ describe("Aggregate Query", function (this: Suite) {
   it("SELECT VALUE AVG with ORDER BY", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
-      [average],
+      [average]
     );
   });
 
@@ -218,42 +218,42 @@ describe("Aggregate Query", function (this: Suite) {
   it("SELECT VALUE SUM with ORDER BY", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.key) FROM r WHERE IS_NUMBER(r.key) ORDER BY r.key",
-      [testdata.sum],
+      [testdata.sum]
     );
   });
 
   it("SELECT VALUE AVG for single partiton", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE AVG(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
-      [samePartitionSum / testdata.numberOfDocsWithSamePartitionKey],
+      [samePartitionSum / testdata.numberOfDocsWithSamePartitionKey]
     );
   });
 
   it("SELECT VALUE COUNT for single partiton", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE COUNT(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
-      [testdata.numberOfDocsWithSamePartitionKey],
+      [testdata.numberOfDocsWithSamePartitionKey]
     );
   });
 
   it("SELECT VALUE MAX for single partiton", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE MAX(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
-      [testdata.numberOfDocsWithSamePartitionKey],
+      [testdata.numberOfDocsWithSamePartitionKey]
     );
   });
 
   it("SELECT VALUE MIN for single partiton", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE MIN(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
-      [1],
+      [1]
     );
   });
 
   it("SELECT VALUE SUM for single partiton", async function () {
     await executeQueryAndValidateResults(
       "SELECT VALUE SUM(r.field) FROM r WHERE r.key = 'uniquePartitionKey'",
-      [samePartitionSum],
+      [samePartitionSum]
     );
   });
 

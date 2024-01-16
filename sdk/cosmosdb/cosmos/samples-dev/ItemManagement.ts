@@ -54,7 +54,7 @@ async function run(): Promise<void> {
   });
   if (!item2 && headers["content-length"] === 0) {
     console.log(
-      "As expected, no item returned. This is because the etag sent matched the etag on the server. i.e. you have the latest version of the item already",
+      "As expected, no item returned. This is because the etag sent matched the etag on the server. i.e. you have the latest version of the item already"
     );
   }
 
@@ -69,7 +69,7 @@ async function run(): Promise<void> {
     throw "Expected item this time. Something is wrong!";
   } else {
     console.log(
-      "This time the read request returned the item because the etag values did not match",
+      "This time the read request returned the item because the etag values did not match"
     );
   }
 
@@ -113,7 +113,7 @@ async function run(): Promise<void> {
   if (person && updatedPerson) {
     console.log("The '" + person.id + "' family has lastName '" + updatedPerson.lastName + "'");
     console.log(
-      "The '" + person.id + "' family has " + updatedPerson.children.length + " children '",
+      "The '" + person.id + "' family has " + updatedPerson.children.length + " children '"
     );
   }
 
@@ -144,7 +144,7 @@ async function run(): Promise<void> {
   logStep(
     `Upserting person ${upsertSource && upsertSource.id} with id ${
       upsertSource && upsertSource.id
-    }...`,
+    }...`
   );
 
   // a non-identity change will cause an update on upsert

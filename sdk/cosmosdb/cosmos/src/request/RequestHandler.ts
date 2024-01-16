@@ -26,7 +26,7 @@ const logger: AzureLogger = createClientLogger("RequestHandler");
 
 async function executeRequest(
   diagnosticNode: DiagnosticNodeInternal,
-  requestContext: RequestContext,
+  requestContext: RequestContext
 ): Promise<CosmosResponse<any>> {
   return executePlugins(diagnosticNode, requestContext, httpRequest, PluginOn.request);
 }
@@ -36,7 +36,7 @@ async function executeRequest(
  */
 async function httpRequest(
   requestContext: RequestContext,
-  diagnosticNode: DiagnosticNodeInternal,
+  diagnosticNode: DiagnosticNodeInternal
 ): Promise<{
   headers: any;
   result: any;
@@ -101,7 +101,7 @@ async function httpRequest(
       }
       // If the user didn't cancel, it must be an abort we called due to timeout
       throw new TimeoutError(
-        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`,
+        `Timeout Error! Request took more than ${requestContext.connectionPolicy.requestTimeout} ms`
       );
     }
     throw error;
@@ -123,7 +123,7 @@ async function httpRequest(
     requestContext,
     response,
     substatus,
-    url,
+    url
   );
 
   if (response.status >= 400) {
@@ -135,7 +135,7 @@ async function httpRequest(
         " " +
         requestContext.path +
         " " +
-        result.message,
+        result.message
     );
 
     errorResponse.code = response.status;
@@ -153,7 +153,7 @@ async function httpRequest(
     if (Constants.HttpHeaders.RetryAfterInMs in responseHeaders) {
       errorResponse.retryAfterInMs = parseInt(
         responseHeaders[Constants.HttpHeaders.RetryAfterInMs],
-        10,
+        10
       );
       Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
         get: () => {
@@ -177,7 +177,7 @@ async function httpRequest(
  */
 async function request<T>(
   requestContext: RequestContext,
-  diagnosticNode: DiagnosticNodeInternal,
+  diagnosticNode: DiagnosticNodeInternal
 ): Promise<CosmosResponse<T>> {
   if (requestContext.body) {
     requestContext.body = bodyFromData(requestContext.body);
@@ -195,7 +195,7 @@ async function request<T>(
       });
     },
     diagnosticNode,
-    DiagnosticNodeType.REQUEST_ATTEMPTS,
+    DiagnosticNodeType.REQUEST_ATTEMPTS
   );
 }
 

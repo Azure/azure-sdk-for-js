@@ -46,7 +46,7 @@ async function accessingDiagnosticForDatabaseOperations(databaseId: string) {
   };
 }
 async function accessingDiagnosticForContainerOperations(
-  database: any,
+  database: any
 ): Promise<{ container: any }> {
   const { container, diagnostics: containerCreateDiagnostic } =
     await database.containers.createIfNotExists({
@@ -106,19 +106,19 @@ async function accessingDiagnosticForBatchOperations(container: Container) {
 
 function displayCosmosDiagnosticsObject(diagnostics: any, target: string) {
   console.log(
-    `######################## Printing diagnostic for ${target} ##############################`,
+    `######################## Printing diagnostic for ${target} ##############################`
   );
   console.log(
-    `    ## Operation start time stamp: ${diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs}`,
+    `    ## Operation start time stamp: ${diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs}`
   );
   console.log(
-    `    ## Total time taken in operation: ${diagnostics.clientSideRequestStatistics.requestDurationInMs}`,
+    `    ## Total time taken in operation: ${diagnostics.clientSideRequestStatistics.requestDurationInMs}`
   );
   console.log(
-    `    ## Total request payload length operation: ${diagnostics.clientSideRequestStatistics.totalRequestPayloadLengthInBytes}`,
+    `    ## Total request payload length operation: ${diagnostics.clientSideRequestStatistics.totalRequestPayloadLengthInBytes}`
   );
   console.log(
-    `    ## Total response payload length operation: ${diagnostics.clientSideRequestStatistics.totalResponsePayloadLengthInBytes}`,
+    `    ## Total response payload length operation: ${diagnostics.clientSideRequestStatistics.totalResponsePayloadLengthInBytes}`
   );
   console.log(`    ## Location endpoints contacted during operation - `);
 

@@ -21,7 +21,7 @@ describe("Container TTL", function (this: Suite) {
     db: Database,
     containerDefinition: ContainerDefinition,
     collId: any,
-    defaultTtl: number,
+    defaultTtl: number
   ): Promise<void> {
     containerDefinition.id = collId;
     containerDefinition.defaultTtl = defaultTtl;
@@ -32,7 +32,7 @@ describe("Container TTL", function (this: Suite) {
       assert.equal(
         err.code,
         badRequestErrorCode,
-        "response should return error code " + badRequestErrorCode,
+        "response should return error code " + badRequestErrorCode
       );
     }
   }
@@ -41,7 +41,7 @@ describe("Container TTL", function (this: Suite) {
     container: Container,
     itemDefinition: any,
     itemId: any,
-    ttl: number,
+    ttl: number
   ): Promise<void> {
     itemDefinition.id = itemId;
     itemDefinition.ttl = ttl;
@@ -54,7 +54,7 @@ describe("Container TTL", function (this: Suite) {
       assert.equal(
         err.code,
         badRequestErrorCode,
-        "response should return error code " + badRequestErrorCode,
+        "response should return error code " + badRequestErrorCode
       );
     }
   }
@@ -76,19 +76,19 @@ describe("Container TTL", function (this: Suite) {
       database,
       containerDefinition,
       "sample container2",
-      null,
+      null
     );
     await createcontainerWithInvalidDefaultTtl(
       database,
       containerDefinition,
       "sample container3",
-      0,
+      0
     );
     await createcontainerWithInvalidDefaultTtl(
       database,
       containerDefinition,
       "sample container4",
-      -10,
+      -10
     );
 
     const itemDefinition = {
@@ -124,7 +124,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep3(
     container: Container,
     createdItem: any,
-    itemDefinition: any,
+    itemDefinition: any
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(5)
     await checkItemGone(container, createdItem);
@@ -139,7 +139,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep2(
     container: Container,
     createdItem: any,
-    itemDefinition: any,
+    itemDefinition: any
   ): Promise<void> {
     // the created Item should NOT be gone as it 's ttl value is set to -1(never expire) which overrides the containers' s defaultTtl value
     await checkItemExists(container, createdItem);
@@ -154,7 +154,7 @@ describe("Container TTL", function (this: Suite) {
   async function positiveDefaultTtlStep1(
     container: Container,
     createdItem: any,
-    itemDefinition: any,
+    itemDefinition: any
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value would be same as defaultTtl value of the container
     await checkItemGone(container, createdItem);
@@ -193,7 +193,7 @@ describe("Container TTL", function (this: Suite) {
     container: Container,
     createdItem1: any,
     createdItem2: any,
-    createdItem3: any,
+    createdItem3: any
   ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(-1)
     await checkItemGone(container, createdItem3);

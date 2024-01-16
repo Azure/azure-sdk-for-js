@@ -35,7 +35,7 @@ export class ChangeFeedIteratorResponse<T> {
     /**
      * Gets the subStatusCodes of the response from Azure Cosmos DB. Useful in partition split or partition gone.
      */
-    public readonly subStatusCode?: number,
+    public readonly subStatusCode?: number
   ) {
     this.headers = headers;
   }

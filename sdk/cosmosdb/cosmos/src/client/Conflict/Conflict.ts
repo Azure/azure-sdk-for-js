@@ -33,7 +33,7 @@ export class Conflict {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    private partitionKey?: PartitionKey,
+    private partitionKey?: PartitionKey
   ) {
     this.partitionKey = partitionKey;
   }
@@ -59,7 +59,7 @@ export class Conflict {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -72,7 +72,7 @@ export class Conflict {
       if (this.partitionKey === undefined) {
         const partitionKeyDefinition = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container,
+          this.container
         );
         this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
@@ -92,7 +92,7 @@ export class Conflict {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

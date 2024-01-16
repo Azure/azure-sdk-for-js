@@ -36,7 +36,7 @@ async function run(): Promise<void> {
   const container = database.container(containerId);
   const { resource: containerDef } = await container.read();
   console.log(
-    `Container with url "${container.url}" was found its id is "${containerDef && containerDef.id}`,
+    `Container with url "${container.url}" was found its id is "${containerDef && containerDef.id}`
   );
 
   logStep(`Delete container ${containerDef && containerDef.id}`);

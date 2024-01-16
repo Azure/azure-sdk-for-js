@@ -25,7 +25,7 @@ export class UserDefinedFunctions {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -76,7 +76,7 @@ export class UserDefinedFunctions {
    */
   public async create(
     body: UserDefinedFunctionDefinition,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<UserDefinedFunctionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (body.body) {
@@ -105,7 +105,7 @@ export class UserDefinedFunctions {
         response.headers,
         response.code,
         ref,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

@@ -19,7 +19,7 @@ import { hashV2PartitionKey } from "./v2";
  */
 export function hashPartitionKey(
   partitionKey: PrimitivePartitionKeyValue[],
-  partitionDefinition: PartitionKeyDefinition,
+  partitionDefinition: PartitionKeyDefinition
 ): string {
   const kind: PartitionKeyKind = partitionDefinition?.kind || PartitionKeyKind.Hash; // Default value.
   const isV2 =

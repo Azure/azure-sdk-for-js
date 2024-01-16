@@ -9,16 +9,17 @@ export const RUCapPerOperationExceededErrorCode = "OPERATION_RU_LIMIT_EXCEEDED";
 
 export class RUCapPerOperationExceededError extends ErrorResponse {
   readonly code: string = RUCapPerOperationExceededErrorCode;
+  public fetchedResults: unknown[];
   constructor(
     message: string = "Request Unit limit per Operation call exceeded",
-    fetchedSoFarResults?: any[]
+    fetchedResults: unknown[] = []
   ) {
     super(message);
     this.code = RUCapPerOperationExceededErrorCode;
     this.body = {
       code: RUCapPerOperationExceededErrorCode,
       message,
-      fetchedSoFarResults: fetchedSoFarResults,
     };
+    this.fetchedResults = fetchedResults;
   }
 }

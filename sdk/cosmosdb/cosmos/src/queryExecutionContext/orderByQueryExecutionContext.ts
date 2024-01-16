@@ -33,7 +33,7 @@ export class OrderByQueryExecutionContext
     collectionLink: string,
     query: string | SqlQuerySpec,
     options: FeedOptions,
-    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     // Calling on base class constructor
     super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);

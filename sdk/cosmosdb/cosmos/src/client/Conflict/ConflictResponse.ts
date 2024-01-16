@@ -13,7 +13,7 @@ export class ConflictResponse extends ResourceResponse<ConflictDefinition & Reso
     headers: CosmosHeaders,
     statusCode: number,
     conflict: Conflict,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.conflict = conflict;

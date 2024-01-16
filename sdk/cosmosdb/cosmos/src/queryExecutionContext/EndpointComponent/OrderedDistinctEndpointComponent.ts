@@ -33,7 +33,7 @@ export class OrderedDistinctEndpointComponent implements ExecutionContext {
       return { result, headers };
     } catch (err) {
       if (err.code === RUCapPerOperationExceededErrorCode) {
-        err.body.fetchedSoFarResults = undefined;
+        err.fetchedResults = undefined;
       }
       throw err;
     }

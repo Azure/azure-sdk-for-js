@@ -72,7 +72,7 @@ export class SmartRoutingMapProvider {
   public async getOverlappingRanges(
     collectionLink: string,
     sortedRanges: QueryRange[],
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<any[]> {
     // validate if the list is non- overlapping and sorted                             TODO: any PartitionKeyRanges
     if (!SmartRoutingMapProvider._isSortedAndNonOverlapping(sortedRanges)) {
@@ -87,7 +87,7 @@ export class SmartRoutingMapProvider {
 
     const collectionRoutingMap = await this.partitionKeyRangeCache.onCollectionRoutingMap(
       collectionLink,
-      diagnosticNode,
+      diagnosticNode
     );
 
     let index = 0;
@@ -106,7 +106,7 @@ export class SmartRoutingMapProvider {
       if (partitionKeyRanges.length > 0) {
         queryRange = SmartRoutingMapProvider._subtractRange(
           currentProvidedRange,
-          partitionKeyRanges[partitionKeyRanges.length - 1],
+          partitionKeyRanges[partitionKeyRanges.length - 1]
         );
       } else {
         queryRange = currentProvidedRange;
@@ -119,7 +119,7 @@ export class SmartRoutingMapProvider {
       partitionKeyRanges = partitionKeyRanges.concat(overlappingRanges);
 
       const lastKnownTargetRange = QueryRange.parsePartitionKeyRange(
-        partitionKeyRanges[partitionKeyRanges.length - 1],
+        partitionKeyRanges[partitionKeyRanges.length - 1]
       );
       if (!lastKnownTargetRange) {
         throw new Error("expected lastKnowTargetRange to be truthy");
@@ -143,7 +143,7 @@ export class SmartRoutingMapProvider {
       while (
         SmartRoutingMapProvider._stringCompare(
           currentProvidedRange.max,
-          lastKnownTargetRange.max,
+          lastKnownTargetRange.max
         ) <= 0
       ) {
         // the current range is covered too.just move forward

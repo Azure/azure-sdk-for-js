@@ -65,10 +65,7 @@ export class Items {
    * @param container - The parent container.
    * @hidden
    */
-  constructor(
-    public readonly container: Container,
-    private readonly clientContext: ClientContext,
-  ) {
+  constructor(public readonly container: Container, private readonly clientContext: ClientContext) {
     this.partitionKeyRangeCache = new PartitionKeyRangeCache(this.clientContext);
   }
 
@@ -110,7 +107,7 @@ export class Items {
 
     const fetchFunction: FetchFunctionCallback = async (
       diagnosticNode: DiagnosticNodeInternal,
-      innerOptions: FeedOptions,
+      innerOptions: FeedOptions
     ) => {
       const response = await this.clientContext.queryFeed({
         path,
@@ -131,7 +128,7 @@ export class Items {
       options,
       fetchFunction,
       this.container.url,
-      ResourceType.item,
+      ResourceType.item
     );
   }
 
@@ -150,7 +147,7 @@ export class Items {
    */
   public readChangeFeed(
     partitionKey: PartitionKey,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -164,7 +161,7 @@ export class Items {
    */
   public readChangeFeed<T>(
     partitionKey: PartitionKey,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -173,7 +170,7 @@ export class Items {
   public readChangeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public readChangeFeed<T>(
     partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
     if (isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
       return this.changeFeed(partitionKeyOrChangeFeedOptions);
@@ -195,7 +192,7 @@ export class Items {
    */
   public changeFeed(
     partitionKey: PartitionKey,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<any>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -206,7 +203,7 @@ export class Items {
    */
   public changeFeed<T>(
     partitionKey: PartitionKey,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T>;
   /**
    * Create a `ChangeFeedIterator` to iterate over pages of changes
@@ -214,7 +211,7 @@ export class Items {
   public changeFeed<T>(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
   public changeFeed<T>(
     partitionKeyOrChangeFeedOptions?: PartitionKey | ChangeFeedOptions,
-    changeFeedOptions?: ChangeFeedOptions,
+    changeFeedOptions?: ChangeFeedOptions
   ): ChangeFeedIterator<T> {
     let partitionKey: PartitionKey;
     if (!changeFeedOptions && isChangeFeedOptions(partitionKeyOrChangeFeedOptions)) {
@@ -240,7 +237,7 @@ export class Items {
    * Returns an iterator to iterate over pages of changes. The iterator returned can be used to fetch changes for a single partition key, feed range or an entire container.
    */
   public getChangeFeedIterator<T>(
-    changeFeedIteratorOptions?: ChangeFeedIteratorOptions,
+    changeFeedIteratorOptions?: ChangeFeedIteratorOptions
   ): ChangeFeedPullModelIterator<T> {
     const cfOptions = changeFeedIteratorOptions !== undefined ? changeFeedIteratorOptions : {};
     validateChangeFeedIteratorOptions(cfOptions);
@@ -248,7 +245,7 @@ export class Items {
       cfOptions,
       this.clientContext,
       this.container,
-      this.partitionKeyRangeCache,
+      this.partitionKeyRangeCache
     );
     return iterator;
   }
@@ -297,7 +294,7 @@ export class Items {
    */
   public async create<T extends ItemDefinition = any>(
     body: T,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     // Generate random document id if the id is missing in the payload and
     // options.disableAutomaticIdGeneration != true
@@ -308,7 +305,7 @@ export class Items {
       }
       const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
-        this.container,
+        this.container
       );
       const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
@@ -334,7 +331,7 @@ export class Items {
         this.container,
         (response.result as any).id,
         this.clientContext,
-        partitionKey,
+        partitionKey
       );
       return new ItemResponse(
         response.result,
@@ -342,7 +339,7 @@ export class Items {
         response.code,
         response.substatus,
         ref,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -357,7 +354,7 @@ export class Items {
    */
   public async upsert(
     body: unknown,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Upsert an item.
@@ -372,11 +369,11 @@ export class Items {
    */
   public async upsert<T extends ItemDefinition>(
     body: T,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ItemResponse<T>>;
   public async upsert<T extends ItemDefinition>(
     body: T,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<ItemResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       // Generate random document id if the id is missing in the payload and
@@ -387,7 +384,7 @@ export class Items {
 
       const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
-        this.container,
+        this.container
       );
       const partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
 
@@ -413,7 +410,7 @@ export class Items {
         this.container,
         (response.result as any).id,
         this.clientContext,
-        partitionKey,
+        partitionKey
       );
       return new ItemResponse(
         response.result,
@@ -421,7 +418,7 @@ export class Items {
         response.code,
         response.substatus,
         ref,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -457,7 +454,7 @@ export class Items {
   public async bulk(
     operations: OperationInput[],
     bulkOptions?: BulkOptions,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<BulkOperationResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const { resources: partitionKeyRanges } = await this.container
@@ -465,7 +462,7 @@ export class Items {
         .fetchAll();
       const partitionKeyDefinition = await readPartitionKeyDefinition(
         diagnosticNode,
-        this.container,
+        this.container
       );
       const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
         return {
@@ -489,7 +486,7 @@ export class Items {
           .map(async (batch: Batch) => {
             if (batch.operations.length > 100) {
               throw new Error(
-                "Cannot run bulk request with more than 100 operations per partition",
+                "Cannot run bulk request with more than 100 operations per partition"
               );
             }
             try {
@@ -505,7 +502,7 @@ export class Items {
                     diagnosticNode: childNode,
                   }),
                 diagnosticNode,
-                DiagnosticNodeType.BATCH_REQUEST,
+                DiagnosticNodeType.BATCH_REQUEST
               );
               response.result.forEach((operationResponse: OperationResponse, index: number) => {
                 orderedResponses[batch.indexes[index]] = operationResponse;
@@ -517,12 +514,12 @@ export class Items {
               if (err.code === 410) {
                 throw new Error(
                   "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
-                    err.message,
+                    err.message
                 );
               }
               throw new Error(`Bulk request errored with: ${err.message}`);
             }
-          }),
+          })
       );
       const response: any = orderedResponses;
       response.diagnostics = diagnosticNode.toDiagnostic(this.clientContext.getClientConfig());
@@ -541,26 +538,26 @@ export class Items {
     operations: OperationInput[],
     partitionDefinition: PartitionKeyDefinition,
     options: RequestOptions | undefined,
-    batches: Batch[],
+    batches: Batch[]
   ) {
     operations.forEach((operationInput, index: number) => {
       const { operation, partitionKey } = prepareOperations(
         operationInput,
         partitionDefinition,
-        options,
+        options
       );
       const hashed = hashPartitionKey(
         assertNotUndefined(
           partitionKey,
-          "undefined value for PartitionKey is not expected during grouping of bulk operations.",
+          "undefined value for PartitionKey is not expected during grouping of bulk operations."
         ),
-        partitionDefinition,
+        partitionDefinition
       );
       const batchForKey = assertNotUndefined(
         batches.find((batch: Batch) => {
           return isKeyInRange(batch.min, batch.max, hashed);
         }),
-        "No suitable Batch found.",
+        "No suitable Batch found."
       );
       batchForKey.operations.push(operation);
       batchForKey.indexes.push(index);
@@ -597,7 +594,7 @@ export class Items {
   public async batch(
     operations: OperationInput[],
     partitionKey?: PartitionKey,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<Response<OperationResponse[]>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       operations.map((operation) => decorateBatchOperation(operation, options));

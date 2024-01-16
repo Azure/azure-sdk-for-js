@@ -36,7 +36,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
       };
     } catch (err) {
       if (err.code === RUCapPerOperationExceededErrorCode) {
-        err.body.fetchedSoFarResults = undefined;
+        err.fetchedResults = undefined;
       }
       throw err;
     }

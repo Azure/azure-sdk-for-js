@@ -13,7 +13,7 @@ import { hmac } from "./hmac";
 
 export async function createAuthorizationSasToken(
   masterKey: string,
-  sasTokenProperties: SasTokenProperties,
+  sasTokenProperties: SasTokenProperties
 ): Promise<string> {
   let resourcePrefixPath = "";
   if (

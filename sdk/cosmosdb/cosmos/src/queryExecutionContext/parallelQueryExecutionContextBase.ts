@@ -75,7 +75,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     this.clientContext = clientContext;
     this.collectionLink = collectionLink;
@@ -87,7 +87,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       diagnosticNode: new DiagnosticNodeInternal(
         clientContext.diagnosticLevel,
         DiagnosticNodeType.PARALLEL_QUERY_NODE,
-        null,
+        null
       ),
     };
     this.diagnosticNodeWrapper.diagnosticNode.addData({ stateful: true });
@@ -103,14 +103,14 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     // Make priority queue for documentProducers
     // The comparator is supplied by the derived class
     this.orderByPQ = new PriorityQueue<DocumentProducer>(
-      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a),
+      (a: DocumentProducer, b: DocumentProducer) => this.documentProducerComparator(b, a)
     );
     this.nextItemfetchSemaphore = semaphore(1);
   }
 
   protected abstract documentProducerComparator(
     dp1: DocumentProducer,
-    dp2: DocumentProducer,
+    dp2: DocumentProducer
   ): number;
 
   private _mergeWithActiveResponseHeaders(headers: CosmosHeaders): void {
@@ -134,7 +134,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       queryRanges,
-      this.getDiagnosticNode(),
+      this.getDiagnosticNode()
     );
   }
 
@@ -142,7 +142,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Gets the replacement ranges for a partitionkeyrange that has been split
    */
   private async _getReplacementPartitionKeyRanges(
-    documentProducer: DocumentProducer,
+    documentProducer: DocumentProducer
   ): Promise<any[]> {
     const partitionKeyRange = documentProducer.targetPartitionKeyRange;
     // Download the new routing map
@@ -152,7 +152,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     return this.routingProvider.getOverlappingRanges(
       this.collectionLink,
       [queryRange],
-      this.getDiagnosticNode(),
+      this.getDiagnosticNode()
     );
   }
 
@@ -164,29 +164,30 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private async _repairExecutionContext(
     diagnosticNode: DiagnosticNodeInternal,
-    originFunction: any,
+    originFunction: any
   ): Promise<void> {
     // TODO: any
     // Get the replacement ranges
     // Removing the invalid documentProducer from the orderByPQ
     const parentDocumentProducer = this.orderByPQ.deq();
     try {
-      const replacementPartitionKeyRanges: any[] =
-        await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
+      const replacementPartitionKeyRanges: any[] = await this._getReplacementPartitionKeyRanges(
+        parentDocumentProducer
+      );
       const replacementDocumentProducers: DocumentProducer[] = [];
       // Create the replacement documentProducers
       replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
         // Create replacment document producers with the parent's continuationToken
         const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
           partitionKeyRange,
-          parentDocumentProducer.continuationToken,
+          parentDocumentProducer.continuationToken
         );
         replacementDocumentProducers.push(replacementDocumentProducer);
       });
       // We need to check if the documentProducers even has anything left to fetch from before enqueing them
       const checkAndEnqueueDocumentProducer = async (
         documentProducerToCheck: DocumentProducer,
-        checkNextDocumentProducerCallback: any,
+        checkNextDocumentProducerCallback: any
       ): Promise<void> => {
         try {
           const { result: afterItem } = await documentProducerToCheck.current(diagnosticNode);
@@ -255,7 +256,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         return addDignosticChild(
           (childNode) => this._repairExecutionContext(childNode, ifCallback),
           diagnosticNode,
-          DiagnosticNodeType.QUERY_REPAIR_NODE,
+          DiagnosticNodeType.QUERY_REPAIR_NODE
         );
       } else {
         // Something actually bad happened ...
@@ -300,7 +301,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           diagnosticNode.addChildNode(
             this.diagnosticNodeWrapper.diagnosticNode,
             CosmosDbDiagnosticLevel.debug,
-            MetadataLookUpType.QueryPlanLookUp,
+            MetadataLookUpType.QueryPlanLookUp
           );
           this.diagnosticNodeWrapper.diagnosticNode = undefined;
           this.diagnosticNodeWrapper.consumed = true;
@@ -365,7 +366,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               // assert item !== undefined
               this.err = new Error(
                 `Extracted DocumentProducer from the priority queue \
-                                            doesn't have any buffered item!`,
+                                            doesn't have any buffered item!`
               );
               // release the lock before invoking callback
               this.nextItemfetchSemaphore.leave();
@@ -407,7 +408,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 const headItem = documentProducer.fetchResults[0];
                 if (typeof headItem === "undefined") {
                   throw new Error(
-                    "Extracted DocumentProducer from PQ is invalid state with no result!",
+                    "Extracted DocumentProducer from PQ is invalid state with no result!"
                   );
                 }
                 this.orderByPQ.enq(documentProducer);
@@ -442,7 +443,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           });
         };
         this._repairExecutionContextIfNeeded(diagnosticNode, ifCallback, elseCallback).catch(
-          reject,
+          reject
         );
       });
     });
@@ -451,7 +452,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _updateErrorObjectWithBufferedData(err: any) {
     this.orderByPQ.forEach((dp) => {
       const bufferedItems = dp.peekBufferedItems();
-      err.body.fetchedSoFarResults.push(...bufferedItems);
+      err.fetchedResults.push(...bufferedItems);
     });
   }
 
@@ -471,7 +472,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    */
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
-    continuationToken?: any,
+    continuationToken?: any
   ): DocumentProducer {
     // TODO: any
     // creates target partition range Query Execution Context
@@ -500,7 +501,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       this.collectionLink,
       sqlQuerySpec,
       partitionKeyTargetRange,
-      options,
+      options
     );
   }
 
@@ -568,7 +569,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // merge the buffered items
           this.orderByPQ.forEach((dp) => {
             const bufferedItems = dp.peekBufferedItems();
-            this.ruCapExceededError.body.fetchedSoFarResults.push(...bufferedItems);
+            this.ruCapExceededError.fetchedResults.push(...bufferedItems);
           });
           throw this.ruCapExceededError;
         }
@@ -605,8 +606,8 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           this.ruCapExceededError = err;
         } else {
           // merge the buffered items
-          if (err.body && err.body.fetchedSoFarResults) {
-            this.ruCapExceededError.body.fetchedSoFarResults.push(...err.body.fetchedSoFarResults);
+          if (err.fetchedResults) {
+            this.ruCapExceededError.fetchedResults.push(...err.fetchedResults);
           }
         }
       } else {

@@ -31,7 +31,7 @@ export class ChangeFeedRange {
     maxExclusive: string,
     continuationToken?: string,
     epkMinHeader?: string,
-    epkMaxHeader?: string,
+    epkMaxHeader?: string
   ) {
     this.minInclusive = minInclusive;
     this.maxExclusive = maxExclusive;

@@ -43,8 +43,8 @@ export class GlobalEndpointManager {
     options: CosmosClientOptions,
     private readDatabaseAccount: (
       diagnosticNode: DiagnosticNodeInternal,
-      opts: RequestOptions,
-    ) => Promise<ResourceResponse<DatabaseAccount>>,
+      opts: RequestOptions
+    ) => Promise<ResourceResponse<DatabaseAccount>>
   ) {
     this.options = options;
     this.defaultEndpoint = options.endpoint;
@@ -78,7 +78,7 @@ export class GlobalEndpointManager {
 
   public async markCurrentLocationUnavailableForRead(
     diagnosticNode: DiagnosticNodeInternal,
-    endpoint: string,
+    endpoint: string
   ): Promise<void> {
     await this.refreshEndpointList(diagnosticNode);
     const location = this.readableLocations.find((loc) => loc.databaseAccountEndpoint === endpoint);
@@ -91,11 +91,11 @@ export class GlobalEndpointManager {
 
   public async markCurrentLocationUnavailableForWrite(
     diagnosticNode: DiagnosticNodeInternal,
-    endpoint: string,
+    endpoint: string
   ): Promise<void> {
     await this.refreshEndpointList(diagnosticNode);
     const location = this.writeableLocations.find(
-      (loc) => loc.databaseAccountEndpoint === endpoint,
+      (loc) => loc.databaseAccountEndpoint === endpoint
     );
     if (location) {
       location.unavailable = true;
@@ -106,7 +106,7 @@ export class GlobalEndpointManager {
 
   public canUseMultipleWriteLocations(
     resourceType?: ResourceType,
-    operationType?: OperationType,
+    operationType?: OperationType
   ): boolean {
     let canUse = this.options.connectionPolicy.useMultipleWriteLocations;
 
@@ -124,7 +124,7 @@ export class GlobalEndpointManager {
     diagnosticNode: DiagnosticNodeInternal,
     resourceType: ResourceType,
     operationType: OperationType,
-    startServiceEndpointIndex: number = 0, // Represents the starting index for selecting servers.
+    startServiceEndpointIndex: number = 0 // Represents the starting index for selecting servers.
   ): Promise<string> {
     // If endpoint discovery is disabled, always use the user provided endpoint
 
@@ -149,7 +149,7 @@ export class GlobalEndpointManager {
           });
         },
         diagnosticNode,
-        MetadataLookUpType.DatabaseAccountLookUp,
+        MetadataLookUpType.DatabaseAccountLookUp
       );
 
       this.writeableLocations = resourceResponse.resource.writableLocations;
@@ -172,7 +172,7 @@ export class GlobalEndpointManager {
         location = locations.find(
           (loc) =>
             loc.unavailable !== true &&
-            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation),
+            normalizeEndpoint(loc.name) === normalizeEndpoint(preferredLocation)
         );
         if (location) {
           break;
@@ -235,13 +235,13 @@ export class GlobalEndpointManager {
     this.updateLocation(now, this.unavailableReadableLocations, this.readableLocations);
     this.unavailableReadableLocations = this.cleanUnavailableLocationList(
       now,
-      this.unavailableReadableLocations,
+      this.unavailableReadableLocations
     );
 
     this.updateLocation(now, this.unavailableWriteableLocations, this.writeableLocations);
     this.unavailableWriteableLocations = this.cleanUnavailableLocationList(
       now,
-      this.unavailableWriteableLocations,
+      this.unavailableWriteableLocations
     );
   }
 
@@ -254,7 +254,7 @@ export class GlobalEndpointManager {
   private updateLocation(
     now: number,
     unavailableLocations: Location[],
-    allLocations: Location[],
+    allLocations: Location[]
   ): void {
     for (const location of unavailableLocations) {
       const unavaialableLocation = allLocations.find((loc) => loc.name === location.name);
@@ -286,7 +286,7 @@ export class GlobalEndpointManager {
    * the database account.
    */
   private async getDatabaseAccountFromAnyEndpoint(
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<DatabaseAccount> {
     try {
       const options = { urlConnection: this.defaultEndpoint };
@@ -307,12 +307,12 @@ export class GlobalEndpointManager {
         try {
           const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
             this.defaultEndpoint,
-            location,
+            location
           );
           const options = { urlConnection: locationalEndpoint };
           const { resource: databaseAccount } = await this.readDatabaseAccount(
             diagnosticNode,
-            options,
+            options
           );
           if (databaseAccount) {
             return databaseAccount;

@@ -163,7 +163,7 @@ describe("test batch operations", function () {
             },
           ],
         },
-        true,
+        true
       );
     });
     function isOperationResponse(object: unknown): object is OperationResponse {

@@ -6,7 +6,7 @@ const ApiExtractor = require("@microsoft/api-extractor");
 const NodeCoreLib = require("@microsoft/node-core-library");
 const config = NodeCoreLib.JsonFile.loadAndValidate(
   "api-extractor.json",
-  ApiExtractor.Extractor.jsonSchema,
+  ApiExtractor.Extractor.jsonSchema
 );
 
 // This interface provides additional runtime state that is NOT part of the config file
