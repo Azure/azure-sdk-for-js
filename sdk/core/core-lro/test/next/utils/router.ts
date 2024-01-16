@@ -137,6 +137,7 @@ export function createTestPoller(settings: {
   updateState?: (state: State, lastResponse: OperationResponse<Result>) => void;
   implName?: ImplementationName;
   throwOnNon2xxResponse?: boolean;
+  restoreFrom?: string;
 }): PollerLike<State, Result> {
   const {
     routes,
@@ -145,9 +146,10 @@ export function createTestPoller(settings: {
     updateState,
     implName = "createPollerSync",
     throwOnNon2xxResponse = true,
+    restoreFrom = undefined
   } = settings;
   const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
-  const { method: requestMethod, path = initialPath } = routes[0];
+  const { method: requestMethod, path = initialPath } = restoreFrom ? { method: "GET" as HttpMethods, path: "FAKE" } : routes[0];
   const lro = createCoreRestPipelineLro({
     sendOperationFn: createSendOp({ client }),
     request: {
@@ -169,6 +171,7 @@ export function createTestPoller(settings: {
           | ((state: any, lastResponse: OperationResponse<unknown>) => void)
           | undefined,
         resolveOnUnsuccessful: !throwOnNon2xxResponse,
+        restoreFrom,
       });
     }
     default: {

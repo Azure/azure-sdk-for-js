@@ -2217,28 +2217,46 @@ matrix(
         });
       });
 
-      describe("serialized state", () => {
-        let state: any, serializedState: string;
-        it("should handle serializing the state", async () => {
+      describe("rehydration LRO", () => {
+        // fake LRO which means no polling and the initial response would returnt the result directly
+        it("could handle rehydration for fake LRO", async () => {
+          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const retResult = {
+            ...bodyObj,
+            statusCode: 200,
+          };
+
           const poller = createTestPoller({
             routes: [
               {
                 method: "PUT",
                 status: 200,
-                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+                body: JSON.stringify(bodyObj)
               },
             ],
             implName,
             throwOnNon2xxResponse,
           });
-          poller.onProgress((currentState) => {
-            if (state === undefined && serializedState === undefined) {
-              state = currentState;
-              serializedState = JSON.stringify({ state: currentState });
-              assert.equal(serializedState, poller.toString());
+          assert.isUndefined(poller.operationState);
+          const serialized = await poller.serialize();
+          const expectedSerialized = JSON.stringify({
+            state: {
+              status: "succeeded",
+              config: {
+                metadata: { mode: "Body" },
+                operationLocation: "path",
+                initialUri: "path",
+                requestMethod: "PUT",
+              },
+              result: retResult
             }
           });
-          await poller.pollUntilDone();
+          assert.equal(serialized, expectedSerialized);
+          assert.equal(poller.operationState.status, "succeeded");
+          const restoredPoller = createTestPoller({ routes: [], restoreFrom: serialized, implName, throwOnNon2xxResponse });
+          assert.equal(serialized, await restoredPoller.serialize());
+          assert.equal(poller.operationState.status, "succeeded");
+          assert.deepEqual(poller.result, retResult);
         });
       });
 
@@ -2260,19 +2278,19 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"running"}`,
+                body: `{ "status": "running" }`,
               },
               {
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"running"}`,
+                body: `{ "status": "running" }`,
               },
               {
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"succeeded"}`,
+                body: `{ "status": "succeeded" }`,
               },
             ],
             onProgress: (state) => {
@@ -2305,19 +2323,19 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"running"}`,
+                body: `{ "status": "running" }`,
               },
               {
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"running"}`,
+                body: `{ "status": "running" }`,
               },
               {
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"status":"succeeded"}`,
+                body: `{ "status": "succeeded" }`,
               },
             ],
             updateState: (state: any) => {
@@ -2348,13 +2366,13 @@ matrix(
                   location: locationPath,
                   [headerName]: pollingPath,
                 },
-                body: `{"properties":{"provisioningState":"Accepted"},"id":"100","name":"foo"}`,
+                body: `{ "properties": { "provisioningState": "Accepted" }, "id": "100", "name": "foo" }`,
               },
               {
                 method: "GET",
                 path: pollingPath,
                 status: 202,
-                body: `{"status":"Accepted"}`,
+                body: `{ "status": "Accepted" }`,
                 headers: {
                   location: locationPath,
                   [headerName]: pollingPath,
@@ -2364,13 +2382,13 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
               },
               {
                 method: "GET",
                 path: locationPath,
                 status: 200,
-                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
               },
             ],
             processResult: (res: unknown) => {
@@ -2387,7 +2405,7 @@ matrix(
               {
                 method: "PUT",
                 status: 200,
-                body: `{"properties":{"provisioningState":"Succeeded"},"id":"100","name":"foo"}`,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
               },
             ],
             processResult: (res: unknown) => {
@@ -2417,7 +2435,7 @@ matrix(
                 method: "GET",
                 path: pollingPath,
                 status: 200,
-                body: `{ "status": "running"}`,
+                body: `{ "status": "running" }`,
               },
               {
                 method: "GET",
@@ -2458,13 +2476,13 @@ matrix(
               ...Array(10).fill({
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "running"}`,
+                body: `{ "status": "running" }`,
                 status: 200,
               }),
               {
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "succeeded"}`,
+                body: `{ "status": "succeeded" }`,
                 status: 200,
               },
             ],
@@ -2504,13 +2522,13 @@ matrix(
               ...Array(10).fill({
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "running"}`,
+                body: `{ "status": "running" }`,
                 status: 200,
               }),
               {
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "succeeded"}`,
+                body: `{ "status": "succeeded" }`,
                 status: 200,
               },
             ],
@@ -2552,13 +2570,13 @@ matrix(
               ...Array(20).fill({
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "running"}`,
+                body: `{ "status": "running" }`,
                 status: 200,
               }),
               {
                 method: "GET",
                 path: pollingPath,
-                body: `{ "status": "succeeded"}`,
+                body: `{ "status": "succeeded" }`,
                 status: 200,
               },
             ],
@@ -2588,7 +2606,7 @@ matrix(
               {
                 method: "PUT",
                 status: 200,
-                body: `{ "properties": { "provisioningState": "Succeeded"}, "id": "100", "name": "foo" }`,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
               },
             ],
             throwOnNon2xxResponse,
@@ -2697,7 +2715,7 @@ matrix(
                   headers: {
                     "Operation-Location": pollingPath,
                   },
-                  body: `{"status":"Running"}`,
+                  body: `{ "status": "Running" }`,
                 },
                 {
                   method: "GET",
@@ -2710,7 +2728,7 @@ matrix(
             throwOnNon2xxResponse,
             throwing: {
               messagePattern: new RegExp(
-                `The long-running operation has failed. ${code}. ${message}`,
+                `The long - running operation has failed.${code}.${message}`,
               ),
             },
             notThrowing: {
@@ -2718,8 +2736,6 @@ matrix(
             },
           });
         });
-
-        // TODO: restoreFrom, readonly attributes, initial state, etc.
       });
     });
   },
