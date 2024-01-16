@@ -12,25 +12,6 @@ export type CancelOnProgress = () => void;
 // @public
 type CancelOnProgress_2 = () => void;
 
-declare namespace CoreNext {
-    export {
-        createHttpPoller_2 as createHttpPoller,
-        CancelOnProgress_2 as CancelOnProgress,
-        OperationState_2 as OperationState,
-        OperationStatus_2 as OperationStatus,
-        PollerLike_2 as PollerLike,
-        RestorableOperationState,
-        OperationConfig,
-        CreateHttpPollerOptions_2 as CreateHttpPollerOptions,
-        ResourceLocationConfig,
-        LongRunningOperation_2 as LongRunningOperation,
-        OperationResponse,
-        RawResponse_2 as RawResponse,
-        deserializeState
-    }
-}
-export { CoreNext }
-
 // @public
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
 
@@ -105,6 +86,25 @@ export interface LroResponse<T = unknown> {
     flatResponse: T;
     rawResponse: RawResponse;
 }
+
+declare namespace Next {
+    export {
+        createHttpPoller_2 as createHttpPoller,
+        CancelOnProgress_2 as CancelOnProgress,
+        OperationState_2 as OperationState,
+        OperationStatus_2 as OperationStatus,
+        PollerLike_2 as PollerLike,
+        RestorableOperationState,
+        OperationConfig,
+        CreateHttpPollerOptions_2 as CreateHttpPollerOptions,
+        ResourceLocationConfig,
+        LongRunningOperation_2 as LongRunningOperation,
+        OperationResponse,
+        RawResponse_2 as RawResponse,
+        deserializeState
+    }
+}
+export { Next }
 
 // @public
 interface OperationConfig {

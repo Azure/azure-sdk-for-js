@@ -73,16 +73,16 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-          let called = false;
-          return (operationLocation: string, isUpdated: boolean) => {
-            if (isUpdated) withOperationLocationCallback(operationLocation);
-            else if (!called) withOperationLocationCallback(operationLocation);
-            called = true;
-          };
-        })()
+        let called = false;
+        return (operationLocation: string, isUpdated: boolean) => {
+          if (isUpdated) withOperationLocationCallback(operationLocation);
+          else if (!called) withOperationLocationCallback(operationLocation);
+          called = true;
+        };
+      })()
       : undefined;
     let statePromise: Promise<TState>;
-    let state: RestorableOperationState<TState> | undefined = undefined;
+    let state: RestorableOperationState<TState>;
     if (restoreFrom) {
       state = deserializeState(restoreFrom);
       statePromise = Promise.resolve(state);
@@ -161,7 +161,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           if (resolveOnUnsuccessful) {
             return poller.result as TResult;
           } else {
-            switch (state!.status) {
+            switch (state.status) {
               case "succeeded":
                 return poller.result as TResult;
               case "canceled":
@@ -183,7 +183,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         if (resolveOnUnsuccessful) {
           if (poller.isDone) return state!;
         } else {
-          switch (state!.status) {
+          switch (state.status) {
             case "succeeded":
               return state!;
             case "canceled":
@@ -213,15 +213,15 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         });
         await handleProgressEvents();
         if (!resolveOnUnsuccessful) {
-          switch (state!.status) {
+          switch (state.status) {
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
-              throw state!.error;
+              throw state.error;
           }
         }
 
-        return state!;
+        return state;
       },
       // promise operations - directly delegate then/catch/finally to the promise of pollUntilDone() returned
       then<TResult1 = TResult, TResult2 = never>(

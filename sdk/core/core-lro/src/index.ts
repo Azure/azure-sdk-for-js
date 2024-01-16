@@ -34,5 +34,5 @@ export * from "./legacy/poller";
 export * from "./legacy/pollOperation";
 export { PollerLike } from "./legacy/models";
 
-import * as CoreNext from "./next";
-export { CoreNext };
+import * as Next from "./next";
+export { Next };
