@@ -62,7 +62,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
           resourceLocation: config?.resourceLocation,
           initialUri: config?.initialUri,
           requestMethod: config?.requestMethod,
-          ...metadata,
+          metadata,
         };
       },
       poll: lro.sendPollRequest,
