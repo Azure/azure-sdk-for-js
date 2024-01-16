@@ -28,19 +28,14 @@ import { logger } from "./logger";
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
-export default function createClient(
-  fullyQualifiedNamespace: string,
-  credentials: TokenCredential,
-  options: ClientOptions = {}
-): SchemaRegistryContext {
-  const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
-  options.apiVersion = options.apiVersion ?? "2023-07-01";
-  const userAgentInfo = `azsdk-js-AzureSchemaRegistry-rest/1.0.0-beta.1`;
-  const userAgentPrefix =
-    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
-      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
-      : `${userAgentInfo}`;
-  options = {
+export default function createClient(fullyQualifiedNamespace: string, credentials: TokenCredential, options: ClientOptions = {}): SchemaRegistryContext {
+    const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
+    options.apiVersion = options.apiVersion ?? "2023-07-01";
+    const userAgentInfo = `azsdk-js-AzureSchemaRegistry-rest/1.0.0-beta.1`;
+    const userAgentPrefix = options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+              ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+              : `${userAgentInfo}`;
+    options = {
     ...options,
     userAgentOptions: {
       userAgentPrefix,
@@ -51,9 +46,9 @@ export default function createClient(
     credentials: {
       scopes: options.credentials?.scopes ?? ["https://eventhubs.azure.net/.default"],
     },
-  };
-  const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
-  return client;
+    };
+    const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
+    return client;
 }
 /**
  * Client for Azure Schema Registry service.
@@ -76,7 +71,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options: SchemaRegistryClientOptions = {},
+    options: SchemaRegistryClientOptions = {}
   ) {
     // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
@@ -96,7 +91,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   registerSchema(
     schema: SchemaDescription,
-    options: RegisterSchemaOptions = {},
+    options: RegisterSchemaOptions = {}
   ): Promise<SchemaProperties> {
     return registerSchema(this._client, schema, options);
   }
@@ -110,7 +105,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   getSchemaProperties(
     schema: SchemaDescription,
-    options: GetSchemaPropertiesOptions = {},
+    options: GetSchemaPropertiesOptions = {}
   ): Promise<SchemaProperties> {
     return getSchemaProperties(this._client, schema, options);
   }
@@ -155,14 +150,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     name: string,
     groupName: string,
     version: number,
-    options?: GetSchemaOptions,
+    options?: GetSchemaOptions
   ): Promise<Schema>;
   // implementation
   getSchema(
     nameOrId: string,
     groupNameOrOptions?: string | GetSchemaOptions,
     version?: number,
-    options: GetSchemaOptions = {},
+    options: GetSchemaOptions = {}
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
       return getSchemaById(this._client, nameOrId, options);

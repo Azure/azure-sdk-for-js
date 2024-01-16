@@ -15,7 +15,7 @@ import { SchemaRegistryClient } from "./clientDefinitions";
 export default function createClient(
   fullyQualifiedNamespace: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): SchemaRegistryClient {
   const baseUrl = options.baseUrl ?? `${fullyQualifiedNamespace}`;
   options.apiVersion = options.apiVersion ?? "2023-07-01";
@@ -33,11 +33,17 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://eventhubs.azure.net/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://eventhubs.azure.net/.default",
+      ],
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as SchemaRegistryClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as SchemaRegistryClient;
 
   return client;
 }

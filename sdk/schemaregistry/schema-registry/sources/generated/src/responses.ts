@@ -3,7 +3,11 @@
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
-import { PagedSchemaGroupOutput, PagedVersionOutput } from "./outputModels";
+import {
+  PagedSchemaGroupOutput,
+  SchemaContentTypeValuesOutput,
+  PagedVersionOutput,
+} from "./outputModels";
 
 /** The request has succeeded. */
 export interface ListSchemaGroups200Response extends HttpResponse {

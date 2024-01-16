@@ -91,7 +91,7 @@ export interface SchemaRegistry {
    */
   registerSchema(
     schema: SchemaDescription,
-    options?: RegisterSchemaOptions
+    options?: RegisterSchemaOptions,
   ): Promise<SchemaProperties>;
   /**
    * Gets the ID of an existing schema with matching name, group, type, and
@@ -102,7 +102,7 @@ export interface SchemaRegistry {
    */
   getSchemaProperties(
     schema: SchemaDescription,
-    options?: GetSchemaPropertiesOptions
+    options?: GetSchemaPropertiesOptions,
   ): Promise<SchemaProperties>;
   /**
    * Gets an existing schema by ID.

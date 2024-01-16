@@ -25,7 +25,7 @@ type GeneratedSchemaResponse = GetSchemaById200Response | GetSchemaByVersion200R
  */
 export function convertSchemaIdResponse(
   response: GeneratedSchemaIdResponse,
-  schemaFormat: string
+  schemaFormat: string,
 ): SchemaProperties {
   return {
     // `!`s here because server is required to return these on success, but that
@@ -50,8 +50,9 @@ export function buildContentType(format: string): string {
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
+  const schemaDefinition = await getSchemaDefinition(response.body);
   return {
-    definition: response.body.toString(),
+    definition: schemaDefinition,
     properties: {
       id: response.headers["schema-id"]!,
       format: mapContentTypeToFormat(response.headers["content-type"]!),
@@ -60,6 +61,10 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
       version: Number(response.headers["schema-version"]!),
     },
   };
+}
+
+async function getSchemaDefinition(schemaDefinition: Uint8Array): Promise<string> {
+  return new TextDecoder().decode(schemaDefinition);
 }
 
 function mapContentTypeToFormat(contentType: string): string {

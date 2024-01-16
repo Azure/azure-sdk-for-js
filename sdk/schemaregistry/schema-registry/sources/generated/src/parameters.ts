@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
+import { SchemaContentTypeValues } from "./models";
 
 export type ListSchemaGroupsParameters = RequestParameters;
 export type GetSchemaByIdParameters = RequestParameters;
@@ -14,17 +15,22 @@ export interface GetSchemaIdByContentBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface GetSchemaIdByContentMediaTypesParam {
   /** The content type for given schema. */
-  contentType: SchemaContentTypeValuesOutput;
+  contentType: SchemaContentTypeValues;
 }
 
-export type GetSchemaIdByContentParameters = GetSchemaIdByContentMediaTypesParam &
-  GetSchemaIdByContentBodyParam &
-  RequestParameters;
+export type GetSchemaIdByContentParameters =
+  GetSchemaIdByContentMediaTypesParam &
+    GetSchemaIdByContentBodyParam &
+    RequestParameters;
 
 export interface RegisterSchemaBodyParam {
   /**
@@ -32,12 +38,16 @@ export interface RegisterSchemaBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface RegisterSchemaMediaTypesParam {
   /** The content type for given schema. */
-  contentType: SchemaContentTypeValuesOutput;
+  contentType: SchemaContentTypeValues;
 }
 
 export type RegisterSchemaParameters = RegisterSchemaMediaTypesParam &
