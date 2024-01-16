@@ -22,13 +22,6 @@
 
 /design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
-################
-# Automation
-################
-
-# Git Hub integration and bot rules
-/.github/ @jsquire @ronniegeraghty
-
 ###########
 # SDK
 ###########
