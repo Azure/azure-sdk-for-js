@@ -3,8 +3,8 @@
 
 import { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
 import { EnvironmentCredential } from "./environmentCredential";
+import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { TokenCredential } from "@azure/core-auth";
 
 /**
@@ -17,7 +17,7 @@ interface AzureApplicationCredentialConstructor {
 
 export const AzureApplicationCredentials: AzureApplicationCredentialConstructor[] = [
   EnvironmentCredential,
-  DefaultManagedIdentityCredential,
+  ManagedIdentityCredential,
 ];
 
 /**

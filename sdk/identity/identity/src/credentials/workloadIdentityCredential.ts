@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { ClientAssertionCredential } from "./clientAssertionCredential";
-import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
-import { readFile } from "fs/promises";
-import { CredentialUnavailableError } from "../errors";
 import { credentialLogger, processEnvVars } from "../util/logging";
+
+import { ClientAssertionCredential } from "./clientAssertionCredential";
+import { CredentialUnavailableError } from "../errors";
+import { WorkloadIdentityCredentialOptions } from "./workloadIdentityCredentialOptions";
 import { checkTenantId } from "../util/tenantIdUtils";
+import { readFile } from "fs/promises";
 
 const credentialName = "WorkloadIdentityCredential";
 /**
@@ -59,7 +60,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     this.federatedTokenFilePath =
       workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
     if (tenantId) {
-      checkTenantId(logger, tenantId);
+      checkTenantId(logger, tenantId); // todo: how can we avoid constructors throwing?
     }
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
