@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support to create LRO poller in a synchronized way in the `Next` namespace.
+
 ### Breaking Changes
 
 ### Bugs Fixed
