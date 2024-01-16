@@ -45,7 +45,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     public state: CertificateOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state);
   }
@@ -55,7 +55,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private cancelCertificateOperation(
     certificateName: string,
-    options: CancelCertificateOperationOptions = {}
+    options: CancelCertificateOperationOptions = {},
   ): Promise<CertificateOperation> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.cancelCertificateOperation",
@@ -69,7 +69,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
           },
         });
         return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
-      }
+      },
     );
   }
 
@@ -78,7 +78,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private getCertificate(
     certificateName: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.getCertificate",
@@ -88,10 +88,10 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
           this.vaultUrl,
           certificateName,
           "",
-          updatedOptions
+          updatedOptions,
         );
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -100,7 +100,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   private getPlainCertificateOperation(
     certificateName: string,
-    options: GetPlainCertificateOperationOptions = {}
+    options: GetPlainCertificateOperationOptions = {},
   ): Promise<CertificateOperation> {
     return tracingClient.withSpan(
       "CertificateOperationPoller.getPlainCertificateOperation",
@@ -114,7 +114,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
           },
         });
         return getCertificateOperationFromCoreOperation(certificateName, this.vaultUrl, parsedBody);
-      }
+      },
     );
   }
 
@@ -125,7 +125,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: CertificateOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<CertificateOperationPollOperation> {
     const state = this.state;
     const certificateName = state.certificateName!;
@@ -139,12 +139,12 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
       state.result = await this.getCertificate(certificateName, this.operationOptions);
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.operationOptions
+        this.operationOptions,
       );
     } else if (!state.isCompleted) {
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.operationOptions
+        this.operationOptions,
       );
     }
 
@@ -164,7 +164,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
    */
   async cancel(
     this: CertificateOperationPollOperation,
-    options: { abortSignal?: AbortSignal } = {}
+    options: { abortSignal?: AbortSignal } = {},
   ): Promise<CertificateOperationPollOperation> {
     const state = this.state;
     const certificateName = state.certificateName!;
@@ -175,7 +175,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
 
     state.certificateOperation = await this.cancelCertificateOperation(
       certificateName,
-      this.operationOptions
+      this.operationOptions,
     );
 
     this.state.isCancelled = true;

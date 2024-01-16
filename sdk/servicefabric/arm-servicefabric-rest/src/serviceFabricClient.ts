@@ -8,7 +8,7 @@ import { customizedApiVersionPolicy } from "./customizedApiVersionPolicy";
 
 export default function createClient(
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ServiceFabricClient {
   const baseUrl = options.baseUrl ?? "https://management.azure.com";
   options.apiVersion = options.apiVersion ?? "2021-06-01";

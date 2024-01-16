@@ -38,7 +38,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
   }
@@ -49,7 +49,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
    */
   private deleteCertificate(
     certificateName: string,
-    options: DeleteCertificateOptions = {}
+    options: DeleteCertificateOptions = {},
   ): Promise<DeletedCertificate> {
     return tracingClient.withSpan(
       "DeleteCertificatePoller.deleteCertificate",
@@ -58,10 +58,10 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
         const response = await this.client.deleteCertificate(
           this.vaultUrl,
           certificateName,
-          updatedOptions
+          updatedOptions,
         );
         return getDeletedCertificateFromDeletedCertificateBundle(response);
-      }
+      },
     );
   }
 
@@ -71,7 +71,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
    */
   public async getDeletedCertificate(
     certificateName: string,
-    options: GetDeletedCertificateOptions = {}
+    options: GetDeletedCertificateOptions = {},
   ): Promise<DeletedCertificate> {
     return tracingClient.withSpan(
       "DeleteCertificatePoller.getDeletedCertificate",
@@ -85,7 +85,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
           },
         });
         return getDeletedCertificateFromDeletedCertificateBundle(parsedBody);
-      }
+      },
     );
   }
 
@@ -97,7 +97,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: DeleteCertificatePollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<DeleteCertificatePollOperation> {
     const state = this.state;
     const { certificateName } = state;
@@ -109,7 +109,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     if (!state.isStarted) {
       const deletedCertificate = await this.deleteCertificate(
         certificateName,
-        this.operationOptions
+        this.operationOptions,
       );
       state.isStarted = true;
       state.result = deletedCertificate;

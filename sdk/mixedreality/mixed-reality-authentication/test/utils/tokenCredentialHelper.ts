@@ -6,7 +6,7 @@ import { MixedRealityAccountKeyCredential } from "../../src/models/auth";
 
 export function createTokenCredentialFromMRKeyCredential(
   accountId: string,
-  accountKey: string | AzureKeyCredential
+  accountKey: string | AzureKeyCredential,
 ): MixedRealityAccountKeyCredential {
   return new MixedRealityAccountKeyCredential(accountId, accountKey);
 }

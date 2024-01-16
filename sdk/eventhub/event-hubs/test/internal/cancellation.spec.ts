@@ -36,11 +36,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", () => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -86,7 +86,7 @@ testWithServiceTypes((serviceVersion) => {
           "0", // partition id
           {
             enqueuedOn: Date.now(),
-          }
+          },
         );
       });
 

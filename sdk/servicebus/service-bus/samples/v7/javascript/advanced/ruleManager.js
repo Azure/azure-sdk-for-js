@@ -69,7 +69,7 @@ async function main() {
     console.log("  page ", i++);
     console.log(
       "    ",
-      page.map((r) => r.name)
+      page.map((r) => r.name),
     );
   }
 

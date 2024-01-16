@@ -36,7 +36,7 @@ async function deleteVirtualMachineScaleSetVMRunCommand() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      runCommandName
+      runCommandName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

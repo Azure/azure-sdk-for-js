@@ -28,7 +28,7 @@ export class RecoverDeletedKeyPoller extends KeyVaultKeyPoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

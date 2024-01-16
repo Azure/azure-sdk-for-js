@@ -32,7 +32,7 @@ async function updateExpressRouteCrossConnectionTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}",
       subscriptionId,
       resourceGroupName,
-      crossConnectionName
+      crossConnectionName,
     )
     .patch(options);
   console.log(result);

@@ -48,7 +48,7 @@ async function createOrUpdateARunCommand() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      runCommandName
+      runCommandName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

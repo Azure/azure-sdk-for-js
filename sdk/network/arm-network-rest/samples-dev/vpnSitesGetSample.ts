@@ -29,7 +29,7 @@ async function vpnSiteGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       subscriptionId,
       resourceGroupName,
-      vpnSiteName
+      vpnSiteName,
     )
     .get(options);
   console.log(result);

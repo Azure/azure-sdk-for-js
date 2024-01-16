@@ -46,7 +46,7 @@ const serializer = createSerializer();
  * Helper function for parsing Acs callback events.
  */
 export function parseCallAutomationEvent(
-  encodedEvents: string | Record<string, unknown>
+  encodedEvents: string | Record<string, unknown>,
 ): CallAutomationEvent {
   const decodedInput = parseAndWrap(encodedEvents);
 
@@ -189,7 +189,7 @@ function participantsParserForEvent(data: any): any {
   return {
     ...rest,
     participants: participants?.map((participant: CallParticipantInternal) =>
-      callParticipantConverter(participant)
+      callParticipantConverter(participant),
     ),
   };
 }

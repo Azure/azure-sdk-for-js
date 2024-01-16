@@ -27,7 +27,7 @@ async function getAzureWebCategoryByName() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/azureWebCategories/{name}",
       subscriptionId,
-      name
+      name,
     )
     .get(options);
   console.log(result);

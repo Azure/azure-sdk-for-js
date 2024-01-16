@@ -58,7 +58,7 @@ async function sendScheduledMessages(sbClient) {
   const scheduledEnqueueTimeUtc = new Date(Date.now() + 10000);
   console.log(`Time now in UTC: ${timeNowUtc}`);
   console.log(
-    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`
+    `Messages will appear in Service Bus after 10 seconds at: ${scheduledEnqueueTimeUtc}`,
   );
 
   await sender.scheduleMessages(messages, scheduledEnqueueTimeUtc);

@@ -27,7 +27,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
   constructor() {
     super();
     this.blockBlobClient = this.containerClient.getBlockBlobClient(
-      StorageBlobDownloadTest.blobName
+      StorageBlobDownloadTest.blobName,
     );
   }
 
@@ -37,7 +37,7 @@ export class StorageBlobDownloadTest extends StorageBlobTest<StorageBlobDownload
     // Create a blob
     await this.blockBlobClient.upload(
       Buffer.alloc(this.parsedOptions.size.value),
-      this.parsedOptions.size.value
+      this.parsedOptions.size.value,
     );
   }
 

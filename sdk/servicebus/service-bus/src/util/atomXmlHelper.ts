@@ -47,7 +47,7 @@ function applyRequestOptions(
     abortSignal?: AbortSignalLike;
     tracingOptions?: OperationTracingOptions;
     timeout: number;
-  }
+  },
 ): void {
   if (options.headers) {
     const headers = options.headers;
@@ -77,7 +77,7 @@ export async function executeAtomXmlOperation(
     | InternalQueueOptions
     | InternalTopicOptions
     | InternalSubscriptionOptions
-    | CreateRuleOptions
+    | CreateRuleOptions,
 ): Promise<FullOperationResponse> {
   if (requestObject) {
     request.body = stringifyXML(serializer.serialize(requestObject), { rootName: "entry" });
@@ -116,7 +116,7 @@ export async function executeAtomXmlOperation(
         statusCode: response.status,
         request: response.request,
         response,
-      }
+      },
     );
     logger.logError(err, "Error parsing response body from Service");
     throw error;
@@ -155,7 +155,7 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  */
 export function serializeToAtomXmlRequest(
   resourceName: string,
-  resource: unknown
+  resource: unknown,
 ): Record<string, unknown> {
   const content: any = {};
 
@@ -186,7 +186,7 @@ export function serializeToAtomXmlRequest(
  */
 export async function deserializeAtomXmlResponse(
   nameProperties: string[],
-  response: FullOperationResponse
+  response: FullOperationResponse,
 ): Promise<FullOperationResponse> {
   // If received data is a non-valid HTTP response, the body is expected to contain error information
   if (response.status < 200 || response.status >= 300) {
@@ -235,7 +235,7 @@ function parseAtomResult(response: FullOperationResponse, nameProperties: string
 
   logger.warning(
     "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
-    atomResponseInJson
+    atomResponseInJson,
   );
   throw new RestError(
     "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
@@ -244,7 +244,7 @@ function parseAtomResult(response: FullOperationResponse, nameProperties: string
       statusCode: response.status,
       request: response.request,
       response,
-    }
+    },
   );
 }
 
@@ -301,7 +301,7 @@ function parseEntryResult(entry: any): Record<string, unknown> | undefined {
  */
 function parseLinkInfo(
   feedLink: { [Constants.XML_METADATA_MARKER]: { rel: string; href: string } }[],
-  relationship: "self" | "next"
+  relationship: "self" | "next",
 ): string | undefined {
   if (!feedLink || !Array.isArray(feedLink)) {
     return undefined;
@@ -343,7 +343,7 @@ function parseFeedResult(feed: any): Record<string, unknown>[] & { nextLink?: st
  * @internal
  */
 function isKnownResponseCode(
-  statusCode: number
+  statusCode: number,
 ): statusCode is keyof typeof Constants.HttpResponseCodes {
   return !!(Constants.HttpResponseCodes as { [statusCode: number]: string })[statusCode];
 }
@@ -385,18 +385,18 @@ function setName(entry: any, nameProperties: any): any {
       const firstIndexOfRulesDelimiter = pathname.indexOf("/Rules/");
       entry[nameProperties[0]] = pathname.substring(
         firstIndexOfDelimiter + 1,
-        lastIndexOfSubscriptionsDelimiter
+        lastIndexOfSubscriptionsDelimiter,
       );
       entry[nameProperties[1]] = pathname.substring(
         lastIndexOfSubscriptionsDelimiter + 15,
-        firstIndexOfRulesDelimiter
+        firstIndexOfRulesDelimiter,
       );
       entry[nameProperties[2]] = pathname.substring(firstIndexOfRulesDelimiter + 7);
     } else if (pathname.match("(.*)/(.*)/Subscriptions/(.*)")) {
       const lastIndexOfSubscriptionsDelimiter = pathname.lastIndexOf("/Subscriptions/");
       entry[nameProperties[0]] = pathname.substring(
         firstIndexOfDelimiter + 1,
-        lastIndexOfSubscriptionsDelimiter
+        lastIndexOfSubscriptionsDelimiter,
       );
       entry[nameProperties[1]] = pathname.substring(lastIndexOfSubscriptionsDelimiter + 15);
     } else if (pathname.match("(.*)/(.*)")) {
@@ -419,7 +419,7 @@ export function buildError(response: FullOperationResponse): RestError {
         statusCode: response.status,
         request: response.request,
         response,
-      }
+      },
     );
   }
 

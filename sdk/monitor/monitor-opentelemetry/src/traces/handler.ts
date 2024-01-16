@@ -98,7 +98,7 @@ export class TraceHandler {
       const providedIgnoreOutgoingRequestHook =
         httpinstrumentationOptions.ignoreOutgoingRequestHook;
       const mergedIgnoreOutgoingRequestHook: IgnoreOutgoingRequestFunction = (
-        request: RequestOptions
+        request: RequestOptions,
       ) => {
         const result = ignoreOutgoingRequestHook(request);
         if (!result) {
@@ -112,37 +112,37 @@ export class TraceHandler {
       };
       httpinstrumentationOptions.ignoreOutgoingRequestHook = mergedIgnoreOutgoingRequestHook;
       this._instrumentations.push(
-        new HttpInstrumentation(this._config.instrumentationOptions.http)
+        new HttpInstrumentation(this._config.instrumentationOptions.http),
       );
     }
     if (this._config.instrumentationOptions.azureSdk?.enabled) {
       this._instrumentations.push(
-        createAzureSdkInstrumentation(this._config.instrumentationOptions.azureSdk)
+        createAzureSdkInstrumentation(this._config.instrumentationOptions.azureSdk),
       );
     }
     if (this._config.instrumentationOptions.mongoDb?.enabled) {
       this._instrumentations.push(
-        new MongoDBInstrumentation(this._config.instrumentationOptions.mongoDb)
+        new MongoDBInstrumentation(this._config.instrumentationOptions.mongoDb),
       );
     }
     if (this._config.instrumentationOptions.mySql?.enabled) {
       this._instrumentations.push(
-        new MySQLInstrumentation(this._config.instrumentationOptions.mySql)
+        new MySQLInstrumentation(this._config.instrumentationOptions.mySql),
       );
     }
     if (this._config.instrumentationOptions.postgreSql?.enabled) {
       this._instrumentations.push(
-        new PgInstrumentation(this._config.instrumentationOptions.postgreSql)
+        new PgInstrumentation(this._config.instrumentationOptions.postgreSql),
       );
     }
     if (this._config.instrumentationOptions.redis?.enabled) {
       this._instrumentations.push(
-        new RedisInstrumentation(this._config.instrumentationOptions.redis)
+        new RedisInstrumentation(this._config.instrumentationOptions.redis),
       );
     }
     if (this._config.instrumentationOptions.redis4?.enabled) {
       this._instrumentations.push(
-        new Redis4Instrumentation(this._config.instrumentationOptions.redis4)
+        new Redis4Instrumentation(this._config.instrumentationOptions.redis4),
       );
     }
   }

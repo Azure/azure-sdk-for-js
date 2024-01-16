@@ -23,7 +23,7 @@ import { logger } from "./common/logger";
 import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationIdentityClientOptions = (
-  options: any
+  options: any,
 ): options is CommunicationIdentityClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
@@ -53,7 +53,7 @@ export class CommunicationIdentityClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: CommunicationIdentityClientOptions
+    options?: CommunicationIdentityClientOptions,
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
@@ -64,17 +64,17 @@ export class CommunicationIdentityClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: CommunicationIdentityClientOptions
+    options?: CommunicationIdentityClientOptions,
   );
 
   public constructor(
     connectionStringOrEndpoint: string,
     credentialOrOptions?: KeyCredential | CommunicationIdentityClientOptions | TokenCredential,
-    maybeOptions: CommunicationIdentityClientOptions = {}
+    maybeOptions: CommunicationIdentityClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(
       connectionStringOrEndpoint,
-      credentialOrOptions
+      credentialOrOptions,
     );
     const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
@@ -105,13 +105,13 @@ export class CommunicationIdentityClient {
   public getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan("CommunicationIdentity-issueToken", options, (updatedOptions) => {
       return this.client.communicationIdentityOperations.issueAccessToken(
         user.communicationUserId,
         scopes,
-        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions }
+        { expiresInMinutes: options.tokenExpiresInMinutes, ...updatedOptions },
       );
     });
   }
@@ -124,7 +124,7 @@ export class CommunicationIdentityClient {
    */
   public revokeTokens(
     user: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "CommunicationIdentity-revokeTokens",
@@ -132,9 +132,9 @@ export class CommunicationIdentityClient {
       async (updatedOptions) => {
         await this.client.communicationIdentityOperations.revokeAccessTokens(
           user.communicationUserId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -155,7 +155,7 @@ export class CommunicationIdentityClient {
         return {
           communicationUserId: result.identity.id,
         };
-      }
+      },
     );
   }
 
@@ -167,7 +167,7 @@ export class CommunicationIdentityClient {
    */
   public createUserAndToken(
     scopes: TokenScope[],
-    options: CreateUserAndTokenOptions = {}
+    options: CreateUserAndTokenOptions = {},
   ): Promise<CommunicationUserToken> {
     return tracingClient.withSpan(
       "CommunicationIdentity-createUserAndToken",
@@ -182,7 +182,7 @@ export class CommunicationIdentityClient {
           ...accessToken!,
           user: { communicationUserId: identity.id },
         };
-      }
+      },
     );
   }
 
@@ -194,7 +194,7 @@ export class CommunicationIdentityClient {
    */
   public deleteUser(
     user: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "CommunicationIdentity-deleteUser",
@@ -202,9 +202,9 @@ export class CommunicationIdentityClient {
       async (updatedOptions) => {
         await this.client.communicationIdentityOperations.delete(
           user.communicationUserId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -214,7 +214,7 @@ export class CommunicationIdentityClient {
    * @param options - Options used to exchange an Azure AD access token of a Teams user for a new Communication Identity access token.
    */
   public getTokenForTeamsUser(
-    options: GetTokenForTeamsUserOptions
+    options: GetTokenForTeamsUserOptions,
   ): Promise<CommunicationAccessToken> {
     return tracingClient.withSpan(
       "CommunicationIdentity-getTokenForTeamsUser",
@@ -225,9 +225,9 @@ export class CommunicationIdentityClient {
           teamsUserAadToken,
           clientId,
           userObjectId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 }

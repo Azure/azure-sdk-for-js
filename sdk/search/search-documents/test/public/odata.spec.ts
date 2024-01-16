@@ -41,7 +41,7 @@ describe("odata", function () {
   it("many arguments", function () {
     assert.strictEqual(
       odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5} and Quux eq ${6}`,
-      "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6"
+      "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6",
     );
   });
 

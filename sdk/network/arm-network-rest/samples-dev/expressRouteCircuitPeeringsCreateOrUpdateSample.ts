@@ -42,7 +42,7 @@ async function createExpressRouteCircuitPeerings() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName
+      peeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

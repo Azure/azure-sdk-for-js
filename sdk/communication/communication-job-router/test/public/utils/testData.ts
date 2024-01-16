@@ -255,7 +255,7 @@ export interface ExceptionPolicyRequest {
   exceptionPolicyRequest: ExceptionPolicy;
 }
 export function getExceptionPolicyRequestWithReclassifyAction(
-  guid: string
+  guid: string,
 ): ExceptionPolicyRequest {
   return getExceptionPolicyRequestInternal(guid, true);
 }
@@ -264,7 +264,7 @@ export function getExceptionPolicyRequest(guid: string): ExceptionPolicyRequest 
 }
 function getExceptionPolicyRequestInternal(
   guid: string,
-  addReclassifyAction: boolean
+  addReclassifyAction: boolean,
 ): ExceptionPolicyRequest {
   function getExceptionRules(): Record<string, ExceptionRule> {
     let exceptionRules = {};

@@ -136,7 +136,7 @@ export class BufferScheduler {
     maxBuffers: number,
     outgoingHandler: OutgoingHandler,
     concurrency: number,
-    encoding?: BufferEncoding
+    encoding?: BufferEncoding,
   ) {
     if (bufferSize <= 0) {
       throw new RangeError(`bufferSize must be larger than 0, current is ${bufferSize}`);

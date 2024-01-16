@@ -34,7 +34,7 @@ describe("LogHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(logs);
-        })
+        }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
     loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());

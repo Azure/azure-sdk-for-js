@@ -19,7 +19,7 @@ describe("Multi-Slot Event Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     if (!(await isMultiSlotEnabled(client))) {
       await enableMultiSlot(client);

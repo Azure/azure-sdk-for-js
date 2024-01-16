@@ -37,18 +37,18 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`,
     );
   });
   console.log(
     `The analyze healthcare entities operation was created on ${
       poller.getOperationState().createdOn
-    }`
+    }`,
   );
   console.log(
     `The analyze healthcare entities operation results will expire on ${
       poller.getOperationState().expiresOn
-    }`
+    }`,
   );
 
   const results = await poller.pollUntilDone();
@@ -70,7 +70,7 @@ export async function main() {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(
-            `\t\t- Relation of type ${relation.relationType} found between the following entities:`
+            `\t\t- Relation of type ${relation.relationType} found between the following entities:`,
           );
           for (const role of relation.roles) {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);

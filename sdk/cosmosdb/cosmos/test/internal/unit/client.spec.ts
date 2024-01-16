@@ -94,7 +94,7 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
       client = new CosmosClient({
         endpoint: mockedEndpoint,
         aadCredentials: new MockCredential(
-          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 })
+          Promise.resolve({ token: aadToken, expiresOnTimestamp: 0 }),
         ),
       });
     });
@@ -112,8 +112,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.read for aadCredentials", async function () {
@@ -126,8 +126,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.patch", async function () {
@@ -140,8 +140,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.replace", async function () {
@@ -155,8 +155,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.upsert", async function () {
@@ -168,8 +168,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.delete", async function () {
@@ -182,8 +182,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
     it("Test pipeline setup for items.batch", async function () {
@@ -195,8 +195,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
         spy.calledWithMatch(
           Sinon.match(function (arg: RequestContext) {
             return !!arg?.pipeline;
-          })
-        )
+          }),
+        ),
       );
     });
 
@@ -251,8 +251,8 @@ describe("Testing Credentials integration for Client", function (this: Suite) {
             const AUTH_PREFIX = `type%3Dmaster%26ver%3D1`;
             const authHeader: string = arg?.headers["authorization"]?.toString() || "";
             return authHeader.includes(AUTH_PREFIX);
-          })
-        )
+          }),
+        ),
       );
     });
   });
