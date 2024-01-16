@@ -32,7 +32,7 @@ async function vnetGetUsage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/usages",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

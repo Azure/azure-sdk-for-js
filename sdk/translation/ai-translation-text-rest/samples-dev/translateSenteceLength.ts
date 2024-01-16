@@ -47,13 +47,15 @@ export async function main() {
   const translations = translateResponse.body;
   for (const translation of translations) {
     console.log(
-      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`
+      `Text was translated to: '${translation?.translations[0]?.to}' and the result is: '${translation?.translations[0]?.text}'.`,
     );
     console.log(
-      `Source Sentece length: ${translation?.translations[0]?.sentLen?.srcSentLen.join(", ")}`
+      `Source Sentece length: ${translation?.translations[0]?.sentLen?.srcSentLen.join(", ")}`,
     );
     console.log(
-      `Translated Sentece length: ${translation?.translations[0]?.sentLen?.transSentLen.join(", ")}`
+      `Translated Sentece length: ${translation?.translations[0]?.sentLen?.transSentLen.join(
+        ", ",
+      )}`,
     );
   }
 }

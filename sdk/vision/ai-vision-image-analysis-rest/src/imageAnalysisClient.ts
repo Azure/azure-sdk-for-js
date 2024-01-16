@@ -16,7 +16,7 @@ import { ImageAnalysisClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ImageAnalysisClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";

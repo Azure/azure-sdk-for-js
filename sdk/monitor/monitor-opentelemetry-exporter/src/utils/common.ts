@@ -171,7 +171,7 @@ export function getDependencyTarget(attributes: Attributes): string {
 
 export function createResourceMetricEnvelope(
   resource: Resource,
-  instrumentationKey: string
+  instrumentationKey: string,
 ): Envelope | undefined {
   if (resource && resource.attributes) {
     const tags = createTagsFromResource(resource);

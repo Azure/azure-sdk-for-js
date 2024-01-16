@@ -50,7 +50,7 @@ describe("QueryMetrics", function () {
       queryCompilationTime,
       logicalPlanBuildTime,
       physicalPlanBuildTime,
-      queryOptimizationTime
+      queryOptimizationTime,
     ),
     indexLookupTime,
     documentLoadTime,
@@ -58,15 +58,15 @@ describe("QueryMetrics", function () {
     new RuntimeExecutionTimes(
       queryEngineExecutionTime,
       systemFunctionExecutionTime,
-      userDefinedFunctionExecutionTime
+      userDefinedFunctionExecutionTime,
     ),
     documentWriteTime,
-    new ClientSideMetrics(requestCharge)
+    new ClientSideMetrics(requestCharge),
   );
 
   const assertQueryMetricsEquality = function (
     queryMetrics1: QueryMetrics,
-    queryMetrics2: QueryMetrics
+    queryMetrics2: QueryMetrics,
   ): void {
     assert.deepEqual(queryMetrics1.indexHitRatio, queryMetrics2.indexHitRatio);
     assert.deepEqual(queryMetrics1.outputDocumentCount, queryMetrics2.outputDocumentCount);
@@ -82,37 +82,37 @@ describe("QueryMetrics", function () {
 
     assert.deepEqual(
       queryMetrics1.queryPreparationTimes.logicalPlanBuildTime,
-      queryMetrics2.queryPreparationTimes.logicalPlanBuildTime
+      queryMetrics2.queryPreparationTimes.logicalPlanBuildTime,
     );
     assert.deepEqual(
       queryMetrics1.queryPreparationTimes.physicalPlanBuildTime,
-      queryMetrics2.queryPreparationTimes.physicalPlanBuildTime
+      queryMetrics2.queryPreparationTimes.physicalPlanBuildTime,
     );
     assert.deepEqual(
       queryMetrics1.queryPreparationTimes.queryCompilationTime,
-      queryMetrics2.queryPreparationTimes.queryCompilationTime
+      queryMetrics2.queryPreparationTimes.queryCompilationTime,
     );
     assert.deepEqual(
       queryMetrics1.queryPreparationTimes.queryOptimizationTime,
-      queryMetrics2.queryPreparationTimes.queryOptimizationTime
+      queryMetrics2.queryPreparationTimes.queryOptimizationTime,
     );
 
     assert.deepEqual(
       queryMetrics1.runtimeExecutionTimes.queryEngineExecutionTime,
-      queryMetrics2.runtimeExecutionTimes.queryEngineExecutionTime
+      queryMetrics2.runtimeExecutionTimes.queryEngineExecutionTime,
     );
     assert.deepEqual(
       queryMetrics1.runtimeExecutionTimes.systemFunctionExecutionTime,
-      queryMetrics2.runtimeExecutionTimes.systemFunctionExecutionTime
+      queryMetrics2.runtimeExecutionTimes.systemFunctionExecutionTime,
     );
     assert.deepEqual(
       queryMetrics1.runtimeExecutionTimes.userDefinedFunctionExecutionTime,
-      queryMetrics2.runtimeExecutionTimes.userDefinedFunctionExecutionTime
+      queryMetrics2.runtimeExecutionTimes.userDefinedFunctionExecutionTime,
     );
 
     assert.deepEqual(
       queryMetrics1.clientSideMetrics.requestCharge,
-      queryMetrics2.clientSideMetrics.requestCharge
+      queryMetrics2.clientSideMetrics.requestCharge,
     );
   };
 
@@ -130,7 +130,7 @@ describe("QueryMetrics", function () {
       queryMetrics.vmExecutionTime,
       queryMetrics.runtimeExecutionTimes,
       queryMetrics.documentWriteTime,
-      queryMetrics.clientSideMetrics
+      queryMetrics.clientSideMetrics,
     );
 
     assertQueryMetricsEquality(queryMetrics, queryMetrics2);
@@ -145,40 +145,40 @@ describe("QueryMetrics", function () {
     const doubleOutputDocumentSize = outputDocumentSize * 2;
     const doubleIndexHitCount = indexUtilizationRatio * retrievedDocumentCount * 2;
     const doubleTotalQueryExecutionTime = TimeSpan.fromMilliseconds(
-      totalQueryExecutionTime.totalMilliseconds() * 2
+      totalQueryExecutionTime.totalMilliseconds() * 2,
     );
     const doubleQueryCompilationTime = TimeSpan.fromMilliseconds(
-      queryCompilationTime.totalMilliseconds() * 2
+      queryCompilationTime.totalMilliseconds() * 2,
     );
     const doubleLogicalPlanBuildTime = TimeSpan.fromMilliseconds(
-      logicalPlanBuildTime.totalMilliseconds() * 2
+      logicalPlanBuildTime.totalMilliseconds() * 2,
     );
     const doublePhysicalPlanBuildTime = TimeSpan.fromMilliseconds(
-      physicalPlanBuildTime.totalMilliseconds() * 2
+      physicalPlanBuildTime.totalMilliseconds() * 2,
     );
     const doubleIndexLookupTime = TimeSpan.fromMilliseconds(
-      indexLookupTime.totalMilliseconds() * 2
+      indexLookupTime.totalMilliseconds() * 2,
     );
     const doubleDocumentLoadTime = TimeSpan.fromMilliseconds(
-      documentLoadTime.totalMilliseconds() * 2
+      documentLoadTime.totalMilliseconds() * 2,
     );
     const doubleVMExecutionTime = TimeSpan.fromMilliseconds(
-      vmExecutionTime.totalMilliseconds() * 2
+      vmExecutionTime.totalMilliseconds() * 2,
     );
     const doubleQueryOptimizationTime = TimeSpan.fromMilliseconds(
-      queryOptimizationTime.totalMilliseconds() * 2
+      queryOptimizationTime.totalMilliseconds() * 2,
     );
     const doubleQueryEngineExecutionTime = TimeSpan.fromMilliseconds(
-      queryEngineExecutionTime.totalMilliseconds() * 2
+      queryEngineExecutionTime.totalMilliseconds() * 2,
     );
     const doubleSystemFunctionExecutionTime = TimeSpan.fromMilliseconds(
-      systemFunctionExecutionTime.totalMilliseconds() * 2
+      systemFunctionExecutionTime.totalMilliseconds() * 2,
     );
     const doubleUserDefinedFunctionExecutionTime = TimeSpan.fromMilliseconds(
-      userDefinedFunctionExecutionTime.totalMilliseconds() * 2
+      userDefinedFunctionExecutionTime.totalMilliseconds() * 2,
     );
     const doubleDocumentWriteTime = TimeSpan.fromMilliseconds(
-      documentWriteTime.totalMilliseconds() * 2
+      documentWriteTime.totalMilliseconds() * 2,
     );
     const doubleRequestCharge = requestCharge * 2;
 
@@ -193,7 +193,7 @@ describe("QueryMetrics", function () {
         doubleQueryCompilationTime,
         doubleLogicalPlanBuildTime,
         doublePhysicalPlanBuildTime,
-        doubleQueryOptimizationTime
+        doubleQueryOptimizationTime,
       ),
       doubleIndexLookupTime,
       doubleDocumentLoadTime,
@@ -201,10 +201,10 @@ describe("QueryMetrics", function () {
       new RuntimeExecutionTimes(
         doubleQueryEngineExecutionTime,
         doubleSystemFunctionExecutionTime,
-        doubleUserDefinedFunctionExecutionTime
+        doubleUserDefinedFunctionExecutionTime,
       ),
       doubleDocumentWriteTime,
-      new ClientSideMetrics(doubleRequestCharge)
+      new ClientSideMetrics(doubleRequestCharge),
     );
 
     assertQueryMetricsEquality(doubleQueryMetrics, expectedQueryMetrics);
@@ -217,7 +217,7 @@ describe("QueryMetrics", function () {
   it("Can Be Create From Delimited String", function () {
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedString,
-      new ClientSideMetrics(requestCharge)
+      new ClientSideMetrics(requestCharge),
     );
 
     assertQueryMetricsEquality(queryMetricsFromDelimitedString, queryMetrics);
@@ -227,7 +227,7 @@ describe("QueryMetrics", function () {
     const delimitedStringFromMetrics = queryMetrics.toDelimitedString();
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedStringFromMetrics,
-      new ClientSideMetrics(requestCharge)
+      new ClientSideMetrics(requestCharge),
     );
 
     assertQueryMetricsEquality(queryMetrics, queryMetricsFromDelimitedString);

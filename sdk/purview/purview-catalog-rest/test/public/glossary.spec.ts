@@ -47,7 +47,7 @@ describe("purview catalog glossary test", () => {
           headersForRemoval: ["Content-Type", "Transfer-Encoding"],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     await recorder.setMatcher("BodilessMatcher");
     const initialResponse = await client

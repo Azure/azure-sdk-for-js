@@ -32,7 +32,7 @@ async function vpnSiteUpdate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}",
       subscriptionId,
       resourceGroupName,
-      vpnSiteName
+      vpnSiteName,
     )
     .patch(options);
   console.log(result);

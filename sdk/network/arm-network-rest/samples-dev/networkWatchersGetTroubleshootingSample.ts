@@ -41,7 +41,7 @@ async function getTroubleshooting() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/troubleshoot",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

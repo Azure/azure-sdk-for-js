@@ -88,7 +88,7 @@ export const findBufferEncodingType = (buffer: Buffer): string | null => {
 };
 
 export const isSupportedContentEncoding = (
-  encodingMethod: string
+  encodingMethod: string,
 ): contentEncodingMethod | null => {
   let encodingType = null;
   switch (encodingMethod) {
@@ -109,7 +109,7 @@ export const isSupportedContentEncoding = (
 // mutiple content-encoding is not supported
 // for mutiple content-encoding, this method will return any empty array
 export const getContentEncodingFromHeaders = (
-  response: http.ServerResponse
+  response: http.ServerResponse,
 ): contentEncodingMethod[] | null => {
   let headers: contentEncodingMethod[] = [];
   let contentEncodingHeaders = response.getHeader("Content-Encoding");
@@ -126,7 +126,7 @@ export const getContentEncodingFromHeaders = (
 export const insertBrowserSdkLoaderByIndex = (
   index: number,
   html: string,
-  snippet: string
+  snippet: string,
 ): string | null => {
   if (index < 0) return null;
   let newHtml = null;

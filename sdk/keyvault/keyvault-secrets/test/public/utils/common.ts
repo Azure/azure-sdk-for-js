@@ -53,7 +53,7 @@ export function getServiceVersion(): NonNullable<ServiceVersion> {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: ServiceVersion
+  serviceVersion?: ServiceVersion,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

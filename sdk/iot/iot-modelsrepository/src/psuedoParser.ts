@@ -41,7 +41,7 @@ export class PseudoParser {
   private async _expand(
     model: DTDL,
     modelMap: { [dtmi: string]: DTDL },
-    tryFromExpanded: boolean
+    tryFromExpanded: boolean,
   ): Promise<void> {
     logger.info(`Expanding model: ${model["@id"]}`);
     const dependencies = this._getModelDependencies(model);
@@ -54,7 +54,7 @@ export class PseudoParser {
       try {
         resolvedDependenciesMap = await this._resolver.resolve(
           dependenciesToResolve,
-          tryFromExpanded
+          tryFromExpanded,
         );
       } catch (e: any) {
         if (e instanceof RestError) {

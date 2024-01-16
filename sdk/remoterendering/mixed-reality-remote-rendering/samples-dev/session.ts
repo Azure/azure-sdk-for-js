@@ -49,7 +49,7 @@ export async function main() {
 
   const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
     sessionId,
-    sessionSettings
+    sessionSettings,
   );
 
   console.log("== Polling ==");

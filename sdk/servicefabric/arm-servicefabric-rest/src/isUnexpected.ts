@@ -133,116 +133,116 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ClustersGet200Response | ClustersGetdefaultResponse
+  response: ClustersGet200Response | ClustersGetdefaultResponse,
 ): response is ClustersGetdefaultResponse;
 export function isUnexpected(
   response:
     | ClustersCreateOrUpdate200Response
     | ClustersCreateOrUpdate202Response
-    | ClustersCreateOrUpdatedefaultResponse
+    | ClustersCreateOrUpdatedefaultResponse,
 ): response is ClustersCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse
+  response: ClustersUpdate200Response | ClustersUpdate202Response | ClustersUpdatedefaultResponse,
 ): response is ClustersUpdatedefaultResponse;
 export function isUnexpected(
-  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse
+  response: ClustersDelete200Response | ClustersDelete204Response | ClustersDeletedefaultResponse,
 ): response is ClustersDeletedefaultResponse;
 export function isUnexpected(
-  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse
+  response: ClustersListByResourceGroup200Response | ClustersListByResourceGroupdefaultResponse,
 ): response is ClustersListByResourceGroupdefaultResponse;
 export function isUnexpected(
-  response: ClustersList200Response | ClustersListdefaultResponse
+  response: ClustersList200Response | ClustersListdefaultResponse,
 ): response is ClustersListdefaultResponse;
 export function isUnexpected(
   response:
     | ClustersListUpgradableVersions200Response
-    | ClustersListUpgradableVersionsdefaultResponse
+    | ClustersListUpgradableVersionsdefaultResponse,
 ): response is ClustersListUpgradableVersionsdefaultResponse;
 export function isUnexpected(
-  response: ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse
+  response: ClusterVersionsGet200Response | ClusterVersionsGetdefaultResponse,
 ): response is ClusterVersionsGetdefaultResponse;
 export function isUnexpected(
   response:
     | ClusterVersionsGetByEnvironment200Response
-    | ClusterVersionsGetByEnvironmentdefaultResponse
+    | ClusterVersionsGetByEnvironmentdefaultResponse,
 ): response is ClusterVersionsGetByEnvironmentdefaultResponse;
 export function isUnexpected(
-  response: ClusterVersionsList200Response | ClusterVersionsListdefaultResponse
+  response: ClusterVersionsList200Response | ClusterVersionsListdefaultResponse,
 ): response is ClusterVersionsListdefaultResponse;
 export function isUnexpected(
   response:
     | ClusterVersionsListByEnvironment200Response
-    | ClusterVersionsListByEnvironmentdefaultResponse
+    | ClusterVersionsListByEnvironmentdefaultResponse,
 ): response is ClusterVersionsListByEnvironmentdefaultResponse;
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListdefaultResponse
+  response: OperationsList200Response | OperationsListdefaultResponse,
 ): response is OperationsListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse
+  response: ApplicationTypesGet200Response | ApplicationTypesGetdefaultResponse,
 ): response is ApplicationTypesGetdefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypesCreateOrUpdate200Response
-    | ApplicationTypesCreateOrUpdatedefaultResponse
+    | ApplicationTypesCreateOrUpdatedefaultResponse,
 ): response is ApplicationTypesCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypesDelete202Response
     | ApplicationTypesDelete204Response
-    | ApplicationTypesDeletedefaultResponse
+    | ApplicationTypesDeletedefaultResponse,
 ): response is ApplicationTypesDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypesList200Response | ApplicationTypesListdefaultResponse
+  response: ApplicationTypesList200Response | ApplicationTypesListdefaultResponse,
 ): response is ApplicationTypesListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse
+  response: ApplicationTypeVersionsGet200Response | ApplicationTypeVersionsGetdefaultResponse,
 ): response is ApplicationTypeVersionsGetdefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypeVersionsCreateOrUpdate202Response
-    | ApplicationTypeVersionsCreateOrUpdatedefaultResponse
+    | ApplicationTypeVersionsCreateOrUpdatedefaultResponse,
 ): response is ApplicationTypeVersionsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationTypeVersionsDelete202Response
     | ApplicationTypeVersionsDelete204Response
-    | ApplicationTypeVersionsDeletedefaultResponse
+    | ApplicationTypeVersionsDeletedefaultResponse,
 ): response is ApplicationTypeVersionsDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse
+  response: ApplicationTypeVersionsList200Response | ApplicationTypeVersionsListdefaultResponse,
 ): response is ApplicationTypeVersionsListdefaultResponse;
 export function isUnexpected(
-  response: ApplicationsGet200Response | ApplicationsGetdefaultResponse
+  response: ApplicationsGet200Response | ApplicationsGetdefaultResponse,
 ): response is ApplicationsGetdefaultResponse;
 export function isUnexpected(
-  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse
+  response: ApplicationsCreateOrUpdate202Response | ApplicationsCreateOrUpdatedefaultResponse,
 ): response is ApplicationsCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse
+  response: ApplicationsUpdate202Response | ApplicationsUpdatedefaultResponse,
 ): response is ApplicationsUpdatedefaultResponse;
 export function isUnexpected(
   response:
     | ApplicationsDelete202Response
     | ApplicationsDelete204Response
-    | ApplicationsDeletedefaultResponse
+    | ApplicationsDeletedefaultResponse,
 ): response is ApplicationsDeletedefaultResponse;
 export function isUnexpected(
-  response: ApplicationsList200Response | ApplicationsListdefaultResponse
+  response: ApplicationsList200Response | ApplicationsListdefaultResponse,
 ): response is ApplicationsListdefaultResponse;
 export function isUnexpected(
-  response: ServicesGet200Response | ServicesGetdefaultResponse
+  response: ServicesGet200Response | ServicesGetdefaultResponse,
 ): response is ServicesGetdefaultResponse;
 export function isUnexpected(
-  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse
+  response: ServicesCreateOrUpdate202Response | ServicesCreateOrUpdatedefaultResponse,
 ): response is ServicesCreateOrUpdatedefaultResponse;
 export function isUnexpected(
-  response: ServicesUpdate202Response | ServicesUpdatedefaultResponse
+  response: ServicesUpdate202Response | ServicesUpdatedefaultResponse,
 ): response is ServicesUpdatedefaultResponse;
 export function isUnexpected(
-  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse
+  response: ServicesDelete202Response | ServicesDelete204Response | ServicesDeletedefaultResponse,
 ): response is ServicesDeletedefaultResponse;
 export function isUnexpected(
-  response: ServicesList200Response | ServicesListdefaultResponse
+  response: ServicesList200Response | ServicesListdefaultResponse,
 ): response is ServicesListdefaultResponse;
 export function isUnexpected(
   response:
@@ -312,7 +312,7 @@ export function isUnexpected(
     | ServicesDelete204Response
     | ServicesDeletedefaultResponse
     | ServicesList200Response
-    | ServicesListdefaultResponse
+    | ServicesListdefaultResponse,
 ): response is
   | ClustersGetdefaultResponse
   | ClustersCreateOrUpdatedefaultResponse

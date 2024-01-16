@@ -85,7 +85,7 @@ describe("Highlevel Node.js only", () => {
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -108,7 +108,7 @@ describe("Highlevel Node.js only", () => {
     const downloadResponse = await fileClient.download(0);
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -214,7 +214,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadFilePath = path.join(
       tempFolderPath,
-      recorder.variable("downloadFile", getUniqueName("downloadFile"))
+      recorder.variable("downloadFile", getUniqueName("downloadFile")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
 
@@ -330,7 +330,7 @@ describe("Highlevel Node.js only", () => {
     }
     assert.ok(
       error.message.includes("Unable to allocate a buffer of size:"),
-      "Error is not thrown when the count (size in bytes) is too large"
+      "Error is not thrown when the count (size in bytes) is too large",
     );
   });
 
@@ -445,7 +445,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -481,7 +481,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -519,7 +519,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -541,7 +541,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
 
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -578,7 +578,7 @@ describe("Highlevel Node.js only", () => {
 
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
 
     let retriableReadableStreamOptions: RetriableReadableStreamOptions;
@@ -614,7 +614,7 @@ describe("Highlevel Node.js only", () => {
     }
     const downloadedFilePath = recorder.variable(
       "downloadedtofile.",
-      getUniqueName("downloadedtofile.")
+      getUniqueName("downloadedtofile."),
     );
     const rs = fs.createReadStream(tempFileSmall);
     await fileClient.uploadStream(rs, tempFileSmallLength, 4 * 1024 * 1024, 20);
@@ -623,12 +623,12 @@ describe("Highlevel Node.js only", () => {
 
     assert.ok(
       response.contentLength === tempFileSmallLength,
-      "response.contentLength doesn't match tempFileSmallLength"
+      "response.contentLength doesn't match tempFileSmallLength",
     );
     assert.equal(
       response.readableStreamBody,
       undefined,
-      "Expecting response.readableStreamBody to be undefined."
+      "Expecting response.readableStreamBody to be undefined.",
     );
 
     const localFileContent = fs.readFileSync(tempFileSmall);

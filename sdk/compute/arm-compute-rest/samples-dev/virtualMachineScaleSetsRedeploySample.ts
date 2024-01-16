@@ -33,7 +33,7 @@ async function virtualMachineScaleSetsRedeployMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -62,7 +62,7 @@ async function virtualMachineScaleSetsRedeployMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/redeploy",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -2,14 +2,18 @@
 // Licensed under the MIT license.
 
 function hasPackageCache<T extends Record<string, unknown>>(
-  obj: T
+  obj: T,
 ): obj is T & { packageCache: Map<string, { data: any }> } {
   return "packageCache" in obj;
 }
 
 function rewriteDistPath(path: string): string {
   return path.replace(/^\.\/dist-esm\/(\S+)\.js$/, function replacer(_match, path) {
-    return `./src/${path}`;
+    if (path.startsWith("src")) {
+      return `./${path}`;
+    } else {
+      return `./src/${path}`;
+    }
   });
 }
 

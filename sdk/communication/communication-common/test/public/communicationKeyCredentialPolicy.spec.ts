@@ -27,11 +27,11 @@ describe("CommunicationKeyCredentialPolicy", function () {
 describe("CommunicationKeyCredentialPolicy", function () {
   it("signs the request correctly with path and query params", async function () {
     const authHeader = await verifyHeadersForUrlReturnAuthHeader(
-      "https://example.com/testPath?testQuery=test"
+      "https://example.com/testPath?testQuery=test",
     );
     assert.equal(
       authHeader,
-      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=DGdgwggJWnQyc6EHjR/Vbqg1ES64KpD6U2XwTDDj3tU="
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=DGdgwggJWnQyc6EHjR/Vbqg1ES64KpD6U2XwTDDj3tU=",
     );
   });
 });
@@ -41,7 +41,7 @@ describe("CommunicationKeyCredentialPolicy", function () {
     const authHeader = await verifyHeadersForUrlReturnAuthHeader("https://example.com/testPath");
     assert.equal(
       authHeader,
-      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=+6tWkg3lNKVjQHHmxkdGQcJjUgzclsWTMebnuCz1ngU="
+      "HMAC-SHA256 SignedHeaders=x-ms-date;host;x-ms-content-sha256&Signature=+6tWkg3lNKVjQHHmxkdGQcJjUgzclsWTMebnuCz1ngU=",
     );
   });
 });

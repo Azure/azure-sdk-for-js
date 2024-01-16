@@ -259,7 +259,7 @@ describe(`batch operations`, function () {
     for await (const entity of entities) {
       if (entity.partitionKey !== multiBatchPartitionKey) {
         throw new Error(
-          `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`
+          `Expected all entities to have the same partition key: ${multiBatchPartitionKey} but found ${entity.partitionKey}`,
         );
       }
 

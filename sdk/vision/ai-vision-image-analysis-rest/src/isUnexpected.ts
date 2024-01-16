@@ -15,13 +15,13 @@ export function isUnexpected(
   response:
     | AnalyzeFromBuffer200Response
     | AnalyzeFromUrl200Response
-    | AnalyzeFromBufferDefaultResponse
+    | AnalyzeFromBufferDefaultResponse,
 ): response is AnalyzeFromBufferDefaultResponse;
 export function isUnexpected(
   response:
     | AnalyzeFromBuffer200Response
     | AnalyzeFromUrl200Response
-    | AnalyzeFromBufferDefaultResponse
+    | AnalyzeFromBufferDefaultResponse,
 ): response is AnalyzeFromBufferDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
@@ -64,7 +64,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

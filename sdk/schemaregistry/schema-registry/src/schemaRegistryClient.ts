@@ -76,7 +76,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options: SchemaRegistryClientOptions = {}
+    options: SchemaRegistryClientOptions = {},
   ) {
     // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
     // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
@@ -96,7 +96,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   registerSchema(
     schema: SchemaDescription,
-    options: RegisterSchemaOptions = {}
+    options: RegisterSchemaOptions = {},
   ): Promise<SchemaProperties> {
     return registerSchema(this._client, schema, options);
   }
@@ -110,7 +110,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   getSchemaProperties(
     schema: SchemaDescription,
-    options: GetSchemaPropertiesOptions = {}
+    options: GetSchemaPropertiesOptions = {},
   ): Promise<SchemaProperties> {
     return getSchemaProperties(this._client, schema, options);
   }
@@ -155,14 +155,14 @@ export class SchemaRegistryClient implements SchemaRegistry {
     name: string,
     groupName: string,
     version: number,
-    options?: GetSchemaOptions
+    options?: GetSchemaOptions,
   ): Promise<Schema>;
   // implementation
   getSchema(
     nameOrId: string,
     groupNameOrOptions?: string | GetSchemaOptions,
     version?: number,
-    options: GetSchemaOptions = {}
+    options: GetSchemaOptions = {},
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
       return getSchemaById(this._client, nameOrId, options);

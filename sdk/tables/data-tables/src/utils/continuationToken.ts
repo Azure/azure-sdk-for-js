@@ -13,7 +13,7 @@ interface ContinuationToken {
  */
 export function encodeContinuationToken(
   nextPartitionKey?: string,
-  nextRowKey?: string
+  nextRowKey?: string,
 ): string | undefined {
   if (!nextPartitionKey) {
     return undefined;

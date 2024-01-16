@@ -27,7 +27,7 @@ export function getServiceVersion(): string {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: string
+  serviceVersion?: string,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

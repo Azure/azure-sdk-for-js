@@ -18,7 +18,7 @@ import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils
 
 export async function authenticate(
   that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>
+  serviceVersion: ReturnType<typeof getServiceVersion>,
 ): Promise<any> {
   const generalSanitizers: FindReplaceSanitizer[] = [];
 
@@ -67,7 +67,7 @@ export async function authenticate(
     recorder.configureClientOptions({
       serviceVersion,
       disableChallengeResourceVerification: true,
-    })
+    }),
   );
   const testClient = new TestClient(client);
 

@@ -38,7 +38,7 @@ describe("UsernamePasswordCredential", function () {
     assert.strictEqual(
       authRequest.body.indexOf(`password=${encodeURIComponent(password)}`) > -1,
       true,
-      "Request body doesn't contain expected password"
+      "Request body doesn't contain expected password",
     );
   });
 });

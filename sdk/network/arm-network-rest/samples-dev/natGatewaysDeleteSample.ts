@@ -32,7 +32,7 @@ async function deleteNatGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       subscriptionId,
       resourceGroupName,
-      natGatewayName
+      natGatewayName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

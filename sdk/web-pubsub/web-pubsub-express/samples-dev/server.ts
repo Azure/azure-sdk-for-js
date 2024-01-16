@@ -35,5 +35,5 @@ const app = express();
 app.use(handler.getMiddleware());
 
 app.listen(3000, () =>
-  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`),
 );

@@ -45,11 +45,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
-    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions
+    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions,
   ) {
     if (!options?.clientId) {
       const error = new Error(
-        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
+        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`",
       );
       logger.info(formatError("", error));
       throw error;
@@ -57,7 +57,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.tenantId = options?.tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     const browserOptions = options as InteractiveBrowserCredentialInBrowserOptions;
@@ -68,7 +68,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const error = new Error(
         `Invalid loginStyle: ${
           browserOptions.loginStyle
-        }. Should be any of the following: ${loginStyles.join(", ")}.`
+        }. Should be any of the following: ${loginStyles.join(", ")}.`,
       );
       logger.info(formatError("", error));
       throw error;
@@ -107,7 +107,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
         );
         newOptions.tenantId = tenantId;
 
@@ -116,7 +116,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
@@ -132,7 +132,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
@@ -141,7 +141,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
-      }
+      },
     );
   }
 }

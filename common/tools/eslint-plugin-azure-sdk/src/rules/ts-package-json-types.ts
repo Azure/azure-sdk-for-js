@@ -18,7 +18,7 @@ import { stripFileName } from "../utils/verifiers";
 export = {
   meta: getRuleMetaData(
     "ts-package-json-types",
-    "force package.json to specify types according to package directory"
+    "force package.json to specify types according to package directory",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -34,7 +34,7 @@ export = {
 
           // check the node corresponding to types to see if its value is a TypeScript declaration file
           "ExpressionStatement > ObjectExpression > Property[key.value='types']": (
-            node: Property
+            node: Property,
           ): void => {
             const value = node.value;
             if (value.type !== "Literal" || typeof value.value !== "string") {
