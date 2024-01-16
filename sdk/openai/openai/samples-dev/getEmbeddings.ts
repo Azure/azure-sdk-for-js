@@ -18,7 +18,7 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-// The prompt to generate the embeddigns vector from
+// The prompt to generate the embeddings vector
 const prompt = ["This is the sample text to be embedded"];
 
 // The name of the model
@@ -31,7 +31,7 @@ export async function main() {
   const embeddings = await client.getEmbeddings(modelName, prompt);
 
   for (const embeddingData of embeddings.data) {
-    console.log(`The embeddings values are ${embeddingData.embedding}`);
+    console.log(`The embedding values are ${embeddingData.embedding}`);
   }
 }
 

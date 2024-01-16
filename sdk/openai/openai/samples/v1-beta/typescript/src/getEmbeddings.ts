@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get embedding vector for a piece of text using Azure OpenAI.
+ * Demonstrates how to get embedding vectors for a piece of text using Azure OpenAI.
  *
  * @summary generates embedding vectors from a prompt using Azure OpenAI Get Embeddings.
  */
@@ -17,8 +17,8 @@ dotenv.config();
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
-// The prompt to generate the embeddigns vector from
-const prompt = ["This is text to be embedded"];
+// The prompt to generate the embeddings vector
+const prompt = ["This is the sample text to be embedded"];
 
 // The name of the model
 const modelName = "text-embedding-ada-002";
@@ -30,7 +30,7 @@ export async function main() {
   const embeddings = await client.getEmbeddings(modelName, prompt);
 
   for (const embeddingData of embeddings.data) {
-    console.log(`The embeddings values are ${embeddingData.embedding}`);
+    console.log(`The embedding values are ${embeddingData.embedding}`);
   }
 }
 
