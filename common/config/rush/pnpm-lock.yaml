@@ -1124,9 +1124,15 @@ dependencies:
   '@rush-temp/web-pubsub-express':
     specifier: file:./projects/web-pubsub-express.tgz
     version: file:projects/web-pubsub-express.tgz
+  '@vitest/browser':
+    specifier: 1.1.0
+    version: 1.1.0(playwright@1.40.1)(vitest@1.1.0)
   chai:
     specifier: 4.3.10
     version: 4.3.10
+  vitest:
+    specifier: 1.1.0
+    version: 1.1.0(@types/node@18.19.3)(@vitest/browser@1.1.0)
 
 packages:
 
@@ -19698,7 +19704,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-HHcWrfhkbE57G4dEI3OnTRgXTsGMaJiUNik2pnk+IjBDWThENnxzUMucuNOSWrB9UIYUlgXRFPFkxTiuKpRFXw==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-y7F6JQX5LiZAO+lonRHtUTq4bLmZRloU6c5o9Hot1TUD2mtuuF+6zZJd+WIB05GYiTwYkdszzHF4AOOH7aqP3Q==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
