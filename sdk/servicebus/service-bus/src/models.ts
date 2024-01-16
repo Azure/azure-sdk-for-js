@@ -326,3 +326,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
    */
   omitMessageBody?: boolean;
 }
+
+export interface BatchDeleteMessagesOptions extends OperationOptionsBase {
+  enqueuedTimeUtcOlderThan?: Date;
+}

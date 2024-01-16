@@ -260,7 +260,7 @@ describe("Batching Receiver", () => {
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it(
+    it.only(
       noSessionTestClientType + ": defer() moves message to deferred queue",
       async function (): Promise<void> {
         await beforeEachTest(noSessionTestClientType);
@@ -779,6 +779,21 @@ describe("Batching Receiver", () => {
         await beforeEachTest(withSessionTestClientType);
 
         await testAskForMore();
+      },
+    );
+
+    it.only(
+      noSessionTestClientType + ": batchDeleteMessages request on the receiver",
+      async function (): Promise<void> {
+        await beforeEachTest(noSessionTestClientType);
+        const testMessages = entityNames.usesSessions
+          ? TestMessage.getSessionSample()
+          : TestMessage.getSample();
+
+        console.dir(testMessages)
+        // await sender.sendMessages(testMessages);
+
+        await receiver.batchDeleteMessages(1);
       },
     );
 

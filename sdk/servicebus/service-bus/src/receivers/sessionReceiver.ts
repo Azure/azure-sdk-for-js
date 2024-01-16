@@ -3,7 +3,7 @@
 
 import { ConnectionContext } from "../connectionContext";
 import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
-import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions } from "../models";
+import { PeekMessagesOptions, GetMessageIteratorOptions, SubscribeOptions, BatchDeleteMessagesOptions } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
@@ -402,6 +402,32 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
+  }
+
+  async batchDeleteMessages(
+    messageCount: number,
+    options?: BatchDeleteMessagesOptions,
+  ): Promise<void> {
+    this._throwIfReceiverOrConnectionClosed();
+
+    const batchDeleteMessagesOperationPromise = async (): Promise<void> => {
+      await this._context
+        .getManagementClient(this.entityPath)
+        .batchDeleteMessages(messageCount, options?.enqueuedTimeUtcOlderThan, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "batchDeleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
+    };
+    const config: RetryConfig<void> = {
+      operation: batchDeleteMessagesOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
+    return retry<void>(config);
   }
 
   async receiveMessages(
