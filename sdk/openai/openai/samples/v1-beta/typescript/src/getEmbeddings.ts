@@ -20,14 +20,14 @@ const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 // The prompt to generate the embeddings vector
 const prompt = ["This is the sample text to be embedded"];
 
-// The name of the model
-const modelName = "text-embedding-ada-002";
+// The name of the model deployment
+const deploymentName = "text-embedding-ada-002";
 
 export async function main() {
   console.log("== Get embeddings sample ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const embeddings = await client.getEmbeddings(modelName, prompt);
+  const embeddings = await client.getEmbeddings(deploymentName, prompt);
 
   for (const embeddingData of embeddings.data) {
     console.log(`The embedding values are ${embeddingData.embedding}`);
