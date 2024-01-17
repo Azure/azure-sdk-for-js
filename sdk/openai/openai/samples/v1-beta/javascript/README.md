@@ -26,7 +26,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [streamChatCompletions.js][streamchatcompletions]                                   | list chat completions.                                                       |
 | [streamChatCompletionsWithContentFilter.js][streamchatcompletionswithcontentfilter] | get completions.                                                             |
 | [streamCompletions.js][streamcompletions]                                           | list completions.                                                            |
-| [streamCompletionsOnly.js][streamcompletionsonly]                                   | list completions.                                                            |
 | [openAi.js][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
@@ -80,7 +79,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletionsWithContentFilter.js
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamCompletions.js
-[streamcompletionsonly]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamCompletionsOnly.js
 [openai]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/openAi.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/
