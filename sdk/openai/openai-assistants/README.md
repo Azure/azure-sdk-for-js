@@ -55,7 +55,7 @@ creating, running, and using assistants and threads.
 
 To get started, create an `AssistantsClient`:
 ```javascript Snippet:OverviewCreateClient
-const assistantsClient = new AssistantsClient(azureResourceUrl, new AzureKeyCredential(azureApiKey));
+const assistantsClient = new AssistantsClient("<endpoint>", new AzureKeyCredential("<azure_api_key>"));
 ```
 
 With a client, an assistant can then be created. An assistant is a purpose-built interface to OpenAI models that can call Tools while allowing high-level instructions throughout the lifetime of the assistant.
