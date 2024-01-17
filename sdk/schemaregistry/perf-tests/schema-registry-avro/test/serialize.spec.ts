@@ -32,7 +32,7 @@ export class SerializeTest extends AvroSerializerTest<SerializePerfTestOptions> 
         name: "test",
         favoriteNumbers: this.array,
       },
-      AvroSerializerTest.schema
+      AvroSerializerTest.schema,
     );
   }
 }

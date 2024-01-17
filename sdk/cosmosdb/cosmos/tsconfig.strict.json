@@ -164,6 +164,7 @@
     "test/internal/unit/utils/offer.spec.ts",
     "test/internal/unit/client.spec.ts",
     "test/internal/unit/timeoutFailoverRetryPolicy.spec.ts",
+    "test/internal/unit/queryIterator.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",
@@ -206,7 +207,6 @@
     "test/public/integration/sslVerification.spec.ts",
     "test/public/integration/timeout.spec.ts",
     "test/public/integration/aggregates/groupBy.spec.ts",
-    "test/public/integration/client.retry.spec.ts",
-    "test/internal/unit/queryIterator.spec.ts"
+    "test/public/integration/client.retry.spec.ts"
   ]
 }

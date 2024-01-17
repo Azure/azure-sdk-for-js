@@ -78,14 +78,14 @@ describe("IdentityClient", function () {
         new IdentityClient({ authorityHost: "http://totallyinsecure.lol" });
       },
       Error,
-      "The authorityHost address must use the 'https' protocol."
+      "The authorityHost address must use the 'https' protocol.",
     );
     assert.throws(
       () => {
         new IdentityClient({ authorityHost: "httpsomg.com" });
       },
       Error,
-      "The authorityHost address must use the 'https' protocol."
+      "The authorityHost address must use the 'https' protocol.",
     );
   });
 
@@ -108,7 +108,7 @@ describe("IdentityClient", function () {
         new IdentityClient();
       },
       Error,
-      "The authorityHost address must use the 'https' protocol."
+      "The authorityHost address must use the 'https' protocol.",
     );
     process.env.AZURE_AUTHORITY_HOST = "httpsomg.com";
     assert.throws(
@@ -116,7 +116,7 @@ describe("IdentityClient", function () {
         new IdentityClient();
       },
       Error,
-      "The authorityHost address must use the 'https' protocol."
+      "The authorityHost address must use the 'https' protocol.",
     );
 
     // While we have the environment variable, ensure correct precedence
@@ -171,7 +171,7 @@ describe("IdentityClient", function () {
     ];
 
     const logMessages = testContext.logMessages.filter(
-      (msg: string) => msg.indexOf("azure:identity:") >= 0
+      (msg: string) => msg.indexOf("azure:identity:") >= 0,
     );
 
     assert.equal(expectedMessages.length, logMessages.length);

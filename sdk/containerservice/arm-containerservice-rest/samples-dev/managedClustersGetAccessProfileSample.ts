@@ -30,7 +30,7 @@ async function getManagedCluster() {
       subscriptionId,
       resourceGroupName,
       resourceName,
-      roleName
+      roleName,
     )
     .post();
   console.log(result);

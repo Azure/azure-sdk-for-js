@@ -44,7 +44,7 @@ export async function main() {
   const serviceClient = new DataLakeServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.dfs.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   console.log("File Systems:");
@@ -58,7 +58,7 @@ export async function main() {
 
   const fileSystemResponse = await fileSystemClient.create();
   console.log(
-    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`
+    `Created file system ${fileSystemClient.name} successfully, request ID: ${fileSystemResponse.requestId}`,
   );
 
   // Create a file

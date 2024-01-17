@@ -58,7 +58,7 @@ export class LazyLoadingBlobStream extends Readable {
     blobClient: BlobClient,
     offset: number,
     blockSize: number,
-    options?: LazyLoadingBlobStreamOptions
+    options?: LazyLoadingBlobStreamOptions,
   ) {
     super(options);
     this.blobClient = blobClient;
@@ -92,10 +92,10 @@ export class LazyLoadingBlobStream extends Readable {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
         this.offset += this.lastDownloadBytes;
-      }
+      },
     );
   }
 
@@ -137,7 +137,7 @@ export class LazyLoadingBlobStream extends Readable {
         if (count < size) {
           this.push(null);
         }
-      }
+      },
     );
   }
 }

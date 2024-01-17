@@ -39,7 +39,7 @@ async function getVmssPublicIP() {
       roleInstanceName,
       networkInterfaceName,
       ipConfigurationName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .get(options);
   console.log(result);

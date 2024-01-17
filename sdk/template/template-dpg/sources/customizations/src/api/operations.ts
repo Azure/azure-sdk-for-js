@@ -22,7 +22,7 @@ import { foo } from "./foo.js";
 export async function analyzeWidget(
   context: Client,
   id: string,
-  options?: AnalyzeWidgetOptions
+  options?: AnalyzeWidgetOptions,
 ): Promise<AnalyzeResult> {
   try {
     foo();

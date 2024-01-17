@@ -37,7 +37,7 @@ async function getVirtualMachineScaleSetNetworkInterface() {
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   console.log(result);

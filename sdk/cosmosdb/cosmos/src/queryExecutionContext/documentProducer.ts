@@ -49,7 +49,7 @@ export class DocumentProducer {
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
     options: FeedOptions,
-    correlatedActivityId: string
+    correlatedActivityId: string,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -97,7 +97,7 @@ export class DocumentProducer {
   public fetchFunction: FetchFunctionCallback = async (
     diagnosticNode: DiagnosticNodeInternal,
     options: FeedOptions,
-    correlatedActivityId: string
+    correlatedActivityId: string,
   ): Promise<Response<Resource>> => {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     diagnosticNode.addData({ partitionKeyRangeId: this.targetPartitionKeyRange.id });

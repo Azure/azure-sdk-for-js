@@ -34,7 +34,7 @@ async function deleteRoute() {
       subscriptionId,
       resourceGroupName,
       routeTableName,
-      routeName
+      routeName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

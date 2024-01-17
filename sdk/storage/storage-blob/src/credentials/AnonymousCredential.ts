@@ -24,7 +24,7 @@ export class AnonymousCredential extends Credential {
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptions,
   ): AnonymousCredentialPolicy {
     return new AnonymousCredentialPolicy(nextPolicy, options);
   }

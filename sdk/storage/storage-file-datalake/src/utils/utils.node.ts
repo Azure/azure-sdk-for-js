@@ -18,7 +18,7 @@ export async function streamToBuffer(
   buffer: Buffer,
   offset: number,
   end: number,
-  encoding?: BufferEncoding
+  encoding?: BufferEncoding,
 ): Promise<void> {
   let pos = 0; // Position in stream
   const count = end - offset; // Total amount of data needed in stream
@@ -49,8 +49,8 @@ export async function streamToBuffer(
       if (pos < count) {
         reject(
           new Error(
-            `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`
-          )
+            `Stream drains before getting enough data needed. Data read: ${pos}, data need: ${count}`,
+          ),
         );
       }
       resolve();
@@ -72,7 +72,7 @@ export async function streamToBuffer(
 export async function streamToBuffer2(
   stream: NodeJS.ReadableStream,
   buffer: Buffer,
-  encoding?: BufferEncoding
+  encoding?: BufferEncoding,
 ): Promise<number> {
   let pos = 0; // Position in stream
   const bufferSize = buffer.length;

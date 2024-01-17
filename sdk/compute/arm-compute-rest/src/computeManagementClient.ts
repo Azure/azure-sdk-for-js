@@ -11,7 +11,7 @@ import { ComputeManagementClient } from "./clientDefinitions";
  */
 export default function createClient(
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ComputeManagementClient {
   const baseUrl = options.baseUrl ?? `https://management.azure.com`;
   options = {

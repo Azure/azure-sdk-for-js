@@ -12,6 +12,7 @@ export type BaseDialogUnion =
   | BaseDialog
   | AzureOpenAIDialog
   | PowerVirtualAgentsDialog;
+export type DialogUpdateBaseUnion = DialogUpdateBase | AzureOpenAIDialogUpdate;
 
 /** The request payload for creating the call. */
 export interface CreateCallRequest {
@@ -189,6 +190,11 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /**
+   * The source caller Id, a phone number, that's will be used when inviting a pstn target.
+   * Required only when transferring call to PSTN, if this is an incoming voip call.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -458,6 +464,25 @@ export interface DialogStateResponse {
   dialog?: BaseDialogUnion;
   /** The value to identify context of the operation. */
   operationContext?: string;
+}
+
+export interface UpdateDialogRequest {
+  /** Dialog context. */
+  dialog: DialogUpdateBaseUnion;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface DialogUpdateBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AzureOpenAI";
+  /** Dialog context. */
+  context?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** The response payload for getting participants of the call. */
@@ -1004,6 +1029,46 @@ export interface DialogSensitivityUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dialogId?: string;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface DialogUpdated {
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Ivr Context
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ivrContext?: Record<string, unknown>;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1909,6 +1974,12 @@ export interface PowerVirtualAgentsDialog extends BaseDialog {
   language?: string;
 }
 
+/** Azure Open AI Dialog for UpdateDialog API Call */
+export interface AzureOpenAIDialogUpdate extends DialogUpdateBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AzureOpenAI";
+}
+
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -2666,6 +2737,10 @@ export interface CallDialogStopDialogOptionalParams
   /** Opeation callback URI. */
   operationCallbackUri?: string;
 }
+
+/** Optional parameters. */
+export interface CallDialogUpdateDialogOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams

@@ -31,7 +31,7 @@ export async function main() {
   const confidentialLedger = ConfidentialLedger(
     endpoint,
     ledgerIdentity.ledgerIdentityCertificate,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Get enclave quotes

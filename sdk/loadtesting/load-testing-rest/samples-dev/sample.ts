@@ -70,7 +70,7 @@ async function main() {
   if (fileValidatePoller.getOperationState().status != "succeeded" && fileValidateResult)
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-        fileValidateResult.body.validationFailureDetails
+        fileValidateResult.body.validationFailureDetails,
     );
 
   // Creating/Updating app component

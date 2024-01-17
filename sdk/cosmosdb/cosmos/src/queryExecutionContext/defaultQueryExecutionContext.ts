@@ -15,7 +15,7 @@ const logger: AzureLogger = createClientLogger("ClientContext");
 export type FetchFunctionCallback = (
   diagnosticNode: DiagnosticNodeInternal,
   options: FeedOptions,
-  correlatedActivityId: string
+  correlatedActivityId: string,
 ) => Promise<Response<any>>;
 
 /** @hidden */
@@ -54,7 +54,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   constructor(
     options: FeedOptions,
     fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    correlatedActivityId: string
+    correlatedActivityId: string,
   ) {
     this.resources = [];
     this.currentIndex = 0;
@@ -218,7 +218,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               queryMetrics.vmExecutionTime,
               queryMetrics.runtimeExecutionTimes,
               queryMetrics.documentWriteTime,
-              new ClientSideMetrics(requestCharge)
+              new ClientSideMetrics(requestCharge),
             );
           }
 
@@ -234,7 +234,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       DiagnosticNodeType.DEFAULT_QUERY_NODE,
       {
         queryMethodIdentifier: "fetchMore",
-      }
+      },
     );
   }
 

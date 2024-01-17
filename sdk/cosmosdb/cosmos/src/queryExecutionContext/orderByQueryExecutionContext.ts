@@ -34,7 +34,7 @@ export class OrderByQueryExecutionContext
     query: string | SqlQuerySpec,
     options: FeedOptions,
     partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    correlatedActivityId: string
+    correlatedActivityId: string,
   ) {
     // Calling on base class constructor
     super(

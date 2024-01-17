@@ -119,7 +119,7 @@ export async function main() {
 
   const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
-    conversionSettings
+    conversionSettings,
   );
 
   console.log("== Polling ==");

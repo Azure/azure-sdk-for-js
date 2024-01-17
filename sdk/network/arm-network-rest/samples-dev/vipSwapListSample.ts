@@ -29,7 +29,7 @@ async function getSwapResourceList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots",
       subscriptionId,
       groupName,
-      resourceName
+      resourceName,
     )
     .get(options);
   console.log(result);

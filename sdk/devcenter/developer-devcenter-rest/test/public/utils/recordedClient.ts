@@ -45,7 +45,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 export function createRecordedClient(
   recorder: Recorder,
   endpoint: string,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): AzureDeveloperDevCenterClient {
   // We need to use a user-persona, so the clientSecretCredential that createTestCredential uses in live/record modes is not sufficient
   const credential = isPlaybackMode() ? createTestCredential() : new DefaultAzureCredential();

@@ -56,7 +56,7 @@ describe("serviceBusClient unit tests", () => {
           {
             ...origConnectionContext.config,
             entityPath: testEntity.topic ? testEntity.topic : testEntity.queue,
-          }
+          },
         );
 
         let sessionReceiver: ServiceBusSessionReceiver;
@@ -78,7 +78,7 @@ describe("serviceBusClient unit tests", () => {
               maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete",
-            }
+            },
           );
         }
 
@@ -130,7 +130,7 @@ describe("serviceBusClient unit tests", () => {
               maxAutoLockRenewalDurationInMs: 101,
               tracingOptions: {},
               receiveMode: "receiveAndDelete",
-            }
+            },
           );
         }
 
@@ -215,7 +215,7 @@ describe("serviceBusClient unit tests", () => {
             ...sessionReceiverOptions,
             receiveMode: badReceiveMode as "peekLock",
           }),
-        `Invalid receiveMode '${badReceiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
+        `Invalid receiveMode '${badReceiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
       );
     });
   });
@@ -333,7 +333,7 @@ describe("serviceBusClient unit tests", () => {
 
       assert.ok(
         uuidRegex.test((sender as ServiceBusSenderImpl)["_sender"]["identifier"]),
-        "expect random receiver identifier"
+        "expect random receiver identifier",
       );
     });
 
@@ -345,7 +345,7 @@ describe("serviceBusClient unit tests", () => {
 
       assert.ok(
         uuidRegex.test((receiver as unknown as MessageReceiver)["identifier"]),
-        "expect random receiver identifier"
+        "expect random receiver identifier",
       );
     });
 
@@ -371,13 +371,13 @@ describe("serviceBusClient unit tests", () => {
               testEntity.topic!,
               testEntity.subscription!,
               "sessionId",
-              { identifier: "sbSessionReceiverId" }
+              { identifier: "sbSessionReceiverId" },
             );
           }
 
           assert.equal(
             (receiver as unknown as MessageReceiver)["identifier"],
-            "sbSessionReceiverId"
+            "sbSessionReceiverId",
           );
         } finally {
           await client.close();
@@ -405,7 +405,7 @@ describe("serviceBusClient unit tests", () => {
 
           assert.equal(
             (receiver as unknown as MessageReceiver)["identifier"],
-            "sbSessionReceiverId"
+            "sbSessionReceiverId",
           );
         } finally {
           await client.close();
@@ -434,7 +434,7 @@ describe("serviceBusClient unit tests", () => {
 
           assert.ok(
             uuidRegex.test((receiver as unknown as ServiceBusSessionReceiver)["identifier"]),
-            "expect random session receiver identifier"
+            "expect random session receiver identifier",
           );
         } finally {
           await client.close();
@@ -446,17 +446,17 @@ describe("serviceBusClient unit tests", () => {
   describe("Create ConnectionContext helpers", () => {
     function validateWebsocketInfo(
       connectionContext: ConnectionContext,
-      providedWebsocketConstructorOptions: any
+      providedWebsocketConstructorOptions: any,
     ): void {
       assert.equal(
         connectionContext.config.webSocketEndpointPath,
         "$servicebus/websocket",
-        "Unexpected webSocketEndpointPath in the connection config"
+        "Unexpected webSocketEndpointPath in the connection config",
       );
       assert.equal(
         connectionContext.config.webSocketConstructorOptions,
         providedWebsocketConstructorOptions,
-        "Unexpected webSocketEndpointPath in the connection config"
+        "Unexpected webSocketEndpointPath in the connection config",
       );
     }
 

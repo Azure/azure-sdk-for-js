@@ -53,9 +53,9 @@ export class ChangeFeedFactory {
           new ChunkFactory(
             new AvroReaderFactory(),
             new LazyLoadingBlobStreamFactory(),
-            this.maxTransferSize
-          )
-        )
+            this.maxTransferSize,
+          ),
+        ),
       );
     }
   }
@@ -72,7 +72,7 @@ export class ChangeFeedFactory {
   public async create(
     blobServiceClient: BlobServiceClient,
     continuationToken?: string,
-    options: BlobChangeFeedListChangesOptions = {}
+    options: BlobChangeFeedListChangesOptions = {},
   ): Promise<ChangeFeed> {
     return tracingClient.withSpan("ChangeFeedFactory-create", options, async (updatedOptions) => {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
@@ -97,7 +97,7 @@ export class ChangeFeedFactory {
       });
       if (!changeFeedContainerExists) {
         throw new Error(
-          "Change Feed hasn't been enabled on this account, or is currently being enabled."
+          "Change Feed hasn't been enabled on this account, or is currently being enabled.",
         );
       }
 
@@ -121,7 +121,7 @@ export class ChangeFeedFactory {
         }
       }
       const lastConsumable = new Date(
-        (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
+        (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable,
       );
 
       // Get year paths
@@ -151,7 +151,7 @@ export class ChangeFeedFactory {
           {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
       }
       if (segments.length === 0) {
@@ -164,7 +164,7 @@ export class ChangeFeedFactory {
         {
           abortSignal: options.abortSignal,
           tracingOptions: updatedOptions.tracingOptions,
-        }
+        },
       );
 
       return new ChangeFeed(
@@ -175,7 +175,7 @@ export class ChangeFeedFactory {
         currentSegment,
         lastConsumable,
         options.start,
-        options.end
+        options.end,
       );
     });
   }

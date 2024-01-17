@@ -50,7 +50,7 @@ export class FeedRangeQueue<T> {
       const feedRangeElement = new ChangeFeedRange(
         minInclusive,
         maxExclusive,
-        element.continuationToken
+        element.continuationToken,
       );
       allFeedRanges.push(feedRangeElement);
     });

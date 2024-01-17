@@ -40,7 +40,7 @@ export interface ListWidgets {
    * It does not accept any options or parameters.
    */
   get(
-    options?: ListWidgetsParameters
+    options?: ListWidgetsParameters,
   ): StreamableMethod<ListWidgets200Response | ListWidgetsDefaultResponse>;
   /**
    * Create a new widget.
@@ -49,32 +49,32 @@ export interface ListWidgets {
    * result in an error.
    */
   post(
-    options?: CreateWidgetParameters
+    options?: CreateWidgetParameters,
   ): StreamableMethod<CreateWidget201Response | CreateWidgetDefaultResponse>;
 }
 
 export interface GetWidget {
   /** Get a widget by ID. */
   get(
-    options?: GetWidgetParameters
+    options?: GetWidgetParameters,
   ): StreamableMethod<GetWidget200Response | GetWidgetDefaultResponse>;
   /**
    * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
    * are optional and will be updated within the widget if provided.
    */
   patch(
-    options?: UpdateWidgetParameters
+    options?: UpdateWidgetParameters,
   ): StreamableMethod<UpdateWidget200Response | UpdateWidgetDefaultResponse>;
   /** Delete a widget by ID. */
   delete(
-    options?: DeleteWidgetParameters
+    options?: DeleteWidgetParameters,
   ): StreamableMethod<DeleteWidget204Response | DeleteWidgetDefaultResponse>;
 }
 
 export interface AnalyzeWidget {
   /** Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis. */
   post(
-    options?: AnalyzeWidgetParameters
+    options?: AnalyzeWidgetParameters,
   ): StreamableMethod<AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse>;
 }
 

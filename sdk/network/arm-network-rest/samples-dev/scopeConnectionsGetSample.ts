@@ -33,7 +33,7 @@ async function getNetworkManagerScopeConnection() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      scopeConnectionName
+      scopeConnectionName,
     )
     .get(options);
   console.log(result);

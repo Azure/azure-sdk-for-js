@@ -20,7 +20,7 @@ import {
 export async function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {}
+  options: CreateHttpPollerOptions<TResult, OperationState<TResult>> = {},
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,
