@@ -22,7 +22,7 @@ export interface TestKeyClientInterface {
    */
   restoreKeyBackup(
     backup: Uint8Array,
-    options?: BeginRestoreKeyBackupOptions
+    options?: BeginRestoreKeyBackupOptions,
   ): Promise<KeyVaultKey>;
 }
 
@@ -59,7 +59,7 @@ async function update(
   options: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RestoreKeyBackupPollOperationState) => void;
-  } = {}
+  } = {},
 ): Promise<RestoreKeyBackupPollOperation> {
   const state = this.state;
   const { backup, client, requestOptions = {} } = state;
@@ -103,7 +103,7 @@ function toString(this: RestoreKeyBackupPollOperation): string {
  * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreKeyBackupPollOperation(
-  state: RestoreKeyBackupPollOperationState
+  state: RestoreKeyBackupPollOperationState,
 ): RestoreKeyBackupPollOperation {
   return {
     state: {

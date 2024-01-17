@@ -41,7 +41,7 @@ export async function main() {
     onResponse: (_rawResponse, flatResponse) => {
       const modelVersion = (flatResponse as any).results.modelVersion;
       console.log(
-        `The result of the sentiment analysis was computed using model version: ${modelVersion}`
+        `The result of the sentiment analysis was computed using model version: ${modelVersion}`,
       );
     },
   });
@@ -61,7 +61,7 @@ export async function main() {
       },
     ],
     documents,
-    "en"
+    "en",
   );
   const results = await poller.pollUntilDone();
   for await (const actionResult of results) {
@@ -73,7 +73,7 @@ export async function main() {
       throw new Error(`Unexpected error (${code}): ${message}`);
     }
     console.log(
-      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `
+      `The result of the healthcare analysis was computed using model version: ${actionResult.modelVersion} `,
     );
   }
 }

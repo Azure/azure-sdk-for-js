@@ -33,7 +33,7 @@ async function createApplicationSecurityGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      applicationSecurityGroupName
+      applicationSecurityGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

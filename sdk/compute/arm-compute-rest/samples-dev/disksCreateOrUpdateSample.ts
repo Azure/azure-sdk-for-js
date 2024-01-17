@@ -49,7 +49,7 @@ async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -88,7 +88,7 @@ async function createAManagedDiskAndAssociateWithDiskAccessResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -128,7 +128,7 @@ async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -167,7 +167,7 @@ async function createAManagedDiskByCopyingASnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -207,7 +207,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscri
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -245,7 +245,7 @@ async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscripti
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -290,7 +290,7 @@ async function createAManagedDiskFromImportSecureCreateOption() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -330,7 +330,7 @@ async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -371,7 +371,7 @@ async function createAManagedDiskFromAPlatformImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -413,7 +413,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryCommunityImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -455,7 +455,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryDirectSharedImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -496,7 +496,7 @@ async function createAManagedDiskFromAnAzureComputeGalleryImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -535,7 +535,7 @@ async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSu
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -572,7 +572,7 @@ async function createAManagedDiskWithDataAccessAuthMode() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -609,7 +609,7 @@ async function createAManagedDiskWithOptimizedForFrequentAttach() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -644,7 +644,7 @@ async function createAManagedDiskWithPerformancePlus() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -683,7 +683,7 @@ async function createAManagedDiskWithPremiumV2AccountType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -725,7 +725,7 @@ async function createAManagedDiskWithSecurityProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -759,7 +759,7 @@ async function createAManagedDiskWithSsdZrsAccountType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -799,7 +799,7 @@ async function createAManagedDiskWithUltraAccountTypeWithReadOnlyPropertySet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -834,7 +834,7 @@ async function createAManagedUploadDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -868,7 +868,7 @@ async function createAnEmptyManagedDiskInExtendedLocation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -901,7 +901,7 @@ async function createAnEmptyManagedDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -938,7 +938,7 @@ async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

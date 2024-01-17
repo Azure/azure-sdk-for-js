@@ -66,7 +66,7 @@ describe("Emulator Tests", () => {
     const uResult = await tempQueueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.popReceipt);
 

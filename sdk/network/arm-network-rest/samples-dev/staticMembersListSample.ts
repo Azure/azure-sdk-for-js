@@ -34,7 +34,7 @@ async function staticMembersList() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

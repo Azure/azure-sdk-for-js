@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Options related to abort controller.
@@ -29,7 +29,7 @@ export type AbortablePromiseBuilder<T> = (abortOptions: {
  */
 export async function cancelablePromiseRace<T extends unknown[]>(
   abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[],
-  options?: { abortSignal?: AbortSignalLike }
+  options?: { abortSignal?: AbortSignalLike },
 ): Promise<T[number]> {
   const aborter = new AbortController();
   function abortHandler(): void {
@@ -38,7 +38,7 @@ export async function cancelablePromiseRace<T extends unknown[]>(
   options?.abortSignal?.addEventListener("abort", abortHandler);
   try {
     return await Promise.race(
-      abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal }))
+      abortablePromiseBuilders.map((p) => p({ abortSignal: aborter.signal })),
     );
   } finally {
     aborter.abort();

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Checks whether instance exists.
  *
  * @summary Checks whether instance exists.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Head.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/Instances/Instances_Head.json
  */
 async function checksWhetherInstanceExists() {
   const subscriptionId =

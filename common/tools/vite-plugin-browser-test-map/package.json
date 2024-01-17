@@ -1,0 +1,58 @@
+{
+  "name": "@azure-tools/vite-plugin-browser-test-map",
+  "version": "1.0.0",
+  "description": "A vite plugin for dynamically remapping browser replacement maps for tests",
+  "sdk-type": "utility",
+  "type": "module",
+  "private": true,
+  "keywords": [
+    "vite-plugin"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/vite-plugin-browser-test-map/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/vite-plugin-browser-test-map"
+  },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc -p .",
+    "build:samples": "echo Skipped.",
+    "build:test": "tsc -p .",
+    "clean": "rimraf dist/",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "lint": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts",
+    "lint:fix": "eslint --no-eslintrc -c ../../../sdk/.eslintrc.internal.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "unit-test:node": "echo skipped",
+    "unit-test:browser": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "test": "npm run clean && npm run build:test && npm run unit-test"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.1.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~5.2.0"
+  }
+}

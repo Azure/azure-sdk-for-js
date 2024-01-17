@@ -34,7 +34,7 @@ async function inboundNatRuleDelete() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      inboundNatRuleName
+      inboundNatRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

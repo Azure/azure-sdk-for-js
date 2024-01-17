@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelinePolicy } from "../pipeline";
+import type { PipelinePolicy } from "../pipeline";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
@@ -41,7 +41,7 @@ export interface SystemErrorRetryPolicyOptions {
  * @param options - Options that customize the policy.
  */
 export function systemErrorRetryPolicy(
-  options: SystemErrorRetryPolicyOptions = {}
+  options: SystemErrorRetryPolicyOptions = {},
 ): PipelinePolicy {
   return {
     name: systemErrorRetryPolicyName,
@@ -54,7 +54,7 @@ export function systemErrorRetryPolicy(
       ],
       {
         maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-      }
+      },
     ).sendRequest,
   };
 }

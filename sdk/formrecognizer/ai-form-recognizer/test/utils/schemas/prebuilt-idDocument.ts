@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from passports and ID cards.
  */
 export const PrebuiltIdDocumentModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltIdDocumentResult>;
 
 export interface PrebuiltIdDocumentResult extends fr.AnalyzeResultCommon {

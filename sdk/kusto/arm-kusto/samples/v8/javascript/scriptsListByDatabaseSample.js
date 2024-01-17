@@ -30,7 +30,7 @@ async function kustoScriptsList() {
   for await (let item of client.scripts.listByDatabase(
     resourceGroupName,
     clusterName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

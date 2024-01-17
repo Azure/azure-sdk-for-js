@@ -55,42 +55,42 @@ describe("Local cryptography public tests", () => {
       it("throws on encrypt", async function () {
         await assert.isRejected(
           cryptoClientFromKey.encrypt("foo", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on wrapKey", async function () {
         await assert.isRejected(
           cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on sign", async function () {
         await assert.isRejected(
           cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on signData", async function () {
         await assert.isRejected(
           cryptoClientFromKey.signData("PS360", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on verify", async function () {
         await assert.isRejected(
           cryptoClientFromKey.verify("PS360", Buffer.from("bar"), Buffer.from("baz")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on verifyData", async function () {
         await assert.isRejected(
           cryptoClientFromKey.verifyData("PS360", Buffer.from("bar"), Buffer.from("baz")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
     });
@@ -99,14 +99,14 @@ describe("Local cryptography public tests", () => {
       it("throws on decrypt", async function () {
         await assert.isRejected(
           cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
 
       it("throws on unwrapKey", async function () {
         await assert.isRejected(
           cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar")),
-          /using a local JsonWebKey/
+          /using a local JsonWebKey/,
         );
       });
     });
@@ -205,7 +205,7 @@ describe("Local cryptography public tests", () => {
         const cryptoClient = new CryptographyClient(
           keyVaultKey.id!,
           credential,
-          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
 
         // Sign is not implemented yet.
@@ -221,7 +221,7 @@ describe("Local cryptography public tests", () => {
         const verifyResult = await localCryptoClient.verifyData(
           localAlgorithmName,
           digest,
-          signature.result
+          signature.result,
         );
         assert.ok(verifyResult);
 

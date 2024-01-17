@@ -110,7 +110,7 @@ export const latestEventPosition: EventPosition = {
  * @internal
  */
 export function validateEventPositions(
-  position: EventPosition | { [partitionId: string]: EventPosition }
+  position: EventPosition | { [partitionId: string]: EventPosition },
 ): void {
   if (!isDefined(position)) {
     return;
@@ -120,7 +120,7 @@ export function validateEventPositions(
 
   if (!keys.length) {
     throw new TypeError(
-      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.",
     );
   }
 
@@ -176,13 +176,13 @@ function validateEventPosition(position: EventPosition): void {
     (enqueuedOnPresent && sequenceNumberPresent)
   ) {
     throw new TypeError(
-      "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+      "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
     );
   }
 
   if (!offsetPresent && !enqueuedOnPresent && !sequenceNumberPresent) {
     throw new TypeError(
-      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+      "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.",
     );
   }
 }

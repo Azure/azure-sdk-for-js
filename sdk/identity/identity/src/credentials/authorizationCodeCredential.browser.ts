@@ -6,7 +6,7 @@ import { credentialLogger, formatError } from "../util/logging";
 import { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
 
 const BrowserNotSupportedError = new Error(
-  "AuthorizationCodeCredential is not supported in the browser. InteractiveBrowserCredential is more appropriate for this use case."
+  "AuthorizationCodeCredential is not supported in the browser. InteractiveBrowserCredential is more appropriate for this use case.",
 );
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -20,14 +20,14 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: AuthorizationCodeCredentialOptions,
   );
   constructor(
     tenantId: string | "common",
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: AuthorizationCodeCredentialOptions,
   );
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));

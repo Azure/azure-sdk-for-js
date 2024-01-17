@@ -33,7 +33,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<ServiceFabricClient> {
   const credential = createTestCredential();
   return ServiceFabricManagementClient(credential, recorder.configureClientOptions({ ...options }));

@@ -59,7 +59,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secret properties", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
@@ -78,7 +78,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list deleted secrets", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
@@ -105,7 +105,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
 
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
@@ -135,14 +135,14 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secret versions (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     let totalVersions = 0;
     for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
       assert.equal(
         secretProperties.name,
         secretName,
-        "Unexpected key name in result from listKeyVersions()."
+        "Unexpected key name in result from listKeyVersions().",
       );
       totalVersions += 1;
     }
@@ -151,7 +151,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
@@ -170,7 +170,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list deleted secrets by page", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
@@ -194,7 +194,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can retrieve all versions of a secret by page", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
@@ -228,7 +228,7 @@ describe("Secret client - list secrets in various ways", () => {
 
   it("can list secret versions by page (non existing)", async function (this: Context) {
     const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
     );
     let totalVersions = 0;
     for await (const page of client
@@ -238,7 +238,7 @@ describe("Secret client - list secrets in various ways", () => {
         assert.equal(
           secretProperties.name,
           secretName,
-          "Unexpected key name in result from listKeyVersions()."
+          "Unexpected key name in result from listKeyVersions().",
         );
         totalVersions += 1;
       }

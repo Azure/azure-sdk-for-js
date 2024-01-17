@@ -51,7 +51,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         sprocsAfterCreation.length,
         beforeCreateSprocsCount + 1,
-        "create should increase the number of sprocs"
+        "create should increase the number of sprocs",
       );
 
       // query sprocs
@@ -180,7 +180,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           function (err: any, documents: any) {
             if (err) throw new Error("Error" + err.message);
             response.setBody(documents);
-          }
+          },
         );
 
         if (!accept) throw "Unable to read player details, abort ";
@@ -249,7 +249,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           function (err: any, documents: any) {
             if (err) throw new Error("Error" + err.message);
             response.setBody(documents);
-          }
+          },
         );
 
         if (!accept) throw "Unable to read player details, abort ";
@@ -321,7 +321,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     assert.equal(result2, "Success!");
     assert.equal(
       headers2[Constants.HttpHeaders.ScriptLogResults],
-      encodeURIComponent("The value of x is 1.")
+      encodeURIComponent("The value of x is 1."),
     );
 
     requestOptions = { enableScriptLogging: false };

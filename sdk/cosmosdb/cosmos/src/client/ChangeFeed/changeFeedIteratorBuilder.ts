@@ -23,7 +23,7 @@ export function changeFeedIteratorBuilder(
   cfOptions: ChangeFeedIteratorOptions,
   clientContext: ClientContext,
   container: Container,
-  partitionKeyRangeCache: PartitionKeyRangeCache
+  partitionKeyRangeCache: PartitionKeyRangeCache,
 ): any {
   const url = container.url;
   const path = getPathFromLink(url, ResourceType.item);
@@ -40,7 +40,7 @@ export function changeFeedIteratorBuilder(
     const resourceType = changeFeedStartFrom.getResourceType();
     const internalCfOptions = buildInternalChangeFeedOptions(
       cfOptions,
-      changeFeedStartFrom.getCfResource()
+      changeFeedStartFrom.getCfResource(),
     );
 
     if (
@@ -53,7 +53,7 @@ export function changeFeedIteratorBuilder(
         id,
         path,
         continuationToken.partitionKey,
-        internalCfOptions
+        internalCfOptions,
       );
     } else if (resourceType === ChangeFeedResourceType.FeedRange) {
       return new ChangeFeedForEpkRange(
@@ -64,7 +64,7 @@ export function changeFeedIteratorBuilder(
         path,
         url,
         internalCfOptions,
-        undefined
+        undefined,
       );
     } else {
       throw new ErrorResponse("Invalid continuation token.");
@@ -84,7 +84,7 @@ export function changeFeedIteratorBuilder(
         id,
         path,
         cfResource as PartitionKey,
-        internalCfOptions
+        internalCfOptions,
       );
     } else {
       let internalCfResource: QueryRange;
@@ -93,14 +93,14 @@ export function changeFeedIteratorBuilder(
           Constants.EffectivePartitionKeyConstants.MinimumInclusiveEffectivePartitionKey,
           Constants.EffectivePartitionKeyConstants.MaximumExclusiveEffectivePartitionKey,
           true,
-          false
+          false,
         );
       } else if (isEpkRange(cfResource)) {
         internalCfResource = new QueryRange(
           (cfResource as FeedRangeInternal).minInclusive,
           (cfResource as FeedRangeInternal).maxExclusive,
           true,
-          false
+          false,
         );
       } else {
         throw new ErrorResponse("Invalid feed range.");
@@ -113,7 +113,7 @@ export function changeFeedIteratorBuilder(
         path,
         url,
         internalCfOptions,
-        internalCfResource
+        internalCfResource,
       );
     }
   } else {

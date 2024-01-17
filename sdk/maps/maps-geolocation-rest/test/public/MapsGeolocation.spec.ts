@@ -45,7 +45,7 @@ describe("Authentication", function () {
     const client = MapsGeolocation(
       credential,
       env["MAPS_RESOURCE_CLIENT_ID"] as string,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const response = await client
@@ -77,7 +77,7 @@ describe("Endpoint can be overwritten", function () {
 
   it("should be executed with different baseUrl", async function () {
     const client = createClient(
-      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
+      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
     const response = await client
       .path("/geolocation/ip/{format}", "json")

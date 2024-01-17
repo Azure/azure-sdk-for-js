@@ -15,7 +15,7 @@ describe("EventGridDeserializer", function () {
   describe("#deserializeEventGridEvents", function () {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeEventGridEvents(
-        testData.customTestEvent1.eventGridSchema.encodedEvent
+        testData.customTestEvent1.eventGridSchema.encodedEvent,
       );
 
       assert.lengthOf(events, 1);
@@ -24,7 +24,7 @@ describe("EventGridDeserializer", function () {
 
     it("deserialized a batch with a single event ", async () => {
       const events = await consumer.deserializeEventGridEvents(
-        wrapEncodedEventsInArray([testData.customTestEvent1.eventGridSchema])
+        wrapEncodedEventsInArray([testData.customTestEvent1.eventGridSchema]),
       );
 
       assert.lengthOf(events, 1);
@@ -36,7 +36,7 @@ describe("EventGridDeserializer", function () {
         wrapEncodedEventsInArray([
           testData.customTestEvent1.eventGridSchema,
           testData.customTestEvent2.eventGridSchema,
-        ])
+        ]),
       );
 
       assert.lengthOf(events, 2);
@@ -58,7 +58,7 @@ describe("EventGridDeserializer", function () {
 
         assert.isRejected(
           consumer.deserializeEventGridEvents(JSON.stringify(o)),
-          /missing required property/
+          /missing required property/,
         );
       }
     });
@@ -69,7 +69,7 @@ describe("EventGridDeserializer", function () {
 
       assert.isRejected(
         consumer.deserializeEventGridEvents(JSON.stringify(o)),
-        /event is not in the Event Grid schema/
+        /event is not in the Event Grid schema/,
       );
     });
   });
@@ -77,7 +77,7 @@ describe("EventGridDeserializer", function () {
   describe("#deserializeCloudEvents", function () {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeCloudEvents(
-        testData.customTestEvent1.cloudEventSchema.encodedEvent
+        testData.customTestEvent1.cloudEventSchema.encodedEvent,
       );
 
       assert.lengthOf(events, 1);
@@ -86,7 +86,7 @@ describe("EventGridDeserializer", function () {
 
     it("deserialized a batch with a single event ", async () => {
       const events = await consumer.deserializeCloudEvents(
-        wrapEncodedEventsInArray([testData.customTestEvent1.cloudEventSchema])
+        wrapEncodedEventsInArray([testData.customTestEvent1.cloudEventSchema]),
       );
 
       assert.lengthOf(events, 1);
@@ -98,7 +98,7 @@ describe("EventGridDeserializer", function () {
         wrapEncodedEventsInArray([
           testData.customTestEvent1.cloudEventSchema,
           testData.customTestEvent2.cloudEventSchema,
-        ])
+        ]),
       );
 
       assert.lengthOf(events, 2);
@@ -113,7 +113,7 @@ describe("EventGridDeserializer", function () {
 
         assert.isRejected(
           consumer.deserializeCloudEvents(JSON.stringify(o)),
-          /missing required property/
+          /missing required property/,
         );
       }
     });
@@ -124,7 +124,7 @@ describe("EventGridDeserializer", function () {
 
       assert.isRejected(
         consumer.deserializeCloudEvents(JSON.stringify(o)),
-        /event is not in the Cloud Event 1.0 schema/
+        /event is not in the Cloud Event 1.0 schema/,
       );
     });
 

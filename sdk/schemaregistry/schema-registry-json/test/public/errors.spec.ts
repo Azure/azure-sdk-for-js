@@ -36,7 +36,7 @@ describe("Error scenarios", function () {
           data: new Uint8Array(1),
           contentType: "avro/binary+1234",
         }),
-        /avro\/binary.*application\/json/
+        /avro\/binary.*application\/json/,
       );
     });
     it("a schema with non-json format", async function (this: Context) {
@@ -47,7 +47,7 @@ describe("Error scenarios", function () {
           format: "notjson",
           groupName: testGroup,
         }),
-        /Invalid schema type for PUT request.*notjson/
+        /Invalid schema type for PUT request.*notjson/,
       );
     });
     it("schema to serialize with is not found", async function () {
@@ -70,7 +70,7 @@ describe("Error scenarios", function () {
           data: Uint8Array.from([0]),
           contentType: createContentType(randomUUID()),
         }),
-        /does not exist/
+        /does not exist/,
       );
     });
     it("invalid schema at time of deserializing", async function (this: Context) {
@@ -86,7 +86,7 @@ describe("Error scenarios", function () {
           name: "",
           favoriteNumber: 1,
         },
-        testSchema
+        testSchema,
       );
       await assertError(
         serializer.deserialize({
@@ -95,7 +95,7 @@ describe("Error scenarios", function () {
         }),
         {
           causeMessage: /Unexpected end of JSON input/,
-        }
+        },
       );
     });
     it("not JSON schema", async function () {
@@ -112,7 +112,7 @@ describe("Error scenarios", function () {
         serializer.serialize(null, null as any),
         {
           causeMessage: /invalid type: null/,
-        }
+        },
       );
     });
     it("schema with invalid enum", async function () {
@@ -145,7 +145,7 @@ describe("Error scenarios", function () {
         }),
         {
           message: /Unexpected token encountered when reading value for 'enum'/,
-        }
+        },
       );
     });
     it("schema without an ID", async function () {
@@ -157,11 +157,11 @@ describe("Error scenarios", function () {
             title: "Student",
             description: "A student in the class",
             type: "string",
-          })
+          }),
         ),
         {
           message: /Schema must have an ID/,
-        }
+        },
       );
     });
     it("schema with invalid ID", async function () {
@@ -174,11 +174,11 @@ describe("Error scenarios", function () {
           JSON.stringify({
             $schema: "https://json-schema.org/draft/2020-12/schema",
             $id: "https://example.com/product.schema.json",
-          })
+          }),
         ),
         {
           message: /contain invalid characters/,
-        }
+        },
       );
     });
     it("schema with invalid type", async function () {
@@ -203,7 +203,7 @@ describe("Error scenarios", function () {
         }),
         {
           message: /Invalid JSON schema type: none/,
-        }
+        },
       );
     });
     it("parsing json errors", async function () {
@@ -213,14 +213,14 @@ describe("Error scenarios", function () {
           favoriteNumber: 1,
           name: "x",
         },
-        testSchema
+        testSchema,
       );
       assert.deepEqual(
         serializedValue.data,
         Uint8Array.from([
           123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114, 34, 58, 49,
           44, 34, 110, 97, 109, 101, 34, 58, 34, 120, 34, 125,
-        ])
+        ]),
       );
       serializedValue.data = Uint8Array.from([
         123, 34, 102, 97, 118, 111, 114, 105, 116, 101, 78, 117, 109, 98, 101, 114,

@@ -39,10 +39,10 @@
     "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skip",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "echo skip",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -71,7 +71,6 @@
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "mocha": "^10.0.0",
-    "prettier": "^2.5.1",
     "c8": "^8.0.0",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
@@ -97,9 +96,9 @@
     "@azure/identity": "^3.3.0",
     "@azure-rest/core-client": "^1.0.0-beta.10",
     "@azure/storage-blob": "^12.9.0",
-    "mime": "^3.0.0",
+    "mime": "^4.0.1",
     "mustache": "^4.2.0",
-    "prettier": "^2.5.1",
+    "prettier": "^3.1.0",
     "tslib": "^2.2.0"
   }
 }

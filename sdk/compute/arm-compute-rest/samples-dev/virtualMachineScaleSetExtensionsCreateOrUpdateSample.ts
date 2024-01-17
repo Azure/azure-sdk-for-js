@@ -49,7 +49,7 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -81,7 +81,7 @@ async function virtualMachineScaleSetExtensionsCreateOrUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

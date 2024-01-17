@@ -7,7 +7,7 @@ import { Container } from "./Container";
 
 export async function readPartitionKeyDefinition(
   diagnosticNode: DiagnosticNodeInternal,
-  container: Container
+  container: Container,
 ): Promise<PartitionKeyDefinition> {
   const partitionKeyDefinition = await container.readPartitionKeyDefinition(diagnosticNode);
   return partitionKeyDefinition.resource;

@@ -286,7 +286,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks)\/(\d+)/,
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {
@@ -301,7 +301,7 @@ export function parseActionError(erredActions: TextAnalyticsError): TextAnalytic
     }
   } else {
     throw new Error(
-      "expected an error with a target field referencing an action but did not get one"
+      "expected an error with a target field referencing an action but did not get one",
     );
   }
 }
@@ -320,7 +320,7 @@ function categorizeActionErrors(
   recognizePiiEntitiesActionErrors: TextAnalyticsActionError[],
   extractKeyPhrasesActionErrors: TextAnalyticsActionError[],
   recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
-  analyzeSentimentActionErrors: TextAnalyticsActionError[]
+  analyzeSentimentActionErrors: TextAnalyticsActionError[],
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -356,7 +356,7 @@ function categorizeActionErrors(
  */
 function createErredAction(
   error: TextAnalyticsActionError,
-  lastUpdateDateTime: Date
+  lastUpdateDateTime: Date,
 ): TextAnalyticsActionErrorResult {
   return { error: intoTextAnalyticsError(error), failedOn: lastUpdateDateTime };
 }
@@ -385,12 +385,12 @@ function makeActionResult<TTaskResult, TActionResult>(
   documents: TextDocumentInput[],
   makeResultsArray: (docs: TextDocumentInput[], x: TTaskResult) => TActionResult,
   succeededTasks: TaskSuccessResult<TTaskResult>[],
-  erredActions: TextAnalyticsActionError[]
+  erredActions: TextAnalyticsActionError[],
 ): ActionResult<TActionResult>[] {
   let errorIndex = 0;
   function convertTasksToActions(
     actions: ActionResult<TActionResult>[],
-    task: TaskSuccessResult<TTaskResult>
+    task: TaskSuccessResult<TTaskResult>,
   ): ActionResult<TActionResult>[] {
     const { results: actionResults, lastUpdateDateTime } = task;
     if (actionResults !== undefined) {
@@ -418,7 +418,7 @@ function makeActionResult<TTaskResult, TActionResult>(
  */
 export function createAnalyzeActionsResult(
   response: GeneratedResponse,
-  documents: TextDocumentInput[]
+  documents: TextDocumentInput[],
 ): AnalyzeActionsResult {
   const recognizeEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const recognizePiiEntitiesActionErrors: TextAnalyticsActionError[] = [];
@@ -431,38 +431,38 @@ export function createAnalyzeActionsResult(
     recognizePiiEntitiesActionErrors,
     extractKeyPhrasesActionErrors,
     recognizeLinkedEntitiesActionErrors,
-    analyzeSentimentActionErrors
+    analyzeSentimentActionErrors,
   );
   return {
     recognizeEntitiesResults: makeActionResult(
       documents,
       makeRecognizeCategorizedEntitiesResultArray,
       response.tasks.entityRecognitionTasks ?? [],
-      recognizeEntitiesActionErrors
+      recognizeEntitiesActionErrors,
     ),
     recognizePiiEntitiesResults: makeActionResult(
       documents,
       makeRecognizePiiEntitiesResultArray,
       response.tasks.entityRecognitionPiiTasks ?? [],
-      recognizePiiEntitiesActionErrors
+      recognizePiiEntitiesActionErrors,
     ),
     extractKeyPhrasesResults: makeActionResult(
       documents,
       makeExtractKeyPhrasesResultArray,
       response.tasks.keyPhraseExtractionTasks ?? [],
-      extractKeyPhrasesActionErrors
+      extractKeyPhrasesActionErrors,
     ),
     recognizeLinkedEntitiesResults: makeActionResult(
       documents,
       makeRecognizeLinkedEntitiesResultArray,
       response.tasks.entityLinkingTasks ?? [],
-      recognizeLinkedEntitiesActionErrors
+      recognizeLinkedEntitiesActionErrors,
     ),
     analyzeSentimentResults: makeActionResult(
       documents,
       makeAnalyzeSentimentResultArray,
       response.tasks.sentimentAnalysisTasks ?? [],
-      analyzeSentimentActionErrors
+      analyzeSentimentActionErrors,
     ),
   };
 }

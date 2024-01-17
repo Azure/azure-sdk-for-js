@@ -72,7 +72,7 @@ export interface ServiceBusReceiver {
    */
   subscribe(
     handlers: MessageHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): {
     /**
      * Causes the subscriber to stop receiving new messages.
@@ -91,7 +91,7 @@ export interface ServiceBusReceiver {
    * @throws `ServiceBusError` if the service returns an error while receiving messages.
    */
   getMessageIterator(
-    options?: GetMessageIteratorOptions
+    options?: GetMessageIteratorOptions,
   ): AsyncIterableIterator<ServiceBusReceivedMessage>;
 
   /**
@@ -108,7 +108,7 @@ export interface ServiceBusReceiver {
    */
   receiveMessages(
     maxMessageCount: number,
-    options?: ReceiveMessagesOptions
+    options?: ReceiveMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
@@ -121,7 +121,7 @@ export interface ServiceBusReceiver {
    */
   receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
@@ -137,7 +137,7 @@ export interface ServiceBusReceiver {
    */
   peekMessages(
     maxMessageCount: number,
-    options?: PeekMessagesOptions
+    options?: PeekMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]>;
   /**
    * Path of the entity for which the receiver has been created.
@@ -202,7 +202,7 @@ export interface ServiceBusReceiver {
    */
   abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null },
   ): Promise<void>;
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
@@ -228,7 +228,7 @@ export interface ServiceBusReceiver {
    */
   deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null },
   ): Promise<void>;
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
@@ -255,7 +255,7 @@ export interface ServiceBusReceiver {
    */
   deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null },
   ): Promise<void>;
   /**
    * Renews the lock on the message for the duration as specified during the Queue/Subscription
@@ -309,14 +309,14 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     private skipParsingBodyAsJson: boolean,
     private skipConvertingDate: boolean = false,
     retryOptions: RetryOptions = {},
-    identifier?: string
+    identifier?: string,
   ) {
     throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
     this._lockRenewer = LockRenewer.create(
       this._context,
       maxAutoRenewLockDurationInMs,
-      receiveMode
+      receiveMode,
     );
     this.identifier = ensureValidIdentifier(this.entityPath, identifier);
   }
@@ -346,20 +346,20 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async receiveMessages(
     maxMessageCount: number,
-    options?: ReceiveMessagesOptions
+    options?: ReceiveMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "maxMessageCount",
-      maxMessageCount
+      maxMessageCount,
     );
     throwTypeErrorIfParameterTypeMismatch(
       this._context.connectionId,
       "maxMessageCount",
       maxMessageCount,
-      "number"
+      "number",
     );
 
     if (isNaN(maxMessageCount) || maxMessageCount < 1) {
@@ -378,7 +378,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         this._batchingReceiver = this._createBatchingReceiver(
           this._context,
           this.entityPath,
-          receiveOptions
+          receiveOptions,
         );
       }
 
@@ -386,7 +386,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
-        options ?? {}
+        options ?? {},
       );
 
       return receivedMessages;
@@ -405,25 +405,25 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   }
 
   getMessageIterator(
-    options?: GetMessageIteratorOptions
+    options?: GetMessageIteratorOptions,
   ): AsyncIterableIterator<ServiceBusReceivedMessage> {
     return getMessageIterator(this, options);
   }
 
   async receiveDeferredMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptionsBase = {}
+    options: OperationOptionsBase = {},
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "sequenceNumbers",
-      sequenceNumbers
+      sequenceNumbers,
     );
     throwTypeErrorIfParameterNotLong(
       this._context.connectionId,
       "sequenceNumbers",
-      sequenceNumbers
+      sequenceNumbers,
     );
 
     const deferredSequenceNumbers = Array.isArray(sequenceNumbers)
@@ -458,7 +458,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async peekMessages(
     maxMessageCount: number,
-    options: PeekMessagesOptions = {}
+    options: PeekMessagesOptions = {},
   ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
@@ -479,7 +479,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             maxMessageCount,
             undefined,
             options.omitMessageBody,
-            managementRequestOptions
+            managementRequestOptions,
           );
       } else {
         return this._context
@@ -500,7 +500,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   subscribe(
     handlers: MessageHandlers,
-    options?: SubscribeOptions
+    options?: SubscribeOptions,
   ): {
     close(): Promise<void>;
   } {
@@ -563,7 +563,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
 
   async abandonMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null },
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -573,13 +573,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       this._context,
       this.entityPath,
       propertiesToModify,
-      this._retryOptions
+      this._retryOptions,
     );
   }
 
   async deferMessage(
     message: ServiceBusReceivedMessage,
-    propertiesToModify?: { [key: string]: number | boolean | string | Date | null }
+    propertiesToModify?: { [key: string]: number | boolean | string | Date | null },
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -589,13 +589,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       this._context,
       this.entityPath,
       propertiesToModify,
-      this._retryOptions
+      this._retryOptions,
     );
   }
 
   async deadLetterMessage(
     message: ServiceBusReceivedMessage,
-    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null }
+    options?: DeadLetterOptions & { [key: string]: number | boolean | string | Date | null },
   ): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
@@ -634,9 +634,9 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
         ...toSpanOptions(
           { entityPath: this.entityPath, host: this._context.config.host },
           "receive",
-          "client"
+          "client",
         ),
-      }
+      },
     );
   }
 
@@ -685,11 +685,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   private _createBatchingReceiver(
     context: ConnectionContext,
     entityPath: string,
-    options: ReceiveOptions
+    options: ReceiveOptions,
   ): BatchingReceiver {
     const receiver = BatchingReceiver.create(this.identifier, context, entityPath, options);
     logger.verbose(
-      `[${this.logPrefix}] receiver '${receiver.name}' created, with maxConcurrentCalls set to ${options.maxConcurrentCalls}.`
+      `[${this.logPrefix}] receiver '${receiver.name}' created, with maxConcurrentCalls set to ${options.maxConcurrentCalls}.`,
     );
 
     return receiver;

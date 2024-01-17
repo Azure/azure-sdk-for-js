@@ -29,7 +29,7 @@ async function getIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       subscriptionId,
       resourceGroupName,
-      ipGroupsName
+      ipGroupsName,
     )
     .get(options);
   console.log(result);

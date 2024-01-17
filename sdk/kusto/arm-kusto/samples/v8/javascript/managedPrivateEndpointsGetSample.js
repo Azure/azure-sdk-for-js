@@ -29,7 +29,7 @@ async function kustoManagedPrivateEndpointsGet() {
   const result = await client.managedPrivateEndpoints.get(
     resourceGroupName,
     clusterName,
-    managedPrivateEndpointName
+    managedPrivateEndpointName,
   );
   console.log(result);
 }

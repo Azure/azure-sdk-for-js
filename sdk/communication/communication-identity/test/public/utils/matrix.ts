@@ -34,7 +34,7 @@ export function matrix<T extends ReadonlyArray<readonly unknown[]>>(
   values: T,
   handler: (
     ...args: { [idx in keyof T]: T[idx] extends ReadonlyArray<infer U> ? U : never }
-  ) => Promise<void>
+  ) => Promise<void>,
 ): void {
   // Classic recursive approach
   if (values.length === 0) {

@@ -21,7 +21,7 @@ export { OpenAIContext } from "../rest/index.js";
 export function createOpenAI(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: OpenAIClientOptions = {}
+  options: OpenAIClientOptions = {},
 ): OpenAIContext {
   const clientContext = getClient(endpoint, credential, options);
   return clientContext;

@@ -29,7 +29,7 @@ export class MsalDeviceCode extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
     try {
       const requestOptions: msalNode.DeviceCodeRequest = {
@@ -41,7 +41,7 @@ export class MsalDeviceCode extends MsalNode {
         claims: options?.claims,
       };
       const promise = this.getApp("public", options?.enableCae).acquireTokenByDeviceCode(
-        requestOptions
+        requestOptions,
       );
       const deviceResponse = await this.withCancellation(promise, options?.abortSignal, () => {
         requestOptions.cancel = true;

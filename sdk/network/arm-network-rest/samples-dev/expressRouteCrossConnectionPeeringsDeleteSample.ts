@@ -34,7 +34,7 @@ async function deleteExpressRouteCrossConnectionBgpPeering() {
       subscriptionId,
       resourceGroupName,
       crossConnectionName,
-      peeringName
+      peeringName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

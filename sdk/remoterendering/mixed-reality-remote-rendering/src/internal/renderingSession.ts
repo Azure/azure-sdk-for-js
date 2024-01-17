@@ -145,7 +145,7 @@ export type RenderingSession =
  * @internal
  */
 function renderingSessionPropertiesFromSessionProperties(
-  session: SessionProperties
+  session: SessionProperties,
 ): RenderingSessionProperties {
   return {
     arrInspectorPort: session.arrInspectorPort!,
@@ -161,7 +161,7 @@ function renderingSessionPropertiesFromSessionProperties(
  * @internal
  */
 function partialRenderingSessionPropertiesFromSessionProperties(
-  session: SessionProperties
+  session: SessionProperties,
 ): PartialRenderingSessionProperties {
   return {
     arrInspectorPort: session.arrInspectorPort,
@@ -178,7 +178,7 @@ function partialRenderingSessionPropertiesFromSessionProperties(
  * @internal
  */
 export function renderingSessionFromSessionProperties(
-  session: SessionProperties
+  session: SessionProperties,
 ): RenderingSession {
   const baseProperties: RenderingSessionBase = {
     sessionId: session.sessionId,

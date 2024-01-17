@@ -27,7 +27,7 @@ async function kustoClusterDiagnoseVirtualNetwork() {
   const client = new KustoManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginDiagnoseVirtualNetworkAndWait(
     resourceGroupName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

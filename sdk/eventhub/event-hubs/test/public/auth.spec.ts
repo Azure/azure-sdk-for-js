@@ -44,11 +44,11 @@ testWithServiceTypes((serviceVersion, onVersions) => {
     before(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -69,14 +69,14 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         it("EventHubConsumerClient $management calls", async () => {
           const namedKeyCredential = new AzureNamedKeyCredential(
             sharedAccessKeyName!,
-            sharedAccessKey!
+            sharedAccessKey!,
           );
 
           const consumerClient = new EventHubConsumerClient(
             "$Default",
             fullyQualifiedNamespace,
             service.path,
-            namedKeyCredential
+            namedKeyCredential,
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -102,7 +102,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         it("EventHubConsumerClient receive calls", async () => {
           const namedKeyCredential = new AzureNamedKeyCredential(
             sharedAccessKeyName!,
-            sharedAccessKey!
+            sharedAccessKey!,
           );
 
           const consumerClient = new EventHubConsumerClient(
@@ -114,7 +114,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryOptions: {
                 maxRetries: 0,
               },
-            }
+            },
           );
 
           await new Promise<void>((resolve, reject) => {
@@ -134,7 +134,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               (err: any) => {
                 if (err.code !== "UnauthorizedError") {
                   reject(
-                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`)
+                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`),
                   );
                 }
                 // Rotate the credentials back to valid values.
@@ -164,7 +164,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               },
               {
                 maxWaitTimeInSeconds: 5,
-              }
+              },
             );
           });
 
@@ -174,7 +174,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
         it("EventHubProducerClient send calls", async () => {
           const namedKeyCredential = new AzureNamedKeyCredential(
             sharedAccessKeyName!,
-            sharedAccessKey!
+            sharedAccessKey!,
           );
 
           const producerClient = new EventHubProducerClient(
@@ -185,7 +185,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryOptions: {
                 maxRetries: 0,
               },
-            }
+            },
           );
 
           // The 1st sendBatch is called with valid credentials, so it should succeed.
@@ -239,7 +239,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryOptions: {
                 maxRetries: 0,
               },
-            }
+            },
           );
 
           const properties = await consumerClient.getEventHubProperties();
@@ -247,7 +247,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           // Rotate credential to invalid value.
           sasCredential.update(
-            `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`
+            `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`,
           );
           try {
             await consumerClient.getEventHubProperties();
@@ -276,7 +276,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryOptions: {
                 maxRetries: 0,
               },
-            }
+            },
           );
 
           await new Promise<void>((resolve, reject) => {
@@ -289,7 +289,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 }
                 // Rotate credentials to invalid values and fast forward past the token refresh.
                 sasCredential.update(
-                  `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`
+                  `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`,
                 );
                 clock.tick(1000 * 60 * 45);
               },
@@ -298,7 +298,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               async (err: any) => {
                 if (err.code !== "UnauthorizedError") {
                   reject(
-                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`)
+                    new Error(`Step 2 failed. Expected ${err.code} to equal "UnauthorizedError".`),
                   );
                 }
                 // Rotate the credentials back to valid values.
@@ -326,7 +326,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               },
               {
                 maxWaitTimeInSeconds: 5,
-              }
+              },
             );
           });
 
@@ -344,7 +344,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               retryOptions: {
                 maxRetries: 0,
               },
-            }
+            },
           );
 
           // The 1st sendBatch is called with valid credentials, so it should succeed.
@@ -352,7 +352,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           // Rotate credential to invalid value.
           sasCredential.update(
-            `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`
+            `SharedAccessSignature sr=fake&sig=foo&se=${Date.now() / 1000}&skn=FakeKey`,
           );
           // Fast forward through time to after the token refresh.
           clock.tick(1000 * 60 * 45);

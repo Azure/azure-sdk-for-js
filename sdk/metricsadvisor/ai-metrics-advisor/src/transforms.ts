@@ -89,7 +89,7 @@ import {
 // transform the protocol layer (codegen) service models into convenience layer models
 
 export function fromServiceAnomalyDetectionConfiguration(
-  original: ServiceAnomalyDetectionConfiguration
+  original: ServiceAnomalyDetectionConfiguration,
 ): AnomalyDetectionConfiguration {
   return {
     id: original.anomalyDetectionConfigurationId!,
@@ -133,7 +133,7 @@ export function fromServiceAnomalyDetectionConfiguration(
 }
 
 export function toServiceAnomalyDetectionConfiguration(
-  from: Omit<AnomalyDetectionConfiguration, "id">
+  from: Omit<AnomalyDetectionConfiguration, "id">,
 ): ServiceAnomalyDetectionConfiguration {
   return {
     name: from.name,
@@ -176,7 +176,7 @@ export function toServiceAnomalyDetectionConfiguration(
 }
 
 export function toServiceAnomalyDetectionConfigurationPatch(
-  from: AnomalyDetectionConfigurationPatch
+  from: AnomalyDetectionConfigurationPatch,
 ): ServiceAnomalyDetectionConfigurationPatch {
   return {
     name: from.name,
@@ -218,7 +218,7 @@ export function toServiceAnomalyDetectionConfigurationPatch(
 }
 
 export function fromServiceMetricFeedbackUnion(
-  original: ServiceMetricFeedbackUnion
+  original: ServiceMetricFeedbackUnion,
 ): MetricFeedbackUnion {
   const common: MetricFeedbackCommon = {
     id: original.feedbackId,
@@ -277,7 +277,7 @@ export function fromServiceMetricFeedbackUnion(
     }
     default:
       throw new Error(
-        `Unrecognized feedback type ${(original as ServiceMetricFeedbackUnion).feedbackType}`
+        `Unrecognized feedback type ${(original as ServiceMetricFeedbackUnion).feedbackType}`,
       );
   }
 }
@@ -872,7 +872,7 @@ export function toServiceDataFeedSourcePatch(source: DataFeedSourcePatch): {
 }
 
 export function fromServiceDataFeedDetailUnion(
-  original: ServiceDataFeedDetailUnion
+  original: ServiceDataFeedDetailUnion,
 ): MetricsAdvisorDataFeed {
   const metricMap: Record<string, string> = {};
   for (const metric of original.metrics) {
@@ -1220,13 +1220,13 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
     }
     default:
       throw new Error(
-        `Unrecognized hook union type ${(original as ServiceHookInfoUnion).hookType}`
+        `Unrecognized hook union type ${(original as ServiceHookInfoUnion).hookType}`,
       );
   }
 }
 
 export function toServiceMetricFeedbackUnion(
-  from: MetricFeedbackUnion
+  from: MetricFeedbackUnion,
 ): ServiceMetricFeedbackUnion {
   const common = {
     feedbackId: from.id,
@@ -1276,7 +1276,7 @@ export function toServiceMetricFeedbackUnion(
 }
 
 export function fromServiceAlertConfiguration(
-  result: ServiceAnomalyAlertingConfiguration
+  result: ServiceAnomalyAlertingConfiguration,
 ): AnomalyAlertConfiguration {
   return {
     id: result.anomalyAlertingConfigurationId!,
@@ -1289,8 +1289,8 @@ export function fromServiceAlertConfiguration(
         c.anomalyScopeType === "All"
           ? { scopeType: "All" }
           : c.anomalyScopeType === "Dimension"
-          ? { scopeType: "Dimension", seriesGroupInScope: c.dimensionAnomalyScope!.dimension }
-          : { scopeType: "TopN", topNAnomalyScope: c.topNAnomalyScope! };
+            ? { scopeType: "Dimension", seriesGroupInScope: c.dimensionAnomalyScope!.dimension }
+            : { scopeType: "TopN", topNAnomalyScope: c.topNAnomalyScope! };
       return {
         detectionConfigurationId: c.anomalyDetectionConfigurationId,
         alertScope,
@@ -1307,7 +1307,7 @@ export function fromServiceAlertConfiguration(
 }
 
 export function toServiceAlertConfiguration(
-  from: Omit<AnomalyAlertConfiguration, "id">
+  from: Omit<AnomalyAlertConfiguration, "id">,
 ): ServiceAnomalyAlertingConfiguration {
   return {
     name: from.name,
@@ -1319,11 +1319,11 @@ export function toServiceAlertConfiguration(
         c.alertScope.scopeType === "All"
           ? { anomalyScopeType: "All" }
           : c.alertScope.scopeType === "Dimension"
-          ? {
-              anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
-            }
-          : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
+            ? {
+                anomalyScopeType: "Dimension",
+                dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
+              }
+            : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
         anomalyDetectionConfigurationId: c.detectionConfigurationId,
         anomalyScopeType: alertScope.anomalyScopeType as ServiceAnomalyScope,
@@ -1340,7 +1340,7 @@ export function toServiceAlertConfiguration(
 }
 
 export function toServiceAlertConfigurationPatch(
-  from: Partial<Omit<AnomalyAlertConfiguration, "id">>
+  from: Partial<Omit<AnomalyAlertConfiguration, "id">>,
 ): Partial<ServiceAnomalyAlertingConfiguration> {
   return {
     name: from.name,
@@ -1352,11 +1352,11 @@ export function toServiceAlertConfigurationPatch(
         c.alertScope.scopeType === "All"
           ? { anomalyScopeType: "All" }
           : c.alertScope.scopeType === "Dimension"
-          ? {
-              anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
-            }
-          : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
+            ? {
+                anomalyScopeType: "Dimension",
+                dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
+              }
+            : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
         anomalyDetectionConfigurationId: c.detectionConfigurationId,
         anomalyScopeType: alertScope.anomalyScopeType as ServiceAnomalyScope,
@@ -1373,7 +1373,7 @@ export function toServiceAlertConfigurationPatch(
 }
 
 export function fromServiceCredential(
-  result: ServiceDataSourceCredentialUnion
+  result: ServiceDataSourceCredentialUnion,
 ): DataSourceCredentialEntityUnion {
   const common: DataSourceCredentialEntity = {
     description: result.dataSourceCredentialDescription,
@@ -1417,7 +1417,7 @@ export function fromServiceCredential(
 }
 
 export function toServiceCredential(
-  from: DataSourceCredentialEntityUnion
+  from: DataSourceCredentialEntityUnion,
 ): ServiceDataSourceCredentialUnion {
   const common = {
     dataSourceCredentialName: from.name,
@@ -1476,7 +1476,7 @@ export function toServiceCredential(
 }
 
 export function toServiceCredentialPatch(
-  from: DataSourceCredentialPatch
+  from: DataSourceCredentialPatch,
 ): ServiceDataSourceCredentialPatch {
   const common = {
     dataSourceCredentialName: from.name,

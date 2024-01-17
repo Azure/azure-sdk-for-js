@@ -32,7 +32,7 @@ async function forceDeleteAVMScaleSet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

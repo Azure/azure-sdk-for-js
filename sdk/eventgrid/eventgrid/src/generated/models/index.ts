@@ -299,6 +299,28 @@ export interface StorageTaskCompletedEventData {
   summaryReportBlobUrl: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentQueued event. */
+export interface StorageTaskAssignmentQueuedEventData {
+  /** The time at which a storage task was queued. */
+  queuedDateTime: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentCompleted event. */
+export interface StorageTaskAssignmentCompletedEventData {
+  /** The status for a storage task. */
+  status: StorageTaskAssignmentCompletedStatus;
+  /** The time at which a storage task was completed. */
+  completedDateTime: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+  /** The task name for a storage task. */
+  taskName: string;
+  /** The summary report blob url for a storage task */
+  summaryReportBlobUrl: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
@@ -3277,6 +3299,22 @@ export const enum KnownStorageTaskCompletedStatus {
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link StorageTaskAssignmentCompletedStatus} that the service accepts. */
+export const enum KnownStorageTaskAssignmentCompletedStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for StorageTaskAssignmentCompletedStatus. \
+ * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskAssignmentCompletedStatus = string;
 
 /** Known values of {@link EventGridMqttClientState} that the service accepts. */
 export const enum KnownEventGridMqttClientState {

@@ -99,7 +99,7 @@ describe("StreamingReceiver unit tests", () => {
               args = _args;
             },
           },
-          undefined
+          undefined,
         );
 
         await streamingReceiver["_onAmqpMessage"](eventContext as any as EventContext);
@@ -116,7 +116,7 @@ describe("StreamingReceiver unit tests", () => {
             errorSource: "processMessageCallback",
             entityPath: "entity path",
             fullyQualifiedNamespace: "fakeHost",
-          }
+          },
         );
       } finally {
         await streamingReceiver.close();
@@ -146,7 +146,7 @@ describe("StreamingReceiver unit tests", () => {
     subscribeImplMock.resetHistory();
 
     await streamingReceiver.onDetached(
-      new Error("let's detach but it won't because there's already a onDetached running.")
+      new Error("let's detach but it won't because there's already a onDetached running."),
     );
     assert.isFalse(subscribeImplMock.called); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
@@ -174,12 +174,12 @@ describe("StreamingReceiver unit tests", () => {
           },
           forwardInternalErrors: true,
         },
-        {}
+        {},
       );
 
       const closeLinkSpy = sinon.spy(
         streamingReceiver as any as { closeLink(): Promise<void> },
-        "closeLink"
+        "closeLink",
       );
 
       await assertThrows(() => subscribePromise, {
@@ -213,12 +213,12 @@ describe("StreamingReceiver unit tests", () => {
           },
           forwardInternalErrors: true,
         },
-        {}
+        {},
       );
 
       const closeLinkSpy = sinon.spy(
         streamingReceiver as any as { closeLink(): Promise<void> },
-        "closeLink"
+        "closeLink",
       );
 
       await assertThrows(() => subscribePromise, {
@@ -269,7 +269,7 @@ describe("StreamingReceiver unit tests", () => {
           throw new Error("processInitialize");
         },
       },
-      {}
+      {},
     );
 
     const wrappedMessageHandlers = streamingReceiver["_messageHandlers"]();
@@ -287,7 +287,7 @@ describe("StreamingReceiver unit tests", () => {
       () => wrappedMessageHandlers.processMessage({} as ServiceBusReceivedMessage),
       {
         message: "processMessage",
-      }
+      },
     );
 
     assert.deepEqual(processErrorMessages, ["processMessage"]);

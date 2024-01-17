@@ -29,7 +29,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    factory: StorageSharedKeyCredential
+    factory: StorageSharedKeyCredential,
   ) {
     super(nextPolicy, options);
     this.factory = factory;
@@ -73,7 +73,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     const signature: string = this.factory.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${this.factory.accountName}:${signature}`
+      `SharedKey ${this.factory.accountName}:${signature}`,
     );
 
     // console.log(`[URL]:${request.url}`);

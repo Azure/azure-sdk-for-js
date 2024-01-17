@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the cluster monitoring user credentials of a managed cluster.
  *
  * @summary Lists the cluster monitoring user credentials of a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersListClusterMonitoringUserCredentials.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/ManagedClustersListClusterMonitoringUserCredentials.json
  */
 async function getManagedCluster() {
   const subscriptionId =
@@ -27,7 +27,7 @@ async function getManagedCluster() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusters.listClusterMonitoringUserCredentials(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

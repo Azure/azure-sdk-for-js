@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionProxy,
   PrivateEndpointConnectionProxiesListByAccountOptionalParams,
@@ -98,10 +98,8 @@ export interface PrivateEndpointConnectionProxies {
     privateEndpointConnectionProxy: PrivateEndpointConnectionProxy,
     options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<
-        PrivateEndpointConnectionProxiesCreateOrUpdateResponse
-      >,
+    SimplePollerLike<
+      OperationState<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>,
       PrivateEndpointConnectionProxiesCreateOrUpdateResponse
     >
   >;
@@ -135,7 +133,7 @@ export interface PrivateEndpointConnectionProxies {
     accountName: string,
     privateEndpointConnectionProxyId: string,
     options?: PrivateEndpointConnectionProxiesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * (INTERNAL - DO NOT USE) Deletes the specified private endpoint connection proxy associated with the
    * device update account.

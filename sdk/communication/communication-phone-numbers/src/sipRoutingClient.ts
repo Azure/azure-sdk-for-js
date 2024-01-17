@@ -59,7 +59,7 @@ export class SipRoutingClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: SipRoutingClientOptions
+    options?: SipRoutingClientOptions,
   );
 
   /**
@@ -71,13 +71,13 @@ export class SipRoutingClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: SipRoutingClientOptions
+    options?: SipRoutingClientOptions,
   );
 
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | SipRoutingClientOptions,
-    maybeOptions: SipRoutingClientOptions = {}
+    maybeOptions: SipRoutingClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSipClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -106,7 +106,7 @@ export class SipRoutingClient {
   public listTrunks(options: ListSipTrunksOptions = {}): PagedAsyncIterableIterator<SipTrunk> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listTrunks",
-      options
+      options,
     );
 
     try {
@@ -156,7 +156,7 @@ export class SipRoutingClient {
   public listRoutes(options: ListSipRoutesOptions = {}): PagedAsyncIterableIterator<SipTrunkRoute> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "SipRoutingClient-listRoutes",
-      options
+      options,
     );
 
     try {
@@ -230,7 +230,7 @@ export class SipRoutingClient {
       };
       const config = await this.client.sipRouting.update(payload);
       const storedTrunk = transformFromRestModel(config.trunks).find(
-        (value: SipTrunk) => value.fqdn === trunk.fqdn
+        (value: SipTrunk) => value.fqdn === trunk.fqdn,
       );
       if (storedTrunk) {
         return storedTrunk;
@@ -247,7 +247,7 @@ export class SipRoutingClient {
    */
   public async setRoutes(
     routes: SipTrunkRoute[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<SipTrunkRoute[]> {
     return tracingClient.withSpan("SipRoutingClient-setRoutes", options, async (updatedOptions) => {
       const patch: SipConfigurationUpdate = {
@@ -284,7 +284,7 @@ export class SipRoutingClient {
           ...patch,
         };
         await this.client.sipRouting.update(payload);
-      }
+      },
     );
   }
 
@@ -299,7 +299,7 @@ export class SipRoutingClient {
   }
 
   private async *listRoutesPagingAll(
-    options?: ListSipRoutesOptions
+    options?: ListSipRoutesOptions,
   ): AsyncIterableIterator<SipTrunkRoute> {
     for await (const page of this.listRoutesPagingPage(options)) {
       yield* page;
@@ -307,7 +307,7 @@ export class SipRoutingClient {
   }
 
   private async *listTrunksPagingAll(
-    options?: ListSipTrunksOptions
+    options?: ListSipTrunksOptions,
   ): AsyncIterableIterator<SipTrunk> {
     for await (const page of this.listTrunksPagingPage(options)) {
       yield* page;
@@ -315,14 +315,14 @@ export class SipRoutingClient {
   }
 
   private async *listTrunksPagingPage(
-    options: ListSipTrunksOptions = {}
+    options: ListSipTrunksOptions = {},
   ): AsyncIterableIterator<SipTrunk[]> {
     const apiResult = await this.getTrunksInternal(options as OperationOptions);
     yield apiResult;
   }
 
   private async *listRoutesPagingPage(
-    options: ListSipRoutesOptions = {}
+    options: ListSipRoutesOptions = {},
   ): AsyncIterableIterator<SipTrunkRoute[]> {
     const apiResult = await this.getRoutesInternal(options as OperationOptions);
     yield apiResult;

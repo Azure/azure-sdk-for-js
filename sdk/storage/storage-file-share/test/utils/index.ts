@@ -31,7 +31,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  config?: ShareClientConfig
+  config?: ShareClientConfig,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountKeyEnvVar = `${accountType}ACCOUNT_KEY`;
@@ -41,7 +41,7 @@ export function getGenericBSU(
 
   if (!accountName || !accountKey) {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
@@ -63,7 +63,7 @@ export function getTokenBSU(
   recorder: Recorder,
   accountType: string = "",
   accountNameSuffix: string = "",
-  shareClientConfig?: ShareClientConfig
+  shareClientConfig?: ShareClientConfig,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
 
@@ -116,7 +116,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
@@ -137,7 +137,7 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSize: number
+  blockSize: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
@@ -192,20 +192,20 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
       startsOn: now,
       version: "2016-05-31",
     },
-    sharedKeyCredential as StorageSharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential,
   ).toString();
 
   const fileEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
   return `BlobEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".blob."
+    ".blob.",
   )}/;QueueEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".queue."
+    ".queue.",
   )}/;FileEndpoint=${fileEndpoint}/;TableEndpoint=${fileEndpoint.replace(
     ".file.",
-    ".table."
+    ".table.",
   )}/;SharedAccessSignature=${sas}`;
 }
 
@@ -238,7 +238,7 @@ export async function compareBodyWithUint8Array(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  uint8arry: Uint8Array
+  uint8arry: Uint8Array,
 ): Promise<boolean> {
   const buf = await streamToBuffer(response.readableStreamBody!);
   return buf.equals(Buffer.from(uint8arry.buffer, uint8arry.byteOffset, uint8arry.byteLength));

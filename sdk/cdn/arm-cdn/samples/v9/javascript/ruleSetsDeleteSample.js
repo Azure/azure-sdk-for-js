@@ -28,7 +28,7 @@ async function ruleSetsDelete() {
   const result = await client.ruleSets.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }
