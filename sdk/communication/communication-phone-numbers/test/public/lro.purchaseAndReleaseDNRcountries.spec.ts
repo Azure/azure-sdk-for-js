@@ -63,7 +63,7 @@ matrix([[true, false]], async function (useAad) {
 
       const purchasePoller = await client.beginPurchasePhoneNumbers(
         searchResults.searchId,
-        consentToNotResellNumbers
+        consentToNotResellNumbers,
       );
 
       await purchasePoller.pollUntilDone();
@@ -117,13 +117,13 @@ matrix([[true, false]], async function (useAad) {
       try {
         const purchasePoller = await client.beginPurchasePhoneNumbers(
           searchResults.searchId,
-          consentToNotResellNumbers
+          consentToNotResellNumbers,
         );
         await purchasePoller.pollUntilDone();
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`
+          `Status code ${error.statusCode} does not indicate client error.`,
         );
         return;
       }
