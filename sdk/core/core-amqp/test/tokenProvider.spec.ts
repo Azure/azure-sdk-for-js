@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import chai from "chai";
 import { createSasTokenProvider } from "../src/index.js";
-
-const should = chai.should();
 
 describe("SasTokenProvider", function (): void {
   describe("createSasTokenProvider", () => {
@@ -15,12 +13,9 @@ describe("SasTokenProvider", function (): void {
       const tokenProvider = createSasTokenProvider(new AzureNamedKeyCredential(keyName, key));
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("myaudience");
-      tokenInfo.token.should.match(
-        /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g,
-      );
+      assert.match(tokenInfo.token, /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g);
       // account for elapsed time between two Date.now() calls
-      // eslint-disable-next-line no-unused-expressions
-      (tokenInfo.expiresOnTimestamp - expiry < 2).should.be.true;
+      assert.isTrue((tokenInfo.expiresOnTimestamp - expiry < 2));
     });
 
     it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function (): Promise<void> {
@@ -31,12 +26,9 @@ describe("SasTokenProvider", function (): void {
       });
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
-      tokenInfo.token.should.match(
-        /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g,
-      );
+      assert.match(tokenInfo.token, /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g);
       // account for elapsed time between two Date.now() calls
-      // eslint-disable-next-line no-unused-expressions
-      (tokenInfo.expiresOnTimestamp - expiry < 2).should.be.true;
+      assert.isTrue((tokenInfo.expiresOnTimestamp - expiry < 2));
     });
   });
 
@@ -46,13 +38,13 @@ describe("SasTokenProvider", function (): void {
     );
     const accessToken = await sasTokenProvider.getToken("audience isn't used");
 
-    should.equal(
+    assert.equal(
       accessToken.token,
       "SharedAccessSignature se=<blah>",
       "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)",
     );
 
-    should.equal(
+    assert.equal(
       accessToken.expiresOnTimestamp,
       0,
       "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)",
@@ -63,7 +55,8 @@ describe("SasTokenProvider", function (): void {
     // This is how createSasTokenProvider will be called if the shared access signature is passed through a connection string.
     const tokenProvider = createSasTokenProvider({ sharedAccessSignature: "<blah>" });
     const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
-    tokenInfo.token.should.match(/<blah>/g);
-    tokenInfo.expiresOnTimestamp.should.equal(0);
+
+    assert.match(tokenInfo.token, /<blah>/g);
+    assert.equal(tokenInfo.expiresOnTimestamp, 0);
   });
 });

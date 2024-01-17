@@ -12,6 +12,6 @@
     ".././src/util/runtimeInfo-react-native.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/bun"
+    "outDir": "../.tshy-build/bun"
   }
 }

@@ -11,6 +11,6 @@
     ".././src/util/runtimeInfo-browser.mts"
   ],
   "compilerOptions": {
-    "outDir": "../.tshy-build-tmp/react-native"
+    "outDir": "../.tshy-build/react-native"
   }
 }
