@@ -31,7 +31,7 @@ describe("DataLakeServiceClient", () => {
         retryOptions: {
           maxTries: 1,
         },
-      }
+      },
     );
     configureStorageClient(recorder, newClient);
 

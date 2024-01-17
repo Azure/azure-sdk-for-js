@@ -46,7 +46,7 @@ async function createPrivateDnsZoneGroup() {
       subscriptionId,
       resourceGroupName,
       privateEndpointName,
-      privateDnsZoneGroupName
+      privateDnsZoneGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

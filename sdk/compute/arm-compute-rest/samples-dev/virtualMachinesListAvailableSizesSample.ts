@@ -32,7 +32,7 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/vmSizes",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -44,5 +44,5 @@ async function listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMac
 }
 
 listsAllAvailableVirtualMachineSizesToWhichTheSpecifiedVirtualMachineCanBeResized().catch(
-  console.error
+  console.error,
 );

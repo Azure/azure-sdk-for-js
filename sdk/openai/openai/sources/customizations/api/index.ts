@@ -3,8 +3,8 @@
 
 export {
   getChatCompletions,
-  listChatCompletions,
-  listCompletions,
+  streamChatCompletions,
+  streamCompletions,
   getAudioTranscription,
   getAudioTranslation,
   getImages,

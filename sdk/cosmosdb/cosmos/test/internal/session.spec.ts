@@ -51,7 +51,7 @@ describe("New session token", function () {
 
     const { resource: createdContainerDef } = await database.containers.create(
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
     const container = database.container(createdContainerDef.id);
 
@@ -98,29 +98,29 @@ describe("Integrated Cache Staleness", async function (this: Suite) {
             assert.ok(
               context.headers["x-ms-consistency-level"] === "Eventual" ||
                 context.headers["x-ms-consistency-level"] === "Session",
-              `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`
+              `${context.headers["x-ms-consistency-level"]} = EVENTUAL or SESSION`,
             );
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "null") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "null",
-                "x-ms-dedicatedgateway-max-age will be ignored."
+                "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
             assert.ok(
               typeof context.headers["x-ms-dedicatedgateway-max-age"] === "string",
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = string`,
             );
 
             if (context.headers["x-ms-dedicatedgateway-max-age"] === "0") {
               assert.ok(
                 context.headers["x-ms-dedicatedgateway-max-age"] === "0",
-                "x-ms-dedicatedgateway-max-age will be ignored."
+                "x-ms-dedicatedgateway-max-age will be ignored.",
               );
             }
 
             assert.ok(
               context.headers["x-ms-dedicatedgateway-max-age"] === `"${dedicatedGatewayMaxAge}"`,
-              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`
+              `${context.headers["x-ms-dedicatedgateway-max-age"]} = "${dedicatedGatewayMaxAge}"`,
             );
           }
           const response = await next(context);

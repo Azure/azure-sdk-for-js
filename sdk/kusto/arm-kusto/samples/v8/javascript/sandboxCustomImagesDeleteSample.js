@@ -29,7 +29,7 @@ async function sandboxCustomImagesDelete() {
   const result = await client.sandboxCustomImages.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    sandboxCustomImageName
+    sandboxCustomImageName,
   );
   console.log(result);
 }

@@ -36,8 +36,8 @@ const validateUrl =
     name: string,
     msg = (input: string) =>
       `Provided “${name}” parameter value (“${prefixUrlProtocol(
-        input
-      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`
+        input,
+      )}”) isn’t a valid URL. Use the correct URL format, e.g., https://contoso.com.`,
   ) =>
   (input: string) => {
     try {
@@ -120,11 +120,11 @@ export const promptWidgetConfig = (partial: Partial<WidgetConfig>): Promise<Widg
         ],
       },
     ],
-    partial
+    partial,
   );
 
 export const promptServiceInformation = (
-  partial: Partial<ServiceInformation>
+  partial: Partial<ServiceInformation>,
 ): Promise<ServiceInformation> =>
   inquirer.prompt(
     [
@@ -155,7 +155,7 @@ export const promptServiceInformation = (
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
       },
     ],
-    partial
+    partial,
   );
 
 export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
@@ -187,5 +187,5 @@ export const promptMiscConfig = (partial: Partial<Options>): Promise<Options> =>
         validate: validateMiscConfig.openUrl,
       },
     ],
-    partial
+    partial,
   );

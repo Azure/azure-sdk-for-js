@@ -87,7 +87,7 @@ export interface AccountSasSignatureValues {
  */
 export function generateAccountSasQueryParameters(
   accountSasSignatureValues: AccountSasSignatureValues,
-  credential: NamedKeyCredential
+  credential: NamedKeyCredential,
 ): SasQueryParameters {
   const version = accountSasSignatureValues.version
     ? accountSasSignatureValues.version
@@ -95,11 +95,11 @@ export function generateAccountSasQueryParameters(
 
   const parsedPermissions = accountSasPermissionsToString(accountSasSignatureValues.permissions);
   const parsedServices = accountSasServicesToString(
-    accountSasServicesFromString(accountSasSignatureValues.services)
+    accountSasServicesFromString(accountSasSignatureValues.services),
   );
   // to and from string to guarantee the correct order of resoruce types is generated
   const parsedResourceTypes = accountSasResourceTypesToString(
-    accountSasResourceTypesFromString(accountSasSignatureValues.resourceTypes)
+    accountSasResourceTypesFromString(accountSasSignatureValues.resourceTypes),
   );
 
   const stringToSign = [

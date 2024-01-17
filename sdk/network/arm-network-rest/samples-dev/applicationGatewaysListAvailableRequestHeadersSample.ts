@@ -27,7 +27,7 @@ async function getAvailableRequestHeaders() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

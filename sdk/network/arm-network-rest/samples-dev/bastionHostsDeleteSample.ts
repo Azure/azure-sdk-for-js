@@ -32,7 +32,7 @@ async function deleteBastionHost() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       subscriptionId,
       resourceGroupName,
-      bastionHostName
+      bastionHostName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -298,8 +298,12 @@ export interface ManagedClusterAgentPoolProfileProperties {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
   hostGroupID?: string;
+  /** Network-related settings of an agent pool. */
+  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -412,6 +416,34 @@ export interface SysctlConfig {
 export interface CreationData {
   /** This is the ARM ID of the source object to be used to create the target object. */
   sourceResourceId?: string;
+}
+
+/** Network settings of an agent pool. */
+export interface AgentPoolNetworkProfile {
+  /** IPTags of instance-level public IPs. */
+  nodePublicIPTags?: IPTag[];
+  /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
+  allowedHostPorts?: PortRange[];
+  /** The IDs of the application security groups which agent pool will associate when created. */
+  applicationSecurityGroups?: string[];
+}
+
+/** Contains the IPTag associated with the object. */
+export interface IPTag {
+  /** The IP tag type. Example: RoutingPreference. */
+  ipTagType?: string;
+  /** The value of the IP tag associated with the public IP. Example: Internet. */
+  tag?: string;
+}
+
+/** The port range. */
+export interface PortRange {
+  /** The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd. */
+  portStart?: number;
+  /** The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or equal to portStart. */
+  portEnd?: number;
+  /** The network protocol of the port. */
+  protocol?: Protocol;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -614,6 +646,8 @@ export interface ManagedClusterLoadBalancerProfile {
   idleTimeoutInMinutes?: number;
   /** Enable multiple standard load balancers per AKS cluster or not. */
   enableMultipleStandardLoadBalancers?: boolean;
+  /** The type of the managed inbound Load Balancer BackendPool. */
+  backendPoolType?: BackendPoolType;
 }
 
 /** Desired managed outbound IPs for the cluster load balancer. */
@@ -1734,8 +1768,12 @@ export interface AgentPool extends SubResource {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+  /** AKS will associate the specified agent pool with the Capacity Reservation Group. */
+  capacityReservationGroupID?: string;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
   hostGroupID?: string;
+  /** Network-related settings of an agent pool. */
+  networkProfile?: AgentPoolNetworkProfile;
 }
 
 /** Mesh upgrade profile properties for a major.minor release. */
@@ -2299,6 +2337,24 @@ export enum KnownGPUInstanceProfile {
  */
 export type GPUInstanceProfile = string;
 
+/** Known values of {@link Protocol} that the service accepts. */
+export enum KnownProtocol {
+  /** TCP protocol. */
+  TCP = "TCP",
+  /** UDP protocol. */
+  UDP = "UDP"
+}
+
+/**
+ * Defines values for Protocol. \
+ * {@link KnownProtocol} can be used interchangeably with Protocol,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **TCP**: TCP protocol. \
+ * **UDP**: UDP protocol.
+ */
+export type Protocol = string;
+
 /** Known values of {@link LicenseType} that the service accepts. */
 export enum KnownLicenseType {
   /** No additional licensing is applied. */
@@ -2481,6 +2537,24 @@ export enum KnownLoadBalancerSku {
  * **basic**: Use a basic Load Balancer with limited functionality.
  */
 export type LoadBalancerSku = string;
+
+/** Known values of {@link BackendPoolType} that the service accepts. */
+export enum KnownBackendPoolType {
+  /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
+  NodeIPConfiguration = "NodeIPConfiguration",
+  /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
+  NodeIP = "NodeIP"
+}
+
+/**
+ * Defines values for BackendPoolType. \
+ * {@link KnownBackendPoolType} can be used interchangeably with BackendPoolType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NodeIPConfiguration**: The type of the managed inbound Load Balancer BackendPool. https:\/\/cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. \
+ * **NodeIP**: The type of the managed inbound Load Balancer BackendPool. https:\/\/cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend.
+ */
+export type BackendPoolType = string;
 
 /** Known values of {@link IpFamily} that the service accepts. */
 export enum KnownIpFamily {

@@ -41,7 +41,7 @@ async function staticMemberPut() {
       resourceGroupName,
       networkManagerName,
       networkGroupName,
-      staticMemberName
+      staticMemberName,
     )
     .put(options);
   console.log(result);

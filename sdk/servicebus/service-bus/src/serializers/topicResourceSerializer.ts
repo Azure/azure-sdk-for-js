@@ -69,22 +69,22 @@ export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
     supportOrdering: getBoolean(rawTopic[Constants.SUPPORT_ORDERING], "supportOrdering"),
     enableBatchedOperations: getBoolean(
       rawTopic[Constants.ENABLE_BATCHED_OPERATIONS],
-      "enableBatchedOperations"
+      "enableBatchedOperations",
     ),
 
     defaultMessageTimeToLive: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTimeToLive"
+      "defaultMessageTimeToLive",
     ),
     autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
     requiresDuplicateDetection: getBoolean(
       rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
-      "requiresDuplicateDetection"
+      "requiresDuplicateDetection",
     ),
     duplicateDetectionHistoryTimeWindow: getString(
       rawTopic[Constants.DUPLICATE_DETECTION_HISTORY_TIME_WINDOW],
-      "duplicateDetectionHistoryTimeWindow"
+      "duplicateDetectionHistoryTimeWindow",
     ),
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
@@ -97,7 +97,7 @@ export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
     availabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS],
 
     maxMessageSizeInKilobytes: getIntegerOrUndefined(
-      rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
+      rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES],
     ),
   };
 }

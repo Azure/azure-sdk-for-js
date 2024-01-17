@@ -29,7 +29,7 @@ async function getAServerThreatProtectionSettings() {
   const result = await client.serverThreatProtectionSettings.get(
     resourceGroupName,
     serverName,
-    threatProtectionName
+    threatProtectionName,
   );
   console.log(result);
 }

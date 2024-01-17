@@ -33,7 +33,7 @@ async function expressRouteConnectionGet() {
       subscriptionId,
       resourceGroupName,
       expressRouteGatewayName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

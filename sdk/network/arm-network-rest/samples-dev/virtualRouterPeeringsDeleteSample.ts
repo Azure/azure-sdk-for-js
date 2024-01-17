@@ -34,7 +34,7 @@ async function deleteVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName
+      peeringName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

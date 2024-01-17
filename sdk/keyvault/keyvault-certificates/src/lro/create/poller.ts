@@ -51,7 +51,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

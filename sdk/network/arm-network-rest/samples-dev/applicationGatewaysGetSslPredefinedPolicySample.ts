@@ -29,7 +29,7 @@ async function getAvailableSslPredefinedPolicyByName() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}",
       subscriptionId,
-      predefinedPolicyName
+      predefinedPolicyName,
     )
     .get(options);
   console.log(result);

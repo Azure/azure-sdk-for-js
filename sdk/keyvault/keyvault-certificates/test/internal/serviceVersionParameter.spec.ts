@@ -52,7 +52,7 @@ describe("The Certificates client should set the serviceVersion", () => {
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
+      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`,
     );
   });
 
@@ -72,7 +72,7 @@ describe("The Certificates client should set the serviceVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
+        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`,
       );
     }
   });

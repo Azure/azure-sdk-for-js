@@ -31,7 +31,7 @@ async function kustoScriptsDelete() {
     resourceGroupName,
     clusterName,
     databaseName,
-    scriptName
+    scriptName,
   );
   console.log(result);
 }

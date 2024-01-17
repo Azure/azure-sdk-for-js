@@ -19,7 +19,7 @@ const logger = credentialLogger(msiName);
  */
 function prepareRequestOptions(
   scopes: string | string[],
-  clientId?: string
+  clientId?: string,
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -70,25 +70,25 @@ export const appServiceMsi2017: MSI = {
     const result = Boolean(env.MSI_ENDPOINT && env.MSI_SECRET);
     if (!result) {
       logger.info(
-        `${msiName}: Unavailable. The environment variables needed are: MSI_ENDPOINT and MSI_SECRET.`
+        `${msiName}: Unavailable. The environment variables needed are: MSI_ENDPOINT and MSI_SECRET.`,
       );
     }
     return result;
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (resourceId) {
       logger.warning(
-        `${msiName}: managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
+        `${msiName}: managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`,
       );
     }
 
     logger.info(
-      `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
+      `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`,
     );
 
     const request = createPipelineRequest({

@@ -72,7 +72,7 @@ async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
 }
 
 async function createDataFeed(
-  client: MetricsAdvisorAdministrationClient
+  client: MetricsAdvisorAdministrationClient,
 ): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const feed: DataFeedDescriptor = {

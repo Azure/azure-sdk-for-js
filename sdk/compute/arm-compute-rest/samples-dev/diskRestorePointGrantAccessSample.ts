@@ -37,7 +37,7 @@ async function grantsAccessToADiskRestorePoint() {
       resourceGroupName,
       restorePointCollectionName,
       vmRestorePointName,
-      diskRestorePointName
+      diskRestorePointName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

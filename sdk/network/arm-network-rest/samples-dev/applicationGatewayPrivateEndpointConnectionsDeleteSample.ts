@@ -34,7 +34,7 @@ async function deleteApplicationGatewayPrivateEndpointConnection() {
       subscriptionId,
       resourceGroupName,
       applicationGatewayName,
-      connectionName
+      connectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

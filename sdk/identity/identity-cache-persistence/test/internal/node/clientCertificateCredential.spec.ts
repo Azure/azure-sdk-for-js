@@ -38,7 +38,7 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential"
+      "acquireTokenByClientCredential",
     );
   });
   afterEach(async function () {
@@ -76,7 +76,7 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       certificatePath,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
     );
 
     await credential.getToken(scope);
@@ -111,7 +111,7 @@ describe("ClientCertificateCredential (internal)", function (this: Mocha.Suite) 
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       certificatePath,
-      recorder.configureClientOptions({ tokenCachePersistenceOptions })
+      recorder.configureClientOptions({ tokenCachePersistenceOptions }),
     );
 
     await credential.getToken(scope);

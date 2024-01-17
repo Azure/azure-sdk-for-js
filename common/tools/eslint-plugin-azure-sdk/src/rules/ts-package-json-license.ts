@@ -17,7 +17,7 @@ export = {
   meta: getRuleMetaData(
     "ts-packge-json-license",
     "force package.json's license value to be 'MIT'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {

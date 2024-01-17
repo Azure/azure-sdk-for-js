@@ -105,7 +105,7 @@ export async function main() {
             `Program brief creation failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
-          CV: ${res.headers.get("MS-CV")}`
+          CV: ${res.headers.get("MS-CV")}`,
           );
         }
       },
@@ -114,7 +114,7 @@ export async function main() {
 
   var programBrief = await client.getUSProgramBrief(programBriefId);
   console.log(
-    `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`
+    `Program brief with Id ${programBrief.id} has status ${programBrief.status} which was last updated ${programBrief.statusUpdatedDate}`,
   );
 
   // delete program brief
@@ -127,13 +127,13 @@ export async function main() {
             `Program brief deletion failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
-          CV: ${res.headers.get("MS-CV")}`
+          CV: ${res.headers.get("MS-CV")}`,
           );
         }
       },
   });
   console.log(
-    `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
+    `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`,
   );
 }
 

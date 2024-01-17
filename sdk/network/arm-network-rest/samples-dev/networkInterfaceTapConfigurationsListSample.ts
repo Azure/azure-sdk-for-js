@@ -32,7 +32,7 @@ async function listVirtualNetworkTapConfigurations() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/tapConfigurations",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

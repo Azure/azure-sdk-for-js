@@ -34,7 +34,7 @@ async function listGalleryImageVersionsInAGalleryImageDefinition() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

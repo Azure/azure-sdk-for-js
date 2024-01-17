@@ -141,7 +141,7 @@ describe("Highlevel browser only", () => {
   it("upload empty data should succeed", async () => {
     const tempFileEmpty = getBrowserFile(
       recorder.variable("browserfileempty", getUniqueName("browserfileempty")),
-      0
+      0,
     );
     await fileClient.upload(tempFileEmpty);
     const response = await fileClient.read();
@@ -176,8 +176,8 @@ describe("Highlevel browser only", () => {
     assert.ok(
       arrayBufferEqual(
         await downloadedBlob3.arrayBuffer(),
-        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength)
-      )
+        new Uint8Array(uint16Array.buffer, uint16Array.byteOffset, uint16Array.byteLength),
+      ),
     );
   });
 });

@@ -43,7 +43,7 @@ export class User {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {
     this.permissions = new Permissions(this, this.clientContext);
   }
@@ -76,7 +76,7 @@ export class User {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -108,7 +108,7 @@ export class User {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -133,7 +133,7 @@ export class User {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

@@ -21,7 +21,7 @@ export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
 
 export async function doesProgramBriefContainAnyAttachment(
   client: ShortCodesClient,
-  programBriefId: string
+  programBriefId: string,
 ): Promise<boolean> {
   const attachments = await getProgramBriefAttachments(client, programBriefId, (_) => true);
   return attachments.length > 0;
@@ -30,23 +30,23 @@ export async function doesProgramBriefContainAnyAttachment(
 export async function getProgramBriefAttachmentsWithId(
   client: ShortCodesClient,
   programBriefId: string,
-  attachmentIds: string[]
+  attachmentIds: string[],
 ): Promise<ProgramBriefAttachment[]> {
   return getProgramBriefAttachments(client, programBriefId, (attachment) =>
-    attachmentIds.includes(attachment.id)
+    attachmentIds.includes(attachment.id),
   );
 }
 
 export async function getProgramBriefAttachmentsWithIdByPage(
   client: ShortCodesClient,
   programBriefId: string,
-  attachmentIds: string[]
+  attachmentIds: string[],
 ): Promise<ProgramBriefAttachment[]> {
   return getProgramBriefAttachments(
     client,
     programBriefId,
     (attachment) => attachmentIds.includes(attachment.id),
-    true
+    true,
   );
 }
 
@@ -54,7 +54,7 @@ async function getProgramBriefAttachments(
   client: ShortCodesClient,
   programBriefId: string,
   predicate: (attachment: ProgramBriefAttachment) => boolean,
-  byPage?: boolean
+  byPage?: boolean,
 ): Promise<ProgramBriefAttachment[]> {
   const attachments: ProgramBriefAttachment[] = [];
   if (byPage) {

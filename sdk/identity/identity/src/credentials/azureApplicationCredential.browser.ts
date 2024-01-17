@@ -7,7 +7,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const BrowserNotSupportedError = new Error(
-  "ApplicationCredential is not supported in the browser. Use InteractiveBrowserCredential instead."
+  "ApplicationCredential is not supported in the browser. Use InteractiveBrowserCredential instead.",
 );
 const logger = credentialLogger("ApplicationCredential");
 

@@ -27,7 +27,7 @@ describe("Configuration Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -93,7 +93,7 @@ async function getConfiguration(client: PersonalizerClient): Promise<ServiceConf
 
 async function updateConfiguration(
   client: PersonalizerClient,
-  configuration: ServiceConfigurationUpdateParameters
+  configuration: ServiceConfigurationUpdateParameters,
 ): Promise<ServiceConfigurationOutput> {
   const response = await client.path("/configurations/service").put(configuration);
   if (isUnexpected(response)) {
@@ -112,7 +112,7 @@ async function getPolicy(client: PersonalizerClient): Promise<PolicyContractOutp
 
 async function updatePolicy(
   client: PersonalizerClient,
-  policy: PolicyUpdateParameters
+  policy: PolicyUpdateParameters,
 ): Promise<PolicyContractOutput> {
   const response = await client.path("/configurations/policy").put(policy);
   if (isUnexpected(response)) {
@@ -130,7 +130,7 @@ async function resetPolicy(client: PersonalizerClient): Promise<PolicyContractOu
 }
 function assertServiceConfigurationEquals(
   actual: ServiceConfigurationOutput,
-  expected: ServiceConfiguration
+  expected: ServiceConfiguration,
 ) {
   assert.equal(actual.rewardAggregation, expected.rewardAggregation);
   assert.equal(actual.modelExportFrequency, expected.modelExportFrequency);

@@ -34,7 +34,7 @@ async function reimageCloudServiceRoleInstance() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      roleInstanceName
+      roleInstanceName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

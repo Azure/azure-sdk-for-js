@@ -52,7 +52,7 @@ describe("Identity logging utilities", function () {
       logger.info(formatError("scope", new Error("message")));
       assert.equal(
         allParams[0].join(" "),
-        "title => ERROR. Scopes: scope. Error message: message."
+        "title => ERROR. Scopes: scope. Error message: message.",
       );
     });
   });
@@ -95,7 +95,7 @@ describe("Identity logging utilities", function () {
 
       public async getToken(
         scopes: string | string[],
-        _options?: GetTokenOptions
+        _options?: GetTokenOptions,
       ): Promise<AccessToken | null> {
         if (scopes.length) {
           this.logger.getToken.info(formatSuccess(scopes));
@@ -113,7 +113,7 @@ describe("Identity logging utilities", function () {
     await fakeCredential.getToken(["Scope 1", "Scope 2"]);
     assert.equal(
       allInfoParams[1].join(" "),
-      "FakeCredential => getToken() => SUCCESS. Scopes: Scope 1, Scope 2."
+      "FakeCredential => getToken() => SUCCESS. Scopes: Scope 1, Scope 2.",
     );
 
     try {
@@ -124,7 +124,7 @@ describe("Identity logging utilities", function () {
 
     assert.equal(
       allInfoParams[2].join(" "),
-      "FakeCredential => getToken() => ERROR. Error message: test getToken error."
+      "FakeCredential => getToken() => ERROR. Error message: test getToken error.",
     );
   });
 });

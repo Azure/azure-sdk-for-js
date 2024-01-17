@@ -33,7 +33,7 @@ async function rebuildCloudServiceRoleInstancesInACloudService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/rebuild",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

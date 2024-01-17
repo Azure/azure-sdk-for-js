@@ -35,7 +35,7 @@ async function createExpressRoutePortAuthorization() {
       subscriptionId,
       resourceGroupName,
       expressRoutePortName,
-      authorizationName
+      authorizationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

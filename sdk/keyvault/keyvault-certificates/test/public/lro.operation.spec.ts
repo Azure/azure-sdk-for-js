@@ -40,12 +40,12 @@ describe("Certificates client - LRO - certificate operation", () => {
   it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function (this: Context) {
     this.retries(5);
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     createPoller.stopPolling();
     const poller = await client.getCertificateOperation(certificateName, testPollerProperties);
@@ -68,12 +68,12 @@ describe("Certificates client - LRO - certificate operation", () => {
   it("can resume from a stopped poller", async function (this: Context) {
     this.retries(5);
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
 
     createPoller.stopPolling();
@@ -92,8 +92,8 @@ describe("Certificates client - LRO - certificate operation", () => {
     const completeCertificate: KeyVaultCertificateWithPolicy = await resumePoller.pollUntilDone();
     assert.equal(completeCertificate.name, certificateName);
 
-    const operation: CertificateOperation = await resumePoller.getOperationState()
-      .certificateOperation!;
+    const operation: CertificateOperation =
+      await resumePoller.getOperationState().certificateOperation!;
     assert.equal(operation.status, "completed");
     assert.ok(resumePoller.getOperationState().isCompleted);
   });
