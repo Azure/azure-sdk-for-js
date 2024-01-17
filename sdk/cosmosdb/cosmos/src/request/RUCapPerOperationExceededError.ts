@@ -12,7 +12,7 @@ export class RUCapPerOperationExceededError extends ErrorResponse {
   public fetchedResults: any[];
   constructor(
     message: string = "Request Unit limit per Operation call exceeded",
-    fetchedResults: any[] = []
+    fetchedResults: any[] = [],
   ) {
     super(message);
     this.code = RUCapPerOperationExceededErrorCode;

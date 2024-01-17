@@ -29,7 +29,10 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   private aggregateType: AggregateType;
   private completed: boolean = false;
 
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {
     // VALUE queries will only every have a single grouping
     this.aggregateType = this.queryInfo.aggregates[0];
   }
@@ -37,7 +40,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
@@ -61,7 +64,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
         const { result, headers } = (await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumedManager
+          ruConsumedManager,
         )) as GroupByResponse;
         mergeHeaders(aggregateHeaders, headers);
 

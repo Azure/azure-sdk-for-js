@@ -24,7 +24,10 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {}
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];
@@ -33,7 +36,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     // If we have a full result set, begin returning results
     if (this.aggregateResultArray.length > 0) {
@@ -57,7 +60,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
         const { result, headers } = (await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumedManager
+          ruConsumedManager,
         )) as GroupByResponse;
         mergeHeaders(aggregateHeaders, headers);
 

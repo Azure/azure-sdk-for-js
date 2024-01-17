@@ -47,7 +47,7 @@ function isChangeFeedIteratorOptions(options: unknown): options is ChangeFeedIte
  */
 export async function extractOverlappingRanges(
   epkRange: QueryRange,
-  overLappingRange: PartitionKeyRange
+  overLappingRange: PartitionKeyRange,
 ): Promise<[string, string]> {
   if (
     overLappingRange.minInclusive >= epkRange.min &&
@@ -97,7 +97,7 @@ export function isEpkRange(obj: unknown): boolean {
 export function buildInternalChangeFeedOptions(
   options: ChangeFeedIteratorOptions,
   continuationToken?: string,
-  startTime?: Date
+  startTime?: Date,
 ): InternalChangeFeedIteratorOptions {
   const internalCfOptions = {} as InternalChangeFeedIteratorOptions;
   internalCfOptions.maxItemCount = options?.maxItemCount;

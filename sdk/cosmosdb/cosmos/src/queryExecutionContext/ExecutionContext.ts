@@ -9,12 +9,12 @@ export interface ExecutionContext {
   nextItem: (
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumedManager
+    ruConsumed?: RUConsumedManager,
   ) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
   fetchMore?: (
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumedManager
+    ruConsumed?: RUConsumedManager,
   ) => Promise<Response<any>>; // TODO: code smell
 }

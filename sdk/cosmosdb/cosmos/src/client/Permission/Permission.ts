@@ -36,7 +36,7 @@ export class Permission {
   constructor(
     public readonly user: User,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class Permission {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -70,7 +70,7 @@ export class Permission {
    */
   public async replace(
     body: PermissionDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<PermissionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const err = {};
@@ -93,7 +93,7 @@ export class Permission {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -117,7 +117,7 @@ export class Permission {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

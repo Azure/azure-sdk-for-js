@@ -17,13 +17,13 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     try {
       const { headers, result } = await this.executionContext.nextItem(
         diagnosticNode,
         operationOptions,
-        ruConsumedManager
+        ruConsumedManager,
       );
       if (result) {
         const hashedResult = await hashObject(result);

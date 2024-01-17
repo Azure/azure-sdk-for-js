@@ -46,7 +46,7 @@ export class DocumentProducer {
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
-    options: FeedOptions
+    options: FeedOptions,
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -89,7 +89,7 @@ export class DocumentProducer {
 
   public fetchFunction = async (
     diagnosticNode: DiagnosticNodeInternal,
-    options: FeedOptions
+    options: FeedOptions,
   ): Promise<Response<Resource>> => {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     diagnosticNode.addData({ partitionKeyRangeId: this.targetPartitionKeyRange.id });
@@ -160,7 +160,7 @@ export class DocumentProducer {
   public async bufferMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
@@ -171,7 +171,7 @@ export class DocumentProducer {
         await this.internalExecutionContext.fetchMore(
           diagnosticNode,
           operationOptions,
-          ruConsumedManager
+          ruConsumedManager,
         );
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
@@ -229,7 +229,7 @@ export class DocumentProducer {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
@@ -240,7 +240,7 @@ export class DocumentProducer {
       const { result, headers } = await this.current(
         diagnosticNode,
         operationOptions,
-        ruConsumedManager
+        ruConsumedManager,
       );
 
       const fetchResult = this.fetchResults.shift();
@@ -269,7 +269,7 @@ export class DocumentProducer {
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
@@ -304,7 +304,7 @@ export class DocumentProducer {
     const { result, headers } = await this.bufferMore(
       diagnosticNode,
       operationOptions,
-      ruConsumedManager
+      ruConsumedManager,
     );
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {

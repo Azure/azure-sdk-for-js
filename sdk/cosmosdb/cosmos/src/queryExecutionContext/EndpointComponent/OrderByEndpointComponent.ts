@@ -22,13 +22,13 @@ export class OrderByEndpointComponent implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.executionContext.nextItem(
         diagnosticNode,
         operationOptions,
-        ruConsumedManager
+        ruConsumedManager,
       );
       return {
         result: item !== undefined ? item.payload : undefined,

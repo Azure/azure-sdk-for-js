@@ -31,7 +31,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private collectionLink: string,
     private query: string | SqlQuerySpec,
     private options: FeedOptions,
-    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
+    private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -50,8 +50,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           this.collectionLink,
           this.query,
           this.options,
-          this.partitionedQueryExecutionInfo
-        )
+          this.partitionedQueryExecutionInfo,
+        ),
       );
     } else {
       this.endpoint = new ParallelQueryExecutionContext(
@@ -59,7 +59,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         this.collectionLink,
         this.query,
         this.options,
-        this.partitionedQueryExecutionInfo
+        this.partitionedQueryExecutionInfo,
       );
     }
     if (
@@ -70,12 +70,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (partitionedQueryExecutionInfo.queryInfo.hasSelectValue) {
         this.endpoint = new GroupByValueEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo
+          partitionedQueryExecutionInfo.queryInfo,
         );
       } else {
         this.endpoint = new GroupByEndpointComponent(
           this.endpoint,
-          partitionedQueryExecutionInfo.queryInfo
+          partitionedQueryExecutionInfo.queryInfo,
         );
       }
     }
@@ -105,7 +105,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumedManager);
   }
@@ -118,7 +118,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
@@ -134,13 +134,13 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(
         diagnosticNode,
         operationOptions,
-        ruConsumedManager
+        ruConsumedManager,
       );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {

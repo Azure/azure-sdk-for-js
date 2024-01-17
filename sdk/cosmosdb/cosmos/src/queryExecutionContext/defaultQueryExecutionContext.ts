@@ -15,7 +15,7 @@ const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
 export type FetchFunctionCallback = (
   diagnosticNode: DiagnosticNodeInternal,
-  options: FeedOptions
+  options: FeedOptions,
 ) => Promise<Response<any>>;
 
 /** @hidden */
@@ -52,7 +52,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   constructor(
     options: FeedOptions,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
   ) {
     this.resources = [];
     this.currentIndex = 0;
@@ -69,7 +69,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     ++this.currentIndex;
     const response = await this.current(diagnosticNode, operationOptions, ruConsumedManager);
@@ -82,7 +82,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async current(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
@@ -94,7 +94,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       const { result: resources, headers } = await this.fetchMore(
         diagnosticNode,
         operationOptions,
-        ruConsumedManager
+        ruConsumedManager,
       );
       this.resources = resources;
       if (this.resources.length === 0) {
@@ -136,7 +136,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   public async fetchMore(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
@@ -222,7 +222,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               queryMetrics.vmExecutionTime,
               queryMetrics.runtimeExecutionTimes,
               queryMetrics.documentWriteTime,
-              new ClientSideMetrics(requestCharge)
+              new ClientSideMetrics(requestCharge),
             );
           }
 
@@ -239,7 +239,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             // inProgress as we want to support continue
             throw new RUCapPerOperationExceededError(
               "Request Unit limit per Operation call exceeded",
-              resources
+              resources,
             );
           }
         }
@@ -249,7 +249,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       DiagnosticNodeType.DEFAULT_QUERY_NODE,
       {
         queryMethodIdentifier: "fetchMore",
-      }
+      },
     );
   }
 

@@ -28,7 +28,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
       "validate correct execution of query",
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create(doc);
@@ -61,7 +61,7 @@ describe("Test Query Metrics", function (this: Suite) {
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions
+      collectionOptions,
     );
     const createdContainer = database.container(createdCollectionDef.id);
 
@@ -107,7 +107,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     const container = await getTestContainer(
       "validate correct execution of query",
       undefined,
-      containerDefinition
+      containerDefinition,
     );
 
     await container.items.create({ id: "foo" });
@@ -127,7 +127,7 @@ describe("aggregate query over null value", function (this: Suite) {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
-    containerThroughput: number
+    containerThroughput: number,
   ): Promise<void> {
     const containerDefinition = {
       id: containerName,
@@ -141,7 +141,7 @@ describe("aggregate query over null value", function (this: Suite) {
       testName,
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create({
@@ -200,14 +200,14 @@ describe("Test Index metrics", function (this: Suite) {
       "index metrics test db",
       undefined,
       containerDefinition,
-      containerOptions1
+      containerOptions1,
     );
     const containerOptions2 = { offerThroughput: 12000 };
     const createdContainerMultiPartition = await getTestContainer(
       "index metrics test db multipartioned",
       undefined,
       containerDefinition,
-      containerOptions2
+      containerOptions2,
     );
 
     await validateIndexMetrics(createdContainerSinglePartition, collectionId);
@@ -254,7 +254,7 @@ describe("Test RU Capping query", function (this: Suite) {
     const createdContainerSinglePartition = await getTestContainer(
       "RU Capping test db for single partition",
       undefined,
-      containerDefinition
+      containerDefinition,
     );
     // Create 500 documents
     for (let i = 1; i <= 500; i++) {
@@ -271,7 +271,7 @@ describe("Test RU Capping query", function (this: Suite) {
     const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
     const queryIterator1RUCapCalculate = createdContainerSinglePartition.items.query(
       query1,
-      queryOptions
+      queryOptions,
     );
     let calculated_ru_threshold = (await queryIterator1RUCapCalculate.fetchNext()).requestCharge;
     // Case 1: RU Cap breached
@@ -301,7 +301,7 @@ describe("Test RU Capping query", function (this: Suite) {
     const queryiterator2 = createdContainerSinglePartition.items.query(query2, queryOptions);
     const queryiterator2RUCapCalculate = createdContainerSinglePartition.items.query(
       query2,
-      queryOptions
+      queryOptions,
     );
     calculated_ru_threshold = (await queryiterator2RUCapCalculate.fetchAll()).requestCharge;
     // Case 3: RU Cap breached for fetchAll operation
@@ -337,7 +337,7 @@ describe("Test RU Capping query", function (this: Suite) {
       const createdContainerMultiPartition = await getTestContainer(
         "RU Capping test db for multi partition",
         undefined,
-        containerDefinition
+        containerDefinition,
       );
       const data = [
         { id: "myId1", pk: "pk1", name: "test1" },

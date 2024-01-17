@@ -12,13 +12,13 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private offset: number,
-    private limit: number
+    private limit: number,
   ) {}
 
   public async nextItem(
     diagnosticNode: DiagnosticNodeInternal,
     operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
     try {
@@ -27,7 +27,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
         const { headers } = await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumedManager
+          ruConsumedManager,
         );
         this.offset--;
         mergeHeaders(aggregateHeaders, headers);
@@ -36,7 +36,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
         const { result, headers } = await this.executionContext.nextItem(
           diagnosticNode,
           operationOptions,
-          ruConsumedManager
+          ruConsumedManager,
         );
         this.limit--;
         mergeHeaders(aggregateHeaders, headers);
