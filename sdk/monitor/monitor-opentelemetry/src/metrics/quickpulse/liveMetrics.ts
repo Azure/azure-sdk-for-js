@@ -22,14 +22,14 @@ import { LogRecord } from "@opentelemetry/sdk-logs";
 import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
-  ExceptionDocumentIngress,
+  Exception,
   MonitoringDataPoint,
   PingOptionalParams,
   PingResponse,
   PostResponse,
-  RemoteDependencyDocumentIngress,
-  RequestDocumentIngress,
-  TraceDocumentIngress,
+  RemoteDependency,
+  Request,
+  Trace,
 } from "../../generated";
 import {
   getCloudRole,
@@ -347,8 +347,7 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       // Add document and calculate metrics
-      let document: RequestDocumentIngress | RemoteDependencyDocumentIngress =
-        getSpanDocument(span);
+      let document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
       const statusCode = String(span.attributes["http.status_code"]);
@@ -386,7 +385,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      let document: TraceDocumentIngress | ExceptionDocumentIngress = getLogDocument(logRecord);
+      let document: Trace | Exception = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;
