@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
+import type { PipelineResponse } from "../interfaces";
+import type { RestError } from "../restError";
 import { getRandomIntegerInclusive } from "@azure/core-util";
-import { RetryStrategy } from "./retryStrategy";
+import type { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 
 // intervals are in milliseconds

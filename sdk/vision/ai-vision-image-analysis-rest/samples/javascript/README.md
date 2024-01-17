@@ -1,3 +1,14 @@
+---
+page_type: sample
+languages:
+- javascript
+products:
+- azure
+- azure-computer-vision
+name: @azure-rest/ai-vision-image-analysis samples for JavaScript
+description: Samples for the @azure-rest/ai-vision-image-analysis client library.
+---
+
 # Azure AI Vision Image Analysis client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure AI Vision Image Analysis in some common scenarios.
