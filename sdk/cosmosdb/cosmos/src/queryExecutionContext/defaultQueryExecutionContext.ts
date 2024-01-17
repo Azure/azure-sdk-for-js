@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants } from "../common";
+import { Constants, RUConsumedManager } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, Response } from "../request";
-import { getInitialHeader } from "./headerUtils";
+import { FeedOptions, QueryOperationOptions, Response } from "../request";
+import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
 import { ExecutionContext } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
+import { RUCapPerOperationExceededError } from "../request/RUCapPerOperationExceededError";
 
 const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
@@ -65,32 +66,43 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Execute a provided callback on the next element in the execution context.
    */
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
     ++this.currentIndex;
-    const response = await this.current(diagnosticNode);
+    const response = await this.current(diagnosticNode, operationOptions, ruConsumedManager);
     return response;
   }
 
   /**
    * Retrieve the current element on the execution context.
    */
-  public async current(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async current(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
         headers: getInitialHeader(),
       };
     }
-
     if (this._canFetchMore()) {
-      const { result: resources, headers } = await this.fetchMore(diagnosticNode);
+      const { result: resources, headers } = await this.fetchMore(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager,
+      );
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
           return { result: undefined, headers };
         } else {
-          return this.current(diagnosticNode);
+          return this.current(diagnosticNode, operationOptions, ruConsumedManager);
         }
       }
       return { result: this.resources[this.currentIndex], headers };
@@ -121,7 +133,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -216,6 +232,17 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
         }
 
+        if (operationOptions && operationOptions.ruCapPerOperation && ruConsumedManager) {
+          ruConsumedManager.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
+          if (ruConsumedManager.getRUConsumed() > operationOptions.ruCapPerOperation) {
+            // For RUCapPerOperationExceededError error, we won't be updating the state from
+            // inProgress as we want to support continue
+            throw new RUCapPerOperationExceededError(
+              "Request Unit limit per Operation call exceeded",
+              resources,
+            );
+          }
+        }
         return { result: resources, headers: responseHeaders };
       },
       diagnosticNode,

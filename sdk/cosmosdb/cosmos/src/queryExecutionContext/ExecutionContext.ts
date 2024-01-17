@@ -1,11 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { Response } from "../request";
+import { QueryOperationOptions, Response } from "../request";
+import { RUConsumedManager } from "../common";
 
 /** @hidden */
 export interface ExecutionContext {
-  nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
+  nextItem: (
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumed?: RUConsumedManager,
+  ) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
-  fetchMore?: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>; // TODO: code smell
+  fetchMore?: (
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumed?: RUConsumedManager,
+  ) => Promise<Response<any>>; // TODO: code smell
 }

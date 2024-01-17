@@ -1,17 +1,15 @@
 # Release History
 
-## 4.0.1 (Unreleased)
-
+## 4.0.1-beta.1 (2024-01-17)
+  
 ### Features Added
+- We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
+  
 
 ### Breaking Changes
 
 ####  Dropped Support for TypeScript 4.1
 - We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 4.0.0 (2023-09-12)
 🎉 v4 release! 🎉 Many new features, bug fixes, and a few breaking changes.
