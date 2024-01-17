@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential, KeyCredential } from "./azureKeyCredential.js";
+export { AzureKeyCredential } from "./azureKeyCredential.js";
+export { KeyCredential, isKeyCredential } from "./keyCredential.js";
 export {
   AzureNamedKeyCredential,
   NamedKeyCredential,
