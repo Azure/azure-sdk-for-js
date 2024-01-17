@@ -67,7 +67,7 @@ export class DocumentProducer {
     this.internalExecutionContext = new DefaultQueryExecutionContext(
       options,
       this.fetchFunction,
-      correlatedActivityId
+      correlatedActivityId,
     );
   }
   /**

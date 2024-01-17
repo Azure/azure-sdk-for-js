@@ -43,7 +43,7 @@ export class OrderByQueryExecutionContext
       query,
       options,
       partitionedQueryExecutionInfo,
-      correlatedActivityId
+      correlatedActivityId,
     );
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }

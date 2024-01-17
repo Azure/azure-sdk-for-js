@@ -24,7 +24,7 @@ describe("QueryIterator", function () {
             typeof context.headers["x-ms-cosmos-correlated-activityid"] === "string"
           ) {
             capturedCorrelatedActivityIds.push(
-              context.headers["x-ms-cosmos-correlated-activityid"]
+              context.headers["x-ms-cosmos-correlated-activityid"],
             );
           }
           const response = await next(context);
@@ -74,7 +74,9 @@ describe("QueryIterator", function () {
     }
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
     );
   });
 
@@ -87,7 +89,9 @@ describe("QueryIterator", function () {
     await queryIterator.fetchNext();
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
     );
   });
 
@@ -100,7 +104,9 @@ describe("QueryIterator", function () {
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
     );
   });
 
@@ -112,7 +118,9 @@ describe("QueryIterator", function () {
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
     );
   });
 
@@ -124,7 +132,9 @@ describe("QueryIterator", function () {
     await queryIterator.fetchAll();
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
-      capturedCorrelatedActivityIds.every((element) => element === capturedCorrelatedActivityIds[0])
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
     );
   });
 

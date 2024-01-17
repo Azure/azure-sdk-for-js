@@ -160,7 +160,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             p = this.fetchFunctions[this.currentPartitionIndex](
               childDiagnosticNode,
               this.options,
-              this.correlatedActivityId
+              this.correlatedActivityId,
             );
           }
           const response = await p;
@@ -181,7 +181,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
                     ...this.options,
                     continuationToken: this.continuationToken,
                   },
-                  this.correlatedActivityId
+                  this.correlatedActivityId,
                 )
               : undefined;
           }
