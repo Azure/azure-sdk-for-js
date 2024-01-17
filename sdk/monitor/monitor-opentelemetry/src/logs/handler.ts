@@ -55,7 +55,7 @@ export class LogHandler {
   private _initializeInstrumentations() {
     if (this._config.instrumentationOptions.bunyan?.enabled) {
       this._instrumentations.push(
-        new BunyanInstrumentation(this._config.instrumentationOptions.bunyan)
+        new BunyanInstrumentation(this._config.instrumentationOptions.bunyan),
       );
     }
   }

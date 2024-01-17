@@ -118,7 +118,7 @@ describe("LogHandler", () => {
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-            "(Name:'Exceptions', Ver:'1.1')"
+            "(Name:'Exceptions', Ver:'1.1')",
           );
           done();
         })
@@ -141,7 +141,7 @@ describe("LogHandler", () => {
           assert.strictEqual(result.length, 1);
           assert.strictEqual(
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-            "(Name:'Traces', Ver:'1.1')"
+            "(Name:'Traces', Ver:'1.1')",
           );
           done();
         })
@@ -162,7 +162,7 @@ describe("LogHandler", () => {
       assert.strictEqual(
         logHandler.getInstrumentations()[0].instrumentationName,
         "@opentelemetry/instrumentation-bunyan",
-        "Bunyan instrumentation not added"
+        "Bunyan instrumentation not added",
       );
     });
   });
