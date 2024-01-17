@@ -74,7 +74,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [codeassistant]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai-assistants/samples/v1-beta/typescript/src/codeAssistant.ts
 [functionassistant]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai-assistants/samples/v1-beta/typescript/src/functionAssistant.ts
 [retrievalassistant]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai-assistants/samples/v1-beta/typescript/src/retrievalAssistant.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai-assistants
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-assistants/README.md
