@@ -13,7 +13,7 @@ export class UserResponse extends ResourceResponse<UserDefinition & Resource> {
     headers: CosmosHeaders,
     statusCode: number,
     user: User,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.user = user;

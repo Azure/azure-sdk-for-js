@@ -31,7 +31,7 @@ async function getExpressRouteCircuitTrafficStats() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/stats",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .get(options);
   console.log(result);

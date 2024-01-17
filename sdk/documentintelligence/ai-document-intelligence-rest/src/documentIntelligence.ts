@@ -15,7 +15,7 @@ import { DocumentIntelligenceClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): DocumentIntelligenceClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/documentintelligence`;
   options.apiVersion = options.apiVersion ?? "2023-10-31-preview";

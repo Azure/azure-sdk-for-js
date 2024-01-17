@@ -13,7 +13,7 @@ class FakeAvroReader {
     public objectIndex: number,
     public hasNext: boolean,
     private _record: any,
-    public blockSize?: number
+    public blockSize?: number,
   ) {}
 
   public async *parseObjects(): AsyncIterableIterator<Record<string, any> | null> {
@@ -59,7 +59,7 @@ describe("Chunk", async () => {
       avroReaderStub as any,
       avroReaderStub.blockOffset,
       avroReaderStub.objectIndex,
-      "log/00/2020/07/30/2300/"
+      "log/00/2020/07/30/2300/",
     );
 
     // act and verify

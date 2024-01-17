@@ -30,7 +30,7 @@ async function deleteManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .delete();
   console.log(result);

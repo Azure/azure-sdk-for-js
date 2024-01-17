@@ -32,7 +32,7 @@ async function routeMapList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

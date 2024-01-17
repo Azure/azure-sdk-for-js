@@ -33,7 +33,7 @@ async function createDDoSProtectionPlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       subscriptionId,
       resourceGroupName,
-      ddosProtectionPlanName
+      ddosProtectionPlanName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -28,7 +28,7 @@ async function listAllNetworkVirtualAppliancesForAGivenSubscription() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualAppliances",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

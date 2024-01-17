@@ -14,7 +14,7 @@ export class WidgetServiceClient {
   constructor(
     endpoint: string,
     credentialOrOptions?: TokenCredential | WidgetServiceClientOptions,
-    options: WidgetServiceClientOptions = {}
+    options: WidgetServiceClientOptions = {},
   ) {
     if (isTokenCredential(credentialOrOptions)) {
       this._client = createWidgetService(endpoint, credentialOrOptions, options);

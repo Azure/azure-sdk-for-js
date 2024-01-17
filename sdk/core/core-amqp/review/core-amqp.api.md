@@ -301,6 +301,7 @@ export const Constants: {
     readonly maxDurationValue: 922337203685477;
     readonly minDurationValue: -922337203685477;
     readonly maxAbsoluteExpiryTime: number;
+    readonly maxUint32Value: 4294967295;
     readonly aadTokenValidityMarginInMs: 5000;
     readonly connectionReconnectDelay: 300;
     readonly defaultMaxRetries: 3;

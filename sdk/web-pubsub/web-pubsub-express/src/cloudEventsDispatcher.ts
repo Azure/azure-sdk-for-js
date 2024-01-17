@@ -27,7 +27,7 @@ enum EventType {
 
 function getConnectResponseHandler(
   connectRequest: ConnectRequest,
-  response: ServerResponse
+  response: ServerResponse,
 ): ConnectResponseHandler {
   const states: Record<string, any> = connectRequest.context.states;
   let modified = false;
@@ -59,7 +59,7 @@ function getConnectResponseHandler(
 
 function getUserEventResponseHandler(
   userRequest: UserEventRequest,
-  response: ServerResponse
+  response: ServerResponse,
 ): UserEventResponseHandler {
   const states: Record<string, any> = userRequest.context.states;
   let modified = false;
@@ -142,7 +142,7 @@ function isWebPubSubRequest(req: IncomingMessage): boolean {
 
 async function readUserEventRequest(
   request: IncomingMessage,
-  origin: string
+  origin: string,
 ): Promise<UserEventRequest | undefined> {
   const contentTypeheader = utils.getHttpHeader(request, "content-type");
   if (contentTypeheader === undefined) {
@@ -177,7 +177,7 @@ async function readUserEventRequest(
 
 async function readSystemEventRequest<T extends { context: ConnectionContext }>(
   request: IncomingMessage,
-  origin: string
+  origin: string,
 ): Promise<T> {
   const body = (await utils.readRequestBody(request)).toString();
   const parsedRequest = JSON.parse(body) as T;
@@ -191,13 +191,16 @@ async function readSystemEventRequest<T extends { context: ConnectionContext }>(
 export class CloudEventsDispatcher {
   private readonly _allowAll: boolean = true;
   private readonly _allowedOrigins: Array<string> = [];
-  constructor(private hub: string, private eventHandler?: WebPubSubEventHandlerOptions) {
+  constructor(
+    private hub: string,
+    private eventHandler?: WebPubSubEventHandlerOptions,
+  ) {
     if (Array.isArray(eventHandler)) {
       throw new Error("Unexpected WebPubSubEventHandlerOptions");
     }
     if (eventHandler?.allowedEndpoints !== undefined) {
       this._allowedOrigins = eventHandler.allowedEndpoints.map((endpoint) =>
-        new URL(endpoint).host.toLowerCase()
+        new URL(endpoint).host.toLowerCase(),
       );
       this._allowAll = false;
     }
@@ -285,7 +288,7 @@ export class CloudEventsDispatcher {
 
         this.eventHandler.handleConnect!(
           connectRequest,
-          getConnectResponseHandler(connectRequest, response)
+          getConnectResponseHandler(connectRequest, response),
         );
         return true;
       }
@@ -302,7 +305,7 @@ export class CloudEventsDispatcher {
         response.end();
         const disconnectedRequest = await readSystemEventRequest<DisconnectedRequest>(
           request,
-          origin
+          origin,
         );
         logger.verbose(disconnectedRequest);
         this.eventHandler.onDisconnected!(disconnectedRequest);
@@ -312,14 +315,14 @@ export class CloudEventsDispatcher {
         const userRequest = await readUserEventRequest(request, origin);
         if (userRequest === undefined) {
           logger.warning(
-            `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`
+            `Unsupported content type ${utils.getHttpHeader(request, "content-type")}`,
           );
           return false;
         }
         logger.verbose(userRequest);
         this.eventHandler.handleUserEvent!(
           userRequest,
-          getUserEventResponseHandler(userRequest, response)
+          getUserEventResponseHandler(userRequest, response),
         );
         return true;
       }

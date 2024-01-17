@@ -4,7 +4,7 @@
 export function getAckMessagePayload(
   ackId: number,
   success: boolean = true,
-  reason: string = ""
+  reason: string = "",
 ): object {
   return {
     type: "ack",

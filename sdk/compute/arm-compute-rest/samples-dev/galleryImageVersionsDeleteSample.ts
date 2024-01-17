@@ -36,7 +36,7 @@ async function deleteAGalleryImageVersion() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

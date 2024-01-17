@@ -39,7 +39,7 @@ describe("AppConfigurationClient", () => {
     it("Add and query a setting without a label", async () => {
       const key = recorder.variable(
         "noLabelTests",
-        `noLabelTests${Math.floor(Math.random() * 1000)}`
+        `noLabelTests${Math.floor(Math.random() * 1000)}`,
       );
 
       await client.addConfigurationSetting({ key, value: "added" });
@@ -90,7 +90,7 @@ describe("AppConfigurationClient", () => {
     it("sample works", async () => {
       const key = recorder.variable(
         "addConfigSample",
-        `addConfigSample${Math.floor(Math.random() * 1000)}`
+        `addConfigSample${Math.floor(Math.random() * 1000)}`,
       );
       const result = await client.setConfigurationSetting({
         key,
@@ -103,7 +103,7 @@ describe("AppConfigurationClient", () => {
     it("adds a configuration setting", async () => {
       const key = recorder.variable(
         "addConfigTest",
-        `addConfigTest${Math.floor(Math.random() * 1000)}`
+        `addConfigTest${Math.floor(Math.random() * 1000)}`,
       );
       const label = "MyLabel";
       const value = "MyValue";
@@ -113,12 +113,12 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
 
       // just a sanity check - the 'eTag' field that gets added by the response headers
@@ -132,7 +132,7 @@ describe("AppConfigurationClient", () => {
     it("throws an error if the configuration setting already exists", async () => {
       const key = recorder.variable(
         "addConfigTestTwice",
-        `addConfigTestTwice${Math.floor(Math.random() * 1000)}`
+        `addConfigTestTwice${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -142,12 +142,12 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
 
       // attempt to add the same setting
@@ -157,7 +157,7 @@ describe("AppConfigurationClient", () => {
       } catch (err: any) {
         assert.equal(
           (err as { message: string }).message,
-          "Status 412: Setting was already present"
+          "Status 412: Setting was already present",
         );
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
@@ -170,7 +170,7 @@ describe("AppConfigurationClient", () => {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
-        `addConfigTestTwice${Math.floor(Math.random() * 1000)}`
+        `addConfigTestTwice${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -182,7 +182,7 @@ describe("AppConfigurationClient", () => {
             requestOptions: {
               timeout: 1,
             },
-          }
+          },
         );
       });
     });
@@ -192,7 +192,7 @@ describe("AppConfigurationClient", () => {
     it("deletes an existing configuration setting", async () => {
       const key = recorder.variable(
         "deleteConfigTestEtag",
-        `deleteConfigTestEtag${Math.floor(Math.random() * 1000)}`
+        `deleteConfigTestEtag${Math.floor(Math.random() * 1000)}`,
       );
       const label = "MyLabel";
       const value = "MyValue";
@@ -204,12 +204,12 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
 
       // delete configuration
@@ -228,7 +228,7 @@ describe("AppConfigurationClient", () => {
     it("deletes an existing configuration setting (valid etag)", async () => {
       const key = recorder.variable(
         "deleteConfigTestEtag",
-        `deleteConfigTestEtag${Math.floor(Math.random() * 1000)}`
+        `deleteConfigTestEtag${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -240,12 +240,12 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
 
       // delete configuration
@@ -254,7 +254,7 @@ describe("AppConfigurationClient", () => {
           key,
           label,
         },
-        { onlyIfUnchanged: true }
+        { onlyIfUnchanged: true },
       );
 
       // confirm setting no longer exists
@@ -269,7 +269,7 @@ describe("AppConfigurationClient", () => {
     it("does not throw when deleting a non-existent configuration setting", async () => {
       const key = recorder.variable(
         "deleteConfigTestNA",
-        `deleteConfigTestNA${Math.floor(Math.random() * 1000)}`
+        `deleteConfigTestNA${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
 
@@ -286,7 +286,7 @@ describe("AppConfigurationClient", () => {
     it("throws when deleting a configuration setting (invalid etag)", async () => {
       const key = recorder.variable(
         "deleteConfigTestBadEtag",
-        `deleteConfigTestBadEtag${Math.floor(Math.random() * 1000)}`
+        `deleteConfigTestBadEtag${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -298,12 +298,12 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
 
       // delete configuration
@@ -311,9 +311,9 @@ describe("AppConfigurationClient", () => {
         () =>
           client.deleteConfigurationSetting(
             { key, label, etag: "invalid" },
-            { onlyIfUnchanged: true }
+            { onlyIfUnchanged: true },
           ),
-        412
+        412,
       );
 
       await client.deleteConfigurationSetting({ key, label });
@@ -326,7 +326,7 @@ describe("AppConfigurationClient", () => {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "deleteConfigTest",
-        `deleteConfigTest${Math.floor(Math.random() * 1000)}`
+        `deleteConfigTest${Math.floor(Math.random() * 1000)}`,
       );
       const label = "MyLabel";
       const value = "MyValue";
@@ -347,7 +347,7 @@ describe("AppConfigurationClient", () => {
     it("retrieves an existing configuration setting", async () => {
       const key = recorder.variable(
         "getConfigTest",
-        `getConfigTest${Math.floor(Math.random() * 1000)}`
+        `getConfigTest${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -364,32 +364,32 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
       assert.equal(
         result.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting().",
       );
       assert.equal(
         result.isReadOnly,
         false,
-        "Unexpected readOnly in result from addConfigurationSetting()."
+        "Unexpected readOnly in result from addConfigurationSetting().",
       );
       assert.deepEqual(
         result.tags,
         tags,
-        "Unexpected tags in result from addConfigurationSetting()."
+        "Unexpected tags in result from addConfigurationSetting().",
       );
       assert.equal(
         result.contentType,
         contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
+        "Unexpected contentType in result from addConfigurationSetting().",
       );
 
       // retrieve the value from the service
@@ -397,37 +397,37 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         remoteResult.key,
         key,
-        "Unexpected key in result from getConfigurationSetting()."
+        "Unexpected key in result from getConfigurationSetting().",
       );
       assert.equal(
         remoteResult.label,
         label,
-        "Unexpected label in result from getConfigurationSetting()."
+        "Unexpected label in result from getConfigurationSetting().",
       );
       assert.equal(
         remoteResult.value,
         value,
-        "Unexpected value in result from getConfigurationSetting()."
+        "Unexpected value in result from getConfigurationSetting().",
       );
       assert.equal(
         remoteResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from getConfigurationSetting()."
+        "Unexpected lastModified in result from getConfigurationSetting().",
       );
       assert.equal(
         remoteResult.isReadOnly,
         false,
-        "Unexpected readOnly in result from getConfigurationSetting()."
+        "Unexpected readOnly in result from getConfigurationSetting().",
       );
       assert.deepEqual(
         remoteResult.tags,
         tags,
-        "Unexpected tags in result from getConfigurationSetting()."
+        "Unexpected tags in result from getConfigurationSetting().",
       );
       assert.equal(
         remoteResult.contentType,
         contentType,
-        "Unexpected contentType in result from getConfigurationSetting()."
+        "Unexpected contentType in result from getConfigurationSetting().",
       );
 
       await client.deleteConfigurationSetting({ key, label });
@@ -436,7 +436,7 @@ describe("AppConfigurationClient", () => {
     it("throws when retrieving a non-existent configuration setting", async () => {
       const key = recorder.variable(
         "getConfigTestNA",
-        `getConfigTestNA${Math.floor(Math.random() * 1000)}`
+        `getConfigTestNA${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
 
@@ -456,7 +456,7 @@ describe("AppConfigurationClient", () => {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         "getConfigTest",
-        `getConfigTest${Math.floor(Math.random() * 1000)}`
+        `getConfigTest${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -474,7 +474,7 @@ describe("AppConfigurationClient", () => {
     it("by date", async () => {
       const key = recorder.variable(
         "getConfigurationSettingByDate",
-        `getConfigurationSettingByDate${Math.floor(Math.random() * 1000)}`
+        `getConfigurationSettingByDate${Math.floor(Math.random() * 1000)}`,
       );
 
       const initialSetting = await client.setConfigurationSetting({
@@ -493,7 +493,7 @@ describe("AppConfigurationClient", () => {
 
         {
           acceptDateTime: initialSetting.lastModified,
-        }
+        },
       );
 
       assert.equal("value1", settingAtPointInTime.value);
@@ -541,7 +541,7 @@ describe("AppConfigurationClient", () => {
           value: undefined,
           etag: undefined,
           tags: undefined,
-        }
+        },
       );
     });
   });
@@ -573,17 +573,17 @@ describe("AppConfigurationClient", () => {
     beforeEach(async () => {
       keys.listConfigSettingA = recorder.variable(
         `listConfigSetting${count}A`,
-        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`
+        `listConfigSetting${count}A${Math.floor(Math.random() * 100000)}`,
       );
       keys.listConfigSettingB = recorder.variable(
         `listConfigSetting${count}B`,
-        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`
+        `listConfigSetting${count}B${Math.floor(Math.random() * 100000)}`,
       );
       count += 1;
 
       uniqueLabel = recorder.variable(
         "listConfigSettingsLabel",
-        `listConfigSettingsLabel${Math.floor(Math.random() * 100000)}`
+        `listConfigSettingsLabel${Math.floor(Math.random() * 100000)}`,
       );
       productionASettingId.key = keys.listConfigSettingA;
       productionASettingId.label = uniqueLabel;
@@ -640,7 +640,7 @@ describe("AppConfigurationClient", () => {
             isReadOnly: false,
           },
         ],
-        byLabelSettings
+        byLabelSettings,
       );
     });
 
@@ -666,7 +666,7 @@ describe("AppConfigurationClient", () => {
             isReadOnly: false,
           },
         ],
-        byLabelSettings
+        byLabelSettings,
       );
     });
 
@@ -691,7 +691,7 @@ describe("AppConfigurationClient", () => {
             isReadOnly: false,
           },
         ],
-        byKeySettings
+        byKeySettings,
       );
     });
 
@@ -718,7 +718,7 @@ describe("AppConfigurationClient", () => {
             isReadOnly: false,
           },
         ],
-        byKeySettings
+        byKeySettings,
       );
     });
 
@@ -754,7 +754,7 @@ describe("AppConfigurationClient", () => {
           value: undefined,
           etag: undefined,
           tags: undefined,
-        }
+        },
       );
 
       // only fill in the 'readOnly' field (which is really the locked field in the REST model)
@@ -806,7 +806,7 @@ describe("AppConfigurationClient", () => {
 
       const key = recorder.variable(
         "listMultiplePagesOfResults",
-        `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`
+        `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
       );
 
       // this number is arbitrarily chosen to match the size of a page + 1
@@ -820,7 +820,7 @@ describe("AppConfigurationClient", () => {
             key,
             value: `the value for ${i}`,
             label: i.toString(),
-          })
+          }),
         );
 
         if (i !== 0 && i % 2 === 0) {
@@ -871,11 +871,11 @@ describe("AppConfigurationClient", () => {
     beforeEach(async () => {
       key1 = recorder.variable(
         "backslash-zero-label-1",
-        `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`
+        `backslash-zero-label-1-${Math.floor(Math.random() * 900 + 100)}`,
       );
       key2 = recorder.variable(
         "backslash-zero-label-2",
-        `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`
+        `backslash-zero-label-2-${Math.floor(Math.random() * 900 + 100)}`,
       );
       await client.addConfigurationSetting({
         key: key1,
@@ -898,7 +898,7 @@ describe("AppConfigurationClient", () => {
         await toSortedArray(
           client.listConfigurationSettings({
             keyFilter: "backslash-zero-label-*",
-          })
+          }),
         )
       ).forEach(async (setting) => {
         try {
@@ -915,7 +915,7 @@ describe("AppConfigurationClient", () => {
         labelFilter: "\0",
       });
       const byLabelSettings = (await toSortedArray(byLabelIterator)).filter((setting) =>
-        [key1, key2].includes(setting.key)
+        [key1, key2].includes(setting.key),
       );
       assert.equal(byLabelSettings.length, 2, "got unexpected number of settings");
       assertEqualSettings(
@@ -933,7 +933,7 @@ describe("AppConfigurationClient", () => {
             isReadOnly: false,
           },
         ],
-        byLabelSettings
+        byLabelSettings,
       );
     });
   });
@@ -947,15 +947,15 @@ describe("AppConfigurationClient", () => {
     beforeEach(async () => {
       key = recorder.variable(
         `listRevisions`,
-        `listRevisions${Math.floor(Math.random() * 100000)}`
+        `listRevisions${Math.floor(Math.random() * 100000)}`,
       );
       labelA = recorder.variable(
         `list-revisions-A`,
-        `list-revisions-A${Math.floor(Math.random() * 100000)}`
+        `list-revisions-A${Math.floor(Math.random() * 100000)}`,
       );
       labelB = recorder.variable(
         `list-revisions-B`,
-        `list-revisions-B${Math.floor(Math.random() * 100000)}`
+        `list-revisions-B${Math.floor(Math.random() * 100000)}`,
       );
 
       // we'll generate two sets of keys and labels for this selection
@@ -979,7 +979,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelA, value: "fooA1", isReadOnly: false },
           { key, label: labelA, value: "fooA2", isReadOnly: false },
         ],
-        revisions
+        revisions,
       );
     });
 
@@ -994,7 +994,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelA, value: "fooA1", isReadOnly: false },
           { key, label: labelA, value: "fooA2", isReadOnly: false },
         ],
-        revisions
+        revisions,
       );
     });
 
@@ -1009,7 +1009,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelB, value: "fooB1", isReadOnly: false },
           { key, label: labelB, value: "fooB2", isReadOnly: false },
         ],
-        revisions
+        revisions,
       );
     });
 
@@ -1026,7 +1026,7 @@ describe("AppConfigurationClient", () => {
           { key, label: labelB, value: "fooB1", isReadOnly: false },
           { key, label: labelB, value: "fooB2", isReadOnly: false },
         ],
-        revisions
+        revisions,
       );
     });
 
@@ -1061,7 +1061,7 @@ describe("AppConfigurationClient", () => {
           label: settings[0].label,
           value: settings[0].value,
           isReadOnly: settings[0].isReadOnly,
-        }
+        },
       );
     });
   });
@@ -1070,7 +1070,7 @@ describe("AppConfigurationClient", () => {
     it("replaces a configuration setting", async () => {
       const key = recorder.variable(
         `setConfigTest`,
-        `setConfigTest${Math.floor(Math.random() * 1000)}`
+        `setConfigTest${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const contentType = "application/json";
@@ -1092,32 +1092,32 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         "foo",
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
       assert.equal(
         result.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting().",
       );
       assert.equal(
         result.isReadOnly,
         false,
-        "Unexpected readOnly in result from addConfigurationSetting()."
+        "Unexpected readOnly in result from addConfigurationSetting().",
       );
       assert.deepEqual(
         result.tags,
         tags,
-        "Unexpected tags in result from addConfigurationSetting()."
+        "Unexpected tags in result from addConfigurationSetting().",
       );
       assert.equal(
         result.contentType,
         contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
+        "Unexpected contentType in result from addConfigurationSetting().",
       );
 
       const replacedResult = await client.setConfigurationSetting({ key, label, value: "foo2" });
@@ -1125,37 +1125,37 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         replacedResult.key,
         key,
-        "Unexpected key in result from setConfigurationSetting()."
+        "Unexpected key in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.label,
         label,
-        "Unexpected label in result from setConfigurationSetting()."
+        "Unexpected label in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.value,
         "foo2",
-        "Unexpected value in result from setConfigurationSetting()."
+        "Unexpected value in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.isReadOnly,
         false,
-        "Unexpected readOnly in result from setConfigurationSetting()."
+        "Unexpected readOnly in result from setConfigurationSetting().",
       );
       assert.deepEqual(
         replacedResult.tags,
         {},
-        "Unexpected tags in result from setConfigurationSetting()."
+        "Unexpected tags in result from setConfigurationSetting().",
       );
       assert.strictEqual(
         replacedResult.contentType,
         undefined,
-        "Unexpected contentType in result from setConfigurationSetting()."
+        "Unexpected contentType in result from setConfigurationSetting().",
       );
 
       await client.deleteConfigurationSetting({ key, label });
@@ -1164,7 +1164,7 @@ describe("AppConfigurationClient", () => {
     it("replaces a configuration setting (valid etag)", async () => {
       const key = recorder.variable(
         `setConfigTestEtag`,
-        `setConfigTestEtag${Math.floor(Math.random() * 1000)}`
+        `setConfigTestEtag${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const contentType = "application/json";
@@ -1186,32 +1186,32 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from addConfigurationSetting()."
+        "Unexpected label in result from addConfigurationSetting().",
       );
       assert.equal(
         result.value,
         "foo",
-        "Unexpected value in result from addConfigurationSetting()."
+        "Unexpected value in result from addConfigurationSetting().",
       );
       assert.equal(
         result.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from addConfigurationSetting()."
+        "Unexpected lastModified in result from addConfigurationSetting().",
       );
       assert.equal(
         result.isReadOnly,
         false,
-        "Unexpected readOnly in result from addConfigurationSetting()."
+        "Unexpected readOnly in result from addConfigurationSetting().",
       );
       assert.deepEqual(
         result.tags,
         tags,
-        "Unexpected tags in result from addConfigurationSetting()."
+        "Unexpected tags in result from addConfigurationSetting().",
       );
       assert.equal(
         result.contentType,
         contentType,
-        "Unexpected contentType in result from addConfigurationSetting()."
+        "Unexpected contentType in result from addConfigurationSetting().",
       );
 
       const replacedResult = await client.setConfigurationSetting(
@@ -1221,43 +1221,43 @@ describe("AppConfigurationClient", () => {
           value: "foo2",
           etag: result.etag,
         },
-        { onlyIfUnchanged: true }
+        { onlyIfUnchanged: true },
       );
 
       assert.equal(
         replacedResult.key,
         key,
-        "Unexpected key in result from setConfigurationSetting()."
+        "Unexpected key in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.label,
         label,
-        "Unexpected label in result from setConfigurationSetting()."
+        "Unexpected label in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.value,
         "foo2",
-        "Unexpected value in result from setConfigurationSetting()."
+        "Unexpected value in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting().",
       );
       assert.equal(
         replacedResult.isReadOnly,
         false,
-        "Unexpected readOnly in result from setConfigurationSetting()."
+        "Unexpected readOnly in result from setConfigurationSetting().",
       );
       assert.deepEqual(
         replacedResult.tags,
         {},
-        "Unexpected tags in result from setConfigurationSetting()."
+        "Unexpected tags in result from setConfigurationSetting().",
       );
       assert.strictEqual(
         replacedResult.contentType,
         undefined,
-        "Unexpected contentType in result from setConfigurationSetting()."
+        "Unexpected contentType in result from setConfigurationSetting().",
       );
 
       await client.deleteConfigurationSetting({ key, label });
@@ -1266,7 +1266,7 @@ describe("AppConfigurationClient", () => {
     it("creates a configuration setting if it doesn't exist", async () => {
       const key = recorder.variable(
         `setConfigTestNA`,
-        `setConfigTestNA${Math.floor(Math.random() * 1000)}`
+        `setConfigTestNA${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -1276,32 +1276,32 @@ describe("AppConfigurationClient", () => {
       assert.equal(
         result.label,
         label,
-        "Unexpected label in result from setConfigurationSetting()."
+        "Unexpected label in result from setConfigurationSetting().",
       );
       assert.equal(
         result.value,
         value,
-        "Unexpected value in result from setConfigurationSetting()."
+        "Unexpected value in result from setConfigurationSetting().",
       );
       assert.equal(
         result.lastModified instanceof Date,
         true,
-        "Unexpected lastModified in result from setConfigurationSetting()."
+        "Unexpected lastModified in result from setConfigurationSetting().",
       );
       assert.equal(
         result.isReadOnly,
         false,
-        "Unexpected readOnly in result from setConfigurationSetting()."
+        "Unexpected readOnly in result from setConfigurationSetting().",
       );
       assert.deepEqual(
         result.tags,
         {},
-        "Unexpected tags in result from setConfigurationSetting()."
+        "Unexpected tags in result from setConfigurationSetting().",
       );
       assert.strictEqual(
         result.contentType,
         undefined,
-        "Unexpected contentType in result from setConfigurationSetting()."
+        "Unexpected contentType in result from setConfigurationSetting().",
       );
     });
 
@@ -1310,7 +1310,7 @@ describe("AppConfigurationClient", () => {
       if (isPlaybackMode()) this.skip();
       const key = recorder.variable(
         `setConfigTestNA`,
-        `setConfigTestNA${Math.floor(Math.random() * 1000)}`
+        `setConfigTestNA${Math.floor(Math.random() * 1000)}`,
       );
       const label = "test";
       const value = "foo";
@@ -1321,7 +1321,7 @@ describe("AppConfigurationClient", () => {
             requestOptions: {
               timeout: 1,
             },
-          }
+          },
         );
       });
     });

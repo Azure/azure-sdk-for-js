@@ -43,7 +43,7 @@ export class CustomWidgetBlobService {
 
   async jsonUpload(
     absolutePath: string,
-    json: Record<string, unknown>
+    json: Record<string, unknown>,
   ): Promise<BlockBlobUploadResponse> {
     return this.blobUpload(absolutePath, Buffer.from(JSON.stringify(json)));
   }

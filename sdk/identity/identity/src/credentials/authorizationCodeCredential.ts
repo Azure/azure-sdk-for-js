@@ -59,7 +59,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecret: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: AuthorizationCodeCredentialOptions,
   );
   /**
    * Creates an instance of AuthorizationCodeCredential with the details needed
@@ -87,7 +87,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientId: string,
     authorizationCode: string,
     redirectUri: string,
-    options?: AuthorizationCodeCredentialOptions
+    options?: AuthorizationCodeCredentialOptions,
   );
   /**
    * @hidden
@@ -99,7 +99,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     clientSecretOrAuthorizationCode: string,
     authorizationCodeOrRedirectUri: string,
     redirectUriOrOptions: string | AuthorizationCodeCredentialOptions | undefined,
-    options?: AuthorizationCodeCredentialOptions
+    options?: AuthorizationCodeCredentialOptions,
   ) {
     checkTenantId(logger, tenantId);
     let clientSecret: string | undefined = clientSecretOrAuthorizationCode;
@@ -120,7 +120,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     // TODO: Validate tenant if provided
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     this.msalFlow = new MsalAuthorizationCode({
@@ -151,7 +151,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
         );
         newOptions.tenantId = tenantId;
 
@@ -160,7 +160,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 }

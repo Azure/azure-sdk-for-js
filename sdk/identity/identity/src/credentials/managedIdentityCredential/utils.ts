@@ -70,6 +70,6 @@ export function parseExpirationTimestamp(body: TokenResponseParsedBody): number 
   }
 
   throw new Error(
-    `Failed to parse token expiration from body. expires_in="${body.expires_in}", expires_on="${body.expires_on}"`
+    `Failed to parse token expiration from body. expires_in="${body.expires_in}", expires_on="${body.expires_on}"`,
   );
 }

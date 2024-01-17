@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
   // Creating a self-signed certificate
   const createPoller = await client.beginCreateCertificate(
     certificateName,
-    DefaultCertificatePolicy
+    DefaultCertificatePolicy,
   );
 
   // Get the pending certificate before the creation operation is complete
@@ -52,7 +52,7 @@ export async function main(): Promise<void> {
   // Note: It will not retrieve the certificate's policy.
   const certificateFromVersion = await client.getCertificateVersion(
     certificateName,
-    certificateWithPolicy.properties.version!
+    certificateWithPolicy.properties.version!,
   );
   console.log("Certificate from a specific version:", certificateFromVersion);
 
@@ -68,7 +68,7 @@ export async function main(): Promise<void> {
   const updatedCertificate = await client.updateCertificateProperties(
     certificateName,
     version,
-    properties
+    properties,
   );
   console.log("Updated certificate:", updatedCertificate);
 

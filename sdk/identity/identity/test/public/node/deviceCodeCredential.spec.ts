@@ -49,7 +49,7 @@ describe("DeviceCodeCredential", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     const token = await credential.getToken(scope);
@@ -66,7 +66,7 @@ describe("DeviceCodeCredential", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     // Important: Specifying permissions on the scope parameter of getToken won't work on client credential flows.
@@ -88,7 +88,7 @@ describe("DeviceCodeCredential", function () {
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
         userPromptCallback: callback,
-      })
+      }),
     );
 
     const token = await credential.getToken(scope);
@@ -111,7 +111,7 @@ describe("DeviceCodeCredential", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     const controller = new AbortController();
@@ -141,7 +141,7 @@ describe("DeviceCodeCredential", function () {
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         disableAutomaticAuthentication: true,
-      })
+      }),
     );
 
     let error: AbortError | undefined;
@@ -152,7 +152,7 @@ describe("DeviceCodeCredential", function () {
     }
     assert.equal(
       error?.message,
-      `Automatic authentication has been disabled. You may call the authentication() method.`
+      `Automatic authentication has been disabled. You may call the authentication() method.`,
     );
 
     const account = await credential.authenticate(scope);
@@ -170,12 +170,12 @@ describe("DeviceCodeCredential", function () {
           recorder.configureClientOptions({
             tenantId: env.AZURE_TENANT_ID,
             clientId: env.AZURE_CLIENT_ID,
-          })
+          }),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["DeviceCodeCredential.getToken"]
+      ["DeviceCodeCredential.getToken"],
     );
   });
 });

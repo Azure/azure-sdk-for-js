@@ -32,7 +32,7 @@ async function deleteDscpConfiguration() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dscpConfigurations/{dscpConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      dscpConfigurationName
+      dscpConfigurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

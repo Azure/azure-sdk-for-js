@@ -25,7 +25,7 @@ async function deleteAppServicePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .delete();
   console.log(result);

@@ -32,7 +32,7 @@ async function listRolesInACloudService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

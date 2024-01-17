@@ -36,12 +36,12 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
  */
 export function makeExtractKeyPhrasesResultArray(
   input: TextDocumentInput[],
-  response: KeyPhraseResult
+  response: KeyPhraseResult,
 ): ExtractKeyPhrasesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeExtractKeyPhrasesResult,
-    makeExtractKeyPhrasesErrorResult
+    makeExtractKeyPhrasesErrorResult,
   );
 }

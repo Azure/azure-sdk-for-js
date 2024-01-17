@@ -38,7 +38,7 @@ describe("KeyVaultBackupClient", () => {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
-        testPollerProperties
+        testPollerProperties,
       );
       await backupPoller.poll();
 
@@ -62,7 +62,7 @@ describe("KeyVaultBackupClient", () => {
     it("throws when polling errors", async function () {
       await assert.isRejected(
         client.beginBackup(blobStorageUri, "invalid_sas_token", testPollerProperties),
-        /SAS token/
+        /SAS token/,
       );
     });
   });
@@ -72,7 +72,7 @@ describe("KeyVaultBackupClient", () => {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
-        testPollerProperties
+        testPollerProperties,
       );
       const backupResult = await backupPoller.pollUntilDone();
       assert.exists(backupResult.folderUri);
@@ -80,7 +80,7 @@ describe("KeyVaultBackupClient", () => {
       const restorePoller = await client.beginRestore(
         backupResult.folderUri!,
         blobSasToken,
-        testPollerProperties
+        testPollerProperties,
       );
       await restorePoller.poll();
 
@@ -92,7 +92,7 @@ describe("KeyVaultBackupClient", () => {
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
       assert.equal(
         resumedPoller.getOperationState().jobId,
-        restorePoller.getOperationState().jobId
+        restorePoller.getOperationState().jobId,
       );
 
       const restoreResult = await restorePoller.pollUntilDone();
@@ -120,7 +120,7 @@ describe("KeyVaultBackupClient", () => {
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
-        testPollerProperties
+        testPollerProperties,
       );
       const backupURI = await backupPoller.pollUntilDone();
       assert.exists(backupURI.folderUri);
@@ -133,7 +133,7 @@ describe("KeyVaultBackupClient", () => {
         keyName,
         backupURI.folderUri!,
         blobSasToken,
-        testPollerProperties
+        testPollerProperties,
       );
       await selectiveKeyRestorePoller.poll();
 
@@ -145,12 +145,12 @@ describe("KeyVaultBackupClient", () => {
         {
           ...testPollerProperties,
           resumeFrom: selectiveKeyRestorePoller.toString(),
-        }
+        },
       );
       assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
       assert.equal(
         resumedPoller.getOperationState().jobId,
-        selectiveKeyRestorePoller.getOperationState().jobId
+        selectiveKeyRestorePoller.getOperationState().jobId,
       );
 
       await selectiveKeyRestorePoller.pollUntilDone();
@@ -163,7 +163,7 @@ describe("KeyVaultBackupClient", () => {
     it("throws when polling errors", async function () {
       await assert.isRejected(
         client.beginRestore(blobStorageUri, "bad_token", testPollerProperties),
-        /SAS token is malformed/
+        /SAS token is malformed/,
       );
     });
   });

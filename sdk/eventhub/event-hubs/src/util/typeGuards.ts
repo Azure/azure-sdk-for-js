@@ -16,7 +16,7 @@ import {
  * @internal
  */
 export function isCredential(
-  thing: unknown
+  thing: unknown,
 ): thing is TokenCredential | NamedKeyCredential | SASCredential {
   return isTokenCredential(thing) || isNamedKeyCredential(thing) || isSASCredential(thing);
 }

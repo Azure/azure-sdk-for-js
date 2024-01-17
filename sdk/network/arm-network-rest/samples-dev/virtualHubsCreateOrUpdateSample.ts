@@ -43,7 +43,7 @@ async function virtualHubPut() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}",
       subscriptionId,
       resourceGroupName,
-      virtualHubName
+      virtualHubName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

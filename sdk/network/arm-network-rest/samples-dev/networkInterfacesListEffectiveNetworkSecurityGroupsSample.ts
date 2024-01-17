@@ -32,7 +32,7 @@ async function listNetworkInterfaceEffectiveNetworkSecurityGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}/effectiveNetworkSecurityGroups",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

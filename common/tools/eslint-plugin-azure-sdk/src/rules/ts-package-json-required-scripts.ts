@@ -17,7 +17,7 @@ import { Rule } from "eslint";
 export = {
   meta: getRuleMetaData(
     "ts-package-json-required-scripts",
-    "force package.json's scripts value to at least contain build, test, and prepack"
+    "force package.json's scripts value to at least contain build, test, and prepack",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const buildVerifiers = getVerifiers(context, {
@@ -37,7 +37,7 @@ export = {
 
           // check to see if scripts contains both build and test
           "ExpressionStatement > ObjectExpression > Property[key.value='scripts']": (
-            node: Property
+            node: Property,
           ): void => {
             buildVerifiers.isMemberOf(node);
             testVerifiers.isMemberOf(node);

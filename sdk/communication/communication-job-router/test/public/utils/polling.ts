@@ -6,7 +6,7 @@ import { RouterJob, RouterWorker, RouterJobAssignment, RouterJobOffer } from "..
 
 export async function pollForJobOffer(
   workerId: string,
-  client: JobRouterClient
+  client: JobRouterClient,
 ): Promise<RouterJobOffer> {
   let worker: RouterWorker = {};
   while (worker.offers?.length === undefined || worker.offers.length < 1) {
@@ -18,7 +18,7 @@ export async function pollForJobOffer(
 
 export async function pollForJobAssignment(
   jobId: string,
-  client: JobRouterClient
+  client: JobRouterClient,
 ): Promise<RouterJobAssignment> {
   let job: RouterJob = {};
   while (job.assignments === undefined || Object.keys(job.assignments).length < 1) {
@@ -39,7 +39,7 @@ export async function pollForJobQueued(jobId: string, client: JobRouterClient): 
 
 export async function pollForJobCancelled(
   jobId: string,
-  client: JobRouterClient
+  client: JobRouterClient,
 ): Promise<RouterJob> {
   let job: RouterJob = {};
   while (job.status !== "cancelled") {
@@ -60,7 +60,7 @@ export async function pollForJobCancelled(
  */
 export const retry = async <T>(
   fn: () => Promise<T> | T,
-  { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number }
+  { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number },
 ): Promise<T> => {
   const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
   try {

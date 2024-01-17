@@ -16,7 +16,7 @@ export async function generateKey(secret: string, stringToSign: string): Promise
       hash: { name: "SHA-256" },
     },
     false,
-    ["sign"]
+    ["sign"],
   );
 
   const signature = await self.crypto.subtle.sign("HMAC", key, convertToUint8Array(stringToSign));

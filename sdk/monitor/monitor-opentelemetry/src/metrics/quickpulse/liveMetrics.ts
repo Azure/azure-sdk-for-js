@@ -120,7 +120,7 @@ export class LiveMetrics {
       streamId: streamId,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString
+      this.config.azureMonitorExporterOptions.connectionString,
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -240,13 +240,13 @@ export class LiveMetrics {
       QuickPulseMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyDurationHistogram = this.meter.createHistogram(
       QuickPulseMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.requestRateGauge = this.meter.createObservableGauge(QuickPulseMetricNames.REQUEST_RATE, {
@@ -256,39 +256,39 @@ export class LiveMetrics {
       QuickPulseMetricNames.REQUEST_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyRateGauge = this.meter.createObservableGauge(
       QuickPulseMetricNames.DEPENDENCY_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyFailedRateGauge = this.meter.createObservableGauge(
       QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.memoryCommitedGauge = this.meter.createObservableGauge(
       QuickPulseMetricNames.COMMITTED_BYTES,
       {
         valueType: ValueType.INT,
-      }
+      },
     );
 
     this.processorTimeGauge = this.meter.createObservableGauge(
       QuickPulseMetricNames.PROCESSOR_TIME,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.exceptionsRateGauge = this.meter.createObservableGauge(
       QuickPulseMetricNames.EXCEPTION_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.requestRateGauge.addCallback(this.getRequestRate.bind(this));

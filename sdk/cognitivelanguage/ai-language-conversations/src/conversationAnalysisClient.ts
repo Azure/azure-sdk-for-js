@@ -74,7 +74,7 @@ export class ConversationAnalysisClient {
   constructor(
     endpoint: string,
     credential: TokenCredential | KeyCredential,
-    options: ConversationAnalysisClientOptionalParams = {}
+    options: ConversationAnalysisClientOptionalParams = {},
   ) {
     this._client = new GeneratedClient(endpoint, options);
 
@@ -98,7 +98,7 @@ export class ConversationAnalysisClient {
    */
   analyzeConversation(
     task: AnalyzeConversationTaskUnion,
-    options?: AnalyzeConversationOptionalParams
+    options?: AnalyzeConversationOptionalParams,
   ): Promise<AnalyzeConversationResponse> {
     return this._tracing.withSpan(
       "ConversationAnalysisClient.analyzeConversation",
@@ -106,8 +106,8 @@ export class ConversationAnalysisClient {
       (updatedOptions) =>
         this._client.analyzeConversation(
           task,
-          updatedOptions
-        ) as Promise<AnalyzeConversationResponse>
+          updatedOptions,
+        ) as Promise<AnalyzeConversationResponse>,
     );
   }
 
@@ -118,7 +118,7 @@ export class ConversationAnalysisClient {
    */
   async beginConversationAnalysis(
     task: AnalyzeConversationJobsInput,
-    options?: ConversationAnalysisOptionalParams
+    options?: ConversationAnalysisOptionalParams,
   ): Promise<
     PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>
   > {
@@ -128,7 +128,7 @@ export class ConversationAnalysisClient {
       (updatedOptions) =>
         this._client.beginConversationAnalysis(task, updatedOptions) as Promise<
           PollerLike<PollOperationState<ConversationAnalysisResponse>, ConversationAnalysisResponse>
-        >
+        >,
     );
   }
 }

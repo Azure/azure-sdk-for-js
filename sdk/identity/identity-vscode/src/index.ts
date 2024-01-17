@@ -39,6 +39,6 @@ export const vsCodePlugin: IdentityPlugin = (context) => {
   const { vsCodeCredentialControl } = context as AzurePluginContext;
 
   vsCodeCredentialControl.setVsCodeCredentialFinder(() =>
-    keytar.findCredentials(VSCodeServiceName)
+    keytar.findCredentials(VSCodeServiceName),
   );
 };
