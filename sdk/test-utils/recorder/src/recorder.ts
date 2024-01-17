@@ -20,7 +20,7 @@ import {
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils";
-import { Test } from "mocha";
+import { Runnable, Test } from "mocha";
 import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
@@ -53,11 +53,45 @@ export class Recorder {
   private assetsJson?: string;
   private variables: Record<string, string>;
 
-  constructor(private testContext?: Test | undefined) {
+  constructor(
+    private testContext?:
+      | Test
+      | {
+          contextType: "vitest";
+          testTitle: string;
+        }
+      | undefined,
+  ) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
-        this.sessionFile = sessionFilePath(this.testContext);
+        let context:
+          | Test
+          | {
+              suiteTitle: string;
+              testTitle: string;
+            };
+        if (this.testContext instanceof Runnable) {
+          if (!this.testContext.parent) {
+            throw new RecorderError(
+              `Test ${this.testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+            );
+          }
+          context = {
+            suiteTitle: this.testContext.parent.fullTitle(),
+            testTitle: this.testContext.title,
+          };
+        } else {
+          // vitest format:
+          //   ""fileName.ts > suite title > test title""
+          const parts = this.testContext.testTitle.split(">");
+          context = {
+            suiteTitle: parts[1].trim(),
+            testTitle: parts[2].trim(),
+          };
+        }
+
+        this.sessionFile = sessionFilePath(context);
         this.assetsJson = assetsJsonPath();
 
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);

@@ -16,7 +16,7 @@ import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tool
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
+import { assert } from "vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 let connectionStringNotPresentWarning = false;
@@ -27,7 +27,10 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+export async function startRecorder(context: {
+  contextType: "vitest";
+  testTitle: string;
+}): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       APPCONFIG_CONNECTION_STRING:
@@ -46,8 +49,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
       ],
     },
   };
-
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   return recorder;
 }

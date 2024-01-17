@@ -8,17 +8,18 @@ import {
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers";
-import { AppConfigurationClient } from "../../src";
-import { Context } from "mocha";
-import { assert } from "chai";
+import { type AppConfigurationClient } from "../../src";
+import { afterEach, assert, beforeEach, describe, it, expect } from "vitest";
 
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
   let key: string;
-
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function () {
+    recorder = await startRecorder({
+      contextType: "vitest",
+      testTitle: expect.getState().currentTestName ?? "test",
+    });
     key = recorder.variable("etags", `etags${Math.floor(Math.random() * 1000)}`);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     await client.addConfigurationSetting({
