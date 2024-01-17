@@ -1,10 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthenticationError } from "../src";
-import { DefaultAuthorityHost } from "../src/constants";
+import { AuthenticationError, AzureAuthorityHosts } from "../src";
 import { assert } from "chai";
 
+/**
+ * @internal
+ * The default authority host.
+ */
+export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;
 /**
  * Waits for the given promise to resolve, then returns the resulted error.
  * Throws an exception if the promise doesn't reject.
