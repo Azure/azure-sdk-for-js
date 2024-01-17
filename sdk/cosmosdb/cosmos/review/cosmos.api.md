@@ -1961,11 +1961,11 @@ export interface RetryOptions {
 
 // @public (undocumented)
 export class RUCapPerOperationExceededError extends ErrorResponse {
-    constructor(message?: string, fetchedResults?: unknown[]);
+    constructor(message?: string, fetchedResults?: any[]);
     // (undocumented)
     readonly code: string;
     // (undocumented)
-    fetchedResults: unknown[];
+    fetchedResults: any[];
 }
 
 // @public (undocumented)
