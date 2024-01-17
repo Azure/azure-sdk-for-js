@@ -17,61 +17,61 @@ export const TelemetryItem: coreClient.CompositeMapper = {
         defaultValue: 1,
         serializedName: "ver",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       time: {
         serializedName: "time",
         required: true,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       sampleRate: {
         defaultValue: 100,
         serializedName: "sampleRate",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       sequence: {
         constraints: {
-          MaxLength: 64
+          MaxLength: 64,
         },
         serializedName: "seq",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       instrumentationKey: {
         serializedName: "iKey",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tags: {
         serializedName: "tags",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
+          value: { type: { name: "String" } },
+        },
       },
       data: {
         serializedName: "data",
         type: {
           name: "Composite",
-          className: "MonitorBase"
-        }
-      }
-    }
-  }
+          className: "MonitorBase",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorBase: coreClient.CompositeMapper = {
@@ -82,18 +82,18 @@ export const MonitorBase: coreClient.CompositeMapper = {
       baseType: {
         serializedName: "baseType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       baseData: {
         serializedName: "baseData",
         type: {
           name: "Composite",
-          className: "MonitorDomain"
-        }
-      }
-    }
-  }
+          className: "MonitorDomain",
+        },
+      },
+    },
+  },
 };
 
 export const MonitorDomain: coreClient.CompositeMapper = {
@@ -107,11 +107,11 @@ export const MonitorDomain: coreClient.CompositeMapper = {
         serializedName: "ver",
         required: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const TrackResponse: coreClient.CompositeMapper = {
@@ -122,14 +122,14 @@ export const TrackResponse: coreClient.CompositeMapper = {
       itemsReceived: {
         serializedName: "itemsReceived",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       itemsAccepted: {
         serializedName: "itemsAccepted",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       errors: {
         serializedName: "errors",
@@ -138,13 +138,13 @@ export const TrackResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TelemetryErrorDetails"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "TelemetryErrorDetails",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const TelemetryErrorDetails: coreClient.CompositeMapper = {
@@ -155,23 +155,23 @@ export const TelemetryErrorDetails: coreClient.CompositeMapper = {
       index: {
         serializedName: "index",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       statusCode: {
         serializedName: "statusCode",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MetricDataPoint: coreClient.CompositeMapper = {
@@ -181,66 +181,66 @@ export const MetricDataPoint: coreClient.CompositeMapper = {
     modelProperties: {
       namespace: {
         constraints: {
-          MaxLength: 256
+          MaxLength: 256,
         },
         serializedName: "ns",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       dataPointType: {
         serializedName: "kind",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "value",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       count: {
         serializedName: "count",
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       min: {
         serializedName: "min",
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       max: {
         serializedName: "max",
         nullable: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       stdDev: {
         serializedName: "stdDev",
         nullable: true,
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const TelemetryExceptionDetails: coreClient.CompositeMapper = {
@@ -251,49 +251,49 @@ export const TelemetryExceptionDetails: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       outerId: {
         serializedName: "outerId",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       typeName: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "typeName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         constraints: {
-          MaxLength: 32768
+          MaxLength: 32768,
         },
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hasFullStack: {
         defaultValue: true,
         serializedName: "hasFullStack",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       stack: {
         constraints: {
-          MaxLength: 32768
+          MaxLength: 32768,
         },
         serializedName: "stack",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       parsedStack: {
         serializedName: "parsedStack",
@@ -302,13 +302,13 @@ export const TelemetryExceptionDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "StackFrame"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "StackFrame",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const StackFrame: coreClient.CompositeMapper = {
@@ -320,45 +320,45 @@ export const StackFrame: coreClient.CompositeMapper = {
         serializedName: "level",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       method: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "method",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       assembly: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "assembly",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       fileName: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "fileName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       line: {
         serializedName: "line",
         type: {
-          name: "Number"
-        }
-      }
-    }
-  }
+          name: "Number",
+        },
+      },
+    },
+  },
 };
 
 export const AvailabilityData: coreClient.CompositeMapper = {
@@ -370,72 +370,72 @@ export const AvailabilityData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       id: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       success: {
         serializedName: "success",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       runLocation: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "runLocation",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         constraints: {
-          MaxLength: 8192
+          MaxLength: 8192,
         },
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const TelemetryEventData: coreClient.CompositeMapper = {
@@ -447,30 +447,30 @@ export const TelemetryEventData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const TelemetryExceptionData: coreClient.CompositeMapper = {
@@ -488,43 +488,43 @@ export const TelemetryExceptionData: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TelemetryExceptionDetails"
-            }
-          }
-        }
+              className: "TelemetryExceptionDetails",
+            },
+          },
+        },
       },
       severityLevel: {
         serializedName: "severityLevel",
         nullable: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       problemId: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "problemId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const MessageData: coreClient.CompositeMapper = {
@@ -536,36 +536,36 @@ export const MessageData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       message: {
         constraints: {
-          MaxLength: 32768
+          MaxLength: 32768,
         },
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       severityLevel: {
         serializedName: "severityLevel",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const MetricsData: coreClient.CompositeMapper = {
@@ -583,20 +583,20 @@ export const MetricsData: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MetricDataPoint"
-            }
-          }
-        }
+              className: "MetricDataPoint",
+            },
+          },
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
+      },
+    },
+  },
 };
 
 export const PageViewData: coreClient.CompositeMapper = {
@@ -608,64 +608,64 @@ export const PageViewData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       id: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         constraints: {
-          MaxLength: 2048
+          MaxLength: 2048,
         },
         serializedName: "url",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       referredUri: {
         constraints: {
-          MaxLength: 2048
+          MaxLength: 2048,
         },
         serializedName: "referredUri",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const PageViewPerfData: coreClient.CompositeMapper = {
@@ -677,85 +677,85 @@ export const PageViewPerfData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       id: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         constraints: {
-          MaxLength: 2048
+          MaxLength: 2048,
         },
         serializedName: "url",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       perfTotal: {
         serializedName: "perfTotal",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       networkConnect: {
         serializedName: "networkConnect",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       sentRequest: {
         serializedName: "sentRequest",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       receivedResponse: {
         serializedName: "receivedResponse",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       domProcessing: {
         serializedName: "domProcessing",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const RemoteDependencyData: coreClient.CompositeMapper = {
@@ -767,89 +767,89 @@ export const RemoteDependencyData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       id: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       resultCode: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "resultCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       data: {
         constraints: {
-          MaxLength: 8192
+          MaxLength: 8192,
         },
         serializedName: "data",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       type: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "target",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       success: {
         defaultValue: true,
         serializedName: "success",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };
 
 export const RequestData: coreClient.CompositeMapper = {
@@ -861,80 +861,80 @@ export const RequestData: coreClient.CompositeMapper = {
       ...MonitorDomain.type.modelProperties,
       id: {
         constraints: {
-          MaxLength: 512
+          MaxLength: 512,
         },
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       name: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       duration: {
         serializedName: "duration",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       success: {
         defaultValue: true,
         serializedName: "success",
         required: true,
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       responseCode: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "responseCode",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       source: {
         constraints: {
-          MaxLength: 1024
+          MaxLength: 1024,
         },
         serializedName: "source",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         constraints: {
-          MaxLength: 2048
+          MaxLength: 2048,
         },
         serializedName: "url",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       properties: {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
-        }
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } },
+        },
       },
       measurements: {
         serializedName: "measurements",
         type: {
           name: "Dictionary",
-          value: { type: { name: "Number" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "Number" } },
+        },
+      },
+    },
+  },
 };

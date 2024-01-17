@@ -196,7 +196,7 @@
       "name": "install-test-browsers",
       "summary": "Ensure supported browsers are preinstalled before running playwright based tests",
       "safeForSimultaneousRushProcesses": true,
-      "shellCommand": "node common/scripts/install-run.js playwright playwright install"
+      "shellCommand": "node common/scripts/install-run.js playwright@1.40.1 playwright install"
     }
   ],
   /**

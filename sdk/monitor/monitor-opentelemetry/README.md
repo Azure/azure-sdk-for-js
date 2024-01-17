@@ -70,6 +70,8 @@ const options: AzureMonitorOpenTelemetryOptions = {
         // Instrumentations generating logs
         bunyan: { enabled: true },
     },
+    enableLiveMetrics: true,
+    enableStandardMetrics: true,
     browserSdkLoaderOptions: {
         enabled: false,
         connectionString: "",
@@ -85,7 +87,7 @@ useAzureMonitor(options);
 
 |Property|Description|Default|
 | ------------------------------- |------------------------------------------------------------------------------------------------------------|-------|
-| azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |                                      | |
+| azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |                                    | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                       | 1|
 | instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }}|
 | browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "", config: {} }
@@ -100,7 +102,8 @@ Options could be set using configuration file `applicationinsights.json` located
 ```json
 {
     "samplingRatio": 0.8,
-    "enableStandardMetrics": false,
+    "enableStandardMetrics": true,
+    "enableLiveMetrics": true,
     "instrumentationOptions":{
         "azureSdk": {
             "enabled": false
