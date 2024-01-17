@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, expect, vi } from "vitest";
+import { redirectPolicy } from "../src/policies/redirectPolicy.js";
 import {
   type PipelineResponse,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
 } from "../src/index.js";
-import { redirectPolicy } from "../src/policies/redirectPolicy.js";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

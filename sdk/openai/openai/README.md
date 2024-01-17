@@ -6,7 +6,7 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 
 Use the client library for Azure OpenAI to:
 
-* [Create a chat completion with ChatGPT][list_chat_completion_sample]
+* [Create a chat completion with ChatGPT][stream_chat_completion_sample]
 * [Create a text embedding for comparisons][msdocs_openai_embedding]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images][get_images_sample]
@@ -178,7 +178,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
   for await (const event of events) {
     for (const choice of event.choices) {
       const delta = choice.delta?.content;
@@ -408,7 +408,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { 
+  const events = await client.streamChatCompletions(deploymentId, messages, { 
     maxTokens: 128,
     azureExtensionOptions: {
       extensions: [
@@ -504,7 +504,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 <!-- LINKS -->
 [get_completions_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[list_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
+[stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
 [byod_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts

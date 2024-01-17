@@ -35,7 +35,7 @@ async function unprepareNetworkPolicies() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

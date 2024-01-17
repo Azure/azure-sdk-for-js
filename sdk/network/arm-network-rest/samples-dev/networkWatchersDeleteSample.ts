@@ -32,7 +32,7 @@ async function deleteNetworkWatcher() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

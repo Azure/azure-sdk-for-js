@@ -1,5 +1,14 @@
 # Release History
 
+## 5.1.0 (2024-01-16)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+
 ## 5.0.0 (2023-11-07)
 
 ### Features Added

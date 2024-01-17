@@ -38,7 +38,7 @@ export interface CancelablePromiseLike<T> extends PromiseLike<T> {
  */
 export function delayMs(
   ms: number,
-  abortSignal: AbortSignalLike | undefined
+  abortSignal: AbortSignalLike | undefined,
 ): CancelablePromiseLike<void> {
   let aborted = false;
   let toReject: ((e: Error) => void) | undefined;
@@ -69,6 +69,6 @@ export function delayMs(
         aborted = true;
         toReject?.(new Error("The operation was cancelled."));
       },
-    }
+    },
   );
 }

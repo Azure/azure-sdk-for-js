@@ -8,7 +8,7 @@ import { PersonalizerClient } from "./clientDefinitions";
 export default function createPersonalizerClient(
   Endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): PersonalizerClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/personalizer/v1.1-preview.3`;
 

@@ -76,7 +76,7 @@ const isRouterClientOptions = (value: any): value is JobRouterClientOptions =>
  * @returns - An array of notes as {@link RouterJobNote}.
  */
 const transformNotesForSDK = (
-  notes: { [propertyName: string]: string } | undefined
+  notes: { [propertyName: string]: string } | undefined,
 ): RouterJobNote[] => {
   if (notes === undefined) return [];
 
@@ -89,13 +89,13 @@ const transformNotesForSDK = (
  * @returns - An array of notes as their generated type.
  */
 const transformNotesForService = (
-  notes: RouterJobNote[] | undefined | null
+  notes: RouterJobNote[] | undefined | null,
 ): { [propertyName: string]: string } | undefined => {
   if (notes === undefined || notes === null || !Array.isArray(notes)) return {};
 
   return notes.reduce(
     (acc, { addedAt, message }) => ({ ...acc, [addedAt.toISOString()]: message }),
-    {}
+    {},
   );
 };
 
@@ -105,7 +105,7 @@ const transformNotesForService = (
  * @returns - The job matching mode as {@link JobMatchingMode}.
  */
 const transformMatchingModeForService = (
-  matchingMode: RouterJobMatchingMode | undefined | null
+  matchingMode: RouterJobMatchingMode | undefined | null,
 ): JobMatchingMode | undefined => {
   if (matchingMode === undefined || matchingMode === null) {
     return null!;
@@ -187,7 +187,7 @@ export class JobRouterClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: JobRouterClientOptions
+    options?: JobRouterClientOptions,
   );
 
   /**
@@ -199,7 +199,7 @@ export class JobRouterClient {
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    options?: JobRouterClientOptions
+    options?: JobRouterClientOptions,
   );
 
   /**
@@ -215,7 +215,7 @@ export class JobRouterClient {
       | TokenCredential
       | CommunicationTokenCredential
       | JobRouterClientOptions,
-    maybeOptions: JobRouterClientOptions = {}
+    maybeOptions: JobRouterClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRouterClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -256,7 +256,7 @@ export class JobRouterClient {
    */
   public async createJob(
     jobId: string,
-    options: CreateJobOptions = {}
+    options: CreateJobOptions = {},
   ): Promise<RouterJobResponse> {
     const patch = options as RouterJobGenerated;
     patch.notes = transformNotesForService(options.notes);
@@ -277,7 +277,7 @@ export class JobRouterClient {
    */
   public async updateJob(
     jobId: string,
-    options: UpdateJobOptions = {}
+    options: UpdateJobOptions = {},
   ): Promise<RouterJobResponse> {
     const patch = options as RouterJobGenerated;
     patch.notes = transformNotesForService(options.notes);
@@ -307,7 +307,7 @@ export class JobRouterClient {
    * @returns - The list of jobs.
    */
   public listJobs(
-    options: ListJobsOptions = {}
+    options: ListJobsOptions = {},
   ): TransformingPagedAsyncIterableIterator<RouterJobItemGenerated, RouterJobItem> {
     const listOptions = <JobRouterListJobsOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
@@ -315,7 +315,7 @@ export class JobRouterClient {
 
     const transformingIterator = new TransformingPagedAsyncIterableIterator(
       this.client.jobRouter.listJobs(listOptions),
-      listJobsTransform
+      listJobsTransform,
     );
 
     return transformingIterator;
@@ -329,7 +329,7 @@ export class JobRouterClient {
    */
   public async getJobQueuePosition(
     jobId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RouterJobPositionDetails> {
     return this.client.jobRouter.getInQueuePosition(jobId, options);
   }
@@ -341,7 +341,7 @@ export class JobRouterClient {
    */
   public async cancelJob(
     jobId: string,
-    options: CancelJobOptions = {}
+    options: CancelJobOptions = {},
   ): Promise<CancelJobResponse> {
     return this.client.jobRouter.cancelJobAction(jobId, options);
   }
@@ -355,7 +355,7 @@ export class JobRouterClient {
   public async completeJob(
     jobId: string,
     assignmentId: string,
-    options: CompleteJobOptions = {}
+    options: CompleteJobOptions = {},
   ): Promise<CompleteJobResponse> {
     return this.client.jobRouter.completeJobAction(jobId, assignmentId, options);
   }
@@ -367,7 +367,7 @@ export class JobRouterClient {
    */
   public async reclassifyJob(
     jobId: string,
-    options: ReclassifyJobOptions = {}
+    options: ReclassifyJobOptions = {},
   ): Promise<ReclassifyJobResponse> {
     return this.client.jobRouter.reclassifyJobAction(jobId, options);
   }
@@ -381,7 +381,7 @@ export class JobRouterClient {
   public async closeJob(
     jobId: string,
     assignmentId: string,
-    options: CloseJobOptions = {}
+    options: CloseJobOptions = {},
   ): Promise<CloseJobResponse> {
     return this.client.jobRouter.closeJobAction(jobId, assignmentId, options);
   }
@@ -395,7 +395,7 @@ export class JobRouterClient {
   public async unassignJob(
     jobId: string,
     assignmentId: string,
-    options: UnassignJobOptions = {}
+    options: UnassignJobOptions = {},
   ): Promise<UnassignJobResponse> {
     return this.client.jobRouter.unassignJobAction(jobId, assignmentId, options);
   }
@@ -418,7 +418,7 @@ export class JobRouterClient {
   public async acceptJobOffer(
     workerId: string,
     offerId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<AcceptJobOfferResponse> {
     return this.client.jobRouter.acceptJobAction(workerId, offerId, options);
   }
@@ -432,7 +432,7 @@ export class JobRouterClient {
   public async declineJobOffer(
     workerId: string,
     offerId: string,
-    options: DeclineJobOfferOptions = {}
+    options: DeclineJobOfferOptions = {},
   ): Promise<DeclineJobOfferResponse> {
     return this.client.jobRouter.declineJobAction(workerId, offerId, options);
   }
@@ -445,7 +445,7 @@ export class JobRouterClient {
    */
   public async createWorker(
     workerId: string,
-    options: CreateWorkerOptions = {}
+    options: CreateWorkerOptions = {},
   ): Promise<RouterWorkerResponse> {
     const response = await this.client.jobRouter.upsertWorker(workerId, options, options);
     return response as RouterWorkerResponse;
@@ -459,7 +459,7 @@ export class JobRouterClient {
    */
   public async updateWorker(
     workerId: string,
-    options: UpdateWorkerOptions = {}
+    options: UpdateWorkerOptions = {},
   ): Promise<RouterWorkerResponse> {
     const response = await this.client.jobRouter.upsertWorker(workerId, options, options);
     return response as RouterWorkerResponse;
@@ -473,7 +473,7 @@ export class JobRouterClient {
    */
   public async getWorker(
     workerId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RouterWorkerResponse> {
     const response = await this.client.jobRouter.getWorker(workerId, options);
     return response as RouterWorkerResponse;
@@ -485,14 +485,14 @@ export class JobRouterClient {
    * @returns - The list of workers.
    */
   public listWorkers(
-    options: ListWorkersOptions = {}
+    options: ListWorkersOptions = {},
   ): TransformingPagedAsyncIterableIterator<RouterWorkerItemGenerated, RouterWorkerItem> {
     const listOptions = <JobRouterListWorkersOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
 
     const transformingIterator = new TransformingPagedAsyncIterableIterator(
       this.client.jobRouter.listWorkers(listOptions),
-      listWorkersTransform
+      listWorkersTransform,
     );
 
     return transformingIterator;
@@ -515,7 +515,7 @@ export class JobRouterClient {
    */
   public async getQueueStatistics(
     queueId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RouterQueueStatistics> {
     return this.client.jobRouter.getQueueStatistics(queueId, options);
   }

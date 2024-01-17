@@ -73,7 +73,7 @@ export class ExtendedServiceClient extends ServiceClient {
    */
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec
+    operationSpec: OperationSpec,
   ): Promise<T> {
     const userProvidedCallBack: RawResponseCallback | undefined =
       operationArguments?.options?.onResponse;
@@ -83,7 +83,7 @@ export class ExtendedServiceClient extends ServiceClient {
     function onResponse(
       rawResponse: FullOperationResponse,
       flatResponse: unknown,
-      error?: unknown
+      error?: unknown,
     ): void {
       lastResponse = rawResponse;
       if (userProvidedCallBack) {

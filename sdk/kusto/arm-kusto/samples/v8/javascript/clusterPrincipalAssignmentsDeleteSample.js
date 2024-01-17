@@ -29,7 +29,7 @@ async function kustoClusterPrincipalAssignmentsDelete() {
   const result = await client.clusterPrincipalAssignments.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }

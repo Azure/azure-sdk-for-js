@@ -34,7 +34,7 @@ async function routeMapDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeMapName
+      routeMapName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

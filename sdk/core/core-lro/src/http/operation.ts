@@ -120,7 +120,7 @@ function transformStatus(inputs: { status: unknown; statusCode: number }): Opera
   const { status, statusCode } = inputs;
   if (typeof status !== "string" && status !== undefined) {
     throw new Error(
-      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`
+      `Polling was unsuccessful. Expected status to have a string value or no value but it has instead: ${status}. This doesn't necessarily indicate the operation has failed. Check your Azure subscription or resource status for more information.`,
     );
   }
   switch (status?.toLocaleLowerCase()) {
@@ -183,13 +183,13 @@ export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | un
   const error = accessBodyProperty(response, "error");
   if (!error) {
     logger.warning(
-      `The long-running operation failed but there is no error property in the response's body`
+      `The long-running operation failed but there is no error property in the response's body`,
     );
     return;
   }
   if (!error.code || !error.message) {
     logger.warning(
-      `The long-running operation failed but the error property in the response's body doesn't contain code or message`
+      `The long-running operation failed but the error property in the response's body doesn't contain code or message`,
     );
     return;
   }
@@ -264,7 +264,7 @@ export async function initHttpOperation<TResult, TState>(inputs: {
 
 export function getOperationLocation<TState>(
   { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -286,7 +286,7 @@ export function getOperationLocation<TState>(
 
 export function getOperationStatus<TState>(
   { rawResponse }: LroResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
   switch (mode) {
@@ -306,14 +306,14 @@ export function getOperationStatus<TState>(
 
 function accessBodyProperty<P extends string>(
   { flatResponse, rawResponse }: LroResponse,
-  prop: P
+  prop: P,
 ): ResponseBody[P] {
   return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
 }
 
 export function getResourceLocation<TState>(
   res: LroResponse,
-  state: RestorableOperationState<TState>
+  state: RestorableOperationState<TState>,
 ): string | undefined {
   const loc = accessBodyProperty(res, "resourceLocation");
   if (loc && typeof loc === "string") {

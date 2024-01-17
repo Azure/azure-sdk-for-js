@@ -3,7 +3,6 @@
 
 import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
-
 import type { HttpClient } from "../../src/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert, describe, it, afterEach, vi } from "vitest";

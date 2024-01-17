@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, vi } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { multipartPolicy } from "../src/policies/multipartPolicy.js";
+import { describe, it, assert, expect, vi } from "vitest";
 import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { assertBodyMatches } from "./util.js";
@@ -67,6 +67,30 @@ describe("multipartPolicy", function () {
     );
   });
 
+  it("throws if request.body is already present", async function () {
+    const request = createPipelineRequest({
+      url: "https://bing.com",
+      headers: createHttpHeaders({
+        "Content-Type": "multipart/form-data",
+      }),
+      multipartBody: { parts: [] },
+      body: "AAAAAAAAAAAA",
+    });
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
+
+    const policy = multipartPolicy();
+
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(
+      /multipartBody and regular body cannot be set at the same time/,
+    );
+  });
+
   describe("content-type request header and boundary", async function () {
     it("header is populated to multipart/mixed when not set", async function () {
       const request = await performRequest({
@@ -84,7 +108,7 @@ describe("multipartPolicy", function () {
       );
     });
 
-    it("throws when multipart request body present but content-type is not multipart", async () => {
+    it("throws when multipart request body present but content-type is not multipart", async function () {
       await expect(
         performRequest({
           headers: createHttpHeaders({
@@ -94,10 +118,12 @@ describe("multipartPolicy", function () {
             parts: [],
           },
         }),
-      ).rejects.toThrow(/Content-Type header must be multipart\/mixed/);
+      ).rejects.toThrow(
+        /Got multipart request body, but content-type header was not multipart: application\/json/,
+      );
     });
 
-    it("throws when invalid boundary is set in content-type header", async () => {
+    it("throws when invalid boundary is set in content-type header", async function () {
       await expect(
         performRequest({
           headers: createHttpHeaders({

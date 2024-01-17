@@ -21,9 +21,9 @@ export interface CreateAbortablePromiseOptions extends AbortOptions {
 export function createAbortablePromise<T>(
   buildPromise: (
     resolve: (value: T | PromiseLike<T>) => void,
-    reject: (reason?: any) => void
+    reject: (reason?: any) => void,
   ) => void,
-  options?: CreateAbortablePromiseOptions
+  options?: CreateAbortablePromiseOptions,
 ): Promise<T> {
   const { cleanupBeforeAbort, abortSignal, abortErrorMsg } = options ?? {};
   return new Promise((resolve, reject) => {
@@ -50,7 +50,7 @@ export function createAbortablePromise<T>(
         (x) => {
           removeListeners();
           reject(x);
-        }
+        },
       );
     } catch (err) {
       reject(err);

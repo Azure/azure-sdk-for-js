@@ -15,7 +15,7 @@ export function convertHttpClient(requestPolicyClient: RequestPolicy): HttpClien
   return {
     sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => {
       const response = await requestPolicyClient.sendRequest(
-        toWebResourceLike(request, { createProxy: true })
+        toWebResourceLike(request, { createProxy: true }),
       );
       return toPipelineResponse(response);
     },

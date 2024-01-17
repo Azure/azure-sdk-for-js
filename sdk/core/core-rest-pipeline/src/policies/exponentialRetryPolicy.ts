@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelinePolicy } from "../pipeline.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
 import { retryPolicy } from "./retryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";

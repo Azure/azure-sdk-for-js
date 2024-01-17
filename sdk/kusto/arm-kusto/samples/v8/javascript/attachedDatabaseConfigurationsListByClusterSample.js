@@ -28,7 +28,7 @@ async function kustoAttachedDatabaseConfigurationsListByCluster() {
   const resArray = new Array();
   for await (let item of client.attachedDatabaseConfigurations.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

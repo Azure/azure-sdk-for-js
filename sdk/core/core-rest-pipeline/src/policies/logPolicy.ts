@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Debugger } from "@azure/logger";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { Debugger } from "@azure/logger";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { logger as coreLogger } from "../log.js";
 import { Sanitizer } from "../util/sanitizer.js";
 

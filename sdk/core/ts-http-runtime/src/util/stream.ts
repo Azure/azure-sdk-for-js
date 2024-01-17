@@ -6,7 +6,7 @@ import { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
 import { isBlob, isNodeReadableStream, isWebReadableStream } from "./typeGuards.js";
 
 async function* streamAsyncIterator(
-  this: ReadableStream<Uint8Array>
+  this: ReadableStream<Uint8Array>,
 ): AsyncIterableIterator<Uint8Array> {
   const reader = this.getReader();
   try {
@@ -39,7 +39,7 @@ function nodeStreamFromWebStream(webStream: ReadableStream<Uint8Array>): NodeJS.
 }
 
 export function toWebStream(
-  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream
+  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
 ): ReadableStream<Uint8Array> {
   return isWebReadableStream(stream)
     ? stream
@@ -47,7 +47,7 @@ export function toWebStream(
 }
 
 export function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob,
 ): NodeJS.ReadableStream | ReadableStream<Uint8Array> {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
@@ -61,7 +61,7 @@ export function toStream(
 }
 
 export function concatenateStreams(
-  sources: (ReadableStream<Uint8Array> | NodeJS.ReadableStream)[]
+  sources: (ReadableStream<Uint8Array> | NodeJS.ReadableStream)[],
 ): ReadableStream<Uint8Array> | NodeJS.ReadableStream {
   if (sources.some(isWebReadableStream)) {
     throw new Error("Was not expecting a Web stream here");
@@ -74,6 +74,6 @@ export function concatenateStreams(
           yield chunk;
         }
       }
-    })()
+    })(),
   );
 }

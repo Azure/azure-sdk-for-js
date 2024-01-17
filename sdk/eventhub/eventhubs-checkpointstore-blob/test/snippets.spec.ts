@@ -38,7 +38,7 @@ describe.skip("Snippets", () => {
     async function main(): Promise<void> {
       const blobContainerClient = new ContainerClient(
         storageAccountConnectionString,
-        containerName
+        containerName,
       );
 
       if (!(await blobContainerClient.exists())) {
@@ -50,7 +50,7 @@ describe.skip("Snippets", () => {
         consumerGroup,
         eventHubConnectionString,
         eventHubName,
-        checkpointStore
+        checkpointStore,
       );
 
       const subscription = consumerClient.subscribe({

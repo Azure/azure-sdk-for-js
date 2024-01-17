@@ -143,13 +143,13 @@ describe(`TableClient`, function () {
       for (let i = 0; i < barItems; i++) {
         assert.isTrue(
           all.some((e) => e.rowKey === `${i}`),
-          `Couldn't find entity with row key ${i}`
+          `Couldn't find entity with row key ${i}`,
         );
       }
 
       assert.isTrue(
         all.some((e) => e.rowKey === `binary1`),
-        `Couldn't find entity with row key binary1`
+        `Couldn't find entity with row key binary1`,
       );
     });
 
@@ -167,7 +167,7 @@ describe(`TableClient`, function () {
       for (let i = 0; i < barItems; i++) {
         assert.isTrue(
           all.some((e) => e.rowKey === `${i}`),
-          `Couldn't find entity with row key ${i}`
+          `Couldn't find entity with row key ${i}`,
         );
       }
     });
@@ -481,7 +481,7 @@ describe(`TableClient`, function () {
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
-        testEntity.rowKey
+        testEntity.rowKey,
       );
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res),
@@ -519,7 +519,7 @@ describe(`TableClient`, function () {
       await client.createEntity(testEntity, { onResponse: (res) => (createResult = res) });
       const result = await client.getEntity<ResponseType>(
         testEntity.partitionKey,
-        testEntity.rowKey
+        testEntity.rowKey,
       );
       await client.deleteEntity(testEntity.partitionKey, testEntity.rowKey, {
         onResponse: (res) => (deleteResult = res),
@@ -688,7 +688,7 @@ describe(`TableClient`, function () {
           "TableClient.listEntitiesPage",
           "TableClient.deleteEntity",
           "TableClient.deleteTable",
-        ]
+        ],
       );
     });
   });

@@ -41,7 +41,7 @@ async function originsUpdate() {
     profileName,
     endpointName,
     originName,
-    originUpdateProperties
+    originUpdateProperties,
   );
   console.log(result);
 }

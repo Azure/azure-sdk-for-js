@@ -39,7 +39,7 @@ async function logAnalyticsGetWafLogAnalyticsMetrics() {
     dateTimeBegin,
     dateTimeEnd,
     granularity,
-    options
+    options,
   );
   console.log(result);
 }

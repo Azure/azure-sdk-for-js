@@ -32,7 +32,7 @@ async function checkEndpointNameAvailability() {
   const result = await client.afdProfiles.checkEndpointNameAvailability(
     resourceGroupName,
     profileName,
-    checkEndpointNameAvailabilityInput
+    checkEndpointNameAvailabilityInput,
   );
   console.log(result);
 }

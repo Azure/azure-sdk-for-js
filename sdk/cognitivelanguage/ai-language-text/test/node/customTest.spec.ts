@@ -47,7 +47,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomEntityRecognition",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -79,7 +79,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation1);
           });
@@ -98,7 +98,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomSingleLabelClassification",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -129,7 +129,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation2);
           });
@@ -148,7 +148,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               authoringClient,
               "CustomMultiLabelClassification",
               projectName,
-              deploymentName
+              deploymentName,
             );
           });
 
@@ -179,7 +179,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             );
             await assertActionsResults(await poller.pollUntilDone(), expectation4);
           });

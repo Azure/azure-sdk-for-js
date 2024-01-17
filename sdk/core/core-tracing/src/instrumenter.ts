@@ -37,7 +37,7 @@ export function createDefaultInstrumenter(): Instrumenter {
     },
     startSpan: (
       _name: string,
-      spanOptions: InstrumenterSpanOptions
+      spanOptions: InstrumenterSpanOptions,
     ): { span: TracingSpan; tracingContext: TracingContext } => {
       return {
         span: createDefaultTracingSpan(),
@@ -46,7 +46,7 @@ export function createDefaultInstrumenter(): Instrumenter {
     },
     withContext<
       CallbackArgs extends unknown[],
-      Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+      Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
     >(
       _context: TracingContext,
       callback: Callback,

@@ -52,7 +52,7 @@ describe("Various error cases", () => {
     it("get: Non-existent key throws 404", async () => {
       await assertThrowsRestError(
         () => client.getConfigurationSetting({ key: nonExistentKey }),
-        404
+        404,
       );
     });
 
@@ -68,9 +68,9 @@ describe("Various error cases", () => {
               ...addedSetting,
               etag: nonMatchingETag, // purposefully make the etag not match the server
             },
-            { onlyIfUnchanged: true }
+            { onlyIfUnchanged: true },
           ),
-        412
+        412,
       );
     });
 

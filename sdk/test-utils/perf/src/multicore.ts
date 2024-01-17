@@ -66,10 +66,10 @@ export interface ManagerMulticoreUtils {
   onMessage(callback: (message: WorkerToManagerMessageWithId) => void): void;
   offMessage(callback: (message: WorkerToManagerMessageWithId) => void): void;
   getMessage(
-    filter: MessageFilter<WorkerToManagerMessageWithId>
+    filter: MessageFilter<WorkerToManagerMessageWithId>,
   ): Promise<WorkerToManagerMessageWithId>;
   getMessageFromAll(
-    filter: MessageFilter<WorkerToManagerMessage>
+    filter: MessageFilter<WorkerToManagerMessage>,
   ): Promise<WorkerToManagerMessageWithId[]>;
 }
 
@@ -85,7 +85,7 @@ export type MulticoreUtils = WorkerMulticoreUtils | ManagerMulticoreUtils;
 const makeGetMessage =
   <T>(
     onMessage: (callback: (message: T) => void) => void,
-    offMessage: (callback: (message: T) => void) => void
+    offMessage: (callback: (message: T) => void) => void,
   ) =>
   (filter?: MessageFilter<T>) =>
     new Promise<T>((resolve) => {
@@ -103,7 +103,7 @@ const createWorkerUtils = (
   sendMessage: (message: any) => void,
   onMessage: (callback: (message: any) => void) => void,
   offMessage: (callback: (message: any) => void) => void,
-  workerData: WorkerData
+  workerData: WorkerData,
 ): WorkerMulticoreUtils => ({
   isManager: false,
   sendMessage,
@@ -122,7 +122,7 @@ const createChildProcess = (data: WorkerData): WorkerLike =>
       // Configure an IPC channel so that messages can be sent via process.send.
       // https://nodejs.org/api/child_process.html#optionsstdio
       stdio: ["inherit", "inherit", "inherit", "ipc"],
-    }
+    },
   );
 
 const createWorkerThread = (data: WorkerData): WorkerLike =>
@@ -158,7 +158,7 @@ const createManagerUtils = (mode: "worker_threads" | "child_processes"): Manager
   // Wait for a message that matches the filter from each worker.
   const getMessageFromAll = (filter: MessageFilter<WorkerToManagerMessage>) =>
     Promise.all(
-      workers.map((_, i) => getMessage(({ workerId, ...msg }) => filter(msg) && workerId === i))
+      workers.map((_, i) => getMessage(({ workerId, ...msg }) => filter(msg) && workerId === i)),
     );
 
   return {
@@ -191,7 +191,7 @@ export const multicoreUtils: MulticoreUtils = (() => {
       (msg) => process.send && process.send(msg),
       (cb) => process.on("message", cb),
       (cb) => process.off("message", cb),
-      JSON.parse(process.argv[2]) as WorkerData
+      JSON.parse(process.argv[2]) as WorkerData,
     );
   } else if (workerThreads.parentPort) {
     // we are a worker thread
@@ -199,7 +199,7 @@ export const multicoreUtils: MulticoreUtils = (() => {
       (msg) => workerThreads.parentPort?.postMessage(msg),
       (cb) => workerThreads.parentPort?.on("message", cb),
       (cb) => workerThreads.parentPort?.off("message", cb),
-      workerThreads.workerData as WorkerData
+      workerThreads.workerData as WorkerData,
     );
   } else {
     // we are a manager

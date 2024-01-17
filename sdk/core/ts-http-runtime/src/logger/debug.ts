@@ -86,7 +86,7 @@ const debugObj: Debug = Object.assign(
     enabled,
     disable,
     log,
-  }
+  },
 );
 
 function enable(namespaces: string): void {

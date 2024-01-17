@@ -25,7 +25,7 @@ export function instrumentEventData(
   options: OperationOptions,
   entityPath: string,
   host: string,
-  operation?: MessagingOperationNames
+  operation?: MessagingOperationNames,
 ): { event: EventData; spanContext: TracingContext | undefined } {
   const props = isAmqpAnnotatedMessage(eventData)
     ? eventData.applicationProperties
@@ -41,7 +41,7 @@ export function instrumentEventData(
   const { span: messageSpan, updatedOptions } = tracingClient.startSpan(
     "message",
     options,
-    toSpanOptions({ entityPath, host }, operation, "producer")
+    toSpanOptions({ entityPath, host }, operation, "producer"),
   );
   try {
     if (!messageSpan.isRecording()) {
@@ -52,7 +52,7 @@ export function instrumentEventData(
     }
 
     const traceParent = tracingClient.createRequestHeaders(
-      updatedOptions.tracingOptions?.tracingContext
+      updatedOptions.tracingOptions?.tracingContext,
     )["traceparent"];
     if (traceParent) {
       const copiedProps = { ...props };

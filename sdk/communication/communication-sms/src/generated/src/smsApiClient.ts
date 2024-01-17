@@ -38,7 +38,7 @@ export class SmsApiClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-sms/1.1.0`;
+    const packageDetails = `azsdk-js-communication-sms/1.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

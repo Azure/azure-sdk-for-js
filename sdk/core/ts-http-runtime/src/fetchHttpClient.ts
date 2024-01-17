@@ -244,7 +244,7 @@ function buildRequestBody(request: PipelineRequest):
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
   const { onProgress, onEnd } = options;
@@ -269,7 +269,7 @@ function buildBodyStream(
         flush() {
           onEnd?.();
         },
-      })
+      }),
     );
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream

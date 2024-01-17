@@ -93,7 +93,7 @@ export function parseConnectionString<T>(connectionString: string): ParsedOutput
     const splitIndex = part.indexOf("=");
     if (splitIndex === -1) {
       throw new Error(
-        "Connection string malformed: each part of the connection string must have an `=` assignment."
+        "Connection string malformed: each part of the connection string must have an `=` assignment.",
       );
     }
 
@@ -177,7 +177,7 @@ export async function delay<T>(
   delayInMs: number,
   abortSignal?: AbortSignalLike,
   abortErrorMsg?: string,
-  value?: T
+  value?: T,
 ): Promise<T | void> {
   await wrapperDelay(delayInMs, {
     abortSignal: abortSignal,
@@ -222,7 +222,7 @@ export type Func<T, V> = (a: T) => V;
  */
 export function executePromisesSequentially(
   promiseFactories: Array<any>,
-  kickstart?: unknown
+  kickstart?: unknown,
 ): Promise<any> {
   let result = Promise.resolve(kickstart);
   promiseFactories.forEach((promiseFactory) => {

@@ -35,7 +35,7 @@ async function afdEndpointsCreate() {
     resourceGroupName,
     profileName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }

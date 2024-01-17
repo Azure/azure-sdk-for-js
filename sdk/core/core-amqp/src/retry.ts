@@ -142,7 +142,7 @@ function calculateDelay(
   attemptCount: number,
   retryDelayInMs: number,
   maxRetryDelayInMs: number,
-  mode: RetryMode
+  mode: RetryMode,
 ): number {
   if (mode === RetryMode.Exponential) {
     const boundedRandDelta =
@@ -207,7 +207,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       "[%s] Attempt number for '%s': %d.",
       updatedConfig.connectionId,
       updatedConfig.operationType,
-      i
+      i,
     );
     try {
       result = await updatedConfig.operation();
@@ -216,14 +216,14 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         "[%s] Success for '%s', after attempt number: %d.",
         updatedConfig.connectionId,
         updatedConfig.operationType,
-        i
+        i,
       );
       if (result && !isDelivery(result)) {
         logger.verbose(
           "[%s] Success result for '%s': %O",
           updatedConfig.connectionId,
           updatedConfig.operationType,
-          result
+          result,
         );
       }
       break;
@@ -246,7 +246,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         updatedConfig.connectionId,
         updatedConfig.operationType,
         i,
-        err
+        err,
       );
 
       lastError = err;
@@ -255,13 +255,13 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           i,
           updatedConfig.retryOptions.retryDelayInMs,
           updatedConfig.retryOptions.maxRetryDelayInMs,
-          updatedConfig.retryOptions.mode
+          updatedConfig.retryOptions.mode,
         );
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
           updatedConfig.connectionId,
           targetDelayInMs,
-          updatedConfig.operationType
+          updatedConfig.operationType,
         );
         await delay(targetDelayInMs, {
           abortSignal: updatedConfig.abortSignal,

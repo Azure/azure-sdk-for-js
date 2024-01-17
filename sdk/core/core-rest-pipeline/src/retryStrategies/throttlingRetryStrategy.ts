@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse } from "../index.js";
+import type { PipelineResponse } from "../index.js";
 import { parseHeaderValueAsNumber } from "../util/helpers.js";
-import { RetryStrategy } from "./retryStrategy.js";
+import type { RetryStrategy } from "./retryStrategy.js";
 
 /**
  * The header that comes back from Azure services representing

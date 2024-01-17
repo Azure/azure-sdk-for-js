@@ -32,7 +32,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
   async listOwnership(
     _fullyQualifiedNamespace: string,
     _eventHubName: string,
-    _consumerGroup: string
+    _consumerGroup: string,
   ): Promise<PartitionOwnership[]> {
     const ownerships = [];
 
@@ -100,7 +100,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
   async listCheckpoints(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
   ): Promise<Checkpoint[]> {
     const key = `${fullyQualifiedNamespace}:${eventHubName}:${consumerGroup}`;
 

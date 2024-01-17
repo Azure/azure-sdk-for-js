@@ -42,13 +42,13 @@ describe("DataSourceCredential", () => {
     if (recorder && !servicePrincipalCredName) {
       servicePrincipalCredName = getRecorderUniqueVariable(
         recorder,
-        "js-test-servicePrincipalCred-"
+        "js-test-servicePrincipalCred-",
       );
     }
     if (recorder && !servicePrincipalInKVCredName) {
       servicePrincipalInKVCredName = getRecorderUniqueVariable(
         recorder,
-        "js-test-servicePrincipalInKVCred-"
+        "js-test-servicePrincipalInKVCred-",
       );
     }
   });
@@ -95,7 +95,7 @@ describe("DataSourceCredential", () => {
       };
       const updated = await client.updateDataSourceCredential(
         createdSqlServerCredId,
-        sqlServerCredentialPatch
+        sqlServerCredentialPatch,
       );
       assert.ok(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, sqlServerCredentialPatch.description);
@@ -131,7 +131,7 @@ describe("DataSourceCredential", () => {
       };
       const updated = await client.updateDataSourceCredential(
         createdDatalakeCredId,
-        dataLakeCredentialPatch
+        dataLakeCredentialPatch,
       );
       assert.ok(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, dataLakeCredentialPatch.description);
@@ -149,9 +149,8 @@ describe("DataSourceCredential", () => {
         tenantId: "tenant-id",
       };
 
-      const createdServicePrincipalCred = await client.createDataSourceCredential(
-        servicePrincipalCred
-      );
+      const createdServicePrincipalCred =
+        await client.createDataSourceCredential(servicePrincipalCred);
       assert.ok(createdServicePrincipalCred.id, "Expecting valid sql server dataSource credential");
       createdServicePrincipalCredId = createdServicePrincipalCred.id!;
       assert.equal(createdServicePrincipalCred.name, servicePrincipalCred.name);
@@ -173,7 +172,7 @@ describe("DataSourceCredential", () => {
       };
       const updated = await client.updateDataSourceCredential(
         createdServicePrincipalCredId,
-        servicePrincipalCredentialPatch
+        servicePrincipalCredentialPatch,
       );
       assert.ok(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, servicePrincipalCredentialPatch.description);
@@ -181,7 +180,7 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.name, servicePrincipalCredentialPatch.name);
       assert.equal(
         (updated as DataSourceServicePrincipalPatch).clientId,
-        servicePrincipalCredentialPatch.clientId
+        servicePrincipalCredentialPatch.clientId,
       );
     });
 
@@ -198,15 +197,14 @@ describe("DataSourceCredential", () => {
         servicePrincipalSecretNameInKV: "service-principal-secret-name-in-kv",
       };
 
-      const createdServicePrincipalInKVCred = await client.createDataSourceCredential(
-        servicePrincipalInKVCred
-      );
+      const createdServicePrincipalInKVCred =
+        await client.createDataSourceCredential(servicePrincipalInKVCred);
       assert.ok(createdServicePrincipalInKVCred.id, "Expecting valid dataSource credential");
       createdServicePrincipalInKVCredId = createdServicePrincipalInKVCred.id!;
       assert.equal(createdServicePrincipalInKVCred.name, servicePrincipalInKVCred.name);
       assert.equal(
         createdServicePrincipalInKVCred.description,
-        servicePrincipalInKVCred.description
+        servicePrincipalInKVCred.description,
       );
       assert.equal(createdServicePrincipalInKVCred.type, servicePrincipalInKVCred.type);
     });
@@ -229,7 +227,7 @@ describe("DataSourceCredential", () => {
 
       const updated = await client.updateDataSourceCredential(
         createdServicePrincipalInKVCredId,
-        servicePrincipalInKVCredentialPatch
+        servicePrincipalInKVCredentialPatch,
       );
       assert.ok(updated.id, "Expecting valid dataSource credential");
       assert.equal(updated.description, servicePrincipalInKVCredentialPatch.description);
@@ -237,15 +235,15 @@ describe("DataSourceCredential", () => {
       assert.equal(updated.name, servicePrincipalInKVCredentialPatch.name);
       assert.equal(
         (updated as DataSourceServicePrincipalPatch).tenantId,
-        servicePrincipalInKVCredentialPatch.tenantId
+        servicePrincipalInKVCredentialPatch.tenantId,
       );
       assert.equal(
         (updated as DataSourceServicePrincipalInKeyVaultPatch).keyVaultClientId,
-        servicePrincipalInKVCredentialPatch.keyVaultClientId
+        servicePrincipalInKVCredentialPatch.keyVaultClientId,
       );
       assert.equal(
         (updated as DataSourceServicePrincipalInKeyVaultPatch).servicePrincipalIdNameInKV,
-        servicePrincipalInKVCredentialPatch.servicePrincipalIdNameInKV
+        servicePrincipalInKVCredentialPatch.servicePrincipalIdNameInKV,
       );
     });
 
@@ -297,7 +295,7 @@ describe("DataSourceCredential", () => {
 export async function verifyDataSourceCredentialDeletion(
   context: Context,
   client: MetricsAdvisorAdministrationClient,
-  createdDataSourceCredentialId: string
+  createdDataSourceCredentialId: string,
 ): Promise<void> {
   if (!createdDataSourceCredentialId) {
     context.skip();

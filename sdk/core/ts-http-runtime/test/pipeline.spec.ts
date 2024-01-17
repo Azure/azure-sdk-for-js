@@ -371,7 +371,7 @@ describe("HttpsPipeline", function () {
 
     const response = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "initialUrl" })
+      createPipelineRequest({ url: "initialUrl" }),
     );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);

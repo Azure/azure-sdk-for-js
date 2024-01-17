@@ -165,7 +165,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
  */
 function maybeOverrideCPUsOption<TOptions>(
   minimistResult: MinimistParsedArgs,
-  result: Partial<PerfOptionDictionary<TOptions>>
+  result: Partial<PerfOptionDictionary<TOptions>>,
 ) {
   if (!isDefined(minimistResult["profile"]) || !minimistResult["profile"]) {
     return;
@@ -174,7 +174,7 @@ function maybeOverrideCPUsOption<TOptions>(
   if (isDefined(minimistResult["cpus"]) && minimistResult["cpus"] !== 1) {
     throw new Error(
       `Unexpected value for "cpus" provided, you can only set "cpus = 1" when "profile" is set to true. 
-      Please re-run the test command without the "cpus" option.`
+      Please re-run the test command without the "cpus" option.`,
     );
   }
 
@@ -194,11 +194,11 @@ function maybeOverrideCPUsOption<TOptions>(
  * @returns A new options dictionary.
  */
 export function parsePerfOption<TOptions>(
-  options: PerfOptionDictionary<TOptions>
+  options: PerfOptionDictionary<TOptions>,
 ): ParsedPerfOptions<TOptions> {
   const minimistResult: MinimistParsedArgs = minimist(
     process.argv,
-    getBooleanOptionDetails(options)
+    getBooleanOptionDetails(options),
   );
   const result: Partial<PerfOptionDictionary<TOptions>> = {};
 
@@ -256,11 +256,11 @@ export function parsePerfOption<TOptions>(
 export function validateOptions<TOptions>(options: PerfOptionDictionary<TOptions>): void {
   const minimistResult: MinimistParsedArgs = minimist(
     process.argv,
-    getBooleanOptionDetails(options)
+    getBooleanOptionDetails(options),
   );
 
   const longNames = Object.entries<OptionDetails<unknown>>(options).map(
-    ([optionName, { longName }]) => longName ?? optionName
+    ([optionName, { longName }]) => longName ?? optionName,
   );
   const shortNames = Object.values<OptionDetails<unknown>>(options)
     .map(({ shortName }) => shortName)

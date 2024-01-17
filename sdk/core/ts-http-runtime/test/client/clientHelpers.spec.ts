@@ -19,12 +19,12 @@ describe("clientHelpers", () => {
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName"
+      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
     );
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn't have keyCredentialAuthenticationPolicyName"
+      "pipeline shouldn't have keyCredentialAuthenticationPolicyName",
     );
   });
 
@@ -36,7 +36,7 @@ describe("clientHelpers", () => {
 
     assert.isDefined(
       policies.find((p) => p.name === apiVersionPolicyName),
-      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`
+      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
     );
   });
 
@@ -53,7 +53,7 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(
       mockBaseUrl,
       { key: "mockKey" },
-      { credentials: { apiKeyHeaderName: "apiHeader" } }
+      { credentials: { apiKeyHeaderName: "apiHeader" } },
     );
     const policies = pipeline.getOrderedPolicies();
 
@@ -61,12 +61,12 @@ describe("clientHelpers", () => {
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName"
+      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
     );
 
     assert.isDefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName"
+      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
     );
   });
 
@@ -81,12 +81,12 @@ describe("clientHelpers", () => {
 
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName"
+      "pipeline should have bearerTokenAuthenticationPolicyName",
     );
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName"
+      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
     );
   });
 });

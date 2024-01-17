@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
-  PipelinePolicy,
-  PipelineResponse,
-  SendRequest,
+  type PipelinePolicy,
+  type PipelineResponse,
+  type SendRequest,
   auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
@@ -216,12 +216,14 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken1 = vi.fn().mockResolvedValue({
       token: null,
-      expiresOnTimestamp: +new Date(),
+      expiresOnTimestamp: new Date().getTime(),
     } as unknown as AccessToken);
-    const fakeGetToken2 = vi.fn().mockResolvedValue({
-      token: null,
-      expiresOnTimestamp: +new Date(),
-    });
+    const fakeGetToken2 = vi.fn().mockResolvedValue(
+      Promise.resolve({
+        token: null,
+        expiresOnTimestamp: new Date().getTime(),
+      } as unknown as AccessToken),
+    );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
     };

@@ -2,8 +2,14 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type {
+  BodyPart,
+  HttpHeaders,
+  PipelineRequest,
+  RequestBodyType,
+  PipelineResponse,
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { toStream, concatenateStreams } from "../util/stream.js";
 import { isBlob } from "../util/typeGuards.js";
 
@@ -110,7 +116,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    sendRequest(request, next) {
+    async sendRequest(request, next): Promise<PipelineResponse> {
       if (!request.multipartBody) {
         return next(request);
       }

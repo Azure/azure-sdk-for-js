@@ -18,7 +18,7 @@ describe("Identity utilities", function () {
         processMultiTenantRequest("same-tenant", {
           tenantId: "same-tenant",
         }),
-        "same-tenant"
+        "same-tenant",
       );
     });
 
@@ -29,9 +29,9 @@ describe("Identity utilities", function () {
           {
             tenantId: "get-token-options-tenant-id",
           },
-          ["*"]
+          ["*"],
         ),
-        "get-token-options-tenant-id"
+        "get-token-options-tenant-id",
       );
     });
 
@@ -42,9 +42,9 @@ describe("Identity utilities", function () {
           {
             tenantId: "get-token-options-tenant-id",
           },
-          ["get-token-options-tenant-id"]
+          ["get-token-options-tenant-id"],
         ),
-        "get-token-options-tenant-id"
+        "get-token-options-tenant-id",
       );
     });
   });
@@ -53,25 +53,25 @@ describe("Identity utilities", function () {
     it("should add the tenant Id when the authority host ends with a slash", async function () {
       assert.equal(
         getAuthority("tenant-id", "https://login.microsoftonline.com/"),
-        "https://login.microsoftonline.com/tenant-id"
+        "https://login.microsoftonline.com/tenant-id",
       );
     });
     it("should add the tenant Id when the authority host ends without a slash", async function () {
       assert.equal(
         getAuthority("tenant-id", "https://login.microsoftonline.com"),
-        "https://login.microsoftonline.com/tenant-id"
+        "https://login.microsoftonline.com/tenant-id",
       );
     });
     it("should not add the tenant twice", async function () {
       assert.equal(
         getAuthority("tenant-id", "https://login.microsoftonline.com/tenant-id"),
-        "https://login.microsoftonline.com/tenant-id"
+        "https://login.microsoftonline.com/tenant-id",
       );
     });
     it("should not add the tenant twice even when it ends in a slash", async function () {
       assert.equal(
         getAuthority("tenant-id", "https://login.microsoftonline.com/tenant-id/"),
-        "https://login.microsoftonline.com/tenant-id/"
+        "https://login.microsoftonline.com/tenant-id/",
       );
     });
   });

@@ -8,11 +8,11 @@
     "build:samples": "echo Obsolete",
     "build:test": "tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"  \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"  \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -79,8 +79,8 @@
     "@opentelemetry/api": "^1.4.1",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
-    "@vitest/browser": "^1.1.0",
-    "@vitest/coverage-istanbul": "^1.1.0",
+    "@vitest/browser": "^1.2.0",
+    "@vitest/coverage-istanbul": "^1.2.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.56.0",
     "playwright": "^1.40.1",
@@ -89,7 +89,7 @@
     "sinon": "^17.0.0",
     "tshy": "^1.8.2",
     "typescript": "~5.2.0",
-    "vitest": "^1.1.0"
+    "vitest": "^1.2.0"
   },
   "tshy": {
     "exports": {

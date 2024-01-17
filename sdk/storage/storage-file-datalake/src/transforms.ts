@@ -91,7 +91,7 @@ function mapHostUrl(url: string, hostMappings: string[][], callerMethodName: str
 }
 
 function toFileSystemAsyncIterableIterator(
-  iter: AsyncIterableIterator<ServiceListContainersSegmentResponse>
+  iter: AsyncIterableIterator<ServiceListContainersSegmentResponse>,
 ): AsyncIterableIterator<ServiceListFileSystemsSegmentResponse> {
   return {
     async next() {
@@ -107,7 +107,7 @@ function toFileSystemAsyncIterableIterator(
                 publicAccess: toPublicAccessType(val.properties.publicAccess),
               },
             };
-          }
+          },
         );
       }
       return rawResult as any;
@@ -119,7 +119,7 @@ function toFileSystemAsyncIterableIterator(
 }
 
 export function toFileSystemPagedAsyncIterableIterator(
-  iter: PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>
+  iter: PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>,
 ): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse> {
   return {
     async next(): Promise<IteratorResult<FileSystemItem>> {
@@ -127,7 +127,7 @@ export function toFileSystemPagedAsyncIterableIterator(
       const result = rawResult as IteratorResult<FileSystemItem>;
       if (!result.done && !rawResult.done) {
         result.value.properties.publicAccess = toPublicAccessType(
-          rawResult.value.properties.publicAccess
+          rawResult.value.properties.publicAccess,
         );
         result.value.versionId = rawResult.value.version;
       }
@@ -140,7 +140,7 @@ export function toFileSystemPagedAsyncIterableIterator(
       return this;
     },
     byPage(
-      settings: PageSettings = {}
+      settings: PageSettings = {},
     ): AsyncIterableIterator<ServiceListFileSystemsSegmentResponse> {
       return toFileSystemAsyncIterableIterator(iter.byPage(settings));
     },
@@ -148,7 +148,7 @@ export function toFileSystemPagedAsyncIterableIterator(
 }
 
 export function toContainerPublicAccessType(
-  publicAccessType?: PublicAccessType
+  publicAccessType?: PublicAccessType,
 ): ContainerPublicAccessType | undefined {
   if (!publicAccessType) {
     return undefined;
@@ -161,13 +161,13 @@ export function toContainerPublicAccessType(
       return "blob";
     default:
       throw TypeError(
-        `toContainerPublicAccessType() parameter ${publicAccessType} is not recognized.`
+        `toContainerPublicAccessType() parameter ${publicAccessType} is not recognized.`,
       );
   }
 }
 
 export function toPublicAccessType(
-  containerPublicAccessType?: ContainerPublicAccessType
+  containerPublicAccessType?: ContainerPublicAccessType,
 ): PublicAccessType | undefined {
   if (!containerPublicAccessType) {
     return undefined;
@@ -180,7 +180,7 @@ export function toPublicAccessType(
       return "file";
     default:
       throw TypeError(
-        `toPublicAccessType() parameter ${containerPublicAccessType} is not recognized.`
+        `toPublicAccessType() parameter ${containerPublicAccessType} is not recognized.`,
       );
   }
 }
@@ -203,7 +203,7 @@ export function toProperties(metadata?: Metadata): string | undefined {
 
 export function toRolePermissions(permissionsString: string): RolePermissions {
   const error = new RangeError(
-    `toRolePermissions() Invalid role permissions string ${permissionsString}`
+    `toRolePermissions() Invalid role permissions string ${permissionsString}`,
   );
   if (permissionsString.length !== 3) {
     throw error;
@@ -266,7 +266,7 @@ export function toPermissions(permissionsString?: string): PathPermissions | und
       extendedAcls = true;
     } else {
       throw RangeError(
-        `toPermissions() Invalid extendedAcls bit ${permissionsString[9]} in permissions string ${permissionsString}`
+        `toPermissions() Invalid extendedAcls bit ${permissionsString[9]} in permissions string ${permissionsString}`,
       );
     }
   }
@@ -286,7 +286,7 @@ export function toPermissions(permissionsString?: string): PathPermissions | und
 
 export function toAccessControlItem(aclItemString: string): PathAccessControlItem {
   const error = new RangeError(
-    `toAccessControlItem() Parameter access control item string ${aclItemString} is not valid.`
+    `toAccessControlItem() Parameter access control item string ${aclItemString} is not valid.`,
   );
   if (aclItemString === "") {
     throw error;
@@ -332,7 +332,7 @@ export function toAccessControlItem(aclItemString: string): PathAccessControlIte
 
 export function toRemoveAccessControlItem(aclItemString: string): RemovePathAccessControlItem {
   const error = new RangeError(
-    `toAccessControlItem() Parameter access control item string "${aclItemString}" is not valid.`
+    `toAccessControlItem() Parameter access control item string "${aclItemString}" is not valid.`,
   );
   if (aclItemString === "") {
     throw error;
@@ -426,14 +426,14 @@ export function toRolePermissionsString(p: RolePermissions, stickyBit: boolean =
 
 export function toPermissionsString(permissions: PathPermissions): string {
   return `${toRolePermissionsString(permissions.owner)}${toRolePermissionsString(
-    permissions.group
+    permissions.group,
   )}${toRolePermissionsString(permissions.other, permissions.stickyBit)}${
     permissions.extendedAcls ? "+" : ""
   }`;
 }
 
 export function toAccessControlChangeFailureArray(
-  aclFailedEntries: AclFailedEntry[] = []
+  aclFailedEntries: AclFailedEntry[] = [],
 ): AccessControlChangeError[] {
   return aclFailedEntries.map((aclFailedEntry: AclFailedEntry) => {
     return {

@@ -38,7 +38,7 @@ async function scenarioCheckpointStore() {
 
   const blobContainerClient = new ContainerClient(
     storageAccountConnectionString || "",
-    containerName
+    containerName,
   );
   if (!(await blobContainerClient.exists())) {
     await blobContainerClient.create();
@@ -49,7 +49,7 @@ async function scenarioCheckpointStore() {
     EventHubConsumerClient.defaultConsumerGroupName,
     connectionString || "",
     eventHubName || "",
-    checkpointStore
+    checkpointStore,
   );
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {

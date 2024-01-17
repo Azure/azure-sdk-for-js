@@ -16,7 +16,7 @@ import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/uti
 const testRedirectedRequest = (
   client: Recorder,
   makeRequest: () => PipelineRequest,
-  expectedModification: (req: PipelineRequest) => PipelineRequest
+  expectedModification: (req: PipelineRequest) => PipelineRequest,
 ) => {
   const redirectedRequest = makeRequest();
   client["redirectRequest"](redirectedRequest);
@@ -62,9 +62,9 @@ describe("TestProxyClient functions", () => {
                 "x-recording-upstream-uri": "https://dummy_url.windows.net/dummy_path?sas=sas",
               }),
             }),
-            (req) => req
+            (req) => req,
           );
-        }
+        },
       );
 
       it(
@@ -95,9 +95,9 @@ describe("TestProxyClient functions", () => {
                 }),
                 allowInsecureConnection: !isLiveMode(),
               };
-            }
+            },
           );
-        }
+        },
       );
     });
   });
@@ -126,7 +126,7 @@ describe("TestProxyClient functions", () => {
           };
           await client.start({ envSetupForPlayback: {} });
           expect(client.recordingId).to.eql(recordingId);
-        }
+        },
       );
 
       it("throws if not received a 200 status code", async function () {
@@ -171,7 +171,7 @@ describe("TestProxyClient functions", () => {
         } catch (error: any) {
           expect((error as RecorderError).name).to.equal("RecorderError");
           expect((error as RecorderError).message).to.equal(
-            "No recording ID returned for a successful start request."
+            "No recording ID returned for a successful start request.",
           );
         }
       });
@@ -206,10 +206,10 @@ describe("TestProxyClient functions", () => {
           } catch (error: any) {
             expect((error as RecorderError).name).to.equal("RecorderError");
             expect((error as RecorderError).message).to.equal(
-              "Bad state, recordingId is not defined when called stop."
+              "Bad state, recordingId is not defined when called stop.",
             );
           }
-        }
+        },
       );
 
       it("throws if status code is not 200", async function () {
@@ -252,7 +252,7 @@ describe("TestProxyClient functions", () => {
     it("throws an error in record mode if a variable is accessed without giving it a value", () => {
       env.TEST_MODE = "record";
       expect(() => client.variable("nonExistentVariable")).to.throw(
-        "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it."
+        "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it.",
       );
     });
 
@@ -277,7 +277,7 @@ describe("TestProxyClient functions", () => {
     it("throws an error if a variable does not exist in playback mode", () => {
       env.TEST_MODE = "playback";
       expect(() => client.variable("var1", "ignored")).to.throw(
-        "Tried to access a variable in playback that was not set in recording: var1"
+        "Tried to access a variable in playback that was not set in recording: var1",
       );
     });
   });
@@ -287,7 +287,7 @@ describe("TestProxyClient functions", () => {
       const returnedRequest = createRecordingRequest(
         initialRequest.url,
         client["sessionFile"],
-        client.recordingId
+        client.recordingId,
       );
       expect(returnedRequest.url).to.equal(initialRequest.url);
       expect(returnedRequest.method).to.equal("POST");

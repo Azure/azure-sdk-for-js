@@ -13,7 +13,7 @@ import { TableServiceClientOptions } from "..";
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
 export function fromAccountConnectionString(
   _connectionString: ConnectionString,
-  _options?: TableServiceClientOptions
+  _options?: TableServiceClientOptions,
 ) {
   throw new Error("Account connection string is only supported in Node.js environment");
 }
@@ -23,7 +23,7 @@ export function getAccountConnectionString(
   _accountKey: string,
   _defaultEndpointsProtocol: string,
   _endpointSuffix?: string,
-  _tableEndpoint?: string
+  _tableEndpoint?: string,
 ): ConnectionString {
   throw new Error("Account connection string is only supported in Node.js environment");
 }

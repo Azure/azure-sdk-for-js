@@ -6,7 +6,6 @@ import { OptionsTest } from "./options.spec.js";
 import { SetupCleanupTest } from "./setupCleanup.spec.js";
 import { Exception } from "./exception.spec.js";
 import { SleepTest } from "./sleep.spec.js";
-import { NodeFetchTest } from "./nodeFetch.spec.js";
 import { MockReceiverTest } from "./batch/mockReceiverTest.spec.js";
 import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec.js";
 import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec.js";
@@ -26,7 +25,6 @@ const tests: TestDefinition[] = [
   SetupCleanupTest,
   Exception,
   SleepTest,
-  NodeFetchTest,
   {
     testClass: OptionsTest,
     options: "--req some-string",
@@ -39,7 +37,7 @@ const tests: TestDefinition[] = [
 
 // Normalize everything in the array above for export.
 export const allTests: NormalizedTestDefinition[] = tests.map((test) =>
-  typeof test === "function" ? { testClass: test } : test
+  typeof test === "function" ? { testClass: test } : test,
 );
 
 // Exports all the test classes so that the index.spec.ts can pick them up

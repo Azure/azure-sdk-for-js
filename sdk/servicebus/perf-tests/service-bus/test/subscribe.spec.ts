@@ -78,7 +78,7 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
           this.errorRaised(args.error);
         },
       },
-      { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value }
+      { maxConcurrentCalls: this.parsedOptions["max-concurrent-calls"].value },
     );
   }
 

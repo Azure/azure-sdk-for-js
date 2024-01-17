@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfTest } from "@azure/test-utils-perf";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
   bearerTokenAuthenticationPolicy,
@@ -14,7 +14,7 @@ import {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { TextDecoder } from "util";
+import { TextDecoder } from "node:util";
 
 export interface TestChallenge {
   scope: string;
@@ -106,7 +106,10 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   constructor(public getTokenResponse: AccessToken) {}
 
-  public getToken(scope: string | string[]): Promise<AccessToken | null> {
+  public getToken(
+    scope: string | string[],
+    _options: GetTokenOptions,
+  ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({
       scope,

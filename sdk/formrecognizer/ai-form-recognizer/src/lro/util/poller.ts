@@ -50,7 +50,7 @@ export interface OperationSpec<TState extends PollOperationState<unknown>> {
 export async function lro<TResult, TState extends PollOperationState<TResult>>(
   spec: OperationSpec<TState>,
   pollingInterval: number | undefined,
-  initAbortSignal: AbortSignalLike | undefined
+  initAbortSignal: AbortSignalLike | undefined,
 ): Promise<PollerLike<TState, TResult>> {
   let serverDrivenDelay: number | undefined;
 
@@ -94,7 +94,7 @@ export async function lro<TResult, TState extends PollOperationState<TResult>>(
             serverDrivenDelay = interval;
           },
         },
-        state
+        state,
       );
       handleProgressEvents();
     },
@@ -107,7 +107,7 @@ export async function lro<TResult, TState extends PollOperationState<TResult>>(
           while (!self.isDone()) {
             const finalPollingInterval = Math.max(
               serverDrivenDelay ?? 0,
-              pollingInterval ?? DEFAULT_POLLING_INTERVAL
+              pollingInterval ?? DEFAULT_POLLING_INTERVAL,
             );
             const delay = delayMs(finalPollingInterval, options?.abortSignal);
             cancelJob = delay.cancel;
@@ -122,7 +122,7 @@ export async function lro<TResult, TState extends PollOperationState<TResult>>(
         // Unreachable
         else {
           throw new Error(
-            `Internal Client Error: analysis poller completed without success or error: ${state}`
+            `Internal Client Error: analysis poller completed without success or error: ${state}`,
           );
         }
       })().finally(() => {

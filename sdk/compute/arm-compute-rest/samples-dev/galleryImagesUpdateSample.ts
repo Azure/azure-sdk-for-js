@@ -46,7 +46,7 @@ async function updateASimpleGalleryImage() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryImageName
+      galleryImageName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

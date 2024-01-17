@@ -27,7 +27,7 @@ export function logErrorStackTrace(error: unknown): void {
 export function createReceiverLogPrefix(
   consumerId: string,
   connectionId: string,
-  partitionId: string
+  partitionId: string,
 ): string {
   return `[${connectionId}] Receiver P${partitionId}-${consumerId}`;
 }
@@ -56,12 +56,12 @@ export type SimpleLogger = {
 function createLogFunction(
   azureLogger: AzureLogger,
   prefix: string,
-  level: AzureLogLevel
+  level: AzureLogLevel,
 ): (arg: any, ...args: any[]) => void {
   return (arg: any, ...args: any[]) =>
     azureLogger[level](
       ...(typeof arg === "string" ? [`${prefix}: ${arg}`] : [prefix, arg]),
-      ...args
+      ...args,
     );
 }
 

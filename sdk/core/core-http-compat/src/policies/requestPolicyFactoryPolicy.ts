@@ -61,7 +61,7 @@ export const requestPolicyFactoryPolicyName = "RequestPolicyFactoryPolicy";
  * @param factories - An array of `RequestPolicyFactory` objects from a core-http pipeline
  */
 export function createRequestPolicyFactoryPolicy(
-  factories: RequestPolicyFactory[]
+  factories: RequestPolicyFactory[],
 ): PipelinePolicy {
   const orderedFactories = factories.slice().reverse();
 

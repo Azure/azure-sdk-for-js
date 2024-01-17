@@ -54,7 +54,7 @@ export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptio
         partitions: partitions?.value,
         maxBatchSize: maxBatchSize.value,
         maxEventsPerSecond: maxEventsPerSecond.value,
-      }
+      },
     );
   }
 

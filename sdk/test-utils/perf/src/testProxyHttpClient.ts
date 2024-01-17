@@ -42,7 +42,7 @@ export class RecordingStateManager {
       | "starting-recording"
       | "stopping-recording"
       | "starting-playback"
-      | "stopping-playback"
+      | "stopping-playback",
   ): void {
     if (currentFlow === "starting-recording") {
       if (this.state === "started-recording") {
@@ -73,7 +73,7 @@ export class RecordingStateManager {
    * setState
    */
   public setState(
-    state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback"
+    state: "started-recording" | "stopped-recording" | "started-playback" | "stopped-playback",
   ): void {
     this.state = state;
   }
@@ -210,7 +210,7 @@ export class TestProxyHttpClient {
 export function testProxyHttpPolicy(
   testProxyHttpClient: TestProxyHttpClient,
   isHttps: boolean,
-  insecure: boolean
+  insecure: boolean,
 ): PipelinePolicy {
   return {
     name: "recording policy",

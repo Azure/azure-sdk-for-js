@@ -46,7 +46,7 @@ export class KeyVaultBackupPoller extends KeyVaultAdminPoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      requestOptions,
     );
 
     super(operation);

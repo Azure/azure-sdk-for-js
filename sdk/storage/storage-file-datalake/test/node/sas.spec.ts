@@ -74,7 +74,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
@@ -106,7 +106,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2020-12-06",
         encryptionScope: encryptionScopeName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
@@ -114,7 +114,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     configureStorageClient(recorder, serviceClientWithSAS);
 
     const filesystemClient = await serviceClientWithSAS.getFileSystemClient(
-      recorder.variable("filesystem", getUniqueName("filesystem"))
+      recorder.variable("filesystem", getUniqueName("filesystem")),
     );
     await filesystemClient.create({
       fileSystemEncryptionScope: {
@@ -138,13 +138,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("btqf").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, serviceClientWithSAS);
 
@@ -171,13 +171,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
         services: AccountSASServices.parse("tqf").toString(),
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, serviceClientWithSAS);
 
@@ -207,13 +207,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         services: AccountSASServices.parse("btqf").toString(),
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
     const serviceClientWithSAS = new DataLakeServiceClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, serviceClientWithSAS);
 
@@ -250,13 +250,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileSystemClientwithSAS);
 
@@ -295,7 +295,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2020-12-06",
         encryptionScope: encryptionScopeName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
@@ -343,13 +343,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -399,13 +399,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -452,7 +452,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: DataLakeSASPermissions.parse("racwd"),
         encryptionScope: encryptionScopeName,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasURL = `${fileClient.url}?${fileSAS}`;
@@ -475,7 +475,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
     const fileSystemName = recorder.variable(
       "filesystem-with-dash",
-      getUniqueName("filesystem-with-dash")
+      getUniqueName("filesystem-with-dash"),
     );
     const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -484,8 +484,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileName = recorder.variable(
       "uniqueName",
       getUniqueName(
-        "./a/../Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'"
-      )
+        "./a/../Upper file empty another 汉字 ру́сский язы́к ру́сский язы́к عرعربى にっぽんごにほんご . special ~!@#$%^&*()_+`1234567890-={}|[]:\";'<>?,'",
+      ),
     );
     const fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create({
@@ -509,13 +509,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
         version: "2016-05-31",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -572,13 +572,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         fileSystemName,
         identifier: id,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -630,13 +630,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         pathName: fileName,
         identifier: id,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -684,13 +684,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2019-02-02",
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileSystemClientwithSAS);
 
@@ -735,13 +735,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         permissions: FileSystemSASPermissions.parse("racwdl"),
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const sasClient = `${fileSystemClient.url}?${containerSAS}`;
     const fileSystemClientwithSAS = new DataLakeFileSystemClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileSystemClientwithSAS);
 
@@ -803,13 +803,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         startsOn: now,
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -877,13 +877,13 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         version: "2019-12-12",
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const sasClient = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasClient,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -910,7 +910,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     });
     assert.equal(
       sasQP2.toString(),
-      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
+      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId",
     );
 
     const sasQP3 = new SASQueryParameters(
@@ -934,11 +934,11 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       2,
       "preauthorizedAgentObjectId",
       undefined,
-      "correlationId"
+      "correlationId",
     );
     assert.equal(
       sasQP3.toString(),
-      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
+      "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId",
     );
   });
 
@@ -958,7 +958,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-      }
+      },
     );
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
     configureStorageClient(recorder, serviceClientWithSAS);
@@ -1005,7 +1005,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       "sco",
       {
         encryptionScope: encryptionScopeName,
-      }
+      },
     );
     const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
     configureStorageClient(recorder, serviceClientWithSAS);
@@ -1100,12 +1100,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
     configureStorageClient(recorder, fileSystemClientWithSAS);
     const fileClient = fileSystemClientWithSAS.getFileClient(
-      recorder.variable(`file`, getUniqueName(`file`))
+      recorder.variable(`file`, getUniqueName(`file`)),
     );
     await fileClient.create();
 
     const dirClient = fileSystemClientWithSAS.getFileClient(
-      recorder.variable(`dir`, getUniqueName(`dir`))
+      recorder.variable(`dir`, getUniqueName(`dir`)),
     );
     await dirClient.create();
 
@@ -1143,7 +1143,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 10);
 
     const directoryClient = fileSystemClient.getDirectoryClient(
-      recorder.variable("directory", getUniqueName("directory"))
+      recorder.variable("directory", getUniqueName("directory")),
     );
     const sasURL = await directoryClient.generateSasUrl({
       expiresOn: tmr,
@@ -1177,7 +1177,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     tmr.setDate(tmr.getDate() + 10);
 
     const fileClient = fileSystemClient.getFileClient(
-      recorder.variable("file", getUniqueName("file"))
+      recorder.variable("file", getUniqueName("file")),
     );
     const sasURL = await fileClient.generateSasUrl({
       expiresOn: tmr,
@@ -1268,12 +1268,12 @@ describe("SAS generation Node.js only for directory SAS", () => {
         startsOn: now,
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
     const sasURL = `${directoryClient.url}?${directorySAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, directoryClientwithSAS);
 
@@ -1298,7 +1298,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         permissions: DirectorySASPermissions.parse("racwdlmeop"),
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
     const sasURL = `${rootDirectoryClient.url}?${directorySAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
@@ -1319,7 +1319,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         startsOn: now,
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
   }
 
@@ -1327,7 +1327,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     const directorySAS = getDefualtDirctorySAS(directoryClient.name);
     assert.equal(directorySAS.directoryDepth, 1);
     const directoryClientwithSAS = new DataLakeDirectoryClient(
-      `${directoryClient.url}?${directorySAS}`
+      `${directoryClient.url}?${directorySAS}`,
     );
     configureStorageClient(recorder, directoryClientwithSAS);
     await directoryClientwithSAS.setPermissions(permissions);
@@ -1336,7 +1336,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     const directorySAS2 = getDefualtDirctorySAS("");
     assert.equal(directorySAS2.directoryDepth, 0);
     const directoryClientwithSAS2 = new DataLakeDirectoryClient(
-      `${directoryClient.url}?${directorySAS2}`
+      `${directoryClient.url}?${directorySAS2}`,
     );
     configureStorageClient(recorder, directoryClientwithSAS2);
     await directoryClientwithSAS2.setPermissions(permissions);
@@ -1364,12 +1364,12 @@ describe("SAS generation Node.js only for directory SAS", () => {
         startsOn: now,
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
     const sasURL = `${fileClient.url}?${fileSAS}`;
     const fileClientWithSAS = new DataLakeFileClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, fileClientWithSAS);
 
@@ -1395,12 +1395,12 @@ describe("SAS generation Node.js only for directory SAS", () => {
         startsOn: now,
         version: "2020-02-10",
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
     const sasURL = `${directoryClient.url}?${fileSystemSAS}`;
     const directoryClientwithSAS = new DataLakeDirectoryClient(
       sasURL,
-      newPipeline(new AnonymousCredential())
+      newPipeline(new AnonymousCredential()),
     );
     configureStorageClient(recorder, directoryClientwithSAS);
 
@@ -1425,7 +1425,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         pathName: directoryClient.name,
         isDirectory: true,
       },
-      sharedKeyCredential
+      sharedKeyCredential,
     ).toString();
     assert.deepStrictEqual(sasURL, directoryClient.url + "?" + sas);
 
@@ -1457,7 +1457,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         fileSystemName: fileSystemClient.name,
         pathName: fileClient.name,
       },
-      sharedKeyCredential
+      sharedKeyCredential,
     ).toString();
     assert.deepStrictEqual(sasURL, fileClient.url + "?" + sas);
 
@@ -1505,7 +1505,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         isDirectory: true,
         identifier: id,
       },
-      sharedKeyCredential as StorageSharedKeyCredential
+      sharedKeyCredential as StorageSharedKeyCredential,
     );
 
     const sasClient = `${fileClient.url}?${directorySAS}`;
@@ -1597,7 +1597,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         permissions: DataLakeSASPermissions.parse("racwdmeop"),
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const sasURL = `${directoryClient.url}?${fileSystemSAS}`;
@@ -1634,7 +1634,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         agentObjectId: authorizedGuid,
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const newFileName = recorder.variable("newFile", getUniqueName("newFile"));
@@ -1654,7 +1654,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         agentObjectId: unauthoriziedGuid,
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
@@ -1675,7 +1675,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         preauthorizedAgentObjectId: unauthoriziedGuid,
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
     const newFileClientWithSAS3 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS3}`);
     configureStorageClient(recorder, newFileClientWithSAS3);
@@ -1692,11 +1692,11 @@ describe("SAS generation Node.js only for delegation SAS", () => {
         correlationId: guid,
       },
       userDelegationKey,
-      accountName
+      accountName,
     );
 
     const fileSystemClientWithSAS = new DataLakeFileSystemClient(
-      `${fileSystemClient.url}?${fileSystemSAS}`
+      `${fileSystemClient.url}?${fileSystemSAS}`,
     );
     configureStorageClient(recorder, fileSystemClientWithSAS);
 

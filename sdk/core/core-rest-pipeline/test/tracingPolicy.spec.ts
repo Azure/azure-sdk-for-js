@@ -228,7 +228,7 @@ describe("tracingPolicy", function () {
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await expect(policy.sendRequest(request, next)).resolves.not.toThrow();
+      await expect(policy.sendRequest(request, next)).resolves;
     });
 
     it("will not fail the request when post-processing error fails", async () => {

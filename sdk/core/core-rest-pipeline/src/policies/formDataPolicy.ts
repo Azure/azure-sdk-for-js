@@ -3,14 +3,14 @@
 
 import { stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders.js";
-import {
+import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -75,6 +75,10 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           }),
           body: stringToUint8Array(value, "utf-8"),
         });
+      } else if (value === undefined || value === null || typeof value !== "object") {
+        throw new Error(
+          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`,
+        );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
         const fileName = (value as File).name || "blob";
@@ -83,9 +87,9 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
-        if (value.type) {
-          headers.set("Content-Type", value.type);
-        }
+
+        // again, || is used since an empty value.type means the content type is unset
+        headers.set("Content-Type", value.type || "application/octet-stream");
 
         parts.push({
           headers,
@@ -93,7 +97,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         });
       }
     }
-
-    request.multipartBody = { parts };
   }
+  request.multipartBody = { parts };
 }

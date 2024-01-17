@@ -10,7 +10,7 @@ import { StorageClient } from "./generated/src";
 export class StorageContextClient extends StorageClient {
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec
+    operationSpec: OperationSpec,
   ): Promise<T> {
     const operationSpecToSend = { ...operationSpec };
 

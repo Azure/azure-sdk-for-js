@@ -32,7 +32,7 @@ async function updateLocalNetworkGatewayTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/localNetworkGateways/{localNetworkGatewayName}",
       subscriptionId,
       resourceGroupName,
-      localNetworkGatewayName
+      localNetworkGatewayName,
     )
     .patch(options);
   console.log(result);

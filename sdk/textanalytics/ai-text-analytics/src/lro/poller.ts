@@ -58,7 +58,7 @@ export interface AnalysisPollOperationState<TResult>
  */
 export abstract class AnalysisPoller<
   TState extends PollOperationState<TResult>,
-  TResult
+  TResult,
 > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.

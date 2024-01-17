@@ -8,11 +8,11 @@
     "build:samples": "echo Obsolete",
     "build:test": "tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf -G dist dist-* temp *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tshy && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -56,15 +56,15 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "^7.38.3",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.1.0",
-    "@vitest/coverage-istanbul": "^1.1.0",
+    "@vitest/browser": "^1.2.0",
+    "@vitest/coverage-istanbul": "^1.2.0",
     "eslint": "^8.52.0",
     "playwright": "^1.40.1",
     "prettier": "^2.5.1",
     "rimraf": "^5.0.5",
     "tshy": "^1.8.2",
     "typescript": "~5.2.0",
-    "vitest": "^1.1.0"
+    "vitest": "^1.2.0"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

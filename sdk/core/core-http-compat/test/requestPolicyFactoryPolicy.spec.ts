@@ -32,7 +32,7 @@ describe("requestPolicyFactoryPolicy", function () {
     pipeline.addPolicy(policy);
     const result = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "test" })
+      createPipelineRequest({ url: "test" }),
     );
     assert.strictEqual(result.headers.get("server-header"), "some-value");
     assert.strictEqual(result.request.headers.get("x-ms-test"), "testValue");
@@ -46,7 +46,7 @@ describe("requestPolicyFactoryPolicy", function () {
     pipeline.addPolicy(policy);
     const result = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "test" })
+      createPipelineRequest({ url: "test" }),
     );
     assert.strictEqual(result.headers.get("server-header"), "some-value");
     assert.strictEqual(result.headers.get("x-ms-test"), "testValue");
@@ -65,7 +65,7 @@ describe("requestPolicyFactoryPolicy", function () {
     pipeline.addPolicy(policy);
     const result = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "test" })
+      createPipelineRequest({ url: "test" }),
     );
     assert.strictEqual(result.request.url, "test2");
     assert.strictEqual(result.request.timeout, 9000);
@@ -92,7 +92,7 @@ describe("requestPolicyFactoryPolicy", function () {
     assert.strictEqual(
       (result.request as any)[originalClientRequestSymbol],
       originalRequest,
-      "original request still accessible"
+      "original request still accessible",
     );
   });
 
@@ -116,7 +116,7 @@ describe("requestPolicyFactoryPolicy", function () {
     assert.strictEqual(
       (result.request as any)[originalClientRequestSymbol],
       originalRequest,
-      "original request still accessible"
+      "original request still accessible",
     );
   });
 });

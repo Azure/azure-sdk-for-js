@@ -10,7 +10,6 @@ import { assertBodyMatches } from "../util.js";
 
 describe("multipartPolicy (node-only)", function () {
   it.runIf(isNode)("supports Node ReadableStream body", async function () {
-
     const body = Readable.from(Buffer.from("part1", "utf-8"));
 
     const request = await performRequest({

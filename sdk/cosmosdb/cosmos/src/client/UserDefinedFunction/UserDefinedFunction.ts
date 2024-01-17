@@ -35,7 +35,7 @@ export class UserDefinedFunction {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
@@ -58,7 +58,7 @@ export class UserDefinedFunction {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -69,7 +69,7 @@ export class UserDefinedFunction {
    */
   public async replace(
     body: UserDefinedFunctionDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<UserDefinedFunctionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (body.body) {
@@ -97,7 +97,7 @@ export class UserDefinedFunction {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -122,7 +122,7 @@ export class UserDefinedFunction {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

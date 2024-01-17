@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "vitest";
-import { AzureLogger } from "@azure/logger";
-import { RequestBodyType } from "../src/interfaces.js";
+import type { AzureLogger } from "@azure/logger";
+import type { RequestBodyType } from "../src/interfaces.js";
 import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards.js";
+import { assert } from "vitest";
 
 export function makeTestLogger(): {
   logger: AzureLogger;

@@ -28,7 +28,7 @@ export interface PumpManager {
     startPosition: EventPosition,
     connectionContext: ConnectionContext,
     partitionProcessor: PartitionProcessor,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void>;
 
   /**
@@ -91,12 +91,12 @@ export class PumpManagerImpl implements PumpManager {
     startPosition: EventPosition,
     connectionContext: ConnectionContext,
     partitionProcessor: PartitionProcessor,
-    abortSignal: AbortSignalLike
+    abortSignal: AbortSignalLike,
   ): Promise<void> {
     const partitionId = partitionProcessor.partitionId;
     if (abortSignal.aborted) {
       logger.verbose(
-        `${this._eventProcessorName}] The subscription was closed before creating the pump for partition ${partitionId}.`
+        `${this._eventProcessorName}] The subscription was closed before creating the pump for partition ${partitionId}.`,
       );
       return;
     }
@@ -105,12 +105,12 @@ export class PumpManagerImpl implements PumpManager {
     if (existingPump) {
       if (existingPump.isReceiving) {
         logger.verbose(
-          `[${this._eventProcessorName}] [${partitionId}] The existing pump is running.`
+          `[${this._eventProcessorName}] [${partitionId}] The existing pump is running.`,
         );
         return;
       }
       logger.verbose(
-        `[${this._eventProcessorName}] [${partitionId}] The existing pump is not running.`
+        `[${this._eventProcessorName}] [${partitionId}] The existing pump is not running.`,
       );
       await this.removePump(partitionId, CloseReason.OwnershipLost);
     }
@@ -121,7 +121,7 @@ export class PumpManagerImpl implements PumpManager {
       connectionContext,
       partitionProcessor,
       startPosition,
-      this._options
+      this._options,
     );
 
     try {
@@ -131,7 +131,7 @@ export class PumpManagerImpl implements PumpManager {
       await pump.start();
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`
+        `[${this._eventProcessorName}] [${partitionId}] An error occured while adding/updating a pump: ${err}`,
       );
       logErrorStackTrace(err);
     }
@@ -151,12 +151,12 @@ export class PumpManagerImpl implements PumpManager {
         await pump.stop(reason);
       } else {
         logger.verbose(
-          `[${this._eventProcessorName}] [${partitionId}] No pump was found to remove.`
+          `[${this._eventProcessorName}] [${partitionId}] No pump was found to remove.`,
         );
       }
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] [${partitionId}] An error occured while removing a pump: ${err}`
+        `[${this._eventProcessorName}] [${partitionId}] An error occured while removing a pump: ${err}`,
       );
       logErrorStackTrace(err);
     }
@@ -183,7 +183,7 @@ export class PumpManagerImpl implements PumpManager {
       await Promise.all(tasks);
     } catch (err: any) {
       logger.verbose(
-        `[${this._eventProcessorName}] An error occured while removing all pumps: ${err}`
+        `[${this._eventProcessorName}] An error occured while removing all pumps: ${err}`,
       );
       logErrorStackTrace(err);
     } finally {

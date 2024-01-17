@@ -65,7 +65,7 @@ describe("TracingClient", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        expectedNamespace
+        expectedNamespace,
       );
     });
 
@@ -76,7 +76,7 @@ describe("TracingClient", () => {
       });
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        "Existing.Namespace"
+        "Existing.Namespace",
       );
     });
 
@@ -151,7 +151,7 @@ describe("TracingClient", () => {
         },
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
-        }
+        },
       );
     });
 

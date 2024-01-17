@@ -29,7 +29,7 @@ export async function makeRequestAndVerifyResponse(
     method: HttpMethods;
   },
   expectedResponse: { [key: string]: unknown } | undefined,
-  expectedHeaders?: { [key: string]: string }
+  expectedHeaders?: { [key: string]: string },
 ): Promise<PipelineResponse> {
   const req = createPipelineRequest({
     url: request.url ?? TEST_SERVER_URL + request.path,

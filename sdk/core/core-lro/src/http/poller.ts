@@ -24,7 +24,7 @@ import { buildCreatePoller } from "../poller/poller.js";
  */
 export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>
+  options?: CreateHttpPollerOptions<TResult, TState>,
 ): Promise<SimplePollerLike<TState, TResult>> {
   const {
     resourceLocationConfig,
@@ -71,6 +71,6 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
       processResult: processResult
         ? ({ flatResponse }, state) => processResult(flatResponse, state)
         : ({ flatResponse }) => flatResponse as TResult,
-    }
+    },
   );
 }

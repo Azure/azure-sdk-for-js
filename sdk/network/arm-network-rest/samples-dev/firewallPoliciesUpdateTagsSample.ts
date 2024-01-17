@@ -32,7 +32,7 @@ async function updateFirewallPolicyTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .patch(options);
   console.log(result);

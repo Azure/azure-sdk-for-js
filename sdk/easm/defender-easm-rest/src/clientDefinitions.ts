@@ -88,74 +88,74 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface ListAssetResource {
   /** Retrieve a list of assets for the provided search parameters. */
   get(
-    options?: ListAssetResourceParameters
+    options?: ListAssetResourceParameters,
   ): StreamableMethod<ListAssetResource200Response | ListAssetResourceDefaultResponse>;
   /** Update labels on assets matching the provided filter. */
   post(
-    options: UpdateAssetsParameters
+    options: UpdateAssetsParameters,
   ): StreamableMethod<UpdateAssets200Response | UpdateAssetsDefaultResponse>;
 }
 
 export interface GetAssetResource {
   /** Retrieve an asset by assetId. */
   get(
-    options?: GetAssetResourceParameters
+    options?: GetAssetResourceParameters,
   ): StreamableMethod<GetAssetResource200Response | GetAssetResourceDefaultResponse>;
 }
 
 export interface ListDataConnection {
   /** Retrieve a list of data connections. */
   get(
-    options?: ListDataConnectionParameters
+    options?: ListDataConnectionParameters,
   ): StreamableMethod<ListDataConnection200Response | ListDataConnectionDefaultResponse>;
 }
 
 export interface ValidateDataConnection {
   /** Validate a data connection with a given dataConnectionName. */
   post(
-    options?: ValidateDataConnectionParameters
+    options?: ValidateDataConnectionParameters,
   ): StreamableMethod<ValidateDataConnection200Response | ValidateDataConnectionDefaultResponse>;
 }
 
 export interface GetDataConnection {
   /** Retrieve a data connection with a given dataConnectionName. */
   get(
-    options?: GetDataConnectionParameters
+    options?: GetDataConnectionParameters,
   ): StreamableMethod<GetDataConnection200Response | GetDataConnectionDefaultResponse>;
   /** Create or replace a data connection with a given dataConnectionName. */
   put(
-    options?: CreateOrReplaceDataConnectionParameters
+    options?: CreateOrReplaceDataConnectionParameters,
   ): StreamableMethod<
     CreateOrReplaceDataConnection200Response | CreateOrReplaceDataConnectionDefaultResponse
   >;
   /** Delete a data connection with a given dataConnectionName. */
   delete(
-    options?: DeleteDataConnectionParameters
+    options?: DeleteDataConnectionParameters,
   ): StreamableMethod<DeleteDataConnection204Response | DeleteDataConnectionDefaultResponse>;
 }
 
 export interface ListDiscoGroup {
   /** Retrieve a list of discovery group for the provided search parameters. */
   get(
-    options?: ListDiscoGroupParameters
+    options?: ListDiscoGroupParameters,
   ): StreamableMethod<ListDiscoGroup200Response | ListDiscoGroupDefaultResponse>;
 }
 
 export interface ValidateDiscoGroup {
   /** Validate a discovery group with a given groupName. */
   post(
-    options?: ValidateDiscoGroupParameters
+    options?: ValidateDiscoGroupParameters,
   ): StreamableMethod<ValidateDiscoGroup200Response | ValidateDiscoGroupDefaultResponse>;
 }
 
 export interface GetDiscoGroup {
   /** Retrieve a discovery group with a given groupName. */
   get(
-    options?: GetDiscoGroupParameters
+    options?: GetDiscoGroupParameters,
   ): StreamableMethod<GetDiscoGroup200Response | GetDiscoGroupDefaultResponse>;
   /** Create a discovery group with a given groupName. */
   put(
-    options?: CreateOrReplaceDiscoGroupParameters
+    options?: CreateOrReplaceDiscoGroupParameters,
   ): StreamableMethod<
     CreateOrReplaceDiscoGroup200Response | CreateOrReplaceDiscoGroupDefaultResponse
   >;
@@ -164,80 +164,80 @@ export interface GetDiscoGroup {
 export interface RunDiscoGroup {
   /** Run a discovery group with a given groupName. */
   post(
-    options?: RunDiscoGroupParameters
+    options?: RunDiscoGroupParameters,
   ): StreamableMethod<RunDiscoGroup204Response | RunDiscoGroupDefaultResponse>;
 }
 
 export interface ListRuns {
   /** Retrieve a collection of discovery run results for a discovery group with a given groupName. */
   get(
-    options?: ListRunsParameters
+    options?: ListRunsParameters,
   ): StreamableMethod<ListRuns200Response | ListRunsDefaultResponse>;
 }
 
 export interface ListDiscoTemplate {
   /** Retrieve a list of disco templates for the provided search parameters. */
   get(
-    options?: ListDiscoTemplateParameters
+    options?: ListDiscoTemplateParameters,
   ): StreamableMethod<ListDiscoTemplate200Response | ListDiscoTemplateDefaultResponse>;
 }
 
 export interface GetDiscoTemplate {
   /** Retrieve a disco template with a given templateId. */
   get(
-    options?: GetDiscoTemplateParameters
+    options?: GetDiscoTemplateParameters,
   ): StreamableMethod<GetDiscoTemplate200Response | GetDiscoTemplateDefaultResponse>;
 }
 
 export interface GetBillable {
   /** Get billable assets summary for the workspace. */
   post(
-    options?: GetBillableParameters
+    options?: GetBillableParameters,
   ): StreamableMethod<GetBillable200Response | GetBillableDefaultResponse>;
 }
 
 export interface GetSnapshot {
   /** Get the most recent snapshot of asset summary values for the snapshot request. */
   post(
-    options?: GetSnapshotParameters
+    options?: GetSnapshotParameters,
   ): StreamableMethod<GetSnapshot200Response | GetSnapshotDefaultResponse>;
 }
 
 export interface GetSummary {
   /** Get asset summary details for the summary request. */
   post(
-    options?: GetSummaryParameters
+    options?: GetSummaryParameters,
   ): StreamableMethod<GetSummary200Response | GetSummaryDefaultResponse>;
 }
 
 export interface ListSavedFilter {
   /** Retrieve a list of saved filters for the provided search parameters. */
   get(
-    options?: ListSavedFilterParameters
+    options?: ListSavedFilterParameters,
   ): StreamableMethod<ListSavedFilter200Response | ListSavedFilterDefaultResponse>;
 }
 
 export interface GetSavedFilter {
   /** Retrieve a saved filter by filterName. */
   get(
-    options?: GetSavedFilterParameters
+    options?: GetSavedFilterParameters,
   ): StreamableMethod<GetSavedFilter200Response | GetSavedFilterDefaultResponse>;
   /** Create or replace a saved filter with a given filterName. */
   put(
-    options?: CreateOrReplaceSavedFilterParameters
+    options?: CreateOrReplaceSavedFilterParameters,
   ): StreamableMethod<
     CreateOrReplaceSavedFilter200Response | CreateOrReplaceSavedFilterDefaultResponse
   >;
   /** Delete a saved filter with a given filterName. */
   delete(
-    options?: DeleteSavedFilterParameters
+    options?: DeleteSavedFilterParameters,
   ): StreamableMethod<DeleteSavedFilter204Response | DeleteSavedFilterDefaultResponse>;
 }
 
 export interface ListTask {
   /** Retrieve a list of tasks for the provided search parameters. */
   get(
-    options?: ListTaskParameters
+    options?: ListTaskParameters,
   ): StreamableMethod<ListTask200Response | ListTaskDefaultResponse>;
 }
 
@@ -249,7 +249,7 @@ export interface GetTask {
 export interface CancelTask {
   /** Cancel a task by taskId. */
   post(
-    options?: CancelTaskParameters
+    options?: CancelTaskParameters,
   ): StreamableMethod<CancelTask200Response | CancelTaskDefaultResponse>;
 }
 

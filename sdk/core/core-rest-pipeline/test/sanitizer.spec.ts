@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { Sanitizer } from "../src/util/sanitizer.js";
+import { assert, describe, it } from "vitest";
+import { Sanitizer } from "../src/util/sanitizer";
 
 describe("Sanitizer", function () {
   it("Redacts query parameters in url properties", function () {

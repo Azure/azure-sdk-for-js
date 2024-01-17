@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { LogPolicyOptions } from "./policies/logPolicy.js";
-import { logPolicy } from "./policies/logPolicy.js";
-import type { Pipeline } from "./pipeline.js";
-import { createEmptyPipeline } from "./pipeline.js";
-import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
-import type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
-import { redirectPolicy } from "./policies/redirectPolicy.js";
-import type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";
-import { userAgentPolicy } from "./policies/userAgentPolicy.js";
+import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
+import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
+import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
+import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
 import { formDataPolicy } from "./policies/formDataPolicy.js";
@@ -18,7 +15,6 @@ import { proxyPolicy } from "./policies/proxyPolicy.js";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
 import { tlsPolicy } from "./policies/tlsPolicy.js";
 import { tracingPolicy } from "./policies/tracingPolicy.js";
-import { multipartPolicy } from "./policies/multipartPolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -90,7 +86,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
-  pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
   // The multipart policy is added after policies with no phase, so that

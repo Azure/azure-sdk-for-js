@@ -15,7 +15,7 @@ export function buildRequestUrl(
   baseUrl: string,
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}
+  options: RequestParameters = {},
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
@@ -118,7 +118,7 @@ function buildRoutePath(
 export function replaceAll(
   value: string | undefined,
   searchValue: string,
-  replaceValue: string
+  replaceValue: string,
 ): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }

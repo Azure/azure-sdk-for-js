@@ -62,12 +62,12 @@ function parseCAEChallenge(challenges: string): any[] {
         .split('", ')
         .filter((x) => x)
         .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
-        .reduce((a, b) => ({ ...a, ...b }), {})
+        .reduce((a, b) => ({ ...a, ...b }), {}),
     );
 }
 
 async function authorizeRequestOnChallenge(
-  options: AuthorizeRequestOnChallengeOptions
+  options: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes } = options;
 
@@ -90,7 +90,7 @@ async function authorizeRequestOnChallenge(
     {
       ...options,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64")),
-    } as GetTokenOptions
+    } as GetTokenOptions,
   );
 
   if (!accessToken) {
@@ -115,7 +115,7 @@ class MockRefreshCredential implements TokenCredential {
 
   public getToken(
     scope: string | string[],
-    options: GetTokenOptions & { claims?: string }
+    options: GetTokenOptions & { claims?: string },
   ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
@@ -146,7 +146,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
-            expected.challengeClaims
+            expected.challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -238,7 +238,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
-            expected[0].challengeClaims
+            expected[0].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -252,7 +252,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[1].scope[0]}", claims="${encodeString(
-            expected[1].challengeClaims
+            expected[1].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,
@@ -369,7 +369,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       {
         headers: createHttpHeaders({
           "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
-            expected[0].challengeClaims
+            expected[0].challengeClaims,
           )}"`,
         }),
         request: pipelineRequest,

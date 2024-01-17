@@ -185,7 +185,7 @@
     /**
      * The list of shell commands to run after the Rush installation finishes
      */
-    "postRushInstall": [],
+    "postRushInstall": ["rush install-test-browsers"],
     /**
      * The list of shell commands to run before the Rush build command starts
      */
@@ -2144,6 +2144,16 @@
     {
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"
     },
     {

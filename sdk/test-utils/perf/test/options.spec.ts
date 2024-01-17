@@ -67,7 +67,7 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
     }
     if (this.options[optionName].defaultValue && !this.parsedOptions[longName].value) {
       throw new Error(
-        `The option ${optionName} says it has a default value. It should therefore have a value.`
+        `The option ${optionName} says it has a default value. It should therefore have a value.`,
       );
     }
     if (
@@ -75,7 +75,7 @@ export class OptionsTest extends PerfTest<OptionsTestOptions> {
       (this.minimistResult[longName] || this.options[optionName].defaultValue)
     ) {
       throw new Error(
-        `The option ${optionName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`
+        `The option ${optionName} should be equal in both the inner options object, and the values obtained from minimist, or at least equal to its default value.`,
       );
     }
   }

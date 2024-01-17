@@ -2092,6 +2092,24 @@ export interface StorageLifecyclePolicyCompletedEventData {
 }
 
 // @public
+export interface StorageTaskAssignmentCompletedEventData {
+    completedDateTime: string;
+    status: StorageTaskAssignmentCompletedStatus;
+    summaryReportBlobUrl: string;
+    taskExecutionId: string;
+    taskName: string;
+}
+
+// @public
+export type StorageTaskAssignmentCompletedStatus = string;
+
+// @public
+export interface StorageTaskAssignmentQueuedEventData {
+    queuedDateTime: string;
+    taskExecutionId: string;
+}
+
+// @public
 export interface StorageTaskCompletedEventData {
     completedDateTime: string;
     status: StorageTaskCompletedStatus;
@@ -2295,6 +2313,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
     "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
     "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
     "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
     "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;

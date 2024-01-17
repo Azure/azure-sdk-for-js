@@ -9,7 +9,7 @@ describe("ConnectionConfig", () => {
   describe("Base", () => {
     it("populates config properties from an Event Hubs connection string", () => {
       const config = ConnectionConfig.create(
-        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+        "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep",
       );
 
       assert.equal(config.host, "hostname.servicebus.windows.net");
@@ -21,7 +21,7 @@ describe("ConnectionConfig", () => {
     it("populates path from the path argument if connection string does not have EntityPath", () => {
       const config = ConnectionConfig.create(
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak",
-        "abc"
+        "abc",
       );
       assert.equal(config.entityPath, "abc");
     });

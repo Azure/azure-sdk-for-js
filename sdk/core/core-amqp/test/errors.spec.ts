@@ -39,7 +39,7 @@ describe("Errors", () => {
         assert.equal(
           translatedError.message,
           cases[i].outputErrorMessage,
-          "Unexpected error message."
+          "Unexpected error message.",
         );
       }
     });

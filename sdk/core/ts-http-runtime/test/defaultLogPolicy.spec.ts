@@ -37,7 +37,7 @@ describe("defaultLogPolicy", function () {
       "userAgentPolicy",
       "multipartPolicy",
       "defaultRetryPolicy",
-      "tracingPolicy"
+      "tracingPolicy",
     );
     if (isNode) {
       expectedOrderedPolicies.push("redirectPolicy");
@@ -45,7 +45,7 @@ describe("defaultLogPolicy", function () {
     expectedOrderedPolicies.push("testSignPolicy", "logPolicy");
     assert.deepEqual(
       orderedPolicies.map((policy) => policy.name),
-      expectedOrderedPolicies
+      expectedOrderedPolicies,
     );
 
     const order: string[] = [];
@@ -62,7 +62,7 @@ describe("defaultLogPolicy", function () {
           return { headers: createHttpHeaders(), request: req, status: 500 };
         },
       },
-      request
+      request,
     );
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);

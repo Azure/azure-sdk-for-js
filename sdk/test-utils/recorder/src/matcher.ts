@@ -48,7 +48,7 @@ export async function setMatcher(
   httpClient: HttpClient,
   matcher: Matcher,
   recordingId?: string,
-  matcherBody: InternalCustomMatcherOptions = { compareBodies: true, ignoreQueryOrdering: false }
+  matcherBody: InternalCustomMatcherOptions = { compareBodies: true, ignoreQueryOrdering: false },
 ): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.setMatcher}`;
 

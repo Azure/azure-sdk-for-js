@@ -72,7 +72,7 @@ export class BlobBatchClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
 
   /**
@@ -94,7 +94,7 @@ export class BlobBatchClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     let pipeline: PipelineLike;
     if (isPipelineLike(credentialOrPipeline)) {
@@ -141,7 +141,7 @@ export class BlobBatchClient {
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobDeleteOptions
+    options?: BlobDeleteOptions,
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
   /**
@@ -158,7 +158,7 @@ export class BlobBatchClient {
     blobClients: BlobClient[],
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobDeleteOptions
+    options?: BlobDeleteOptions,
   ): Promise<BlobBatchDeleteBlobsResponse>;
 
   public async deleteBlobs(
@@ -171,7 +171,7 @@ export class BlobBatchClient {
       | undefined,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobDeleteOptions
+    options?: BlobDeleteOptions,
   ): Promise<BlobBatchDeleteBlobsResponse> {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
@@ -206,7 +206,7 @@ export class BlobBatchClient {
     tier: AccessTier,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
   /**
@@ -229,7 +229,7 @@ export class BlobBatchClient {
     tier: AccessTier,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<BlobBatchSetBlobsAccessTierResponse>;
 
   public async setBlobsAccessTier(
@@ -242,7 +242,7 @@ export class BlobBatchClient {
     tierOrOptions?: AccessTier | BlobSetTierOptions,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<BlobBatchSetBlobsAccessTierResponse> {
     const batch = new BlobBatch();
     for (const urlOrBlobClient of urlsOrBlobClients) {
@@ -251,13 +251,13 @@ export class BlobBatchClient {
           urlOrBlobClient,
           credentialOrTier as TokenCredential,
           tierOrOptions as AccessTier,
-          options
+          options,
         );
       } else {
         await batch.setBlobAccessTier(
           urlOrBlobClient,
           credentialOrTier as AccessTier,
-          tierOrOptions as BlobSetTierOptions
+          tierOrOptions as BlobSetTierOptions,
         );
       }
     }
@@ -301,7 +301,7 @@ export class BlobBatchClient {
    */
   public async submitBatch(
     batchRequest: BlobBatch,
-    options: BlobBatchSubmitBatchOptionalParams = {}
+    options: BlobBatchSubmitBatchOptionalParams = {},
   ): Promise<BlobBatchSubmitBatchResponse> {
     if (!batchRequest || batchRequest.getSubRequests().size === 0) {
       throw new RangeError("Batch request should contain one or more sub requests.");
@@ -321,14 +321,14 @@ export class BlobBatchClient {
             batchRequestBody,
             {
               ...updatedOptions,
-            }
-          )
+            },
+          ),
         );
 
         // Parse the sub responses result, if logic reaches here(i.e. the batch request succeeded with status code 202).
         const batchResponseParser = new BatchResponseParser(
           rawBatchResponse,
-          batchRequest.getSubRequests()
+          batchRequest.getSubRequests(),
         );
         const responseSummary = await batchResponseParser.parseBatchResponse();
 
@@ -345,7 +345,7 @@ export class BlobBatchClient {
         };
 
         return res;
-      }
+      },
     );
   }
 }

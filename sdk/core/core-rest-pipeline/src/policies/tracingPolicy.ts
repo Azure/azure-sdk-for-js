@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  TracingClient,
-  TracingContext,
-  TracingSpan,
+  type TracingClient,
+  type TracingContext,
+  type TracingSpan,
   createTracingClient,
 } from "@azure/core-tracing";
 import { SDK_VERSION } from "../constants.js";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { getUserAgentValue } from "../util/userAgent.js";
 import { logger } from "../log.js";
 import { getErrorMessage, isError } from "@azure/core-util";

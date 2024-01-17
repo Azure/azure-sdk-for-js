@@ -44,7 +44,7 @@ export class MixedRealityStsClient {
     accountId: string,
     accountDomain: string,
     keyCredential: AzureKeyCredential,
-    options?: MixedRealityStsClientOptions
+    options?: MixedRealityStsClientOptions,
   );
 
   /**
@@ -58,7 +58,7 @@ export class MixedRealityStsClient {
     accountId: string,
     accountDomain: string,
     credential: TokenCredential,
-    options?: MixedRealityStsClientOptions
+    options?: MixedRealityStsClientOptions,
   );
 
   /**
@@ -72,7 +72,7 @@ export class MixedRealityStsClient {
     accountId: string,
     accountDomain: string,
     credential: TokenCredential | AzureKeyCredential,
-    options: MixedRealityStsClientOptions = {}
+    options: MixedRealityStsClientOptions = {},
   ) {
     if (!accountId) {
       throw new Error("Argument cannot be null or empty: 'accountId'.");
@@ -140,7 +140,7 @@ export class MixedRealityStsClient {
         const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
 
         return mapToAccessToken(tokenResponse);
-      }
+      },
     );
   }
 }

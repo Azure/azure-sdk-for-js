@@ -2,9 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
-
-import { PassThrough, Writable } from "stream";
-import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import { PassThrough, Writable } from "node:stream";
+import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "node:http";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {

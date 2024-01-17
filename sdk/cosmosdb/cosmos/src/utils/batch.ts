@@ -159,7 +159,7 @@ export type BulkPatchOperation = OperationBase & {
 };
 
 export function hasResource(
-  operation: Operation
+  operation: Operation,
 ): operation is CreateOperation | UpsertOperation | ReplaceOperation {
   return (
     operation.operationType !== "Patch" &&
@@ -184,7 +184,7 @@ export function hasResource(
 export function prepareOperations(
   operationInput: OperationInput,
   definition: PartitionKeyDefinition,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): {
   operation: Operation;
   partitionKey: PrimitivePartitionKeyValue[];
@@ -205,7 +205,7 @@ export function prepareOperations(
       case BulkOperationType.Upsert:
         partitionKey = assertNotUndefined(
           extractPartitionKeys(operationInput.resourceBody, definition),
-          "Unexpected undefined Partition Key Found."
+          "Unexpected undefined Partition Key Found.",
         );
         break;
       case BulkOperationType.Read:
@@ -288,7 +288,7 @@ export function calculateObjectSizeInBytes(obj: unknown): number {
 
 export function decorateBatchOperation(
   operation: OperationInput,
-  options: RequestOptions = {}
+  options: RequestOptions = {},
 ): Operation {
   if (
     operation.operationType === BulkOperationType.Create ||

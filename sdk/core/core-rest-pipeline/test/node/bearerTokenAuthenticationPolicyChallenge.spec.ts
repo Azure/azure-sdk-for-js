@@ -318,7 +318,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     vi.advanceTimersByTime(5000);
     // Will refresh token twice
-    // - 1st refreshing because the token is epxired
+    // - 1st refreshing becase the token is epxired
     // - 2nd refreshing because the response with old token has 401 error and claim details so we need refresh token again
     await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     // Token is still valid and no need to refresh it

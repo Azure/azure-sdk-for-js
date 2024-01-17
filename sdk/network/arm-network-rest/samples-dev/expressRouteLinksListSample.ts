@@ -32,7 +32,7 @@ async function expressRouteLinkGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

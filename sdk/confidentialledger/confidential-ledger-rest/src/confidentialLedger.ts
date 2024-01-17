@@ -10,19 +10,19 @@ import GeneratedConfidentialLedger from "./generated/src/confidentialLedger";
 export default function ConfidentialLedger(
   ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
   ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
   credentials: TokenCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): ConfidentialLedgerClient;
 export default function ConfidentialLedger(
   ledgerEndpoint: string,
   ledgerIdentityCertificate: string,
   credentialsOrOptions?: TokenCredential | ClientOptions,
-  opts?: ClientOptions
+  opts?: ClientOptions,
 ): ConfidentialLedgerClient {
   let credentials: TokenCredential | undefined;
   let options: ClientOptions;

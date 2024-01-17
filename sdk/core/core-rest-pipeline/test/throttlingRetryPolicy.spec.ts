@@ -3,8 +3,8 @@
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import {
-  PipelineResponse,
-  SendRequest,
+  type PipelineResponse,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   throttlingRetryPolicy,

@@ -14,10 +14,10 @@ import type {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces.js";
+} from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { logger } from "./log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
@@ -171,7 +171,7 @@ class NodeHttpClient implements HttpClient {
       if (request.abortSignal && abortListener) {
         let uploadStreamDone = Promise.resolve();
         if (isReadableStream(body)) {
-          uploadStreamDone = isStreamComplete(body as NodeJS.ReadableStream);
+          uploadStreamDone = isStreamComplete(body);
         }
         let downloadStreamDone = Promise.resolve();
         if (isReadableStream(responseStream)) {

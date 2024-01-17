@@ -268,7 +268,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
       public getToken(
         scope: string | string[],
-        options: GetTokenOptions & { claims?: string }
+        options: GetTokenOptions & { claims?: string },
       ): Promise<AccessToken | null> {
         this.authCount++;
         this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
@@ -289,7 +289,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
         {
           headers: createHttpHeaders({
             "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
-              expected.challengeClaims
+              expected.challengeClaims,
             )}"`,
           }),
           request: pipelineRequest,
@@ -387,7 +387,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
     assert.equal(
       allParams.map((x) => x.join(" ")).join("\n"),
-      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing. Failed to perform the Continuous Access Evaluation authentication flow.`,
     );
   });
 
@@ -433,7 +433,7 @@ describe("authorizeRequestOnClaimChallenge", function () {
 
     assert.equal(
       allParams.map((x) => x.join(" ")).join("\n"),
-      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`
+      `The WWW-Authenticate header was missing the necessary "claims" to perform the Continuous Access Evaluation authentication flow.`,
     );
   });
 });

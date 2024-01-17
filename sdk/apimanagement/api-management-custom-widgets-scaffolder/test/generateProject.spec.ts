@@ -46,11 +46,11 @@ TECHNOLOGIES.forEach((technology) => {
     it("Generated project should contain provided name", () => {
       assert.include(
         writtenFiles.find((file) => file.name.includes("index.html"))?.content,
-        widgetConfig.displayName
+        widgetConfig.displayName,
       );
       assert.include(
         writtenFiles.find((file) => file.name.includes("package.json"))?.content,
-        displayNameToName(widgetConfig.displayName)
+        displayNameToName(widgetConfig.displayName),
       );
     });
 
@@ -58,7 +58,7 @@ TECHNOLOGIES.forEach((technology) => {
       Object.entries(deployConfig).forEach(([key, value]) => {
         assert.include(
           writtenFiles.find((file) => file.name.includes("deploy.js"))?.content,
-          `"${key}": "${value}"`
+          `"${key}": "${value}"`,
         );
       });
     });

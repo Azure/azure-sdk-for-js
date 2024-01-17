@@ -52,7 +52,7 @@ async function configurationPolicyGroupPut() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -24,7 +24,7 @@ import { OpenAIContext } from "./clientDefinitions.js";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): OpenAIContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
   options.apiVersion = options.apiVersion ?? "2023-12-01-preview";
