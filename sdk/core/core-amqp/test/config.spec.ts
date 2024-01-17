@@ -41,10 +41,10 @@ describe("ConnectionConfig", () => {
         EntityPath = ep;
       `;
       const config = ConnectionConfig.create(connectionString);
-      config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
-      config.should.have.property("sharedAccessKeyName").that.equals("sakName");
-      config.should.have.property("sharedAccessKey").that.equals("sak");
-      config.should.have.property("entityPath").that.equals("ep");
+      assert.equal(config.host, "hostname.servicebus.windows.net");
+      assert.equal(config.sharedAccessKeyName, "sakName");
+      assert.equal(config.sharedAccessKey, "sak");
+      assert.equal(config.entityPath, "ep");
     });
 
     it("requires a value before an assignment", () => {

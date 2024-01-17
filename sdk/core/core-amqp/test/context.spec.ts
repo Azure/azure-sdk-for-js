@@ -92,7 +92,7 @@ describe("ConnectionContextBase", () => {
     assert.instanceOf(context.cbsSession, CbsClient);
 
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
+    assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
   });
 
   it("should allow specifying a port", () => {

@@ -21,7 +21,7 @@ describe("Errors", () => {
     it("Does not touch errors that are neither AmqpError nor SystemError", () => {
       const testError = new Error("Test error");
       const translatedError = Errors.translate(testError);
-      translatedError.should.deep.equal(testError);
+      assert.deepEqual(translatedError, testError);
     });
 
     it("Wraps non-object inputs in errors", () => {
@@ -47,13 +47,13 @@ describe("Errors", () => {
     it("Does not touch TypeError", () => {
       const testError = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(testError);
-      translatedError.should.deep.equal(testError);
+      assert.deepEqual(translatedError, testError);
     });
 
     it("Does not touch RangeError", () => {
       const testError = new RangeError("Out of range!!");
       const translatedError = Errors.translate(testError);
-      translatedError.should.deep.equal(testError);
+      assert.deepEqual(translatedError, testError);
     });
 
     it("Sets retryable to true, if input is custom error and name is OperationTimeoutError", () => {

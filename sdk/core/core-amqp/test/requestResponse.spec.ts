@@ -317,7 +317,7 @@ describe("RequestResponseLink", function () {
       throw new Error("Test failure");
     } catch (err) {
       assert.ok(isError(err));
-      (err as Error).message.should.not.equal("Test failure");
+      assert.notEqual((err as Error).message, "Test failure");
     }
 
     // ensure the other request succeeds

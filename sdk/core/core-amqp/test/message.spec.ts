@@ -23,7 +23,7 @@ describe("message", function () {
 
       const expectedTtl = rhMsg.absolute_expiry_time!.getTime() - rhMsg.creation_time!.getTime();
       assert.ok(annoatedMsg.header?.timeToLive, "Expecting valid annotatedMsg.header.timeToLive");
-      annoatedMsg.header!.timeToLive!.should.equal(expectedTtl);
+      assert.equal(annoatedMsg.header!.timeToLive!, expectedTtl);
     });
 
     it("should be NOT overriden when no absolute expiry time", function () {
@@ -36,7 +36,7 @@ describe("message", function () {
 
       const expectedTtl = 49 * 24 * 60 * 60 * 1000;
       assert.ok(annoatedMsg.header?.timeToLive, "Expecting valid annotatedMsg.header.timeToLive");
-      annoatedMsg.header!.timeToLive!.should.equal(expectedTtl);
+      assert.equal(annoatedMsg.header!.timeToLive!, expectedTtl);
     });
 
     it("should round-trip correctly with value greater than max uint32", function () {

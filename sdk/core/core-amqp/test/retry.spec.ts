@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it } from "vitest";
+import { describe, it, assert } from "vitest";
 import {
   Constants,
   MessagingError,
@@ -15,7 +15,6 @@ import {
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
-const should = chai.should();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${
@@ -38,9 +37,9 @@ const should = chai.should();
           retryOptions: { retryDelayInMs: 15000, mode: mode },
         };
         const result = await retry(config);
-        result.code.should.equal(200);
-        result.description.should.equal("OK");
-        counter.should.equal(1);
+        assert.equal(result.code, 200);
+        assert.equal(result.description, "OK");
+        assert.equal(counter, 1);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -65,10 +64,11 @@ const should = chai.should();
         };
         await retry(config);
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
-        counter.should.equal(1);
+        assert.isDefined(err);
+        assert.instanceOf(err, MessagingError);
+        assert.equal(true, err instanceof MessagingError);
+        assert.equal((err as MessagingError).message, "I would like to fail, not retryable.");
+        assert.equal(counter, 1);
       }
     });
 
@@ -96,9 +96,9 @@ const should = chai.should();
           retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode },
         };
         const result = await retry(config);
-        result.code.should.equal(200);
-        result.description.should.equal("OK");
-        counter.should.equal(2);
+        assert.equal(result.code, 200);
+        assert.equal(result.description, "OK");
+        assert.equal(counter, 2);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -132,9 +132,9 @@ const should = chai.should();
           retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode },
         };
         const result = await retry(config);
-        result.code.should.equal(200);
-        result.description.should.equal("OK");
-        counter.should.equal(3);
+        assert.equal(result.code, 200);
+        assert.equal(result.description, "OK");
+        assert.equal(counter, 3);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -170,13 +170,14 @@ const should = chai.should();
         };
         await retry(config);
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would like to fail.");
-        counter.should.equal(3);
+        assert.isDefined(err);
+        assert.instanceOf(err, MessagingError);
+        assert.equal((err as MessagingError).message, "I would like to fail.");
+        assert.equal(counter, 3);
       }
     });
 
+    // TODO: This test is flaky. It should be fixed.
     it("should fail if all attempts return a retryable error", async function () {
       let counter = 0;
       try {
@@ -194,10 +195,10 @@ const should = chai.should();
         };
         await retry(config);
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
-        counter.should.equal(5);
+        assert.isDefined(err);
+        assert.instanceOf(err, MessagingError);
+        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(counter, 5);
       }
     });
 
@@ -226,10 +227,10 @@ const should = chai.should();
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
-        counter.should.equal(1);
+        assert.isDefined(err);
+        assert.instanceOf(err, MessagingError);
+        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(counter, 1);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
       }
@@ -261,10 +262,10 @@ const should = chai.should();
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof MessagingError);
-        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
-        counter.should.equal(2);
+        assert.isDefined(err);
+        assert.instanceOf(err, MessagingError);
+        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(counter, 2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
       }
@@ -291,10 +292,10 @@ const should = chai.should();
         };
         await retry(config);
       } catch (err) {
-        should.exist(err);
-        should.equal(true, err instanceof Error);
-        should.equal(true, (err as Error).name === "AbortError");
-        counter.should.equal(1, "It should retry only once");
+        assert.isDefined(err);
+        assert.instanceOf(err, Error);
+        assert.equal((err as Error).name, "AbortError");
+        assert.equal(counter, 1);
       }
     });
 
@@ -316,9 +317,9 @@ const should = chai.should();
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          result.code.should.equal(200);
-          result.description.should.equal("OK");
-          counter.should.equal(1);
+          assert.equal(result.code, 200);
+          assert.equal(result.description, "OK");
+          assert.equal(counter, 1);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -343,10 +344,10 @@ const should = chai.should();
           };
           await retry(config);
         } catch (err) {
-          should.exist(err);
-          should.equal(true, err instanceof MessagingError);
-          (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
-          counter.should.equal(1);
+          assert.isDefined(err);
+          assert.instanceOf(err, MessagingError);
+          assert.equal((err as MessagingError).message, "I would like to fail, not retryable.");
+          assert.equal(counter, 1);
         }
       });
 
@@ -374,9 +375,9 @@ const should = chai.should();
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          result.code.should.equal(200);
-          result.description.should.equal("OK");
-          counter.should.equal(2);
+          assert.equal(result.code, 200);
+          assert.equal(result.description, "OK");
+          assert.equal(counter, 2);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -410,9 +411,9 @@ const should = chai.should();
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          result.code.should.equal(200);
-          result.description.should.equal("OK");
-          counter.should.equal(3);
+          assert.equal(result.code, 200);
+          assert.equal(result.description, "OK");
+          assert.equal(counter, 3);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -452,10 +453,10 @@ const should = chai.should();
           };
           await retry(config);
         } catch (err) {
-          should.exist(err);
-          should.equal(true, err instanceof MessagingError);
-          (err as MessagingError).message.should.equal("I would like to fail.");
-          counter.should.equal(3);
+          assert.isDefined(err);
+          assert.instanceOf(err, MessagingError);
+          assert.equal((err as MessagingError).message, "I would like to fail.");
+          assert.equal(counter, 3);
         }
       });
     });
