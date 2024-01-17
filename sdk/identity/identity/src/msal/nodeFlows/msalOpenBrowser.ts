@@ -2,10 +2,13 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
 import { MsalNode, MsalNodeOptions, hasNativeBroker } from "./msalNodeCommon";
-import { credentialLogger } from "../../util/logging";
+import { handleMsalError, handleMsalResult } from "../utils";
+
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { credentialLogger } from "../../util/logging";
 import open from "open";
 
 /**
@@ -91,9 +94,9 @@ export class MsalOpenBrowser extends MsalNode {
       if (result.fromNativeBroker) {
         this.logger.verbose(`This result is returned from native broker`);
       }
-      return this.handleResult(scopes, this.clientId, result || undefined);
+      return handleMsalResult(scopes, result || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 }

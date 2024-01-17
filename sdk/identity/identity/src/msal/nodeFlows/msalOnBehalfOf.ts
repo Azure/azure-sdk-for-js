@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { handleMsalError, handleMsalResult } from "../utils";
+
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { formatError } from "../../util/logging";
@@ -86,9 +88,9 @@ export class MsalOnBehalfOf extends MsalNode {
         claims: options.claims,
         oboAssertion: this.userAssertionToken,
       });
-      return this.handleResult(scopes, this.clientId, result || undefined);
+      return handleMsalResult(scopes, result || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 }

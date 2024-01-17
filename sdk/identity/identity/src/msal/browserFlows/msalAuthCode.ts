@@ -2,8 +2,17 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
+
 import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { defaultLoggerCallback, msalToPublic, publicToMsal, getMSALLogLevel } from "../utils";
+import {
+  defaultLoggerCallback,
+  getMSALLogLevel,
+  handleMsalError,
+  handleMsalResult,
+  msalToPublic,
+  publicToMsal,
+} from "../utils";
+
 import { AccessToken } from "@azure/core-auth";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
@@ -43,6 +52,12 @@ export class MSALAuthCode extends MsalBrowser {
         piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
       },
     };
+    if (options.authenticationRecord) {
+      this.account = {
+        ...options.authenticationRecord,
+        tenantId: this.tenantId,
+      };
+    }
   }
 
   private async getApp(): Promise<msalBrowser.IPublicClientApplication> {
@@ -60,6 +75,7 @@ export class MSALAuthCode extends MsalBrowser {
 
     return this.app;
   }
+
   /**
    * Loads the account based on the result of the authentication.
    * If no result was received, tries to load the account from the cache.
@@ -189,9 +205,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.logger.info("Attempting to acquire token silently");
       const app = await this.getApp();
       const response = await app.acquireTokenSilent(parameters);
-      return this.handleResult(scopes, this.clientId, response);
+      return handleMsalResult(scopes, response);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 
@@ -230,7 +246,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         await app.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0 };
       case "popup":
-        return this.handleResult(scopes, this.clientId, await app.acquireTokenPopup(parameters));
+        return handleMsalResult(scopes, await app.acquireTokenPopup(parameters));
     }
   }
 }

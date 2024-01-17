@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+import { handleMsalError, handleMsalResult } from "../utils";
+
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { credentialLogger } from "../../util/logging";
@@ -62,9 +64,9 @@ export class MsalAuthorizationCode extends MsalNode {
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
-      return this.handleResult(scopes, this.clientId, result || undefined);
+      return handleMsalResult(scopes, result || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 }

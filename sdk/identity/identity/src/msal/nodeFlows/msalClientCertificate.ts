@@ -8,6 +8,8 @@ import {
 } from "../../credentials/clientCertificateCredential";
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 import { createHash, createPrivateKey } from "crypto";
+import { handleMsalError, handleMsalResult } from "../utils";
+
 import { AccessToken } from "@azure/core-auth";
 import { ClientCredentialRequest } from "@azure/msal-node";
 import { CredentialFlowGetTokenOptions } from "../credentials";
@@ -170,9 +172,9 @@ export class MsalClientCertificate extends MsalNode {
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
-      return this.handleResult(scopes, this.clientId, result || undefined);
+      return handleMsalResult(scopes, result || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 }

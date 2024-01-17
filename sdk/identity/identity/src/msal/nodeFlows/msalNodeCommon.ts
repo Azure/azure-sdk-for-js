@@ -2,35 +2,40 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { getLogLevel } from "@azure/logger";
+import { AppType, AuthenticationRecord } from "../types";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
-  MsalBaseUtilities,
   defaultLoggerCallback,
   getAuthority,
   getKnownAuthorities,
+  getMSALLogLevel,
+  handleMsalError,
+  handleMsalResult,
   msalToPublic,
   publicToMsal,
-  getMSALLogLevel,
 } from "../utils";
-import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
+
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AppType, AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
+import { BrokerOptions } from "./brokerOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import { CredentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { NativeBrokerPluginControl } from "../../plugins/provider";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { NativeBrokerPluginControl } from "../../plugins/provider";
-import { BrokerOptions } from "./brokerOptions";
+import { getLogLevel } from "@azure/logger";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -114,7 +119,7 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
  *
  * @internal
  */
-export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
+export abstract class MsalNode implements MsalFlow {
   private app: {
     public?: msalNode.PublicClientApplication;
     confidential?: msalNode.ConfidentialClientApplication;
@@ -123,6 +128,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     public?: msalNode.PublicClientApplication;
     confidential?: msalNode.ConfidentialClientApplication;
   } = {};
+  private account?: AuthenticationRecord;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -137,6 +143,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected enableMsaPassthrough?: boolean;
   protected parentWindowHandle?: Uint8Array;
   protected enableBroker?: boolean;
+  protected logger: CredentialLogger;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -147,7 +154,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
   protected getAssertion: (() => Promise<string>) | undefined;
   constructor(options: MsalNodeOptions) {
-    super(options);
+    this.logger = options.logger;
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
@@ -445,9 +452,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
           silentRequest,
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
-      return this.handleResult(scopes, this.clientId, response || undefined);
+      return handleMsalResult(scopes, response || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 
@@ -470,7 +477,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 
-    options.correlationId = options?.correlationId || this.generateUuid();
+    options.correlationId = options?.correlationId || randomUUID();
     await this.init(options);
 
     try {
