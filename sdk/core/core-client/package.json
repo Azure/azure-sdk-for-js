@@ -94,8 +94,8 @@
     "@types/sinon": "^17.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@vitest/browser": "^1.1.0",
-    "@vitest/coverage-istanbul": "^1.1.0",
+    "@vitest/browser": "^1.2.0",
+    "@vitest/coverage-istanbul": "^1.2.0",
     "eslint": "^8.52.0",
     "playwright": "^1.40.1",
     "prettier": "^3.1.1",
@@ -103,7 +103,7 @@
     "sinon": "^17.0.0",
     "tshy": "^1.8.2",
     "typescript": "~5.2.0",
-    "vitest": "^1.1.0"
+    "vitest": "^1.2.0"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
