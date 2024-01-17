@@ -96,11 +96,11 @@ describe("sendRequest", () => {
         assert.instanceOf(files[0], Blob);
         assert.instanceOf(files[1], Blob);
         assert.sameOrderedMembers(
-          [...new Uint8Array(await (request.formData?.files as Blob[])[0].arrayBuffer())],
+          [...new Uint8Array(await files[0].arrayBuffer())],
           [...foo],
         );
         assert.sameOrderedMembers(
-          [...new Uint8Array(await (request.formData?.files as Blob[])[1].arrayBuffer())],
+          [...new Uint8Array(await files[1].arrayBuffer())],
           [...foo],
         );
 
