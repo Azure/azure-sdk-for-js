@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, afterEach } from "vitest";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src/index.js";
 
@@ -24,16 +23,16 @@ describe("createAbortablePromise", function () {
       },
     );
   afterEach(function () {
-    sinon.restore();
+    vi.useRealTimers();
   });
 
   it("should resolve if not aborted nor rejected", async function () {
-    const clock = sinon.useFakeTimers();
+    const clock = vi.useFakeTimers();
     const promise = createPromise();
-    const time = await clock.nextAsync();
-    clock.restore();
-    assert.strictEqual(time, delayTime);
-    await expect(promise).resolves;
+    await clock.advanceTimersToNextTimerAsync();
+    assert.strictEqual(clock.getTimerCount(), 0);
+    clock.useRealTimers();
+    await expect(promise).resolves.toBeUndefined();
   });
 
   it("should reject when aborted", async function () {
@@ -44,7 +43,7 @@ describe("createAbortablePromise", function () {
       abortErrorMsg,
     });
     aborter.abort();
-    await expect(promise).rejects.toThrow(abortErrorMsg);
+    await expect(promise).rejects.toThrowError(abortErrorMsg);
   });
 });
 

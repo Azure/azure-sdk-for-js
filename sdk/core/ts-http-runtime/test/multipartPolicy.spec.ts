@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect } from "vitest";
-import sinon from "sinon";
+import { describe, it, assert, vi, expect } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
@@ -26,8 +25,8 @@ export async function performRequest(
     request,
     status: 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(successResponse);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(successResponse);
 
   await policy.sendRequest(request, next);
   return request;
@@ -56,8 +55,8 @@ describe("multipartPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     await policy.sendRequest(request, next);
 

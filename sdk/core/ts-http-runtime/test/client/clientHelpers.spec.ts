@@ -6,7 +6,6 @@ import { createDefaultPipeline } from "../../src/client/clientHelpers.js";
 import { bearerTokenAuthenticationPolicyName } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 import { keyCredentialAuthenticationPolicyName } from "../../src/client/keyCredentialAuthenticationPolicy.js";
 import { TokenCredential } from "../../src/auth/tokenCredential.js";
-import { fail } from "assert";
 import { apiVersionPolicyName } from "../../src/client/apiVersionPolicy.js";
 
 describe("clientHelpers", () => {
@@ -43,7 +42,7 @@ describe("clientHelpers", () => {
   it("should throw if key credentials but no Api Header Name", () => {
     try {
       createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
-      fail("Expected to throw an error");
+      assert.fail("Expected to throw an error");
     } catch (error: any) {
       assert.equal((error as Error).message, "Missing API Key Header Name");
     }

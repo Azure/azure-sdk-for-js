@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, expect, afterEach } from "vitest";
-import sinon from "sinon";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
   PipelineResponse,
   RestError,
@@ -15,7 +14,7 @@ import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {
-    sinon.restore();
+    vi.useRealTimers();
   });
 
   it("It should throw immediately if we get a 416 response", async () => {
@@ -30,11 +29,11 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416, response });
 
     const policy = exponentialRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
     await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
-    assert.strictEqual(next.callCount, 1);
+    expect(next).toHaveBeenCalledOnce();
   });
 
   it("It should retry with a 503 response", async () => {
@@ -49,14 +48,14 @@ describe("exponentialRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 503, response });
 
     const policy = exponentialRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
-    const clock = sinon.useFakeTimers();
+    vi.useFakeTimers();
 
     const promise = expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
-    await clock.runAllAsync();
+    await vi.runAllTimersAsync();
     await promise;
-    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
+    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
   });
 });
