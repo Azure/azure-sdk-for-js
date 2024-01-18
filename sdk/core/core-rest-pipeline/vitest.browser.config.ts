@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 
 export default defineConfig({
+  define: {
+    "process.env": {}
+  },
+  plugins: [browserMap()],
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
@@ -16,7 +21,7 @@ export default defineConfig({
       provider: "playwright",
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
     include: ["./dist-test/browser/**/*.spec.js"],
