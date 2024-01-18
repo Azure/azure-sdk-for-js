@@ -59,6 +59,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
     },
     samplingRatio: 1,
     instrumentationOptions: {
+      // Instrumentations generating traces
         azureSdk: { enabled: true },
         http: { enabled: true },
         mongoDb: { enabled: true },
@@ -66,6 +67,8 @@ const options: AzureMonitorOpenTelemetryOptions = {
         postgreSql: { enabled: true },
         redis: { enabled: true },
         redis4: { enabled: true },
+        // Instrumentations generating logs
+        bunyan: { enabled: true },
     },
     enableLiveMetrics: true,
     enableStandardMetrics: true,
@@ -86,7 +89,7 @@ useAzureMonitor(options);
 | ------------------------------- |------------------------------------------------------------------------------------------------------------|-------|
 | azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |                                    | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                       | 1|
-| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false }}|
+| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }}|
 | browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "", config: {} }
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources)         ||
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. 
@@ -137,6 +140,10 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 
 ### Metrics
 - [HTTP/HTTPS](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-http) 
+
+
+### Logs
+- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan) 
 
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
