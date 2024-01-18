@@ -100,54 +100,70 @@ describe("LogHandler", () => {
             done(error);
           });
       });
+    });
 
-      it("Exception standard metrics processed", (done) => {
-        // Generate exception Log record
-        const logRecord: APILogRecord = {
-          attributes: {
-            "exception.type": "TestError",
-          },
-          body: "testErrorRecord",
-        };
-        logs.getLogger("testLogger").emit(logRecord);
-        (logs.getLoggerProvider() as LoggerProvider)
-          .forceFlush()
-          .then(() => {
-            let result = exportStub.args;
-            assert.strictEqual(result.length, 1);
-            assert.strictEqual(
-              result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Exceptions', Ver:'1.1')",
-            );
-            done();
-          })
-          .catch((error: Error) => {
-            done(error);
-          });
-      });
+    it("Exception standard metrics processed", (done) => {
+      // Generate exception Log record
+      const logRecord: APILogRecord = {
+        attributes: {
+          "exception.type": "TestError",
+        },
+        body: "testErrorRecord",
+      };
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
+        .then(() => {
+          let result = exportStub.args;
+          assert.strictEqual(result.length, 1);
+          assert.strictEqual(
+            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
+            "(Name:'Exceptions', Ver:'1.1')",
+          );
+          done();
+        })
+        .catch((error: Error) => {
+          done(error);
+        });
+    });
 
-      it("Trace standard metrics processed", (done) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: {},
-          body: "testRecord",
-        };
-        logs.getLogger("testLogger").emit(logRecord);
-        (logs.getLoggerProvider() as LoggerProvider)
-          .forceFlush()
-          .then(() => {
-            let result = exportStub.args;
-            assert.strictEqual(result.length, 1);
-            assert.strictEqual(
-              result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Traces', Ver:'1.1')",
-            );
-            done();
-          })
-          .catch((error: Error) => {
-            done(error);
-          });
-      });
+    it("Trace standard metrics processed", (done) => {
+      // Generate Log record
+      const logRecord: APILogRecord = {
+        attributes: {},
+        body: "testRecord",
+      };
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
+        .then(() => {
+          let result = exportStub.args;
+          assert.strictEqual(result.length, 1);
+          assert.strictEqual(
+            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
+            "(Name:'Traces', Ver:'1.1')",
+          );
+          done();
+        })
+        .catch((error: Error) => {
+          done(error);
+        });
+    });
+
+    it("Instrumentations", () => {
+      let config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      let logHandler = new LogHandler(config, metricHandler);
+      assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-bunyan",
+        "Bunyan instrumentation not added",
+      );
     });
   });
 });

@@ -41,6 +41,7 @@ export interface IBrowserSdkLoaderConfig {
 // @public
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
+    bunyan?: InstrumentationConfig;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;
