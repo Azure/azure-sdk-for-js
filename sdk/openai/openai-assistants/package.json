@@ -36,6 +36,7 @@
     }
   },
   "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai-assistants/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },

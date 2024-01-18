@@ -47,7 +47,7 @@ export interface AssistantThreadsOperations {
   ) => Promise<ThreadDeletionStatus>;
 }
 
-export function getAssistantThreads(context: AssistantsContext) {
+export function getAssistantThreads(context: AssistantsContext): AssistantThreadsOperations {
   return {
     createThread: (
       body: AssistantThreadCreationOptions,

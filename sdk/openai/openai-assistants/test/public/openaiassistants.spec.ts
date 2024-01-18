@@ -25,7 +25,6 @@ describe("OpenAIAssistants", () => {
   });
 
   const authTypes = ["AzureAPIKey", "OpenAIKey"] as AuthMethod[];
-  //const authTypes = ["AzureAPIKey" as AuthMethod];
 
   matrix([authTypes] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
@@ -247,7 +246,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(run.instructions, instructions);
 
           do {
-            await new Promise((r) => setTimeout(r, 500));
+            await new Promise((resolve) => setTimeout(resolve, 500));
             run = await client.threadRuns.retrieveRun(thread.id, run.id);
             const listLength = 1;
             const runSteps = await client.runSteps.listRunSteps(thread.id, run.id, {
@@ -389,7 +388,7 @@ describe("OpenAIAssistants", () => {
           assert.isNotNull(runId);
 
           do {
-            await new Promise((r) => setTimeout(r, 500));
+            await new Promise((resolve) => setTimeout(resolve, 500));
             run = await client.threadRuns.retrieveRun(thread.id, run.id);
             assert.equal(run.id, runId);
             assert.equal(run.threadId, thread.id);

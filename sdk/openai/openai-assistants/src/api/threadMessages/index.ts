@@ -265,11 +265,11 @@ export async function _listMessagesDeserialize(
       threadId: p["thread_id"],
       role: p["role"],
       content: (p["content"] ?? []).map(
-        (p) =>
+        (item) =>
           ({
-            type: p["type"],
-            text: p["text"] || undefined,
-            imageFile: p["image_file"] || undefined,
+            type: item["type"],
+            text: item["text"] || undefined,
+            imageFile: item["image_file"] || undefined,
           } as MessageContent)
       ),
       assistantId: p["assistant_id"],
