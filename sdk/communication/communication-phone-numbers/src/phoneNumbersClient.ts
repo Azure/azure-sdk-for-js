@@ -289,7 +289,7 @@ export class PhoneNumbersClient {
   public beginPurchasePhoneNumbers(
     searchId: string,
     consentToNotResellNumbers: boolean = false,
-    options: BeginPurchasePhoneNumbersOptions = {}
+    options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
   > {
@@ -302,7 +302,7 @@ export class PhoneNumbersClient {
           searchId,
           consentToNotResellNumbers,
         });
-      }
+      },
     );
   }
 

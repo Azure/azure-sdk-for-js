@@ -55,7 +55,7 @@ export async function main() {
     // get poller to monitor purchase
     const purchasePoller = await client.beginPurchasePhoneNumbers(
       searchId,
-      consentToNotResellNumbers
+      consentToNotResellNumbers,
     );
 
     // Purchase is underway.

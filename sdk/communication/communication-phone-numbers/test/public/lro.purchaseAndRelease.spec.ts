@@ -59,7 +59,7 @@ matrix([[true, false]], async function (useAad) {
       // purchase phone number
       const purchasePoller = await client.beginPurchasePhoneNumbers(
         searchResults.searchId,
-        consentToNotResellNumbers
+        consentToNotResellNumbers,
       );
 
       await purchasePoller.pollUntilDone();
