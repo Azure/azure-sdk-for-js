@@ -71,12 +71,9 @@ export class MockEventReceiver {
     }
     if (options?.raiseErrorAfterInSeconds) {
       promises.push(
-        this.processFuncWithDelay(
-          async () => {
-            await handlers.processError(new Error(`new error ${randomUUID()}`));
-          },
-          options?.raiseErrorAfterInSeconds * 1000,
-        ),
+        this.processFuncWithDelay(async () => {
+          await handlers.processError(new Error(`new error ${randomUUID()}`));
+        }, options?.raiseErrorAfterInSeconds * 1000),
       );
     }
 

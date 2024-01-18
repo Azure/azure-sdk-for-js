@@ -255,28 +255,25 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       }
       this._lockRenewer?.stop(this, message);
       const delivery = message.delivery;
-      const timer = setTimeout(
-        () => {
-          this._deliveryDispositionMap.delete(delivery.id);
+      const timer = setTimeout(() => {
+        this._deliveryDispositionMap.delete(delivery.id);
 
-          logger.verbose(
-            "%s Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-              "Hence rejecting the promise with timeout error.",
-            this.logPrefix,
-            delivery.id,
-            Constants.defaultOperationTimeoutInMs,
-          );
+        logger.verbose(
+          "%s Disposition for delivery id: %d, did not complete in %d milliseconds. " +
+            "Hence rejecting the promise with timeout error.",
+          this.logPrefix,
+          delivery.id,
+          Constants.defaultOperationTimeoutInMs,
+        );
 
-          const e: AmqpError = {
-            condition: ErrorNameConditionMapper.ServiceUnavailableError,
-            description:
-              "Operation to settle the message has timed out. The disposition of the " +
-              "message may or may not be successful",
-          };
-          return reject(translateServiceBusError(e));
-        },
-        options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs,
-      );
+        const e: AmqpError = {
+          condition: ErrorNameConditionMapper.ServiceUnavailableError,
+          description:
+            "Operation to settle the message has timed out. The disposition of the " +
+            "message may or may not be successful",
+        };
+        return reject(translateServiceBusError(e));
+      }, options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

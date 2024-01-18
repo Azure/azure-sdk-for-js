@@ -89,12 +89,9 @@ export class MockEventHubConsumerClient {
     }
     if (options && options?.delayToRaiseErrorInSeconds > 0) {
       promises.push(
-        this.processFuncWithDelay(
-          async () => {
-            await handlers.processError(new Error(`new error ${randomUUID()}`));
-          },
-          options?.delayToRaiseErrorInSeconds * 1000,
-        ),
+        this.processFuncWithDelay(async () => {
+          await handlers.processError(new Error(`new error ${randomUUID()}`));
+        }, options?.delayToRaiseErrorInSeconds * 1000),
       );
     }
 

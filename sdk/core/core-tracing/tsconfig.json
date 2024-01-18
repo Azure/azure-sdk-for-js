@@ -4,7 +4,7 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "paths": {
-      "@azure/core-tracing": ["./src/index"]
-    }
-  }
+      "@azure/core-tracing": ["./src/index"],
+    },
+  },
 }
