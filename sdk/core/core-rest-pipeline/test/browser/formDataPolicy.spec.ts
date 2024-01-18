@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders } from "../../src/httpHeaders";
-import type { PipelineResponse, SendRequest } from "../../src/interfaces";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { formDataPolicy } from "../../src/policies/formDataPolicy";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import type { PipelineResponse, SendRequest } from "../../src/interfaces.js";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { formDataPolicy } from "../../src/policies/formDataPolicy.js";
 import { assert, describe, it, vi } from "vitest";
 
 describe("formDataPolicy (browser-only)", function () {
