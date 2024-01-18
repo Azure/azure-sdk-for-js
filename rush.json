@@ -1167,11 +1167,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/arm-operations",
-      "projectFolder": "sdk/operationsmanagement/arm-operations",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-mediaservices",
       "projectFolder": "sdk/mediaservices/arm-mediaservices",
       "versionPolicyName": "management"
@@ -1452,11 +1447,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/arm-deploymentmanager",
-      "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-hanaonazure",
       "projectFolder": "sdk/hanaonazure/arm-hanaonazure",
       "versionPolicyName": "management"
@@ -1469,21 +1459,6 @@
     {
       "packageName": "@azure/arm-labservices",
       "projectFolder": "sdk/labservices/arm-labservices",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-machinelearningcompute",
-      "projectFolder": "sdk/machinelearningcompute/arm-machinelearningcompute",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-machinelearningexperimentation",
-      "projectFolder": "sdk/machinelearningexperimentation/arm-machinelearningexperimentation",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-commerce",
-      "projectFolder": "sdk/commerce/arm-commerce",
       "versionPolicyName": "management"
     },
     {
@@ -1519,11 +1494,6 @@
     {
       "packageName": "@azure/arm-iotcentral",
       "projectFolder": "sdk/iotcentral/arm-iotcentral",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-commitmentplans",
-      "projectFolder": "sdk/machinelearning/arm-commitmentplans",
       "versionPolicyName": "management"
     },
     {
@@ -1622,11 +1592,6 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-servicemap",
-      "projectFolder": "sdk/service-map/arm-servicemap",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-signalr",
       "projectFolder": "sdk/signalr/arm-signalr",
       "versionPolicyName": "management"
@@ -1682,18 +1647,8 @@
       "versionPolicyName": "management"
     },
     {
-      "packageName": "@azure/arm-visualstudio",
-      "projectFolder": "sdk/visualstudio/arm-visualstudio",
-      "versionPolicyName": "management"
-    },
-    {
       "packageName": "@azure/arm-vmwarecloudsimple",
       "projectFolder": "sdk/vmwarecloudsimple/arm-vmwarecloudsimple",
-      "versionPolicyName": "management"
-    },
-    {
-      "packageName": "@azure/arm-servicefabricmesh",
-      "projectFolder": "sdk/servicefabricmesh/arm-servicefabricmesh",
       "versionPolicyName": "management"
     },
     {

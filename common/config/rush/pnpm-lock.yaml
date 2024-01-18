@@ -155,15 +155,9 @@ dependencies:
   '@rush-temp/arm-cognitiveservices':
     specifier: file:./projects/arm-cognitiveservices.tgz
     version: file:projects/arm-cognitiveservices.tgz
-  '@rush-temp/arm-commerce':
-    specifier: file:./projects/arm-commerce.tgz
-    version: file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
-  '@rush-temp/arm-commitmentplans':
-    specifier: file:./projects/arm-commitmentplans.tgz
-    version: file:projects/arm-commitmentplans.tgz
   '@rush-temp/arm-communication':
     specifier: file:./projects/arm-communication.tgz
     version: file:projects/arm-communication.tgz
@@ -251,9 +245,6 @@ dependencies:
   '@rush-temp/arm-defendereasm':
     specifier: file:./projects/arm-defendereasm.tgz
     version: file:projects/arm-defendereasm.tgz
-  '@rush-temp/arm-deploymentmanager':
-    specifier: file:./projects/arm-deploymentmanager.tgz
-    version: file:projects/arm-deploymentmanager.tgz
   '@rush-temp/arm-desktopvirtualization':
     specifier: file:./projects/arm-desktopvirtualization.tgz
     version: file:projects/arm-desktopvirtualization.tgz
@@ -407,12 +398,6 @@ dependencies:
   '@rush-temp/arm-machinelearning':
     specifier: file:./projects/arm-machinelearning.tgz
     version: file:projects/arm-machinelearning.tgz
-  '@rush-temp/arm-machinelearningcompute':
-    specifier: file:./projects/arm-machinelearningcompute.tgz
-    version: file:projects/arm-machinelearningcompute.tgz
-  '@rush-temp/arm-machinelearningexperimentation':
-    specifier: file:./projects/arm-machinelearningexperimentation.tgz
-    version: file:projects/arm-machinelearningexperimentation.tgz
   '@rush-temp/arm-maintenance':
     specifier: file:./projects/arm-maintenance.tgz
     version: file:projects/arm-maintenance.tgz
@@ -500,9 +485,6 @@ dependencies:
   '@rush-temp/arm-operationalinsights':
     specifier: file:./projects/arm-operationalinsights.tgz
     version: file:projects/arm-operationalinsights.tgz
-  '@rush-temp/arm-operations':
-    specifier: file:./projects/arm-operations.tgz
-    version: file:projects/arm-operations.tgz
   '@rush-temp/arm-orbital':
     specifier: file:./projects/arm-orbital.tgz
     version: file:projects/arm-orbital.tgz
@@ -632,15 +614,9 @@ dependencies:
   '@rush-temp/arm-servicefabric-1':
     specifier: file:./projects/arm-servicefabric-1.tgz
     version: file:projects/arm-servicefabric-1.tgz
-  '@rush-temp/arm-servicefabricmesh':
-    specifier: file:./projects/arm-servicefabricmesh.tgz
-    version: file:projects/arm-servicefabricmesh.tgz
   '@rush-temp/arm-servicelinker':
     specifier: file:./projects/arm-servicelinker.tgz
     version: file:projects/arm-servicelinker.tgz
-  '@rush-temp/arm-servicemap':
-    specifier: file:./projects/arm-servicemap.tgz
-    version: file:projects/arm-servicemap.tgz
   '@rush-temp/arm-servicenetworking':
     specifier: file:./projects/arm-servicenetworking.tgz
     version: file:projects/arm-servicenetworking.tgz
@@ -704,9 +680,6 @@ dependencies:
   '@rush-temp/arm-trafficmanager':
     specifier: file:./projects/arm-trafficmanager.tgz
     version: file:projects/arm-trafficmanager.tgz
-  '@rush-temp/arm-visualstudio':
-    specifier: file:./projects/arm-visualstudio.tgz
-    version: file:projects/arm-visualstudio.tgz
   '@rush-temp/arm-vmwarecloudsimple':
     specifier: file:./projects/arm-vmwarecloudsimple.tgz
     version: file:projects/arm-vmwarecloudsimple.tgz
@@ -1126,13 +1099,13 @@ dependencies:
     version: file:projects/web-pubsub-express.tgz
   '@vitest/browser':
     specifier: 1.1.3
-    version: 1.1.3(playwright@1.40.1)(vitest@1.1.3)
+    version: 1.1.3(vitest@1.1.3)
   chai:
     specifier: 4.3.10
     version: 4.3.10
   vitest:
     specifier: 1.1.3
-    version: 1.1.3(@types/node@18.19.3)(@vitest/browser@1.1.3)
+    version: 1.1.3(@vitest/browser@1.1.3)
 
 packages:
 
@@ -3752,6 +3725,27 @@ packages:
       playwright: 1.40.1
       sirv: 2.0.4
       vitest: 1.1.3(@types/node@18.19.3)(@vitest/browser@1.1.3)
+    dev: false
+
+  /@vitest/browser@1.1.3(vitest@1.1.3):
+    resolution: {integrity: sha512-ksI0V8YqonFYfjVYMPTvDR84i7ix7QPL2Sc8G2mHirVGAf4jJS3uC/CsifRLe5/E2r8QUhHbAdZQpvMCqBJV5w==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: ^1.0.0
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@vitest/utils': 1.1.3
+      magic-string: 0.30.5
+      sirv: 2.0.4
+      vitest: 1.1.3(@vitest/browser@1.1.3)
     dev: false
 
   /@vitest/expect@1.1.3:
@@ -10060,6 +10054,63 @@ packages:
       - terser
     dev: false
 
+  /vitest@1.1.3(@vitest/browser@1.1.3):
+    resolution: {integrity: sha512-2l8om1NOkiA90/Y207PsEvJLYygddsOyr81wLQ20Ra8IlLKbyQncWsGZjnbkyG2KwwuTXLQjEPOJuxGMG8qJBQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@types/node': ^18.0.0 || >=20.0.0
+      '@vitest/browser': ^1.0.0
+      '@vitest/ui': ^1.0.0
+      happy-dom: '*'
+      jsdom: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@types/node':
+        optional: true
+      '@vitest/browser':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+    dependencies:
+      '@vitest/browser': 1.1.3(vitest@1.1.3)
+      '@vitest/expect': 1.1.3
+      '@vitest/runner': 1.1.3
+      '@vitest/snapshot': 1.1.3
+      '@vitest/spy': 1.1.3
+      '@vitest/utils': 1.1.3
+      acorn-walk: 8.3.1
+      cac: 6.7.14
+      chai: 4.3.10
+      debug: 4.3.4(supports-color@8.1.1)
+      execa: 8.0.1
+      local-pkg: 0.5.0
+      magic-string: 0.30.5
+      pathe: 1.1.1
+      picocolors: 1.0.0
+      std-env: 3.7.0
+      strip-literal: 1.3.0
+      tinybench: 2.5.1
+      tinypool: 0.8.1
+      vite: 5.0.10(@types/node@18.19.3)
+      vite-node: 1.1.3(@types/node@18.19.3)
+      why-is-node-running: 2.2.2
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: false
+
   /void-elements@2.0.1:
     resolution: {integrity: sha512-qZKX4RnBzH2ugr8Lxa7x+0V6XD9Sb/ouARtiasEQCHB1EVU4NXtmHsDDrx1dO4ne5fc3J6EW05BP1Dl0z0iung==}
     engines: {node: '>=0.10.0'}
@@ -12065,54 +12116,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-commerce.tgz:
-    resolution: {integrity: sha512-xSJ9iUa7E9TEm4ycKRn/Ed+JyMYuWRYMUns/gs1jxHYZ2b8MKtELJAJ2I4X1fpEjXgD64Vgw8BaDMnOHiW/J8A==, tarball: file:projects/arm-commerce.tgz}
-    name: '@rush-temp/arm-commerce'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-commitmentplans.tgz:
-    resolution: {integrity: sha512-L+dtsJierPzzipS7DXxzq+N4uYx9/Gx8IZM5nUyCLyt4r1fJScrTlaPbzLBZiml6uVX+SCLttfv+RvegbC2+vA==, tarball: file:projects/arm-commitmentplans.tgz}
-    name: '@rush-temp/arm-commitmentplans'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
   file:projects/arm-communication.tgz:
     resolution: {integrity: sha512-qpnLKa0ahVjvR8OskWwVfIEnRp6Va3ss9aG9YDDT7R2k9oVJ2GnRaZcUr8ZMtzbsdFR4Cvarbubo6p2xM3YFSQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
@@ -12910,31 +12913,6 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-deploymentmanager.tgz:
-    resolution: {integrity: sha512-dykBNr40d6L6M+ANYejef8arNOY5n1tEOjFw5X8/iPLzrIm3OsTa+S1ZIO99CJeVN2v1lPhF4uAbs6/dLZPZ2w==, tarball: file:projects/arm-deploymentmanager.tgz}
-    name: '@rush-temp/arm-deploymentmanager'
-    version: 0.0.0
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
@@ -14267,56 +14245,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/arm-machinelearningcompute.tgz:
-    resolution: {integrity: sha512-t0puScZZAua3OYcwwEVekDVsr3H5bNDrfl+xH/DCGqtjZNTzyxmcds8UpBtvnpyweU/8H16JR1peXUHgJQhUPw==, tarball: file:projects/arm-machinelearningcompute.tgz}
-    name: '@rush-temp/arm-machinelearningcompute'
-    version: 0.0.0
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-machinelearningexperimentation.tgz:
-    resolution: {integrity: sha512-+gEtnuwCayXWni1TRMj22Zkf25rRpDhYTkjxeyG7/A0BuD845hSajTAEgJjd1MNFB/lFVN31ATTFJDXZLzjIJA==, tarball: file:projects/arm-machinelearningexperimentation.tgz}
-    name: '@rush-temp/arm-machinelearningexperimentation'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
   file:projects/arm-maintenance.tgz:
     resolution: {integrity: sha512-BMKjRGXBdxxqUthI1ZYeQ96HMnzDepcFJfBcD04bkOE9J1259FDxeHICEy3GJwtQJzV3rXiOU2YpsNbt1LdV4w==, tarball: file:projects/arm-maintenance.tgz}
     name: '@rush-temp/arm-maintenance'
@@ -15067,31 +14995,6 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-operations.tgz:
-    resolution: {integrity: sha512-UuykXiaAPATox5WoIaN61k3uFbDfg0KXKSX+dZjWLQwGCNgiqoxmK0LTOAFbc2zZC1bextfffABD51nqeFpOZA==, tarball: file:projects/arm-operations.tgz}
-    name: '@rush-temp/arm-operations'
-    version: 0.0.0
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
@@ -16239,62 +16142,12 @@ packages:
       - utf-8-validate
     dev: false
 
-  file:projects/arm-servicefabricmesh.tgz:
-    resolution: {integrity: sha512-95jWzWyMHz7QgoE2LlYCICMO8K5v5lJ/5b7MP2XSaB1Bc00gSQAEH88eL2V10TQN/ATUSQuKXi+0Eys/r55BJQ==, tarball: file:projects/arm-servicefabricmesh.tgz}
-    name: '@rush-temp/arm-servicefabricmesh'
-    version: 0.0.0
-    dependencies:
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
   file:projects/arm-servicelinker.tgz:
     resolution: {integrity: sha512-S7Woy1OsRRV7zWVt3VShwZbUfT1M02PFqFXeRvGdb1Cm3/Twon/T8W9lxDol5oRDE75tIOpasNLsqXqeVKuejA==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      dotenv: 16.3.1
-      mkdirp: 1.0.4
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-servicemap.tgz:
-    resolution: {integrity: sha512-dWoxE2cOzAF2t8ofcBG4FZPyxQF4MFTIi+8ELyn8LQmItXT97/eyHx7iAE6tE5YjoASeW8yH6Q2C38q/voXSAQ==, tarball: file:projects/arm-servicemap.tgz}
-    name: '@rush-temp/arm-servicemap'
-    version: 0.0.0
-    dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -16843,31 +16696,6 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.3.1
       mkdirp: 2.1.6
-      mocha: 10.2.0
-      rimraf: 3.0.2
-      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
-      tslib: 2.6.2
-      typescript: 5.2.2
-      uglify-js: 3.17.4
-    transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
-      - supports-color
-    dev: false
-
-  file:projects/arm-visualstudio.tgz:
-    resolution: {integrity: sha512-japIuzrTyi95rX4QwcgbLPrD+yGmwlR4XZYjPp6MRg95s8KLlcXnNyUeudUgsoQHI93+7+rvzdL2HMpG5NKWXQ==, tarball: file:projects/arm-visualstudio.tgz}
-    name: '@rush-temp/arm-visualstudio'
-    version: 0.0.0
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
-      '@types/chai': 4.3.11
-      '@types/node': 18.19.3
-      chai: 4.3.10
-      cross-env: 7.0.3
-      mkdirp: 1.0.4
       mocha: 10.2.0
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
@@ -18127,11 +17955,11 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-3sRTVyJoahTdQVBhee6Iu2rc4wf55ICfgE3NCzckBZVSOVNrQAGjfV+PZlV0xTLzBXISQrep04MVX3M+T5zJBQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-g461+XcimDeW07i4cY4k4yYn1GUX+ET5jeZVisLDkL+zlfD1Zss8IT2xVggTkwpcd+rzCO8rVa9oOtlA1arC9A==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.39.0(@types/node@16.18.68)
+      '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
@@ -18170,7 +17998,6 @@ packages:
       vitest: 1.1.3(@types/node@18.19.3)(@vitest/browser@1.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
-      - '@types/node'
       - '@vitest/ui'
       - happy-dom
       - jsdom
@@ -19970,7 +19797,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-dNC826Z6E331JOFpXiarBtZmYHm0Ow8fkxL+SUy0WW1rr2SHQPkQuOlV7Nl+PrVGxDQOsEaOe0AJ/JrAS0x1EA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-ZZ8+i4YtTU6gh5gI37qF1UHWhaZF85RDPTCUbbTnFImmhrIh5tBp1nTrm8n4UzDe7BtKTr5l13sRIWXWkktQhw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
