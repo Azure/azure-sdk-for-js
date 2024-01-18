@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (2023-01-18)
+## 4.0.1 (2024-01-18)
 
 ### Bugs Fixed
 - Initialize Public Client Application in the Interactive Browser Credential, as required by @azure/msal-browser v3 fixed in [#28292](https://github.com/Azure/azure-sdk-for-js/pull/28292). 
