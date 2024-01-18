@@ -13,10 +13,7 @@ import { delay } from "@azure/core-util";
 import { Result } from "../utils/utils";
 
 matrix(
-  [
-    ["createPollerSync"],
-    [true, false],
-  ] as const,
+  [["createPollerSync"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {
     const runLro = createRunLroWith({ implName, throwOnNon2xxResponse });
     describe(`${implName} (throwOnNon2xxResponse = ${throwOnNon2xxResponse})`, function () {
@@ -2222,7 +2219,11 @@ matrix(
       describe("rehydration LRO", () => {
         // fake LRO which means no polling and the initial response would returnt the result directly
         it("could handle rehydration for fake LRO", async () => {
-          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const bodyObj = {
+            properties: { provisioningState: "Succeeded" },
+            id: "100",
+            name: "foo",
+          };
           const retResult = {
             ...bodyObj,
             statusCode: 200,
@@ -2233,7 +2234,7 @@ matrix(
               {
                 method: "PUT",
                 status: 200,
-                body: JSON.stringify(bodyObj)
+                body: JSON.stringify(bodyObj),
               },
             ],
             implName,
@@ -2250,19 +2251,28 @@ matrix(
                 initialUri: "path",
                 requestMethod: "PUT",
               },
-              result: retResult
-            }
+              result: retResult,
+            },
           });
           assert.equal(serialized, expectedSerialized);
           assert.equal(poller.operationState.status, "succeeded");
-          const restoredPoller = createTestPoller({ routes: [], restoreFrom: serialized, implName, throwOnNon2xxResponse });
+          const restoredPoller = createTestPoller({
+            routes: [],
+            restoreFrom: serialized,
+            implName,
+            throwOnNon2xxResponse,
+          });
           assert.equal(serialized, await restoredPoller.serialize());
           assert.equal(poller.operationState.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
         });
 
         it("could handle rehydration for real LRO", async () => {
-          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const bodyObj = {
+            properties: { provisioningState: "Succeeded" },
+            id: "100",
+            name: "foo",
+          };
           const retResult = {
             ...bodyObj,
             statusCode: 200,
@@ -2284,13 +2294,15 @@ matrix(
             },
           ];
           const poller = createTestPoller({
-            routes: [{
-              method: "POST",
-              status: 202,
-              headers: {
-                "Operation-Location": pollingPath,
+            routes: [
+              {
+                method: "POST",
+                status: 202,
+                headers: {
+                  "Operation-Location": pollingPath,
+                },
               },
-            }],
+            ],
             throwOnNon2xxResponse,
             implName,
             updateState: () => {
@@ -2310,7 +2322,7 @@ matrix(
                 initialUri: "path",
                 requestMethod: "POST",
               },
-            }
+            },
           });
           assert.equal(serialized, expectedSerialized);
           assert.equal(poller.operationState.status, "running");
@@ -2677,7 +2689,11 @@ matrix(
       });
       describe("general behavior", function () {
         it("awaitting poller would return result directly", async () => {
-          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const bodyObj = {
+            properties: { provisioningState: "Succeeded" },
+            id: "100",
+            name: "foo",
+          };
           const retResult = {
             ...bodyObj,
             statusCode: 200,
@@ -2754,23 +2770,23 @@ matrix(
             throwOnNon2xxResponse,
           });
           const pollerState = {
-            status: 'failed',
+            status: "failed",
             config: {
-              metadata: { mode: 'Body' },
-              operationLocation: 'path',
+              metadata: { mode: "Body" },
+              operationLocation: "path",
               resourceLocation: undefined,
-              initialUri: 'path',
-              requestMethod: 'PUT'
+              initialUri: "path",
+              requestMethod: "PUT",
             },
             result: {
               ...bodyObj,
-              statusCode: 200
-            }
-          }
+              statusCode: 200,
+            },
+          };
           await assertDivergentBehavior({
             op: poller.poll(),
             notThrowing: {
-              partResult: pollerState
+              partResult: pollerState,
             },
             throwing: {
               messagePattern: /failed/,
@@ -2806,8 +2822,8 @@ matrix(
               partResult: {
                 result: {
                   ...bodyObj,
-                  statusCode: 200
-                }
+                  statusCode: 200,
+                },
               },
             },
             throwing: {
@@ -2863,7 +2879,7 @@ matrix(
           });
         });
         it("processResult() could be asynchronized", async () => {
-          const processResult = async (res: unknown) => {
+          const processResult = async (res: unknown): Promise<Result> => {
             await delay(1);
             return { statusCode: (res as Result).statusCode } as Result;
           };
@@ -2876,7 +2892,7 @@ matrix(
               },
             ],
             throwOnNon2xxResponse,
-            processResult
+            processResult,
           });
           const result = await poller.pollUntilDone();
           assert.equal(result.statusCode, 200);
@@ -2895,7 +2911,7 @@ matrix(
               },
             ],
             throwOnNon2xxResponse,
-            processResult
+            processResult,
           });
           const result = await poller.pollUntilDone();
           assert.equal(result.statusCode, 200);
@@ -2953,7 +2969,10 @@ matrix(
             (poller as any).operationState = "foostatus";
             assert.fail("should throw error");
           } catch (e: any) {
-            assert.equal(e.message, "Cannot set property operationState of #<Object> which has only a getter")
+            assert.equal(
+              e.message,
+              "Cannot set property operationState of #<Object> which has only a getter",
+            );
           }
         });
       });

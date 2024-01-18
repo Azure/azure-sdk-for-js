@@ -124,7 +124,7 @@ function createSendOp(settings: {
         headers: headers,
         statusCode: response.status,
         body: parsedBody,
-        request
+        request,
       },
     };
   };
@@ -146,10 +146,12 @@ export function createTestPoller(settings: {
     updateState,
     implName = "createPollerSync",
     throwOnNon2xxResponse = true,
-    restoreFrom = undefined
+    restoreFrom = undefined,
   } = settings;
   const client = createClient({ routes: toLroProcessors(routes), throwOnNon2xxResponse });
-  const { method: requestMethod, path = initialPath } = restoreFrom ? { method: "GET" as HttpMethods, path: "FAKE" } : routes[0];
+  const { method: requestMethod, path = initialPath } = restoreFrom
+    ? { method: "GET" as HttpMethods, path: "FAKE" }
+    : routes[0];
   const lro = createCoreRestPipelineLro({
     sendOperationFn: createSendOp({ client }),
     request: {
@@ -214,11 +216,11 @@ async function runLro<TState>(settings: {
 
 export const createRunLroWith =
   <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
-    (settings: {
-      routes: LroResponseSpec[];
-      onProgress?: (state: TState) => void;
-      resourceLocationConfig?: ResourceLocationConfig;
-      processResult?: (result: unknown, state: TState) => Result;
-      updateState?: (state: TState, lastResponse: RawResponse) => void;
-    }): Promise<Result> =>
-      runLro({ ...settings, ...variables });
+  (settings: {
+    routes: LroResponseSpec[];
+    onProgress?: (state: TState) => void;
+    resourceLocationConfig?: ResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => Result;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+  }): Promise<Result> =>
+    runLro({ ...settings, ...variables });
