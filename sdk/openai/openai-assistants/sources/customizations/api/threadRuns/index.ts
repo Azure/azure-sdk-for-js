@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ThreadRun, ListResponseOf } from "../../models/models.js";
 import { _listRunsSend } from "../../../generated/src/api/threadRuns/index.js";
 import {

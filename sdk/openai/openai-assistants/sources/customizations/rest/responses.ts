@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ListResponseOfOutput } from "./outputModels.js";
 import {
   AssistantOutput,

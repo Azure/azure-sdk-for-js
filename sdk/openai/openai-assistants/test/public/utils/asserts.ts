@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "@azure/test-utils";
 import { Assistant, AssistantCreationOptions } from "../../../src/index.js";
 
