@@ -126,10 +126,9 @@ Example output from this sequence:
 Files can be uploaded and then referenced by assistants or messages. First, use the generalized upload API with a
 purpose of 'assistants' to make a file ID available:
 ```javascript Snippet:UploadAssistantFilesToUse
-const filename = "sample_file_for_upload.txt";
-await fs.writeFile(filename, "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
-const uint8array = await fs.readFile(filename);
-const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename });
+await fs.writeFile("<path_to_text_file>", "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.");
+const uint8array = await fs.readFile("<path_to_text_file>");
+const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename: "<path_to_text_file>" });
 ```
 
 Once uploaded, the file ID can then be provided to an assistant upon creation. Note that file IDs will only be used
