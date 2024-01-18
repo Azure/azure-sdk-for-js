@@ -2,7 +2,7 @@ parameters:
 - name: OperatingSystems
   displayName: OperatingSystems (list of operating systems to run)
   type: string
-  default: 'Linux, Windows'
+  default: 'Linux'
 - name: LanguageVersion
   displayName: LanguageVersion (14, 16, 18)
   type: string
@@ -15,6 +15,10 @@ parameters:
   displayName: Tests (regex of tests to run)
   type: string
   default: '^(span-export|log-export|metric-export)$'
+- name: Arguments
+  displayName: Arguments (regex of arguments to run)
+  type: string
+  default: '(15)' 
 - name: Iterations
   displayName: Iterations (times to run each test)
   type: number
