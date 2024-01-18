@@ -2260,6 +2260,80 @@ matrix(
           assert.equal(poller.operationState.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
         });
+
+        it("could handle rehydration for real LRO", async () => {
+          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const retResult = {
+            ...bodyObj,
+            statusCode: 200,
+          };
+          const pollingPath = `pollingPath`;
+          let pollCount = 0;
+          const pollingRoutes = [
+            ...Array(10).fill({
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "running" }`,
+              status: 200,
+            }),
+            {
+              method: "GET",
+              path: pollingPath,
+              body: JSON.stringify(bodyObj),
+              status: 200,
+            },
+          ];
+          const poller = createTestPoller({
+            routes: [{
+              method: "POST",
+              status: 202,
+              headers: {
+                "Operation-Location": pollingPath,
+              },
+            }],
+            throwOnNon2xxResponse,
+            implName,
+            updateState: () => {
+              pollCount++;
+            },
+          });
+          assert.isUndefined(poller.operationState);
+          const serialized = await poller.serialize();
+          console.log("serialized", serialized);
+          assert.equal(pollCount, 0);
+          const expectedSerialized = JSON.stringify({
+            state: {
+              status: "running",
+              config: {
+                metadata: { mode: "OperationLocation" },
+                operationLocation: "pollingPath",
+                initialUri: "path",
+                requestMethod: "POST",
+              },
+            }
+          });
+          assert.equal(serialized, expectedSerialized);
+          assert.equal(poller.operationState.status, "running");
+          pollCount = 0;
+          const restoredPoller = createTestPoller({
+            routes: pollingRoutes,
+            restoreFrom: serialized,
+            implName,
+            throwOnNon2xxResponse,
+            updateState: () => {
+              pollCount++;
+            },
+          });
+          assert.equal(pollCount, 0);
+          assert.deepEqual(retResult as Result, await restoredPoller);
+          assert.equal(pollCount, 11);
+          assert.equal(restoredPoller.operationState.status, "succeeded");
+          assert.deepEqual(restoredPoller.result, retResult);
+          assert.isUndefined(poller.result);
+          // duplicate awaitting would not trigger extra pollings
+          await restoredPoller;
+          assert.equal(pollCount, 11);
+        });
       });
 
       describe("mutate state", () => {
@@ -2602,6 +2676,56 @@ matrix(
         });
       });
       describe("general behavior", function () {
+        it("awaitting poller would return result directly", async () => {
+          const bodyObj = { "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" };
+          const retResult = {
+            ...bodyObj,
+            statusCode: 200,
+          };
+          const pollingPath = `pollingPath`;
+          let pollCount = 0;
+          const pollingRoutes = [
+            {
+              method: "POST",
+              status: 202,
+              headers: {
+                "Operation-Location": pollingPath,
+              },
+            },
+            ...Array(10).fill({
+              method: "GET",
+              path: pollingPath,
+              body: `{ "status": "running" }`,
+              status: 200,
+            }),
+            {
+              method: "GET",
+              path: pollingPath,
+              body: JSON.stringify(bodyObj),
+              status: 200,
+            },
+          ];
+          const poller = createTestPoller({
+            routes: pollingRoutes,
+            throwOnNon2xxResponse,
+            implName,
+            updateState: () => {
+              pollCount++;
+            },
+          });
+          assert.isUndefined(poller.operationState);
+          assert.isUndefined(poller.result);
+          assert.equal(pollCount, 0);
+          const result = await poller;
+          assert.deepEqual(retResult as Result, result);
+          assert.equal(pollCount, 11);
+          assert.equal(poller.operationState.status, "succeeded");
+          assert.deepEqual(poller.result, retResult);
+          assert.equal(poller.result, result);
+          // duplicate awaitting would not trigger extra pollings
+          await poller;
+          assert.equal(pollCount, 11);
+        });
         it("poll() doesn't poll after the poller is in a succeed status", async function () {
           const poller = createTestPoller({
             routes: [
