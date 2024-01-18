@@ -95,7 +95,7 @@ let runResponse = await assistantsClient.threadRuns.createRun(assistantThread.id
 Once the run has started, it should then be polled until it reaches a terminal status:
 ```javascript Snippet:OverviewWaitForRun
 do {
-  await new Promise(r => setTimeout(r, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
 } while (runResponse.status === "queued" || runResponse.status === "in_progress")
 ```
@@ -305,7 +305,7 @@ let runResponse = await assistantsClient.threadRuns.createThreadAndRun({
 });
 
 do {
-  await new Promise(r => setTimeout(r, 500));
+  await new Promise((resolve) => setTimeout(resolve, 500));
   runResponse = await assistantsClient.threadRuns.retrieveRun(runResponse.threadId, runResponse.id);
   
   if (runResponse.status === "requires_action" && runResponse.requiredAction.type === "submit_tool_outputs") {
