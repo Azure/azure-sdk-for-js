@@ -264,21 +264,21 @@ export class SasQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined
+            this.startsOn ? truncatedISO8061Date(this.startsOn, false) : undefined,
           );
           break;
         case "se":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined
+            this.expiresOn ? truncatedISO8061Date(this.expiresOn, false) : undefined,
           );
           break;
         case "sip":
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.ipRange ? ipRangeToString(this.ipRange) : undefined
+            this.ipRange ? ipRangeToString(this.ipRange) : undefined,
           );
           break;
         case "si":
@@ -294,14 +294,14 @@ export class SasQueryParameters {
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined
+            this.signedStartsOn ? truncatedISO8061Date(this.signedStartsOn, false) : undefined,
           );
           break;
         case "ske": // Signed key expiry time
           this.tryAppendQueryParameter(
             queries,
             param,
-            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined
+            this.signedExpiresOn ? truncatedISO8061Date(this.signedExpiresOn, false) : undefined,
           );
           break;
         case "sks": // Signed key service

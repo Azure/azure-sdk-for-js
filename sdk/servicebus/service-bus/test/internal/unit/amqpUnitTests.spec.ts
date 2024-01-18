@@ -28,12 +28,12 @@ describe("AMQP message encoding", () => {
   beforeEach(() => {
     assert.equal(
       "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.",
-      errorInvalidMessageTypeSingleOrArray
+      errorInvalidMessageTypeSingleOrArray,
     );
 
     assert.equal(
       "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.",
-      errorInvalidMessageTypeSingle
+      errorInvalidMessageTypeSingle,
     );
   });
 
@@ -48,7 +48,7 @@ describe("AMQP message encoding", () => {
       false,
       "receiveAndDelete",
       false,
-      false
+      false,
     );
 
   it("isAmqpAnnotatedMessage", () => {
@@ -60,38 +60,38 @@ describe("AMQP message encoding", () => {
       isAmqpAnnotatedMessage({
         body: "hello world",
         bodyType: "sequence",
-      })
+      }),
     );
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
         bodyType: "value",
-      })
+      }),
     );
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
         bodyType: "data",
-      })
+      }),
     );
 
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
         bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
-      })
+      }),
     );
   });
 
   it("isServiceBusMessage", () => {
     assert.isTrue(
       isServiceBusMessage({ body: undefined }),
-      "object with undefined 'body' should be a ServiceBusMessage"
+      "object with undefined 'body' should be a ServiceBusMessage",
     ); // no field is really required for a Service Bus message.
     assert.isTrue(isServiceBusMessage({ body: "hello world" }), "object has a 'body' field"); // no field is really required for a Service Bus message.
     assert.isTrue(
       isServiceBusMessage(exampleReceivedMessage()),
-      "a ServiceBusReceivedMessage is also a sendable ServiceBusMessage"
+      "a ServiceBusReceivedMessage is also a sendable ServiceBusMessage",
     );
   });
 
@@ -187,7 +187,7 @@ describe("AMQP message encoding", () => {
       assert.equal(rheaMessage.ttl, ttl);
       assert.ok(
         rheaMessage.absolute_expiry_time instanceof Date &&
-          !isNaN(rheaMessage.absolute_expiry_time.getTime())
+          !isNaN(rheaMessage.absolute_expiry_time.getTime()),
       );
     });
   });

@@ -30,7 +30,7 @@ import { RouterJob } from "../../../src";
 
 export async function pollForJobQueued(
   jobId: string,
-  routerClient: AzureCommunicationRoutingServiceClient
+  routerClient: AzureCommunicationRoutingServiceClient,
 ): Promise<RouterJob> {
   let job: RouterJobOutput = {
     id: "dummy",
@@ -70,7 +70,7 @@ export async function pollForJobQueued(
  */
 export const retry = async <T>(
   fn: () => Promise<T> | T,
-  { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number }
+  { retries, retryIntervalMs }: { retries: number; retryIntervalMs: number },
 ): Promise<T> => {
   const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
   try {

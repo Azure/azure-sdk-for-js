@@ -72,7 +72,7 @@ async function virtualMachineExtensionsCreateOrUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      vmExtensionName
+      vmExtensionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -104,7 +104,7 @@ async function virtualMachineExtensionsCreateOrUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      vmExtensionName
+      vmExtensionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

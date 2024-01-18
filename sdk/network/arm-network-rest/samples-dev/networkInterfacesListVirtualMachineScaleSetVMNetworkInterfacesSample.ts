@@ -34,7 +34,7 @@ async function listVirtualMachineScaleSetVMNetworkInterfaces() {
       subscriptionId,
       resourceGroupName,
       virtualMachineScaleSetName,
-      virtualmachineIndex
+      virtualmachineIndex,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

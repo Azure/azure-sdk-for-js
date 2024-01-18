@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Readable } from "stream";
-import { ReadableStream as AsyncIterableReadableStream } from "stream/web";
+import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
 import { isBlob, isNodeReadableStream, isWebReadableStream } from "./typeGuards";
 
 async function* streamAsyncIterator(

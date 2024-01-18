@@ -34,7 +34,7 @@ async function routeFilterRuleDelete() {
       subscriptionId,
       resourceGroupName,
       routeFilterName,
-      ruleName
+      ruleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

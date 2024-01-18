@@ -42,7 +42,7 @@ matrix([[true, false]], async function (useAad) {
     it("can update a phone number's capabilities", async function () {
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
-        update
+        update,
       );
 
       const phoneNumber = await updatePoller.pollUntilDone();
@@ -59,7 +59,7 @@ matrix([[true, false]], async function (useAad) {
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`
+          `Status code ${error.statusCode} does not indicate client error.`,
         );
         return;
       }
@@ -75,7 +75,7 @@ matrix([[true, false]], async function (useAad) {
       } catch (error: any) {
         assert.isTrue(
           isClientErrorStatusCode(error.statusCode),
-          `Status code ${error.statusCode} does not indicate client error.`
+          `Status code ${error.statusCode} does not indicate client error.`,
         );
         return;
       }

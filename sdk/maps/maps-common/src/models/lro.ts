@@ -17,7 +17,7 @@ import { LroResponse } from "@azure/core-lro";
  */
 export async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   getResponse: (options: TOptions) => Promise<TResponse>,
-  options: TOptions
+  options: TOptions,
 ): Promise<LroResponse<TResponse>> {
   const { onResponse } = options || {};
   let rawResponse: FullOperationResponse;
@@ -46,7 +46,7 @@ export async function getRawResponse<TOptions extends OperationOptions, TRespons
  */
 export function createSendPollRequest<
   TOptions extends OperationOptions,
-  TClient extends ServiceClient
+  TClient extends ServiceClient,
 >(settings: {
   client: TClient;
   options: TOptions;
@@ -56,6 +56,6 @@ export function createSendPollRequest<
   return async (path: string) =>
     getRawResponse(
       (paramOptions) => client.sendOperationRequest({ options: paramOptions }, { path, ...spec }),
-      options
+      options,
     );
 }

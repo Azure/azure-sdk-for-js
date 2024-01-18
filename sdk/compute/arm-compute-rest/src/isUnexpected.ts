@@ -1317,1266 +1317,1266 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: OperationsList200Response | OperationsListDefaultResponse
+  response: OperationsList200Response | OperationsListDefaultResponse,
 ): response is OperationsListDefaultResponse;
 export function isUnexpected(
-  response: UsageList200Response | UsageListDefaultResponse
+  response: UsageList200Response | UsageListDefaultResponse,
 ): response is UsageListDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse
+  response: VirtualMachineSizesList200Response | VirtualMachineSizesListDefaultResponse,
 ): response is VirtualMachineSizesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListByLocation200Response
-    | VirtualMachineScaleSetsListByLocationDefaultResponse
+    | VirtualMachineScaleSetsListByLocationDefaultResponse,
 ): response is VirtualMachineScaleSetsListByLocationDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsCreateOrUpdate200Response
     | VirtualMachineScaleSetsCreateOrUpdate201Response
-    | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse
+    | VirtualMachineScaleSetsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse
+  response: VirtualMachineScaleSetsUpdate200Response | VirtualMachineScaleSetsUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDelete200Response
     | VirtualMachineScaleSetsDelete202Response
     | VirtualMachineScaleSetsDelete204Response
-    | VirtualMachineScaleSetsDeleteDefaultResponse
+    | VirtualMachineScaleSetsDeleteDefaultResponse,
 ): response is VirtualMachineScaleSetsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse
+  response: VirtualMachineScaleSetsGet200Response | VirtualMachineScaleSetsGetDefaultResponse,
 ): response is VirtualMachineScaleSetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDeallocate200Response
     | VirtualMachineScaleSetsDeallocate202Response
-    | VirtualMachineScaleSetsDeallocateDefaultResponse
+    | VirtualMachineScaleSetsDeallocateDefaultResponse,
 ): response is VirtualMachineScaleSetsDeallocateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsDeleteInstances200Response
     | VirtualMachineScaleSetsDeleteInstances202Response
-    | VirtualMachineScaleSetsDeleteInstancesDefaultResponse
+    | VirtualMachineScaleSetsDeleteInstancesDefaultResponse,
 ): response is VirtualMachineScaleSetsDeleteInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsGetInstanceView200Response
-    | VirtualMachineScaleSetsGetInstanceViewDefaultResponse
+    | VirtualMachineScaleSetsGetInstanceViewDefaultResponse,
 ): response is VirtualMachineScaleSetsGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse
+  response: VirtualMachineScaleSetsList200Response | VirtualMachineScaleSetsListDefaultResponse,
 ): response is VirtualMachineScaleSetsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListAll200Response
-    | VirtualMachineScaleSetsListAllDefaultResponse
+    | VirtualMachineScaleSetsListAllDefaultResponse,
 ): response is VirtualMachineScaleSetsListAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsListSkus200Response
-    | VirtualMachineScaleSetsListSkusDefaultResponse
+    | VirtualMachineScaleSetsListSkusDefaultResponse,
 ): response is VirtualMachineScaleSetsListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsGetOSUpgradeHistory200Response
-    | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse
+    | VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse,
 ): response is VirtualMachineScaleSetsGetOSUpgradeHistoryDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsPowerOff200Response
     | VirtualMachineScaleSetsPowerOff202Response
-    | VirtualMachineScaleSetsPowerOffDefaultResponse
+    | VirtualMachineScaleSetsPowerOffDefaultResponse,
 ): response is VirtualMachineScaleSetsPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsRestart200Response
     | VirtualMachineScaleSetsRestart202Response
-    | VirtualMachineScaleSetsRestartDefaultResponse
+    | VirtualMachineScaleSetsRestartDefaultResponse,
 ): response is VirtualMachineScaleSetsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsStart200Response
     | VirtualMachineScaleSetsStart202Response
-    | VirtualMachineScaleSetsStartDefaultResponse
+    | VirtualMachineScaleSetsStartDefaultResponse,
 ): response is VirtualMachineScaleSetsStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsRedeploy200Response
     | VirtualMachineScaleSetsRedeploy202Response
-    | VirtualMachineScaleSetsRedeployDefaultResponse
+    | VirtualMachineScaleSetsRedeployDefaultResponse,
 ): response is VirtualMachineScaleSetsRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsPerformMaintenance200Response
     | VirtualMachineScaleSetsPerformMaintenance202Response
-    | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse
+    | VirtualMachineScaleSetsPerformMaintenanceDefaultResponse,
 ): response is VirtualMachineScaleSetsPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsUpdateInstances200Response
     | VirtualMachineScaleSetsUpdateInstances202Response
-    | VirtualMachineScaleSetsUpdateInstancesDefaultResponse
+    | VirtualMachineScaleSetsUpdateInstancesDefaultResponse,
 ): response is VirtualMachineScaleSetsUpdateInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsReimage200Response
     | VirtualMachineScaleSetsReimage202Response
-    | VirtualMachineScaleSetsReimageDefaultResponse
+    | VirtualMachineScaleSetsReimageDefaultResponse,
 ): response is VirtualMachineScaleSetsReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsReimageAll200Response
     | VirtualMachineScaleSetsReimageAll202Response
-    | VirtualMachineScaleSetsReimageAllDefaultResponse
+    | VirtualMachineScaleSetsReimageAllDefaultResponse,
 ): response is VirtualMachineScaleSetsReimageAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalk200Response
-    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse
+    | VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse,
 ): response is VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsConvertToSinglePlacementGroup200Response
-    | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse
+    | VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse,
 ): response is VirtualMachineScaleSetsConvertToSinglePlacementGroupDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetsSetOrchestrationServiceState200Response
     | VirtualMachineScaleSetsSetOrchestrationServiceState202Response
-    | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse
+    | VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse,
 ): response is VirtualMachineScaleSetsSetOrchestrationServiceStateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse
+    | VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsUpdate200Response
     | VirtualMachineScaleSetExtensionsUpdate201Response
-    | VirtualMachineScaleSetExtensionsUpdateDefaultResponse
+    | VirtualMachineScaleSetExtensionsUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsDelete200Response
     | VirtualMachineScaleSetExtensionsDelete202Response
     | VirtualMachineScaleSetExtensionsDelete204Response
-    | VirtualMachineScaleSetExtensionsDeleteDefaultResponse
+    | VirtualMachineScaleSetExtensionsDeleteDefaultResponse,
 ): response is VirtualMachineScaleSetExtensionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsGet200Response
-    | VirtualMachineScaleSetExtensionsGetDefaultResponse
+    | VirtualMachineScaleSetExtensionsGetDefaultResponse,
 ): response is VirtualMachineScaleSetExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetExtensionsList200Response
-    | VirtualMachineScaleSetExtensionsListDefaultResponse
+    | VirtualMachineScaleSetExtensionsListDefaultResponse,
 ): response is VirtualMachineScaleSetExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesCancel200Response
     | VirtualMachineScaleSetRollingUpgradesCancel202Response
-    | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse,
 ): response is VirtualMachineScaleSetRollingUpgradesCancelDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartOSUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse,
 ): response is VirtualMachineScaleSetRollingUpgradesStartOSUpgradeDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade200Response
     | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgrade202Response
-    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse,
 ): response is VirtualMachineScaleSetRollingUpgradesStartExtensionUpgradeDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetRollingUpgradesGetLatest200Response
-    | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse
+    | VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse,
 ): response is VirtualMachineScaleSetRollingUpgradesGetLatestDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMExtensionsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse
+    | VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetVMExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsUpdate200Response
-    | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse
+    | VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetVMExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsDelete200Response
     | VirtualMachineScaleSetVMExtensionsDelete202Response
     | VirtualMachineScaleSetVMExtensionsDelete204Response
-    | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse
+    | VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse,
 ): response is VirtualMachineScaleSetVMExtensionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsGet200Response
-    | VirtualMachineScaleSetVMExtensionsGetDefaultResponse
+    | VirtualMachineScaleSetVMExtensionsGetDefaultResponse,
 ): response is VirtualMachineScaleSetVMExtensionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMExtensionsList200Response
-    | VirtualMachineScaleSetVMExtensionsListDefaultResponse
+    | VirtualMachineScaleSetVMExtensionsListDefaultResponse,
 ): response is VirtualMachineScaleSetVMExtensionsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsReimage200Response
     | VirtualMachineScaleSetVMsReimage202Response
-    | VirtualMachineScaleSetVMsReimageDefaultResponse
+    | VirtualMachineScaleSetVMsReimageDefaultResponse,
 ): response is VirtualMachineScaleSetVMsReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsReimageAll200Response
     | VirtualMachineScaleSetVMsReimageAll202Response
-    | VirtualMachineScaleSetVMsReimageAllDefaultResponse
+    | VirtualMachineScaleSetVMsReimageAllDefaultResponse,
 ): response is VirtualMachineScaleSetVMsReimageAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsDeallocate200Response
     | VirtualMachineScaleSetVMsDeallocate202Response
-    | VirtualMachineScaleSetVMsDeallocateDefaultResponse
+    | VirtualMachineScaleSetVMsDeallocateDefaultResponse,
 ): response is VirtualMachineScaleSetVMsDeallocateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsUpdate200Response
     | VirtualMachineScaleSetVMsUpdate202Response
-    | VirtualMachineScaleSetVMsUpdateDefaultResponse
+    | VirtualMachineScaleSetVMsUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetVMsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsDelete200Response
     | VirtualMachineScaleSetVMsDelete202Response
     | VirtualMachineScaleSetVMsDelete204Response
-    | VirtualMachineScaleSetVMsDeleteDefaultResponse
+    | VirtualMachineScaleSetVMsDeleteDefaultResponse,
 ): response is VirtualMachineScaleSetVMsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse
+  response: VirtualMachineScaleSetVMsGet200Response | VirtualMachineScaleSetVMsGetDefaultResponse,
 ): response is VirtualMachineScaleSetVMsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsGetInstanceView200Response
-    | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse
+    | VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse,
 ): response is VirtualMachineScaleSetVMsGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse
+  response: VirtualMachineScaleSetVMsList200Response | VirtualMachineScaleSetVMsListDefaultResponse,
 ): response is VirtualMachineScaleSetVMsListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsPowerOff200Response
     | VirtualMachineScaleSetVMsPowerOff202Response
-    | VirtualMachineScaleSetVMsPowerOffDefaultResponse
+    | VirtualMachineScaleSetVMsPowerOffDefaultResponse,
 ): response is VirtualMachineScaleSetVMsPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRestart200Response
     | VirtualMachineScaleSetVMsRestart202Response
-    | VirtualMachineScaleSetVMsRestartDefaultResponse
+    | VirtualMachineScaleSetVMsRestartDefaultResponse,
 ): response is VirtualMachineScaleSetVMsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsStart200Response
     | VirtualMachineScaleSetVMsStart202Response
-    | VirtualMachineScaleSetVMsStartDefaultResponse
+    | VirtualMachineScaleSetVMsStartDefaultResponse,
 ): response is VirtualMachineScaleSetVMsStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRedeploy200Response
     | VirtualMachineScaleSetVMsRedeploy202Response
-    | VirtualMachineScaleSetVMsRedeployDefaultResponse
+    | VirtualMachineScaleSetVMsRedeployDefaultResponse,
 ): response is VirtualMachineScaleSetVMsRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsData200Response
-    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse
+    | VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse,
 ): response is VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsPerformMaintenance200Response
     | VirtualMachineScaleSetVMsPerformMaintenance202Response
-    | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse
+    | VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse,
 ): response is VirtualMachineScaleSetVMsPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMsSimulateEviction204Response
-    | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse
+    | VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse,
 ): response is VirtualMachineScaleSetVMsSimulateEvictionDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsCreateOrUpdate200Response
     | VirtualMachineExtensionsCreateOrUpdate201Response
-    | VirtualMachineExtensionsCreateOrUpdateDefaultResponse
+    | VirtualMachineExtensionsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineExtensionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsUpdate200Response
-    | VirtualMachineExtensionsUpdateDefaultResponse
+    | VirtualMachineExtensionsUpdateDefaultResponse,
 ): response is VirtualMachineExtensionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionsDelete200Response
     | VirtualMachineExtensionsDelete202Response
     | VirtualMachineExtensionsDelete204Response
-    | VirtualMachineExtensionsDeleteDefaultResponse
+    | VirtualMachineExtensionsDeleteDefaultResponse,
 ): response is VirtualMachineExtensionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse
+  response: VirtualMachineExtensionsGet200Response | VirtualMachineExtensionsGetDefaultResponse,
 ): response is VirtualMachineExtensionsGetDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse
+  response: VirtualMachineExtensionsList200Response | VirtualMachineExtensionsListDefaultResponse,
 ): response is VirtualMachineExtensionsListDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse
+  response: VirtualMachinesListByLocation200Response | VirtualMachinesListByLocationDefaultResponse,
 ): response is VirtualMachinesListByLocationDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesCapture200Response
     | VirtualMachinesCapture202Response
-    | VirtualMachinesCaptureDefaultResponse
+    | VirtualMachinesCaptureDefaultResponse,
 ): response is VirtualMachinesCaptureDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesCreateOrUpdate200Response
     | VirtualMachinesCreateOrUpdate201Response
-    | VirtualMachinesCreateOrUpdateDefaultResponse
+    | VirtualMachinesCreateOrUpdateDefaultResponse,
 ): response is VirtualMachinesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse
+  response: VirtualMachinesUpdate200Response | VirtualMachinesUpdateDefaultResponse,
 ): response is VirtualMachinesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesDelete200Response
     | VirtualMachinesDelete202Response
     | VirtualMachinesDelete204Response
-    | VirtualMachinesDeleteDefaultResponse
+    | VirtualMachinesDeleteDefaultResponse,
 ): response is VirtualMachinesDeleteDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse
+  response: VirtualMachinesGet200Response | VirtualMachinesGetDefaultResponse,
 ): response is VirtualMachinesGetDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse
+  response: VirtualMachinesInstanceView200Response | VirtualMachinesInstanceViewDefaultResponse,
 ): response is VirtualMachinesInstanceViewDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesConvertToManagedDisks200Response
     | VirtualMachinesConvertToManagedDisks202Response
-    | VirtualMachinesConvertToManagedDisksDefaultResponse
+    | VirtualMachinesConvertToManagedDisksDefaultResponse,
 ): response is VirtualMachinesConvertToManagedDisksDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesDeallocate200Response
     | VirtualMachinesDeallocate202Response
-    | VirtualMachinesDeallocateDefaultResponse
+    | VirtualMachinesDeallocateDefaultResponse,
 ): response is VirtualMachinesDeallocateDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse
+  response: VirtualMachinesGeneralize200Response | VirtualMachinesGeneralizeDefaultResponse,
 ): response is VirtualMachinesGeneralizeDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesList200Response | VirtualMachinesListDefaultResponse
+  response: VirtualMachinesList200Response | VirtualMachinesListDefaultResponse,
 ): response is VirtualMachinesListDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse
+  response: VirtualMachinesListAll200Response | VirtualMachinesListAllDefaultResponse,
 ): response is VirtualMachinesListAllDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesListAvailableSizes200Response
-    | VirtualMachinesListAvailableSizesDefaultResponse
+    | VirtualMachinesListAvailableSizesDefaultResponse,
 ): response is VirtualMachinesListAvailableSizesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesPowerOff200Response
     | VirtualMachinesPowerOff202Response
-    | VirtualMachinesPowerOffDefaultResponse
+    | VirtualMachinesPowerOffDefaultResponse,
 ): response is VirtualMachinesPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesReapply200Response
     | VirtualMachinesReapply202Response
-    | VirtualMachinesReapplyDefaultResponse
+    | VirtualMachinesReapplyDefaultResponse,
 ): response is VirtualMachinesReapplyDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRestart200Response
     | VirtualMachinesRestart202Response
-    | VirtualMachinesRestartDefaultResponse
+    | VirtualMachinesRestartDefaultResponse,
 ): response is VirtualMachinesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesStart200Response
     | VirtualMachinesStart202Response
-    | VirtualMachinesStartDefaultResponse
+    | VirtualMachinesStartDefaultResponse,
 ): response is VirtualMachinesStartDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRedeploy200Response
     | VirtualMachinesRedeploy202Response
-    | VirtualMachinesRedeployDefaultResponse
+    | VirtualMachinesRedeployDefaultResponse,
 ): response is VirtualMachinesRedeployDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesReimage200Response
     | VirtualMachinesReimage202Response
-    | VirtualMachinesReimageDefaultResponse
+    | VirtualMachinesReimageDefaultResponse,
 ): response is VirtualMachinesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesRetrieveBootDiagnosticsData200Response
-    | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse
+    | VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse,
 ): response is VirtualMachinesRetrieveBootDiagnosticsDataDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesPerformMaintenance200Response
     | VirtualMachinesPerformMaintenance202Response
-    | VirtualMachinesPerformMaintenanceDefaultResponse
+    | VirtualMachinesPerformMaintenanceDefaultResponse,
 ): response is VirtualMachinesPerformMaintenanceDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesSimulateEviction204Response
-    | VirtualMachinesSimulateEvictionDefaultResponse
+    | VirtualMachinesSimulateEvictionDefaultResponse,
 ): response is VirtualMachinesSimulateEvictionDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesAssessPatches200Response
     | VirtualMachinesAssessPatches202Response
-    | VirtualMachinesAssessPatchesDefaultResponse
+    | VirtualMachinesAssessPatchesDefaultResponse,
 ): response is VirtualMachinesAssessPatchesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachinesInstallPatches200Response
     | VirtualMachinesInstallPatches202Response
-    | VirtualMachinesInstallPatchesDefaultResponse
+    | VirtualMachinesInstallPatchesDefaultResponse,
 ): response is VirtualMachinesInstallPatchesDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse
+  response: VirtualMachineImagesGet200Response | VirtualMachineImagesGetDefaultResponse,
 ): response is VirtualMachineImagesGetDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse
+  response: VirtualMachineImagesList200Response | VirtualMachineImagesListDefaultResponse,
 ): response is VirtualMachineImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListOffers200Response
-    | VirtualMachineImagesListOffersDefaultResponse
+    | VirtualMachineImagesListOffersDefaultResponse,
 ): response is VirtualMachineImagesListOffersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListPublishers200Response
-    | VirtualMachineImagesListPublishersDefaultResponse
+    | VirtualMachineImagesListPublishersDefaultResponse,
 ): response is VirtualMachineImagesListPublishersDefaultResponse;
 export function isUnexpected(
-  response: VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse
+  response: VirtualMachineImagesListSkus200Response | VirtualMachineImagesListSkusDefaultResponse,
 ): response is VirtualMachineImagesListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesListByEdgeZone200Response
-    | VirtualMachineImagesListByEdgeZoneDefaultResponse
+    | VirtualMachineImagesListByEdgeZoneDefaultResponse,
 ): response is VirtualMachineImagesListByEdgeZoneDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneGet200Response
-    | VirtualMachineImagesEdgeZoneGetDefaultResponse
+    | VirtualMachineImagesEdgeZoneGetDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneList200Response
-    | VirtualMachineImagesEdgeZoneListDefaultResponse
+    | VirtualMachineImagesEdgeZoneListDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneListDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListOffers200Response
-    | VirtualMachineImagesEdgeZoneListOffersDefaultResponse
+    | VirtualMachineImagesEdgeZoneListOffersDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneListOffersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListPublishers200Response
-    | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse
+    | VirtualMachineImagesEdgeZoneListPublishersDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneListPublishersDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineImagesEdgeZoneListSkus200Response
-    | VirtualMachineImagesEdgeZoneListSkusDefaultResponse
+    | VirtualMachineImagesEdgeZoneListSkusDefaultResponse,
 ): response is VirtualMachineImagesEdgeZoneListSkusDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesGet200Response
-    | VirtualMachineExtensionImagesGetDefaultResponse
+    | VirtualMachineExtensionImagesGetDefaultResponse,
 ): response is VirtualMachineExtensionImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesListTypes200Response
-    | VirtualMachineExtensionImagesListTypesDefaultResponse
+    | VirtualMachineExtensionImagesListTypesDefaultResponse,
 ): response is VirtualMachineExtensionImagesListTypesDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineExtensionImagesListVersions200Response
-    | VirtualMachineExtensionImagesListVersionsDefaultResponse
+    | VirtualMachineExtensionImagesListVersionsDefaultResponse,
 ): response is VirtualMachineExtensionImagesListVersionsDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsCreateOrUpdate200Response
-    | AvailabilitySetsCreateOrUpdateDefaultResponse
+    | AvailabilitySetsCreateOrUpdateDefaultResponse,
 ): response is AvailabilitySetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse
+  response: AvailabilitySetsUpdate200Response | AvailabilitySetsUpdateDefaultResponse,
 ): response is AvailabilitySetsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsDelete200Response
     | AvailabilitySetsDelete204Response
-    | AvailabilitySetsDeleteDefaultResponse
+    | AvailabilitySetsDeleteDefaultResponse,
 ): response is AvailabilitySetsDeleteDefaultResponse;
 export function isUnexpected(
-  response: AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse
+  response: AvailabilitySetsGet200Response | AvailabilitySetsGetDefaultResponse,
 ): response is AvailabilitySetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsListBySubscription200Response
-    | AvailabilitySetsListBySubscriptionDefaultResponse
+    | AvailabilitySetsListBySubscriptionDefaultResponse,
 ): response is AvailabilitySetsListBySubscriptionDefaultResponse;
 export function isUnexpected(
-  response: AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse
+  response: AvailabilitySetsList200Response | AvailabilitySetsListDefaultResponse,
 ): response is AvailabilitySetsListDefaultResponse;
 export function isUnexpected(
   response:
     | AvailabilitySetsListAvailableSizes200Response
-    | AvailabilitySetsListAvailableSizesDefaultResponse
+    | AvailabilitySetsListAvailableSizesDefaultResponse,
 ): response is AvailabilitySetsListAvailableSizesDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsCreateOrUpdate200Response
     | ProximityPlacementGroupsCreateOrUpdate201Response
-    | ProximityPlacementGroupsCreateOrUpdateDefaultResponse
+    | ProximityPlacementGroupsCreateOrUpdateDefaultResponse,
 ): response is ProximityPlacementGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsUpdate200Response
-    | ProximityPlacementGroupsUpdateDefaultResponse
+    | ProximityPlacementGroupsUpdateDefaultResponse,
 ): response is ProximityPlacementGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsDelete200Response
-    | ProximityPlacementGroupsDeleteDefaultResponse
+    | ProximityPlacementGroupsDeleteDefaultResponse,
 ): response is ProximityPlacementGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse
+  response: ProximityPlacementGroupsGet200Response | ProximityPlacementGroupsGetDefaultResponse,
 ): response is ProximityPlacementGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsListBySubscription200Response
-    | ProximityPlacementGroupsListBySubscriptionDefaultResponse
+    | ProximityPlacementGroupsListBySubscriptionDefaultResponse,
 ): response is ProximityPlacementGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | ProximityPlacementGroupsListByResourceGroup200Response
-    | ProximityPlacementGroupsListByResourceGroupDefaultResponse
+    | ProximityPlacementGroupsListByResourceGroupDefaultResponse,
 ): response is ProximityPlacementGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsCreateOrUpdate200Response
     | DedicatedHostGroupsCreateOrUpdate201Response
-    | DedicatedHostGroupsCreateOrUpdateDefaultResponse
+    | DedicatedHostGroupsCreateOrUpdateDefaultResponse,
 ): response is DedicatedHostGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse
+  response: DedicatedHostGroupsUpdate200Response | DedicatedHostGroupsUpdateDefaultResponse,
 ): response is DedicatedHostGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsDelete200Response
     | DedicatedHostGroupsDelete204Response
-    | DedicatedHostGroupsDeleteDefaultResponse
+    | DedicatedHostGroupsDeleteDefaultResponse,
 ): response is DedicatedHostGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse
+  response: DedicatedHostGroupsGet200Response | DedicatedHostGroupsGetDefaultResponse,
 ): response is DedicatedHostGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsListByResourceGroup200Response
-    | DedicatedHostGroupsListByResourceGroupDefaultResponse
+    | DedicatedHostGroupsListByResourceGroupDefaultResponse,
 ): response is DedicatedHostGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostGroupsListBySubscription200Response
-    | DedicatedHostGroupsListBySubscriptionDefaultResponse
+    | DedicatedHostGroupsListBySubscriptionDefaultResponse,
 ): response is DedicatedHostGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsCreateOrUpdate200Response
     | DedicatedHostsCreateOrUpdate201Response
-    | DedicatedHostsCreateOrUpdateDefaultResponse
+    | DedicatedHostsCreateOrUpdateDefaultResponse,
 ): response is DedicatedHostsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse
+  response: DedicatedHostsUpdate200Response | DedicatedHostsUpdateDefaultResponse,
 ): response is DedicatedHostsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DedicatedHostsDelete200Response
     | DedicatedHostsDelete202Response
     | DedicatedHostsDelete204Response
-    | DedicatedHostsDeleteDefaultResponse
+    | DedicatedHostsDeleteDefaultResponse,
 ): response is DedicatedHostsDeleteDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse
+  response: DedicatedHostsGet200Response | DedicatedHostsGetDefaultResponse,
 ): response is DedicatedHostsGetDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse
+  response: DedicatedHostsListByHostGroup200Response | DedicatedHostsListByHostGroupDefaultResponse,
 ): response is DedicatedHostsListByHostGroupDefaultResponse;
 export function isUnexpected(
-  response: DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse
+  response: DedicatedHostsRestart200Response | DedicatedHostsRestartDefaultResponse,
 ): response is DedicatedHostsRestartDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysListBySubscription200Response
-    | SshPublicKeysListBySubscriptionDefaultResponse
+    | SshPublicKeysListBySubscriptionDefaultResponse,
 ): response is SshPublicKeysListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysListByResourceGroup200Response
-    | SshPublicKeysListByResourceGroupDefaultResponse
+    | SshPublicKeysListByResourceGroupDefaultResponse,
 ): response is SshPublicKeysListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysCreate200Response
     | SshPublicKeysCreate201Response
-    | SshPublicKeysCreateDefaultResponse
+    | SshPublicKeysCreateDefaultResponse,
 ): response is SshPublicKeysCreateDefaultResponse;
 export function isUnexpected(
-  response: SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse
+  response: SshPublicKeysUpdate200Response | SshPublicKeysUpdateDefaultResponse,
 ): response is SshPublicKeysUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | SshPublicKeysDelete200Response
     | SshPublicKeysDelete204Response
-    | SshPublicKeysDeleteDefaultResponse
+    | SshPublicKeysDeleteDefaultResponse,
 ): response is SshPublicKeysDeleteDefaultResponse;
 export function isUnexpected(
-  response: SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse
+  response: SshPublicKeysGet200Response | SshPublicKeysGetDefaultResponse,
 ): response is SshPublicKeysGetDefaultResponse;
 export function isUnexpected(
-  response: SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse
+  response: SshPublicKeysGenerateKeyPair200Response | SshPublicKeysGenerateKeyPairDefaultResponse,
 ): response is SshPublicKeysGenerateKeyPairDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesCreateOrUpdate200Response
     | ImagesCreateOrUpdate201Response
-    | ImagesCreateOrUpdateDefaultResponse
+    | ImagesCreateOrUpdateDefaultResponse,
 ): response is ImagesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse
+  response: ImagesUpdate200Response | ImagesUpdate201Response | ImagesUpdateDefaultResponse,
 ): response is ImagesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | ImagesDelete200Response
     | ImagesDelete202Response
     | ImagesDelete204Response
-    | ImagesDeleteDefaultResponse
+    | ImagesDeleteDefaultResponse,
 ): response is ImagesDeleteDefaultResponse;
 export function isUnexpected(
-  response: ImagesGet200Response | ImagesGetDefaultResponse
+  response: ImagesGet200Response | ImagesGetDefaultResponse,
 ): response is ImagesGetDefaultResponse;
 export function isUnexpected(
-  response: ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse
+  response: ImagesListByResourceGroup200Response | ImagesListByResourceGroupDefaultResponse,
 ): response is ImagesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: ImagesList200Response | ImagesListDefaultResponse
+  response: ImagesList200Response | ImagesListDefaultResponse,
 ): response is ImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsCreateOrUpdate200Response
     | RestorePointCollectionsCreateOrUpdate201Response
-    | RestorePointCollectionsCreateOrUpdateDefaultResponse
+    | RestorePointCollectionsCreateOrUpdateDefaultResponse,
 ): response is RestorePointCollectionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse
+  response: RestorePointCollectionsUpdate200Response | RestorePointCollectionsUpdateDefaultResponse,
 ): response is RestorePointCollectionsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsDelete200Response
     | RestorePointCollectionsDelete202Response
     | RestorePointCollectionsDelete204Response
-    | RestorePointCollectionsDeleteDefaultResponse
+    | RestorePointCollectionsDeleteDefaultResponse,
 ): response is RestorePointCollectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response: RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse
+  response: RestorePointCollectionsGet200Response | RestorePointCollectionsGetDefaultResponse,
 ): response is RestorePointCollectionsGetDefaultResponse;
 export function isUnexpected(
-  response: RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse
+  response: RestorePointCollectionsList200Response | RestorePointCollectionsListDefaultResponse,
 ): response is RestorePointCollectionsListDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointCollectionsListAll200Response
-    | RestorePointCollectionsListAllDefaultResponse
+    | RestorePointCollectionsListAllDefaultResponse,
 ): response is RestorePointCollectionsListAllDefaultResponse;
 export function isUnexpected(
-  response: RestorePointsCreate201Response | RestorePointsCreateDefaultResponse
+  response: RestorePointsCreate201Response | RestorePointsCreateDefaultResponse,
 ): response is RestorePointsCreateDefaultResponse;
 export function isUnexpected(
   response:
     | RestorePointsDelete200Response
     | RestorePointsDelete202Response
     | RestorePointsDelete204Response
-    | RestorePointsDeleteDefaultResponse
+    | RestorePointsDeleteDefaultResponse,
 ): response is RestorePointsDeleteDefaultResponse;
 export function isUnexpected(
-  response: RestorePointsGet200Response | RestorePointsGetDefaultResponse
+  response: RestorePointsGet200Response | RestorePointsGetDefaultResponse,
 ): response is RestorePointsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsCreateOrUpdate200Response
     | CapacityReservationGroupsCreateOrUpdate201Response
-    | CapacityReservationGroupsCreateOrUpdateDefaultResponse
+    | CapacityReservationGroupsCreateOrUpdateDefaultResponse,
 ): response is CapacityReservationGroupsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsUpdate200Response
-    | CapacityReservationGroupsUpdateDefaultResponse
+    | CapacityReservationGroupsUpdateDefaultResponse,
 ): response is CapacityReservationGroupsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsDelete200Response
     | CapacityReservationGroupsDelete204Response
-    | CapacityReservationGroupsDeleteDefaultResponse
+    | CapacityReservationGroupsDeleteDefaultResponse,
 ): response is CapacityReservationGroupsDeleteDefaultResponse;
 export function isUnexpected(
-  response: CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse
+  response: CapacityReservationGroupsGet200Response | CapacityReservationGroupsGetDefaultResponse,
 ): response is CapacityReservationGroupsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsListByResourceGroup200Response
-    | CapacityReservationGroupsListByResourceGroupDefaultResponse
+    | CapacityReservationGroupsListByResourceGroupDefaultResponse,
 ): response is CapacityReservationGroupsListByResourceGroupDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationGroupsListBySubscription200Response
-    | CapacityReservationGroupsListBySubscriptionDefaultResponse
+    | CapacityReservationGroupsListBySubscriptionDefaultResponse,
 ): response is CapacityReservationGroupsListBySubscriptionDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsCreateOrUpdate200Response
     | CapacityReservationsCreateOrUpdate201Response
-    | CapacityReservationsCreateOrUpdateDefaultResponse
+    | CapacityReservationsCreateOrUpdateDefaultResponse,
 ): response is CapacityReservationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsUpdate200Response
     | CapacityReservationsUpdate202Response
-    | CapacityReservationsUpdateDefaultResponse
+    | CapacityReservationsUpdateDefaultResponse,
 ): response is CapacityReservationsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsDelete200Response
     | CapacityReservationsDelete202Response
     | CapacityReservationsDelete204Response
-    | CapacityReservationsDeleteDefaultResponse
+    | CapacityReservationsDeleteDefaultResponse,
 ): response is CapacityReservationsDeleteDefaultResponse;
 export function isUnexpected(
-  response: CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse
+  response: CapacityReservationsGet200Response | CapacityReservationsGetDefaultResponse,
 ): response is CapacityReservationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CapacityReservationsListByCapacityReservationGroup200Response
-    | CapacityReservationsListByCapacityReservationGroupDefaultResponse
+    | CapacityReservationsListByCapacityReservationGroupDefaultResponse,
 ): response is CapacityReservationsListByCapacityReservationGroupDefaultResponse;
 export function isUnexpected(
   response:
     | LogAnalyticsExportRequestRateByInterval200Response
     | LogAnalyticsExportRequestRateByInterval202Response
-    | LogAnalyticsExportRequestRateByIntervalDefaultResponse
+    | LogAnalyticsExportRequestRateByIntervalDefaultResponse,
 ): response is LogAnalyticsExportRequestRateByIntervalDefaultResponse;
 export function isUnexpected(
   response:
     | LogAnalyticsExportThrottledRequests200Response
     | LogAnalyticsExportThrottledRequests202Response
-    | LogAnalyticsExportThrottledRequestsDefaultResponse
+    | LogAnalyticsExportThrottledRequestsDefaultResponse,
 ): response is LogAnalyticsExportThrottledRequestsDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsCreateOrUpdate200Response
     | VirtualMachineRunCommandsCreateOrUpdate201Response
-    | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse
+    | VirtualMachineRunCommandsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineRunCommandsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsUpdate200Response
-    | VirtualMachineRunCommandsUpdateDefaultResponse
+    | VirtualMachineRunCommandsUpdateDefaultResponse,
 ): response is VirtualMachineRunCommandsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsDelete200Response
     | VirtualMachineRunCommandsDelete202Response
     | VirtualMachineRunCommandsDelete204Response
-    | VirtualMachineRunCommandsDeleteDefaultResponse
+    | VirtualMachineRunCommandsDeleteDefaultResponse,
 ): response is VirtualMachineRunCommandsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsGetByVirtualMachine200Response
-    | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse
+    | VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse,
 ): response is VirtualMachineRunCommandsGetByVirtualMachineDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineRunCommandsListByVirtualMachine200Response
-    | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse
+    | VirtualMachineRunCommandsListByVirtualMachineDefaultResponse,
 ): response is VirtualMachineRunCommandsListByVirtualMachineDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate200Response
     | VirtualMachineScaleSetVMRunCommandsCreateOrUpdate201Response
-    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetVMRunCommandsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsUpdate200Response
-    | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse,
 ): response is VirtualMachineScaleSetVMRunCommandsUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsDelete200Response
     | VirtualMachineScaleSetVMRunCommandsDelete202Response
     | VirtualMachineScaleSetVMRunCommandsDelete204Response
-    | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse,
 ): response is VirtualMachineScaleSetVMRunCommandsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsGet200Response
-    | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsGetDefaultResponse,
 ): response is VirtualMachineScaleSetVMRunCommandsGetDefaultResponse;
 export function isUnexpected(
   response:
     | VirtualMachineScaleSetVMRunCommandsList200Response
-    | VirtualMachineScaleSetVMRunCommandsListDefaultResponse
+    | VirtualMachineScaleSetVMRunCommandsListDefaultResponse,
 ): response is VirtualMachineScaleSetVMRunCommandsListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesCreateOrUpdate200Response
     | DiskAccessesCreateOrUpdate202Response
-    | DiskAccessesCreateOrUpdateDefaultResponse
+    | DiskAccessesCreateOrUpdateDefaultResponse,
 ): response is DiskAccessesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesUpdate200Response
     | DiskAccessesUpdate202Response
-    | DiskAccessesUpdateDefaultResponse
+    | DiskAccessesUpdateDefaultResponse,
 ): response is DiskAccessesUpdateDefaultResponse;
 export function isUnexpected(
-  response: DiskAccessesGet200Response | DiskAccessesGetDefaultResponse
+  response: DiskAccessesGet200Response | DiskAccessesGetDefaultResponse,
 ): response is DiskAccessesGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesDelete200Response
     | DiskAccessesDelete202Response
     | DiskAccessesDelete204Response
-    | DiskAccessesDeleteDefaultResponse
+    | DiskAccessesDeleteDefaultResponse,
 ): response is DiskAccessesDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesListByResourceGroup200Response
-    | DiskAccessesListByResourceGroupDefaultResponse
+    | DiskAccessesListByResourceGroupDefaultResponse,
 ): response is DiskAccessesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: DiskAccessesList200Response | DiskAccessesListDefaultResponse
+  response: DiskAccessesList200Response | DiskAccessesListDefaultResponse,
 ): response is DiskAccessesListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesUpdateAPrivateEndpointConnection200Response
     | DiskAccessesUpdateAPrivateEndpointConnection202Response
-    | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse
+    | DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse,
 ): response is DiskAccessesUpdateAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesGetAPrivateEndpointConnection200Response
-    | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse
+    | DiskAccessesGetAPrivateEndpointConnectionDefaultResponse,
 ): response is DiskAccessesGetAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesDeleteAPrivateEndpointConnection200Response
     | DiskAccessesDeleteAPrivateEndpointConnection202Response
     | DiskAccessesDeleteAPrivateEndpointConnection204Response
-    | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse
+    | DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse,
 ): response is DiskAccessesDeleteAPrivateEndpointConnectionDefaultResponse;
 export function isUnexpected(
   response:
     | DiskAccessesListPrivateEndpointConnections200Response
-    | DiskAccessesListPrivateEndpointConnectionsDefaultResponse
+    | DiskAccessesListPrivateEndpointConnectionsDefaultResponse,
 ): response is DiskAccessesListPrivateEndpointConnectionsDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsCreateOrUpdate200Response
     | DiskEncryptionSetsCreateOrUpdate202Response
-    | DiskEncryptionSetsCreateOrUpdateDefaultResponse
+    | DiskEncryptionSetsCreateOrUpdateDefaultResponse,
 ): response is DiskEncryptionSetsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsUpdate200Response
     | DiskEncryptionSetsUpdate202Response
-    | DiskEncryptionSetsUpdateDefaultResponse
+    | DiskEncryptionSetsUpdateDefaultResponse,
 ): response is DiskEncryptionSetsUpdateDefaultResponse;
 export function isUnexpected(
-  response: DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse
+  response: DiskEncryptionSetsGet200Response | DiskEncryptionSetsGetDefaultResponse,
 ): response is DiskEncryptionSetsGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsDelete200Response
     | DiskEncryptionSetsDelete202Response
     | DiskEncryptionSetsDelete204Response
-    | DiskEncryptionSetsDeleteDefaultResponse
+    | DiskEncryptionSetsDeleteDefaultResponse,
 ): response is DiskEncryptionSetsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsListByResourceGroup200Response
-    | DiskEncryptionSetsListByResourceGroupDefaultResponse
+    | DiskEncryptionSetsListByResourceGroupDefaultResponse,
 ): response is DiskEncryptionSetsListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse
+  response: DiskEncryptionSetsList200Response | DiskEncryptionSetsListDefaultResponse,
 ): response is DiskEncryptionSetsListDefaultResponse;
 export function isUnexpected(
   response:
     | DiskEncryptionSetsListAssociatedResources200Response
-    | DiskEncryptionSetsListAssociatedResourcesDefaultResponse
+    | DiskEncryptionSetsListAssociatedResourcesDefaultResponse,
 ): response is DiskEncryptionSetsListAssociatedResourcesDefaultResponse;
 export function isUnexpected(
-  response: DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse
+  response: DiskRestorePointGet200Response | DiskRestorePointGetDefaultResponse,
 ): response is DiskRestorePointGetDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointListByRestorePoint200Response
-    | DiskRestorePointListByRestorePointDefaultResponse
+    | DiskRestorePointListByRestorePointDefaultResponse,
 ): response is DiskRestorePointListByRestorePointDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointGrantAccess200Response
     | DiskRestorePointGrantAccess202Response
-    | DiskRestorePointGrantAccessDefaultResponse
+    | DiskRestorePointGrantAccessDefaultResponse,
 ): response is DiskRestorePointGrantAccessDefaultResponse;
 export function isUnexpected(
   response:
     | DiskRestorePointRevokeAccess200Response
     | DiskRestorePointRevokeAccess202Response
-    | DiskRestorePointRevokeAccessDefaultResponse
+    | DiskRestorePointRevokeAccessDefaultResponse,
 ): response is DiskRestorePointRevokeAccessDefaultResponse;
 export function isUnexpected(
   response:
     | GalleriesCreateOrUpdate200Response
     | GalleriesCreateOrUpdate201Response
     | GalleriesCreateOrUpdate202Response
-    | GalleriesCreateOrUpdateDefaultResponse
+    | GalleriesCreateOrUpdateDefaultResponse,
 ): response is GalleriesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleriesUpdate200Response | GalleriesUpdateDefaultResponse
+  response: GalleriesUpdate200Response | GalleriesUpdateDefaultResponse,
 ): response is GalleriesUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleriesGet200Response | GalleriesGetDefaultResponse
+  response: GalleriesGet200Response | GalleriesGetDefaultResponse,
 ): response is GalleriesGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleriesDelete200Response
     | GalleriesDelete202Response
     | GalleriesDelete204Response
-    | GalleriesDeleteDefaultResponse
+    | GalleriesDeleteDefaultResponse,
 ): response is GalleriesDeleteDefaultResponse;
 export function isUnexpected(
-  response: GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse
+  response: GalleriesListByResourceGroup200Response | GalleriesListByResourceGroupDefaultResponse,
 ): response is GalleriesListByResourceGroupDefaultResponse;
 export function isUnexpected(
-  response: GalleriesList200Response | GalleriesListDefaultResponse
+  response: GalleriesList200Response | GalleriesListDefaultResponse,
 ): response is GalleriesListDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImagesCreateOrUpdate200Response
     | GalleryImagesCreateOrUpdate201Response
     | GalleryImagesCreateOrUpdate202Response
-    | GalleryImagesCreateOrUpdateDefaultResponse
+    | GalleryImagesCreateOrUpdateDefaultResponse,
 ): response is GalleryImagesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse
+  response: GalleryImagesUpdate200Response | GalleryImagesUpdateDefaultResponse,
 ): response is GalleryImagesUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImagesGet200Response | GalleryImagesGetDefaultResponse
+  response: GalleryImagesGet200Response | GalleryImagesGetDefaultResponse,
 ): response is GalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImagesDelete200Response
     | GalleryImagesDelete202Response
     | GalleryImagesDelete204Response
-    | GalleryImagesDeleteDefaultResponse
+    | GalleryImagesDeleteDefaultResponse,
 ): response is GalleryImagesDeleteDefaultResponse;
 export function isUnexpected(
-  response: GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse
+  response: GalleryImagesListByGallery200Response | GalleryImagesListByGalleryDefaultResponse,
 ): response is GalleryImagesListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsCreateOrUpdate200Response
     | GalleryImageVersionsCreateOrUpdate201Response
     | GalleryImageVersionsCreateOrUpdate202Response
-    | GalleryImageVersionsCreateOrUpdateDefaultResponse
+    | GalleryImageVersionsCreateOrUpdateDefaultResponse,
 ): response is GalleryImageVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse
+  response: GalleryImageVersionsUpdate200Response | GalleryImageVersionsUpdateDefaultResponse,
 ): response is GalleryImageVersionsUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse
+  response: GalleryImageVersionsGet200Response | GalleryImageVersionsGetDefaultResponse,
 ): response is GalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsDelete200Response
     | GalleryImageVersionsDelete202Response
     | GalleryImageVersionsDelete204Response
-    | GalleryImageVersionsDeleteDefaultResponse
+    | GalleryImageVersionsDeleteDefaultResponse,
 ): response is GalleryImageVersionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryImageVersionsListByGalleryImage200Response
-    | GalleryImageVersionsListByGalleryImageDefaultResponse
+    | GalleryImageVersionsListByGalleryImageDefaultResponse,
 ): response is GalleryImageVersionsListByGalleryImageDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsCreateOrUpdate200Response
     | GalleryApplicationsCreateOrUpdate201Response
     | GalleryApplicationsCreateOrUpdate202Response
-    | GalleryApplicationsCreateOrUpdateDefaultResponse
+    | GalleryApplicationsCreateOrUpdateDefaultResponse,
 ): response is GalleryApplicationsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse
+  response: GalleryApplicationsUpdate200Response | GalleryApplicationsUpdateDefaultResponse,
 ): response is GalleryApplicationsUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse
+  response: GalleryApplicationsGet200Response | GalleryApplicationsGetDefaultResponse,
 ): response is GalleryApplicationsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsDelete200Response
     | GalleryApplicationsDelete202Response
     | GalleryApplicationsDelete204Response
-    | GalleryApplicationsDeleteDefaultResponse
+    | GalleryApplicationsDeleteDefaultResponse,
 ): response is GalleryApplicationsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationsListByGallery200Response
-    | GalleryApplicationsListByGalleryDefaultResponse
+    | GalleryApplicationsListByGalleryDefaultResponse,
 ): response is GalleryApplicationsListByGalleryDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsCreateOrUpdate200Response
     | GalleryApplicationVersionsCreateOrUpdate201Response
     | GalleryApplicationVersionsCreateOrUpdate202Response
-    | GalleryApplicationVersionsCreateOrUpdateDefaultResponse
+    | GalleryApplicationVersionsCreateOrUpdateDefaultResponse,
 ): response is GalleryApplicationVersionsCreateOrUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsUpdate200Response
-    | GalleryApplicationVersionsUpdateDefaultResponse
+    | GalleryApplicationVersionsUpdateDefaultResponse,
 ): response is GalleryApplicationVersionsUpdateDefaultResponse;
 export function isUnexpected(
-  response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse
+  response: GalleryApplicationVersionsGet200Response | GalleryApplicationVersionsGetDefaultResponse,
 ): response is GalleryApplicationVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsDelete200Response
     | GalleryApplicationVersionsDelete202Response
     | GalleryApplicationVersionsDelete204Response
-    | GalleryApplicationVersionsDeleteDefaultResponse
+    | GalleryApplicationVersionsDeleteDefaultResponse,
 ): response is GalleryApplicationVersionsDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | GalleryApplicationVersionsListByGalleryApplication200Response
-    | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse
+    | GalleryApplicationVersionsListByGalleryApplicationDefaultResponse,
 ): response is GalleryApplicationVersionsListByGalleryApplicationDefaultResponse;
 export function isUnexpected(
   response:
     | GallerySharingProfileUpdate200Response
     | GallerySharingProfileUpdate202Response
-    | GallerySharingProfileUpdateDefaultResponse
+    | GallerySharingProfileUpdateDefaultResponse,
 ): response is GallerySharingProfileUpdateDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleriesList200Response | SharedGalleriesListDefaultResponse
+  response: SharedGalleriesList200Response | SharedGalleriesListDefaultResponse,
 ): response is SharedGalleriesListDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse
+  response: SharedGalleriesGet200Response | SharedGalleriesGetDefaultResponse,
 ): response is SharedGalleriesGetDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse
+  response: SharedGalleryImagesList200Response | SharedGalleryImagesListDefaultResponse,
 ): response is SharedGalleryImagesListDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse
+  response: SharedGalleryImagesGet200Response | SharedGalleryImagesGetDefaultResponse,
 ): response is SharedGalleryImagesGetDefaultResponse;
 export function isUnexpected(
   response:
     | SharedGalleryImageVersionsList200Response
-    | SharedGalleryImageVersionsListDefaultResponse
+    | SharedGalleryImageVersionsListDefaultResponse,
 ): response is SharedGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
-  response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse
+  response: SharedGalleryImageVersionsGet200Response | SharedGalleryImageVersionsGetDefaultResponse,
 ): response is SharedGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
-  response: CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse
+  response: CommunityGalleriesGet200Response | CommunityGalleriesGetDefaultResponse,
 ): response is CommunityGalleriesGetDefaultResponse;
 export function isUnexpected(
-  response: CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse
+  response: CommunityGalleryImagesGet200Response | CommunityGalleryImagesGetDefaultResponse,
 ): response is CommunityGalleryImagesGetDefaultResponse;
 export function isUnexpected(
-  response: CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse
+  response: CommunityGalleryImagesList200Response | CommunityGalleryImagesListDefaultResponse,
 ): response is CommunityGalleryImagesListDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImageVersionsGet200Response
-    | CommunityGalleryImageVersionsGetDefaultResponse
+    | CommunityGalleryImageVersionsGetDefaultResponse,
 ): response is CommunityGalleryImageVersionsGetDefaultResponse;
 export function isUnexpected(
   response:
     | CommunityGalleryImageVersionsList200Response
-    | CommunityGalleryImageVersionsListDefaultResponse
+    | CommunityGalleryImageVersionsListDefaultResponse,
 ): response is CommunityGalleryImageVersionsListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesDelete200Response
     | CloudServiceRoleInstancesDelete202Response
     | CloudServiceRoleInstancesDelete204Response
-    | CloudServiceRoleInstancesDeleteDefaultResponse
+    | CloudServiceRoleInstancesDeleteDefaultResponse,
 ): response is CloudServiceRoleInstancesDeleteDefaultResponse;
 export function isUnexpected(
-  response: CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse
+  response: CloudServiceRoleInstancesGet200Response | CloudServiceRoleInstancesGetDefaultResponse,
 ): response is CloudServiceRoleInstancesGetDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesGetInstanceView200Response
-    | CloudServiceRoleInstancesGetInstanceViewDefaultResponse
+    | CloudServiceRoleInstancesGetInstanceViewDefaultResponse,
 ): response is CloudServiceRoleInstancesGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response: CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse
+  response: CloudServiceRoleInstancesList200Response | CloudServiceRoleInstancesListDefaultResponse,
 ): response is CloudServiceRoleInstancesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesRestart200Response
     | CloudServiceRoleInstancesRestart202Response
-    | CloudServiceRoleInstancesRestartDefaultResponse
+    | CloudServiceRoleInstancesRestartDefaultResponse,
 ): response is CloudServiceRoleInstancesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesReimage200Response
     | CloudServiceRoleInstancesReimage202Response
-    | CloudServiceRoleInstancesReimageDefaultResponse
+    | CloudServiceRoleInstancesReimageDefaultResponse,
 ): response is CloudServiceRoleInstancesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesRebuild200Response
     | CloudServiceRoleInstancesRebuild202Response
-    | CloudServiceRoleInstancesRebuildDefaultResponse
+    | CloudServiceRoleInstancesRebuildDefaultResponse,
 ): response is CloudServiceRoleInstancesRebuildDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceRoleInstancesGetRemoteDesktopFile200Response
-    | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse
+    | CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse,
 ): response is CloudServiceRoleInstancesGetRemoteDesktopFileDefaultResponse;
 export function isUnexpected(
-  response: CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse
+  response: CloudServiceRolesGet200Response | CloudServiceRolesGetDefaultResponse,
 ): response is CloudServiceRolesGetDefaultResponse;
 export function isUnexpected(
-  response: CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse
+  response: CloudServiceRolesList200Response | CloudServiceRolesListDefaultResponse,
 ): response is CloudServiceRolesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesCreateOrUpdate200Response
     | CloudServicesCreateOrUpdate201Response
-    | CloudServicesCreateOrUpdateDefaultResponse
+    | CloudServicesCreateOrUpdateDefaultResponse,
 ): response is CloudServicesCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse
+  response: CloudServicesUpdate200Response | CloudServicesUpdateDefaultResponse,
 ): response is CloudServicesUpdateDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesDelete200Response
     | CloudServicesDelete202Response
     | CloudServicesDelete204Response
-    | CloudServicesDeleteDefaultResponse
+    | CloudServicesDeleteDefaultResponse,
 ): response is CloudServicesDeleteDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesGet200Response | CloudServicesGetDefaultResponse
+  response: CloudServicesGet200Response | CloudServicesGetDefaultResponse,
 ): response is CloudServicesGetDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse
+  response: CloudServicesGetInstanceView200Response | CloudServicesGetInstanceViewDefaultResponse,
 ): response is CloudServicesGetInstanceViewDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesListAll200Response | CloudServicesListAllDefaultResponse
+  response: CloudServicesListAll200Response | CloudServicesListAllDefaultResponse,
 ): response is CloudServicesListAllDefaultResponse;
 export function isUnexpected(
-  response: CloudServicesList200Response | CloudServicesListDefaultResponse
+  response: CloudServicesList200Response | CloudServicesListDefaultResponse,
 ): response is CloudServicesListDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesStart200Response
     | CloudServicesStart202Response
-    | CloudServicesStartDefaultResponse
+    | CloudServicesStartDefaultResponse,
 ): response is CloudServicesStartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesPowerOff200Response
     | CloudServicesPowerOff202Response
-    | CloudServicesPowerOffDefaultResponse
+    | CloudServicesPowerOffDefaultResponse,
 ): response is CloudServicesPowerOffDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesRestart200Response
     | CloudServicesRestart202Response
-    | CloudServicesRestartDefaultResponse
+    | CloudServicesRestartDefaultResponse,
 ): response is CloudServicesRestartDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesReimage200Response
     | CloudServicesReimage202Response
-    | CloudServicesReimageDefaultResponse
+    | CloudServicesReimageDefaultResponse,
 ): response is CloudServicesReimageDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesRebuild200Response
     | CloudServicesRebuild202Response
-    | CloudServicesRebuildDefaultResponse
+    | CloudServicesRebuildDefaultResponse,
 ): response is CloudServicesRebuildDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesDeleteInstances200Response
     | CloudServicesDeleteInstances202Response
-    | CloudServicesDeleteInstancesDefaultResponse
+    | CloudServicesDeleteInstancesDefaultResponse,
 ): response is CloudServicesDeleteInstancesDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainWalkUpdateDomain200Response
     | CloudServicesUpdateDomainWalkUpdateDomain202Response
-    | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse
+    | CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse,
 ): response is CloudServicesUpdateDomainWalkUpdateDomainDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainGetUpdateDomain200Response
-    | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse
+    | CloudServicesUpdateDomainGetUpdateDomainDefaultResponse,
 ): response is CloudServicesUpdateDomainGetUpdateDomainDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServicesUpdateDomainListUpdateDomains200Response
-    | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse
+    | CloudServicesUpdateDomainListUpdateDomainsDefaultResponse,
 ): response is CloudServicesUpdateDomainListUpdateDomainsDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsGetOSVersion200Response
-    | CloudServiceOperatingSystemsGetOSVersionDefaultResponse
+    | CloudServiceOperatingSystemsGetOSVersionDefaultResponse,
 ): response is CloudServiceOperatingSystemsGetOSVersionDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsListOSVersions200Response
-    | CloudServiceOperatingSystemsListOSVersionsDefaultResponse
+    | CloudServiceOperatingSystemsListOSVersionsDefaultResponse,
 ): response is CloudServiceOperatingSystemsListOSVersionsDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsGetOSFamily200Response
-    | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
+    | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse,
 ): response is CloudServiceOperatingSystemsGetOSFamilyDefaultResponse;
 export function isUnexpected(
   response:
     | CloudServiceOperatingSystemsListOSFamilies200Response
-    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
+    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
 ): response is CloudServiceOperatingSystemsListOSFamiliesDefaultResponse;
 export function isUnexpected(
   response:
@@ -3227,7 +3227,7 @@ export function isUnexpected(
     | CloudServiceOperatingSystemsGetOSFamily200Response
     | CloudServiceOperatingSystemsGetOSFamilyDefaultResponse
     | CloudServiceOperatingSystemsListOSFamilies200Response
-    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse
+    | CloudServiceOperatingSystemsListOSFamiliesDefaultResponse,
 ): response is
   | OperationsListDefaultResponse
   | UsageListDefaultResponse

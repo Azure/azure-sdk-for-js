@@ -32,14 +32,14 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   console.log(result);
 }
 
 virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkMaximumSetGen().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Manual platform update domain walk to update virtual machines in a service fabric virtual machine scale set.
@@ -62,12 +62,12 @@ async function virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDo
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/forceRecoveryServiceFabricPlatformUpdateDomainWalk",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   console.log(result);
 }
 
 virtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkMinimumSetGen().catch(
-  console.error
+  console.error,
 );

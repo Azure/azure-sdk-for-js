@@ -23,7 +23,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
     super(
       "@azure/opentelemetry-instrumentation-azure-sdk",
       SDK_VERSION,
-      Object.assign({}, options)
+      Object.assign({}, options),
     );
   }
   /** In the browser we rely on overriding the `enable` function instead as there are no modules to patch. */
@@ -58,7 +58,7 @@ class AzureSdkInstrumentation extends InstrumentationBase {
  * ```
  */
 export function createAzureSdkInstrumentation(
-  options: AzureSdkInstrumentationOptions = {}
+  options: AzureSdkInstrumentationOptions = {},
 ): Instrumentation {
   return new AzureSdkInstrumentation(options);
 }

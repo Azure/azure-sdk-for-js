@@ -98,28 +98,28 @@ async function main() {
 
   const createdBuildingTwin = await serviceClient.upsertDigitalTwin(
     buildingTwinId,
-    JSON.stringify(buildingTwin)
+    JSON.stringify(buildingTwin),
   );
   console.log(`BuildingTwin:`);
   console.log(inspect(createdBuildingTwin));
 
   const createdFloorTwin = await serviceClient.upsertDigitalTwin(
     floorTwinId,
-    JSON.stringify(floorTwin)
+    JSON.stringify(floorTwin),
   );
   console.log(`FloorTwin:`);
   console.log(inspect(createdFloorTwin));
 
   const createdHVACTwin = await serviceClient.upsertDigitalTwin(
     hvacTwinId,
-    JSON.stringify(hvacTwin)
+    JSON.stringify(hvacTwin),
   );
   console.log(`HVACTwin:`);
   console.log(inspect(createdHVACTwin));
 
   const createdRoomTwin = await serviceClient.upsertDigitalTwin(
     roomTwinId,
-    JSON.stringify(roomTwin)
+    JSON.stringify(roomTwin),
   );
   console.log(`RoomTwin:`);
   console.log(inspect(createdRoomTwin));
@@ -129,7 +129,7 @@ async function main() {
     await serviceClient.upsertRelationship(
       relationship["$sourceId"],
       relationship["$relationshipId"],
-      relationship
+      relationship,
     );
   }
 
@@ -140,7 +140,7 @@ async function main() {
   const response = await serviceClient.upsertEventRoute(
     eventRouteId,
     eventHubEndpointName,
-    eventFilter
+    eventFilter,
   );
   console.log(`Upsert Event Route response:`);
   console.log(inspect(response));
@@ -156,7 +156,7 @@ async function main() {
   for (const relationship of hospitalRelationships) {
     await serviceClient.deleteRelationship(
       relationship["$sourceId"],
-      relationship["$relationshipId"]
+      relationship["$relationshipId"],
     );
   }
 

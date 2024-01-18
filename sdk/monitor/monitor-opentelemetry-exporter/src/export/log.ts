@@ -44,7 +44,7 @@ export class AzureMonitorLogExporter extends AzureMonitorBaseExporter implements
    */
   public async export(
     logs: ReadableLogRecord[],
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     if (this._isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");

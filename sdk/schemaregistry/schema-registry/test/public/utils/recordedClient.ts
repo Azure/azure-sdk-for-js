@@ -36,7 +36,7 @@ export function createRecordedClient(inputs: {
   const client = new SchemaRegistryClient(
     assertEnvironmentVariable(getFQNSVarName(format)),
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return client;
 }

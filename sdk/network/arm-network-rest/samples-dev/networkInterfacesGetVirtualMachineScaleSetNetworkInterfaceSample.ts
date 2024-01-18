@@ -35,7 +35,7 @@ async function getVirtualMachineScaleSetNetworkInterface() {
       resourceGroupName,
       virtualMachineScaleSetName,
       virtualmachineIndex,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   console.log(result);

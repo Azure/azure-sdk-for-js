@@ -111,7 +111,7 @@ describe("AnomalyDetectorClient", () => {
       result.body.isAnomaly.filter((v) => {
         return v === true;
       }),
-      14
+      14,
     );
   });
 

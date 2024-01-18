@@ -61,7 +61,7 @@ export class Database {
   constructor(
     public readonly client: CosmosClient,
     public readonly id: string,
-    private clientContext: ClientContext
+    private clientContext: ClientContext,
   ) {
     this.containers = new Containers(this, this.clientContext);
     this.users = new Users(this, this.clientContext);
@@ -102,7 +102,7 @@ export class Database {
    */
   public async readInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<DatabaseResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
@@ -118,7 +118,7 @@ export class Database {
       response.headers,
       response.code,
       this,
-      getEmptyCosmosDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -140,7 +140,7 @@ export class Database {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -155,7 +155,7 @@ export class Database {
           return this.readInternal(node);
         },
         diagnosticNode,
-        MetadataLookUpType.DatabaseLookUp
+        MetadataLookUpType.DatabaseLookUp,
       );
 
       const path = "/offers";
@@ -178,7 +178,7 @@ export class Database {
         response.headers,
         response.code,
         getEmptyCosmosDiagnostics(),
-        offer
+        offer,
       );
     }, this.clientContext);
   }
