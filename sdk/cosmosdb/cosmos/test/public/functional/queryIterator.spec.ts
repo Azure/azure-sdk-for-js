@@ -140,7 +140,9 @@ describe("Correlated Activity Id", function () {
 
   it("getAsyncIterator should pass correlation Id to request header", async () => {
     const queryIterator = container.items.readAll();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for await (const _ of queryIterator.getAsyncIterator()) {
+      // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
     assert.ok(
@@ -156,7 +158,9 @@ describe("Correlated Activity Id", function () {
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for await (const _ of queryIterator.getAsyncIterator()) {
+      // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
@@ -169,7 +173,9 @@ describe("Correlated Activity Id", function () {
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
     capturedCorrelatedActivityIds = [];
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     for await (const _ of queryIterator.getAsyncIterator()) {
+      // The loop is intentionally empty
     }
     assert.ok(capturedCorrelatedActivityIds.length);
     const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
