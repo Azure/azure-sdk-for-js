@@ -216,13 +216,13 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
   onProgress(callback: (state: TState) => void): CancelOnProgress;
 
   /**
-   * Returns a serialized version of the poller's operation
-   * by invoking the operation's toString method.
+   * Returns a promise that could be used for serialized version of the poller's operation
+   * by invoking the operation's serialize method.
    */
   serialize(): Promise<string>;
 
   /**
-   *
+   * Returns a promise that could be used to check if the poller has been submitted.
    */
   submitted(): Promise<void>;
 }
