@@ -168,7 +168,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: GetSchemaOptions = {}
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
-      return getSchemaById(this._client, nameOrId, options);
+      return getSchemaById(this._client, nameOrId, groupNameOrOptions);
     }
     return getSchemaByVersion(
       this._client,

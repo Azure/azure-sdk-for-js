@@ -177,7 +177,7 @@ function getSchema(inputs: { format: Format; groupName: string }): SchemaDescrip
 
 describe("SchemaRegistryClient", function () {
   matrix(
-    [[KnownSchemaFormats.Json]] as const,
+    [[KnownSchemaFormats.Avro, KnownSchemaFormats.Json, KnownSchemaFormats.Custom]] as const,
     async function (format: Format) {
       describe(`Format: ${format}`, function () {
         let recorder: Recorder;
@@ -219,7 +219,7 @@ describe("SchemaRegistryClient", function () {
           );
         });
 
-        it.only("registers schema", async () => {
+        it("registers schema", async () => {
           const registered = await client.registerSchema(schema, options);
           assertIsValidSchemaProperties(registered, format);
         });

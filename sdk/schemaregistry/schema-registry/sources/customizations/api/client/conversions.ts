@@ -1,4 +1,3 @@
-import { StreamableMethod } from "@azure-rest/core-client";
 import {
   RegisterSchema204Response,
   GetSchemaIdByContent204Response,
@@ -6,22 +5,20 @@ import {
   GetSchemaById200Response,
 } from "../../../generated/src/responses";
 import { Schema, SchemaProperties } from "../../models/models";
-import { getSchemaDefinition } from "./getSchemaDefinition";
 
 /**
  * Union of generated client's response that return schema ID
  */
 type GeneratedSchemaIdResponse =
-  | StreamableMethod<RegisterSchema204Response>
-  | StreamableMethod<GetSchemaIdByContent204Response>
-  | StreamableMethod<GetSchemaByVersion200Response>;
-
+  | RegisterSchema204Response
+  | GetSchemaIdByContent204Response
+  | GetSchemaByVersion200Response;
 /**
  * Union of generated client's responses that return schema definition.
  */
 type GeneratedSchemaResponse =
-  | StreamableMethod<GetSchemaById200Response>
-  | StreamableMethod<GetSchemaByVersion200Response>;
+  | GetSchemaById200Response
+  | GetSchemaByVersion200Response;
 
 /**
  * Converts generated client's response to SchemaIdentityResponse.
@@ -32,22 +29,16 @@ export async function convertSchemaIdResponse(
   response: GeneratedSchemaIdResponse,
   schemaFormat: string,
 ): Promise<SchemaProperties> {
-  const headers = (await response).headers;
   return {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
-    id: headers["schema-id"]!,
+    id: response.headers["schema-id"]!,
     format: schemaFormat,
-    groupName: headers["schema-group-name"]!,
-    name: headers["schema-name"]!,
-    version: Number(headers["schema-version"]!),
+    groupName: response.headers["schema-group-name"]!,
+    name: response.headers["schema-name"]!,
+    version: Number(response.headers["schema-version"]!),
   };
 }
-
-const textPlain = "text/plain";
-const charsetutf8 = "charset=utf-8";
-const customContentType = `${textPlain}; ${charsetutf8}`;
-const customFormat = "Custom";
 
 /**
  * @internal
@@ -61,16 +52,14 @@ export function buildContentType(format: string): string {
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
-  const schemaDefinition = await getSchemaDefinition(response);
-  const headers = (await response).headers;
   return {
-    definition: schemaDefinition,
+    definition: typeof response.body === "string" ? response.body : JSON.stringify(response.body),
     properties: {
-      id: headers["schema-id"]!,
-      format: mapContentTypeToFormat(headers["content-type"]!),
-      groupName: headers["schema-group-name"]!,
-      name: headers["schema-name"]!,
-      version: Number(headers["schema-version"]!),
+      id: response.headers["schema-id"]!,
+      format: mapContentTypeToFormat(response.headers["content-type"]!),
+      groupName: response.headers["schema-group-name"]!,
+      name: response.headers["schema-name"]!,
+      version: Number(response.headers["schema-version"]!),
     },
   };
 }
@@ -85,3 +74,8 @@ function mapContentTypeToFormat(contentType: string): string {
     throw new Error(`Unrecognized response's content-type: ${contentType}`);
   }
 }
+
+const textPlain = "text/plain";
+const charsetutf8 = "charset=utf-8";
+const customContentType = `${textPlain}; ${charsetutf8}`;
+const customFormat = "Custom";
