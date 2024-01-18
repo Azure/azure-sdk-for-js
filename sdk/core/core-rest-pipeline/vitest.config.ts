@@ -9,6 +9,9 @@ export default defineConfig({
     outputFile: {
       junit: "test-results.xml",
     },
+    fakeTimers: {
+      toFake: ["setTimeout", "Date"],
+    },
     watch: false,
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
