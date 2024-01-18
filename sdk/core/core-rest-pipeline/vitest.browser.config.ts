@@ -6,7 +6,7 @@ import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 
 export default defineConfig({
   define: {
-    "process.env": {}
+    "process.env": process.env,
   },
   plugins: [browserMap()],
   test: {
