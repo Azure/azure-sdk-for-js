@@ -5,9 +5,6 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-    "./dist-esm/src/api/getSchemaDefinition.js": "./dist-esm/src/api/getSchemaDefinition.browser.js"
-  },
   "types": "types/schema-registry.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
