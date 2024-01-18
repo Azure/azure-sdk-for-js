@@ -131,7 +131,7 @@ export const createRunLroWith =
     routes: LroResponseSpec[];
     onProgress?: (state: TState) => void;
     resourceLocationConfig?: ResourceLocationConfig;
-    processResult?: (result: unknown, state: TState) => Result;
+    processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
     updateState?: (state: TState, lastResponse: RawResponse) => void;
   }): Promise<Result> =>
     runLro({ ...settings, ...variables });
