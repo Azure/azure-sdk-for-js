@@ -5,101 +5,19 @@ import {
   HttpClient,
   HttpMethods,
   PipelineRequest,
-  PipelineResponse,
-  RestError,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { ImplementationName, LroResponseSpec, Result, RouteProcessor, State } from "./models";
+import { ImplementationName, Result } from "./models";
 import { PollerLike, OperationResponse, createHttpPoller } from "../../../src/next";
 import { ResourceLocationConfig, RawResponse, ResponseBody } from "../../../src/next/http/models";
-import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
-import { getYieldedValue } from "@azure/test-utils";
-import { createProcessor, generate } from "../../utils/utils";
+import { createClient, toLroProcessors } from "../../utils/router";
+import { LroResponseSpec, State } from "../../utils/utils";
 
 /**
  * Dummy value for the path of the initial request
  */
 const initialPath = "path";
-
-/**
- * This helper creates an array of route processors where each processor is represented
- * as a generator. This generator representation is needed to handle a sequence of GET
- * requests to the same route. In particular, the first GET request may get
- * a response indicating that the LRO is still in progress but a subsequent
- * GET request may get a response indicating the LRO is in a terminal state.
- */
-function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
-  const routeCountMap = new Map<
-    string,
-    {
-      method: HttpMethods;
-      path: string;
-      responseProcessors: ((req: PipelineRequest) => PipelineResponse)[];
-    }
-  >();
-  for (const response of responses) {
-    const { method, path = initialPath, status, body, headers } = response;
-    const key = createRouteKey({ method, path });
-    const routeProcessor = routeCountMap.get(key);
-    if (routeProcessor !== undefined) {
-      routeProcessor.responseProcessors.push(createProcessor({ status, body, headers }));
-    } else {
-      routeCountMap.set(key, {
-        method,
-        path,
-        responseProcessors: [createProcessor({ status, body, headers })],
-      });
-    }
-  }
-  return [...routeCountMap.values()].map(({ responseProcessors, ...rest }) => ({
-    process: generate(...responseProcessors),
-    ...rest,
-  }));
-}
-
-function createRouteKey({ method, path }: { path: string; method: string }): string {
-  return method + ":" + path;
-}
-function createClient(inputs: {
-  routes: RouteProcessor[];
-  throwOnNon2xxResponse?: boolean;
-}): HttpClient {
-  const { routes, throwOnNon2xxResponse = true } = inputs;
-  const routesTable = new Map(routes.map((route) => [createRouteKey(route), route]));
-  return {
-    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-      if (request.abortSignal?.aborted) {
-        throw new AbortError("The operation was aborted.");
-      }
-      const path = request.url;
-      const method = request.method;
-      const route = routesTable.get(createRouteKey({ method, path }));
-      if (route !== undefined) {
-        const response = getYieldedValue(route.process.next())(request);
-        if (response.status >= 400 && throwOnNon2xxResponse) {
-          throw new RestError(
-            `Received unexpected HTTP status code ${response.status} while polling. This may indicate a server issue.`,
-            { statusCode: response.status },
-          );
-        }
-        return response;
-      }
-      const message = `Route for ${method} request to ${path} was not found`;
-      if (throwOnNon2xxResponse) {
-        throw new RestError(message, {
-          statusCode: 404,
-        });
-      }
-      return {
-        bodyAsText: JSON.stringify({ message }),
-        status: 404,
-        request,
-        headers: createHttpHeaders(),
-      };
-    },
-  };
-}
 
 function createSendOp(settings: {
   client: HttpClient;

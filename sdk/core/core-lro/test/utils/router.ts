@@ -36,7 +36,7 @@ const initialPath = "path";
  * a response indicating that the LRO is still in progress but a subsequent
  * GET request may get a response indicating the LRO is in a terminal state.
  */
-function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
+export function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
   const routeCountMap = new Map<
     string,
     {
@@ -68,7 +68,7 @@ function toLroProcessors(responses: LroResponseSpec[]): RouteProcessor[] {
 function createRouteKey({ method, path }: { path: string; method: string }): string {
   return method + ":" + path;
 }
-function createClient(inputs: {
+export function createClient(inputs: {
   routes: RouteProcessor[];
   throwOnNon2xxResponse?: boolean;
 }): HttpClient {
