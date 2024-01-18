@@ -99,7 +99,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     let resultPromise: Promise<TResult> | undefined;
     const abortController = new AbortController();
     // Progress handlers
-    type Handler = (state?: TState) => void;
+    type Handler = (state: TState) => void;
     const handlers = new Map<symbol, Handler>();
     const handleProgressEvents = async (): Promise<void> => handlers.forEach((h) => h(state));
     const cancelErrMsg = "Operation was canceled";
@@ -118,7 +118,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       get isStopped(): boolean {
         return resultPromise === undefined;
       },
-      onProgress: (callback: (state?: TState) => void) => {
+      onProgress: (callback: (state: TState) => void) => {
         const s = Symbol();
         handlers.set(s, callback);
         return () => handlers.delete(s);

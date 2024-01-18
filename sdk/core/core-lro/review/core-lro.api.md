@@ -197,7 +197,7 @@ export interface PollerLike<TState extends PollOperationState<TResult>, TResult>
 interface PollerLike_2<TState extends OperationState_2<TResult>, TResult> extends Promise<TResult> {
     isDone: boolean;
     isStopped: boolean;
-    onProgress(callback: (state?: TState) => void): CancelOnProgress_2;
+    onProgress(callback: (state: TState) => void): CancelOnProgress_2;
     operationState: TState | undefined;
     poll(options?: {
         abortSignal?: AbortSignalLike;
