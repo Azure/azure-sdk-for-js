@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 /// <reference lib="esnext.asynciterable" />
-import { v4 } from "uuid";
-const uuid = v4;
 import { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
@@ -27,6 +25,7 @@ import {
   withMetadataDiagnostics,
 } from "./utils/diagnostics";
 import { MetadataLookUpType } from "./CosmosDiagnostics";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * Represents a QueryIterator Object, an implementation of feed or query response that enables
@@ -205,7 +204,7 @@ export class QueryIterator<T> {
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
   public reset(): void {
-    this.correlatedActivityId = uuid();
+    this.correlatedActivityId = randomUUID();
     this.queryPlanPromise = undefined;
     this.fetchAllLastResHeaders = getInitialHeader();
     this.fetchAllTempResources = [];

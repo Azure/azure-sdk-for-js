@@ -8,7 +8,7 @@ import { endpoint } from "../../public/common/_testConfig";
 import { masterKey } from "../../public/common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../../public/common/TestHelpers";
 
-describe("QueryIterator", function () {
+describe("Correlated Activity Id", function () {
   this.timeout(process.env.MOCHA_TIMEOUT || 30000);
   let container: Container;
   let capturedCorrelatedActivityIds: string[];
@@ -136,6 +136,44 @@ describe("QueryIterator", function () {
         (element) => element === capturedCorrelatedActivityIds[0],
       ),
     );
+  });
+
+  it("getAsyncIterator should pass correlation Id to request header", async () => {
+    const queryIterator = container.items.readAll();
+    for await (const _ of queryIterator.getAsyncIterator()) {
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    assert.ok(
+      capturedCorrelatedActivityIds.every(
+        (element) => element === capturedCorrelatedActivityIds[0],
+      ),
+    );
+  });
+
+  it("fetchAll and getAsyncIterator should have different correlated id with same iterator", async () => {
+    const queryIterator = container.items.readAll();
+    await queryIterator.fetchAll();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdFetchAll = capturedCorrelatedActivityIds[0];
+    capturedCorrelatedActivityIds = [];
+    for await (const _ of queryIterator.getAsyncIterator()) {
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
+    assert.ok(correlatedIdFetchAll !== correlatedIdAsyncIterator);
+  });
+
+  it("fetchNext and getAsyncIterator should have different correlated id with same iterator", async () => {
+    const queryIterator = container.items.readAll();
+    await queryIterator.fetchNext();
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdFetchNext = capturedCorrelatedActivityIds[0];
+    capturedCorrelatedActivityIds = [];
+    for await (const _ of queryIterator.getAsyncIterator()) {
+    }
+    assert.ok(capturedCorrelatedActivityIds.length);
+    const correlatedIdAsyncIterator = capturedCorrelatedActivityIds[0];
+    assert.ok(correlatedIdFetchNext !== correlatedIdAsyncIterator);
   });
 
   after(async function () {
