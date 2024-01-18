@@ -6835,8 +6835,8 @@ packages:
       semver: 7.5.4
     dev: false
 
-  /jsrsasign@10.9.0:
-    resolution: {integrity: sha512-QWLUikj1SBJGuyGK8tjKSx3K7Y69KYJnrs/pQ1KZ6wvZIkHkWjZ1PJDpuvc1/28c1uP0KW9qn1eI1LzHQqDOwQ==}
+  /jsrsasign@11.0.0:
+    resolution: {integrity: sha512-BtRwVKS+5dsgPpAtzJcpo5OoWjSs1/zllSBG0+8o8/aV0Ki76m6iZwHnwnsqoTdhfFZDN1XIdcaZr5ZkP+H2gg==}
     dev: false
 
   /jssha@3.3.1:
@@ -11022,7 +11022,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-VpzL04iH/VHyB93pP1rmJC64LmJFfyrnVmuGzIe9o8doFtuJTTyXKtuvMi9kyzDaJIbHAt6CoaIZVWwqttSPIg==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-mVGfRM3NWuKEQH2fKXRo0ZtsEVhaRYXllOoE9fpHxVpb8bLpkDX5rKs0+2UFRrAObyyDBzPzbCHUf/PjV99q8Q==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -17034,7 +17034,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-Vxt8G2NpOQoqZjbcAu30O8ncQtdIfgL66bOgOczVAP+L0NGcLdtkwNaJDxrKLQ2vg53eqfuRtVgnrXVfcwQbEg==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-4sBOHqm0rGQ6uDkG8tcib45oxzOEl8xsjX5Smm0jo+h74mMmozK7LXfJ/KSyQX19F/wzPIGSe2ASqDJGiGU9Pw==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -17053,7 +17053,7 @@ packages:
       eslint: 8.56.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 10.9.0
+      jsrsasign: 11.0.0
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
@@ -21148,7 +21148,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-KNQjQ8AJrUhqvbIIsb3M3w5Db3GyQLwcaczTgxXN7pniiekaurZs3DNbwM6EoL32qeMx2vosbXGAw21yzaIw+w==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-NhZ6bbqYih3gNbzKzDreyjfniQb6m8GxjkjLLYyqAWndF4h1icUMvaiZvDz+JSP2u7ZZBx0YaErIcnR5GJ1Xdw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
