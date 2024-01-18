@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  ImplementationName,
-} from "./utils/models";
+import { ImplementationName } from "./utils/models";
 import { assert, matrix } from "@azure/test-utils";
 import { createRunLroWith, createTestPoller } from "./utils/router";
 import { delay } from "@azure/core-util";

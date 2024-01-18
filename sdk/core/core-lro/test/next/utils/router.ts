@@ -9,13 +9,7 @@ import {
   RestError,
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import {
-  ImplementationName,
-  LroResponseSpec,
-  Result,
-  RouteProcessor,
-  State,
-} from "./models";
+import { ImplementationName, LroResponseSpec, Result, RouteProcessor, State } from "./models";
 import { PollerLike, OperationResponse, createHttpPoller } from "../../../src/next";
 import { ResourceLocationConfig, RawResponse, ResponseBody } from "../../../src/next/http/models";
 import { AbortError } from "@azure/abort-controller";
@@ -215,11 +209,11 @@ async function runLro<TState>(settings: {
 
 export const createRunLroWith =
   <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
-    (settings: {
-      routes: LroResponseSpec[];
-      onProgress?: (state: TState) => void;
-      resourceLocationConfig?: ResourceLocationConfig;
-      processResult?: (result: unknown, state: TState) => Result;
-      updateState?: (state: TState, lastResponse: RawResponse) => void;
-    }): Promise<Result> =>
-      runLro({ ...settings, ...variables });
+  (settings: {
+    routes: LroResponseSpec[];
+    onProgress?: (state: TState) => void;
+    resourceLocationConfig?: ResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => Result;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+  }): Promise<Result> =>
+    runLro({ ...settings, ...variables });

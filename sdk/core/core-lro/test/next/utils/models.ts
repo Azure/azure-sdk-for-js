@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpMethods,
-  PipelineRequest,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
+import { HttpMethods, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { ResponseBody } from "../../../src/next/http/models";
 
 export interface RouteProcessor {
