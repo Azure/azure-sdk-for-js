@@ -9,8 +9,8 @@ import {
   RestorableOperationState,
   StateProxy,
 } from "./models";
-import { logger } from "../logger";
 import { terminalStates } from "./constants";
+import { logger } from "../../logger";
 
 /**
  * Deserializes the state

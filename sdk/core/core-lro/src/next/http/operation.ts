@@ -18,7 +18,7 @@ import {
 } from "../poller/models";
 import { pollOperation } from "../poller/operation";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "../logger";
+import { logger } from "../../logger";
 
 function getOperationLocationPollingUrl(inputs: {
   operationLocation?: string;
