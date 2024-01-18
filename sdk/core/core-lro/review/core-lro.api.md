@@ -207,7 +207,6 @@ interface PollerLike_2<TState extends OperationState_2<TResult>, TResult> extend
     }): Promise<TResult>;
     result: TResult | undefined;
     serialize(): Promise<string>;
-    // (undocumented)
     submitted(): Promise<void>;
 }
 

@@ -15,14 +15,13 @@ import {
   Result,
   RouteProcessor,
   State,
-  createProcessor,
-  generate,
-} from "./utils";
+} from "./models";
 import { PollerLike, OperationResponse, createHttpPoller } from "../../../src/next";
 import { ResourceLocationConfig, RawResponse, ResponseBody } from "../../../src/next/http/models";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
 import { getYieldedValue } from "@azure/test-utils";
+import { createProcessor, generate } from "../../utils/utils";
 
 /**
  * Dummy value for the path of the initial request
@@ -216,11 +215,11 @@ async function runLro<TState>(settings: {
 
 export const createRunLroWith =
   <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
-  (settings: {
-    routes: LroResponseSpec[];
-    onProgress?: (state: TState) => void;
-    resourceLocationConfig?: ResourceLocationConfig;
-    processResult?: (result: unknown, state: TState) => Result;
-    updateState?: (state: TState, lastResponse: RawResponse) => void;
-  }): Promise<Result> =>
-    runLro({ ...settings, ...variables });
+    (settings: {
+      routes: LroResponseSpec[];
+      onProgress?: (state: TState) => void;
+      resourceLocationConfig?: ResourceLocationConfig;
+      processResult?: (result: unknown, state: TState) => Result;
+      updateState?: (state: TState, lastResponse: RawResponse) => void;
+    }): Promise<Result> =>
+      runLro({ ...settings, ...variables });

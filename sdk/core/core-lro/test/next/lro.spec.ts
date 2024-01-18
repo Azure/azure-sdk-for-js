@@ -3,14 +3,11 @@
 
 import {
   ImplementationName,
-  assertDivergentBehavior,
-  assertError,
-  createDoubleHeaders,
-} from "./utils/utils";
+} from "./utils/models";
 import { assert, matrix } from "@azure/test-utils";
 import { createRunLroWith, createTestPoller } from "./utils/router";
 import { delay } from "@azure/core-util";
-import { Result } from "../utils/utils";
+import { Result, assertDivergentBehavior, assertError, createDoubleHeaders } from "../utils/utils";
 
 matrix(
   [["createPollerSync"], [true, false]] as const,
