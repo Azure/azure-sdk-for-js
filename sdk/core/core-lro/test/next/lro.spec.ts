@@ -9,6 +9,8 @@ import {
 } from "./utils/utils";
 import { assert, matrix } from "@azure/test-utils";
 import { createRunLroWith, createTestPoller } from "./utils/router";
+import { delay } from "@azure/core-util";
+import { Result } from "../utils/utils";
 
 matrix(
   [
@@ -2728,13 +2730,107 @@ matrix(
             throwOnNon2xxResponse,
             throwing: {
               messagePattern: new RegExp(
-                `The long - running operation has failed.${code}.${message}`,
+                `The long-running operation has failed. ${code}. ${message}`,
               ),
             },
             notThrowing: {
               result: { ...body, statusCode: 200 },
             },
           });
+        });
+        it("processResult() could be asynchronized", async () => {
+          const processResult = async (res: unknown) => {
+            await delay(1);
+            return { statusCode: (res as Result).statusCode } as Result;
+          };
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
+              },
+            ],
+            throwOnNon2xxResponse,
+            processResult
+          });
+          const result = await poller.pollUntilDone();
+          assert.equal(result.statusCode, 200);
+          assert.isUndefined(result.properties?.provisioningState);
+        });
+        it("processResult() could be synchronized", async () => {
+          const processResult = async (res: unknown): Promise<Result> => {
+            return { statusCode: (res as Result).statusCode } as Result;
+          };
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "PUT",
+                status: 200,
+                body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
+              },
+            ],
+            throwOnNon2xxResponse,
+            processResult
+          });
+          const result = await poller.pollUntilDone();
+          assert.equal(result.statusCode, 200);
+          assert.isUndefined(result.properties?.provisioningState);
+        });
+        it("submitted() is resolved once the initial response is back and poller state is ready", async () => {
+          let pollCount = 0;
+          const pollingPath = "pollingPath";
+          const poller = createTestPoller({
+            routes: [
+              {
+                method: "POST",
+                status: 202,
+                headers: {
+                  "Operation-Location": pollingPath,
+                },
+              },
+              ...Array(10).fill({
+                method: "GET",
+                path: pollingPath,
+                body: `{ "status": "running" }`,
+                status: 200,
+              }),
+              {
+                method: "GET",
+                path: pollingPath,
+                body: `{ "status": "succeeded" }`,
+                status: 200,
+              },
+            ],
+            implName,
+            throwOnNon2xxResponse,
+            updateState: () => {
+              pollCount++;
+            },
+          });
+          assert.isUndefined(poller.operationState);
+          await poller.submitted();
+          assert.equal(pollCount, 0);
+          assert.equal(poller.operationState.status, "running");
+        });
+
+        it("readonly attributes would throw errors if trying to override the value", async () => {
+          try {
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "PUT",
+                  status: 200,
+                  body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
+                },
+              ],
+              throwOnNon2xxResponse,
+            });
+            (poller as any).operationState = "foostatus";
+            assert.fail("should throw error");
+          } catch (e: any) {
+            assert.equal(e.message, "Cannot set property operationState of #<Object> which has only a getter")
+          }
         });
       });
     });
