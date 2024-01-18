@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/getSchemaDefinition.js": "./dist-esm/src/getSchemaDefinition.browser.js"
+    "./dist-esm/src/api/getSchemaDefinition.js": "./dist-esm/src/api/getSchemaDefinition.browser.js"
   },
   "types": "types/schema-registry.d.ts",
   "scripts": {

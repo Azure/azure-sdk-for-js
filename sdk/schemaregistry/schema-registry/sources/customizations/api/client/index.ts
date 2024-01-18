@@ -14,7 +14,7 @@ import { RestError } from "@azure/core-rest-pipeline";
 export async function registerSchema(
   context: Client,
   schema: SchemaDescription,
-  options: RegisterSchemaOptions = {}
+  options: RegisterSchemaOptions = {},
 ): Promise<SchemaProperties> {
   const { groupName, name: schemaName, definition: schemaContent, format } = schema;
   const response = await context
@@ -38,7 +38,7 @@ export async function registerSchema(
 export async function getSchemaProperties(
   context: Client,
   schema: SchemaDescription,
-  options: GetSchemaPropertiesOptions = {}
+  options: GetSchemaPropertiesOptions = {},
 ): Promise<SchemaProperties> {
   const { groupName, name: schemaName, definition: schemaContent, format } = schema;
   const response = await context
@@ -62,7 +62,7 @@ export async function getSchemaProperties(
 export async function getSchemaById(
   context: Client,
   schemaId: string,
-  options?: GetSchemaOptions
+  options?: GetSchemaOptions,
 ): Promise<Schema> {
   const response = await context.path("/$schemaGroups/$schemas/{id}", schemaId).get({ ...options });
   return convertSchemaResponse(response);
@@ -73,14 +73,14 @@ export async function getSchemaByVersion(
   groupName: string,
   name: string,
   version: number,
-  options?: GetSchemaOptions
+  options?: GetSchemaOptions,
 ): Promise<Schema> {
   const response = await context
     .path(
       "/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}",
       groupName,
       name,
-      version
+      version,
     )
     .get({ ...options });
   return convertSchemaResponse(response);

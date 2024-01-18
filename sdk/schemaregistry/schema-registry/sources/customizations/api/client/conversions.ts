@@ -1,3 +1,4 @@
+import { StreamableMethod } from "@azure-rest/core-client";
 import {
   RegisterSchema204Response,
   GetSchemaIdByContent204Response,
@@ -5,36 +6,41 @@ import {
   GetSchemaById200Response,
 } from "../../../generated/src/responses";
 import { Schema, SchemaProperties } from "../../models/models";
+import { getSchemaDefinition } from "./getSchemaDefinition";
 
 /**
  * Union of generated client's response that return schema ID
  */
 type GeneratedSchemaIdResponse =
-  | RegisterSchema204Response
-  | GetSchemaIdByContent204Response
-  | GetSchemaByVersion200Response;
+  | StreamableMethod<RegisterSchema204Response>
+  | StreamableMethod<GetSchemaIdByContent204Response>
+  | StreamableMethod<GetSchemaByVersion200Response>;
 
 /**
  * Union of generated client's responses that return schema definition.
  */
-type GeneratedSchemaResponse = GetSchemaById200Response | GetSchemaByVersion200Response;
+type GeneratedSchemaResponse =
+  | StreamableMethod<GetSchemaById200Response>
+  | StreamableMethod<GetSchemaByVersion200Response>;
+
 /**
  * Converts generated client's response to SchemaIdentityResponse.
  *
  * @internal
  */
-export function convertSchemaIdResponse(
+export async function convertSchemaIdResponse(
   response: GeneratedSchemaIdResponse,
-  schemaFormat: string
-): SchemaProperties {
+  schemaFormat: string,
+): Promise<SchemaProperties> {
+  const headers = (await response).headers;
   return {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
-    id: response.headers["schema-id"]!,
+    id: headers["schema-id"]!,
     format: schemaFormat,
-    groupName: response.headers["schema-group-name"]!,
-    name: response.headers["schema-name"]!,
-    version: Number(response.headers["schema-version"]!),
+    groupName: headers["schema-group-name"]!,
+    name: headers["schema-name"]!,
+    version: Number(headers["schema-version"]!),
   };
 }
 
@@ -55,21 +61,18 @@ export function buildContentType(format: string): string {
 }
 
 export async function convertSchemaResponse(response: GeneratedSchemaResponse): Promise<Schema> {
-  const schemaDefinition = await getSchemaDefinition(response.body);
+  const schemaDefinition = await getSchemaDefinition(response);
+  const headers = (await response).headers;
   return {
     definition: schemaDefinition,
     properties: {
-      id: response.headers["schema-id"]!,
-      format: mapContentTypeToFormat(response.headers["content-type"]!),
-      groupName: response.headers["schema-group-name"]!,
-      name: response.headers["schema-name"]!,
-      version: Number(response.headers["schema-version"]!),
+      id: headers["schema-id"]!,
+      format: mapContentTypeToFormat(headers["content-type"]!),
+      groupName: headers["schema-group-name"]!,
+      name: headers["schema-name"]!,
+      version: Number(headers["schema-version"]!),
     },
   };
-}
-
-async function getSchemaDefinition(schemaDefinition: Uint8Array): Promise<string> {
-  return new TextDecoder().decode(schemaDefinition);
 }
 
 function mapContentTypeToFormat(contentType: string): string {

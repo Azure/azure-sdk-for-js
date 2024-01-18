@@ -29,9 +29,7 @@ export interface ListSchemaGroups {
   /** Gets the list of schema groups user is authorized to access. */
   get(
     options?: ListSchemaGroupsParameters,
-  ): StreamableMethod<
-    ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse
-  >;
+  ): StreamableMethod<ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse>;
 }
 
 export interface GetSchemaById {
@@ -45,36 +43,28 @@ export interface ListSchemaVersions {
   /** Gets the list of all versions of one schema. */
   get(
     options?: ListSchemaVersionsParameters,
-  ): StreamableMethod<
-    ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
-  >;
+  ): StreamableMethod<ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse>;
 }
 
 export interface GetSchemaByVersion {
   /** Gets one specific version of one schema. */
   get(
     options?: GetSchemaByVersionParameters,
-  ): StreamableMethod<
-    GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse
-  >;
+  ): StreamableMethod<GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse>;
 }
 
 export interface GetSchemaIdByContent {
   /** Gets the ID referencing an existing schema within the specified schema group, as matched by schema content comparison. */
   post(
     options: GetSchemaIdByContentParameters,
-  ): StreamableMethod<
-    GetSchemaIdByContent204Response | GetSchemaIdByContentDefaultResponse
-  >;
+  ): StreamableMethod<GetSchemaIdByContent204Response | GetSchemaIdByContentDefaultResponse>;
 }
 
 export interface RegisterSchema {
   /** Register new schema. If schema of specified name does not exist in specified group, schema is created at version 1. If schema of specified name exists already in specified group, schema is created at latest version + 1. */
   put(
     options: RegisterSchemaParameters,
-  ): StreamableMethod<
-    RegisterSchema204Response | RegisterSchemaDefaultResponse
-  >;
+  ): StreamableMethod<RegisterSchema204Response | RegisterSchemaDefaultResponse>;
 }
 
 export interface Routes {
