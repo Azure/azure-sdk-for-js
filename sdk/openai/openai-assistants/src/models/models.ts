@@ -26,26 +26,20 @@ export interface AssistantCreationOptions {
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionParent {
-  /** the discriminator possible values: code_interpreter, retrieval, function */
-  type: string;
-}
-
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+export interface CodeInterpreterToolDefinition {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinition extends ToolDefinitionParent {
+export interface RetrievalToolDefinition {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinition extends ToolDefinitionParent {
+export interface FunctionToolDefinition {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -159,14 +153,8 @@ export interface ThreadMessage {
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of a single item of thread message content. */
-export interface MessageContentParent {
-  /** the discriminator possible values: text, image_file */
-  type: string;
-}
-
 /** A representation of a textual item of thread message content. */
-export interface MessageTextContent extends MessageContentParent {
+export interface MessageTextContent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -227,7 +215,7 @@ export interface MessageFilePathDetails {
 }
 
 /** A representation of image file content in a thread message. */
-export interface MessageImageFileContent extends MessageContentParent {
+export interface MessageImageFileContent {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -627,3 +615,12 @@ export type MessageTextAnnotation =
   | MessageFileCitationTextAnnotation
   | MessageFilePathTextAnnotation
   | MessageTextAnnotationParent;
+/** Base type for MessageContentParent */
+export type MessageContentParent =
+  | MessageTextContent 
+  | MessageImageFileContent;
+/** Base type for ToolDefinitionParent */
+export type ToolDefinitionParent =
+  | CodeInterpreterToolDefinition 
+  | RetrievalToolDefinition 
+  | FunctionToolDefinition;

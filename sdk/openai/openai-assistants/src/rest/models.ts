@@ -127,13 +127,8 @@ export interface ThreadMessage {
   metadata?: TypeSpecRecord;
 }
 
-/** An abstract representation of a single item of thread message content. */
-export interface MessageContentParent {
-  type: string;
-}
-
 /** A representation of a textual item of thread message content. */
-export interface MessageTextContent extends MessageContentParent {
+export interface MessageTextContent {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -193,7 +188,7 @@ export interface MessageFilePathDetails {
 }
 
 /** A representation of image file content in a thread message. */
-export interface MessageImageFileContent extends MessageContentParent {
+export interface MessageImageFileContent {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -243,7 +238,7 @@ export type ToolDefinition =
   | RetrievalToolDefinition
   | FunctionToolDefinition;
 /** An abstract representation of a single item of thread message content. */
-export type MessageContent = MessageContentParent | MessageTextContent | MessageImageFileContent;
+export type MessageContent = MessageTextContent | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotation =
   | MessageTextAnnotationParent
