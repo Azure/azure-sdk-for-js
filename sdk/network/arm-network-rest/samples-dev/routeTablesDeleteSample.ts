@@ -32,7 +32,7 @@ async function deleteRouteTable() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}",
       subscriptionId,
       resourceGroupName,
-      routeTableName
+      routeTableName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

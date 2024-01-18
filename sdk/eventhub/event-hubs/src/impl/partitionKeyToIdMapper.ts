@@ -27,7 +27,7 @@ function castToInt16(n: number): number {
 function computeHash(
   data: Buffer,
   seed1: number = 0,
-  seed2: number = 0
+  seed2: number = 0,
 ): {
   b: number;
   c: number;

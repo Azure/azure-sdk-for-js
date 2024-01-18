@@ -37,7 +37,7 @@ describe("BlockBlobClient", () => {
         uriSanitizers,
         removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source", "x-ms-encryption-key"] },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -148,7 +148,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", getUniqueName("newblockblob"))
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url);
 
@@ -169,7 +169,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobClient = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", getUniqueName("newblockblob"))
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
     );
     await newBlockBlobClient.stageBlockFromURL(base64encode("1"), blockBlobClient.url, 0, 4);
     await newBlockBlobClient.stageBlockFromURL(base64encode("2"), blockBlobClient.url, 4, 4);
@@ -283,7 +283,7 @@ describe("BlockBlobClient", () => {
     const newClient = new BlockBlobClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -301,7 +301,7 @@ describe("BlockBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -315,7 +315,7 @@ describe("BlockBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -362,7 +362,7 @@ describe("BlockBlobClient", () => {
     }
 
     const newBlockBlobURL = containerClient.getBlockBlobClient(
-      recorder.variable("newblockblob", getUniqueName("newblockblob"))
+      recorder.variable("newblockblob", getUniqueName("newblockblob")),
     );
     const sResp = await newBlockBlobURL.stageBlock(base64encode("1"), body.substring(0, 4), 4, {
       customerProvidedKey: Test_CPK_INFO,
@@ -374,7 +374,7 @@ describe("BlockBlobClient", () => {
       blockBlobClient.url,
       4,
       4,
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(sResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -393,7 +393,7 @@ describe("BlockBlobClient", () => {
 
     const cmResp = await newBlockBlobURL.commitBlockList(
       [base64encode("1"), base64encode("2"), base64encode("3")],
-      { customerProvidedKey: Test_CPK_INFO }
+      { customerProvidedKey: Test_CPK_INFO },
     );
     assert.equal(cmResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
@@ -431,7 +431,7 @@ describe("BlockBlobClient", () => {
       if (
         err instanceof Error &&
         err.message.startsWith(
-          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.",
         )
       ) {
         exceptionCaught = true;
@@ -465,7 +465,7 @@ describe("BlockBlobClient", () => {
             ifNoneMatch: "*",
           },
           metadata,
-        }
+        },
       );
       assert.fail();
     } catch (err: any) {

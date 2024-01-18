@@ -17,7 +17,7 @@ interface ScenarioPeekMessagesOptions {
 }
 
 function sanitizeOptions(
-  options: ScenarioPeekMessagesOptions
+  options: ScenarioPeekMessagesOptions,
 ): Required<ScenarioPeekMessagesOptions> {
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
@@ -77,7 +77,7 @@ export async function scenarioPeekMessages() {
         const peekedMessages: ServiceBusReceivedMessage[] = await stressBase.peekMessages(
           receiver,
           peekMaxMessageCount,
-          fromSequenceNumber
+          fromSequenceNumber,
         );
         elapsedTime = new Date().valueOf() - startedAt.valueOf();
         const numberOfMessages = peekedMessages.length;

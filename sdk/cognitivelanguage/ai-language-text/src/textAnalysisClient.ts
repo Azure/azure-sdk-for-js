@@ -139,12 +139,12 @@ export class TextAnalysisClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential,
-    options?: TextAnalysisClientOptions
+    options?: TextAnalysisClientOptions,
   );
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
-    options: TextAnalysisClientOptions = {}
+    options: TextAnalysisClientOptions = {},
   ) {
     const {
       defaultCountryHint = "us",
@@ -223,7 +223,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends "LanguageDetection">(
     actionName: ActionName,
     documents: LanguageDetectionInput[],
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   /**
    * Runs a predictive model to determine the language that the passed-in
@@ -275,7 +275,7 @@ export class TextAnalysisClient {
     actionName: ActionName,
     documents: string[],
     countryHint?: string,
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   /**
    * Runs a predictive model to perform the action of choice on the input
@@ -360,7 +360,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
     actionName: ActionName,
     documents: TextDocumentInput[],
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
 
   /**
@@ -453,7 +453,7 @@ export class TextAnalysisClient {
     actionName: ActionName,
     documents: string[],
     languageCode?: string,
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>>;
   // implementation
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
@@ -462,7 +462,7 @@ export class TextAnalysisClient {
     languageOrCountryHintOrOptions?:
       | string
       | (AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions),
-    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
+    options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions,
   ): Promise<AnalyzeResult<ActionName>> {
     let realOptions: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions;
 
@@ -477,14 +477,14 @@ export class TextAnalysisClient {
           documents,
           typeof languageOrCountryHintOrOptions === "string"
             ? languageOrCountryHintOrOptions
-            : this.defaultCountryHint
+            : this.defaultCountryHint,
         );
       } else {
         realInputs = convertToTextDocumentInput(
           documents,
           typeof languageOrCountryHintOrOptions === "string"
             ? languageOrCountryHintOrOptions
-            : this.defaultLanguage
+            : this.defaultLanguage,
         );
       }
       realOptions = options || ({} as any);
@@ -509,17 +509,17 @@ export class TextAnalysisClient {
                 },
                 parameters: action,
               } as any,
-              updatedOptions
+              updatedOptions,
             )
             .then(
               (result) =>
                 transformActionResult(
                   actionName,
                   realInputs.map(({ id }) => id),
-                  result
-                ) as AnalyzeResult<ActionName>
-            )
-        )
+                  result,
+                ) as AnalyzeResult<ActionName>,
+            ),
+        ),
     );
   }
 
@@ -586,7 +586,7 @@ export class TextAnalysisClient {
     actions: AnalyzeBatchAction[],
     documents: string[],
     languageCode?: string,
-    options?: BeginAnalyzeBatchOptions
+    options?: BeginAnalyzeBatchOptions,
   ): Promise<AnalyzeBatchPoller>;
   /**
    * Performs an array (batch) of actions on the input documents. Each action has
@@ -641,14 +641,14 @@ export class TextAnalysisClient {
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[],
-    options?: BeginAnalyzeBatchOptions
+    options?: BeginAnalyzeBatchOptions,
   ): Promise<AnalyzeBatchPoller>;
   // implementation
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: TextDocumentInput[] | string[],
     languageOrOptions?: BeginAnalyzeBatchOptions | string,
-    options: BeginAnalyzeBatchOptions = {}
+    options: BeginAnalyzeBatchOptions = {},
   ): Promise<AnalyzeBatchPoller> {
     let realOptions: BeginAnalyzeBatchOptions;
     let realInputs: TextDocumentInput[];
@@ -670,7 +670,7 @@ export class TextAnalysisClient {
         kind,
         actionName,
         parameters: rest,
-      })
+      }),
     );
     const { includeStatistics, updateIntervalInMs, displayName, ...rest } = realOptions;
     const lro = createAnalyzeBatchLro({
@@ -735,12 +735,12 @@ export class TextAnalysisClient {
    */
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options?: RestoreAnalyzeBatchPollerOptions
+    options?: RestoreAnalyzeBatchPollerOptions,
   ): Promise<AnalyzeBatchPoller>;
   // implementation
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options: RestoreAnalyzeBatchPollerOptions = {}
+    options: RestoreAnalyzeBatchPollerOptions = {},
   ): Promise<AnalyzeBatchPoller> {
     const { includeStatistics, updateIntervalInMs, ...rest } = options;
     const docIds = getDocIDsFromState(serializedState);

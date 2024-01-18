@@ -36,7 +36,7 @@ async function deleteExpressRouteCircuit() {
       resourceGroupName,
       circuitName,
       peeringName,
-      connectionName
+      connectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

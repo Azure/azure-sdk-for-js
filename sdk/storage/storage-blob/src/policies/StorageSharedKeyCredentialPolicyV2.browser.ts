@@ -24,7 +24,7 @@ export interface StorageSharedKeyCredentialPolicyOptions {
  * storageSharedKeyCredentialPolicy handles signing requests using storage account keys.
  */
 export function storageSharedKeyCredentialPolicy(
-  _options: StorageSharedKeyCredentialPolicyOptions
+  _options: StorageSharedKeyCredentialPolicyOptions,
 ): PipelinePolicy {
   return {
     name: storageSharedKeyCredentialPolicyName,

@@ -32,7 +32,7 @@ async function virtualNetworkGatewayNatRuleList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/natRules",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

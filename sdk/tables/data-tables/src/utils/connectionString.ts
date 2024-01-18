@@ -21,7 +21,7 @@ const DevelopmentConnectionString =
  */
 export function getClientParamsFromConnectionString(
   connectionString: string,
-  options: TableServiceClientOptions = {}
+  options: TableServiceClientOptions = {},
 ): ClientParamsFromConnectionString {
   if (connectionString.toLowerCase().indexOf("usedevelopmentstorage=true") !== -1) {
     connectionString = DevelopmentConnectionString;
@@ -37,7 +37,7 @@ export function getClientParamsFromConnectionString(
     };
   } else {
     throw new Error(
-      "Connection string must be either an Account connection string or a SAS connection string"
+      "Connection string must be either an Account connection string or a SAS connection string",
     );
   }
 }
@@ -61,7 +61,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       getValueInConnString(connectionString, "AccountKey"),
       getValueInConnString(connectionString, "DefaultEndpointsProtocol"),
       getValueInConnString(connectionString, "EndpointSuffix"),
-      tableEndpoint
+      tableEndpoint,
     );
   } else {
     return getSASConnectionString(connectionString, tableEndpoint);
@@ -101,7 +101,7 @@ function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ): string {
   const searchKey = argument.toLowerCase();
   const elements = connectionString.split(";").filter((e) => Boolean(e));

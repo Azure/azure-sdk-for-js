@@ -30,7 +30,7 @@ async function getAnApplicationType() {
       subscriptionId,
       resourceGroupName,
       clusterName,
-      applicationTypeName
+      applicationTypeName,
     )
     .get();
   console.log(result);

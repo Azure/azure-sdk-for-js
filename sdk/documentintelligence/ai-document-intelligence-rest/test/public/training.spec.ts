@@ -28,7 +28,7 @@ describe("model management", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -110,7 +110,7 @@ describe("model management", () => {
         // When training with labels, we will have expectations for the names
         assert.ok(
           submodel.fieldSchema["Signature"],
-          "Expecting field with name 'Signature' to be valid"
+          "Expecting field with name 'Signature' to be valid",
         );
       });
 
@@ -203,7 +203,7 @@ describe("model management", () => {
       it("delete models from the account", async () => {
         // Delete all of the models
         await Promise.all(
-          allModels.map((modelId) => client.path("/documentModels/{modelId}", modelId).delete())
+          allModels.map((modelId) => client.path("/documentModels/{modelId}", modelId).delete()),
         );
 
         await Promise.all(
@@ -215,12 +215,12 @@ describe("model management", () => {
               }
               console.log(`Model ${res.body.modelId} was not deleted!`);
               throw new Error(
-                `The service returned model info for ${modelId}, but we thought we had deleted it!`
+                `The service returned model info for ${modelId}, but we thought we had deleted it!`,
               );
             } catch (e: unknown) {
               assert.isTrue((e as Error).message.endsWith(" not found."));
             }
-          })
+          }),
         );
       });
     });
@@ -293,7 +293,7 @@ describe("model management", () => {
           },
         ],
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 

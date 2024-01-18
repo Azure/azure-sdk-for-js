@@ -16,7 +16,7 @@ captureConsoleOutputToAppInsights();
 async function sendMessagesForever(
   stressTest: ServiceBusStressTester,
   clientForSender: ServiceBusClient,
-  abortSignal: AbortSignalLike
+  abortSignal: AbortSignalLike,
 ) {
   console.log(`Started message sending`);
 
@@ -49,7 +49,7 @@ async function sendMessagesForever(
       }
     },
     1000,
-    abortSignal
+    abortSignal,
   );
 }
 
@@ -85,7 +85,7 @@ async function main() {
       {
         autoCompleteMessages: false,
         maxConcurrentCalls: 10,
-      }
+      },
     );
 
     const clientForSender = createServiceBusClient();

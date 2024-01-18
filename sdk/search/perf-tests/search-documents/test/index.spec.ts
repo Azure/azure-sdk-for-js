@@ -14,7 +14,7 @@ const perfProgram = createPerfProgram(
   AutoCompleteTest,
   IndexDocumentsTest,
   SearchDocumentsTest,
-  SuggestTest
+  SuggestTest,
 );
 
 perfProgram.run();

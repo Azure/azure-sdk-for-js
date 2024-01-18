@@ -32,7 +32,7 @@ async function updateNetworkSecurityGroupTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}",
       subscriptionId,
       resourceGroupName,
-      networkSecurityGroupName
+      networkSecurityGroupName,
     )
     .patch(options);
   console.log(result);

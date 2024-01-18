@@ -36,7 +36,7 @@ async function getVpnDeviceConfigurationScript() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/vpndeviceconfigurationscript",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .post(options);
   console.log(result);

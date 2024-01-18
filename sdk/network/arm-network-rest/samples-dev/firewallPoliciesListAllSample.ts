@@ -28,7 +28,7 @@ async function listAllFirewallPoliciesForAGivenSubscription() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/firewallPolicies",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -27,7 +27,7 @@ async function getAvailableWafRuleSets() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

@@ -34,7 +34,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

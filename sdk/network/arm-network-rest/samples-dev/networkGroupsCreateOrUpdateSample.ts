@@ -35,7 +35,7 @@ async function networkGroupsPut() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .put(options);
   console.log(result);

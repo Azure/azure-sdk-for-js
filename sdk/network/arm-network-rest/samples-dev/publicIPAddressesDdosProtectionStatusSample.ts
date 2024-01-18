@@ -32,7 +32,7 @@ async function getDdosProtectionStatusOfAPublicIPAddress() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

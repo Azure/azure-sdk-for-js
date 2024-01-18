@@ -65,7 +65,7 @@ describe("BlobClient Node.js only", () => {
           ],
         },
       },
-      ["playback", "record"]
+      ["playback", "record"],
     );
     blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -221,7 +221,7 @@ describe("BlobClient Node.js only", () => {
 
     assert.deepStrictEqual(
       result3.segment.blobItems![0].properties,
-      result3.segment.blobItems![1].properties
+      result3.segment.blobItems![1].properties,
     );
     assert.ok(result3.segment.blobItems![0].snapshot || result3.segment.blobItems![1].snapshot);
   });
@@ -251,7 +251,7 @@ describe("BlobClient Node.js only", () => {
         containerName,
         blobName,
       },
-      credential
+      credential,
     );
 
     const copyURL = blobClient.url + "?" + sas;
@@ -288,7 +288,7 @@ describe("BlobClient Node.js only", () => {
         containerName,
         blobName,
       },
-      credential
+      credential,
     );
 
     const copyURL = blobClient.url + "?" + sas;
@@ -340,7 +340,7 @@ describe("BlobClient Node.js only", () => {
 
   it("syncCopyFromURL", async function () {
     const newBlobClient = containerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
 
     // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
@@ -356,7 +356,7 @@ describe("BlobClient Node.js only", () => {
         containerName,
         blobName,
       },
-      credential
+      credential,
     );
 
     const copyURL = blobClient.url + "?" + sas;
@@ -371,7 +371,7 @@ describe("BlobClient Node.js only", () => {
 
   it("syncCopyFromURL - with COPY tags", async () => {
     const newBlobClient = containerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     await blobClient.setTags({
       tag1: "val1",
@@ -390,7 +390,7 @@ describe("BlobClient Node.js only", () => {
         containerName,
         blobName,
       },
-      credential
+      credential,
     );
 
     const copyURL = blobClient.url + "?" + sas;
@@ -409,7 +409,7 @@ describe("BlobClient Node.js only", () => {
 
   it("syncCopyFromURL - with REPLACE tags", async () => {
     const newBlobClient = containerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     await blobClient.setTags({
       tag1: "val1",
@@ -428,7 +428,7 @@ describe("BlobClient Node.js only", () => {
         containerName,
         blobName,
       },
-      credential
+      credential,
     );
 
     const copyURL = blobClient.url + "?" + sas;
@@ -450,7 +450,7 @@ describe("BlobClient Node.js only", () => {
 
   it("abortCopyFromClient should failed for a completed copy operation", async function () {
     const newBlobClient = containerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
     assert.ok(result.copyId);
@@ -459,7 +459,7 @@ describe("BlobClient Node.js only", () => {
     try {
       await newBlobClient.beginCopyFromURL(result.copyId!);
       assert.fail(
-        "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
+        "AbortCopyFromClient should be failed and throw exception for an completed copy operation.",
       );
     } catch (err: any) {
       assert.ok(err.code === "InvalidHeaderValue");
@@ -564,7 +564,7 @@ describe("BlobClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     const metadata = {
       a: "a",
@@ -708,7 +708,7 @@ describe("BlobClient Node.js only", () => {
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
       1024 * 1024,
-      Buffer.from(csvContentUnit)
+      Buffer.from(csvContentUnit),
     );
     await blockBlobClient.uploadFile(tempFileLarge);
 
@@ -716,7 +716,7 @@ describe("BlobClient Node.js only", () => {
 
     const downloadedFile = join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
 
@@ -737,7 +737,7 @@ describe("BlobClient Node.js only", () => {
     const tempFileLarge = await createRandomLocalFile(
       tempFolderPath,
       1024 * 256 * 2,
-      Buffer.from(csvContentUnit)
+      Buffer.from(csvContentUnit),
     );
     await blockBlobClient.uploadFile(tempFileLarge);
 
@@ -752,7 +752,7 @@ describe("BlobClient Node.js only", () => {
 
     const downloadedFile = join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
 
     try {
@@ -806,8 +806,8 @@ describe("BlobClient Node.js only", () => {
         assert.deepStrictEqual(err.position, 0);
         assert.ok(
           err.description.startsWith(
-            "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
-          )
+            "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['.",
+          ),
         );
         return;
       },
@@ -898,7 +898,7 @@ describe("BlobClient Node.js only", () => {
     });
     assert.equal(
       (await streamToBuffer3(response.readableStreamBody!)).toString("hex"),
-      "ffffffff800000001000000000000a000c000600050008000a000000000104000c000000080008000000040008000000040000000100000014000000100014000800060007000c0000001000100000000000010710000000200000000400000000000000040000006e616d650000000008000c000400080008000000040000000200000000000000ffffffff700000001000000000000a000e000600050008000a000000000304001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+      "ffffffff800000001000000000000a000c000600050008000a000000000104000c000000080008000000040008000000040000000100000014000000100014000800060007000c0000001000100000000000010710000000200000000400000000000000040000006e616d650000000008000c000400080008000000040000000200000000000000ffffffff700000001000000000000a000e000600050008000a000000000304001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000",
     );
   });
 
@@ -968,7 +968,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     await recorder.start(recorderEnvSetup);
     await recorder.addSanitizers(
       { removeHeaderSanitizer: { headersForRemoval: ["x-ms-copy-source"] } },
-      ["playback"]
+      ["playback"],
     );
     blobServiceClient = getBSU(recorder);
     containerClient = blobServiceClient.getContainerClient(containerName);
@@ -989,7 +989,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
 
       for (let i = 0; i < listResult.segment.blobItems!.length; ++i) {
         const deleteBlobClient = containerClient.getBlobClient(
-          listResult.segment.blobItems[i].name
+          listResult.segment.blobItems[i].name,
         );
         await deleteBlobClient.setLegalHold(false);
         await deleteBlobClient.deleteImmutabilityPolicy();
@@ -1027,7 +1027,7 @@ describe("BlobClient Node.js Only - ImmutabilityPolicy", () => {
     assert.ok(properties.immutabilityPolicyExpiresOn);
     assert.equal(
       properties.immutabilityPolicyMode,
-      "unlocked" as BlobImmutabilityPolicyMode | undefined
+      "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
   });
 

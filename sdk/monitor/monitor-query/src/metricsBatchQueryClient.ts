@@ -43,7 +43,7 @@ export class MetricsBatchQueryClient {
   constructor(
     batchEndPoint: string,
     tokenCredential: TokenCredential,
-    options?: MetricsBatchQueryClientOptions
+    options?: MetricsBatchQueryClientOptions,
   ) {
     let scope;
     if (options?.batchMetricsAuthScope) {
@@ -73,7 +73,7 @@ export class MetricsBatchQueryClient {
     this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
       this._baseUrl,
       MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
-      serviceClientOptions
+      serviceClientOptions,
     );
   }
 
@@ -84,7 +84,7 @@ export class MetricsBatchQueryClient {
     resourceIds: string[],
     metricNamespace: string,
     metricNames: string[],
-    options: MetricsBatchOptionalParams = {}
+    options: MetricsBatchOptionalParams = {},
   ): Promise<MetricResultsResponseValuesItem[]> {
     if (resourceIds.length === 0) {
       throw new Error("Resource IDs can not be empty");
@@ -103,11 +103,11 @@ export class MetricsBatchQueryClient {
           {
             resourceids: resourceIds,
           },
-          convertRequestForMetricsBatchQuery(updatedOptions)
+          convertRequestForMetricsBatchQuery(updatedOptions),
         );
 
         return convertResponseForMetricBatch(response);
-      }
+      },
     );
   }
 }

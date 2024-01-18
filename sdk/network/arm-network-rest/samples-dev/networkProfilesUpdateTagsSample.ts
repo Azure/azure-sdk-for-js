@@ -32,7 +32,7 @@ async function updateNetworkProfileTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}",
       subscriptionId,
       resourceGroupName,
-      networkProfileName
+      networkProfileName,
     )
     .patch(options);
   console.log(result);

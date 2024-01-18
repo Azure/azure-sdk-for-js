@@ -34,7 +34,7 @@ async function virtualNetworkGatewayNatRuleDelete() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName
+      natRuleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

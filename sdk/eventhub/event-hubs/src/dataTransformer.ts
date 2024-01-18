@@ -80,7 +80,7 @@ export const defaultDataTransformer = {
    */
   decode(
     body: unknown | RheaAmqpSection,
-    skipParsingBodyAsJson: boolean
+    skipParsingBodyAsJson: boolean,
   ): { body: unknown; bodyType: BodyTypes } {
     try {
       if (isRheaAmqpSection(body)) {
@@ -105,7 +105,7 @@ export const defaultDataTransformer = {
     } catch (err: any) {
       logger.verbose(
         "[decode] An error occurred while decoding the received message body. The error is: %O",
-        err
+        err,
       );
       throw err;
     }
@@ -131,7 +131,7 @@ function tryToJsonDecode(body: unknown): unknown {
   } catch (err: any) {
     logger.verbose(
       "[decode] An error occurred while trying JSON.parse() on the received body. The error is %O",
-      err
+      err,
     );
   }
   return processedBody;
@@ -152,7 +152,7 @@ export interface RheaAmqpSection {
 
 /** @internal */
 export function isRheaAmqpSection(
-  possibleSection: any | RheaAmqpSection
+  possibleSection: any | RheaAmqpSection,
 ): possibleSection is RheaAmqpSection {
   return (
     possibleSection != null &&

@@ -35,7 +35,7 @@ export interface AttestationResponse<T> {
  */
 export function createAttestationResponse<T>(
   token: AttestationToken,
-  value: T
+  value: T,
 ): AttestationResponse<T> {
   return { token: token, body: value };
 }

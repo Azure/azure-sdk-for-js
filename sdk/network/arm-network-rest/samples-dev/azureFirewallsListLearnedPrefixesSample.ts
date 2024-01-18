@@ -32,7 +32,7 @@ async function azureFirewallListLearnedPrefixes() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}/learnedIPPrefixes",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

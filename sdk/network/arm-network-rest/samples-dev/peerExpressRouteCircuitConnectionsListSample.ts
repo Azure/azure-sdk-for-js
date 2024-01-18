@@ -34,7 +34,7 @@ async function listPeerExpressRouteCircuitConnection() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      peeringName
+      peeringName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
