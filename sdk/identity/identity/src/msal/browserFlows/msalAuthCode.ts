@@ -124,9 +124,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async handleRedirect(): Promise<AuthenticationRecord | undefined> {
     const app = await this.getApp();
-    return this.handleBrowserResult(
-      (await app.handleRedirectPromise(redirectHash)) || undefined
-    );
+    return this.handleBrowserResult((await app.handleRedirectPromise(redirectHash)) || undefined);
   }
 
   /**
@@ -154,7 +152,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async getActiveAccount(): Promise<AuthenticationRecord | undefined> {
     const app = await this.getApp();
-    const account =  app.getActiveAccount();
+    const account = app.getActiveAccount();
     if (!account) {
       return;
     }
@@ -228,14 +226,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // This will go out of the page.
         // Once the InteractiveBrowserCredential is initialized again,
         // we'll load the MSAL account in the constructor.
+
         await app.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0 };
       case "popup":
-        return this.handleResult(
-          scopes,
-          this.clientId,
-          await app.acquireTokenPopup(parameters)
-        );
+        return this.handleResult(scopes, this.clientId, await app.acquireTokenPopup(parameters));
     }
   }
 }
