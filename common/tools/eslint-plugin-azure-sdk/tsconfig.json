@@ -16,8 +16,8 @@
     "target": "es2017",
     "types": ["node"],
     "sourceMap": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
   "include": ["src", "tests"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
 }

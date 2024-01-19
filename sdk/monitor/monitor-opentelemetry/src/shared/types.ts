@@ -47,6 +47,8 @@ export interface InstrumentationOptions {
   redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
   redis4?: InstrumentationConfig;
+  /** Bunyan Instrumentation Config */
+  bunyan?: InstrumentationConfig;
 }
 
 /**
@@ -60,13 +62,13 @@ export interface BrowserSdkLoaderOptions {
   /** The full URL for where to load the SDK from */
   src?: string;
   /** Browser SDK Loader Config */
-  config?: IBrowserSdkLoaderConfig;
+  config?: BrowserSdkLoaderConfig;
 }
 
 /**
  * Browser SDK Loader Configuration interface
  */
-export interface IBrowserSdkLoaderConfig {
+export interface BrowserSdkLoaderConfig {
   /** The full URL for where to load the SDK from */
   src: string;
   /** The global name for the initialized SDK */
