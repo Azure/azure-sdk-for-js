@@ -7,8 +7,8 @@ import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
 
 export const commandInfo = makeCommandInfo(
-  "test-vi",
-  "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
+  "test:vitest",
+  "runs tests using vitest with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
     "no-test-proxy": {
       shortName: "ntp",
@@ -17,10 +17,10 @@ export const commandInfo = makeCommandInfo(
       description: "whether to disable launching test-proxy",
     },
     "browser": {
-      shortName: "brwsr",
+      shortName: "br",
       kind: "boolean",
       default: false,
-      description: "whether to run browser tests",
+      description: "whether to use browser to run tests",
     },
   },
 );
