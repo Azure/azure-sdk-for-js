@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import sinon from "sinon";
+import { describe, it, assert, vi } from "vitest";
 import {
   CompositeMapper,
   FullOperationResponse,
@@ -823,8 +822,8 @@ async function getDeserializedResponse(
     bodyAsText: options.bodyAsText,
     status: options.status ?? 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(res);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(res);
 
   const response = await policy.sendRequest(request, next);
   return response;
