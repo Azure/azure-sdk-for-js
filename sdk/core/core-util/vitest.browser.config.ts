@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
+import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 
 export default defineConfig({
+  plugins: [browserMap()],
+  define: {
+    "process.env": process.env,
+  },
   test: {
     reporters: ["basic", "junit"],
     outputFile: {

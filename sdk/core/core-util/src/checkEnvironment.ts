@@ -62,9 +62,9 @@ export const isDeno =
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
 export const isNode =
-  typeof process !== "undefined" &&
-  Boolean(process.version) &&
-  Boolean(process.versions?.node) &&
+  typeof globalThis.process !== "undefined" &&
+  Boolean(globalThis.process.version) &&
+  Boolean(globalThis.process.versions?.node) &&
   // Deno thought it was a good idea to spoof process.versions.node, see https://deno.land/std@0.177.0/node/process.ts?s=versions
   !isDeno;
 
