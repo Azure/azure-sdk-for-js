@@ -154,10 +154,11 @@ describe("LogHandler", () => {
     it("Trace standard metrics synthetic processed", (done) => {
       // Generate Log record
       const logRecord: APILogRecord = {
-        attributes: {},
+        attributes: {
+          // Shows that the record is synthetic
+          [SemanticAttributes.HTTP_USER_AGENT]: "AlwaysOn",
+        },
         body: "testRecord",
-        // Shows that the record is synthetic
-        [SemanticAttributes.HTTP_USER_AGENT]: "AlwaysOn",
       };
       logs.getLogger("testLogger").emit(logRecord);
       (logs.getLoggerProvider() as LoggerProvider)

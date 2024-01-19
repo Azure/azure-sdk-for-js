@@ -21,6 +21,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.requestResultCode = statusCode;
   dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
+  dimensions.operationSynthetic = isSyntheticLoad(span);
   return dimensions as Attributes;
 }
 
@@ -32,6 +33,7 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
   dimensions.dependencyResultCode = statusCode;
   dimensions.dependencyType = "http";
   dimensions.dependencySuccess = statusCode === "200" ? "True" : "False";
+  dimensions.operationSynthetic = isSyntheticLoad(span);
   return dimensions as Attributes;
 }
 

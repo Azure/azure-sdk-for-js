@@ -204,13 +204,9 @@ describe("#StandardMetricsHandler", () => {
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
-    console.log("BIG TEST: ", metrics[0].dataPoints[0].attributes);
-    console.log("BIG TEST EVENT: ", metrics[0].dataPoints[0]);
     assert.strictEqual(metrics.length, 1, "metrics count");
     assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
-
-    assert.strictEqual(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
-    // assert.strictEqual(metrics[1].dataPoints[0].attributes["operation/synthetic"], "False");
+    assert.equal(metrics[0].dataPoints[0].attributes["operationSynthetic"], "True");
   });
 
   it("should set service name based on service namespace if provided", async () => {
