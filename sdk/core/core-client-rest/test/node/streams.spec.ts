@@ -4,7 +4,16 @@
 import { describe, it, assert, afterEach, vi } from "vitest";
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
-import https from "node:https";
+
+vi.mock("https", async () => {
+  const actual = await vi.importActual("https");
+  return {
+    ...actual,
+    request: vi.fn(),
+  };
+});
+
+import * as https from "https";
 
 const mockBaseUrl = "https://example.org";
 
@@ -14,10 +23,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response as a stream", async () => {
-    vi.mock("https");
-    https.request = vi.fn().mockImplementation((_url, cb) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb(response);
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -35,10 +44,10 @@ describe("[Node] Streams", () => {
   });
 
   it("should get a JSON body response", async () => {
-    vi.mock("https");
-    https.request = vi.fn().mockImplementation((_url, cb) => {
+    vi.mocked(https.request).mockImplementation((_url, cb) => {
       const response = createResponse(200, JSON.stringify({ foo: "foo" }));
-      cb(response);
+      const callback = cb as (res: IncomingMessage) => void;
+      callback(response);
       return createRequest();
     });
 
@@ -54,9 +63,8 @@ describe("[Node] Streams", () => {
   });
 
   it("should be able to handle errors on normal response", async () => {
-    vi.mock("https");
-    https.request = vi.fn().mockImplementation(() => {
-      new Error("ExpectedException");
+    vi.mocked(https.request).mockImplementation(() => {
+      throw new Error("ExpectedException");
     });
 
     const { getClient } = await import("../../src/getClient.js");
@@ -70,9 +78,8 @@ describe("[Node] Streams", () => {
   });
 
   it("should be able to handle errors on streamed response", async () => {
-    vi.mock("https");
-    https.request = vi.fn().mockImplementation(() => {
-      new Error("ExpectedException");
+    vi.mocked(https.request).mockImplementation(() => {
+      throw new Error("ExpectedException");
     });
 
     const { getClient } = await import("../../src/getClient.js");
