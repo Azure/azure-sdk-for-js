@@ -22,7 +22,9 @@ describe("TypeSpecRuntimeLogger (browser)", function () {
     const debugStub = vi.spyOn(console, "debug");
     testLogger.verbose("verbose");
     expect(debugStub).toHaveBeenCalledOnce();
-    expect(debugStub).toHaveBeenCalledWith(expectedTestMessage("typeSpecRuntime:test:verbose", "verbose"));
+    expect(debugStub).toHaveBeenCalledWith(
+      expectedTestMessage("typeSpecRuntime:test:verbose", "verbose"),
+    );
     debugStub.mockClear();
 
     const infoStub = vi.spyOn(console, "info");
@@ -34,13 +36,17 @@ describe("TypeSpecRuntimeLogger (browser)", function () {
     const warningStub = vi.spyOn(console, "warn");
     testLogger.warning("warning");
     expect(warningStub).toHaveBeenCalledOnce();
-    expect(warningStub).toHaveBeenCalledWith(expectedTestMessage("typeSpecRuntime:test:warning", "warning"));
+    expect(warningStub).toHaveBeenCalledWith(
+      expectedTestMessage("typeSpecRuntime:test:warning", "warning"),
+    );
     warningStub.mockClear();
 
     const errorStub = vi.spyOn(console, "error");
     testLogger.error("error");
     expect(errorStub).toHaveBeenCalledOnce();
-    expect(errorStub).toHaveBeenCalledWith(expectedTestMessage("typeSpecRuntime:test:error", "error"));
+    expect(errorStub).toHaveBeenCalledWith(
+      expectedTestMessage("typeSpecRuntime:test:error", "error"),
+    );
     errorStub.mockClear();
   });
 });

@@ -95,7 +95,7 @@ export function buildBaseUrl(baseUrl: string, options: RequestParameters): strin
 function buildRoutePath(
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}
+  options: RequestParameters = {},
 ): string {
   for (const pathParam of pathParameters) {
     let value = pathParam;

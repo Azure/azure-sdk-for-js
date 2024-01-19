@@ -17,5 +17,12 @@ export { isError, getErrorMessage } from "./error.js";
 export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
 export { randomUUID } from "./uuidUtils.js";
-export { isBrowser, isBun, isNode, isDeno, isReactNative, isWebWorker } from "./checkEnvironment.js";
+export {
+  isBrowser,
+  isBun,
+  isNode,
+  isDeno,
+  isReactNative,
+  isWebWorker,
+} from "./checkEnvironment.js";
 export { uint8ArrayToString, stringToUint8Array, type EncodingType } from "./bytesEncoding.js";

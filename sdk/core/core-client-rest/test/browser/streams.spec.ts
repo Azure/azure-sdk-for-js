@@ -85,7 +85,7 @@ describe("[Browser] Streams", () => {
 
     const fetchMock = vi.mocked(fetch);
     fetchMock.mockRejectedValue(new Error("ExpectedException"));
-    
+
     try {
       await client.pathUnchecked("/foo").get().asNodeStream();
     } catch (e: any) {

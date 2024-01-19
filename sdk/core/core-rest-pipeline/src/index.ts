@@ -82,7 +82,10 @@ export {
   tracingPolicyName,
   type TracingPolicyOptions,
 } from "./policies/tracingPolicy.js";
-export { defaultRetryPolicy, type DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy.js";
+export {
+  defaultRetryPolicy,
+  type DefaultRetryPolicyOptions,
+} from "./policies/defaultRetryPolicy.js";
 export {
   userAgentPolicy,
   userAgentPolicyName,

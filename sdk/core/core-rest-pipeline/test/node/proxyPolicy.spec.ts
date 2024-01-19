@@ -8,7 +8,11 @@ import {
   getDefaultProxySettings,
   proxyPolicy,
 } from "../../src/index.js";
-import { getProxyAgentOptions, globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
+import {
+  getProxyAgentOptions,
+  globalNoProxyList,
+  loadNoProxy,
+} from "../../src/policies/proxyPolicy.js";
 import { describe, it, assert, vi, afterEach } from "vitest";
 
 describe("proxyPolicy (node)", function () {

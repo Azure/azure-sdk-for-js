@@ -220,7 +220,7 @@ describe("ConnectionContextBase", () => {
     assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.equal(
       context.connection.options.webSocketOptions!.url,
-      "wss://hostname.servicebus.windows.net:443/"
+      "wss://hostname.servicebus.windows.net:443/",
     );
     assert.instanceOf(context.cbsSession, CbsClient);
   });
@@ -255,7 +255,7 @@ describe("ConnectionContextBase", () => {
     assert.equal(context.connection.options.properties!.version, "1.0.0");
     assert.equal(
       context.connection.options.webSocketOptions!.url,
-      "wss://hostname.servicebus.windows.net:1111/"
+      "wss://hostname.servicebus.windows.net:1111/",
     );
     assert.instanceOf(context.cbsSession, CbsClient);
 

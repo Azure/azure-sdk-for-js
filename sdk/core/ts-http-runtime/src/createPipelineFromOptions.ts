@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {type  LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
+import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
 import type { PipelineRetryOptions, TlsSettings } from "./interfaces.js";
 import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";

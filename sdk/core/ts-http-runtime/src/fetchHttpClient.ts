@@ -102,7 +102,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
-  abortControllerCleanup?: () => void
+  abortControllerCleanup?: () => void,
 ): Promise<PipelineResponse> {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {

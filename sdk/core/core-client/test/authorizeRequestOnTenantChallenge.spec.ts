@@ -3,7 +3,11 @@
 
 import { describe, it, assert, expect, vi, beforeEach, type Mock } from "vitest";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { PipelineResponse, bearerTokenAuthenticationPolicy, createHttpHeaders } from "@azure/core-rest-pipeline";
+import {
+  PipelineResponse,
+  bearerTokenAuthenticationPolicy,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge } from "../src/index.js";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
@@ -13,7 +17,8 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
     Promise<AccessToken | null>
   >;
   beforeEach(() => {
-    getTokenStub = vi.fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
+    getTokenStub = vi
+      .fn<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
       .mockResolvedValue({ expiresOnTimestamp: 1, token: "originalToken" });
   });
 

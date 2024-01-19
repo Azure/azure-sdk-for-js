@@ -13,9 +13,12 @@ describe("SasTokenProvider", function (): void {
       const tokenProvider = createSasTokenProvider(new AzureNamedKeyCredential(keyName, key));
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("myaudience");
-      assert.match(tokenInfo.token, /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g);
+      assert.match(
+        tokenInfo.token,
+        /SharedAccessSignature sr=myaudience&sig=(.*)&se=\d{10}&skn=myKeyName/g,
+      );
       // account for elapsed time between two Date.now() calls
-      assert.isTrue((tokenInfo.expiresOnTimestamp - expiry < 2));
+      assert.isTrue(tokenInfo.expiresOnTimestamp - expiry < 2);
     });
 
     it("should work as expected with `shareAccessKeyName` and `sharedAccessKey`", async function (): Promise<void> {
@@ -26,9 +29,12 @@ describe("SasTokenProvider", function (): void {
       });
       const expiry = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = await tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
-      assert.match(tokenInfo.token, /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g);
+      assert.match(
+        tokenInfo.token,
+        /SharedAccessSignature sr=sb%3A%2F%2Fhostname.servicebus.windows.net%2F&sig=(.*)&se=\d{10}&skn=sakName/g,
+      );
       // account for elapsed time between two Date.now() calls
-      assert.isTrue((tokenInfo.expiresOnTimestamp - expiry < 2));
+      assert.isTrue(tokenInfo.expiresOnTimestamp - expiry < 2);
     });
   });
 

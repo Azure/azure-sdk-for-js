@@ -197,7 +197,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
       } catch (err) {
         assert.isDefined(err);
         assert.instanceOf(err, MessagingError);
-        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(
+          (err as MessagingError).message,
+          "I would always like to fail, keep retrying.",
+        );
         assert.equal(counter, 5);
       }
     });
@@ -229,7 +232,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
       } catch (err) {
         assert.isDefined(err);
         assert.instanceOf(err, MessagingError);
-        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(
+          (err as MessagingError).message,
+          "I would always like to fail, keep retrying.",
+        );
         assert.equal(counter, 1);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
@@ -264,7 +270,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
       } catch (err) {
         assert.isDefined(err);
         assert.instanceOf(err, MessagingError);
-        assert.equal((err as MessagingError).message, "I would always like to fail, keep retrying.");
+        assert.equal(
+          (err as MessagingError).message,
+          "I would always like to fail, keep retrying.",
+        );
         assert.equal(counter, 2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();

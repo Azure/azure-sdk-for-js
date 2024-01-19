@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AmqpAnnotatedMessage, AmqpMessageHeader, AmqpMessageProperties, Constants } from "../src/index.js";
+import {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
+  Constants,
+} from "../src/index.js";
 import {
   MessageHeader as RheaMessageHeader,
   MessageProperties as RheaMessageProperties,
