@@ -21,7 +21,7 @@ import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 export {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-  IBrowserSdkLoaderConfig,
+  BrowserSdkLoaderConfig,
   BrowserSdkLoaderOptions,
 } from "./shared/types";
 
