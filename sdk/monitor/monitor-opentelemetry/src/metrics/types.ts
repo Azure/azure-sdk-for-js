@@ -53,7 +53,9 @@ export type MetricDimensionTypeKeys =
   | "dependencySuccess"
   | "dependencyResultCode"
   | "traceSeverityLevel"
-  | "operationSynthetic";
+  | "operationSynthetic"
+  | "metricId"
+  | "IsAutocollected";
 
 export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: string } = {
   cloudRoleInstance: "cloud/roleInstance",
@@ -66,4 +68,6 @@ export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: st
   dependencySuccess: "Dependency.Success",
   dependencyResultCode: "dependency/resultCode",
   traceSeverityLevel: "trace/severityLevel",
+  metricId: "_MS.MetricId",
+  IsAutocollected: "_MS.IsAutocollected",
 };
