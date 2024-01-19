@@ -28,7 +28,10 @@ export interface ClientRequestIdHeaderOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): AzureCommunicationMessagesServiceClient;
+function createClient(connectionString: string, options: ClientOptions): AzureCommunicationMessagesServiceClient;
+
+// @public
+function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationMessagesServiceClient;
 export default createClient;
 
 // @public (undocumented)
