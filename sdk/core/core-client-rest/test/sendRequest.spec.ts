@@ -95,14 +95,8 @@ describe("sendRequest", () => {
 
         assert.instanceOf(files[0], Blob);
         assert.instanceOf(files[1], Blob);
-        assert.sameOrderedMembers(
-          [...new Uint8Array(await files[0].arrayBuffer())],
-          [...foo],
-        );
-        assert.sameOrderedMembers(
-          [...new Uint8Array(await files[1].arrayBuffer())],
-          [...foo],
-        );
+        assert.sameOrderedMembers([...new Uint8Array(await files[0].arrayBuffer())], [...foo]);
+        assert.sameOrderedMembers([...new Uint8Array(await files[1].arrayBuffer())], [...foo]);
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
