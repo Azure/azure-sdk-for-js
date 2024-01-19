@@ -62,7 +62,7 @@ export interface ThreadMessagesOperations {
   ) => Promise<MessageFile>;
 }
 
-export function getThreadMessages(context: AssistantsContext) {
+export function getThreadMessages(context: AssistantsContext): ThreadMessagesOperations {
   return {
     createMessage: (
       threadId: string,

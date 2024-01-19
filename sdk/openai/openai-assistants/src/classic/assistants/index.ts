@@ -82,7 +82,7 @@ export interface AssistantsOperations {
   ) => Promise<AssistantFileDeletionStatus>;
 }
 
-export function getAssistants(context: AssistantsContext) {
+export function getAssistants(context: AssistantsContext): AssistantsOperations {
   return {
     createAssistant: (body: AssistantCreationOptions, options?: AssistantsCreateAssistantOptions) =>
       createAssistant(context, body, options),

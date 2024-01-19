@@ -46,7 +46,7 @@ export interface FilesOperations {
   ) => Promise<Uint8Array>;
 }
 
-export function getFiles(context: AssistantsContext) {
+export function getFiles(context: AssistantsContext): FilesOperations {
   return {
     listFiles: (options?: FilesListFilesOptions) => listFiles(context, options),
     uploadFile: (file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions) =>

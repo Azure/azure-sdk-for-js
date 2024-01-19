@@ -72,7 +72,7 @@ export interface ThreadRunsOperations {
   ) => Promise<ThreadRun>;
 }
 
-export function getThreadRuns(context: AssistantsContext) {
+export function getThreadRuns(context: AssistantsContext): ThreadRunsOperations {
   return {
     createRun: (threadId: string, assistantId: string, options?: ThreadRunsCreateRunOptions) =>
       createRun(context, threadId, assistantId, options),

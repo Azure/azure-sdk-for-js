@@ -286,7 +286,7 @@ describe("OpenAIAssistants", () => {
         it("create and run function scenario for assistant", async function () {
           const favoriteCityFunctionName = "getUserFavoriteCity";
           const favoriteCityFunctionDescription = "Gets the user's favorite city.";
-          const getFavoriteCity = () => "Atlanta, GA";
+          const getFavoriteCity = (): string => "Atlanta, GA";
           const getUserFavoriteCityTool = {
             type: "function",
             function: {
@@ -299,7 +299,7 @@ describe("OpenAIAssistants", () => {
             },
           };
 
-          const getCityNickname = (city: string) => {
+          const getCityNickname = (city: string): string => {
             switch (city) {
               case "Atlanta, GA":
                 return "The ATL";

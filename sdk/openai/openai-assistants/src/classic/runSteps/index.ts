@@ -31,7 +31,7 @@ export interface RunStepsOperations {
   ) => Promise<ListResponseOf<RunStep>>;
 }
 
-export function getRunSteps(context: AssistantsContext) {
+export function getRunSteps(context: AssistantsContext): RunStepsOperations {
   return {
     retrieveRunStep: (
       threadId: string,
