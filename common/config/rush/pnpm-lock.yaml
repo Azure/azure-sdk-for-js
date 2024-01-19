@@ -13327,7 +13327,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-paB2UTa/ym/LyKRvgueRVSEwKly+RiTM68GLSsEmrlPUFlfTA3OpTjdm7V6HYjYZ9EXB9aHJRAmKAcIAyki58w==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-ibAv6bzBUoVh3FTubLWT3FhDWrDXSDrdwneHt4fiVL0ZPVEmv5mjGEbU0c6QCJdFodZ7NAvAAxGuhv4KAjbxGw==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -13335,10 +13335,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
