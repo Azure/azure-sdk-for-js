@@ -43,8 +43,17 @@ export enum PerformanceCounterMetricNames {
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
 }
 
-export type MetricDimensionTypeKeys = "cloudRoleInstance" | "cloudRoleName" | "requestSuccess" | "requestResultCode"
-| "dependencyType" | "dependencyTarget" | "dependencySuccess" | "dependencyResultCode" | "traceSeverityLevel" | "operationSynthetic";
+export type MetricDimensionTypeKeys =
+  | "cloudRoleInstance"
+  | "cloudRoleName"
+  | "requestSuccess"
+  | "requestResultCode"
+  | "dependencyType"
+  | "dependencyTarget"
+  | "dependencySuccess"
+  | "dependencyResultCode"
+  | "traceSeverityLevel"
+  | "operationSynthetic";
 
 export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: string } = {
   cloudRoleInstance: "cloud/roleInstance",
@@ -56,5 +65,5 @@ export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: st
   dependencyTarget: "dependency/target",
   dependencySuccess: "Dependency.Success",
   dependencyResultCode: "dependency/resultCode",
-  traceSeverityLevel: "trace/severityLevel"
+  traceSeverityLevel: "trace/severityLevel",
 };

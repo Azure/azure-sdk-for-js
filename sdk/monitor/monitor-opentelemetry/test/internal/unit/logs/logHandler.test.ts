@@ -170,10 +170,7 @@ describe("LogHandler", () => {
             result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
             "(Name:'Traces', Ver:'1.1')",
           );
-          assert.strictEqual(
-            result[0][0][0].attributes["operation/synthetic"],
-            "True",
-          );
+          assert.strictEqual(result[0][0][0].attributes["operation/synthetic"], "True");
           done();
         })
         .catch((error: Error) => {
