@@ -17,7 +17,6 @@ PackageVersions:
   "@azure/logger": source
   "@azure/monitor-opentelemetry-exporter": source
   "@azure/opentelemetry-instrumentation-azure-sdk": source
-  "@opentelemetry/sdk-metrics": 1.19.0
 
 
 Tests:
