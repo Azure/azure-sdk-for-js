@@ -11,7 +11,7 @@
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/stream.js": "./dist-esm/src/util/stream.browser.js",
+    "./dist-esm/src/util/concat.js": "./dist-esm/src/util/concat.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {

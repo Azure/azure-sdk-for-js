@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { toWebStream } from "./stream";
-
 /**
  * Options passed into createFile specifying metadata about the file.
  */
@@ -78,7 +76,7 @@ export function createFileFromStream(
     webkitRelativePath: options.webkitRelativePath ?? "",
     size: options.size ?? -1,
     name,
-    stream: () => toWebStream(stream()),
+    stream: stream as any as () => ReadableStream<Uint8Array>,
   };
 }
 
@@ -98,14 +96,18 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  return {
-    ...unimplementedMethods,
-    type: options.type ?? "",
-    lastModified: options.lastModified ?? new Date().getTime(),
-    webkitRelativePath: options.webkitRelativePath ?? "",
-    size: content.byteLength,
-    name,
-    arrayBuffer: async () => content.buffer,
-    stream: () => new Blob([content]).stream(),
-  };
+  if (typeof File === "undefined") {
+    return {
+      ...unimplementedMethods,
+      type: options.type ?? "",
+      lastModified: options.lastModified ?? new Date().getTime(),
+      webkitRelativePath: options.webkitRelativePath ?? "",
+      size: content.byteLength,
+      name,
+      arrayBuffer: async () => content.buffer,
+      stream: () => new Blob([content]).stream(),
+    };
+  } else {
+    return new File([content], name, options);
+  }
 }
