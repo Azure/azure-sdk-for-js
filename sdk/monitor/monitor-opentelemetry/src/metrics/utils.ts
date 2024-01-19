@@ -118,3 +118,7 @@ export function isTraceTelemetry(logRecord: LogRecord) {
   }
   return false;
 }
+export function isSyntheticLoad(record: LogRecord | ReadableSpan): string {
+  const userAgent = String(record.attributes[SemanticAttributes.HTTP_USER_AGENT]);
+  return (userAgent !== null && userAgent.includes("AlwaysOn")) ? "True" : "False";
+}

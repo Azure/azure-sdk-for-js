@@ -180,6 +180,39 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual(metrics[3].dataPoints[0].attributes["cloudRoleName"], "testcloudRoleName");
   });
 
+  it("should mark as synthetic if UserAgent is 'AlwaysOn'", async () => {
+    let resource = new Resource({});
+    let serverSpan: any = {
+      kind: SpanKind.SERVER,
+      duration: [654321],
+      attributes: {
+        "http.status_code": 200,
+        [SemanticAttributes.HTTP_USER_AGENT]: "AlwaysOn",
+      },
+      resource: resource,
+    };
+    autoCollect.recordSpan(serverSpan);
+
+    for (let i = 0; i < 10; i++) {
+      serverSpan.duration[0] = i * 100000;
+      autoCollect.recordSpan(serverSpan);
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    assert.ok(exportStub.called);
+    const resourceMetrics = exportStub.args[0][0];
+    const scopeMetrics = resourceMetrics.scopeMetrics;
+    assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
+    const metrics = scopeMetrics[0].metrics;
+    console.log("BIG TEST: ", metrics[0].dataPoints[0].attributes);
+    console.log("BIG TEST EVENT: ", metrics[0].dataPoints[0]);
+    assert.strictEqual(metrics.length, 1, "metrics count");
+    assert.strictEqual(metrics[0].descriptor.name, "azureMonitor.http.requestDuration");
+
+    assert.strictEqual(metrics[0].dataPoints[0].attributes["operation/synthetic"], "True");
+    // assert.strictEqual(metrics[1].dataPoints[0].attributes["operation/synthetic"], "False");
+  });
+
   it("should set service name based on service namespace if provided", async () => {
     let resource = new Resource({});
     resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE] = "testcloudRoleName";

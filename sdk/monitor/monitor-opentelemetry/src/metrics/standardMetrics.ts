@@ -18,6 +18,7 @@ import {
   getRequestDimensions,
   getTraceDimensions,
   isExceptionTelemetry,
+  isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils";
 
@@ -144,6 +145,7 @@ export class StandardMetrics {
    * @internal
    */
   public recordLog(logRecord: LogRecord): void {
+    logRecord.setAttribute("operation/synthetic", isSyntheticLoad(logRecord));
     if (isExceptionTelemetry(logRecord)) {
       logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
       this._exceptionsCounter.add(1, getExceptionDimensions(logRecord.resource));
