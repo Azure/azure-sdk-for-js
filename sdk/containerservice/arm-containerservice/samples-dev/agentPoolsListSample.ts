@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a list of agent pools in the specified managed cluster.
  *
  * @summary Gets a list of agent pools in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/AgentPoolsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/AgentPoolsList.json
  */
 async function listAgentPoolsByManagedCluster() {
   const subscriptionId =
