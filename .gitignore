@@ -52,6 +52,10 @@ jspm_packages/
 # Output of 'npm pack'
 *.tgz
 
+# sshkey
+**/sshkey
+**/sshkey.pub
+
 # Yarn Integrity file
 .yarn-integrity
 
@@ -186,3 +190,5 @@ sdk/template/template-dpg/src/src
 
 # tshy
 .tshy-build-tmp
+sdk/identity/sshkey
+sdk/identity/sshkey.pub

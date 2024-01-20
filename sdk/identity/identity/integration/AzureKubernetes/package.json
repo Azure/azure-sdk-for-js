@@ -1,0 +1,22 @@
+{
+    "name": "azure-kubernetes-test",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "tsc",
+        "start": "ts-node src/index.ts",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "@azure/identity": "^4.0.0",
+      "@azure/storage-blob": "^12.17.0",
+      "tslib": "^1.10.0",
+      "ts-node": "10.9.2"
+    },
+    "devDependencies": {
+      "typescript": "^5.3.3"
+    }
+  }

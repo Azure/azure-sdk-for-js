@@ -1,0 +1,1 @@
+export {authenticateStorage} from "./functions/authenticateToStorageFunction";
