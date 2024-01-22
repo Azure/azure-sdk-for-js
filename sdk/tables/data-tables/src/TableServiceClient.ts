@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "@azure/core-paging";
-
 import {
   GetPropertiesResponse,
   GetStatisticsResponse,
@@ -158,7 +156,7 @@ export class TableServiceClient {
       | SASCredential
       | TokenCredential
       | TableServiceClientOptions,
-    options?: TableServiceClientOptions
+    options?: TableServiceClientOptions,
   ) {
     this.url = url;
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
@@ -208,7 +206,7 @@ export class TableServiceClient {
    */
   public async getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     return tracingClient.withSpan("TableServiceClient.getStatistics", options, (updatedOptions) =>
-      this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions))
+      this.service.getStatistics(injectSecondaryEndpointHeader(updatedOptions)),
     );
   }
 
@@ -219,7 +217,7 @@ export class TableServiceClient {
    */
   public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.getProperties", options, (updatedOptions) =>
-      this.service.getProperties(updatedOptions)
+      this.service.getProperties(updatedOptions),
     );
   }
 
@@ -231,10 +229,10 @@ export class TableServiceClient {
    */
   public setProperties(
     properties: ServiceProperties,
-    options: SetPropertiesOptions = {}
+    options: SetPropertiesOptions = {},
   ): Promise<SetPropertiesResponse> {
     return tracingClient.withSpan("TableServiceClient.setProperties", options, (updatedOptions) =>
-      this.service.setProperties(properties, updatedOptions)
+      this.service.setProperties(properties, updatedOptions),
     );
   }
 
@@ -253,7 +251,7 @@ export class TableServiceClient {
         } catch (e: any) {
           handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: name });
         }
-      }
+      },
     );
   }
 
@@ -276,7 +274,7 @@ export class TableServiceClient {
             throw e;
           }
         }
-      }
+      },
     );
   }
 
@@ -286,7 +284,7 @@ export class TableServiceClient {
    */
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ListTableItemsOptions
+    options?: ListTableItemsOptions,
   ): PagedAsyncIterableIterator<TableItem, TableItemResultPage> {
     const iter = this.listTablesAll(options);
 
@@ -313,7 +311,7 @@ export class TableServiceClient {
   }
 
   private async *listTablesAll(
-    options?: InternalListTablesOptions
+    options?: InternalListTablesOptions,
   ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { continuationToken } = firstPage;
@@ -330,12 +328,12 @@ export class TableServiceClient {
   }
 
   private async *listTablesPage(
-    options: InternalListTablesOptions = {}
+    options: InternalListTablesOptions = {},
   ): AsyncIterableIterator<TableItemResultPage> {
     let result = await tracingClient.withSpan(
       "TableServiceClient.listTablesPage",
       options,
-      (updatedOptions) => this._listTables(updatedOptions)
+      (updatedOptions) => this._listTables(updatedOptions),
     );
 
     yield result;
@@ -351,7 +349,7 @@ export class TableServiceClient {
         async (updatedOptions, span) => {
           span.setAttribute("continuationToken", updatedOptions.continuationToken);
           return this._listTables(updatedOptions);
-        }
+        },
       );
       yield result;
     }
@@ -382,7 +380,7 @@ export class TableServiceClient {
   public static fromConnectionString(
     connectionString: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: TableServiceClientOptions
+    options?: TableServiceClientOptions,
   ): TableServiceClient {
     const {
       url,

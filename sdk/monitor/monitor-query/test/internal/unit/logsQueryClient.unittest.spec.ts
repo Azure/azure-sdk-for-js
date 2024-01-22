@@ -15,7 +15,7 @@ describe("LogsQueryClient unit tests", () => {
   const tokenCredential: TokenCredential = {
     async getToken(
       scopes: string | string[],
-      _options?: GetTokenOptions
+      _options?: GetTokenOptions,
     ): Promise<AccessToken | null> {
       if (Array.isArray(scopes)) {
         scopesPassed.push(...scopes);
@@ -56,7 +56,7 @@ describe("LogsQueryClient unit tests", () => {
             "workspaceId",
             "query",
             { duration: Durations.fiveMinutes },
-            options
+            options,
           ),
           client.queryBatch(
             [
@@ -66,13 +66,13 @@ describe("LogsQueryClient unit tests", () => {
                 timespan: { duration: "P1D" },
               },
             ],
-            options
+            options,
           ),
         ];
         // We don't care about errors, only that we created (and closed) the appropriate spans.
         await Promise.all(promises.map((p) => p.catch(() => undefined)));
       },
-      ["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]
+      ["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"],
     );
   });
 });

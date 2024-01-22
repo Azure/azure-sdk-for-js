@@ -35,7 +35,7 @@ export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeExtractKeyPhrasesResult(
-  result: DocumentKeyPhrases
+  result: DocumentKeyPhrases,
 ): ExtractKeyPhrasesSuccessResult {
   const { id, warnings, statistics, keyPhrases } = result;
   return {
@@ -49,7 +49,7 @@ export function makeExtractKeyPhrasesResult(
  */
 export function makeExtractKeyPhrasesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): ExtractKeyPhrasesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }

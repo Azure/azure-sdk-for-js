@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
  *
  * @summary (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
  */
 async function privateEndpointConnectionProxyValidate() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function privateEndpointConnectionProxyValidate() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionProxyId,
-    privateEndpointConnectionProxy
+    privateEndpointConnectionProxy,
   );
   console.log(result);
 }

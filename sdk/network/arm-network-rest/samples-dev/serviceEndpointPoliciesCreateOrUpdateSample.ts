@@ -33,7 +33,7 @@ async function createServiceEndpointPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -81,7 +81,7 @@ async function createServiceEndpointPolicyWithDefinition() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

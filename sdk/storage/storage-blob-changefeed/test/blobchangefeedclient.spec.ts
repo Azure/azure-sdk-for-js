@@ -177,7 +177,7 @@ describe("BlobChangeFeedClient", async () => {
         const pageIter = changeFeedClient.listChanges(options);
         await pageIter.next();
       },
-      ["ChangeFeedFactory-create", "ChangeFeed-getChange"]
+      ["ChangeFeedFactory-create", "ChangeFeed-getChange"],
     );
   });
 });
@@ -245,16 +245,16 @@ describe("Change feed event schema test", async () => {
     assert.equal(1, changeFeedEvent.schemaVersion);
     assert.equal(
       "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
-      changeFeedEvent.topic
+      changeFeedEvent.topic,
     );
     assert.equal(
       "/blobServices/default/containers/apitestcontainerver/blobs/20220217_125928329_Blob_oaG6iu7ImEB1cX8M",
-      changeFeedEvent.subject
+      changeFeedEvent.subject,
     );
     assert.equal("BlobCreated", changeFeedEvent.eventType);
     assert.equal(
       new Date("2022-02-17T12:59:41.4003102Z").valueOf(),
-      changeFeedEvent.eventTime.valueOf()
+      changeFeedEvent.eventTime.valueOf(),
     );
     assert.equal("322343e3-8020-0000-00fe-233467066726", changeFeedEvent.id);
     assert.equal("PutBlob", changeFeedEvent.data.api);
@@ -267,7 +267,7 @@ describe("Change feed event schema test", async () => {
     assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
     assert.equal(
       "00000000000000010000000000000002000000000000001d",
-      changeFeedEvent.data.sequencer
+      changeFeedEvent.data.sequencer,
     );
   });
 
@@ -280,16 +280,16 @@ describe("Change feed event schema test", async () => {
     assert.equal(3, changeFeedEvent.schemaVersion);
     assert.equal(
       "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
-      changeFeedEvent.topic
+      changeFeedEvent.topic,
     );
     assert.equal(
       "/blobServices/default/containers/apitestcontainerver/blobs/20220217_130510699_Blob_oaG6iu7ImEB1cX8M",
-      changeFeedEvent.subject
+      changeFeedEvent.subject,
     );
     assert.equal("BlobCreated", changeFeedEvent.eventType);
     assert.equal(
       new Date("2022-02-17T13:05:19.6798242Z").valueOf(),
-      changeFeedEvent.eventTime.valueOf()
+      changeFeedEvent.eventTime.valueOf(),
     );
     assert.equal("eefe8fc8-8020-0000-00fe-23346706daaa", changeFeedEvent.id);
     assert.equal("PutBlob", changeFeedEvent.data.api);
@@ -302,12 +302,12 @@ describe("Change feed event schema test", async () => {
     assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
     assert.equal(
       "00000000000000010000000000000002000000000000001d",
-      changeFeedEvent.data.sequencer
+      changeFeedEvent.data.sequencer,
     );
 
     assert.equal(
       "2022-02-17T13:08:42.4825913Z",
-      changeFeedEvent.data.previousInfo?.softDeleteSnapshot
+      changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
     );
     assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
     assert.equal("2024-02-17T16:11:52.0781797Z", changeFeedEvent.data.previousInfo?.newBlobVersion);
@@ -318,65 +318,65 @@ describe("Change feed event schema test", async () => {
 
     assert.equal(
       "ContentLanguage",
-      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName,
     );
     assert.equal("pl-Pl", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].newValue);
     assert.equal("nl-NL", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].oldValue);
 
     assert.equal(
       "CacheControl",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName,
     );
     assert.equal(
       "max-age=100",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue,
     );
     assert.equal(
       "max-age=99",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue,
     );
 
     assert.equal(
       "ContentEncoding",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName,
     );
     assert.equal(
       "gzip, identity",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
     );
     assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
 
     assert.equal(
       "ContentMD5",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName,
     );
     assert.equal(
       "Q2h1Y2sgSW51ZwDIAXR5IQ==",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue,
     );
     assert.equal("Q2h1Y2sgSW=", changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].oldValue);
 
     assert.equal(
       "ContentDisposition",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName,
     );
     assert.equal(
       "attachment",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
     );
     assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
 
     assert.equal(
       "ContentType",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName,
     );
     assert.equal(
       "application/json",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue,
     );
     assert.equal(
       "application/octet-stream",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue,
     );
   });
 
@@ -389,16 +389,16 @@ describe("Change feed event schema test", async () => {
     assert.equal(4, changeFeedEvent.schemaVersion);
     assert.equal(
       "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
-      changeFeedEvent.topic
+      changeFeedEvent.topic,
     );
     assert.equal(
       "/blobServices/default/containers/apitestcontainerver/blobs/20220217_130833395_Blob_oaG6iu7ImEB1cX8M",
-      changeFeedEvent.subject
+      changeFeedEvent.subject,
     );
     assert.equal("BlobCreated", changeFeedEvent.eventType);
     assert.equal(
       new Date("2022-02-17T13:08:42.4835902Z").valueOf(),
-      changeFeedEvent.eventTime.valueOf()
+      changeFeedEvent.eventTime.valueOf(),
     );
     assert.equal("ca76bce1-8020-0000-00ff-23346706e769", changeFeedEvent.id);
     assert.equal("PutBlob", changeFeedEvent.data.api);
@@ -414,12 +414,12 @@ describe("Change feed event schema test", async () => {
     assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
     assert.equal(
       "00000000000000010000000000000002000000000000001d",
-      changeFeedEvent.data.sequencer
+      changeFeedEvent.data.sequencer,
     );
 
     assert.equal(
       "2022-02-17T13:08:42.4825913Z",
-      changeFeedEvent.data.previousInfo?.softDeleteSnapshot
+      changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
     );
     assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
     assert.equal("2024-02-17T16:11:52.0781797Z", changeFeedEvent.data.previousInfo?.newBlobVersion);
@@ -430,65 +430,65 @@ describe("Change feed event schema test", async () => {
 
     assert.equal(
       "ContentLanguage",
-      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName,
     );
     assert.equal("pl-Pl", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].newValue);
     assert.equal("nl-NL", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].oldValue);
 
     assert.equal(
       "CacheControl",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName,
     );
     assert.equal(
       "max-age=100",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue,
     );
     assert.equal(
       "max-age=99",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue,
     );
 
     assert.equal(
       "ContentEncoding",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName,
     );
     assert.equal(
       "gzip, identity",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
     );
     assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
 
     assert.equal(
       "ContentMD5",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName,
     );
     assert.equal(
       "Q2h1Y2sgSW51ZwDIAXR5IQ==",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue,
     );
     assert.equal("Q2h1Y2sgSW=", changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].oldValue);
 
     assert.equal(
       "ContentDisposition",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName,
     );
     assert.equal(
       "attachment",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
     );
     assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
 
     assert.equal(
       "ContentType",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName,
     );
     assert.equal(
       "application/json",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue,
     );
     assert.equal(
       "application/octet-stream",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue,
     );
 
     assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);
@@ -504,16 +504,16 @@ describe("Change feed event schema test", async () => {
     assert.equal(5, changeFeedEvent.schemaVersion);
     assert.equal(
       "/subscriptions/dd40261b-437d-43d0-86cf-ef222b78fd15/resourceGroups/haambaga/providers/Microsoft.Storage/storageAccounts/HAAMBAGA-DEV",
-      changeFeedEvent.topic
+      changeFeedEvent.topic,
     );
     assert.equal(
       "/blobServices/default/containers/apitestcontainerver/blobs/20220217_131202494_Blob_oaG6iu7ImEB1cX8M",
-      changeFeedEvent.subject
+      changeFeedEvent.subject,
     );
     assert.equal("BlobCreated", changeFeedEvent.eventType);
     assert.equal(
       new Date("2022-02-17T13:12:11.5746587Z").valueOf(),
-      changeFeedEvent.eventTime.valueOf()
+      changeFeedEvent.eventTime.valueOf(),
     );
     assert.equal("62616073-8020-0000-00ff-233467060cc0", changeFeedEvent.id);
     assert.equal("PutBlob", changeFeedEvent.data.api);
@@ -529,12 +529,12 @@ describe("Change feed event schema test", async () => {
     assert.equal("https://www.myurl.com", changeFeedEvent.data.url);
     assert.equal(
       "00000000000000010000000000000002000000000000001d",
-      changeFeedEvent.data.sequencer
+      changeFeedEvent.data.sequencer,
     );
 
     assert.equal(
       "2022-02-17T13:12:11.5726507Z",
-      changeFeedEvent.data.previousInfo?.softDeleteSnapshot
+      changeFeedEvent.data.previousInfo?.softDeleteSnapshot,
     );
     assert.ok(changeFeedEvent.data.previousInfo?.isBlobSoftDeleted === true);
     assert.equal("2024-02-17T16:11:52.0781797Z", changeFeedEvent.data.previousInfo?.newBlobVersion);
@@ -545,65 +545,65 @@ describe("Change feed event schema test", async () => {
 
     assert.equal(
       "ContentLanguage",
-      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].propertyName,
     );
     assert.equal("pl-Pl", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].newValue);
     assert.equal("nl-NL", changeFeedEvent.data.updatedBlobProperties!["ContentLanguage"].oldValue);
 
     assert.equal(
       "CacheControl",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].propertyName,
     );
     assert.equal(
       "max-age=100",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].newValue,
     );
     assert.equal(
       "max-age=99",
-      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["CacheControl"].oldValue,
     );
 
     assert.equal(
       "ContentEncoding",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].propertyName,
     );
     assert.equal(
       "gzip, identity",
-      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].newValue,
     );
     assert.equal("gzip", changeFeedEvent.data.updatedBlobProperties!["ContentEncoding"].oldValue);
 
     assert.equal(
       "ContentMD5",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].propertyName,
     );
     assert.equal(
       "Q2h1Y2sgSW51ZwDIAXR5IQ==",
-      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].newValue,
     );
     assert.equal("Q2h1Y2sgSW=", changeFeedEvent.data.updatedBlobProperties!["ContentMD5"].oldValue);
 
     assert.equal(
       "ContentDisposition",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].propertyName,
     );
     assert.equal(
       "attachment",
-      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].newValue,
     );
     assert.equal("", changeFeedEvent.data.updatedBlobProperties!["ContentDisposition"].oldValue);
 
     assert.equal(
       "ContentType",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].propertyName,
     );
     assert.equal(
       "application/json",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].newValue,
     );
     assert.equal(
       "application/octet-stream",
-      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue
+      changeFeedEvent.data.updatedBlobProperties!["ContentType"].oldValue,
     );
 
     assert.equal("Hot", changeFeedEvent.data.longRunningOperationInfo?.destinationAccessTier);

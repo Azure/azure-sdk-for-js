@@ -34,7 +34,7 @@ async function vpnSiteLinkConnectionList() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName
+      connectionName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

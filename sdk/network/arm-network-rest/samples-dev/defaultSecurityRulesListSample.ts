@@ -32,7 +32,7 @@ async function defaultSecurityRuleList() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules",
       subscriptionId,
       resourceGroupName,
-      networkSecurityGroupName
+      networkSecurityGroupName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

@@ -29,5 +29,5 @@ export abstract class Credential implements RequestPolicyFactory {
  */
 export type CredentialPolicyCreator = (
   nextPolicy: RequestPolicy,
-  options: RequestPolicyOptions
+  options: RequestPolicyOptions,
 ) => CredentialPolicy;

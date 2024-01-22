@@ -24,7 +24,10 @@ export class Permissions {
    * @hidden
    * @param user - The parent {@link User}.
    */
-  constructor(public readonly user: User, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly user: User,
+    private readonly clientContext: ClientContext,
+  ) {}
 
   /**
    * Query all permissions.
@@ -73,7 +76,7 @@ export class Permissions {
    */
   public async create(
     body: PermissionDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<PermissionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const err = {};
@@ -98,7 +101,7 @@ export class Permissions {
         response.headers,
         response.code,
         ref,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -111,7 +114,7 @@ export class Permissions {
    */
   public async upsert(
     body: PermissionDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<PermissionResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const err = {};
@@ -136,7 +139,7 @@ export class Permissions {
         response.headers,
         response.code,
         ref,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

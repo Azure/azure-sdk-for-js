@@ -34,7 +34,7 @@ async function updateAUserConfiguration() {
     resourceGroupName,
     serverName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -32,7 +32,7 @@ async function updateSecurityPartnerProviderTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       subscriptionId,
       resourceGroupName,
-      securityPartnerProviderName
+      securityPartnerProviderName,
     )
     .patch(options);
   console.log(result);

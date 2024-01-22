@@ -34,7 +34,7 @@ async function firewallRuleCreate() {
     resourceGroupName,
     serverName,
     firewallRuleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

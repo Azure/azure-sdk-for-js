@@ -49,7 +49,7 @@ export function convertIntervalToTimeIntervalObject(timespan: string): QueryTime
  */
 export function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
-  property: PropertyName
+  property: PropertyName,
 ): thing is Extract<Thing, Record<PropertyName, unknown>> {
   return typeof thing === "object" && property in (thing as Record<string, unknown>);
 }

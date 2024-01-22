@@ -19,6 +19,7 @@ export interface AbsoluteMonthlySchedule {
 // @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
@@ -36,6 +37,7 @@ export interface AgentPool extends SubResource {
     maxPods?: number;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -88,6 +90,13 @@ export interface AgentPoolListResult {
 
 // @public
 export type AgentPoolMode = string;
+
+// @public
+export interface AgentPoolNetworkProfile {
+    allowedHostPorts?: PortRange[];
+    applicationSecurityGroups?: string[];
+    nodePublicIPTags?: IPTag[];
+}
 
 // @public
 export interface AgentPools {
@@ -213,6 +222,7 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
 export interface AgentPoolUpgradeSettings {
     drainTimeoutInMinutes?: number;
     maxSurge?: string;
+    nodeSoakDurationInMinutes?: number;
 }
 
 // @public
@@ -222,6 +232,9 @@ export interface AzureKeyVaultKms {
     keyVaultNetworkAccess?: KeyVaultNetworkAccessTypes;
     keyVaultResourceId?: string;
 }
+
+// @public
+export type BackendPoolType = string;
 
 // @public
 export interface CloudError {
@@ -423,6 +436,12 @@ export type GPUInstanceProfile = string;
 export type IpFamily = string;
 
 // @public
+export interface IPTag {
+    ipTagType?: string;
+    tag?: string;
+}
+
+// @public
 export interface IstioCertificateAuthority {
     plugin?: IstioPluginCertificateAuthority;
 }
@@ -479,6 +498,12 @@ export enum KnownAgentPoolMode {
 export enum KnownAgentPoolType {
     AvailabilitySet = "AvailabilitySet",
     VirtualMachineScaleSets = "VirtualMachineScaleSets"
+}
+
+// @public
+export enum KnownBackendPoolType {
+    NodeIP = "NodeIP",
+    NodeIPConfiguration = "NodeIPConfiguration"
 }
 
 // @public
@@ -669,6 +694,12 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
     Deleting = "Deleting",
     Failed = "Failed",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownProtocol {
+    TCP = "TCP",
+    UDP = "UDP"
 }
 
 // @public
@@ -962,6 +993,7 @@ export interface ManagedClusterAgentPoolProfile extends ManagedClusterAgentPoolP
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
     readonly currentOrchestratorVersion?: string;
@@ -979,6 +1011,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     maxPods?: number;
     minCount?: number;
     mode?: AgentPoolMode;
+    networkProfile?: AgentPoolNetworkProfile;
     readonly nodeImageVersion?: string;
     nodeLabels?: {
         [propertyName: string]: string;
@@ -1070,6 +1103,7 @@ export interface ManagedClusterListResult {
 // @public
 export interface ManagedClusterLoadBalancerProfile {
     allocatedOutboundPorts?: number;
+    backendPoolType?: BackendPoolType;
     effectiveOutboundIPs?: ResourceReference[];
     enableMultipleStandardLoadBalancers?: boolean;
     idleTimeoutInMinutes?: number;
@@ -1773,6 +1807,13 @@ export interface OutboundEnvironmentEndpointCollection {
 export type OutboundType = string;
 
 // @public
+export interface PortRange {
+    portEnd?: number;
+    portStart?: number;
+    protocol?: Protocol;
+}
+
+// @public
 export interface PowerState {
     code?: Code;
 }
@@ -1868,6 +1909,9 @@ export interface PrivateLinkServiceConnectionState {
     description?: string;
     status?: ConnectionStatus;
 }
+
+// @public
+export type Protocol = string;
 
 // @public
 export interface ProxyResource extends Resource {

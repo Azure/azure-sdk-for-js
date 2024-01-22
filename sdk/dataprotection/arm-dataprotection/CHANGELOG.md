@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 2.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,61 @@
 
 ### Other Changes
 
+## 2.0.0 (2023-12-05)
+    
+**Features**
+
+  - Added operation group FetchCrossRegionRestoreJob
+  - Added operation group FetchCrossRegionRestoreJobs
+  - Added operation group FetchSecondaryRecoveryPoints
+  - Added operation BackupInstances.beginTriggerCrossRegionRestore
+  - Added operation BackupInstances.beginTriggerCrossRegionRestoreAndWait
+  - Added operation BackupInstances.beginValidateCrossRegionRestore
+  - Added operation BackupInstances.beginValidateCrossRegionRestoreAndWait
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesTriggerCrossRegionRestoreOptionalParams
+  - Added Interface BackupInstancesValidateCrossRegionRestoreHeaders
+  - Added Interface BackupInstancesValidateCrossRegionRestoreOptionalParams
+  - Added Interface CrossRegionRestoreDetails
+  - Added Interface CrossRegionRestoreJobRequest
+  - Added Interface CrossRegionRestoreJobsRequest
+  - Added Interface CrossRegionRestoreRequestObject
+  - Added Interface DefaultResourceProperties
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface FetchCrossRegionRestoreJobGetOptionalParams
+  - Added Interface FetchCrossRegionRestoreJobsListNextOptionalParams
+  - Added Interface FetchCrossRegionRestoreJobsListOptionalParams
+  - Added Interface FetchSecondaryRecoveryPointsListNextOptionalParams
+  - Added Interface FetchSecondaryRecoveryPointsListOptionalParams
+  - Added Interface FetchSecondaryRPsRequestParameters
+  - Added Interface KubernetesClusterVaultTierRestoreCriteria
+  - Added Interface UserFacingWarningDetail
+  - Added Interface ValidateCrossRegionRestoreRequestObject
+  - Added Type Alias BackupInstancesTriggerCrossRegionRestoreResponse
+  - Added Type Alias BackupInstancesValidateCrossRegionRestoreResponse
+  - Added Type Alias BaseResourcePropertiesUnion
+  - Added Type Alias FetchCrossRegionRestoreJobGetResponse
+  - Added Type Alias FetchCrossRegionRestoreJobsListNextResponse
+  - Added Type Alias FetchCrossRegionRestoreJobsListResponse
+  - Added Type Alias FetchSecondaryRecoveryPointsListNextResponse
+  - Added Type Alias FetchSecondaryRecoveryPointsListResponse
+  - Added Type Alias RecoveryPointCompletionState
+  - Added Type Alias ResourcePropertiesObjectType
+  - Interface AzureBackupDiscreteRecoveryPoint has a new optional parameter recoveryPointState
+  - Interface BackupVault has a new optional parameter replicatedRegions
+  - Interface JobExtendedInfo has a new optional parameter warningDetails
+  - Type of parameter objectType of interface ItemLevelRestoreCriteria is changed from "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" to "ItemPathBasedRestoreCriteria" | "RangeBasedItemLevelRestoreCriteria" | "KubernetesStorageClassRestoreCriteria" | "KubernetesPVRestoreCriteria" | "KubernetesClusterRestoreCriteria" | "KubernetesClusterVaultTierRestoreCriteria"
+  - Added Enum KnownRecoveryPointCompletionState
+  - Added Enum KnownResourcePropertiesObjectType
+
+**Breaking Changes**
+
+  - Type of parameter objectType of interface BaseResourceProperties is changed from "BaseResourceProperties" to "DefaultResourceProperties"
+  - Type of parameter resourceProperties of interface Datasource is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+  - Type of parameter resourceProperties of interface DatasourceSet is changed from BaseResourceProperties to BaseResourcePropertiesUnion
+    
+    
 ## 1.2.0 (2023-07-10)
     
 **Features**

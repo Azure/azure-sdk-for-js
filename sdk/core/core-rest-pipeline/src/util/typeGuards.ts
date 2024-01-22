@@ -9,7 +9,7 @@ export function isWebReadableStream(x: unknown): x is ReadableStream {
   return Boolean(
     x &&
       typeof (x as ReadableStream).getReader === "function" &&
-      typeof (x as ReadableStream).tee === "function"
+      typeof (x as ReadableStream).tee === "function",
   );
 }
 

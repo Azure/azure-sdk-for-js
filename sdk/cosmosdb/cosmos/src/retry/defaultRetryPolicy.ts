@@ -137,7 +137,7 @@ export class DefaultRetryPolicy implements RetryPolicy {
    */
   public async shouldRetry(
     err: ErrorResponse,
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<boolean> {
     if (err) {
       if (

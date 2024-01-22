@@ -32,7 +32,7 @@ async function deletePrivateEndpoint() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName}",
       subscriptionId,
       resourceGroupName,
-      privateEndpointName
+      privateEndpointName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

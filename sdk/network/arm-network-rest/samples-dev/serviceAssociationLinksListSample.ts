@@ -33,7 +33,7 @@ async function getServiceAssociationLinks() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      subnetName
+      subnetName,
     )
     .get(options);
   console.log(result);

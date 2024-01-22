@@ -17,12 +17,12 @@ export function getRequestUrl(
   baseUri: string,
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
-  fallbackObject: { [parameterName: string]: any }
+  fallbackObject: { [parameterName: string]: any },
 ): string {
   const urlReplacements = calculateUrlReplacements(
     operationSpec,
     operationArguments,
-    fallbackObject
+    fallbackObject,
   );
 
   let isAbsolutePath = false;
@@ -50,7 +50,7 @@ export function getRequestUrl(
   const { queryParams, sequenceParams } = calculateQueryParameters(
     operationSpec,
     operationArguments,
-    fallbackObject
+    fallbackObject,
   );
   /**
    * Notice that this call sets the `noOverwrite` parameter to true if the `requestUrl`
@@ -74,7 +74,7 @@ function replaceAll(input: string, replacements: Map<string, string>): string {
 function calculateUrlReplacements(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
-  fallbackObject: { [parameterName: string]: any }
+  fallbackObject: { [parameterName: string]: any },
 ): Map<string, string> {
   const result = new Map<string, string>();
   if (operationSpec.urlParameters?.length) {
@@ -82,20 +82,20 @@ function calculateUrlReplacements(
       let urlParameterValue: string = getOperationArgumentValueFromParameter(
         operationArguments,
         urlParameter,
-        fallbackObject
+        fallbackObject,
       );
       const parameterPathString = getPathStringFromParameter(urlParameter);
       urlParameterValue = operationSpec.serializer.serialize(
         urlParameter.mapper,
         urlParameterValue,
-        parameterPathString
+        parameterPathString,
       );
       if (!urlParameter.skipEncoding) {
         urlParameterValue = encodeURIComponent(urlParameterValue);
       }
       result.set(
         `{${urlParameter.mapper.serializedName || parameterPathString}}`,
-        urlParameterValue
+        urlParameterValue,
       );
     }
   }
@@ -142,7 +142,7 @@ function appendPath(url: string, pathToAppend?: string): string {
 function calculateQueryParameters(
   operationSpec: OperationSpec,
   operationArguments: OperationArguments,
-  fallbackObject: { [parameterName: string]: any }
+  fallbackObject: { [parameterName: string]: any },
 ): {
   queryParams: Map<string, string | string[]>;
   sequenceParams: Set<string>;
@@ -158,7 +158,7 @@ function calculateQueryParameters(
       let queryParameterValue: string | string[] = getOperationArgumentValueFromParameter(
         operationArguments,
         queryParameter,
-        fallbackObject
+        fallbackObject,
       );
       if (
         (queryParameterValue !== undefined && queryParameterValue !== null) ||
@@ -167,7 +167,7 @@ function calculateQueryParameters(
         queryParameterValue = operationSpec.serializer.serialize(
           queryParameter.mapper,
           queryParameterValue,
-          getPathStringFromParameter(queryParameter)
+          getPathStringFromParameter(queryParameter),
         );
 
         const delimiter = queryParameter.collectionFormat
@@ -211,7 +211,7 @@ function calculateQueryParameters(
 
         result.set(
           queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-          queryParameterValue
+          queryParameterValue,
         );
       }
     }
@@ -257,7 +257,7 @@ export function appendQueryParams(
   url: string,
   queryParams: Map<string, string | string[]>,
   sequenceParams: Set<string>,
-  noOverwrite: boolean = false
+  noOverwrite: boolean = false,
 ): string {
   if (queryParams.size === 0) {
     return url;

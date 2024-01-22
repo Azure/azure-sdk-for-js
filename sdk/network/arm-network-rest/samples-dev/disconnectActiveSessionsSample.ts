@@ -33,7 +33,7 @@ async function deletesTheSpecifiedActiveSession() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/disconnectActiveSessions",
       subscriptionId,
       resourceGroupName,
-      bastionHostName
+      bastionHostName,
     )
     .post(options);
   const pageData = paginate(client, initialResponse);

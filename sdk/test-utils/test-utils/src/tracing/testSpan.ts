@@ -70,7 +70,7 @@ export class TestSpan implements Span {
     kind: SpanKind,
     parentSpanId?: string,
     startTime: TimeInput = Date.now(),
-    attributes: SpanAttributes = {}
+    attributes: SpanAttributes = {},
   ) {
     this._tracer = parentTracer;
     this.name = name;

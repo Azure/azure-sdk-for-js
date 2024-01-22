@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.11 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,25 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.10 (2024-01-03)
+
+### Bugs Fixed
+
+- Fix `responseFormat` behavior in `getAudioTranscription` and `getAudioTranslation` methods where request wasn't properly formed if it wasn't specified.
+
+## 1.0.0-beta.9 (2024-01-02)
+
+### Breaking Changes
+
+- `listChatCompletions` and `listCompletions` are renamed to `streamChatCompletions` and `streamCompletions` respectively and their return types are updated to be a `ReadableStream`. For example, `streamChatCompletions` can be used as follows:
+
+```js
+  const events = await client.streamChatCompletions(deploymentId, messages);
+  for await (const event of events) {
+    // use event ...
+  }
+```
 
 ## 1.0.0-beta.8 (2023-12-07)
 

@@ -33,7 +33,7 @@ async function getSecurityAdminConfigurations() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .get(options);
   console.log(result);

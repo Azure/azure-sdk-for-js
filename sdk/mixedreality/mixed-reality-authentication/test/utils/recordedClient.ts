@@ -39,7 +39,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
         headersForRemoval: ["X-MRC-CV", "x-mrc-cv"],
       },
     },
-    ["record", "playback"]
+    ["record", "playback"],
   );
   return recorder;
 }

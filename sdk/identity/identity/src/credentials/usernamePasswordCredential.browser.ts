@@ -46,14 +46,14 @@ export class UsernamePasswordCredential implements TokenCredential {
     clientId: string,
     username: string,
     password: string,
-    options?: UsernamePasswordCredentialOptions
+    options?: UsernamePasswordCredentialOptions,
   ) {
     checkTenantId(logger, tenantIdOrName);
 
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantIdOrName;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.clientId = clientId;
     this.username = username;
@@ -72,7 +72,7 @@ export class UsernamePasswordCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken | null> {
     return tracingClient.withSpan(
       "UsernamePasswordCredential.getToken",
@@ -81,7 +81,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
         );
         newOptions.tenantId = tenantId;
 
@@ -109,7 +109,7 @@ export class UsernamePasswordCredential implements TokenCredential {
         const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
         logger.getToken.info(formatSuccess(scopes));
         return (tokenResponse && tokenResponse.accessToken) || null;
-      }
+      },
     );
   }
 }

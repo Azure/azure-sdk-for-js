@@ -120,7 +120,7 @@ describe("RoomsClient", function () {
         await client.createRoom(options);
       } catch (e: any) {
         expect(e.message).to.eq(
-          "The request could not be understood by the server due to malformed syntax."
+          "The request could not be understood by the server due to malformed syntax.",
         );
       }
     });
@@ -137,7 +137,7 @@ describe("RoomsClient", function () {
         await client.createRoom(options);
       } catch (e: any) {
         expect(e.message).to.eq(
-          "The request could not be understood by the server due to malformed syntax."
+          "The request could not be understood by the server due to malformed syntax.",
         );
       }
     });
@@ -261,14 +261,14 @@ describe("RoomsClient", function () {
         validFrom: new Date(
           recorder.variable(
             "validFromUpdated",
-            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
         validUntil: new Date(
           recorder.variable(
             "validUntilUpdated",
-            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
       };
 
@@ -291,7 +291,7 @@ describe("RoomsClient", function () {
 
       const options: UpdateRoomOptions = {
         validFrom: new Date(
-          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString())
+          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString()),
         ),
         validUntil: new Date(recorder.variable("validUntil", over180DaysValidUntil.toString())),
       };
@@ -300,7 +300,7 @@ describe("RoomsClient", function () {
         await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
-          "The request could not be understood by the server due to malformed syntax."
+          "The request could not be understood by the server due to malformed syntax.",
         );
       }
     });
@@ -321,7 +321,7 @@ describe("RoomsClient", function () {
 
       const options: UpdateRoomOptions = {
         validFrom: new Date(
-          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString())
+          recorder.variable("validFrom", new Date(validFrom.getTime() + 5 * 60 * 1000).toString()),
         ),
         validUntil: new Date(recorder.variable("validUntil", expiredValidUntil.toString())),
       };
@@ -330,7 +330,7 @@ describe("RoomsClient", function () {
         await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
-          "The request could not be understood by the server due to malformed syntax."
+          "The request could not be understood by the server due to malformed syntax.",
         );
       }
     });
@@ -355,7 +355,7 @@ describe("RoomsClient", function () {
         await client.updateRoom(roomId, options);
       } catch (e: any) {
         expect(e.message).to.eq(
-          "The request could not be understood by the server due to malformed syntax."
+          "The request could not be understood by the server due to malformed syntax.",
         );
       }
     });
@@ -369,14 +369,14 @@ describe("RoomsClient", function () {
         validFrom: new Date(
           recorder.variable(
             "validFromUpdated",
-            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
         validUntil: new Date(
           recorder.variable(
             "validUntilUpdated",
-            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
       };
 
@@ -413,14 +413,14 @@ describe("RoomsClient", function () {
         validFrom: new Date(
           recorder.variable(
             "validFromUpdated",
-            new Date(validFrom.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validFrom.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
         validUntil: new Date(
           recorder.variable(
             "validUntilUpdated",
-            new Date(validUntil.getTime() + 5 * 60 * 1000).toString()
-          )
+            new Date(validUntil.getTime() + 5 * 60 * 1000).toString(),
+          ),
         ),
         pstnDialOutEnabled: true,
       };
@@ -627,7 +627,7 @@ async function pause(time: number): Promise<void> {
 
 function verifyRoomsAttributes(
   actualRoom: CommunicationRoom,
-  expectedValue: CreateRoomOptions
+  expectedValue: CreateRoomOptions,
 ): void {
   // Assert
   assert.isDefined(actualRoom);
@@ -635,7 +635,7 @@ function verifyRoomsAttributes(
   assert.isDefined(actualRoom.createdOn);
   assert.deepEqual(
     actualRoom.pstnDialOutEnabled,
-    expectedValue.pstnDialOutEnabled != null ? expectedValue.pstnDialOutEnabled : false
+    expectedValue.pstnDialOutEnabled != null ? expectedValue.pstnDialOutEnabled : false,
   );
 
   if (expectedValue.validFrom != null) {
@@ -652,7 +652,7 @@ async function verifyRoomsParticipantsAttributes(
   expectedCount: number,
   expectPresenter: number,
   expectAttendee: number,
-  expectConsumer: number
+  expectConsumer: number,
 ): Promise<void> {
   // Assert
   assert.isDefined(actualRoomParticipant);

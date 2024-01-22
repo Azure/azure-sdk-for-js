@@ -32,7 +32,7 @@ async function virtualMachinesConvertToManagedDisksMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -61,7 +61,7 @@ async function virtualMachinesConvertToManagedDisksMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/convertToManagedDisks",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -32,7 +32,7 @@ async function getVirtualNetworkGatewayAdvertisedRoutes() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/getAdvertisedRoutes",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

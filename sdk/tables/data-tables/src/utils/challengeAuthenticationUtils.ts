@@ -13,7 +13,7 @@ import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 export function setTokenChallengeAuthenticationPolicy(
   pipeline: Pipeline,
   credential: TokenCredential,
-  scopes: string | string[]
+  scopes: string | string[],
 ): void {
   // Make sure no bearerTokenPolicy is set.
   pipeline.removePolicy({ name: "bearerTokenPolicy" });
@@ -25,6 +25,6 @@ export function setTokenChallengeAuthenticationPolicy(
     }),
     {
       phase: "Sign",
-    }
+    },
   );
 }

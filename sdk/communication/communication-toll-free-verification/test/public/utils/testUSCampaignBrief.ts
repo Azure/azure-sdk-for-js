@@ -12,13 +12,13 @@ import {
 import { assert } from "chai";
 import { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { v1 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 export function getTestUSCampaignBrief(): {
   campaignBrief: CampaignBrief;
   campaignBriefSummary: CampaignBriefSummary;
 } {
-  let campaignBriefId = uuid();
+  let campaignBriefId = randomUUID();
 
   if (isPlaybackMode()) {
     campaignBriefId = "00000000-0000-0000-0000-000000000000";
@@ -75,7 +75,7 @@ export function getTestUSCampaignBrief(): {
 export function assertEditableFieldsAreEqual(
   expected: CampaignBrief,
   actual: CampaignBrief,
-  messageContext: string
+  messageContext: string,
 ): void {
   assert.equal(expected.id, actual.id, `Campaign brief Id is incorrect - ${messageContext}`);
 
@@ -92,7 +92,7 @@ export function assertEditableFieldsAreEqual(
 export function assertCampaignBriefSummaryEditableFieldsAreEqual(
   expected: CampaignBriefSummary,
   actual: CampaignBriefSummary,
-  messageContext: string
+  messageContext: string,
 ): void {
   assert.equal(expected.id, actual.id, `Campaign brief Id is incorrect - ${messageContext}`);
 
@@ -112,8 +112,8 @@ function assertDeepEqualKnownFields(
   comparisons: [
     propertyToCompareExtractor: (object: any) => any,
     mapper: CompositeMapper,
-    errorMessage: string
-  ][]
+    errorMessage: string,
+  ][],
 ): void {
   for (const comparison of comparisons) {
     assertDeepEqualKnownFieldsInternal(
@@ -122,7 +122,7 @@ function assertDeepEqualKnownFields(
       comparison[1],
       comparison[0],
       comparison[2],
-      messageContext
+      messageContext,
     );
   }
 }
@@ -133,7 +133,7 @@ function assertDeepEqualKnownFieldsInternal(
   mapper: CompositeMapper,
   propertyToCompareExtractor: (object: any) => any,
   errorMessage: string,
-  messageContext: string
+  messageContext: string,
 ): void {
   const mappedActual = mapKnownFields(propertyToCompareExtractor(actual), mapper);
   const mappedExpected = mapKnownFields(propertyToCompareExtractor(expected), mapper);
@@ -154,7 +154,7 @@ function mapKnownFields<TMapper extends CompositeMapper>(object: any, mapper: TM
 
 export async function doesCampaignBriefExist(
   client: TollFreeVerificationClient,
-  id: string
+  id: string,
 ): Promise<boolean> {
   try {
     const campaignBrief = await client.getCampaignBrief(id, "US");

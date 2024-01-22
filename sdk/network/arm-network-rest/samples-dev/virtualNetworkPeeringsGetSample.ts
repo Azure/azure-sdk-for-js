@@ -33,7 +33,7 @@ async function getPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .get(options);
   console.log(result);
@@ -62,7 +62,7 @@ async function getPeeringWithRemoteVirtualNetworkEncryption() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .get(options);
   console.log(result);

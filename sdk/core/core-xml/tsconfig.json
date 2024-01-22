@@ -4,9 +4,9 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest",
     "paths": {
-      "@azure/core-xml": ["./src/index.js"]
-    }
+      "@azure/core-xml": ["./src/index.js"],
+    },
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"]
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm"],
 }

@@ -28,7 +28,7 @@ describe("CancellableAsyncLock", function () {
           lock.acquire("lock", async () => val, {
             timeoutInMs: undefined,
             abortSignal: undefined,
-          })
+          }),
         );
       }
 
@@ -43,7 +43,7 @@ describe("CancellableAsyncLock", function () {
           async () => {
             throw new Error("I break things!");
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
@@ -66,8 +66,8 @@ describe("CancellableAsyncLock", function () {
               await delay(taskCount - i);
               return i;
             },
-            { timeoutInMs: undefined, abortSignal: undefined }
-          )
+            { timeoutInMs: undefined, abortSignal: undefined },
+          ),
         );
       }
 
@@ -102,7 +102,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -110,7 +110,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "2",
@@ -118,7 +118,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "1",
@@ -126,7 +126,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
       ];
 
@@ -160,7 +160,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -168,7 +168,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -176,7 +176,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { timeoutInMs: 0, abortSignal: undefined }
+          { timeoutInMs: 0, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -184,7 +184,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -192,7 +192,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { timeoutInMs: 0, abortSignal: undefined }
+          { timeoutInMs: 0, abortSignal: undefined },
         ),
       ];
 
@@ -222,7 +222,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -230,7 +230,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -238,7 +238,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
         lock.acquire(
           "lock",
@@ -246,7 +246,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -254,7 +254,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
       ];
 
@@ -307,7 +307,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 0;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -315,7 +315,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 1;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -323,7 +323,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 2;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
         lock.acquire(
           "lock",
@@ -331,7 +331,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 3;
           },
-          { timeoutInMs: undefined, abortSignal: undefined }
+          { timeoutInMs: undefined, abortSignal: undefined },
         ),
         lock.acquire(
           "lock",
@@ -339,7 +339,7 @@ describe("CancellableAsyncLock", function () {
             await delay(0);
             return 4;
           },
-          { abortSignal, timeoutInMs: undefined }
+          { abortSignal, timeoutInMs: undefined },
         ),
       ];
 

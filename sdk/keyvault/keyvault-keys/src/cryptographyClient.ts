@@ -83,7 +83,7 @@ export class CryptographyClient {
   constructor(
     key: string | KeyVaultKey,
     credential: TokenCredential,
-    pipelineOptions?: CryptographyClientOptions
+    pipelineOptions?: CryptographyClientOptions,
   );
   /**
    * Constructs a new instance of the Cryptography client for the given key in local mode.
@@ -108,7 +108,7 @@ export class CryptographyClient {
   constructor(
     key: string | KeyVaultKey | JsonWebKey,
     credential?: TokenCredential,
-    pipelineOptions: CryptographyClientOptions = {}
+    pipelineOptions: CryptographyClientOptions = {},
   ) {
     if (typeof key === "string") {
       // Key URL for remote-local operations.
@@ -168,7 +168,7 @@ export class CryptographyClient {
    */
   public encrypt(
     encryptParameters: EncryptParameters,
-    options?: EncryptOptions
+    options?: EncryptOptions,
   ): Promise<EncryptResult>;
   /**
    * Encrypts the given plaintext with the specified cryptography algorithm
@@ -186,7 +186,7 @@ export class CryptographyClient {
   public encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
-    options?: EncryptOptions
+    options?: EncryptOptions,
   ): Promise<EncryptResult>;
   public encrypt(
     ...args:
@@ -228,7 +228,7 @@ export class CryptographyClient {
         }
       } catch (e: any) {
         throw new Error(
-          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
+          `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`,
         );
       }
     }
@@ -239,7 +239,7 @@ export class CryptographyClient {
    * @param args - The encrypt arguments
    */
   private disambiguateEncryptArguments(
-    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?]
+    args: [EncryptParameters, EncryptOptions?] | [string, Uint8Array, EncryptOptions?],
   ): [EncryptParameters, EncryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", buffer, options]
@@ -273,7 +273,7 @@ export class CryptographyClient {
    */
   public async decrypt(
     decryptParameters: DecryptParameters,
-    options?: DecryptOptions
+    options?: DecryptOptions,
   ): Promise<DecryptResult>;
   /**
    * Decrypts the given ciphertext with the specified cryptography algorithm
@@ -294,7 +294,7 @@ export class CryptographyClient {
   public decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
-    options?: DecryptOptions
+    options?: DecryptOptions,
   ): Promise<DecryptResult>;
   public decrypt(
     ...args:
@@ -322,7 +322,7 @@ export class CryptographyClient {
    * @param args - The decrypt arguments
    */
   private disambiguateDecryptArguments(
-    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?]
+    args: [DecryptParameters, DecryptOptions?] | [string, Uint8Array, DecryptOptions?],
   ): [DecryptParameters, DecryptOptions] {
     if (typeof args[0] === "string") {
       // Sample shape: ["RSA1_5", encryptedBuffer, options]
@@ -354,7 +354,7 @@ export class CryptographyClient {
   public wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
-    options: WrapKeyOptions = {}
+    options: WrapKeyOptions = {},
   ): Promise<WrapResult> {
     return tracingClient.withSpan("CryptographyClient.wrapKey", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.WrapKey);
@@ -385,7 +385,7 @@ export class CryptographyClient {
   public unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options: UnwrapKeyOptions = {}
+    options: UnwrapKeyOptions = {},
   ): Promise<UnwrapResult> {
     return tracingClient.withSpan(
       "CryptographyClient.unwrapKey",
@@ -401,7 +401,7 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
@@ -420,7 +420,7 @@ export class CryptographyClient {
   public sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
-    options: SignOptions = {}
+    options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan("CryptographyClient.sign", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
@@ -453,7 +453,7 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan("CryptographyClient.verify", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
@@ -484,7 +484,7 @@ export class CryptographyClient {
   public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    options: SignOptions = {}
+    options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan(
       "CryptographyClient.signData",
@@ -500,7 +500,7 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
@@ -521,7 +521,7 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(
       "CryptographyClient.verifyData",
@@ -537,7 +537,7 @@ export class CryptographyClient {
           }
           throw err;
         }
-      }
+      },
     );
   }
 
@@ -579,7 +579,7 @@ export class CryptographyClient {
           // If we don't have permission to get the key, we'll fall back to using the remote provider.
           // Marking the key as a remoteOnlyIdentifier will ensure that we don't attempt to fetch the key again.
           logger.verbose(
-            `Permission denied to get key ${this.key.value}. Falling back to remote operation.`
+            `Permission denied to get key ${this.key.value}. Falling back to remote operation.`,
           );
           this.key = { kind: "remoteOnlyIdentifier", value: this.key.value };
         } else {
@@ -606,7 +606,7 @@ export class CryptographyClient {
   private async getProvider<T extends OperationOptions>(
     operation: CryptographyProviderOperation,
     algorithm: string,
-    options: T
+    options: T,
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
       const keyMaterial = await this.getKeyMaterial(options);
@@ -616,7 +616,7 @@ export class CryptographyClient {
       if (keyMaterial) {
         this.providers.push(
           new RsaCryptographyProvider(keyMaterial),
-          new AesCryptographyProvider(keyMaterial)
+          new AesCryptographyProvider(keyMaterial),
         );
       }
 
@@ -633,7 +633,7 @@ export class CryptographyClient {
       throw new Error(
         `Unable to support operation: "${operation}" with algorithm: "${algorithm}" ${
           this.key.kind === "JsonWebKey" ? "using a local JsonWebKey" : ""
-        }`
+        }`,
       );
     }
 

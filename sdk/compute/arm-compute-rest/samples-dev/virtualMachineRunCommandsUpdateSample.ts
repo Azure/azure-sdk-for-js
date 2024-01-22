@@ -37,7 +37,7 @@ async function updateARunCommand() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      runCommandName
+      runCommandName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

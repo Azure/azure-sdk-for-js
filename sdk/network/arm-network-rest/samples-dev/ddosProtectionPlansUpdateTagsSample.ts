@@ -32,7 +32,7 @@ async function dDoSProtectionPlanUpdateTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosProtectionPlans/{ddosProtectionPlanName}",
       subscriptionId,
       resourceGroupName,
-      ddosProtectionPlanName
+      ddosProtectionPlanName,
     )
     .patch(options);
   console.log(result);

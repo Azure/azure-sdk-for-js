@@ -34,7 +34,7 @@ async function dedicatedHostsDeleteMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,7 +65,7 @@ async function dedicatedHostsDeleteMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

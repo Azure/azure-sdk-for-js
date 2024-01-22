@@ -369,7 +369,7 @@ export type HttpResponse = {
  * text surrounded by \{\} will be considered a path parameter
  */
 export type PathParameters<
-  TRoute extends string
+  TRoute extends string,
   // This is trying to match the string in TRoute with a template where HEAD/{PARAM}/TAIL
   // for example in the followint path: /foo/{fooId}/bar/{barId}/baz the template will infer
   // HEAD: /foo
