@@ -14,12 +14,13 @@ import { resolveProject } from "../../util/resolveProject";
 import path from "path";
 import { readFile } from "fs-extra";
 import { readdir } from "fs/promises";
-import AdmZip from "adm-zip";
+import { createReadStream, createWriteStream } from "fs";
+import archiver from "archiver";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {}
+  {},
 );
 
 const log = createPrinter("extract-api");
@@ -28,8 +29,11 @@ function getSuffix(exportPath: string): string {
   return exportPath.replaceAll("/", "\u2215"); // replace with division slash to avoid file system issue
 }
 
-
-function extractApi(extractorConfigObject: IConfigFile, apiExtractorJsonPath: string, packageJsonPath: string): boolean {
+function extractApi(
+  extractorConfigObject: IConfigFile,
+  apiExtractorJsonPath: string,
+  packageJsonPath: string,
+): boolean {
   const config = ExtractorConfig.prepare({
     configObject: extractorConfigObject,
     configObjectFullPath: apiExtractorJsonPath,
@@ -48,12 +52,11 @@ function extractApi(extractorConfigObject: IConfigFile, apiExtractorJsonPath: st
   } else {
     log.error(
       `API Extractor completed with ${extractorResult.errorCount} errors` +
-      ` and ${extractorResult.warningCount} warnings`
+        ` and ${extractorResult.warningCount} warnings`,
     );
     return false;
   }
 }
-
 
 export default leafCommand(commandInfo, async () => {
   const projectInfo = await resolveProject(process.cwd());
@@ -85,15 +88,15 @@ export default leafCommand(commandInfo, async () => {
       const suffix = getSuffix(exprt);
       const newPublicTrimmedPath = extractorConfigObject.dtsRollup.publicTrimmedFilePath.replace(
         ".d.ts",
-        `-${suffix}.d.ts`
+        `-${suffix}.d.ts`,
       );
       const newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath?.replace(
         ".api.json",
-        `-${suffix}.api.json`
+        `-${suffix}.api.json`,
       );
       const newApiReportName = extractorConfigObject.apiReport?.reportFileName?.replace(
         ".api.md",
-        `-${suffix}.api.md`
+        `-${suffix}.api.md`,
       );
       const newDtsRollupOptions: IConfigDtsRollup = {
         ...extractorConfigObject.dtsRollup,
@@ -126,15 +129,25 @@ export default leafCommand(commandInfo, async () => {
 
   // Add api.json files to zip archive
   const unscopedPackageName = projectInfo.name.split("/")[1];
-  const reportTempDir  = path.join(projectInfo.path, "temp");
-  const files = (await readdir(reportTempDir)).filter(f => f.endsWith("api.json"));
-  const zip = new AdmZip();
+  const reportTempDir = path.join(projectInfo.path, "temp");
+  const files = (await readdir(reportTempDir)).filter((f) => f.endsWith("api.json"));
+  const output = createWriteStream(path.join(reportTempDir, `${unscopedPackageName}.zip`));
+  const zip = archiver("zip");
+
+  zip.on("warning", function (err) {
+    throw err;
+  });
+  zip.on("error", function (err) {
+    throw err;
+  });
+
+  zip.pipe(output);
+
   for (const file of files) {
     log.debug(`adding ${file} to zip archive`);
-    zip.addLocalFile(path.join(reportTempDir, file));
+    zip.append(createReadStream(path.join(reportTempDir, file)), { name: file });
   }
-  zip.writeZip(path.join(reportTempDir, `${unscopedPackageName}.zip`));
+  zip.finalize();
 
   return succeed;
 });
-
