@@ -1,0 +1,41 @@
+parameters:
+- name: OperatingSystems
+  displayName: OperatingSystems (list of operating systems to run)
+  type: string
+  default: 'Linux'
+- name: LanguageVersion
+  displayName: LanguageVersion (14, 16, 18)
+  type: string
+  default: '18'
+- name: PackageVersions
+  displayName: PackageVersions (regex of package versions to run)
+  type: string
+  default: '1.1.2|source'
+- name: Tests
+  displayName: Tests (regex of tests to run)
+  type: string
+  default: '^(span-export|log-export|metric-export)$'
+- name: Arguments
+  displayName: Arguments (regex of arguments to run)
+  type: string
+  default: '(15)' 
+- name: Iterations
+  displayName: Iterations (times to run each test)
+  type: number
+  default: '5'
+- name: AdditionalArguments
+  displayName: AdditionalArguments (passed to PerfAutomation)
+  type: string
+  default: ' '
+
+extends:
+  template: /eng/pipelines/templates/jobs/perf.yml
+  parameters:
+    OperatingSystems: ${{ parameters.OperatingSystems }}
+    ServiceDirectory: monitor/monitor-opentelemetry
+    LanguageVersion: ${{ parameters.LanguageVersion }}
+    PackageVersions: ${{ parameters.PackageVersions }}
+    Tests: ${{ parameters.Tests }}
+    Arguments: ${{ parameters.Arguments }}
+    Iterations: ${{ parameters.Iterations }}
+    AdditionalArguments: ${{ parameters.AdditionalArguments }}
