@@ -24,7 +24,7 @@ output-folder: ../src/generated
 source-code-folder-path: .
 clear-output-folder: true
 require: 
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/attestation/data-plane/readme.md
+  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/attestation/data-plane/readme.md
 add-credentials: false
 override-client-name: GeneratedClient
 title: AzureAttestationRestClient

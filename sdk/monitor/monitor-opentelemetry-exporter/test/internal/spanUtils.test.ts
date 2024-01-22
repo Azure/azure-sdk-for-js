@@ -20,6 +20,7 @@ import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 
 const context = getInstance();
 
@@ -235,6 +236,57 @@ describe("spanUtils.ts", () => {
           expectedProperties,
           emptyMeasurements,
           expectedBaseData,
+        );
+      });
+      it("should create a Dependency Envelope for Client Spans WCF defined as the RPC system", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId"
+        );
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
+          [SemanticAttributes.RPC_SYSTEM]: DependencyTypes.Wcf,
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+        };
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RemoteDependencyData> = {
+          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          resultCode: "123",
+          type: "WCF Service",
+          target: "WCF Service",
+          name: `parent span`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData
         );
       });
     });
