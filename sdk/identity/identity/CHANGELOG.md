@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `AzureCliCredential`: Added support for the new response field which represents token expiration timestamp as time zone agnostic value. ([#28333](https://github.com/Azure/azure-sdk-for-js/pull/28333))
+
 ### Breaking Changes
 
 ### Bugs Fixed
