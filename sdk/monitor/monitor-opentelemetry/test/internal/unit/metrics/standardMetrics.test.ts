@@ -145,7 +145,10 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).min, 123456, "dataPoint min");
     assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).max, 123456, "dataPoint max");
     assert.strictEqual((metrics[1].dataPoints[0].value as Histogram).sum, 123456, "dataPoint sum");
-    assert.strictEqual(metrics[1].dataPoints[0].attributes["_MS.MetricId"], "dependencies/duration");
+    assert.strictEqual(
+      metrics[1].dataPoints[0].attributes["_MS.MetricId"],
+      "dependencies/duration",
+    );
     assert.strictEqual(metrics[1].dataPoints[0].attributes["dependency/target"], "testPeerService");
     assert.strictEqual(metrics[1].dataPoints[0].attributes["dependency/resultCode"], "200");
     assert.strictEqual(metrics[1].dataPoints[0].attributes["Dependency.Type"], "http");
@@ -155,7 +158,10 @@ describe("#StandardMetricsHandler", () => {
     assert.strictEqual((metrics[1].dataPoints[1].value as Histogram).min, 0, "dataPoint min");
     assert.strictEqual((metrics[1].dataPoints[1].value as Histogram).max, 900000, "dataPoint max");
     assert.strictEqual((metrics[1].dataPoints[1].value as Histogram).sum, 4500000, "dataPoint sum");
-    assert.strictEqual(metrics[1].dataPoints[1].attributes["_MS.MetricId"], "dependencies/duration");
+    assert.strictEqual(
+      metrics[1].dataPoints[1].attributes["_MS.MetricId"],
+      "dependencies/duration",
+    );
     assert.strictEqual(metrics[1].dataPoints[1].attributes["dependency/target"], "testPeerService");
     assert.strictEqual(metrics[1].dataPoints[1].attributes["dependency/resultCode"], "400");
     assert.strictEqual(metrics[1].dataPoints[1].attributes["Dependency.Type"], "http");

@@ -132,10 +132,14 @@ export function isSyntheticLoad(record: LogRecord | ReadableSpan): boolean {
   return userAgent !== null && userAgent.includes("AlwaysOn") ? true : false;
 }
 
-export function convertDimensions(dimensions: MetricDependencyDimensions | MetricRequestDimensions): Attributes {
+export function convertDimensions(
+  dimensions: MetricDependencyDimensions | MetricRequestDimensions,
+): Attributes {
   let convertedDimensions: any = {};
   for (let dim in dimensions) {
-    convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (dimensions as any)[dim];
+    convertedDimensions[StandardMetricPropertyNames[dim as MetricDimensionTypeKeys]] = (
+      dimensions as any
+    )[dim];
   }
   return convertedDimensions as Attributes;
 }
