@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
-import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
-import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+
+import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
+import { CredentialUnavailableError } from "../errors";
+import child_process from "child_process";
 import { tracingClient } from "../util/tracing";
 
 /**
@@ -158,13 +159,9 @@ export class AzureCliCredential implements TokenCredential {
         }
         try {
           const responseData = obj.stdout;
-          const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
+          const response: AccessToken = this.parseRawResponse(responseData);
           logger.getToken.info(formatSuccess(scopes));
-          const returnValue = {
-            token: response.accessToken,
-            expiresOnTimestamp: new Date(response.expiresOn).getTime(),
-          };
-          return returnValue;
+          return response;
         } catch (e: any) {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);
@@ -182,5 +179,33 @@ export class AzureCliCredential implements TokenCredential {
         throw error;
       }
     });
+  }
+
+  /**
+   * Parses the raw JSON response from the Azure CLI into a usable AccessToken object
+   *
+   * @param rawResponse - The raw JSON response from the Azure CLI
+   * @returns An access token with the expiry time parsed from the raw response
+   *
+   * The expiryTime of the credential's access token, in milliseconds, is calculated as follows:
+   *
+   * When available, expires_on (introduced in Azure CLI v2.54.0) will be preferred. Otherwise falls back to expiresOn.
+   */
+  private parseRawResponse(rawResponse: string): AccessToken {
+    const response: any = JSON.parse(rawResponse);
+    const token = response.accessToken;
+    // if available, expires_on will be a number representing seconds since epoch
+    if (typeof response.expires_on === "string" && response.expires_on.length > 0) {
+      return {
+        token,
+        expiresOnTimestamp: Number.parseInt(response.expires_on) * 1000,
+      };
+    } else {
+      // the older expiresOn is an RFC3339 date string
+      return {
+        token,
+        expiresOnTimestamp: new Date(response.expiresOn).getTime(),
+      };
+    }
   }
 }

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import Sinon, { createSandbox } from "sinon";
+
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
@@ -298,5 +299,55 @@ az login --scope https://test.windows.net/.default`;
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
+  });
+
+  describe("expiresOnTimestamp", function () {
+    const data = {
+      expires_on: {
+        inputValue: 1705963934,
+        expected: 1705963934000,
+      },
+      expiresOn: {
+        inputValue: "1999-01-22 14:52:14.000000",
+        expected: 917045534000, // the above date in milliseconds
+      },
+    };
+
+    it("uses expires_on when provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expires_on": "${data.expires_on.inputValue}"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, data.expires_on.expected);
+    });
+
+    it("uses expiresOn when expires_on is empty", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${data.expiresOn.inputValue}"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, data.expiresOn.expected);
+    });
+
+    it("prefers expires_on when both expires_on and expiresOn are provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${data.expiresOn.inputValue}",
+          "expires_on": "${data.expires_on.inputValue}"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, data.expires_on.expected);
+    });
   });
 });
