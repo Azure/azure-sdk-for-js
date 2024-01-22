@@ -19,8 +19,8 @@ export class RUConsumedManager {
   getRUConsumed(): Promise<number> {
     return new Promise((resolve) => {
       this.semaphore.take(() => {
-        resolve(this.ruConsumed);
         this.semaphore.leave();
+        resolve(this.ruConsumed);
       });
     });
   }
@@ -29,8 +29,8 @@ export class RUConsumedManager {
     return new Promise((resolve) => {
       this.semaphore.take(() => {
         this.ruConsumed += value;
-        resolve();
         this.semaphore.leave();
+        resolve();
       });
     });
   }
