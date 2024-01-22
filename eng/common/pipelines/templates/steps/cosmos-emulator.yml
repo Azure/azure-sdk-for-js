@@ -1,6 +1,6 @@
 parameters:
   EmulatorInstallPath: "$(Agent.HomeDirectory)/../../Program Files/Azure Cosmos DB Emulator/Microsoft.Azure.Cosmos.Emulator.exe"
-  EmulatorMsiUrl: "https://aka.ms/cosmosdb-emulator"
+  EmulatorMsiUrl: "https://vikastest0705947883.blob.core.windows.net/emulator-drop/azure-cosmosdb-emulator-2.14.16-e9c2d6ea.msi"
   StartParameters: ''
 
 steps:
