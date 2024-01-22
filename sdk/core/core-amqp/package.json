@@ -67,8 +67,8 @@
     "@types/debug": "^4.1.12",
     "@types/node": "^18.0.0",
     "@types/ws": "^7.2.4",
-    "@vitest/browser": "^1.2.0",
-    "@vitest/coverage-istanbul": "^1.2.0",
+    "@vitest/browser": "^1.2.1",
+    "@vitest/coverage-istanbul": "^1.2.1",
     "debug": "^4.3.4",
     "eslint": "^8.56.0",
     "playwright": "^1.41.0",
@@ -76,7 +76,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.11.0",
     "typescript": "~5.2.0",
-    "vitest": "^1.2.0",
+    "vitest": "^1.2.1",
     "ws": "^8.14.2"
   },
   "//metadata": {
