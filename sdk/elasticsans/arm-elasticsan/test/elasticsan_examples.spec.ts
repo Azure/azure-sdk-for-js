@@ -54,11 +54,9 @@ describe("elasticSan test", () => {
     elasticSanName = "testelasticsan";
     parameters = {
       location,
-      properties: {
-        baseSizeTiB: 15,
-        extendedCapacitySizeTiB: 27,
-        sku: { name: "Premium_LRS" }
-      }
+      baseSizeTiB: 15,
+      extendedCapacitySizeTiB: 27,
+      sku: { name: "Premium_LRS" }
     }
   });
 

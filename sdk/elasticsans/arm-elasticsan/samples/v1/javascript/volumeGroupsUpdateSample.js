@@ -24,28 +24,26 @@ async function volumeGroupsUpdateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters = {
-    identity: { type: "None", userAssignedIdentities: { key7482: {} } },
-    properties: {
-      encryption: "EncryptionAtRestWithPlatformKey",
-      encryptionProperties: {
-        encryptionIdentity: { encryptionUserAssignedIdentity: "im" },
-        keyVaultProperties: {
-          keyName: "sftaiernmrzypnrkpakrrawxcbsqzc",
-          keyVaultUri: "https://microsoft.com/axmblwp",
-          keyVersion: "c",
-        },
+    encryption: "EncryptionAtRestWithPlatformKey",
+    encryptionProperties: {
+      encryptionIdentity: { encryptionUserAssignedIdentity: "im" },
+      keyVaultProperties: {
+        keyName: "sftaiernmrzypnrkpakrrawxcbsqzc",
+        keyVaultUri: "https://microsoft.com/axmblwp",
+        keyVersion: "c",
       },
-      networkAcls: {
-        virtualNetworkRules: [
-          {
-            action: "Allow",
-            virtualNetworkResourceId:
-              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
-          },
-        ],
-      },
-      protocolType: "Iscsi",
     },
+    identity: { type: "None", userAssignedIdentities: { key7482: {} } },
+    networkAcls: {
+      virtualNetworkRules: [
+        {
+          action: "Allow",
+          virtualNetworkResourceId:
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
+        },
+      ],
+    },
+    protocolType: "Iscsi",
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
